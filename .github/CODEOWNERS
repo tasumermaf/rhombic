@@ -1,0 +1,8 @@
+# rhombic Code Owners
+* @timm156
+
+# Security-critical files
+SECURITY.md @timm156
+.pre-commit-config.yaml @timm156
+.gitignore @timm156
+.github/CODEOWNERS @timm156

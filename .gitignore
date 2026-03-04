@@ -1,0 +1,43 @@
+# --- Secrets & Credentials ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+id_rsa*
+id_ed25519*
+credentials.json
+service-account*.json
+
+# --- Claude Code ---
+CLAUDE.local.md
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+.eggs/
+venv/
+.venv/
+*.so
+
+# --- Testing ---
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- OS & Editor ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
