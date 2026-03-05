@@ -74,19 +74,36 @@ accidentally helps with separable signals.
 
 ---
 
-## Rung 4: Context Architecture
+## Rung 4: Context Architecture (complete)
 
-The ambitious rung. Apply the topology findings to AI context management:
+The ambitious rung. Apply the topology findings to AI context management.
+Clustered embeddings (128D, 5 clusters) projected to 3D via random orthogonal
+projection, assigned to lattice nodes by nearest position. Three benchmarks:
 
-- Token neighborhoods: cubic (fixed window) vs FCC (overlapping, isotropic)
-- Retrieval patterns: nearest-neighbor in embedding space on both topologies
-- Routing efficiency in multi-agent message passing
-- Attention pattern alternatives inspired by lattice connectivity
+- **Neighborhood recall:** Fraction of an embedding's true 10 nearest neighbors
+  (in 128D space) captured by its lattice node's k-hop neighborhood
+- **Information diffusion:** Signal pulse propagation from central node via
+  max(neighbor × 0.9). Rounds to reach 50% and 80% of lattice
+- **Consensus speed:** Laplacian averaging to convergence (ε=0.05)
 
-This is where the research connects to the AI/ML ecosystem and the
-Cybernetica argument about computation inheriting Cartesian geometry.
+Results at three scales (125, 500, 1000 nodes):
+
+| Metric | FCC Advantage | Note |
+|--------|--------------|------|
+| 1-hop recall | **+15-26pp** | 66% vs 51% at 1000 nodes |
+| 2-hop recall | **+16pp** | 92% vs 76% at 1000 nodes |
+| Diffusion (50% reach) | **1.4-2× faster** | Scale-invariant |
+| Diffusion (80% reach) | **1.6-1.7× faster** | Scale-invariant |
+| Consensus (500 nodes) | **1.58× faster** | Sweet spot |
+| Consensus (1000 nodes) | **0.93×** (cubic wins) | Per-neighbor dilution |
+
+The neighborhood recall result is directly relevant to RAG: an FCC-organized
+embedding index captures 15-26% more relevant context per lookup. The
+consensus result is the most honest — FCC's advantage is real but scale-
+dependent for distributed agreement.
 
 **Deliverable:** `rhombic/context.py`, `results/rung-4/`
+**Status:** Complete.
 
 ---
 

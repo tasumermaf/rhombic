@@ -22,7 +22,7 @@ See `docs/EXPERIMENTAL_LADDER.md` for the 5-rung experimental plan.
 | 1 | Graph Theory Benchmarks | Complete |
 | 2 | Spatial Operations | Complete |
 | 3 | Signal Processing | Complete |
-| 4 | Context Architecture | Planned |
+| 4 | Context Architecture | Complete |
 
 ## How to Add a New Rung
 

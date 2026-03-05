@@ -19,6 +19,8 @@ spatial operations, and signal processing.
 | NN query speed | **17% faster** | 125 – 8,000 nodes |
 | Signal reconstruction | **5-10× lower MSE** | 216 – 1,000 samples |
 | Reconstruction isotropy | **5-20× more uniform** | 216 – 1,000 samples |
+| Embedding neighbor recall | **+15-26pp at 1-hop** | 125 – 1,000 nodes |
+| Information diffusion | **1.4-2× faster** | 125 – 1,000 nodes |
 | Edge cost | ~2× more edges | (the price) |
 
 These ratios are scale-invariant. They hold at every size tested because
@@ -27,6 +29,7 @@ they derive from the geometry, not the sample.
 ![Graph theory dashboard](results/rung-1/dashboard.png)
 ![Spatial operations dashboard](results/rung-2/dashboard.png)
 ![Signal processing dashboard](results/rung-3/dashboard.png)
+![Context architecture dashboard](results/rung-4/dashboard.png)
 
 ## The Question
 
@@ -103,10 +106,16 @@ Above Nyquist, both lattices alias and cubic's axis alignment accidentally helps
 - [Raw data and tables](results/rung-3/RESULTS.md)
 - [What the numbers mean](results/rung-3/INTERPRETATION.md)
 
-### Rung 4: Context Architecture (planned)
+### Rung 4: Context Architecture (complete)
 
-Applying topology findings to AI context management, token neighborhoods,
-and multi-agent message routing.
+Does the FCC advantage survive when the lattice organizes high-dimensional
+embedding data? FCC captures **15-26 more percentage points** of an embedding's
+true nearest neighbors at 1-hop. Information diffuses **1.4-2× faster**.
+Consensus converges 1.58× faster at moderate scale (500 nodes), though
+per-neighbor weight dilution reduces the advantage at 1,000 nodes.
+
+- [Raw data and tables](results/rung-4/RESULTS.md)
+- [What the numbers mean](results/rung-4/INTERPRETATION.md)
 
 [Full experimental ladder →](docs/EXPERIMENTAL_LADDER.md)
 
