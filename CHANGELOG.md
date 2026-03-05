@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2026-03-05
+
+### Fixed
+
+- **ORVS citation corrected** — TR number changed from TR-186-2-02-11 (a
+  different report) to TR-186-2-01-10; year corrected from 2002 to 2001.
+  Also fixed in `signal.py` docstring.
+- **Abstract rewritten** — Removed "memory is linear, pixels are square,
+  voxels are cubic" (rhetorical-as-factual). Replaced with research framing.
+- **Causal overclaims softened** — "sole variable," "entirely attributable,"
+  and "only variable" replaced with language acknowledging node-count
+  mismatch. "Unexamined default" → "widely adopted default." "Failure mode"
+  → "axis-alignment artifact."
+- **FCC/HCP consistency** — Introduction and conclusion now both include
+  HCP alongside FCC for densest sphere packing claim.
+- **Intro genealogy tightened** — "descends from Descartes... through von
+  Neumann" → "aligns with Cartesian analytic geometry... and stored-program
+  architecture designs."
+- **Conclusion rhetorical softening** — "not because it was chosen but
+  because it was inherited" → "largely through convention rather than
+  demonstrated optimality."
+- **Projection method justification** — Added one-sentence explanations
+  for why Rung 4 uses random projection and ANN index uses PCA.
+- **Full git SHA** — Reproducibility paragraph now uses full 40-character
+  commit hash instead of abbreviated 7-character prefix.
+
 ## [0.1.1] - 2026-03-05
 
 ### Fixed
@@ -68,5 +94,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Embedding neighbor recall | +15-26pp at 1-hop |
 | Edge cost | ~2x more edges |
 
+[0.1.2]: https://github.com/promptcrafted/rhombic/releases/tag/v0.1.2
 [0.1.1]: https://github.com/promptcrafted/rhombic/releases/tag/v0.1.1
 [0.1.0]: https://github.com/promptcrafted/rhombic/releases/tag/v0.1.0

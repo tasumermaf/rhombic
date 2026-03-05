@@ -44,8 +44,8 @@
 
 % ===================================================================
 \begin{abstract}
-The cubic lattice is the default spatial topology of computation:
-memory is linear, pixels are square, voxels are cubic. This paper
+Cubic grids are the default discretization in computational
+systems---images, volumes, and spatial data structures. This paper
 presents a systematic empirical comparison of the simple cubic
 (SC, 6-connected) lattice and the face-centered cubic (FCC,
 12-connected) lattice across four independent domains: graph theory,
@@ -72,15 +72,14 @@ retrieval, spatial data structures, approximate nearest neighbor
 \label{sec:intro}
 
 The cubic lattice---the spatial expression of Cartesian geometry---is
-the unexamined default of digital computation. Memory addresses form
+the widely adopted default of digital computation. Memory addresses form
 one-dimensional cubes, pixel grids form two-dimensional cubes, and
-voxel spaces form three-dimensional cubes. This convention descends
-from Descartes's orthogonal coordinate system (1637) through von
-Neumann's stored-program architecture, accumulating through cultural
-inheritance rather than demonstrated optimality.
+voxel spaces form three-dimensional cubes. This convention aligns with Cartesian analytic geometry
+(Descartes, 1637) and stored-program architecture designs, accumulating
+through convention rather than demonstrated optimality.
 
-The face-centered cubic (FCC) lattice is the densest sphere packing
-in three dimensions (Kepler's conjecture, announced by Hales in 1998 and
+The face-centered cubic (FCC) lattice achieves the densest sphere
+packing in three dimensions (together with HCP; Kepler's conjecture, announced by Hales in 1998 and
 published in 2005~\cite{hales2005}). Its Voronoi cells are \textbf{rhombic
 dodecahedra}---12-faced polyhedra that tessellate $\mathbb{R}^3$
 without gaps. Where each cubic cell shares faces with 6 neighbors,
@@ -102,8 +101,10 @@ open-source Python library.
 \subsection{Contributions}
 
 \begin{enumerate}
-  \item A matched-node-count comparison framework that isolates
-    topology as the sole variable (Section~\ref{sec:method}).
+  \item A matched-scale comparison framework that keeps the benchmark
+    protocol fixed while comparing SC and FCC lattices at similar node
+    counts, with exact counts reported for every metric
+    (Section~\ref{sec:method}).
   \item Reproducible benchmarks across graph theory
     (Section~\ref{sec:graph}), spatial operations
     (Section~\ref{sec:spatial}), signal processing
@@ -245,8 +246,8 @@ trial per frequency--scale combination with fixed evaluation
 points. Embedding benchmarks (Rung~4) use a single trial with
 fixed cluster generation. All results are reproduced by
 \texttt{python~-m~rhombic.benchmark} at commit
-\texttt{v0.1.1} (PyPI), commit
-\texttt{78af9f7}.\footnote{For benchmarks involving random
+\texttt{v0.1.2} (PyPI), commit
+\texttt{e4d5829a8cc228569f7be6b7e510778deba6419b}.\footnote{For benchmarks involving random
 evaluation points, the seed ensures bitwise reproducibility on the
 same platform. Cross-platform floating-point differences may
 produce minor variations.}
@@ -382,9 +383,9 @@ Samples & Peak $\Delta$PSNR & Best MSE ratio & Isotropy ratio \\
 The advantage \emph{grows with scale} because the geometric
 Nyquist region advantage has more ``room'' to express itself at
 higher sample densities. Above the Nyquist limit, both lattices
-alias and the cubic lattice's axis alignment accidentally reduces
-error for separable signal components---a failure mode, not a
-strength.
+alias and we observe cases where axis alignment in the cubic lattice
+reduces error for separable signal components. We treat this as an
+axis-alignment artifact rather than a general advantage.
 
 The isotropy metric (directional variance of reconstruction error)
 shows that FCC reconstruction error is 5--20$\times$ more uniform
@@ -400,7 +401,8 @@ theory.
 
 We generate 125--1{,}000 clustered embeddings in 128 dimensions
 (5 Gaussian clusters with overlap). Embeddings are projected to 3D
-via random orthogonal projection and assigned to lattice nodes via
+via random orthogonal projection (chosen to avoid bias from any
+particular axis alignment) and assigned to lattice nodes via
 KDTree nearest-assignment. Three benchmarks measure how well the
 lattice topology preserves high-dimensional neighborhood structure.
 
@@ -445,7 +447,10 @@ retrieval workload, we implement a proof-of-concept ANN index.
 
 \begin{enumerate}
   \item \textbf{Project} embeddings from $d$ dimensions to 3D via
-    PCA (deterministic, preserves maximum variance).
+    PCA (deterministic, preserves maximum variance). PCA is used
+    here, rather than the randomized projection of Rung~4, because a
+    practical retrieval pipeline would typically project along
+    maximum-variance directions.
   \item \textbf{Quantize} to lattice nodes via KDTree
     nearest-assignment.
   \item \textbf{Store} original $d$-dimensional vectors at their
@@ -457,8 +462,9 @@ retrieval workload, we implement a proof-of-concept ANN index.
 \end{enumerate}
 
 Both \texttt{FCCIndex} and \texttt{CubicIndex} share the same
-\texttt{LatticeIndex} base class. The \emph{only} variable between
-them is the connectivity pattern.
+\texttt{LatticeIndex} base class. The architectural difference between them is the
+connectivity pattern (though actual node counts also differ slightly;
+Table~\ref{tab:index}).
 
 \subsection{Results}
 
@@ -487,9 +493,10 @@ Target & Topology & Actual & 1-hop & 2-hop & 3-hop \\
 The FCC index achieves +7 to +20 percentage points higher recall
 at 1-hop across all scales. At 500 target nodes, the gap is
 largest: 28.0\% vs.\ 8.5\%, a 3.3$\times$ relative improvement.
-The advantage is attributable entirely to the connectivity pattern,
-since the projection, assignment, and ranking procedures are
-identical.
+The advantage is consistent with the connectivity difference, since the
+projection, assignment, and ranking procedures are identical. However,
+node-count mismatch (Table~\ref{tab:index}) may also contribute; a
+matched-count control is noted as future work.
 
 % ===================================================================
 \section{Discussion}
@@ -627,9 +634,10 @@ tested scales. The cost is bounded (${\sim}2\times$ edges) and
 the benefit compounds (30\% routing $+$ 55\% propagation $+$
 5--10$\times$ signal fidelity $+$ 7--20pp embedding recall).
 
-The FCC lattice is the densest sphere packing and the topology
-that nature selects for close-packed structures. The SC lattice persists in computation
-not because it was chosen but because it was inherited. This
+The FCC lattice (with HCP) achieves the densest sphere packing and
+the topology that nature selects for close-packed structures. The SC
+lattice persists in computation largely through convention rather than
+demonstrated optimality for isotropic workloads. This
 library and this paper provide the quantitative basis for
 reconsidering that inheritance.
 
