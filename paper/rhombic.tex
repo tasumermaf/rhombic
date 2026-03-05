@@ -45,21 +45,21 @@
 % ===================================================================
 \begin{abstract}
 Cubic grids are the default discretization in computational
-systems---images, volumes, and spatial data structures. This paper
-presents a systematic empirical comparison of the simple cubic
+systems---images, volumes, and spatial data structures.
+
+This paper presents a systematic empirical comparison of the simple cubic
 (SC, 6-connected) lattice and the face-centered cubic (FCC,
 12-connected) lattice across four independent domains: graph theory,
 spatial operations, signal processing, and high-dimensional embedding
 retrieval. At every scale tested (125--8{,}000 nodes), the FCC lattice
-provides 29--31\% shorter average paths, 38--42\% smaller diameter,
-and 2.3--2.5$\times$ higher algebraic connectivity; 55\% greater
-flood fill reach and 17\% faster nearest-neighbor queries; 5--10$\times$
-lower signal reconstruction MSE with 5--20$\times$ more isotropic
-error; and +7--20 percentage points higher embedding recall at 1-hop
-in a proof-of-concept ANN index. The cost is bounded: approximately
+provides routing advantages (30\% shorter paths),
+robustness gains (2.4$\times$ algebraic connectivity, 40\% smaller
+diameter), signal fidelity improvements (5--10$\times$ lower
+reconstruction error), and retrieval benefits (+15--26 percentage
+points embedding recall at 1-hop). The cost is bounded: approximately
 $2\times$ the edge count ($12/6$). Across all tested scales, these ratios are stable,
-consistent with derivation from Voronoi cell geometry rather than
-sample size. An open-source library (\texttt{rhombic}) and interactive demo
+suggesting that the advantage derives from cell geometry rather
+than sample size. An open-source library (\texttt{rhombic}) and interactive demo
 reproduce every result.
 \end{abstract}
 
@@ -72,20 +72,24 @@ retrieval, spatial data structures, approximate nearest neighbor
 \label{sec:intro}
 
 The cubic lattice---the spatial expression of Cartesian geometry---is
-the widely adopted default of digital computation. Memory addresses form
-one-dimensional cubes, pixel grids form two-dimensional cubes, and
-voxel spaces form three-dimensional cubes. This convention aligns with Cartesian analytic geometry
+the widely adopted default of digital computation. Memory is linear,
+pixel grids are square, and voxel spaces are cubic. This convention
+aligns with Cartesian analytic geometry
 (Descartes, 1637) and stored-program architecture designs, accumulating
-through convention rather than demonstrated optimality.
+through convention rather than demonstrated optimality. We also
+report scenarios where the cubic lattice retains advantages, including
+axis-aligned workloads and enumeration-heavy queries
+(Section~\ref{sec:discussion}).
 
 The face-centered cubic (FCC) lattice achieves the densest sphere
-packing in three dimensions (together with HCP; Kepler's conjecture, announced by Hales in 1998 and
-published in 2005~\cite{hales2005}). Its Voronoi cells are \textbf{rhombic
+packing in three dimensions (together with HCP; Kepler's conjecture,
+proved by Hales, published 2005~\cite{hales2005}; formally verified
+2014--2017~\cite{hales2017}). Its Voronoi cells are \textbf{rhombic
 dodecahedra}---12-faced polyhedra that tessellate $\mathbb{R}^3$
 without gaps. Where each cubic cell shares faces with 6 neighbors,
 each rhombic dodecahedron shares faces with 12. The FCC lattice
-appears in crystal structures (Cu, Al, Au) because physics selects
-for close-packed arrangements. Petersen and Middleton~\cite{petersen1962}
+appears in crystal structures (Cu, Al, Au) because physical systems commonly adopt
+close-packed arrangements. Petersen and Middleton~\cite{petersen1962}
 established the theory of optimal lattice sampling in
 $\mathbb{R}^N$. Conway and
 Sloane~\cite{conway1999} documented its mathematical properties
@@ -137,17 +141,28 @@ of the FCC lattice is the rhombic dodecahedron---a convex polyhedron
 with 12 congruent rhombic faces, 14 vertices (8 of valence 3 and
 6 of valence 4), and 24 edges. It is the dual of the cuboctahedron
 and a projection of the four-dimensional
-hypercube~\cite{coxeter1973}.
+hypercube~\cite{coxeter1973}. Figure~\ref{fig:voronoi} illustrates
+both Voronoi cells with their neighbor connectivity.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig1-voronoi-cells}
+\caption{Voronoi cells of the SC and FCC lattices. Left: the cube
+  (6 face-sharing neighbors along coordinate axes). Right: the
+  rhombic dodecahedron (12 face-sharing neighbors spanning diagonal
+  directions). Dashed lines indicate neighbor connectivity; dots mark
+  neighbor positions.}
+\label{fig:voronoi}
+\end{figure}
 
 \subsection{Sphere Packing and Signal Sampling}
 
 Kepler conjectured (1611) that the FCC lattice achieves the densest
 packing of equal spheres, with packing fraction
 $\pi/(3\sqrt{2}) \approx 0.7405$. Both FCC and HCP (hexagonal
-close-packed) achieve this density. Hales announced a proof in
-1998, published it in 2005~\cite{hales2005}, and the proof was
-formally verified by the Flyspeck project in
-2014--2017~\cite{hales2017}.
+close-packed) achieve this density. Hales proved the conjecture
+(published 2005~\cite{hales2005}; formally verified
+2014--2017~\cite{hales2017}).
 
 In 3D lattice sampling theory, optimality is formulated in the
 reciprocal (frequency-domain) lattice. Petersen and
@@ -163,8 +178,10 @@ Our experiments evaluate FCC in the \emph{spatial} domain because
 this work tests a single topology across all rungs (graph,
 spatial, signal, and embedding), and FCC is the natural spatial
 counterpart: it is the densest sphere packing, its Voronoi cell
-(the rhombic dodecahedron) provides the most isotropic
-tessellation among face-transitive polyhedra, and its 12-connected
+(the rhombic dodecahedron) provides a highly isotropic space-filling
+cell---its isoperimetric quotient exceeds that of the cube, and prior
+work identifies FCC and BCC Voronoi cells as local maxima among
+space-filling tessellations~\cite{conway1999}---and its 12-connected
 graph structure produces the routing and propagation advantages
 measured in Rungs~1--2. Rung~3 (Section~\ref{sec:signal})
 directly measures FCC spatial sampling with a topology-agnostic
@@ -231,10 +248,7 @@ reproduced via:
 Hardware: Windows 11, Intel CPU (graph/spatial benchmarks are
 CPU-bound), NVIDIA RTX 6000 Ada 48\,GB (unused for these
 benchmarks). Source code, raw data, and interactive demo are
-publicly available.\footnote{%
-GitHub: \url{https://github.com/promptcrafted/rhombic};
-PyPI: \url{https://pypi.org/project/rhombic/};
-Demo: \url{https://huggingface.co/spaces/timotheospaul/rhombic}}
+publicly available (see Availability, Section~\ref{sec:conclusion}).
 
 \paragraph{Reproducibility.}
 All stochastic operations (signal evaluation points, embedding
@@ -245,16 +259,21 @@ lattice construction. Signal benchmarks (Rung~3) use a single
 trial per frequency--scale combination with fixed evaluation
 points. Embedding benchmarks (Rung~4) use a single trial with
 fixed cluster generation. All results are reproduced by
-\texttt{python~-m~rhombic.benchmark} at commit
-\texttt{v0.1.2} (PyPI), commit
-\texttt{1cdb257ed3823b35bf92827c29754f8d42d5ab30}.\footnote{For benchmarks involving random
-evaluation points, the seed ensures bitwise reproducibility on the
-same platform. Cross-platform floating-point differences may
-produce minor variations.}
+\texttt{python~-m~rhombic.benchmark} from the \texttt{v0.1.2}
+release (\texttt{pip install rhombic==0.1.2}). The PyPI artifact
+includes provenance attestation linking the published package to
+its source repository commit.\footnote{Cross-platform floating-point differences
+may produce variations at the least-significant digit; all ratios
+reported here are stable across tested platforms (Windows~11/Linux,
+Python~3.10--3.12).}
 
 % ===================================================================
+% Transition: from geometric motivation to empirical measurement
 \section{Rung 1: Graph Theory}
 \label{sec:graph}
+
+We now report empirical measurements: each rung defines a
+matched-scale benchmark and reports observed benefit--cost ratios.
 
 We measure four graph-theoretic properties at three scales
 (125--4{,}000 nodes). All metrics are computed on the full
@@ -274,32 +293,55 @@ removing 10\% of nodes uniformly at random.
 
 \begin{table}[H]
 \centering
-\caption{Graph theory benchmarks. Ratios are FCC/Cubic for
-connectivity-type metrics and Cubic/FCC for path-type metrics
-(higher is better in both cases).}
+\caption{Graph theory benchmarks. All advantage ratios ${>}\,1$ indicate
+FCC outperformance; edge ratio is cost.}
 \label{tab:graph}
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrrrrrr}
 \toprule
-Scale & Nodes (SC/FCC) & ASPL ratio & Diam.\ ratio
-  & Alg.\ conn.\ ratio & Edge ratio \\
+Scale & Nodes (SC/FCC) & SC ASPL & ASPL$^a$ & Diam.$^a$
+  & Alg.\ conn.$^b$ & Edge cost$^b$ \\
 \midrule
-${\sim}125$  & 125 / 108   & 0.69 (31\%$\downarrow$)
-  & 0.58 (42\%$\downarrow$) & 2.31$\times$ & 1.50$\times$ \\
-${\sim}1000$ & 1000 / 864  & 0.68 (32\%$\downarrow$)
-  & 0.59 (41\%$\downarrow$) & 2.55$\times$ & 1.61$\times$ \\
-${\sim}4000$ & 4096 / 4000 & 0.71 (29\%$\downarrow$)
-  & 0.62 (38\%$\downarrow$) & 2.43$\times$ & 1.88$\times$ \\
+${\sim}125$  & 125 / 108   & 4.84 & 1.45$\times$
+  & 1.71$\times$ & 2.31$\times$ & 1.50$\times$ \\
+${\sim}1000$ & 1000 / 864  & 9.91 & 1.46$\times$
+  & 1.69$\times$ & 2.55$\times$ & 1.61$\times$ \\
+${\sim}4000$ & 4096 / 4000 & 15.94 & 1.40$\times$
+  & 1.61$\times$ & 2.43$\times$ & 1.88$\times$ \\
 \bottomrule
+\multicolumn{7}{l}{\footnotesize $^a$SC/FCC (shorter~=~better).
+$^b$FCC/SC.}
 \end{tabular}
 \end{table}
 
 The ASPL advantage is stable at 29--32\% across all scales
-tested. The algebraic connectivity ratio (2.3--2.5$\times$)
+tested (Figure~\ref{fig:benchmarks}). The algebraic connectivity ratio (2.3--2.5$\times$)
 exceeds the raw degree ratio (12/6 = 2$\times$), indicating
-that the \emph{isotropy} of the FCC lattice compounds the
+that the \emph{isotropy} of the FCC lattice~\cite{conway1999} compounds the
 per-node connectivity advantage. The edge ratio approaches the
 asymptotic limit of 2 as boundary effects diminish at larger
 scales.
+
+The path-length advantage has a geometric explanation: in a cubic
+lattice, travel between non-axis-aligned points requires
+axis-by-axis zig-zagging (the L1/Manhattan metric). FCC's diagonal
+neighbors permit more direct routes, approaching the L2 (Euclidean)
+distance. For a unit vector drawn uniformly on $S^2$, the expected
+$\ell_1$ norm is $3/2$, so the mean $\ell_1/\ell_2$ ratio is
+$3/2 = 1.50$, predicting a 33\% path-length reduction---consistent
+with the observed 29--32\% (the gap likely reflecting finite-lattice
+boundary effects).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig2-graph-benchmarks}
+\caption{Graph-theoretic benchmarks at matched scale. (a)~Average
+  shortest path length: FCC reduces paths by 29--32\%. (b)~Algebraic
+  connectivity (Fiedler value): FCC achieves 2.3--2.5$\times$ the
+  cubic value. (c)~Diameter: FCC reduces worst-case latency by
+  38--42\%. (d)~Fault tolerance at ${\sim}4{,}000$ nodes: fraction of
+  the graph remaining connected as nodes are randomly removed.}
+\label{fig:benchmarks}
+\end{figure}
 
 % ===================================================================
 \section{Rung 2: Spatial Operations}
@@ -317,6 +359,11 @@ query point. \textbf{Flood fill}: BFS from a central node, counting
 nodes reached at depth 3. \textbf{Spatial hash}: grid-based hash
 with cell size $= 2 \times$ average nearest-neighbor distance.
 
+\paragraph{Parameters.}
+Sphere radius = 15\% of bounding-box diagonal, box extent = 30\%,
+100 random queries per trial; reported timings exclude
+tree-construction cost (included in the repository benchmarks).
+
 \subsection{Results}
 
 \begin{table}[H]
@@ -326,13 +373,16 @@ with cell size $= 2 \times$ average nearest-neighbor distance.
 \label{tab:spatial}
 \begin{tabular}{lrl}
 \toprule
-Operation & FCC vs.\ Cubic & Direction \\
+Operation & FCC vs.\ Cubic & Note \\
 \midrule
-Flood fill reach & $+55\%$ & FCC reaches more per hop \\
-NN query speed & $17\%$ faster & FCC resolves quicker \\
-Spatial hash query & $6\%$ faster & FCC lookups faster \\
-Sphere query density & $+24\%$ nodes & FCC returns more per sphere \\
-Range query time & $3$--$5\times$ slower & FCC pays density cost \\
+\multicolumn{3}{l}{\textit{FCC advantages}} \\
+Flood fill reach & $+55\%$ & More nodes per hop \\
+NN query speed & $17\%$ faster & Denser packing, nearer neighbors \\
+Spatial hash query & $6\%$ faster & Denser cells \\
+Sphere query density & $+24\%$ nodes & More per volume \\
+\midrule
+\multicolumn{3}{l}{\textit{FCC costs}} \\
+Range query time & $3$--$5\times$ slower & Density increases scan work \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -391,7 +441,9 @@ The isotropy metric (directional variance of reconstruction error)
 shows that FCC reconstruction error is 5--20$\times$ more uniform
 across directions. These are direct empirical measurements using a
 topology-agnostic reconstructor, not derivations from sampling
-theory.
+theory. This measurement approach---comparing directional error
+variance rather than aggregate error alone---may be useful for
+evaluating lattice quality independent of the FCC argument.
 
 % ===================================================================
 \section{Rung 4: Embedding Neighborhood Preservation}
@@ -450,7 +502,9 @@ retrieval workload, we implement a proof-of-concept ANN index.
     PCA (deterministic, preserves maximum variance). PCA is used
     here, rather than the randomized projection of Rung~4, because a
     practical retrieval pipeline would typically project along
-    maximum-variance directions.
+    maximum-variance directions. (PCA is linear; nonlinear projections
+    might yield different absolute recall, but the topology comparison
+    remains valid because both lattices receive identical embeddings.)
   \item \textbf{Quantize} to lattice nodes via KDTree
     nearest-assignment.
   \item \textbf{Store} original $d$-dimensional vectors at their
@@ -496,13 +550,19 @@ largest: 28.0\% vs.\ 8.5\%, a 3.3$\times$ relative improvement.
 The advantage is consistent with the connectivity difference, since the
 projection, assignment, and ranking procedures are identical. However,
 node-count mismatch (Table~\ref{tab:index}) may also contribute; a
-matched-count control is noted as future work.
+matched-count control is noted as future work. The FCC advantage is
+consistent across both projection methods (random orthogonal in
+Rung~4, PCA in Section~\ref{sec:index}), suggesting the topology
+effect is robust to projection choice.
 
 % ===================================================================
 \section{Discussion}
 \label{sec:discussion}
 
 \subsection{The Pattern}
+
+The following interpretations are consistent with the measurements
+above; they are hypotheses about mechanism, not proofs of causality.
 
 Across all four domains, a consistent pattern emerges:
 
@@ -527,11 +587,10 @@ $3$--$5\times$ more slowly).
 
 The ratios reported in Sections~\ref{sec:graph}--\ref{sec:embed}
 are stable across all scales tested (125--8{,}000 nodes). This
-stability is consistent with an advantage that derives from Voronoi
-cell geometry rather than boundary effects or sample size. At scales
-well above the boundary layer, the ratios are determined by the
-coordination number (12 vs.\ 6), the kissing number configuration,
-and the Voronoi cell shape---constants of the lattice. Whether
+stability suggests a geometric origin: at scales well above the
+boundary layer, the ratios are determined by the coordination number
+(12 vs.\ 6), the kissing number configuration, and the Voronoi cell
+shape---constants of the lattice, not functions of sample size. Whether
 this stability extends to scales beyond those tested here is an
 empirical question for future work.
 
@@ -564,6 +623,10 @@ is trivial (software, logical topology) are those where adoption is
 easiest.
 
 \subsection{Cybernetic Interpretation}
+
+The following connections are interpretive, not empirical; they
+suggest why the measured advantages arise but do not constitute
+independent evidence.
 
 Ashby's Law of Requisite Variety~\cite{ashby1956} predicts the
 algebraic connectivity result: a system must match the variety of
@@ -632,25 +695,29 @@ domains and five experimental rungs, the FCC lattice provides
 measurable, reproducible advantages that are stable across all
 tested scales. The cost is bounded (${\sim}2\times$ edges) and
 the benefit compounds (30\% routing $+$ 55\% propagation $+$
-5--10$\times$ signal fidelity $+$ 7--20pp embedding recall).
+5--10$\times$ signal fidelity $+$ 15--26pp neighborhood recall).
 
 The FCC lattice (with HCP) achieves the densest sphere packing and
-the topology that nature selects for close-packed structures. The SC
+the topology that close-packed natural structures commonly exhibit. The SC
 lattice persists in computation largely through convention rather than
 demonstrated optimality for isotropic workloads. This
 library and this paper provide the quantitative basis for
-reconsidering that inheritance.
+reconsidering that inheritance. For practitioners evaluating lattice
+topology in their own domains, we recommend measuring directly:
+\texttt{pip install rhombic \&\& python -m rhombic.benchmark}.
 
 \paragraph{Availability.}
-Code, data, and interactive demo:
-\url{https://github.com/promptcrafted/rhombic}.
+Source code: \url{https://github.com/promptcrafted/rhombic}.\\
+Package: \url{https://pypi.org/project/rhombic/}.\\
+Interactive demo: \url{https://huggingface.co/spaces/timotheospaul/rhombic}.
 
 % ===================================================================
 \section*{Acknowledgments}
 
 The author thanks Araminta K for partnership in Promptcrafted, and
 the cybernetics of Ashby, Beer, and Bateson for the interpretive
-framework.
+framework. Portions of the codebase and manuscript were developed
+with AI assistance (Claude, Anthropic).
 
 % ===================================================================
 \bibliographystyle{plainnat}

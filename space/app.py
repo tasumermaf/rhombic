@@ -418,7 +418,7 @@ lattice is the spatial expression of Cartesian geometry.
 **Is the cube optimal?** This library measures the alternative: the
 face-centered cubic lattice, whose Voronoi cells are rhombic dodecahedra.
 12 faces instead of 6. The densest sphere packing in three dimensions
-(Kepler, announced Hales 1998, published 2005, formally verified 2017). The lattice that nature uses for copper,
+(Kepler, proved by Hales 2005, formally verified 2017). The lattice commonly exhibited by copper,
 aluminum, and gold.
 
 ## The Evidence

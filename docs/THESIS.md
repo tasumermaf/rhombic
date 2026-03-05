@@ -22,6 +22,7 @@ efficiency, the lowest worst-case latency, the highest structural
 robustness for a given number of nodes?
 
 The answer is no. It is measurably, reproducibly, structurally inferior
+for the isotropic, propagation-dominated workloads tested here
 to the face-centered cubic (FCC) lattice — the lattice whose Voronoi
 cells are rhombic dodecahedra.
 
@@ -33,12 +34,12 @@ neighbors, the rhombic dodecahedron gives 12. This is not a marginal
 improvement. It is a qualitative change in the topology of the network.
 
 The FCC lattice is the densest sphere packing in three dimensions
-(Kepler's conjecture, announced by Hales in 1998, published 2005,
+(Kepler's conjecture, proved by Hales 2005,
 formally verified 2017). It is the lattice
 that Bravais, Coxeter, and Conway studied. It appears in crystal
 structures (copper, aluminum, gold), in close-packed molecular
 arrangements, in the geometry of soap bubbles. Nature uses this
-lattice because physics selects for it.
+lattice because close-packed arrangements minimize energy.
 
 Computation does not use this lattice because nobody tested the
 alternative. The cube was the default, and the default persisted.

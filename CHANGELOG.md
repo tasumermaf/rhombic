@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed (Rounds 4-6 paper remediation)
+
+- **Table 1 direction consistency** — All advantage ratios now read
+  "higher is better" with SC baseline values shown explicitly.
+- **Table 2 visual separation** — FCC advantages and costs grouped with
+  midrule and italic subheadings for scannability.
+- **Cybernetics section flagged as interpretive** — Opening sentence
+  explicitly marks the subsection as interpretive, not empirical.
+- **Isotropy metric highlighted** — Added sentence noting directional
+  error variance as a potentially standalone contribution.
+- **"nature selects" removed** — Conclusion and all repo files now use
+  "close-packed natural structures commonly exhibit" instead of
+  teleological phrasing.
+- **Conclusion recall figure** — Changed from "7-20pp embedding recall"
+  to "15-26pp neighborhood recall" matching the abstract.
+- **Rung 4/Index projection comparability** — Added sentence confirming
+  FCC advantage is consistent across random orthogonal (Rung 4) and
+  PCA (Index) projection methods.
+- **README/SYNTHESIS tone calibration** — Synthesis title changed from
+  "Why Computation Inherited the Wrong Geometry" to "Cubic vs FCC Lattice
+  Topology Across Four Domains." Closing sentence scoped to match paper.
+- **Kepler phrasing consistency** — All files now say "proved by Hales
+  2005, formally verified 2017" (removed "announced 1998").
+- **THESIS.md scoped** — "structurally inferior" qualified with "for the
+  isotropic, propagation-dominated workloads tested here."
+- **Intro forward reference** — Added cross-reference to "When the Cubic
+  Lattice Wins" subsection from the introduction.
+- **Reproducibility paragraph rewritten** — Commit hash replaced with
+  PyPI version pin and provenance attestation note.
+
+### Added
+
+- Paper figures (Voronoi cells, graph benchmarks) and generation script
+- Figure references in paper body (Fig. 1, Fig. 2)
+- Fiedler DOI in bibliography
+
 ## [0.1.2] - 2026-03-05
 
 ### Fixed

@@ -39,6 +39,7 @@ paper/*.blg
 paper/*.log
 paper/*.out
 paper/*.pdf
+paper/versions/
 
 # --- OS & Editor ---
 .DS_Store

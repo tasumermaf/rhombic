@@ -1,4 +1,4 @@
-# The Shape of the Cell: Why Computation Inherited the Wrong Geometry
+# The Shape of the Cell: Cubic vs FCC Lattice Topology Across Four Domains
 
 > A synthesis of four experimental rungs comparing cubic and FCC lattice
 > topologies across graph theory, spatial operations, signal processing,
@@ -24,8 +24,8 @@ dodecahedra — is structurally superior for every isotropic workload tested.
 
 The advantage is structural, stable across all tested scales, and consistent. It derives
 from geometry — specifically, from the rhombic dodecahedron's closer
-approximation to a sphere. The cube persists not because it was chosen
-but because it was inherited.
+approximation to a sphere. The cube persists largely through convention rather than demonstrated
+optimality for isotropic workloads.
 
 ---
 
@@ -43,10 +43,10 @@ lattice is the spatial expression of Cartesian geometry — the water
 computation swims in.
 
 The face-centered cubic lattice is the densest sphere packing in three
-dimensions (Kepler's conjecture, announced by Hales 1998, published 2005,
+dimensions (Kepler's conjecture, proved by Hales 2005,
 formally verified 2017). It appears in
-crystal structures — copper, aluminum, gold — because physics selects for
-it. It was studied by Bravais, Coxeter, and Conway. Petersen and Middleton
+crystal structures — copper, aluminum, gold — because close-packed
+arrangements minimize energy. It was studied by Bravais, Coxeter, and Conway. Petersen and Middleton
 established the theory of optimal lattice sampling in 1962. The
 mathematics has been settled for decades. The engineering never followed.
 
@@ -251,10 +251,10 @@ meta-pattern linking mind to nature — is geometric before it is
 linguistic. The topology of connection determines the capacity for
 response.
 
-The FCC lattice is the topology that nature uses for close-packed
-structures. It appears in crystal growth, soap bubble foams, and
-molecular arrangement because physics selects for minimal-energy
-packing. When we impose a cubic lattice on computation, we are
+The FCC lattice is the topology that close-packed natural structures
+commonly exhibit. It appears in crystal growth, soap bubble foams, and
+molecular arrangement because close-packed configurations minimize
+energy. When we impose a cubic lattice on computation, we are
 overriding the geometry that physical systems converge toward.
 
 The cube is Cartesian. The rhombic dodecahedron is isotropic. For tasks
