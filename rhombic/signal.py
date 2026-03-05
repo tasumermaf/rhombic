@@ -8,8 +8,8 @@ RBF reconstructor. Any quality difference comes purely from sample arrangement.
 In 3D lattice sampling theory, optimality is formulated in the reciprocal
 (frequency-domain) lattice. The commonly cited result identifies the BCC
 lattice as the most efficient sampling geometry for isotropic bandlimits,
-with ~29.3% greater Nyquist region volume than SC (Petersen-Middleton 1962;
-Theussl et al. 2000). The FCC and BCC lattices are reciprocal duals — their
+requiring ~29.3% fewer samples than SC at comparable fidelity
+(Theussl & Moller 2002; Petersen-Middleton 1962). The FCC and BCC lattices are reciprocal duals — their
 Voronoi cells in real space vs frequency space swap roles. The FCC real-space
 Voronoi cell is the rhombic dodecahedron; its frequency-space Voronoi cell
 (Nyquist region) is a truncated octahedron.
