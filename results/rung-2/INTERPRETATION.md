@@ -102,6 +102,6 @@ multiplier, just expressed differently.
 
 ## What's Next
 
-Rung 3: Signal Processing. The Petersen-Middleton theorem (1962) proves
-FCC sampling is optimal for bandlimited 3D signals. We'll test whether
-the spatial advantages translate to signal reconstruction quality.
+Rung 3: Signal Processing. We'll directly measure whether the FCC
+spatial sampling advantage translates to signal reconstruction quality,
+using a topology-agnostic reconstructor at matched sample counts.

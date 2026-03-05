@@ -8,9 +8,9 @@ Benchmark code at `rhombic/benchmark.py`. Raw data at `rhombic/RESULTS.md`.
 
 ## What We Set Out to Prove
 
-That the cube is not the optimal fundamental cell for computation, and that
-replacing it with the rhombic dodecahedron produces measurable, reproducible
-advantages.
+That for isotropic workloads, the cube is not the optimal fundamental cell
+for computation, and that replacing it with the rhombic dodecahedron produces
+measurable, reproducible advantages.
 
 ## What We Proved
 
@@ -66,9 +66,9 @@ game engines, physics simulations, molecular dynamics, medical imaging. Not a
 research prototype — a library someone pip-installs and uses because it's
 faster.
 
-Rung 3 (signal processing) has the Petersen-Middleton theorem behind it — FCC
-sampling has been mathematically proven optimal since 1962, the world just
-hasn't adopted it because the cube is the default.
+Rung 3 (signal processing) will directly measure FCC vs cubic spatial sampling
+with a topology-agnostic reconstructor — empirical evidence for whether the
+geometric advantage translates to signal fidelity.
 
 Rung 4 (context architecture) is the ambitious one — but by then we'll have
 three rungs of proven code underneath it.

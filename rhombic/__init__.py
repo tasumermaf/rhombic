@@ -9,4 +9,4 @@ from rhombic.lattice import CubicLattice, FCCLattice
 from rhombic.index import FCCIndex, CubicIndex
 
 __all__ = ["CubicLattice", "FCCLattice", "FCCIndex", "CubicIndex"]
-__version__ = "0.1.0"
+__version__ = "0.1.1"

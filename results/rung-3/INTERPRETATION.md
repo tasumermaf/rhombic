@@ -2,10 +2,10 @@
 
 ## The Question
 
-The Petersen-Middleton theorem (1962) proves that FCC sampling is
-mathematically optimal for bandlimited 3D isotropic signals. The world
-hasn't adopted it because the cube is the default. Does the theorem's
-prediction hold in practice, with a general-purpose reconstructor?
+Does FCC spatial sampling produce measurably better signal reconstruction
+than cubic sampling at matched sample counts, when both use the same
+topology-agnostic reconstructor? The cubic lattice is the default; no one
+has published a direct comparison with reproducible code.
 
 ## The Answer
 
@@ -23,12 +23,12 @@ than cubic sampling at the same sample count:
 - The advantage grows with scale (from +6 dB at 216 samples to +10 dB
   at 1000 samples)
 
-The mechanism is exactly what Petersen-Middleton describes. The cubic
-lattice's Nyquist region is a cube. The FCC lattice's is a rhombic
-dodecahedron — closer to a sphere. For isotropic signals (spherically
-symmetric bandwidth), the cube wastes sampling capacity on its corners,
-capturing frequency content the signal doesn't use. The rhombic
-dodecahedron dedicates its sampling budget more efficiently.
+The mechanism is geometric. The FCC lattice's real-space Voronoi cell —
+the rhombic dodecahedron — is closer to a sphere than the cube. For
+isotropic signals (spherically symmetric bandwidth), the cube wastes
+sampling capacity on its corners, capturing frequency content the signal
+doesn't use. The rhombic dodecahedron's more spherical geometry
+distributes its sampling budget more efficiently across directions.
 
 **Isotropy is the headline.** FCC reconstruction error is **5-20× more
 uniform** across directions than cubic. The cubic lattice reconstructs

@@ -28,7 +28,7 @@ H.~S.~M. Coxeter.
 \newblock Dover Publications, New York, 3rd edition, 1973.
 \newblock ISBN 978-0-486-61480-9.
 
-\bibitem[Csebfalvi(2010)]{csebfalvi2006}
+\bibitem[Csebfalvi(2010)]{csebfalvi2010}
 Bal{\'a}zs Csebfalvi.
 \newblock An evaluation of prefiltered {B}-spline reconstruction for
   quasi-interpolation on the body-centered cubic lattice.
@@ -36,11 +36,11 @@ Bal{\'a}zs Csebfalvi.
   16\penalty0 (3):\penalty0 499--512, 2010.
 \newblock \doi{10.1109/TVCG.2009.87}.
 
-\bibitem[Entezari et~al.(2004)Entezari, Dyer, and M{\"o}ller]{entezari2008}
+\bibitem[Entezari et~al.(2004)Entezari, Dyer, and M{\"o}ller]{entezari2004}
 Alireza Entezari, Ramsay Dyer, and Torsten M{\"o}ller.
 \newblock Linear and cubic box splines for the body centered cubic lattice.
 \newblock In \emph{Proceedings of IEEE Visualization}, pages 11--18, 2004.
-\newblock \doi{10.1109/VISUAL.2004.5}.
+\newblock \doi{10.1109/VISUAL.2004.65}.
 
 \bibitem[Fiedler(1973)]{fiedler1973}
 Miroslav Fiedler.
@@ -75,12 +75,12 @@ D.~P. Petersen and D.~Middleton.
   1962.
 \newblock \doi{10.1016/S0019-9958(62)90633-2}.
 
-\bibitem[Theu{\ss}l et~al.(2001)Theu{\ss}l, Hauser, and
+\bibitem[Theu{\ss}l et~al.(2000)Theu{\ss}l, Hauser, and
   Gr{\"o}ller]{theussl2001}
 Thomas Theu{\ss}l, Helwig Hauser, and Eduard Gr{\"o}ller.
 \newblock Mastering windows: improving reconstruction.
-\newblock In \emph{Proceedings of the 2001 IEEE Symposium on Volume
-  Visualization}, pages 101--108, 2001.
-\newblock \doi{10.1109/VV.2001.964412}.
+\newblock In \emph{Proceedings of the IEEE Symposium on Volume
+  Visualization (VVS '00)}, pages 101--108, 2000.
+\newblock \doi{10.1145/353888.353906}.
 
 \end{thebibliography}

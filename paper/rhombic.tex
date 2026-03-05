@@ -57,9 +57,9 @@ flood fill reach and 17\% faster nearest-neighbor queries; 5--10$\times$
 lower signal reconstruction MSE with 5--20$\times$ more isotropic
 error; and +7--20 percentage points higher embedding recall at 1-hop
 in a proof-of-concept ANN index. The cost is bounded: approximately
-$2\times$ the edge count ($12/6$). All ratios are scale-invariant,
-deriving from the geometry of the Voronoi cell rather than the sample
-size. An open-source library (\texttt{rhombic}) and interactive demo
+$2\times$ the edge count ($12/6$). Across all tested scales, these ratios are stable,
+consistent with derivation from Voronoi cell geometry rather than
+sample size. An open-source library (\texttt{rhombic}) and interactive demo
 reproduce every result.
 \end{abstract}
 
@@ -80,20 +80,21 @@ Neumann's stored-program architecture, accumulating through cultural
 inheritance rather than demonstrated optimality.
 
 The face-centered cubic (FCC) lattice is the densest sphere packing
-in three dimensions (Kepler's conjecture, proven by
-Hales~\cite{hales2005}). Its Voronoi cells are \textbf{rhombic
+in three dimensions (Kepler's conjecture, announced by Hales in 1998 and
+published in 2005~\cite{hales2005}). Its Voronoi cells are \textbf{rhombic
 dodecahedra}---12-faced polyhedra that tessellate $\mathbb{R}^3$
 without gaps. Where each cubic cell shares faces with 6 neighbors,
 each rhombic dodecahedron shares faces with 12. The FCC lattice
 appears in crystal structures (Cu, Al, Au) because physics selects
 for close-packed arrangements. Petersen and Middleton~\cite{petersen1962}
-proved it optimal for bandlimited 3D signal sampling. Conway and
+established the theory of optimal lattice sampling in
+$\mathbb{R}^N$. Conway and
 Sloane~\cite{conway1999} documented its mathematical properties
 extensively.
 
 Despite these established results, the FCC lattice has seen minimal
-adoption in computational practice. No systematic benchmark suite
-has compared the two topologies across the range of workloads that
+adoption in computational practice. To our knowledge, no systematic
+benchmark suite has compared the two topologies across the range of workloads that
 spatial data structures serve. This paper fills that gap with
 reproducible experiments across four domains, implemented in an
 open-source Python library.
@@ -141,24 +142,33 @@ hypercube~\cite{coxeter1973}.
 
 Kepler conjectured (1611) that the FCC lattice achieves the densest
 packing of equal spheres, with packing fraction
-$\pi/(3\sqrt{2}) \approx 0.7405$. Hales proved this in
-1998~\cite{hales2005}, with the proof formally verified in
-2014~\cite{hales2017}.
+$\pi/(3\sqrt{2}) \approx 0.7405$. Both FCC and HCP (hexagonal
+close-packed) achieve this density. Hales announced a proof in
+1998, published it in 2005~\cite{hales2005}, and the proof was
+formally verified by the Flyspeck project in
+2014--2017~\cite{hales2017}.
 
-Petersen and Middleton~\cite{petersen1962} proved that for
-bandlimited signals in $\mathbb{R}^3$, FCC sampling achieves
-the maximum sampling efficiency---the largest Nyquist region per
-sample point---among all lattice geometries. The Nyquist region
-of the FCC lattice (a truncated octahedron) has 29.3\% greater
-volume than that of the SC lattice at matched sample density.
+In 3D lattice sampling theory, optimality is formulated in the
+reciprocal (frequency-domain) lattice. Petersen and
+Middleton~\cite{petersen1962} established the general framework;
+the commonly cited result in the volume-rendering literature
+identifies the BCC lattice as the most efficient sampling geometry
+for isotropic bandlimits, with ${\sim}29.3\%$ greater Nyquist
+region volume than SC at matched sample
+density~\cite{theussl2001}. The FCC and BCC lattices are
+reciprocal duals---their roles reverse between real space and
+frequency space. Our Rung~3 benchmarks
+(Section~\ref{sec:signal}) directly measure FCC \emph{spatial}
+sampling with a topology-agnostic reconstructor, rather than
+deriving predictions from sampling theory.
 
 \subsection{Lattice Data Structures}
 
 Practical adoption of non-cubic lattices remains limited.
 Theu{\ss}l et al.~\cite{theussl2001} demonstrated FCC and BCC
-voxelization for volume rendering. Csebfalvi~\cite{csebfalvi2006}
+voxelization for volume rendering. Csebfalvi~\cite{csebfalvi2010}
 explored BCC sampling for medical imaging. Entezari et
-al.~\cite{entezari2008} formalized FCC/BCC box splines for
+al.~\cite{entezari2004} formalized FCC/BCC box splines for
 signal reconstruction. However, no prior work presents a
 systematic, multi-domain benchmark comparing SC and FCC topologies
 at matched node counts with publicly available code.
@@ -189,11 +199,15 @@ to its 12 nearest neighbors using the FCC neighbor offset vectors:
 \end{equation}
 yielding 12 edges per interior node.
 
-\textbf{Matching.} For each target scale, we select parameters
-such that the SC and FCC lattices have comparable node counts.
-The node counts are not identical (SC produces exact cubes;
-FCC produces approximate counts), so we report exact counts
-alongside every metric.
+\textbf{Matching.} For a target of $N$ nodes, we set
+$n_{\mathrm{SC}} = \lfloor N^{1/3} \rfloor$ (yielding
+$n_{\mathrm{SC}}^3$ SC nodes) and
+$n_{\mathrm{FCC}} = \lfloor (N/4)^{1/3} \rfloor$ (yielding
+${\sim}4 n_{\mathrm{FCC}}^3$ FCC nodes after deduplication).
+The two counts are not identical---SC produces exact cubes while
+FCC produces approximate counts---so we report exact node counts
+alongside every metric. At all scales reported here, the counts
+differ by less than 15\%.
 
 \subsection{Software and Reproducibility}
 
@@ -211,6 +225,21 @@ publicly available.\footnote{%
 GitHub: \url{https://github.com/promptcrafted/rhombic};
 PyPI: \url{https://pypi.org/project/rhombic/};
 Demo: \url{https://huggingface.co/spaces/timotheospaul/rhombic}}
+
+\paragraph{Reproducibility.}
+All stochastic operations (signal evaluation points, embedding
+generation, random node removal for fault tolerance) use a fixed
+seed ($\mathtt{seed}=42$). Graph-theoretic benchmarks (Rung~1)
+and spatial operations (Rung~2) are fully deterministic given the
+lattice construction. Signal benchmarks (Rung~3) use a single
+trial per frequency--scale combination with fixed evaluation
+points. Embedding benchmarks (Rung~4) use a single trial with
+fixed cluster generation. All results are reproduced by
+\texttt{python~-m~rhombic.benchmark} at commit
+\texttt{v0.2.0}.\footnote{For benchmarks involving random
+evaluation points, the seed ensures bitwise reproducibility on the
+same platform. Cross-platform floating-point differences may
+produce minor variations.}
 
 % ===================================================================
 \section{Rung 1: Graph Theory}
@@ -349,11 +378,12 @@ strength.
 
 The isotropy metric (directional variance of reconstruction error)
 shows that FCC reconstruction error is 5--20$\times$ more uniform
-across directions. This confirms the Petersen-Middleton prediction
-in practice with a topology-agnostic reconstructor.
+across directions. These are direct empirical measurements using a
+topology-agnostic reconstructor, not derivations from sampling
+theory.
 
 % ===================================================================
-\section{Rung 4: Context Architecture}
+\section{Rung 4: Embedding Neighborhood Preservation}
 \label{sec:embed}
 
 \subsection{Method}
@@ -479,12 +509,14 @@ $3$--$5\times$ more slowly).
 \subsection{Scale Invariance}
 
 The ratios reported in Sections~\ref{sec:graph}--\ref{sec:embed}
-are stable across all scales tested. This stability is expected:
-the advantage derives from the Voronoi cell geometry, not from
-boundary effects or sample size. At scales well above the boundary
-layer, the ratios are determined by the coordination number (12
-vs.\ 6), the kissing number configuration, and the Voronoi cell
-shape. These are constants of the lattice.
+are stable across all scales tested (125--8{,}000 nodes). This
+stability is consistent with an advantage that derives from Voronoi
+cell geometry rather than boundary effects or sample size. At scales
+well above the boundary layer, the ratios are determined by the
+coordination number (12 vs.\ 6), the kissing number configuration,
+and the Voronoi cell shape---constants of the lattice. Whether
+this stability extends to scales beyond those tested here is an
+empirical question for future work.
 
 \subsection{The Cost}
 
@@ -526,7 +558,24 @@ hierarchies (easily partitioned along axes) from viable systems
 (redundant paths resist fragmentation). The SC lattice is axis-aligned
 and axis-fragile; the FCC lattice is isotropic and robust.
 
-\subsection{Limitations}
+\subsection{When the Cubic Lattice Wins}
+
+The SC lattice retains practical advantages in several scenarios.
+\textbf{Memory layout:} cubic addressing maps directly to linear
+memory via $i + jN + kN^2$, enabling SIMD vectorization and
+cache-line-aligned access patterns that FCC addressing disrupts.
+\textbf{Range queries:} at 8{,}000 nodes, sphere and box queries
+run 3--5$\times$ slower on FCC (Table~\ref{tab:spatial}) because
+denser packing produces more candidates to scan.
+\textbf{Consensus at scale:} Laplacian averaging on FCC converges
+slower than SC at 1{,}000 nodes (0.93$\times$) due to per-neighbor
+weight dilution ($1/13$ vs.\ $1/7$).
+\textbf{Axis-aligned workloads:} when the signal or access pattern
+is inherently axis-aligned (separable filters, rectilinear scans),
+the SC lattice's coordinate alignment is an advantage, not a
+limitation.
+
+\subsection{Limitations and Threats to Validity}
 
 \textbf{Three dimensions only.} These results are specific to 3D
 lattices. Extension to higher dimensions (D$_4$ in 4D, $E_8$ in
@@ -546,20 +595,30 @@ theoretical contribution.
 Under targeted attack (removing high-betweenness nodes), the FCC
 advantage should be more dramatic.
 
+\textbf{Single-trial benchmarks.} Signal and embedding benchmarks
+use a single trial per configuration with a fixed seed. While the
+deterministic results are exactly reproducible, confidence
+intervals from multiple seeds would strengthen statistical claims.
+
+\textbf{Scale range.} All benchmarks operate between 125 and
+8{,}000 nodes. The stability of ratios across this range is
+consistent with geometric origin, but extrapolation beyond tested
+scales is not empirically verified.
+
 % ===================================================================
 \section{Conclusion}
 \label{sec:conclusion}
 
-The cubic lattice is not optimal. Across four independent domains
-and five experimental rungs, the FCC lattice provides measurable,
-reproducible, scale-invariant advantages for every isotropic
-workload tested. The cost is bounded (${\sim}2\times$ edges) and
+For the isotropic, propagation-dominated workloads tested here, the
+SC lattice is consistently outperformed. Across four independent
+domains and five experimental rungs, the FCC lattice provides
+measurable, reproducible advantages that are stable across all
+tested scales. The cost is bounded (${\sim}2\times$ edges) and
 the benefit compounds (30\% routing $+$ 55\% propagation $+$
 5--10$\times$ signal fidelity $+$ 7--20pp embedding recall).
 
-The FCC lattice is the densest sphere packing, the optimal signal
-sampling geometry, and the topology that nature selects for
-close-packed structures. The SC lattice persists in computation
+The FCC lattice is the densest sphere packing and the topology
+that nature selects for close-packed structures. The SC lattice persists in computation
 not because it was chosen but because it was inherited. This
 library and this paper provide the quantitative basis for
 reconsidering that inheritance.

@@ -22,7 +22,7 @@ dodecahedra — is structurally superior for every isotropic workload tested.
 | Signal processing | 5-10× lower reconstruction MSE | Same sample count |
 | Context architecture | +15-26pp embedding recall at 1-hop | ~2× neighborhood size |
 
-The advantage is structural, scale-invariant, and consistent. It derives
+The advantage is structural, stable across all tested scales, and consistent. It derives
 from geometry — specifically, from the rhombic dodecahedron's closer
 approximation to a sphere. The cube persists not because it was chosen
 but because it was inherited.
@@ -43,10 +43,11 @@ lattice is the spatial expression of Cartesian geometry — the water
 computation swims in.
 
 The face-centered cubic lattice is the densest sphere packing in three
-dimensions (Kepler's conjecture, proven by Hales 1998). It appears in
+dimensions (Kepler's conjecture, announced by Hales 1998, published 2005,
+formally verified 2017). It appears in
 crystal structures — copper, aluminum, gold — because physics selects for
 it. It was studied by Bravais, Coxeter, and Conway. Petersen and Middleton
-proved it optimal for bandlimited 3D signal sampling in 1962. The
+established the theory of optimal lattice sampling in 1962. The
 mathematics has been settled for decades. The engineering never followed.
 
 Why? Because the cube was the default, and defaults persist through
@@ -119,7 +120,7 @@ Density-matched sampling, topology-agnostic RBF reconstruction, isotropic
 test signal. Three scales (216 – 1,000 samples), frequencies from 10% to
 100% of cubic Nyquist.
 
-**The Petersen-Middleton theorem holds in practice.**
+**Direct empirical measurements confirm the FCC advantage.**
 
 In the productive frequency range (10-60% of Nyquist):
 
@@ -273,9 +274,8 @@ more relevant context per lookup, translating to either better recall at
 the same cost or the same recall with fewer lookups.
 
 **3D signal processing.** Medical imaging, seismology, atmospheric
-modeling, fluid simulation. The Petersen-Middleton advantage is
-mathematically proven and empirically confirmed. FCC sampling produces
-5-10× lower MSE at matched sample counts. The isotropy advantage (5-20×
+modeling, fluid simulation. Our direct benchmarks show FCC spatial
+sampling produces 5-10× lower MSE at matched sample counts. The isotropy advantage (5-20×
 more uniform error) is directly relevant to any application where the
 signal has no preferred orientation.
 
@@ -362,14 +362,14 @@ larger scales.
 
 ## Conclusion
 
-The cube is not optimal. It is not optimal for routing, for spatial
-operations, for signal processing, or for organizing high-dimensional
-data. It is the default, and the default persists through cultural
-inheritance.
+For isotropic, propagation-dominated workloads, the cube is consistently
+outperformed — in routing, spatial operations, signal processing, and
+high-dimensional data organization. The default persists through cultural
+inheritance, not demonstrated optimality.
 
 The FCC lattice — the lattice whose Voronoi cells are rhombic
-dodecahedra — provides measurable, reproducible, scale-invariant
-advantages across every isotropic workload tested. The cost is bounded
+dodecahedra — provides measurable, reproducible advantages, stable
+across all tested scales, for every isotropic workload tested. The cost is bounded
 (~2× edges). The benefit compounds (30% routing + 55% propagation +
 5-10× signal fidelity + 15-26pp recall). The geometry speaks for itself.
 

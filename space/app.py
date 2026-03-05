@@ -87,8 +87,8 @@ HEADLINE_TABLE = """
 | Signal processing | **5-10x lower** reconstruction MSE | Same sample count |
 | Context architecture | **+15-26pp** embedding recall at 1-hop | ~2x neighborhood size |
 
-*These ratios are scale-invariant. They hold at every size tested because
-they derive from the geometry, not the sample.*
+*These ratios are stable across all tested scales, consistent with
+derivation from the geometry rather than the sample.*
 """
 
 
@@ -418,7 +418,7 @@ lattice is the spatial expression of Cartesian geometry.
 **Is the cube optimal?** This library measures the alternative: the
 face-centered cubic lattice, whose Voronoi cells are rhombic dodecahedra.
 12 faces instead of 6. The densest sphere packing in three dimensions
-(Kepler, proven Hales 1998). The lattice that nature uses for copper,
+(Kepler, announced Hales 1998, published 2005, formally verified 2017). The lattice that nature uses for copper,
 aluminum, and gold.
 
 ## The Evidence
@@ -435,8 +435,8 @@ aluminum, and gold.
 | Information diffusion | **1.4-2x faster** |
 | Edge cost | ~2x more edges (the price) |
 
-These ratios are **scale-invariant**. They hold at every size tested
-because they derive from the geometry, not the sample.
+These ratios are **stable across all tested scales**, consistent with
+derivation from the geometry rather than the sample.
 
 ## The Cost
 

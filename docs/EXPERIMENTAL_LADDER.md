@@ -26,7 +26,7 @@ Measure four fundamental properties on both topologies at multiple scales:
 
 **Deliverable:** `rhombic/benchmark.py`, `results/rung-1/`
 **Status:** Complete. Results: 30% shorter paths, 40% smaller diameter,
-2.4x algebraic connectivity. Scale-invariant.
+2.4x algebraic connectivity. Stable across tested scales.
 
 ---
 
@@ -53,9 +53,11 @@ unambiguously. Query-dominated workloads see a density cost.
 
 ## Rung 3: Signal Processing (complete)
 
-The Petersen-Middleton theorem (1962) proves FCC sampling is optimal for
-bandlimited 3D signals — same samples, higher fidelity, or fewer samples,
-same fidelity. The world hasn't adopted it because the cube is the default.
+In 3D lattice sampling theory, the commonly cited optimality result
+identifies BCC (not FCC) as the most efficient sampling geometry for
+isotropic bandlimits. Our benchmarks directly measure FCC spatial sampling
+with a topology-agnostic reconstructor — empirical measurements, not
+derivations from sampling theory.
 
 Benchmarks (density-matched, topology-agnostic RBF reconstruction):
 
@@ -92,8 +94,8 @@ Results at three scales (125, 500, 1000 nodes):
 |--------|--------------|------|
 | 1-hop recall | **+15-26pp** | 66% vs 51% at 1000 nodes |
 | 2-hop recall | **+16pp** | 92% vs 76% at 1000 nodes |
-| Diffusion (50% reach) | **1.4-2× faster** | Scale-invariant |
-| Diffusion (80% reach) | **1.6-1.7× faster** | Scale-invariant |
+| Diffusion (50% reach) | **1.4-2× faster** | Stable across tested scales |
+| Diffusion (80% reach) | **1.6-1.7× faster** | Stable across tested scales |
 | Consensus (500 nodes) | **1.58× faster** | Sweet spot |
 | Consensus (1000 nodes) | **0.93×** (cubic wins) | Per-neighbor dilution |
 
@@ -131,8 +133,8 @@ Synthesize findings across all rungs into a single publishable document:
 2. **Reproducible by default.** `python -m rhombic.benchmark` reproduces
    every result. No hidden state, no unreported parameters.
 
-3. **Scale invariance tested.** Every metric is measured at multiple scales
-   to confirm the advantage is structural, not artifact.
+3. **Scale stability tested.** Every metric is measured at multiple scales
+   to confirm the advantage is stable across tested ranges.
 
 4. **Sparse results are data.** If a rung shows no advantage for FCC, that
    finding is published alongside the wins.

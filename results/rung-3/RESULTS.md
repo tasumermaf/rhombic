@@ -14,7 +14,8 @@ f(x,y,z) = sin(ωx)cos(ωy)sin(ωz) + 0.5cos(ωr) + 0.3sin(ω(x+y+z)/√3)
 ```
 where ω = 2πf and r = √(x²+y²+z²). Signal power is spherically
 symmetric in frequency space — this is exactly the class of signals
-where Petersen-Middleton predicts FCC superiority.
+where FCC's closer-to-spherical Voronoi cell geometry should
+provide the greatest spatial sampling advantage.
 
 Frequencies sweep from 10% to 100% of the cubic Nyquist frequency.
 

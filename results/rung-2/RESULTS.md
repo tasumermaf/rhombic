@@ -48,7 +48,7 @@ reproducible via `python -m rhombic.spatial`.
 | Hash build time (s) | 0.019163 | 0.019515 | 1.02 |
 | Hash query time (s) | 0.015269 | 0.014423 | 0.94 |
 
-## Summary Table (scale-invariant ratios, ~8000 nodes)
+## Summary Table (ratios at ~8000 nodes)
 
 | Operation | FCC vs Cubic | Direction |
 |-----------|:------------:|-----------|

@@ -28,8 +28,9 @@ spatial operations, and signal processing.
 | Information diffusion | **1.4-2× faster** | 125 – 1,000 nodes |
 | Edge cost | ~2× more edges | (the price) |
 
-These ratios are scale-invariant. They hold at every size tested because
-they derive from the geometry, not the sample.
+These ratios are stable across all tested scales. They hold at every size
+tested, consistent with derivation from Voronoi cell geometry rather than
+sample size.
 
 ![Graph theory dashboard](results/rung-1/dashboard.png)
 ![Spatial operations dashboard](results/rung-2/dashboard.png)
@@ -46,7 +47,8 @@ lattice is the spatial expression of Cartesian geometry.
 Is the cube optimal? This library measures the alternative: the
 face-centered cubic lattice, whose Voronoi cells are rhombic
 dodecahedra. 12 faces instead of 6. The densest sphere packing in
-three dimensions (Kepler, proven Hales 1998). The lattice that nature
+three dimensions (Kepler, announced Hales 1998, published 2005, formally
+verified 2017). The lattice that nature
 uses for copper, aluminum, and gold.
 
 [Read the full thesis →](docs/THESIS.md)
@@ -102,9 +104,9 @@ scales with density — 3-5× slower for sphere/box queries at 8,000 nodes.
 
 ### Rung 3: Signal Processing (complete)
 
-Petersen-Middleton (1962) was right. FCC sampling produces **5-10× lower MSE**
-and **5-20× more isotropic** reconstruction than cubic sampling at matched
-sample counts. The advantage peaks in the mid-frequency range (10-60% of
+Direct empirical measurements confirm the FCC advantage. FCC spatial sampling
+produces **5-10× lower MSE** and **5-20× more isotropic** reconstruction than
+cubic sampling at matched sample counts. The advantage peaks in the mid-frequency range (10-60% of
 Nyquist) and grows with scale — from +6 dB at 216 samples to +10 dB at 1,000.
 Above Nyquist, both lattices alias and cubic's axis alignment accidentally helps.
 

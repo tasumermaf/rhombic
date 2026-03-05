@@ -114,15 +114,17 @@ tradeoff is favorable depends on the domain:
 1. **The topology advantage is real and measurable.** This is not
    philosophy — it is graph theory producing reproducible numbers.
 
-2. **The advantage is scale-invariant.** The ratios hold from 100 to
-   4000+ nodes. They will hold at 10⁶ and 10⁹.
+2. **The advantage is stable across tested scales.** The ratios hold from
+   100 to 4000+ nodes, consistent with geometric rather than sample-size
+   origin.
 
 3. **The cost is bounded.** ~2× edges for ~30% shorter paths and ~2.4×
    robustness. The asymptotic cost ratio approaches 2 (12/6).
 
-4. **The cubic lattice is not optimal.** For any application where
-   routing efficiency, worst-case latency, or structural robustness
-   matter, the FCC lattice is superior. The cubic lattice's only
+4. **For isotropic routing workloads, the cubic lattice is consistently
+   outperformed.** For applications where routing efficiency, worst-case
+   latency, or structural robustness matter, the FCC lattice is superior
+   across all tested scales. The cubic lattice's only
    advantage is simplicity of addressing (integer coordinates on
    orthogonal axes).
 

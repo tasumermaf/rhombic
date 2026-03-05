@@ -1,18 +1,22 @@
 """
 Rung 3: Signal processing benchmarks comparing cubic and FCC sampling.
 
-The Petersen-Middleton theorem (1962) proves FCC sampling is optimal for
-bandlimited 3D isotropic signals: same sample count yields higher fidelity,
-or fewer samples yield the same fidelity.
+This module directly measures reconstruction quality when an isotropic 3D
+signal is sampled on cubic vs FCC lattice points, using a topology-agnostic
+RBF reconstructor. Any quality difference comes purely from sample arrangement.
 
-The key is the Nyquist region shape. A cubic lattice's Nyquist region is a
-cube; an FCC lattice's is a rhombic dodecahedron — closer to a sphere. For
-isotropic signals (spherical bandwidth), FCC wastes less sampling capacity
-on corners the signal doesn't use.
+In 3D lattice sampling theory, optimality is formulated in the reciprocal
+(frequency-domain) lattice. The commonly cited result identifies the BCC
+lattice as the most efficient sampling geometry for isotropic bandlimits,
+with ~29.3% greater Nyquist region volume than SC (Petersen-Middleton 1962;
+Theussl et al. 2000). The FCC and BCC lattices are reciprocal duals — their
+Voronoi cells in real space vs frequency space swap roles. The FCC real-space
+Voronoi cell is the rhombic dodecahedron; its frequency-space Voronoi cell
+(Nyquist region) is a truncated octahedron.
 
-This benchmark generates both lattices in [0,1]³ with matched sample counts,
-then tests reconstruction quality across a frequency sweep. The FCC advantage
-should emerge at higher frequencies where the Nyquist shape matters.
+Our benchmarks are empirical measurements, not derivations from sampling
+theory. The results — 5-10x lower MSE, 5-20x more isotropic error for FCC
+spatial sampling — are direct observations at matched sample counts.
 
 Metrics:
   - Reconstruction quality (MSE, PSNR) across frequency sweep
@@ -120,8 +124,9 @@ def isotropic_signal(points: np.ndarray, freq: float) -> np.ndarray:
     """Isotropic bandlimited 3D signal at given frequency.
 
     Uses a sum of sinusoidal shells — signal power is spherically
-    symmetric in frequency space. This is exactly the class of signals
-    where FCC should outperform cubic per Petersen-Middleton.
+    symmetric in frequency space. Isotropic signals are the class
+    where FCC spatial sampling should most benefit from its closer-
+    to-spherical Voronoi cell geometry.
     """
     x, y, z = points[:, 0], points[:, 1], points[:, 2]
     r = np.sqrt(x**2 + y**2 + z**2)

@@ -33,7 +33,8 @@ neighbors, the rhombic dodecahedron gives 12. This is not a marginal
 improvement. It is a qualitative change in the topology of the network.
 
 The FCC lattice is the densest sphere packing in three dimensions
-(Kepler's conjecture, proven by Hales in 1998). It is the lattice
+(Kepler's conjecture, announced by Hales in 1998, published 2005,
+formally verified 2017). It is the lattice
 that Bravais, Coxeter, and Conway studied. It appears in crystal
 structures (copper, aluminum, gold), in close-packed molecular
 arrangements, in the geometry of soap bubbles. Nature uses this
@@ -56,14 +57,15 @@ At every scale tested:
   of structural robustness.
 - **55% more flood fill reach** per hop. The routing advantage
   translates directly to spatial propagation.
-- **5-10× lower signal reconstruction MSE.** Petersen-Middleton
-  (1962) confirmed empirically with topology-agnostic reconstruction.
+- **5-10× lower signal reconstruction MSE.** Direct empirical
+  measurements with a topology-agnostic reconstructor.
 - **15-26 percentage points more embedding recall** at 1-hop. The
   advantage survives the leap from Euclidean space to high-dimensional
   embedding space.
 
-These ratios are scale-invariant. They hold at 100 nodes and at
-10,000 nodes because they derive from the geometry, not the sample.
+These ratios are stable across all tested scales. They hold at 100
+nodes and at 10,000 nodes, consistent with derivation from the
+geometry rather than the sample.
 
 See the [full synthesis](../results/SYNTHESIS.md) for the complete
 argument across all four rungs.
@@ -138,8 +140,8 @@ graph theory, spatial operations, signal processing, and context
 architecture. Each rung produced a publishable result. Each built
 on the last. The synthesis is at `../results/SYNTHESIS.md`.
 
-The thesis is simple: the cube is not optimal. The evidence is
-here. The alternative is `pip install rhombic`.
+The thesis is simple: for isotropic, propagation-dominated workloads,
+the cube is consistently outperformed. The evidence is here. The alternative is `pip install rhombic`.
 
 ---
 
