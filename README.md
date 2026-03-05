@@ -15,12 +15,15 @@ spatial operations, and signal processing.
 | Average shortest path | **30% shorter** | 125 – 8,000 nodes |
 | Graph diameter | **40% smaller** | 125 – 8,000 nodes |
 | Algebraic connectivity | **2.4× higher** | 125 – 8,000 nodes |
+| Flood fill reach | **55% more nodes** | 125 – 8,000 nodes |
+| NN query speed | **17% faster** | 125 – 8,000 nodes |
 | Edge cost | ~2× more edges | (the price) |
 
 These ratios are scale-invariant. They hold at every size tested because
 they derive from the geometry, not the sample.
 
-![Benchmark dashboard](results/rung-1/dashboard.png)
+![Graph theory dashboard](results/rung-1/dashboard.png)
+![Spatial operations dashboard](results/rung-2/dashboard.png)
 
 ## The Question
 
@@ -76,10 +79,15 @@ robustness. The cost is bounded: ~2× edges for ~30% shorter paths and
 - [Raw data and tables](results/rung-1/RESULTS.md)
 - [What the numbers mean](results/rung-1/INTERPRETATION.md)
 
-### Rung 2: Spatial Operations (next)
+### Rung 2: Spatial Operations (complete)
 
-Nearest-neighbor search, range queries, flood fill on both topologies.
-Does the 30% routing advantage translate to faster spatial computation?
+The routing advantage translates. FCC flood fill reaches 55% more nodes
+per hop. Nearest-neighbor queries are 17% faster. Range queries return
+24% more nodes per volume (denser packing). The cost: range query time
+scales with density — 3-5× slower for sphere/box queries at 8,000 nodes.
+
+- [Raw data and tables](results/rung-2/RESULTS.md)
+- [What the numbers mean](results/rung-2/INTERPRETATION.md)
 
 ### Rung 3: Signal Processing (planned)
 

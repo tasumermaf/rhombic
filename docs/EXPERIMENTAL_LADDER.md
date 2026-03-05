@@ -30,22 +30,24 @@ Measure four fundamental properties on both topologies at multiple scales:
 
 ---
 
-## Rung 2: Spatial Operations (next)
+## Rung 2: Spatial Operations (complete)
 
-Implement both topologies as spatial data structures and benchmark
-practical operations:
+Both topologies implemented as spatial data structures. Five operations
+benchmarked at three scales:
 
-- Nearest-neighbor search
+- Nearest-neighbor search (KDTree)
 - Range queries (sphere, box)
 - Flood fill / region growing
 - Spatial hashing and lookup
 
-This moves from abstract graph theory to practical computation. If the
-30% routing advantage translates to faster spatial queries, that's a
-drop-in replacement for cubic grids in game engines, physics sims,
-medical imaging.
+Results: FCC flood fill reaches **55% more nodes** per hop at 8,000 nodes.
+NN queries are **17% faster**. Spatial hash queries are **6% faster**. Range
+queries return **24% more nodes** per volume but take 3-5× longer (denser
+packing). The routing advantage translates to propagation-dominated workloads
+unambiguously. Query-dominated workloads see a density cost.
 
 **Deliverable:** `rhombic/spatial.py`, `results/rung-2/`
+**Status:** Complete.
 
 ---
 
