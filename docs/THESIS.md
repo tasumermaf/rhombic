@@ -130,6 +130,29 @@ that links mind to nature — is geometric before it is linguistic.
 The topology of connection determines the capacity for response.
 Change the topology, change the capacity.
 
+## The Amplification
+
+Under uniform weights, the FCC lattice is 2.3x more algebraically connected
+than the cubic. Under direction-weighted edges — mapping structured values
+to the six direction pairs of the FCC lattice — the ratio jumps to 6.1x.
+The advantage does not merely persist under heterogeneous weights. It
+compounds.
+
+The mechanism is bottleneck resilience. When a cubic lattice receives
+suppressed weights on one axis, traffic must route through the remaining
+four faces. When an FCC lattice receives the same suppression, twelve
+faces offer six independent direction pairs — the lattice routes around
+the bottleneck through paths that do not exist in the cubic topology.
+The Fiedler eigenvalue (algebraic connectivity) measures exactly this:
+the hardest cut through the network. FCC's hardest cut is 6.1x harder
+than cubic's.
+
+At small scale (125 nodes), consensus converges 6.7x faster on the
+weighted FCC lattice. The prime-vertex coherence test — assigning the
+eight tracked primes to the eight vertices of the rhombic dodecahedron's
+inscribed cube — finds optimal placement at p = 0.000025 against 40,320
+alternatives. The geometry is not indifferent to the values it carries.
+
 ## The Program
 
 This library is not a manifesto. It is a benchmark suite. The

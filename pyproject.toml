@@ -20,6 +20,10 @@ keywords = [
     "signal-processing",
     "embedding",
     "spatial-computing",
+    "weighted-graph",
+    "spectral-graph-theory",
+    "Fiedler-value",
+    "algebraic-connectivity",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
