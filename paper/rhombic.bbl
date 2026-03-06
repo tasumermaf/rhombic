@@ -47,6 +47,7 @@ Miroslav Fiedler.
 \newblock Algebraic connectivity of graphs.
 \newblock \emph{Czechoslovak Mathematical Journal}, 23\penalty0 (2):\penalty0
   298--305, 1973.
+\newblock \doi{10.21136/CMJ.1973.101168}.
 
 \bibitem[Hales et~al.(2017)Hales, Adams, Bauer, Dang, Harrison, Hoang,
   Kaliszyk, Magron, McLaughlin, Nguyen, Nguyen, Nipkow, Obua, Pleso, Rute,
@@ -78,15 +79,17 @@ D.~P. Petersen and D.~Middleton.
 \bibitem[Theu{\ss}l and M{\"o}ller(2001)]{theussl2002orvs}
 Thomas Theu{\ss}l and Torsten M{\"o}ller.
 \newblock Optimal regular volume sampling.
-\newblock Technical Report TR-186-2-01-10, Institute of Computer Graphics,
-  Vienna University of Technology, 2001.
+\newblock Technical report, Institute of Computer Graphics, Vienna University
+  of Technology, 2001.
+\newblock Technical Report TR-186-2-01-10.
+  \url{https://www.cg.tuwien.ac.at/research/vis/VolVis/BccGrids/TR_ORVS/}.
 
 \bibitem[Theu{\ss}l et~al.(2000)Theu{\ss}l, Hauser, and
   Gr{\"o}ller]{theussl2001}
 Thomas Theu{\ss}l, Helwig Hauser, and Eduard Gr{\"o}ller.
 \newblock Mastering windows: improving reconstruction.
-\newblock In \emph{Proceedings of the IEEE Symposium on Volume
-  Visualization (VVS '00)}, pages 101--108, 2000.
+\newblock In \emph{Proceedings of the IEEE Symposium on Volume Visualization
+  (VVS '00)}, pages 101--108, 2000.
 \newblock \doi{10.1145/353888.353906}.
 
 \end{thebibliography}

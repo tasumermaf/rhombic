@@ -34,11 +34,13 @@ htmlcov/
 
 # --- LaTeX ---
 paper/*.aux
-paper/*.bbl
 paper/*.blg
 paper/*.log
 paper/*.out
 paper/*.pdf
+paper/*.tar
+paper/*.tar.gz
+paper/figures/*.pdf
 paper/versions/
 
 # --- OS & Editor ---
