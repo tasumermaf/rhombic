@@ -528,9 +528,9 @@
 <!-- ═══════════ HERO ═══════════ -->
 <section id="hero">
   <div class="container">
-    <div class="tagline">The Bottleneck Is Not the Processor</div>
+    <div class="tagline">Keep Your Cube, Add Six Bridges</div>
     <h1>rhombic</h1>
-    <p class="subtitle">It is the shape of the cell. FCC lattices outperform cubic at every scale tested.</p>
+    <p class="subtitle">FCC lattices outperform cubic at every scale tested. The bottleneck is the shape of the cell.</p>
     <p class="hero-quote">"Nobody chose the cube. It accumulated."</p>
   </div>
   <div class="scroll-hint">scroll</div>
@@ -672,19 +672,19 @@ fiedler ~ <span class="kw">2.4x</span> cubic
     <p class="section-sub">9 custom tools for the Nous Research Hermes Agent. Run lattice benchmarks through natural language.</p>
     <div class="agent-demo" id="agent-demo">
       <div class="agent-line" style="animation-delay: 0.2s"><span class="prompt">user:</span> Compare cubic and FCC lattices at 1000 nodes</div>
-      <div class="agent-line" style="animation-delay: 0.8s"><span class="tool">[calling run_benchmark]</span></div>
+      <div class="agent-line" style="animation-delay: 0.8s"><span class="tool">[calling lattice_compare]</span></div>
       <div class="agent-line" style="animation-delay: 1.4s"><span class="response">FCC: 30% shorter paths, 2.4x algebraic connectivity, 40% smaller diameter</span></div>
       <div class="agent-line" style="animation-delay: 2.2s"><span class="prompt">user:</span> What happens with structured weights from the Tarot corpus?</div>
-      <div class="agent-line" style="animation-delay: 2.8s"><span class="tool">[calling direction_weighted_fiedler]</span></div>
+      <div class="agent-line" style="animation-delay: 2.8s"><span class="tool">[calling direction_weights]</span></div>
       <div class="agent-line" style="animation-delay: 3.4s"><span class="response">Direction-weighted Fiedler ratio: 6.1x (up from 2.4x uniform)</span></div>
     </div>
     <div class="tool-list">
       <div class="tool-item">
-        <code>run_benchmark</code>
+        <code>lattice_compare</code>
         <p>Full lattice comparison at target scale</p>
       </div>
       <div class="tool-item">
-        <code>direction_weighted_fiedler</code>
+        <code>direction_weights</code>
         <p>Corpus-weighted algebraic connectivity</p>
       </div>
       <div class="tool-item">
@@ -708,12 +708,44 @@ fiedler ~ <span class="kw">2.4x</span> cubic
         <p>Sampling reconstruction MSE/PSNR</p>
       </div>
       <div class="tool-item">
-        <code>explore_polyhedron</code>
+        <code>polyhedron_info</code>
         <p>Rhombic dodecahedron geometry</p>
       </div>
       <div class="tool-item">
-        <code>run_full_suite</code>
+        <code>full_suite</code>
         <p>All benchmarks at all scales</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FORWARD VISION ═══════════ -->
+<section id="vision">
+  <div class="container fade-up">
+    <h2>Forward <span class="accent">Vision</span></h2>
+    <p class="section-sub">From benchmark library to lattice-native intelligence.</p>
+    <div class="thesis-content" style="margin-top: 2rem;">
+      <div class="thesis-col">
+        <h3 style="color: var(--gold);">RhombiLoRA</h3>
+        <p>LoRA adapters structured on rhombic dodecahedral topology instead of flat rank decomposition. The same geometry that gives 2.4x algebraic connectivity in graph benchmarks could give LoRA adapters 12-connected weight neighborhoods instead of 6.</p>
+        <p>Paper 3 in the arc: from empirical benchmark (Paper 1) through weighted amplification (Paper 2) to topology-aware fine-tuning.</p>
+      </div>
+      <div class="thesis-col">
+        <h3 style="color: var(--gold);">The Paper Arc</h3>
+        <p><strong>Paper 1</strong> &mdash; <em>Rhombic</em>: FCC vs cubic lattice benchmarks across four domains. The evidence base.</p>
+        <p><strong>Paper 2</strong> &mdash; <em>Weighted Extensions</em>: Direction-weighted edges amplify FCC advantage from 2.4x to 6.1x. The mechanism.</p>
+        <p><strong>Paper 3</strong> &mdash; <em>RhombiLoRA</em>: Lattice topology applied to neural network fine-tuning. The application.</p>
+      </div>
+    </div>
+    <div class="weighted-highlight" style="margin-top: 2rem;">
+      <h4 style="color: var(--gold); font-size: 0.9rem; margin-bottom: 1rem;">Citations</h4>
+      <div class="code-block" style="font-size: 0.75rem; text-align: left;">
+@software{bielec2026rhombic,<br>
+&nbsp;&nbsp;author = {Bielec, Timothy Paul},<br>
+&nbsp;&nbsp;title = {rhombic: FCC Lattice Benchmarking Library},<br>
+&nbsp;&nbsp;year = {2026},<br>
+&nbsp;&nbsp;url = {https://github.com/promptcrafted/rhombic}<br>
+}
       </div>
     </div>
   </div>
@@ -729,10 +761,10 @@ pip install rhombic
     <div class="links">
       <a href="https://github.com/promptcrafted/rhombic" class="btn btn-primary" target="_blank">GitHub</a>
       <a href="https://pypi.org/project/rhombic/" class="btn btn-secondary" target="_blank">PyPI</a>
-      <a href="https://huggingface.co/spaces/promptcrafted/rhombic" class="btn btn-secondary" target="_blank">Live Demo</a>
+      <a href="https://huggingface.co/spaces/timotheospaul/rhombic" class="btn btn-secondary" target="_blank">Live Demo</a>
     </div>
     <p class="credits">
-      Built by <a href="https://github.com/promptcrafted">Timothy Feuerstein</a> &middot;
+      Built by <a href="https://github.com/promptcrafted">Timothy Paul Bielec</a> &middot;
       <a href="https://promptcrafted.com">promptcrafted.com</a><br>
       Nous Research Hermes Agent Hackathon 2026
     </p>
@@ -899,7 +931,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
 // ── Nav dots ──
-const sections = ['hero', 'numbers', 'thesis', 'weighted', 'agent', 'cta'];
+const sections = ['hero', 'numbers', 'thesis', 'weighted', 'agent', 'vision', 'cta'];
 const dotsContainer = document.getElementById('nav-dots');
 sections.forEach((id, i) => {
   const dot = document.createElement('button');
