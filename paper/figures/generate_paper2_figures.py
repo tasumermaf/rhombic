@@ -72,7 +72,7 @@ def generate_figure3(save_path):
     ax.text(3.6, 2.31 + 0.1, 'Paper 1 baseline (2.3$\\times$)',
             fontsize=7, color='grey', ha='right')
     ax.legend(fontsize=8, loc='upper left')
-    ax.set_title('Fiedler ratio amplification at scale 1{,}000', fontsize=11)
+    ax.set_title('Fiedler ratio amplification at scale 1,000', fontsize=11)
 
     plt.tight_layout()
     fig.savefig(save_path, dpi=300)
@@ -183,7 +183,7 @@ def generate_figure5(save_path):
 def generate_figure6(save_path):
     """Horizontal bar chart: corpus Fiedler percentile across 5 graphs (Exp 7).
 
-    Shows universality of corpus Fiedler suppression.
+    Shows consistency of corpus Fiedler suppression across topologies.
     """
     graphs = ['Random G(14,24)', '3-regular (16V)', 'K(4,6) (10V)',
               'RD (14V)', 'Cuboctahedron (12V)']
@@ -201,7 +201,7 @@ def generate_figure6(save_path):
     ax.set_yticks(y_pos)
     ax.set_yticklabels(graphs, fontsize=9)
     ax.set_xlabel('Corpus Fiedler percentile (vs. 10K random weights)')
-    ax.set_title('Fiedler suppression is universal across 24-edge graphs', fontsize=11)
+    ax.set_title('Fiedler suppression is consistent across 24-edge graphs', fontsize=11)
     ax.set_xlim(0, 8)
     ax.invert_yaxis()
 

@@ -12,6 +12,8 @@
 \usepackage[numbers]{natbib}
 \usepackage{microtype}
 \usepackage{bookmark}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, fit, backgrounds}
 
 \hypersetup{
   colorlinks=true,
@@ -88,6 +90,64 @@ of limited practical relevance. If they amplify it, the topology
 advantage is more robust than the baseline suggests.
 
 This paper reports seven experiments answering that question.
+Figure~\ref{fig:dependency} shows the dependency structure between
+the two papers and the experiment hierarchy within this one.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=0.92, transform shape,
+  node distance=0.5cm and 0.6cm,
+  paper/.style={draw, rounded corners, fill=blue!8, minimum width=3.5cm,
+                minimum height=0.65cm, align=center, font=\small\bfseries},
+  register/.style={draw, rounded corners=2pt, fill=gray!12, minimum width=2.8cm,
+                   minimum height=0.5cm, align=center, font=\small},
+  exp/.style={draw, rounded corners=2pt, fill=white, minimum width=2.4cm,
+              minimum height=0.45cm, align=center, font=\scriptsize},
+  mechanism/.style={draw, rounded corners=2pt, fill=orange!12, minimum width=2.4cm,
+                    minimum height=0.45cm, align=center, font=\scriptsize},
+  arr/.style={-{Stealth[length=4pt]}, semithick}
+]
+% Paper 1
+\node[paper] (p1) {Paper~1: Uniform-weight\\SC vs FCC baseline};
+
+% Paper 2
+\node[paper, below=0.7cm of p1] (p2) {Paper~2: Heterogeneous\\edge weights};
+
+\draw[arr] (p1) -- node[right, font=\scriptsize, xshift=1pt]
+  {$2.3\times$ Fiedler baseline} (p2);
+
+% Two registers
+\node[register, below left=0.7cm and 0.2cm of p2] (lat) {Lattice-scale};
+\node[register, below right=0.7cm and 0.2cm of p2] (cell) {Single-cell RD};
+
+\draw[arr] (p2) -- (lat);
+\draw[arr] (p2) -- (cell);
+
+% Lattice experiments
+\node[exp, below left=0.5cm and -0.4cm of lat] (e1) {Exp~1: Edge-cycled};
+\node[exp, below right=0.5cm and -0.4cm of lat] (e5) {Exp~5: Direction-pair};
+
+\draw[arr] (lat) -- (e1);
+\draw[arr] (lat) -- (e5);
+
+% Mechanism
+\node[mechanism, below=0.5cm of e5] (mech) {Mechanism:\\bottleneck resilience};
+\draw[arr] (e5) -- (mech);
+
+% Single-cell experiments
+\node[exp, below left=0.5cm and -0.4cm of cell] (e234) {Exp~2--4: TV, spectral,\\cross-polytope};
+\node[exp, below right=0.5cm and -0.4cm of cell] (e67) {Exp~6--7: Prime-vertex,\\degeneracy (expl.)};
+
+\draw[arr] (cell) -- (e234);
+\draw[arr] (cell) -- (e67);
+\end{tikzpicture}
+\caption{Dependency structure. Paper~1 establishes the uniform-weight
+  FCC/SC baseline. This paper introduces heterogeneous weights across
+  two registers: lattice-scale tessellation (Experiments~1, 5) and
+  single-cell rhombic dodecahedron characterization (Experiments~2--4,
+  6--7). Experiments~6--7 are exploratory.}
+\label{fig:dependency}
+\end{figure}
 
 \subsection{The Corpus as Weight Set}
 \label{sec:corpus}
@@ -406,11 +466,12 @@ structural.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{figures/fig4-consensus-inversion}
-\caption{Consensus speedup (FCC/SC) under direction-based weighting
-  at scales 125 and 1{,}000. Corpus weights produce 6.69$\times$ FCC
-  advantage at scale 125, inverting to 0.73$\times$ at scale 1{,}000.
-  The transition between local-connectivity advantage and
-  per-neighbor-dilution cost is structural.}
+\caption{Consensus speedup (SC/FCC rounds, ${>}\,1$ = FCC faster) under
+  direction-based weighting at scales 125 and 1{,}000. Corpus weights
+  produce 6.69$\times$ FCC advantage at scale 125, inverting to
+  0.73$\times$ at scale 1{,}000. The transition between
+  local-connectivity advantage and per-neighbor-dilution cost is
+  structural.}
 \label{fig:consensus}
 \end{figure}
 
