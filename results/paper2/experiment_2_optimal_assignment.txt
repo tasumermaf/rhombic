@@ -1,0 +1,23 @@
+EXPERIMENT 2: Optimal Assignment on Rhombic Dodecahedron
+
+Distribution: random
+  Optimal TV: 8.7137
+  Random mean TV: 17.7300 +/- 1.2209
+  p-value: 0.0000
+  Improvement over random mean: 50.9%
+
+Distribution: power_law
+  Optimal TV: 6.8879
+  Random mean TV: 10.0830 +/- 0.5011
+  p-value: 0.0000
+  Improvement over random mean: 31.7%
+
+Distribution: corpus
+  Optimal TV: 8.1213
+  Random mean TV: 13.0501 +/- 0.7391
+  p-value: 0.0000
+  Improvement over random mean: 37.8%
+
+
+Comparison: RD vs random 24-edge graph
+  corpus: RD optimal TV = 8.1213, Random graph TV = 6.7981

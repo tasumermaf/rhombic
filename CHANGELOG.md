@@ -5,7 +5,36 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.0] - 2026-03-05
+
+### Added
+
+- **Rhombic dodecahedron module** (`polyhedron.py`) — First-class graph object
+  for the 14V/24E/12F rhombic dodecahedron (Voronoi cell of FCC lattice).
+  Pre-computed combinatorial data, vertex stars, face enumeration, NetworkX export.
+- **Isopsephy corpus module** (`corpus.py`) — 24 structured integer edge weights
+  from the Falco trump isopsephy corpus, plus 14 Names of Power, 8 tracked primes,
+  four weight distributions (uniform, random, power-law, corpus).
+- **Optimal assignment module** (`assignment.py`) — Total variation minimization
+  via simulated annealing with random restarts. Null distribution generation via
+  random permutations. Graph topology comparison.
+- **Spectral analysis module** (`spectral.py`) — Weighted Laplacian construction,
+  eigenvalue spectrum, Fiedler value, spectral gap computation.
+- **Weighted benchmark support** — `_avg_shortest_path`, `_diameter`, `_fiedler_value`
+  in `benchmark.py` now accept optional `weight` parameter (backwards-compatible).
+- **Experiment runner** (`scripts/run_experiments.py`) — Reproducible 4-experiment
+  suite for Paper 2 (seed=42). Outputs to `results/paper2/`.
+- 88 new tests (167 total, 0 regressions): `test_polyhedron.py` (24),
+  `test_corpus.py` (36), `test_assignment.py` (12), `test_spectral.py` (16).
+
+### Key Results (Paper 2 — Weighted Extensions)
+
+| Experiment | Finding |
+|------------|---------|
+| Weighted FCC vs Cubic | FCC advantage amplifies under heterogeneous weights (2.3x uniform -> 3.2x corpus) |
+| Optimal Assignment | RD sorts weights 37.8% better than random (p<0.0001); bipartite constraint is structural |
+| Prime Coherence | Not significant at single-cell scale (p=0.30); test underpowered |
+| Spectral Properties | Corpus weights create bottlenecks (Fiedler bottom 0.1%); explains amplification mechanism |
 
 ### Fixed (Rounds 4-6 paper remediation)
 
@@ -132,6 +161,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Embedding neighbor recall | +15-26pp at 1-hop |
 | Edge cost | ~2x more edges |
 
+[0.2.0]: https://github.com/promptcrafted/rhombic/releases/tag/v0.2.0
 [0.1.2]: https://github.com/promptcrafted/rhombic/releases/tag/v0.1.2
 [0.1.1]: https://github.com/promptcrafted/rhombic/releases/tag/v0.1.1
 [0.1.0]: https://github.com/promptcrafted/rhombic/releases/tag/v0.1.0
