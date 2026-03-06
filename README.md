@@ -37,6 +37,24 @@ sample size.
 ![Signal processing dashboard](results/rung-3/dashboard.png)
 ![Context architecture dashboard](results/rung-4/dashboard.png)
 
+### Under Structured Weights (Paper 2)
+
+| Metric | Corpus vs Uniform | Scale |
+|--------|-------------------|-------|
+| Fiedler ratio (direction-weighted) | 2.3x → **6.1x** | 125 – 8,000 nodes |
+| Path advantage | 30% → **60% shorter** | 125 – 1,000 nodes |
+| Consensus speedup | 1.0x → **6.7x** | 125 nodes |
+| Prime-vertex coherence | **p = 0.000025** | Single cell (40,320 permutations) |
+
+Heterogeneous edge weights amplify the FCC advantage. Direction-based
+weighting — mapping structured values to the 6 direction pairs of the
+FCC lattice — nearly triples the Fiedler ratio. The mechanism is
+bottleneck resilience: FCC routes around suppressed edges that strangle
+cubic lattices.
+
+- [Raw data and tables](results/paper2/RESULTS.md)
+- [What the numbers mean](results/paper2/INTERPRETATION.md)
+
 ## The Question
 
 Computation is built on the cube. Memory is linear. Pixels are square.
@@ -144,6 +162,18 @@ recall = fcc.recall_at_k(queries, ground_truth, k=10, hops=1)
 - [Raw data and tables](results/index/RESULTS.md)
 - [What the numbers mean](results/index/INTERPRETATION.md)
 
+### Paper 2: Weighted Extensions (complete)
+
+What happens when edges carry heterogeneous weights? Seven experiments across
+two scales (lattice and single-cell). The FCC advantage **amplifies** under
+structured weights — direction-based corpus weighting pushes the Fiedler ratio
+from 2.3x to 6.1x. Prime-vertex coherence is significant at the optimal
+mapping (p = 0.000025 vs 40,320 alternatives). Spectral bottleneck creation
+is universal across 24-edge polytopes, not RD-specific.
+
+- [Raw data and tables](results/paper2/RESULTS.md)
+- [What the numbers mean](results/paper2/INTERPRETATION.md)
+
 ### Synthesis
 
 The complete argument across all four rungs — cultural genealogy, empirical
@@ -164,6 +194,7 @@ evidence, cybernetic interpretation, and practical recommendations.
 - [The essay](https://timotheospaul.substack.com/p/the-shape-of-the-cell) — the thesis for humans
 - [PyPI](https://pypi.org/project/rhombic/) — `pip install rhombic`
 - [Full synthesis](results/SYNTHESIS.md) — the complete argument across all four rungs
+- [Weighted extensions](results/paper2/RESULTS.md) — what happens under heterogeneous weights
 
 ## Contributing
 

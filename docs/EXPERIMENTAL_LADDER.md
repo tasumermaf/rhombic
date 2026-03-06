@@ -125,6 +125,31 @@ Synthesize findings across all rungs into a single publishable document:
 
 ---
 
+## Paper 2: Weighted Extensions (complete)
+
+Seven experiments testing whether structured edge weights amplify or
+attenuate the FCC topology advantage. Two scales: lattice (tessellated
+cells) and single-cell (rhombic dodecahedron in isolation).
+
+| Experiment | Question | Finding |
+|------------|----------|---------|
+| 1. Weighted benchmarks | Does heterogeneity help? | Fiedler 2.3x -> 3.2x under corpus cycling |
+| 2. Optimal assignment | Does the RD sort weights? | 37.8% better than random (bipartite constraint) |
+| 3. Prime coherence v1 | Primes at vertex stars? | Not significant (p=0.30, underpowered) |
+| 4. Spectral properties | Corpus as bottleneck? | Fiedler at 0.08% percentile, full degeneracy breaking |
+| 5. Direction weighting | Direction-aware amplification? | **Fiedler 2.3x -> 6.1x**, consensus 6.7x |
+| 6. Prime-vertex mapping | Exhaustive prime mapping? | **p=0.000025** (optimal), identity at null |
+| 7. Spectral polytopes | RD-specific or universal? | Universal suppression, RD not special |
+
+**Deliverable:** `rhombic/polyhedron.py`, `rhombic/corpus.py`,
+`rhombic/assignment.py`, `rhombic/spectral.py` (extended), `rhombic/context.py`
+(extended), `scripts/run_experiments.py`, `results/paper2/`
+
+**Status:** Complete. 208 tests, 0 regressions. All 7 experiments
+reproducible with `python scripts/run_experiments.py`.
+
+---
+
 ## Design Principles (all rungs)
 
 1. **Cost is always reported alongside benefit.** The FCC lattice uses ~2x
