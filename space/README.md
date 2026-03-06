@@ -18,6 +18,7 @@ tags:
   - FCC
   - rhombic-dodecahedron
   - spatial-computing
+  - weighted-graph
 ---
 
 # rhombic
@@ -31,6 +32,8 @@ Interactive demo comparing cubic (6-connected) and FCC/rhombic dodecahedral (12-
 **Tab 2 — Embedding Recall:** FCC vs Cubic ANN index comparison with 3D lattice visualization.
 
 **Tab 3 — The Thesis:** The full argument for why computation inherited the wrong geometry.
+
+**Tab 4 — Weighted Extensions:** Direction-weighted Fiedler amplification benchmark (Paper 2). See how structured edge weights amplify the FCC advantage from 2.3x to 6.1x.
 
 - [GitHub](https://github.com/promptcrafted/rhombic)
 - [PyPI](https://pypi.org/project/rhombic/)
