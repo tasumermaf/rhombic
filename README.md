@@ -196,6 +196,11 @@ evidence, cybernetic interpretation, and practical recommendations.
 - [Full synthesis](results/SYNTHESIS.md) — the complete argument across all four rungs
 - [Weighted extensions](results/paper2/RESULTS.md) — what happens under heterogeneous weights
 
+### Papers
+
+- [Paper 1: The Shape of the Cell](paper/rhombic.tex) — four-domain topology comparison (arXiv cs.DS)
+- [Paper 2: Pure Number Architecture](paper/rhombic-paper2.tex) — weighted amplification and spectral structure
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). We're looking for new topologies,
