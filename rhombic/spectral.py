@@ -150,3 +150,87 @@ def compare_spectra(graphs: dict[str, dict],
                 ))
 
     return results
+
+
+# ── Extended spectral analysis ──────────────────────────────────────
+
+
+def eigenvalue_multiplicity_pattern(
+        eigenvalues: np.ndarray,
+        tol: float = 1e-6) -> list[tuple[float, int]]:
+    """Group eigenvalues by approximate equality and count multiplicities.
+
+    Returns list of (representative_value, multiplicity) sorted ascending.
+    """
+    if len(eigenvalues) == 0:
+        return []
+    eigs = np.sort(eigenvalues)
+    groups: list[tuple[float, int]] = []
+    current_val = eigs[0]
+    current_count = 1
+
+    for i in range(1, len(eigs)):
+        if abs(eigs[i] - current_val) < tol:
+            current_count += 1
+        else:
+            groups.append((float(current_val), current_count))
+            current_val = eigs[i]
+            current_count = 1
+    groups.append((float(current_val), current_count))
+    return groups
+
+
+def spectral_distance(spec1: np.ndarray, spec2: np.ndarray) -> float:
+    """L2 distance between two spectra (Euclidean in eigenvalue space).
+
+    If spectra differ in length, the shorter one is zero-padded.
+    Both are sorted ascending before comparison.
+    """
+    s1 = np.sort(np.asarray(spec1))
+    s2 = np.sort(np.asarray(spec2))
+    n = max(len(s1), len(s2))
+    padded1 = np.zeros(n)
+    padded2 = np.zeros(n)
+    padded1[:len(s1)] = s1
+    padded2[:len(s2)] = s2
+    return float(np.linalg.norm(padded1 - padded2))
+
+
+@dataclass
+class SpectrumSummary:
+    """Summary statistics for a single graph's spectrum."""
+    graph_name: str
+    n_vertices: int
+    n_edges: int
+    fiedler: float
+    spectral_gap: float
+    lambda_max: float
+    n_distinct_eigenvalues: int
+    multiplicity_pattern: list[tuple[float, int]]
+    full_spectrum: list[float]
+
+
+def spectrum_summary(
+        graph_name: str,
+        n_vertices: int,
+        edges: list[tuple[int, int]],
+        edge_weights: list[float] | np.ndarray | None = None,
+        tol: float = 1e-6) -> SpectrumSummary:
+    """Compute comprehensive spectral summary for a graph."""
+    eigs = spectrum(n_vertices, edges, edge_weights)
+    fv = float(eigs[1]) if len(eigs) > 1 else 0.0
+    lmax = float(eigs[-1])
+    gap = fv / lmax if lmax > 1e-10 else 0.0
+    pattern = eigenvalue_multiplicity_pattern(eigs, tol=tol)
+
+    return SpectrumSummary(
+        graph_name=graph_name,
+        n_vertices=n_vertices,
+        n_edges=len(edges),
+        fiedler=fv,
+        spectral_gap=gap,
+        lambda_max=lmax,
+        n_distinct_eigenvalues=len(pattern),
+        multiplicity_pattern=pattern,
+        full_spectrum=eigs.tolist(),
+    )

@@ -247,6 +247,107 @@ def information_diffusion(adjacency: dict[int, list[int]],
     return curve
 
 
+def weighted_information_diffusion(
+        adjacency: dict[int, list[int]],
+        edge_weight: dict[tuple[int, int], float],
+        source_node: int,
+        n_nodes: int,
+        max_rounds: int = 30) -> list[float]:
+    """Weighted information diffusion: edge weights modulate propagation.
+
+    Like information_diffusion, but the decay per hop is multiplied by
+    the (normalized) edge weight. Higher edge weight = faster propagation.
+
+    edge_weight maps (u, v) -> weight (both orderings should be present
+    or caller should ensure consistency). Weights are normalized to [0, 1]
+    internally so the base decay (0.9) remains the dominant factor.
+    """
+    # Normalize edge weights to [0, 1]
+    if edge_weight:
+        w_vals = list(edge_weight.values())
+        w_min = min(w_vals)
+        w_max = max(w_vals)
+        w_range = w_max - w_min if w_max > w_min else 1.0
+        norm_weight = {k: 0.5 + 0.5 * (v - w_min) / w_range
+                       for k, v in edge_weight.items()}
+    else:
+        norm_weight = {}
+
+    signal = np.zeros(n_nodes)
+    signal[source_node] = 1.0
+
+    curve = []
+    threshold = 0.01
+    for _ in range(max_rounds):
+        new_signal = signal.copy()
+        for node in range(n_nodes):
+            if signal[node] > threshold:
+                for nb in adjacency.get(node, []):
+                    w = norm_weight.get((node, nb), 0.9)
+                    propagated = signal[node] * 0.9 * w
+                    if propagated > new_signal[nb]:
+                        new_signal[nb] = propagated
+        signal = new_signal
+        reached = float(np.sum(signal > threshold) / n_nodes)
+        curve.append(reached)
+    return curve
+
+
+def weighted_consensus_speed(
+        adjacency: dict[int, list[int]],
+        edge_weight: dict[tuple[int, int], float],
+        initial_states: np.ndarray,
+        epsilon: float = 0.05,
+        max_rounds: int = 500) -> tuple[int, list[float]]:
+    """Weighted consensus: edge weights modulate neighbor influence.
+
+    Each round: new[i] = (w_self * state[i] + sum(w_ij * state[j])) /
+                          (w_self + sum(w_ij))
+    where w_self = mean of incident edge weights (self-weight proportional
+    to connectivity strength).
+    """
+    n = len(initial_states)
+    state = initial_states.copy().astype(np.float64)
+    std = state.std()
+    if std > 1e-15:
+        state = (state - state.mean()) / std
+    global_mean = float(state.mean())
+
+    deviations = []
+    converged_at = max_rounds
+
+    for round_num in range(max_rounds):
+        max_dev = float(np.max(np.abs(state - global_mean)))
+        deviations.append(max_dev)
+
+        if max_dev < epsilon and converged_at == max_rounds:
+            converged_at = round_num + 1
+            if round_num > converged_at + 20:
+                deviations.extend([max_dev] * (max_rounds - round_num - 1))
+                break
+
+        new_state = np.zeros_like(state)
+        for node in range(n):
+            neighbors = adjacency.get(node, [])
+            if not neighbors:
+                new_state[node] = state[node]
+                continue
+            total_weight = 0.0
+            weighted_sum = 0.0
+            for nb in neighbors:
+                w = edge_weight.get((node, nb), 1.0)
+                weighted_sum += w * state[nb]
+                total_weight += w
+            # Self-weight = mean of incident edge weights
+            w_self = total_weight / len(neighbors) if neighbors else 1.0
+            weighted_sum += w_self * state[node]
+            total_weight += w_self
+            new_state[node] = weighted_sum / total_weight
+        state = new_state
+
+    return converged_at, deviations
+
+
 def _rounds_to_threshold(curve: list[float], threshold: float) -> int:
     """Find first round where curve exceeds threshold."""
     for i, v in enumerate(curve):

@@ -101,6 +101,28 @@ def prime_membership(value: int, prime: int) -> bool:
     return value > 0 and value % prime == 0
 
 
+def direction_weights(values: list[float], n_directions: int) -> list[float]:
+    """Map corpus values to direction buckets for direction-based weighting.
+
+    Sorts values, splits into n_directions equal groups, returns the mean
+    of each group. For FCC (n_directions=6): 4 values per bucket.
+    For cubic (n_directions=3): 8 values per bucket.
+
+    The resulting list has n_directions entries — one weight per direction pair.
+    The caller maps each lattice edge to its direction pair to get per-edge weights.
+    """
+    sorted_vals = sorted(values)
+    n = len(sorted_vals)
+    per_group = n // n_directions
+    result = []
+    for i in range(n_directions):
+        start = i * per_group
+        end = start + per_group if i < n_directions - 1 else n
+        group = sorted_vals[start:end]
+        result.append(float(np.mean(group)))
+    return result
+
+
 def weight_distributions(seed: int = 42) -> dict[str, list[float]]:
     """Four weight distributions over 24 edges.
 

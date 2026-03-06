@@ -1,0 +1,36 @@
+EXPERIMENT 5: Multi-Cell Weighted Tessellation (Direction-Based)
+
+Direction-based weighting: FCC has 6 direction pairs (4 values/pair),
+cubic has 3 direction pairs (8 values/pair).
+
+Scale   125      uniform Fiedler: cubic=0.3820 fcc=0.8820 ratio=2.31
+Scale   125      uniform Diffusion 50%: cubic=4 fcc=2 speedup=2.00x
+Scale   125      uniform Consensus: cubic=23 fcc=23 speedup=1.00x
+Scale   125       random Fiedler: cubic=0.1293 fcc=0.4273 ratio=3.30
+Scale   125       random Diffusion 50%: cubic=4 fcc=2 speedup=2.00x
+Scale   125       random Consensus: cubic=37 fcc=17 speedup=2.18x
+Scale   125    power_law Fiedler: cubic=0.0189 fcc=0.0581 ratio=3.08
+Scale   125    power_law Diffusion 50%: cubic=4 fcc=2 speedup=2.00x
+Scale   125    power_law Consensus: cubic=66 fcc=16 speedup=4.12x
+Scale   125       corpus Fiedler: cubic=0.0149 fcc=0.0827 ratio=5.55
+Scale   125       corpus Diffusion 50%: cubic=4 fcc=2 speedup=2.00x
+Scale   125       corpus Consensus: cubic=107 fcc=16 speedup=6.69x
+
+Scale  1000      uniform Fiedler: cubic=0.0979 fcc=0.2492 ratio=2.55
+Scale  1000      uniform Diffusion 50%: cubic=30 fcc=5 speedup=6.00x
+Scale  1000      uniform Consensus: cubic=56 fcc=60 speedup=0.93x
+Scale  1000       random Fiedler: cubic=0.0331 fcc=0.1210 ratio=3.65
+Scale  1000       random Diffusion 50%: cubic=7 fcc=5 speedup=1.40x
+Scale  1000       random Consensus: cubic=50 fcc=64 speedup=0.78x
+Scale  1000    power_law Fiedler: cubic=0.0048 fcc=0.0163 ratio=3.37
+Scale  1000    power_law Diffusion 50%: cubic=8 fcc=5 speedup=1.60x
+Scale  1000    power_law Consensus: cubic=54 fcc=93 speedup=0.58x
+Scale  1000       corpus Fiedler: cubic=0.0038 fcc=0.0233 ratio=6.11
+Scale  1000       corpus Diffusion 50%: cubic=8 fcc=5 speedup=1.60x
+Scale  1000       corpus Consensus: cubic=68 fcc=93 speedup=0.73x
+
+Scale  8000      uniform Fiedler: cubic=0.0246 fcc=0.0561 ratio=2.28
+Scale  8000       random Fiedler: cubic=0.0083 fcc=0.0273 ratio=3.27
+Scale  8000    power_law Fiedler: cubic=0.0012 fcc=0.0037 ratio=3.02
+Scale  8000       corpus Fiedler: cubic=0.0010 fcc=0.0053 ratio=5.47
+
