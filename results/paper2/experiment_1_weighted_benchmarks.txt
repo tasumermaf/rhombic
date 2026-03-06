@@ -1,0 +1,26 @@
+EXPERIMENT 1: Weighted FCC vs Cubic Benchmarks
+   Scale   Distribution               Metric        Cubic          FCC    Ratio
+------------------------------------------------------------------------------
+     125        uniform    Avg Shortest Path        4.839        3.336    0.690
+     125        uniform   Algebraic Connect.       0.3820       0.8820     2.31
+     125         random    Avg Shortest Path        2.256        1.490    0.661
+     125         random   Algebraic Connect.       0.2133       0.5312     2.49
+     125      power_law    Avg Shortest Path        0.336        0.225    0.670
+     125      power_law   Algebraic Connect.       0.0352       0.0940     2.67
+     125         corpus    Avg Shortest Path        0.360        0.171    0.475
+     125         corpus   Algebraic Connect.       0.0401       0.1272     3.17
+
+    1000        uniform    Avg Shortest Path        9.910        6.783    0.684
+    1000        uniform   Algebraic Connect.       0.0979       0.2492     2.55
+    1000         random    Avg Shortest Path        4.433        2.639    0.595
+    1000         random   Algebraic Connect.       0.0585       0.1544     2.64
+    1000      power_law    Avg Shortest Path        0.627        0.403    0.643
+    1000      power_law   Algebraic Connect.       0.0093       0.0285     3.06
+    1000         corpus    Avg Shortest Path        0.615        0.242    0.394
+    1000         corpus   Algebraic Connect.       0.0133       0.0413     3.11
+
+    8000        uniform   Algebraic Connect.       0.0246       0.0561     2.28
+    8000         random   Algebraic Connect.       0.0144       0.0348     2.42
+    8000      power_law   Algebraic Connect.       0.0023       0.0065     2.86
+    8000         corpus   Algebraic Connect.       0.0030       0.0095     3.18
+

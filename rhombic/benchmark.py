@@ -56,28 +56,27 @@ def matched_lattices(target_nodes: int) -> tuple[CubicLattice, FCCLattice]:
     return cubic, fcc
 
 
-def _avg_shortest_path(G: nx.Graph) -> float | None:
+def _avg_shortest_path(G: nx.Graph, weight: str | None = None) -> float | None:
     """Average shortest path length. Returns None if graph is disconnected."""
     if not nx.is_connected(G):
-        # Use largest connected component
         largest_cc = max(nx.connected_components(G), key=len)
         G = G.subgraph(largest_cc).copy()
     if G.number_of_nodes() < 2:
         return None
-    return nx.average_shortest_path_length(G)
+    return nx.average_shortest_path_length(G, weight=weight)
 
 
-def _diameter(G: nx.Graph) -> int | None:
+def _diameter(G: nx.Graph, weight: str | None = None) -> int | float | None:
     """Graph diameter. Returns None if disconnected."""
     if not nx.is_connected(G):
         largest_cc = max(nx.connected_components(G), key=len)
         G = G.subgraph(largest_cc).copy()
     if G.number_of_nodes() < 2:
         return None
-    return nx.diameter(G)
+    return nx.diameter(G, weight=weight)
 
 
-def _fiedler_value(G: nx.Graph) -> float | None:
+def _fiedler_value(G: nx.Graph, weight: str | None = None) -> float | None:
     """Algebraic connectivity (second-smallest eigenvalue of Laplacian).
 
     Higher = more robust connectivity. Returns None if too small or disconnected.
@@ -87,10 +86,10 @@ def _fiedler_value(G: nx.Graph) -> float | None:
     if G.number_of_nodes() < 3:
         return None
     try:
-        return nx.algebraic_connectivity(G, method='tracemin_lu')
+        return nx.algebraic_connectivity(G, weight=weight, method='tracemin_lu')
     except Exception:
         try:
-            return nx.algebraic_connectivity(G)
+            return nx.algebraic_connectivity(G, weight=weight)
         except Exception:
             return None
 
