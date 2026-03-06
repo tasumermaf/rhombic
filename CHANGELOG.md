@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-03-05
+
+### Added
+
+- **Direction-based edge weighting** (`lattice.py`) — `edge_directions()` on
+  both CubicLattice (3 direction pairs) and FCCLattice (6 direction pairs).
+  Maps naturally to rhombic dodecahedron faces: 12 faces × 2 edges = 24.
+- **Weighted diffusion and consensus** (`context.py`) —
+  `weighted_information_diffusion()` and `weighted_consensus_speed()` with
+  edge-weight-modulated propagation.
+- **Direction weight mapping** (`corpus.py`) — `direction_weights()` maps
+  sorted corpus values to direction buckets via equal-group mean aggregation.
+- **Prime-vertex coherence scoring** (`assignment.py`) — Three-tier system:
+  direct divisibility (weight 3), cross-card arithmetic (weight 2), shared
+  prime factors (weight 1). `optimal_prime_assignment()` with exhaustive
+  enumeration over all permutations. `null_prime_scores()` for full
+  permutation null distribution.
+- **Cuboctahedron graph** (`polyhedron.py`) — `cuboctahedron_graph()` factory
+  returning 12V/24E/4-regular Archimedean solid for polytope comparison.
+- **Extended spectral analysis** (`spectral.py`) —
+  `eigenvalue_multiplicity_pattern()`, `spectral_distance()` (L2 with
+  zero-padding), `spectrum_summary()` dataclass.
+- **Experiments 5-7** (`scripts/run_experiments.py`) — Multi-cell weighted
+  tessellation, targeted prime-vertex mapping, spectral comparison across
+  polytopes. All 7 experiments reproducible with seed=42.
+- 41 new tests (208 total, 0 regressions): `test_weighted_context.py` (15),
+  extended `test_polyhedron.py` (+4), `test_spectral.py` (+6),
+  `test_assignment.py` (+10), plus 6 additional tests.
+
+### Key Results (Paper 2 — Experiments 5-7)
+
+| Experiment | Finding |
+|------------|---------|
+| 5. Direction-weighted tessellation | FCC Fiedler advantage amplifies from 2.3x (uniform) to **5.5x** (corpus, n=125) and **6.1x** (corpus, n=1000). Consensus speedup reaches **6.7x** at small scale |
+| 6. Prime-vertex mapping | Optimal mapping scores 35.0 (p=0.000025 vs 40,320 alternatives). Identity mapping scores 20.0 (p=0.46) — ordering matters but identity is not special |
+| 7. Spectral polytope comparison | Corpus Fiedler suppression is NOT unique to RD — all tested 24-edge graphs show low percentiles (RD: 0.08%, cuboctahedron: 0.02%, K(4,6): 0.36%). High-symmetry graphs (RD, cuboctahedron) show maximal degeneracy breaking under corpus weights |
+
 ## [0.2.0] - 2026-03-05
 
 ### Added
@@ -161,6 +198,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Embedding neighbor recall | +15-26pp at 1-hop |
 | Edge cost | ~2x more edges |
 
+[0.3.0]: https://github.com/promptcrafted/rhombic/releases/tag/v0.3.0
 [0.2.0]: https://github.com/promptcrafted/rhombic/releases/tag/v0.2.0
 [0.1.2]: https://github.com/promptcrafted/rhombic/releases/tag/v0.1.2
 [0.1.1]: https://github.com/promptcrafted/rhombic/releases/tag/v0.1.1

@@ -113,6 +113,19 @@ class CubicLattice:
             bounding_box=(*bbox, *bbox_max),
         )
 
+    def edge_directions(self) -> dict[int, list[int]]:
+        """Classify edges by direction pair.
+
+        Cubic lattice has 3 direction pairs: x(0), y(1), z(2).
+        Returns dict mapping direction index to list of edge indices.
+        """
+        directions: dict[int, list[int]] = {0: [], 1: [], 2: []}
+        for idx, (u, v) in enumerate(self.edges):
+            diff = self.positions[v] - self.positions[u]
+            axis = int(np.argmax(np.abs(diff)))
+            directions[axis].append(idx)
+        return directions
+
     def __repr__(self):
         return f"CubicLattice(n={self.n}, nodes={self.node_count}, edges={self.edge_count})"
 
@@ -209,6 +222,34 @@ class FCCLattice:
             avg_degree=np.mean(degrees),
             bounding_box=(*bbox, *bbox_max),
         )
+
+    def edge_directions(self) -> dict[int, list[int]]:
+        """Classify edges by direction pair.
+
+        FCC lattice has 12 neighbor directions forming 6 antipodal pairs.
+        Returns dict mapping pair index (0-5) to list of edge indices.
+
+        Pair 0: (1,1,0)/(-1,-1,0)   Pair 1: (1,-1,0)/(-1,1,0)
+        Pair 2: (1,0,1)/(-1,0,-1)   Pair 3: (1,0,-1)/(-1,0,1)
+        Pair 4: (0,1,1)/(0,-1,-1)   Pair 5: (0,1,-1)/(0,-1,1)
+        """
+        canonical_map = {
+            (1, 1, 0): 0, (-1, -1, 0): 0,
+            (1, -1, 0): 1, (-1, 1, 0): 1,
+            (1, 0, 1): 2, (-1, 0, -1): 2,
+            (1, 0, -1): 3, (-1, 0, 1): 3,
+            (0, 1, 1): 4, (0, -1, -1): 4,
+            (0, 1, -1): 5, (0, -1, 1): 5,
+        }
+        half_a = self.a * 0.5
+        directions: dict[int, list[int]] = {i: [] for i in range(6)}
+        for idx, (u, v) in enumerate(self.edges):
+            diff = self.positions[v] - self.positions[u]
+            rounded = tuple(int(round(d / half_a)) for d in diff)
+            pair_idx = canonical_map.get(rounded)
+            if pair_idx is not None:
+                directions[pair_idx].append(idx)
+        return directions
 
     def __repr__(self):
         return f"FCCLattice(n={self.n}, nodes={self.node_count}, edges={self.edge_count})"

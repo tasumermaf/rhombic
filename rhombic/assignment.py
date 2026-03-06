@@ -1,5 +1,6 @@
 """
-Optimal edge-weight assignment on graphs via total variation minimization.
+Optimal edge-weight assignment on graphs via total variation minimization,
+and prime-vertex coherence scoring.
 
 Given a set of weights and a graph, find the assignment of weights to edges
 that minimizes total variation: the sum over all vertices of pairwise absolute
@@ -11,6 +12,7 @@ naturally "sorts" the weights.
 
 from __future__ import annotations
 
+import itertools
 import numpy as np
 from dataclasses import dataclass
 
@@ -214,3 +216,116 @@ def compare_graphs(graphs: dict[str, dict],
         ))
 
     return results
+
+
+# ── Prime-vertex coherence scoring ──────────────────────────────────
+
+
+def _prime_factors_set(n: int) -> set[int]:
+    """Unique prime factors of n."""
+    if n < 2:
+        return set()
+    factors = set()
+    d = 2
+    while d * d <= n:
+        while n % d == 0:
+            factors.add(d)
+            n //= d
+        d += 1
+    if n > 1:
+        factors.add(n)
+    return factors
+
+
+def prime_vertex_score(
+        vertex_edges: dict[int, list[int]],
+        edge_values: list[int],
+        prime_to_vertex: dict[int, int],
+) -> float:
+    """Score a prime-to-vertex mapping using three-tier coherence.
+
+    Parameters
+    ----------
+    vertex_edges : dict mapping vertex -> list of incident edge indices
+    edge_values : integer value assigned to each edge
+    prime_to_vertex : dict mapping prime -> vertex index
+
+    Scoring (per prime-vertex pair):
+      Tier 1 (weight 3): edge_value % prime == 0
+      Tier 2 (weight 2): (val_i + val_j) % prime == 0 or |val_i - val_j| % prime == 0
+      Tier 3 (weight 1): pair of edge values share any common prime factor
+    """
+    score = 0.0
+    for prime, vertex in prime_to_vertex.items():
+        star = vertex_edges.get(vertex, [])
+        vals = [edge_values[e] for e in star]
+        int_vals = [int(round(v)) for v in vals]
+
+        # Tier 1: direct divisibility
+        for v in int_vals:
+            if v > 0 and v % prime == 0:
+                score += 3.0
+
+        # Tier 2: cross-card arithmetic
+        for i in range(len(int_vals)):
+            for j in range(i + 1, len(int_vals)):
+                s = int_vals[i] + int_vals[j]
+                d = abs(int_vals[i] - int_vals[j])
+                if s > 0 and s % prime == 0:
+                    score += 2.0
+                if d > 0 and d % prime == 0:
+                    score += 2.0
+
+        # Tier 3: shared prime factors between edge value pairs
+        factor_sets = [_prime_factors_set(v) for v in int_vals if v > 1]
+        for i in range(len(factor_sets)):
+            for j in range(i + 1, len(factor_sets)):
+                shared = factor_sets[i] & factor_sets[j]
+                score += len(shared) * 1.0
+
+    return score
+
+
+def optimal_prime_assignment(
+        vertex_edges: dict[int, list[int]],
+        edge_values: list[int],
+        primes: list[int],
+        target_vertices: list[int],
+) -> tuple[dict[int, int], float]:
+    """Find the prime-to-vertex mapping maximizing coherence score.
+
+    Exhaustive search over all len(primes)! permutations.
+    Requires len(primes) == len(target_vertices).
+
+    Returns (best_mapping, best_score).
+    """
+    assert len(primes) == len(target_vertices)
+    best_score = -1.0
+    best_mapping: dict[int, int] = {}
+
+    for perm in itertools.permutations(target_vertices):
+        mapping = dict(zip(primes, perm))
+        s = prime_vertex_score(vertex_edges, edge_values, mapping)
+        if s > best_score:
+            best_score = s
+            best_mapping = mapping
+
+    return best_mapping, best_score
+
+
+def null_prime_scores(
+        vertex_edges: dict[int, list[int]],
+        edge_values: list[int],
+        primes: list[int],
+        target_vertices: list[int],
+) -> np.ndarray:
+    """Compute prime coherence score for ALL permutations (exhaustive null).
+
+    Returns array of scores, one per permutation of target_vertices.
+    """
+    scores = []
+    for perm in itertools.permutations(target_vertices):
+        mapping = dict(zip(primes, perm))
+        s = prime_vertex_score(vertex_edges, edge_values, mapping)
+        scores.append(s)
+    return np.array(scores)

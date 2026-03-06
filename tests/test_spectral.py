@@ -2,9 +2,10 @@
 
 import pytest
 import numpy as np
-from rhombic.polyhedron import RhombicDodecahedron
+from rhombic.polyhedron import RhombicDodecahedron, cuboctahedron_graph
 from rhombic.spectral import (
     weighted_laplacian, spectrum, fiedler_value, spectral_gap,
+    eigenvalue_multiplicity_pattern, spectral_distance, spectrum_summary,
 )
 
 
@@ -108,3 +109,75 @@ class TestSpectralGap:
     def test_non_zero_for_connected(self, rd):
         g = spectral_gap(14, rd.edges)
         assert g > 0
+
+
+# ── Multiplicity pattern tests ──────────────────────────────────────
+
+
+class TestMultiplicityPattern:
+
+    def test_uniform_rd_has_degeneracies(self, rd):
+        """Unweighted RD should have degenerate eigenvalues (high symmetry)."""
+        eigs = spectrum(14, rd.edges)
+        pattern = eigenvalue_multiplicity_pattern(eigs)
+        # Fewer distinct eigenvalues than vertices means degeneracies
+        assert len(pattern) < 14
+
+    def test_weighted_breaks_degeneracy(self, rd):
+        """Non-uniform weights should break some degeneracies."""
+        eigs_uniform = spectrum(14, rd.edges)
+        weights = list(range(1, 25))
+        eigs_weighted = spectrum(14, rd.edges, weights)
+        pattern_u = eigenvalue_multiplicity_pattern(eigs_uniform)
+        pattern_w = eigenvalue_multiplicity_pattern(eigs_weighted)
+        # Weighted should have more distinct eigenvalues (fewer degeneracies)
+        assert len(pattern_w) >= len(pattern_u)
+
+    def test_total_count_equals_n(self, rd):
+        """Sum of multiplicities should equal number of vertices."""
+        eigs = spectrum(14, rd.edges)
+        pattern = eigenvalue_multiplicity_pattern(eigs)
+        total = sum(m for _, m in pattern)
+        assert total == 14
+
+
+class TestSpectralDistance:
+
+    def test_self_distance_zero(self, rd):
+        eigs = spectrum(14, rd.edges)
+        assert spectral_distance(eigs, eigs) < 1e-10
+
+    def test_symmetric(self, rd):
+        eigs1 = spectrum(14, rd.edges)
+        eigs2 = spectrum(14, rd.edges, list(range(1, 25)))
+        assert abs(spectral_distance(eigs1, eigs2) -
+                    spectral_distance(eigs2, eigs1)) < 1e-10
+
+    def test_different_spectra_positive(self, rd):
+        eigs1 = spectrum(14, rd.edges)
+        eigs2 = spectrum(14, rd.edges, list(range(1, 25)))
+        assert spectral_distance(eigs1, eigs2) > 0
+
+    def test_different_size_spectra(self):
+        """Handles spectra of different lengths via zero-padding."""
+        s1 = np.array([0.0, 1.0, 2.0])
+        s2 = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
+        d = spectral_distance(s1, s2)
+        assert d > 0
+
+
+class TestSpectrumSummary:
+
+    def test_returns_summary(self, rd):
+        ss = spectrum_summary("RD", 14, rd.edges)
+        assert ss.graph_name == "RD"
+        assert ss.n_vertices == 14
+        assert ss.n_edges == 24
+        assert ss.fiedler > 0
+        assert len(ss.full_spectrum) == 14
+
+    def test_weighted_summary(self, rd):
+        weights = list(range(1, 25))
+        ss = spectrum_summary("RD_weighted", 14, rd.edges, weights)
+        assert ss.fiedler > 0
+        assert ss.n_distinct_eigenvalues > 0

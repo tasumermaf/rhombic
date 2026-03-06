@@ -1,8 +1,8 @@
-"""Tests for the rhombic dodecahedron graph object."""
+"""Tests for polyhedron graph objects (RD + cuboctahedron)."""
 
 import pytest
 import networkx as nx
-from rhombic.polyhedron import RhombicDodecahedron
+from rhombic.polyhedron import RhombicDodecahedron, cuboctahedron_graph
 
 
 @pytest.fixture
@@ -147,3 +147,27 @@ class TestRepr:
         assert "14" in repr(rd)
         assert "24" in repr(rd)
         assert "12" in repr(rd)
+
+
+# ── Cuboctahedron tests ──────────────────────────────────────────────
+
+
+class TestCuboctahedron:
+
+    def test_vertex_count(self):
+        G = cuboctahedron_graph()
+        assert G.number_of_nodes() == 12
+
+    def test_edge_count(self):
+        G = cuboctahedron_graph()
+        assert G.number_of_edges() == 24
+
+    def test_four_regular(self):
+        """Every vertex has degree 4."""
+        G = cuboctahedron_graph()
+        for v in G.nodes():
+            assert G.degree(v) == 4
+
+    def test_connected(self):
+        G = cuboctahedron_graph()
+        assert nx.is_connected(G)

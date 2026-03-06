@@ -15,4 +15,4 @@ __all__ = [
     "RhombicDodecahedron",
     "TRUMP_VALUES", "NAMES_OF_POWER", "TRACKED_PRIMES", "edge_values",
 ]
-__version__ = "0.2.0"
+__version__ = "0.3.0"

@@ -1,17 +1,16 @@
 """
-The rhombic dodecahedron as a first-class graph object.
+Polyhedra as first-class graph objects.
 
-14 vertices (8 cubic/trivalent + 6 octahedral/tetravalent), 24 edges, 12 faces.
-This is the Voronoi cell of the FCC lattice — a single cell, not a tessellation.
-Unlike CubicLattice(n) and FCCLattice(n) which generate lattices at arbitrary
-scale, RhombicDodecahedron() always produces the same fixed combinatorial object.
+RhombicDodecahedron: 14 vertices (8 cubic/trivalent + 6 octahedral/tetravalent),
+24 edges, 12 faces. Voronoi cell of the FCC lattice.
 
-Edge rule: cubic vertex (a,b,c) connects to octahedral vertex (d,e,f) when
-Euclidean distance = sqrt(3). This produces exactly 24 edges.
+cuboctahedron_graph: 12 vertices, 24 edges, 4-regular Archimedean solid.
+Same edge count as RD but different vertex count and degree sequence.
 """
 
 from __future__ import annotations
 
+import math
 import networkx as nx
 
 
@@ -179,3 +178,44 @@ class RhombicDodecahedron:
 
     def __repr__(self) -> str:
         return f"RhombicDodecahedron(V=14, E=24, F=12)"
+
+
+# ── Cuboctahedron ───────────────────────────────────────────────────
+
+# 12 vertices: all permutations of (0, ±1, ±1)
+_CUBOCT_VERTICES: list[tuple[int, int, int]] = [
+    (0, 1, 1), (0, 1, -1), (0, -1, 1), (0, -1, -1),
+    (1, 0, 1), (1, 0, -1), (-1, 0, 1), (-1, 0, -1),
+    (1, 1, 0), (1, -1, 0), (-1, 1, 0), (-1, -1, 0),
+]
+
+
+def _build_cuboct_edges() -> list[tuple[int, int]]:
+    """Edges connect vertices at distance sqrt(2)."""
+    edges = []
+    n = len(_CUBOCT_VERTICES)
+    for i in range(n):
+        x1, y1, z1 = _CUBOCT_VERTICES[i]
+        for j in range(i + 1, n):
+            x2, y2, z2 = _CUBOCT_VERTICES[j]
+            dist_sq = (x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2
+            if dist_sq == 2:
+                edges.append((i, j))
+    return edges
+
+
+_CUBOCT_EDGES = _build_cuboct_edges()
+
+
+def cuboctahedron_graph() -> nx.Graph:
+    """Cuboctahedron: 12 vertices, 24 edges, 4-regular Archimedean solid.
+
+    Same edge count as the rhombic dodecahedron but different structure:
+    all vertices have degree 4 (vs bipartite 3/4 for RD), 12 vertices
+    (vs 14 for RD), NOT a space-filling Voronoi cell.
+    """
+    G = nx.Graph()
+    for idx, coords in enumerate(_CUBOCT_VERTICES):
+        G.add_node(idx, pos=coords)
+    G.add_edges_from(_CUBOCT_EDGES)
+    return G
