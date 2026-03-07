@@ -118,7 +118,7 @@ def generate_figure4(save_path):
                 arrowprops=dict(arrowstyle='->', color=FCC_COLOR, lw=0.8))
 
     ax.set_xlabel('Lattice scale (nodes)')
-    ax.set_ylabel('Consensus speedup (FCC / Cubic)')
+    ax.set_ylabel('Consensus speedup (SC / FCC rounds)')
     ax.set_title('Consensus inversion under direction-based weighting', fontsize=11)
     ax.legend(fontsize=8, loc='upper right')
     ax.set_ylim(0, 7.5)

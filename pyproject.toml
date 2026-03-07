@@ -47,7 +47,8 @@ dependencies = [
 [project.optional-dependencies]
 viz = ["matplotlib>=3.5"]
 dev = ["pytest>=7.0"]
-all = ["rhombic[viz]", "rhombic[dev]"]
+nn = ["torch>=2.0"]
+all = ["rhombic[viz]", "rhombic[dev]", "rhombic[nn]"]
 
 [project.urls]
 Homepage = "https://github.com/promptcrafted/rhombic"

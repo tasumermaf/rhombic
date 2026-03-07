@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{13}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -9,12 +9,6 @@
 W.~Ross Ashby.
 \newblock \emph{An Introduction to Cybernetics}.
 \newblock Chapman \& Hall, London, 1956.
-
-\bibitem[Bateson(1979)]{bateson1979}
-Gregory Bateson.
-\newblock \emph{Mind and Nature: A Necessary Unity}.
-\newblock E. P. Dutton, New York, 1979.
-\newblock ISBN 978-0-553-34575-4.
 
 \bibitem[Beer(1972)]{beer1972}
 Stafford Beer.
@@ -49,12 +43,26 @@ H.~S.~M. Coxeter.
 \newblock Dover Publications, New York, 3rd edition, 1973.
 \newblock ISBN 978-0-486-61480-9.
 
+\bibitem[Dorogovtsev et~al.(2008)Dorogovtsev, Goltsev, and
+  Mendes]{dorogovtsev2008}
+S.~N. Dorogovtsev, A.~V. Goltsev, and J.~F.~F. Mendes.
+\newblock Critical phenomena in complex networks.
+\newblock \emph{Reviews of Modern Physics}, 80\penalty0 (4):\penalty0
+  1275--1335, 2008.
+\newblock \doi{10.1103/RevModPhys.80.1275}.
+
 \bibitem[Fiedler(1973)]{fiedler1973}
 Miroslav Fiedler.
 \newblock Algebraic connectivity of graphs.
 \newblock \emph{Czechoslovak Mathematical Journal}, 23\penalty0 (2):\penalty0
   298--305, 1973.
 \newblock \doi{10.21136/CMJ.1973.101168}.
+
+\bibitem[Ghosh et~al.(2008)Ghosh, Boyd, and Saberi]{ghosh2008resistance}
+Arpita Ghosh, Stephen Boyd, and Amin Saberi.
+\newblock Minimizing effective resistance of a graph.
+\newblock \emph{SIAM Review}, 50\penalty0 (1):\penalty0 37--66, 2008.
+\newblock \doi{10.1137/050645452}.
 
 \bibitem[Kirkpatrick et~al.(1983)Kirkpatrick, Gelatt, and
   Vecchi]{kirkpatrick1983}
@@ -70,5 +78,21 @@ Bojan Mohar.
   871--898, 1991.
 \newblock Proceedings of the Sixth Quadrennial International Conference on the
   Theory and Applications of Graphs.
+
+\bibitem[Petersen and Middleton(1962)]{petersen1962}
+D.~P. Petersen and D.~Middleton.
+\newblock Sampling and reconstruction of wave-number-limited functions in
+  {$N$}-dimensional {Euclidean} spaces.
+\newblock \emph{Information and Control}, 5\penalty0 (4):\penalty0 279--323,
+  1962.
+\newblock \doi{10.1016/S0019-9958(62)90633-2}.
+
+\bibitem[Spielman and Teng(2004)]{spielman2004}
+Daniel~A. Spielman and Shang-Hua Teng.
+\newblock Nearly-linear time algorithms for graph partitioning, graph
+  sparsification, and solving linear systems.
+\newblock In \emph{Proceedings of the 36th Annual ACM Symposium on Theory of
+  Computing (STOC)}, pages 81--90, 2004.
+\newblock \doi{10.1145/1007352.1007372}.
 
 \end{thebibliography}
