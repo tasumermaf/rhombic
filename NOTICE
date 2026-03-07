@@ -1,0 +1,31 @@
+NOTICE — rhombic
+
+Copyright (c) 2026 Timothy Paul Bielec / Promptcrafted LLC
+Licensed under the Mozilla Public License 2.0 (MPL-2.0)
+
+PROPRIETARY DATA EXCLUSION
+
+The corpus weight distribution referenced in this library and its
+associated publications derives from a set of 24 structured integers
+with specific arithmetic properties (tracked prime factors, cross-value
+identities, internal number-theoretic relationships). These values
+constitute proprietary intellectual property of Promptcrafted LLC and
+are NOT covered by the MPL-2.0 license.
+
+The corpus values are not distributed with the public package. They are
+loaded at runtime from a local data file (corpus_private.json) that is
+excluded from version control and package distribution.
+
+All library functionality — lattice construction, graph benchmarks,
+weighted Fiedler computation, direction-based weighting, spectral
+analysis, and the rhombic.nn module — operates independently of the
+corpus values. The uniform, random, and power-law weight distributions
+are fully open and reproduce the methodology described in the
+associated papers.
+
+The specific corpus-to-geometry mapping, the sorted-bucketing
+assignment that produces the headline amplification results, and the
+arithmetic structure of the 24 values are available under separate
+commercial license from Promptcrafted LLC.
+
+Contact: timothy@promptcrafted.com
