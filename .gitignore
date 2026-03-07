@@ -1,3 +1,6 @@
+# --- Proprietary Data ---
+rhombic/data/corpus_private.json
+
 # --- Secrets & Credentials ---
 .env
 .env.*

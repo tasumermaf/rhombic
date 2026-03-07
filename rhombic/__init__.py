@@ -8,11 +8,15 @@ The only variable is the fundamental cell: cube vs rhombic dodecahedron.
 from rhombic.lattice import CubicLattice, FCCLattice
 from rhombic.index import FCCIndex, CubicIndex
 from rhombic.polyhedron import RhombicDodecahedron
-from rhombic.corpus import TRUMP_VALUES, NAMES_OF_POWER, TRACKED_PRIMES, edge_values
+from rhombic.corpus import (
+    TRACKED_PRIMES, edge_values, trump_values, names_of_power,
+    corpus_available, CorpusUnavailable,
+)
 
 __all__ = [
     "CubicLattice", "FCCLattice", "FCCIndex", "CubicIndex",
     "RhombicDodecahedron",
-    "TRUMP_VALUES", "NAMES_OF_POWER", "TRACKED_PRIMES", "edge_values",
+    "TRACKED_PRIMES", "edge_values", "trump_values", "names_of_power",
+    "corpus_available", "CorpusUnavailable",
 ]
 __version__ = "0.3.0"
