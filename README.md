@@ -22,7 +22,7 @@ spatial operations, and signal processing.
 | Algebraic connectivity | **2.4× higher** | 125 – 8,000 nodes |
 | Flood fill reach | **55% more nodes** | 125 – 8,000 nodes |
 | NN query speed | **17% faster** | 125 – 8,000 nodes |
-| Signal reconstruction | **5-10× lower MSE** | 216 – 1,000 samples |
+| Signal reconstruction | **4-10× lower MSE** | 216 – 1,000 samples |
 | Reconstruction isotropy | **5-20× more uniform** | 216 – 1,000 samples |
 | Embedding neighbor recall | **+15-26pp at 1-hop** | 125 – 1,000 nodes |
 | Information diffusion | **1.4-2× faster** | 125 – 1,000 nodes |
@@ -135,7 +135,7 @@ scales with density — 3-5× slower for sphere/box queries at 8,000 nodes.
 ### Rung 3: Signal Processing (complete)
 
 Direct empirical measurements confirm the FCC advantage. FCC spatial sampling
-produces **5-10× lower MSE** and **5-20× more isotropic** reconstruction than
+produces **4-10× lower MSE** and **5-20× more isotropic** reconstruction than
 cubic sampling at matched sample counts. The advantage peaks in the mid-frequency range (10-60% of
 Nyquist) and grows with scale — from +6 dB at 216 samples to +10 dB at 1,000.
 Above Nyquist, both lattices alias and cubic's axis alignment accidentally helps.
@@ -186,20 +186,37 @@ is universal across 24-edge polytopes, not RD-specific.
 - [Raw data and tables](results/paper2/RESULTS.md)
 - [What the numbers mean](results/paper2/INTERPRETATION.md)
 
-### RhombiLoRA Experiments (complete)
+### Paper 3: RhombiLoRA Experiments (7 experiments, 256 tests)
 
-Five experiments mapping the lattice topology advantage onto neural
-architecture. FCC-topology bridges learn 4.6× more cross-channel coupling
-than cubic topology. Bridge matrices encode task identity (84.5% LOO
-classification from 28 Q-projection bridges). Bridge interpolation
-provides smooth adapter composition with eigenspectrum preservation.
+Seven experiments mapping the lattice topology advantage onto neural
+architecture, from proof-of-concept (1.5B params) through systematic
+7B analysis to geometric supervision.
 
-- Exp 1 (1.5B): [Analysis](results/exp1/ANALYSIS.md)
-- Exp 2 (7B Alpaca): [Bridge anatomy](results/exp2/bridge_anatomy.md)
-- Exp 2.5 (7B Geometric): [Comparison report](results/exp2_5/COMPARISON_REPORT.md) — null on direction, positive on connectivity
-- Phase 1A: [Task fingerprints](results/fingerprints/TASK_FINGERPRINT_REPORT.md) — 73.5% 3-way, 84.5% Q-proj
-- Phase 2A: [Bridge merging](results/bridge_merge/MERGE_REPORT.md) — smooth interpolation, non-linear in 2/3 pairs
-- Cross-phase: [Synthesis](results/CROSS_PHASE_SYNTHESIS.md) — 20 learnings, Q-proj optimal diagnostic
+| Experiment | Finding | Key metric |
+|------------|---------|------------|
+| Exp 1 (1.5B PoC) | FCC > cubic topology | 4.6× Fiedler ratio |
+| Exp 2 (7B Anatomy) | Module type differentiates | Q-proj 40% more coupling |
+| Exp 2.5 (7B Geometric) | Direction not emergent | Co/Cross = 1.002 (null) |
+| Exp 3 (Fingerprinting) | Bridge encodes task identity | 84.5% LOO SVM accuracy |
+| Exp 4 (Merging) | Smooth bridge interpolation | cos > 0.999 eigenspectrum |
+| Exp 5 (Overfitting) | Bridge tracks generalization | r = 0.888 (p = 7.3e-35) |
+| **Exp 6 (Contrastive)** | **Geometric memory** | **47× Co/Cross 4K steps post-supervision** |
+
+**Geometric memory** (Exp 6, in progress): 500 steps of contrastive warmup
+teaching co-planar vs cross-planar channel structure creates a persistent
+directional imprint. Co/Cross ratio decays from 2,660× at warmup end to ~47×
+after 4,000 steps of unsupervised fine-tuning — still 47× above the null
+baseline of 1.0. Separate bridge learning rate (10×, Exp 7) confirms the null:
+direction requires explicit supervision, not more learning rate. Once supervised,
+the geometric structure persists.
+
+- Exp 1: [Analysis](results/exp1/ANALYSIS.md)
+- Exp 2: [Bridge anatomy](results/exp2/bridge_anatomy.md)
+- Exp 2.5: [Comparison report](results/exp2_5/COMPARISON_REPORT.md) — null on direction, positive on connectivity
+- Exp 3: [Task fingerprints](results/fingerprints/TASK_FINGERPRINT_REPORT.md) — 84.5% Q-proj
+- Exp 4: [Bridge merging](results/bridge_merge/MERGE_REPORT.md) — smooth interpolation, non-linear in 2/3 pairs
+- Exp 5: [Overfitting diagnostic](results/exp3a-overfit/) — 807× phase transition at step 400
+- [Cross-phase synthesis](results/CROSS_PHASE_SYNTHESIS.md) — 20 learnings, Q-proj optimal diagnostic
 
 ### Synthesis
 
@@ -231,37 +248,37 @@ to run experiments, generate visualizations, and explain the geometry.
 - [Full synthesis](results/SYNTHESIS.md) — the complete argument across all four rungs
 - [Weighted extensions](results/paper2/RESULTS.md) — what happens under heterogeneous weights
 
-### Paper 3: RhombiLoRA — Neural Adapter Geometry (in progress)
-
-Five experiments complete, paper writeup in progress.
+### RhombiLoRA — Neural Adapter Geometry
 
 What happens when you apply the lattice topology to LoRA adapters?
 **RhombiLoRA** adds a learnable 6×6 coupling matrix — the *bridge* —
 between the A and B projections in LoRA, adding 36 parameters per layer.
+When the bridge is the identity matrix, the architecture reduces exactly
+to standard LoRA.
+
+The bridge does not improve fine-tuning loss. It provides something LoRA
+cannot: a compact, interpretable diagnostic of adapter behavior — a
+36-parameter summary of what training discovered, readable without
+inference or evaluation.
 
 | Finding | Metric | Value |
 |---------|--------|-------|
 | Task fingerprinting | LOO SVM accuracy (Q-proj, 28 bridges) | **84.5%** (chance 33.3%) |
-| Between > within task | Mann-Whitney U | p < 1e-6 |
-| Bridge coupling | FCC (6-ch) vs cubic (3-ch) Fiedler | **4.6×** |
+| Topology advantage | FCC (6-ch) vs cubic (3-ch) Fiedler | **4.6×** |
 | Adapter composition | Eigenspectrum preservation at all α | cos > 0.999 |
-| Merge safety threshold | Cross-task contamination tolerance | 10% |
-| Optimal fingerprint size | Q-proj bridges only | **1,008 parameters** |
+| Overfitting detection | Deviation~gap correlation | r = 0.888 (p = 7.3e-35) |
+| Geometric memory | Co/Cross after 4K unsupervised steps | **47×** (null: 1.0) |
+| Optimal fingerprint | Q-proj bridges only | **1,008 parameters** |
 
-The bridge does not beat standard LoRA at standard LoRA's own job. It
-provides something LoRA cannot: a compact, interpretable diagnostic of
-adapter behavior — a 36-parameter summary of what training discovered,
-readable without inference or evaluation.
-
-- 20 experimental learnings documented in [LEARNINGS.md](docs/LEARNINGS.md)
 - Architecture: [`rhombic.nn`](rhombic/nn/) — `RhombiLoRALinear`, topology, bridge init
 - Training harness: [`scripts/train_comparison.py`](scripts/train_comparison.py)
+- 20 experimental learnings: [LEARNINGS.md](docs/LEARNINGS.md)
 
 ### Papers
 
 - [Paper 1: The Shape of the Cell](paper/rhombic.tex) — four-domain topology comparison (arXiv cs.DS)
-- [Paper 2: Pure Number Architecture](paper/rhombic-paper2.tex) — weighted amplification and spectral structure
-- Paper 3: The Learnable Bridge (in preparation) — task fingerprinting and adapter composition via structured coupling
+- [Paper 2: Structured Edge Weights Amplify FCC Lattice Topology](paper/rhombic-paper2.tex) — bottleneck resilience under heterogeneous weights
+- [Paper 3: The Learnable Bridge](paper/rhombic-paper3.tex) — task fingerprinting, adapter composition, and geometric memory via structured coupling in LoRA
 
 ## Contributing
 
