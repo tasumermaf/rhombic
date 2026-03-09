@@ -169,7 +169,7 @@ class RhombicDodecahedron:
             attrs = {}
             if edge_weights is not None:
                 if isinstance(edge_weights, dict):
-                    attrs['weight'] = edge_weights[idx]
+                    attrs['weight'] = edge_weights.get((u, v), edge_weights.get(idx, 1.0))
                 else:
                     attrs['weight'] = edge_weights[idx]
             G.add_edge(u, v, **attrs)
