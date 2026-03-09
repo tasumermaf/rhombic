@@ -1,0 +1,23 @@
+{
+  "scale": 5,
+  "cubic": {
+    "nodes": 125,
+    "edges": 300,
+    "connectivity": 6,
+    "avg_degree": 4.8,
+    "avg_path_length": 4.8387
+  },
+  "fcc": {
+    "nodes": 500,
+    "edges": 2430,
+    "connectivity": 12,
+    "avg_degree": 9.72,
+    "avg_path_length": 5.6372
+  },
+  "ratios": {
+    "node_ratio": 4.0,
+    "edge_ratio": 8.1,
+    "path_ratio_fcc_over_sc": 1.165
+  },
+  "summary": "At scale 5: FCC has 500 nodes vs cubic 125. FCC paths are -16.5% shorter. Edge cost: 8.1x."
+}

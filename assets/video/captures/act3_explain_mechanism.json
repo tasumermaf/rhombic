@@ -1,0 +1,13 @@
+{
+  "title": "Complete Mechanism \u2014 Paper 1 to Paper 2",
+  "paper1": "Paper 1 established the baseline: FCC gives 2.3x algebraic connectivity, 30% shorter paths, 40% smaller diameter \u2014 at 2x edge cost.",
+  "paper2_findings": [
+    "Exp 1-3: Edge-cycled corpus weights amplify to 3.1x",
+    "Exp 4: Corpus breaks RD degeneracy (6 to 14 distinct eigenvalues)",
+    "Exp 5: Direction-pair weighting reaches 6.1x Fiedler ratio",
+    "Exp 6: Prime-vertex mapping p = 2.5e-5",
+    "Exp 7: Suppression consistent across 5 different 24-edge graphs"
+  ],
+  "consensus_inversion": "FCC consensus 6.7x faster at 125 nodes but 0.73x at 1000. Mechanism: per-neighbor dilution.",
+  "forward_vision": "RhombiLoRA: a geometric LoRA adapter that adds 6 diagonal bridge connections to transformer attention heads. The cube isn't the enemy \u2014 it's the skeleton. The rhombic dodecahedron contains the cube. Keep your cube, add six bridges."
+}
