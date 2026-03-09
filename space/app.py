@@ -1,11 +1,12 @@
 """
 rhombic — Interactive demo of FCC vs Cubic lattice topology.
 
-Four tabs:
+Five tabs:
   1. The Numbers — headline results + live Rung 1 benchmark
   2. Embedding Recall — FCC vs Cubic ANN index comparison
   3. The Thesis — condensed argument + links
-  4. Weighted Extensions — direction-weighted Fiedler amplification (Paper 2)
+  4. RhombiLoRA — learnable bridges in LoRA adapters (Paper 3)
+  5. Weighted Extensions — direction-weighted Fiedler amplification (Paper 2)
 """
 
 import time
