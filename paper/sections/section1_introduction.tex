@@ -32,9 +32,8 @@ which is reshaped into $C$ channels of width $r/C$; the bridge mixes
 channels; the result is reshaped and passed to the up-projection $B$.
 With $C = 6$ (motivated by the face-count of the rhombic dodecahedron
 in the RhombiLoRA architecture~\cite{rhombilora_paper1, rhombilora_paper2}),
-the bridge adds 36 parameters per adapter layer---a 0.03\% overhead
-relative to the $\sim$135K parameters in a rank-24 adapter at each
-target module.
+the bridge adds 36 parameters per adapter layer---a $0.02\%$ overhead
+relative to total adapter parameters.
 When the bridge is the identity matrix $I_C$, the architecture
 reduces exactly to standard LoRA.
 
@@ -63,8 +62,8 @@ preserves eigenspectrum structure (cosine $> 0.999$) at all mixing
 ratios $\alpha \in [0, 1]$, while random-weight bridges retain only
 cosine $\approx 0.5$.
 The Fiedler trajectory is linear for structurally similar task pairs
-(alpaca$\leftrightarrow$code, $R^2 = 0.956$) but non-linear for
-dissimilar pairs (code$\leftrightarrow$math, $R^2 = 0.823$), with
+(alpaca$\leftrightarrow$code, $R^2 = 0.948$) but non-linear for
+dissimilar pairs (code$\leftrightarrow$math, $R^2 = 0.782$), with
 destructive interference visible as a connectivity dip at $\alpha
 \approx 0.2$---a phenomenon invisible to full-weight merging diagnostics.
 This suggests that bridge interpolation can serve as a low-dimensional

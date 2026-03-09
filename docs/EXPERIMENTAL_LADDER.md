@@ -145,7 +145,7 @@ cells) and single-cell (rhombic dodecahedron in isolation).
 `rhombic/assignment.py`, `rhombic/spectral.py` (extended), `rhombic/context.py`
 (extended), `scripts/run_experiments.py`, `results/paper2/`
 
-**Status:** Complete. 208 tests, 0 regressions. All 7 experiments
+**Status:** Complete. 256 tests, 0 regressions. All 7 experiments
 reproducible with `python scripts/run_experiments.py`.
 
 ---

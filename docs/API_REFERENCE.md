@@ -1,6 +1,6 @@
 # Rhombic v0.3.0 — Complete API Reference
 
-Generated from live introspection on Kallisti. 208/208 tests passing.
+Generated from live introspection on Kallisti. 256/256 tests passing.
 
 **Install**: `pip install -e .` (from repo root, Python 3.10+)
 **Requires**: numpy, scipy, networkx
@@ -467,4 +467,4 @@ Meridian's `rhombic_tools.py` has these known mismatches:
 | `spectral.spectrum(graph, weights)` | `spectral.spectrum(n_vertices, edges, edge_weights)` |
 
 ---
-*Generated 2026-03-06 from rhombic v0.3.0, commit 4d2224a, 208/208 tests passing*
+*Generated 2026-03-06 from rhombic v0.3.0, commit 4d2224a, 256/256 tests passing*

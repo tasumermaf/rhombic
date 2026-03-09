@@ -96,7 +96,7 @@ For adapter composition, bridge-level interpolation preserves
 eigenspectrum structure at all mixing ratios (cosine $> 0.999$),
 but the Fiedler trajectory is non-linear for structurally
 dissimilar task pairs ($R^2 = 0.735$ for alpaca$\leftrightarrow$math
-vs.\ $R^2 = 0.956$ for alpaca$\leftrightarrow$code). The
+vs.\ $R^2 = 0.948$ for alpaca$\leftrightarrow$code). The
 code$\leftrightarrow$math interpolation exhibits a Fiedler dip at
 $\alpha \approx 0.2$, consistent with destructive interference
 between bridge patterns that differ in structure rather than
@@ -138,7 +138,7 @@ $4.6\times$ less coupling in Experiment~1, but whether they retain
 fingerprinting ability is untested.
 
 \textbf{Unequal training durations.} Alpaca trained for 10K steps,
-code for 1{,}500, and math for 2{,}000. The monotonic relationship
+code and math for 2K each. The monotonic relationship
 between training duration and bridge distance from initialization
 (alpaca: 0.199, math: 0.069, code: 0.032) means that some of the
 between-task separation may reflect training duration rather than
@@ -167,7 +167,7 @@ accuracy but would complicate the interpretability argument.
 \label{sec:lattice-connection}
 
 The bridge is where the lattice geometry of
-Papers~1--2~\cite{bielec2026rhombic, bielec2026weighted} meets
+Papers~1--2~\cite{rhombilora_paper1, rhombilora_paper2} meets
 neural architecture. The rhombic dodecahedron's six face pairs
 define six channel pairs in the bridge matrix; FCC lattice
 connectivity determines the initialization topology. Paper~1
@@ -186,8 +186,8 @@ specific channels with specific rhombic dodecahedron directions
 $= 1.002$, $p = 0.474$). What survives is the algebraic
 connectivity advantage: six channels with FCC-topology
 initialization develop more cross-channel coupling than three
-channels with cubic initialization ($4.6\times$ at 1.5B scale,
-$1.73\times$ at 7B). The topology determines \emph{how much}
+channels with cubic initialization ($4.6\times$ at 1.5B scale;
+the 7B experiments use FCC topology exclusively). The topology determines \emph{how much}
 coupling the bridge develops; the task determines \emph{what for}.
 
 This separation---geometric structure providing the capacity,

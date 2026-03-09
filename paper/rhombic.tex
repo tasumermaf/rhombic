@@ -54,7 +54,7 @@ spatial operations, signal processing, and high-dimensional embedding
 retrieval. At every scale tested (125--8{,}000 nodes), the FCC lattice
 provides routing advantages (30\% shorter paths),
 robustness gains (2.4$\times$ algebraic connectivity, 40\% smaller
-diameter), signal fidelity improvements (5--10$\times$ lower
+diameter), signal fidelity improvements (4--10$\times$ lower
 reconstruction error), and retrieval benefits (+15--26 percentage
 points embedding recall at 1-hop). The cost is bounded: approximately
 $2\times$ the edge count ($12/6$). Across all tested scales, these ratios are stable,
@@ -195,7 +195,7 @@ Practical adoption of non-cubic lattices remains limited.
 Theu{\ss}l et al.~\cite{theussl2001} demonstrated FCC and BCC
 voxelization for volume rendering. Csebfalvi~\cite{csebfalvi2010}
 explored BCC sampling for medical imaging. Entezari et
-al.~\cite{entezari2004} formalized FCC/BCC box splines for
+al.~\cite{entezari2004} formalized BCC box splines for
 signal reconstruction. However, no prior work presents a
 systematic, multi-domain benchmark comparing SC and FCC topologies
 at matched node counts with publicly available code.
@@ -214,12 +214,11 @@ $\{0, 1, \ldots, n{-}1\}^3$. Each interior node connects to its
 6 face-sharing neighbors (von Neumann neighborhood). Edge count:
 $3n^2(n-1)$.
 
-\textbf{FCC lattice.} Nodes placed at $n^3$ SC positions plus
-$3 \cdot n^2(n-1)$ face-center positions, yielding approximately
-$4n^3$ total nodes\footnote{%
-Exact count depends on boundary handling. We use
-$\lfloor n/\sqrt[3]{4} \rfloor$ as the cubic side length to
-achieve approximately $n$ FCC nodes.}. Each interior node connects
+\textbf{FCC lattice.} Each conventional cubic unit cell contains four
+basis sites at fractional coordinates $(0,0,0)$, $(\tfrac{1}{2},\tfrac{1}{2},0)$,
+$(\tfrac{1}{2},0,\tfrac{1}{2})$, and $(0,\tfrac{1}{2},\tfrac{1}{2})$.
+With $n$ unit cells per side, the lattice contains exactly $4n^3$ nodes.
+Each interior node connects
 to its 12 nearest neighbors using the FCC neighbor offset vectors:
 \begin{equation}
   \left\{\tfrac{1}{2}(\pm e_i \pm e_j) : 1 \leq i < j \leq 3\right\}
@@ -227,9 +226,9 @@ to its 12 nearest neighbors using the FCC neighbor offset vectors:
 yielding 12 edges per interior node.
 
 \textbf{Matching.} For a target of $N$ nodes, we set
-$n_{\mathrm{SC}} = \lfloor N^{1/3} \rfloor$ (yielding
+$n_{\mathrm{SC}} = \mathrm{round}(N^{1/3})$ (yielding
 $n_{\mathrm{SC}}^3$ SC nodes) and
-$n_{\mathrm{FCC}} = \lfloor (N/4)^{1/3} \rfloor$ (yielding
+$n_{\mathrm{FCC}} = \mathrm{round}((N/4)^{1/3})$ (yielding
 ${\sim}4 n_{\mathrm{FCC}}^3$ FCC nodes after deduplication).
 The two counts are not identical---SC produces exact cubes while
 FCC produces approximate counts---so we report exact node counts
@@ -612,7 +611,7 @@ Physical network & Wire, trace, power & Real constraint \\
 Software structure & 8-byte pointer & ${\sim}$96 vs.\ 48 bytes/node \\
 Logical topology & Nothing until traversed & Arrive 30\% sooner \\
 Embedding index & One candidate to evaluate & +7--20pp recall \\
-Signal sampling & One measurement & 5--10$\times$ better fidelity \\
+Signal sampling & One measurement & 4--10$\times$ better fidelity \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -691,11 +690,11 @@ scales is not empirically verified.
 
 For the isotropic, propagation-dominated workloads tested here, the
 SC lattice is consistently outperformed. Across four independent
-domains and five experimental rungs, the FCC lattice provides
+domains and four experimental rungs, the FCC lattice provides
 measurable, reproducible advantages that are stable across all
 tested scales. The cost is bounded (${\sim}2\times$ edges) and
 the benefit compounds (30\% routing $+$ 55\% propagation $+$
-5--10$\times$ signal fidelity $+$ 15--26pp neighborhood recall).
+4--10$\times$ signal fidelity $+$ 15--26pp neighborhood recall).
 
 The FCC lattice (with HCP) achieves the densest sphere packing and
 the topology that close-packed natural structures commonly exhibit. The SC

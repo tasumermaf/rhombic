@@ -49,7 +49,7 @@ recovering standard LoRA exactly. Through systematic analysis of 336 bridge
 matrices trained across three tasks on Qwen2.5-7B, we establish three
 findings: (1)~bridge matrices encode task identity---a leave-one-out SVM
 on 28 query-projection bridges (1,008 parameters) classifies task type at
-84.5\% accuracy versus 33.3\% chance; (2)~FCC lattice topology learns
+82.1\% accuracy (rising to 84.5\% at the final checkpoint) versus 33.3\% chance; (2)~FCC lattice topology learns
 $4.6\times$ more cross-channel coupling than cubic topology, though neither
 improves training loss; (3)~linear interpolation of bridge matrices between
 adapters preserves eigenspectrum structure (cosine $> 0.999$), enabling
@@ -99,7 +99,7 @@ of the bridge is therefore reproducible across training runs.
 
 The theoretical prediction---that task structure flows into bridge
 structure through gradient co-activation---is confirmed empirically
-in Sections~\ref{sec:exp-fingerprint} and~\ref{sec:exp-merge}.
+in Sections~\ref{sec:exp-fingerprint} and~\ref{sec:exp-merging}.
 
 \input{sections/section4_experiments}
 
@@ -131,7 +131,7 @@ averaging. DARE~\cite{yu2024dare} randomly drops adapter parameters
 before merging. AdaMerging~\cite{yang2024adamerging} learns per-layer
 merging coefficients. These methods operate on full weight matrices
 or their SVD factors without a compact representation of task identity.
-Bridge interpolation (\S\ref{sec:exp-merge}) provides such a
+Bridge interpolation (\S\ref{sec:exp-merging}) provides such a
 representation: a 36-dimensional space in which adapter compatibility
 can be assessed before committing to an expensive full-weight merge.
 

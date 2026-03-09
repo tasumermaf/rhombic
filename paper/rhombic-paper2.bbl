@@ -1,4 +1,4 @@
-\begin{thebibliography}{13}
+\begin{thebibliography}{15}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -16,13 +16,20 @@ Stafford Beer.
 \newblock Allen Lane, The Penguin Press, London, 1972.
 \newblock ISBN 978-0-471-94839-2.
 
-\bibitem[Bielec(2026)]{bielec2026shape}
+\bibitem[Bielec(2026{\natexlab{a}})]{bielec2026bridge}
+Timothy~Paul Bielec.
+\newblock The learnable bridge: Task fingerprinting and adapter composition via
+  structured coupling in low-rank adaptation.
+\newblock Promptcrafted LLC. Available at
+  \url{https://github.com/promptcrafted/rhombic}, 2026{\natexlab{a}}.
+
+\bibitem[Bielec(2026{\natexlab{b}})]{bielec2026shape}
 Timothy~Paul Bielec.
 \newblock The shape of the cell: Empirical comparison of cubic and {FCC}
   lattice topologies across graph theory, spatial operations, signal
   processing, and embedding retrieval.
 \newblock Promptcrafted LLC. Available at
-  \url{https://github.com/promptcrafted/rhombic}, 2026.
+  \url{https://github.com/promptcrafted/rhombic}, 2026{\natexlab{b}}.
 
 \bibitem[Chung(1997)]{chung1997}
 Fan R.~K. Chung.
@@ -57,6 +64,14 @@ Miroslav Fiedler.
 \newblock \emph{Czechoslovak Mathematical Journal}, 23\penalty0 (2):\penalty0
   298--305, 1973.
 \newblock \doi{10.21136/CMJ.1973.101168}.
+
+\bibitem[Fu et~al.(2009)Fu, Wan, Wong, and Leung]{fu2009rhombic}
+Chi-Wing Fu, Liang Wan, Tien-Tsin Wong, and Chi-Sing Leung.
+\newblock The rhombic dodecahedron map: An efficient scheme for encoding
+  panoramic video.
+\newblock \emph{IEEE Transactions on Multimedia}, 11\penalty0 (4):\penalty0
+  634--644, 2009.
+\newblock \doi{10.1109/TMM.2009.2017629}.
 
 \bibitem[Ghosh et~al.(2008)Ghosh, Boyd, and Saberi]{ghosh2008resistance}
 Arpita Ghosh, Stephen Boyd, and Amin Saberi.
