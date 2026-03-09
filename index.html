@@ -149,8 +149,28 @@
         equipped with the <code>rhombic</code> library as live tools. It runs experiments,
         generates visualizations, and explains the geometry — all in natural conversation.</p>
       <div class="agent-demo">
-        <div class="demo-placeholder" id="video-embed">
-          <p class="demo-text">Demo video coming soon</p>
+        <video id="video-embed" controls playsinline preload="metadata"
+               poster="" style="width:100%;border-radius:8px;background:#080620;">
+          <source src="demo.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <!-- Live Agent Chat -->
+      <div class="agent-chat" id="agent-chat">
+        <div class="chat-header">
+          <span class="chat-title">rhombic-agent</span>
+          <span class="chat-status" id="chat-status">● offline</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+          <div class="msg msg-agent">Ask me about lattice topology, the 6.1× finding,
+            or how the rhombic dodecahedron outperforms the cube. I have 9 tools and
+            3 papers behind me.</div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" class="chat-input"
+                 placeholder="Compare cubic and FCC lattices..."
+                 autocomplete="off">
+          <button id="chat-send" class="chat-send">→</button>
         </div>
       </div>
       <div class="tool-grid">
@@ -283,5 +303,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="rd.js"></script>
+  <script src="chat.js"></script>
 </body>
 </html>
