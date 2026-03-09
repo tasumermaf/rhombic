@@ -1,0 +1,22 @@
+{
+  "name": "rhombi_frozen_r24",
+  "rank": 24,
+  "n_channels": 6,
+  "bridge_mode": "identity",
+  "bridge_trainable": false,
+  "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+  "dataset_name": "yahma/alpaca-cleaned",
+  "max_seq_len": 512,
+  "batch_size": 4,
+  "gradient_accumulation": 4,
+  "lr": 0.0002,
+  "num_epochs": 1,
+  "warmup_steps": 100,
+  "checkpoint_steps": 500,
+  "max_steps": 2000,
+  "seed": 42,
+  "target_modules": [
+    "q_proj",
+    "v_proj"
+  ]
+}

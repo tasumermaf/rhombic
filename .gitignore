@@ -46,6 +46,20 @@ paper/*.tar.gz
 paper/figures/*.pdf
 paper/versions/
 
+# --- Large Generated Data ---
+data/geometric/*.json
+!data/geometric/dataset_stats.json
+
+# --- Reference Material (not part of library) ---
+paper2_deep-research-report*.md
+
+# --- Training Artifacts ---
+*.log
+*.pid
+training_all.log
+training.log
+monitor.log
+
 # --- OS & Editor ---
 .DS_Store
 Thumbs.db

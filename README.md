@@ -174,6 +174,21 @@ is universal across 24-edge polytopes, not RD-specific.
 - [Raw data and tables](results/paper2/RESULTS.md)
 - [What the numbers mean](results/paper2/INTERPRETATION.md)
 
+### RhombiLoRA Experiments (in progress)
+
+Five experiments mapping the lattice topology advantage onto neural
+architecture. FCC-topology bridges learn 4.6× more cross-channel coupling
+than cubic topology. Bridge matrices encode task identity (84.5% LOO
+classification from 28 Q-projection bridges). Bridge interpolation
+provides smooth adapter composition with eigenspectrum preservation.
+
+- Exp 1 (1.5B): [Analysis](results/exp1/ANALYSIS.md)
+- Exp 2 (7B Alpaca): [Bridge anatomy](results/exp2/bridge_anatomy.md)
+- Exp 2.5 (7B Geometric): [Comparison report](results/exp2_5/COMPARISON_REPORT.md) — null on direction, positive on connectivity
+- Phase 1A: [Task fingerprints](results/fingerprints/TASK_FINGERPRINT_REPORT.md) — 73.5% 3-way, 84.5% Q-proj
+- Phase 2A: [Bridge merging](results/bridge_merge/MERGE_REPORT.md) — smooth interpolation, non-linear in 2/3 pairs
+- Cross-phase: [Synthesis](results/CROSS_PHASE_SYNTHESIS.md) — 20 learnings, Q-proj optimal diagnostic
+
 ### Synthesis
 
 The complete argument across all four rungs — cultural genealogy, empirical
@@ -196,10 +211,35 @@ evidence, cybernetic interpretation, and practical recommendations.
 - [Full synthesis](results/SYNTHESIS.md) — the complete argument across all four rungs
 - [Weighted extensions](results/paper2/RESULTS.md) — what happens under heterogeneous weights
 
+### Paper 3: RhombiLoRA — Neural Adapter Geometry (in progress)
+
+What happens when you apply the lattice topology to LoRA adapters?
+**RhombiLoRA** adds a learnable 6×6 coupling matrix — the *bridge* —
+between the A and B projections in LoRA, adding 36 parameters per layer.
+
+| Finding | Metric | Value |
+|---------|--------|-------|
+| Task fingerprinting | LOO SVM accuracy (Q-proj, 28 bridges) | **84.5%** (chance 33.3%) |
+| Between > within task | Mann-Whitney U | p < 1e-6 |
+| Bridge coupling | FCC (6-ch) vs cubic (3-ch) Fiedler | **4.6×** |
+| Adapter composition | Eigenspectrum preservation at all α | cos > 0.999 |
+| Merge safety threshold | Cross-task contamination tolerance | 10% |
+| Optimal fingerprint size | Q-proj bridges only | **1,008 parameters** |
+
+The bridge does not beat standard LoRA at standard LoRA's own job. It
+provides something LoRA cannot: a compact, interpretable diagnostic of
+adapter behavior — a 36-parameter summary of what training discovered,
+readable without inference or evaluation.
+
+- 20 experimental learnings documented in [LEARNINGS.md](docs/LEARNINGS.md)
+- Architecture: [`rhombic.nn`](rhombic/nn/) — `RhombiLoRALinear`, topology, bridge init
+- Training harness: [`scripts/train_comparison.py`](scripts/train_comparison.py)
+
 ### Papers
 
 - [Paper 1: The Shape of the Cell](paper/rhombic.tex) — four-domain topology comparison (arXiv cs.DS)
 - [Paper 2: Pure Number Architecture](paper/rhombic-paper2.tex) — weighted amplification and spectral structure
+- Paper 3: The Learnable Bridge (in preparation) — task fingerprinting and adapter composition via structured coupling
 
 ## Contributing
 

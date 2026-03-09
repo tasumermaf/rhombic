@@ -1,0 +1,25 @@
+{
+  "name": "standard_lora_r24",
+  "rank": 24,
+  "n_channels": 6,
+  "bridge_mode": "identity",
+  "bridge_trainable": false,
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "dataset_name": "yahma/alpaca-cleaned",
+  "max_seq_len": 512,
+  "batch_size": 2,
+  "gradient_accumulation": 8,
+  "lr": 0.0002,
+  "num_epochs": 4,
+  "warmup_steps": 200,
+  "checkpoint_steps": 1000,
+  "max_steps": 10000,
+  "seed": 42,
+  "gradient_checkpointing": true,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ]
+}

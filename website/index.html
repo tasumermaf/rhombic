@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rhombic — Keep Your Cube, Add Six Bridges</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══ HERO ═══ -->
+  <section id="hero">
+    <div class="hero-content">
+      <h1>Keep Your Cube,<br>Add Six Bridges.</h1>
+      <p class="subtitle">Lattice topology research proving cubic networks leave
+        <span class="stat-inline">6.1×</span> connectivity on the table.</p>
+      <div class="hero-links">
+        <a href="https://pypi.org/project/rhombic/" class="btn btn-primary">pip install rhombic</a>
+        <a href="https://github.com/promptcrafted/rhombic" class="btn btn-ghost">GitHub</a>
+        <a href="https://huggingface.co/spaces/timotheospaul/rhombic" class="btn btn-ghost">Demo</a>
+      </div>
+    </div>
+    <div class="hero-canvas" id="rd-canvas"></div>
+  </section>
+
+  <!-- ═══ THE PROBLEM ═══ -->
+  <section id="problem">
+    <div class="section-inner">
+      <h2>The Unexamined Default</h2>
+      <p>Every computation — neural networks, simulations, databases — defaults to
+        <strong>cubic lattice topology</strong>: 6-connected grids. Each node talks to
+        6 neighbors along 3 axis-aligned directions. It's the geometry of spreadsheets,
+        voxel grids, and attention heads. Nobody chose it. It was just&hellip; there.</p>
+      <p>The <strong>FCC lattice</strong> gives each node 12 neighbors along 6
+        face-diagonal directions. Its Voronoi cell is the <em>rhombic dodecahedron</em> —
+        a 14-vertex polyhedron whose 8 cube corners and 6 octahedral bridges tessellate
+        all of 3D space. Kepler proved it packs spheres optimally in 1611.
+        Hales confirmed it in 2005.</p>
+      <div class="side-by-side">
+        <div class="card card-cubic">
+          <div class="card-label">Cubic</div>
+          <div class="card-stat">6</div>
+          <div class="card-desc">neighbors per node</div>
+          <div class="card-desc">3 axis-aligned directions</div>
+        </div>
+        <div class="card card-fcc">
+          <div class="card-label">FCC</div>
+          <div class="card-stat">12</div>
+          <div class="card-desc">neighbors per node</div>
+          <div class="card-desc">6 face-diagonal directions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ THE NUMBERS ═══ -->
+  <section id="numbers">
+    <div class="section-inner">
+      <h2>The Numbers</h2>
+      <div class="stats-grid">
+        <div class="stat-block">
+          <div class="stat-value fcc-color">2.3×</div>
+          <div class="stat-label">algebraic connectivity<br><span class="stat-context">uniform weights (Paper 1)</span></div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-value fcc-color">6.1×</div>
+          <div class="stat-label">algebraic connectivity<br><span class="stat-context">direction-weighted corpus (Paper 2)</span></div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-value fcc-color">30%</div>
+          <div class="stat-label">shorter average paths</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-value fcc-color">40%</div>
+          <div class="stat-label">smaller graph diameter</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-value accent-color">p&thinsp;=&thinsp;0.000025</div>
+          <div class="stat-label">prime-vertex mapping<br><span class="stat-context">non-accidental geometry affinity</span></div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-value cubic-color">255</div>
+          <div class="stat-label">passing tests<br><span class="stat-context">Python 3.10-3.12, MPL-2.0</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ THE MECHANISM ═══ -->
+  <section id="mechanism">
+    <div class="section-inner">
+      <h2>Bottleneck Resilience</h2>
+      <p>Heterogeneous weights create near-disconnection cuts — bottlenecks where
+        information barely flows. The <strong>Fiedler value</strong> (algebraic connectivity)
+        measures the worst such bottleneck.</p>
+      <p>In a cubic lattice, each node has <strong>5 alternative routes</strong> around
+        a blocked connection. In the FCC lattice, it has <strong>11</strong>. The more
+        heterogeneous the weights, the more the FCC advantage grows.</p>
+
+      <div class="amplification-chart">
+        <h3>Fiedler Ratio Amplification at Scale 1,000</h3>
+        <div class="chart-bars">
+          <div class="chart-row">
+            <span class="chart-label">Uniform</span>
+            <div class="bar-pair">
+              <div class="bar bar-ec" style="width: 41.7%"><span>2.55×</span></div>
+              <div class="bar bar-dw" style="width: 41.7%"><span>2.55×</span></div>
+            </div>
+          </div>
+          <div class="chart-row">
+            <span class="chart-label">Random</span>
+            <div class="bar-pair">
+              <div class="bar bar-ec" style="width: 43.3%"><span>2.64×</span></div>
+              <div class="bar bar-dw" style="width: 59.7%"><span>3.65×</span></div>
+            </div>
+          </div>
+          <div class="chart-row">
+            <span class="chart-label">Power-law</span>
+            <div class="bar-pair">
+              <div class="bar bar-ec" style="width: 50.1%"><span>3.06×</span></div>
+              <div class="bar bar-dw" style="width: 55.2%"><span>3.37×</span></div>
+            </div>
+          </div>
+          <div class="chart-row">
+            <span class="chart-label">Corpus</span>
+            <div class="bar-pair">
+              <div class="bar bar-ec" style="width: 50.9%"><span>3.11×</span></div>
+              <div class="bar bar-dw" style="width: 100%"><span>6.11×</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-legend">
+          <span class="legend-ec">Edge-cycled</span>
+          <span class="legend-dw">Direction-weighted</span>
+          <span class="legend-base">Paper 1 baseline: 2.31×</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ THE AGENT ═══ -->
+  <section id="agent">
+    <div class="section-inner">
+      <h2>The Agent</h2>
+      <p>We built a <a href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a>
+        equipped with the <code>rhombic</code> library as live tools. It runs experiments,
+        generates visualizations, and explains the geometry — all in natural conversation.</p>
+      <div class="agent-demo">
+        <div class="demo-placeholder" id="video-embed">
+          <p class="demo-text">Demo video coming soon</p>
+        </div>
+      </div>
+      <div class="tool-grid">
+        <div class="tool-card">
+          <code>lattice_compare</code>
+          <p>Build matched SC/FCC lattices, compute stats</p>
+        </div>
+        <div class="tool-card">
+          <code>fiedler_ratio</code>
+          <p>Weighted algebraic connectivity comparison</p>
+        </div>
+        <div class="tool-card">
+          <code>direction_weights</code>
+          <p>Direction-pair weighting (6.1× finding)</p>
+        </div>
+        <div class="tool-card">
+          <code>spectral_analysis</code>
+          <p>RD Laplacian spectrum under 4 distributions</p>
+        </div>
+        <div class="tool-card">
+          <code>prime_vertex_map</code>
+          <p>Exhaustive prime-vertex optimization</p>
+        </div>
+        <div class="tool-card">
+          <code>visualize_rd</code>
+          <p>3D rhombic dodecahedron visualization</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FORWARD VISION ═══ -->
+  <section id="vision">
+    <div class="section-inner">
+      <h2>RhombiLoRA</h2>
+      <p>The cube isn't the enemy — it's the skeleton. The rhombic dodecahedron
+        <em>contains</em> the cube: its 8 trivalent vertices ARE the cube's corners.
+        The 6 tetravalent vertices are the bridges that convert cubic topology into
+        space-filling FCC.</p>
+      <p><strong>RhombiLoRA</strong> is a geometric LoRA adapter that adds 6 diagonal
+        bridge connections to transformer attention heads. Keep your existing
+        infrastructure. Add six bridges. Gain up to 6.1× bottleneck resilience.</p>
+      <blockquote>
+        "Data symmetry analytically determines representation geometry."
+        <cite>— Karkada et al., 2026</cite>
+      </blockquote>
+      <p>If data symmetry determines embedding geometry, then the adapter's topology
+        should match the data's symmetry structure. RhombiLoRA is that match.</p>
+
+      <div class="paper-arc">
+        <div class="arc-step">
+          <div class="arc-num">Paper 1</div>
+          <div class="arc-q">"What happens when you replace the cube?"</div>
+          <div class="arc-a">The comparison.</div>
+        </div>
+        <div class="arc-arrow">→</div>
+        <div class="arc-step">
+          <div class="arc-num">Paper 2</div>
+          <div class="arc-q">"Does structure amplify or attenuate?"</div>
+          <div class="arc-a">The mechanism.</div>
+        </div>
+        <div class="arc-arrow">→</div>
+        <div class="arc-step">
+          <div class="arc-num">Paper 3</div>
+          <div class="arc-q">"What happens when you embrace the cube?"</div>
+          <div class="arc-a">The product.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ INSTALL ═══ -->
+  <section id="install">
+    <div class="section-inner">
+      <h2>Try It</h2>
+      <div class="install-block">
+        <code class="install-cmd">pip install rhombic</code>
+      </div>
+      <div class="install-links">
+        <a href="https://github.com/promptcrafted/rhombic">GitHub</a>
+        <a href="https://pypi.org/project/rhombic/">PyPI</a>
+        <a href="https://huggingface.co/spaces/timotheospaul/rhombic">HF Space</a>
+      </div>
+      <div class="citation">
+        <h3>Citation</h3>
+        <pre><code>@unpublished{bielec2026shape,
+  author  = {Timothy Paul Bielec},
+  title   = {The Shape of the Cell: Empirical Comparison of
+             Cubic and {FCC} Lattice Topologies},
+  note    = {Promptcrafted LLC},
+  year    = {2026}
+}
+
+@unpublished{bielec2026weighted,
+  author  = {Timothy Paul Bielec},
+  title   = {Structured Edge Weights Amplify {FCC} Lattice
+             Topology Advantages via Bottleneck Resilience},
+  note    = {Promptcrafted LLC},
+  year    = {2026}
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <div class="section-inner">
+      <p class="footer-brand">rhombic — <a href="https://promptcrafted.com">Promptcrafted</a></p>
+      <p class="footer-meta">v0.3.0 · 255 tests · MPL-2.0 · Python 3.10-3.12</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="rd.js"></script>
+</body>
+</html>
