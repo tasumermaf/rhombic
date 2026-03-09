@@ -373,7 +373,7 @@ def train(config: ExperimentConfig, output_dir: Path):
                     cp = CheckpointMetrics(
                         step=global_step,
                         train_loss=accumulation_loss / config.checkpoint_steps,
-                        val_perplexity=None,  # TODO: validation loop
+                        val_perplexity=None,  # bridge anatomy: matrices are the metric
                         bridge_matrices=matrices,
                         bridge_fiedler=fiedlers,
                         bridge_deviation=deviations,
