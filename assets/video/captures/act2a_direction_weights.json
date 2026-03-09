@@ -1,0 +1,11 @@
+{
+  "scale": 5,
+  "distribution": "corpus",
+  "method": "direction_pair_weighting",
+  "cubic_fiedler": 61.786139,
+  "fcc_fiedler": 86.213285,
+  "fiedler_ratio": 1.3953,
+  "baseline_ratio": 2.31,
+  "amplification": "1.40x vs 2.31x baseline",
+  "summary": "Direction-weighted Fiedler ratio at scale 5 (corpus): 1.40x. Paper 1 baseline was 2.31x."
+}

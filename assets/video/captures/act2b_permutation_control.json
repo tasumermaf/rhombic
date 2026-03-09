@@ -1,0 +1,9 @@
+{
+  "scale": 5,
+  "n_trials": 200,
+  "sorted_fiedler": 86.213285,
+  "shuffled_mean": 95.043775,
+  "shuffled_std": 2.237235,
+  "p_value": 1.0,
+  "summary": "Permutation control at scale 5: sorted Fiedler = 86.2133, shuffled mean = 95.0438 +/- 2.2372. p = 1.0. No significant difference."
+}

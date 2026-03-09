@@ -60,6 +60,10 @@ training_all.log
 training.log
 monitor.log
 
+# --- Video Pipeline Build Artifacts ---
+assets/video/frames/
+assets/video/*.mp4
+
 # --- OS & Editor ---
 .DS_Store
 Thumbs.db
