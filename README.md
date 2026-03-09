@@ -98,6 +98,18 @@ G_cubic = cubic.to_networkx()
 G_fcc = fcc.to_networkx()
 ```
 
+Compare topologies:
+
+```python
+from rhombic.lattice import CubicLattice, FCCLattice
+
+cubic, fcc = CubicLattice(5), FCCLattice(5)
+print(f"Cubic: {cubic.stats().connectivity}-connected, {cubic.stats().node_count} nodes")
+print(f"FCC:   {fcc.stats().connectivity}-connected, {fcc.stats().node_count} nodes")
+# Cubic: 6-connected, 125 nodes
+# FCC:   12-connected, 500 nodes
+```
+
 ## Results
 
 ### Rung 1: Graph Theory (complete)
@@ -203,6 +215,14 @@ evidence, cybernetic interpretation, and practical recommendations.
 - Cost is always reported alongside benefit.
 - Sparse results are data, not failure.
 
+## Interactive Agent
+
+`rhombic-agent` — a [Hermes Agent](https://github.com/NousResearch/hermes-agent)
+that thinks in 12 dimensions. 9 custom tools + 3 conversational skills. Ask it
+to run experiments, generate visualizations, and explain the geometry.
+
+[Hackathon Demo →](https://promptcrafted.github.io/rhombic/)
+
 ## Ecosystem
 
 - [Interactive demo](https://huggingface.co/spaces/timotheospaul/rhombic) — try it in your browser
@@ -211,7 +231,9 @@ evidence, cybernetic interpretation, and practical recommendations.
 - [Full synthesis](results/SYNTHESIS.md) — the complete argument across all four rungs
 - [Weighted extensions](results/paper2/RESULTS.md) — what happens under heterogeneous weights
 
-### Paper 3: RhombiLoRA — Neural Adapter Geometry (complete)
+### Paper 3: RhombiLoRA — Neural Adapter Geometry (in progress)
+
+Five experiments complete, paper writeup in progress.
 
 What happens when you apply the lattice topology to LoRA adapters?
 **RhombiLoRA** adds a learnable 6×6 coupling matrix — the *bridge* —
@@ -239,7 +261,7 @@ readable without inference or evaluation.
 
 - [Paper 1: The Shape of the Cell](paper/rhombic.tex) — four-domain topology comparison (arXiv cs.DS)
 - [Paper 2: Pure Number Architecture](paper/rhombic-paper2.tex) — weighted amplification and spectral structure
-- Paper 3: The Learnable Bridge (complete) — task fingerprinting and adapter composition via structured coupling
+- Paper 3: The Learnable Bridge (in preparation) — task fingerprinting and adapter composition via structured coupling
 
 ## Contributing
 
