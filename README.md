@@ -174,7 +174,7 @@ is universal across 24-edge polytopes, not RD-specific.
 - [Raw data and tables](results/paper2/RESULTS.md)
 - [What the numbers mean](results/paper2/INTERPRETATION.md)
 
-### RhombiLoRA Experiments (in progress)
+### RhombiLoRA Experiments (complete)
 
 Five experiments mapping the lattice topology advantage onto neural
 architecture. FCC-topology bridges learn 4.6× more cross-channel coupling
@@ -211,7 +211,7 @@ evidence, cybernetic interpretation, and practical recommendations.
 - [Full synthesis](results/SYNTHESIS.md) — the complete argument across all four rungs
 - [Weighted extensions](results/paper2/RESULTS.md) — what happens under heterogeneous weights
 
-### Paper 3: RhombiLoRA — Neural Adapter Geometry (in progress)
+### Paper 3: RhombiLoRA — Neural Adapter Geometry (complete)
 
 What happens when you apply the lattice topology to LoRA adapters?
 **RhombiLoRA** adds a learnable 6×6 coupling matrix — the *bridge* —
@@ -239,7 +239,7 @@ readable without inference or evaluation.
 
 - [Paper 1: The Shape of the Cell](paper/rhombic.tex) — four-domain topology comparison (arXiv cs.DS)
 - [Paper 2: Pure Number Architecture](paper/rhombic-paper2.tex) — weighted amplification and spectral structure
-- Paper 3: The Learnable Bridge (in preparation) — task fingerprinting and adapter composition via structured coupling
+- Paper 3: The Learnable Bridge (complete) — task fingerprinting and adapter composition via structured coupling
 
 ## Contributing
 
