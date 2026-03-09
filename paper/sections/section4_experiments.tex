@@ -13,7 +13,7 @@ progressing from single-adapter structural analysis through multi-task
 fingerprinting to bridge-level adapter composition. All experiments use the
 \texttt{rhombic} library (v0.3.0) with identical bridge extraction and
 spectral analysis pipelines. Code, bridge matrices, and reproduction
-scripts are available at \texttt{[repository]}.
+scripts are available at \texttt{https://github.com/promptcrafted/rhombic}.
 
 \paragraph{Common configuration.}
 Unless otherwise noted, all adapters use rank $r = 24$ with $c = 6$
@@ -87,7 +87,7 @@ self-amplification ($+$0.009), but the FCC topology discovers and exploits
 more cross-channel coupling pathways. The optimizer finds that 12 edges
 (FCC) offer more useful mixing structure than 6 edges (cubic)---confirming
 at the neural network level the algebraic connectivity advantage
-established by graph-theoretic benchmarks~\cite{rhombic-paper1}.
+established by graph-theoretic benchmarks~\cite{rhombilora_paper1}.
 
 \begin{table}[t]
 \centering
@@ -295,7 +295,7 @@ Pair & Mean & Std & Min & Max \\
 \end{table}
 
 \paragraph{Classification accuracy.}
-Leave-one-out SVM classification on the 336 bridge vectors achieves 72.3\%
+Leave-one-out SVM classification on the 336 bridge vectors achieves 72.9\%
 three-way accuracy (chance: 33.3\%). Performance is not uniform: alpaca
 (93.8\%) and code (94.6\%) are well-classified, while math (50.0--66.1\%)
 is frequently confused with code, consistent with their low between-task
@@ -438,12 +438,24 @@ bridges cautiously, and maintain task-specific Q bridges.
 \subsection{Overfitting Diagnostic}
 \label{sec:exp-overfit}
 
-\textit{This experiment is currently in progress.} We train RhombiLoRA on a
+We train RhombiLoRA on a
 deliberately small split (500 train / 500 validation from Alpaca-cleaned)
-for 10,000 steps with checkpoints every 100 steps, tracking Fiedler value
-and deviation alongside the train--validation loss gap. The hypothesis is
-that bridge spectral properties correlate with overfitting onset ($r > 0.7$)
-or exhibit a phase transition at the point where generalization degrades.
-Results will be reported in the final version. Training is approximately
-21\% complete at the time of writing (estimated 7 hours remaining on an
-RTX 4090).
+for 10{,}000 steps with checkpoints every 100 steps, tracking Fiedler value
+and deviation alongside the train--validation loss gap on a RunPod RTX 4090.
+
+Training loss drops to 0.012 while validation loss plateaus at 1.51 by
+step 10K (gap $= +1.50$), confirming severe overfitting. Both bridge
+spectral properties correlate strongly with the train--validation gap:
+deviation ($r = 0.888$, $p = 7.3 \times 10^{-35}$) and Fiedler value
+($r = 0.825$, $p = 5.6 \times 10^{-26}$). Both exceed the $r > 0.7$
+threshold.
+
+A phase transition in bridge connectivity occurs at step 400: the
+maximum step-to-step Fiedler change ($0.019$) exceeds the median
+change ($2.3 \times 10^{-5}$) by $807\times$, coinciding with the
+early rapid descent in training loss. After this initial reconfiguration,
+bridge spectral properties evolve monotonically alongside the growing
+generalization gap. The bridge does not predict overfitting onset
+\emph{in advance}---it tracks the same gradient signal that drives the
+loss gap---but it provides a compact, inference-free summary of adapter
+state that could complement loss-based monitoring in practice.

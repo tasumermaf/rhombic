@@ -86,7 +86,7 @@ academic, visually stunning. Our aesthetic layer on top.
 2. **The Problem** — One paragraph: every computation defaults to cubes.
    What if the default is wrong? Side-by-side cube vs RD visualization.
 3. **The Numbers** — Key results as large, bold statistics with minimal
-   explanation. 2.3× → 6.1×. p = 0.000025. 208 tests.
+   explanation. 2.3× → 6.1×. p = 0.000025. 256 tests.
 4. **The Mechanism** — Bottleneck resilience explained with a diagram.
    "Heterogeneous weights create bottlenecks. Cubes have 6 escape
    routes. The RD has 12." Interactive: slider that adjusts weight
@@ -274,7 +274,7 @@ theory → neural architecture → world models) is intellectually
 ambitious without being hand-wavy — we have the numbers.
 
 **Why this wins on usefulness:** `rhombic` is a real library on PyPI
-with 208 tests. The agent makes it conversationally accessible. A
+with 256 tests. The agent makes it conversationally accessible. A
 researcher can ask "what happens to the Fiedler ratio at scale 2000
 with power-law weights?" and get a computed answer in seconds. The
 RhombiLoRA concept is a genuine forward contribution to ML architecture.

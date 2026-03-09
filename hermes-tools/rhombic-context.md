@@ -106,4 +106,4 @@ with the advantage monotonically increasing with weight heterogeneity.
 - PyPI: `pip install rhombic`
 - GitHub: github.com/promptcrafted/rhombic
 - HF Space: huggingface.co/spaces/timotheospaul/rhombic
-- 208 tests, Python 3.10-3.12, MPL-2.0 license
+- 256 tests, Python 3.10-3.12, MPL-2.0 license

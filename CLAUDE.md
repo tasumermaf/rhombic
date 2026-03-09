@@ -23,7 +23,7 @@ See `docs/EXPERIMENTAL_LADDER.md` for the 5-rung experimental plan.
 | 2 | Spatial Operations | Complete |
 | 3 | Signal Processing | Complete |
 | 4 | Context Architecture | Complete |
-| P2 | Weighted Extensions (Paper 2) | Complete — 7 experiments, 208 tests |
+| P2 | Weighted Extensions (Paper 2) | Complete — 7 experiments, 256 tests |
 
 ## How to Add a New Rung
 

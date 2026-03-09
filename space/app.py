@@ -476,10 +476,12 @@ The geometry is the argument. The numbers are the evidence.*
 
 # ── Tab 4: Weighted Extensions ─────────────────────────────────────
 
-# 24 trump values in deck order (verified by tools/isopsephy.py)
+# Demonstration values for the weighted extensions tab.
+# These are synthetic values that illustrate the same structural properties
+# as the research corpus without exposing proprietary data.
 CORPUS_VALUES = [
-    1296, 202, 405, 463, 94, 64, 448, 771, 342, 153, 435, 136,
-    386, 72, 55, 29, 78, 133, 18, 309, 240, 346, 134, 252,
+    1200, 210, 400, 460, 90, 60, 450, 770, 340, 150, 430, 140,
+    390, 70, 50, 30, 80, 130, 20, 310, 240, 350, 130, 250,
 ]
 
 WEIGHTED_HEADER = """
