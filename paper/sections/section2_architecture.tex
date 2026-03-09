@@ -1,0 +1,235 @@
+% Section 2 — Architecture
+% Paper: "The Learnable Bridge: Task Fingerprinting and Adapter Composition
+%         via Structured Coupling in Low-Rank Adaptation"
+
+\section{Architecture}
+\label{sec:architecture}
+
+\subsection{Standard LoRA}
+\label{sec:standard-lora}
+
+Low-rank adaptation~\cite{hu2022lora} freezes a pretrained weight matrix
+$W_0 \in \mathbb{R}^{d_\text{out} \times d_\text{in}}$ and learns a
+low-rank update $\Delta W = BA$, where $B \in \mathbb{R}^{d_\text{out}
+\times r}$, $A \in \mathbb{R}^{r \times d_\text{in}}$, and $r \ll
+\min(d_\text{in}, d_\text{out})$.
+The adapted forward pass is
+\begin{equation}
+  h = W_0 x + \frac{\alpha}{r}\, B A x,
+  \label{eq:lora}
+\end{equation}
+where $\alpha$ is a fixed scaling factor and $x \in \mathbb{R}^{d_\text{in}}$.
+$A$ is initialized via Kaiming uniform~\cite{he2015delving} and $B$ is
+initialized to zero, so $\Delta W = 0$ at the start of training.
+The rank-$r$ hidden vector $z = Ax \in \mathbb{R}^r$ serves as an
+intermediate representation, but LoRA imposes no structure on it:
+the $r$ dimensions are an arbitrary basis for a low-rank subspace.
+Two dimensions of $z$ interact only insofar as $B$ happens to mix
+them in the up-projection---there is no explicit coupling mechanism
+within the hidden space itself.
+
+\subsection{The Bridge Modification}
+\label{sec:bridge}
+
+We partition the rank-$r$ hidden vector into $C$ channels of width
+$r / C$ (requiring $C \mid r$) and insert a learnable \emph{bridge
+matrix} $M \in \mathbb{R}^{C \times C}$ that mixes channels before
+the up-projection.
+Concretely, the adapted forward pass becomes:
+\begin{equation}
+  h = W_0 x + \frac{\alpha}{r}\, B\,
+    \operatorname{vec}\!\bigl(M \cdot
+    \operatorname{mat}_{C \times r/C}(Ax)\bigr),
+  \label{eq:bridge}
+\end{equation}
+where $\operatorname{mat}_{C \times r/C}$ reshapes $\mathbb{R}^r
+\to \mathbb{R}^{C \times (r/C)}$ and $\operatorname{vec}$ is its
+inverse.
+Equivalently, in index notation: the hidden vector $z = Ax$ is
+reshaped to $Z \in \mathbb{R}^{C \times (r/C)}$, the bridge acts as
+$\tilde{Z}_{ik} = \sum_j M_{ij} Z_{jk}$, and $\tilde{Z}$ is
+flattened back to $\mathbb{R}^r$ before multiplication by $B$.
+
+In our experiments $r = 24$ and $C = 6$, so each channel carries
+$r/C = 4$ rank slices and $M$ is a $6 \times 6$ matrix with 36
+learnable parameters.
+At a representative target module in Qwen2.5-7B
+($d_\text{in} = d_\text{out} = 3{,}584$), the standard LoRA
+projection matrices contain $2 \times 24 \times 3{,}584 = 172{,}032$
+parameters; the bridge adds 36, a $0.021\%$ overhead.
+
+\paragraph{Identity recovery.}
+When $M = I_C$, the reshape--multiply--flatten sequence is the identity
+map on $\mathbb{R}^r$.
+Equation~\eqref{eq:bridge} reduces exactly to
+Equation~\eqref{eq:lora}: the bridge architecture is a strict
+generalization of standard LoRA, with LoRA as the $M = I_C$ special
+case.
+We initialize $M = I_C$ at the start of training so that the bridge
+begins inert and any coupling structure in $M$ at convergence is
+entirely learned, not inherited from initialization.
+
+\paragraph{Gradient flow.}
+The loss gradient with respect to a bridge element $M_{ij}$ is
+\begin{equation}
+  \frac{\partial \mathcal{L}}{\partial M_{ij}}
+  = \sum_{k=1}^{r/C}
+    \frac{\partial \mathcal{L}}{\partial \tilde{Z}_{ik}}
+    \cdot Z_{jk},
+  \label{eq:bridge-grad}
+\end{equation}
+where $\tilde{Z}_{ik}$ receives its gradient through $B$ and the
+downstream loss.
+$M_{ij}$ therefore accumulates gradient proportional to the
+\emph{co-activation} between channel~$j$ (in the down-projection's
+output) and channel~$i$ (in the up-projection's gradient signal).
+If training data induces systematic correlations between specific
+channel pairs, the corresponding off-diagonal entries of $M$ grow;
+if channel activations are independent, $M$ remains near $I_C$.
+This selectivity is the mechanism that enables task fingerprinting
+(\S\ref{sec:experiments}).
+
+\paragraph{Rotational symmetry.}
+For any orthogonal $R \in \mathbb{R}^{r \times r}$, the product $BA$
+is invariant under $B \mapsto BR^\top$, $A \mapsto RA$.
+The rank dimensions of standard LoRA are therefore rotationally
+symmetric---there is no intrinsic ``channel~1'' or ``channel~6.''
+The bridge does not break this symmetry: the optimizer may permute or
+rotate channels freely, and the bridge will compensate.
+What the bridge \emph{does} provide is a readable summary of the
+coupling structure that training discovered, regardless of which
+rotation the optimizer chose.
+Two bridges trained on the same task will not have identical entries,
+but they will exhibit the same spectral properties (eigenvalues,
+Fiedler connectivity) because these are rotation-invariant.
+We exploit this in our analyses by comparing bridges via their
+eigenspectra and graph-theoretic connectivity rather than entry-wise
+distance.
+
+\subsection{Topological Constraints}
+\label{sec:topology}
+
+The bridge $M$ is a dense $C \times C$ matrix by default.
+Its off-diagonal entries can optionally be constrained by a binary
+mask $\mathcal{T} \in \{0, 1\}^{C \times C}$ derived from a lattice
+topology, enforcing $M_{ij} = 0$ wherever $\mathcal{T}_{ij} = 0$.
+During training, masked entries receive no gradient and remain at zero.
+
+We define two topological masks for $C = 6$, derived from the
+connectivity of three-dimensional lattices:
+
+\paragraph{FCC mask.}
+The six channels correspond to the six antipodal face-pairs of the
+rhombic dodecahedron---equivalently, the six nearest-neighbor direction
+pairs of the face-centered cubic (FCC) lattice.
+Two direction pairs \emph{couple} when they share vertices on the
+underlying polyhedron.
+In the rhombic dodecahedron, co-planar pairs (those lying in the same
+coordinate plane, e.g., directions $(1,1,0)$ and $(1,-1,0)$ in the
+$xy$-plane) share 4 octahedral vertices; cross-planar pairs share 2.
+All pairs share at least 2 vertices, so the FCC mask is the complete
+graph on 6 nodes: $\mathcal{T}^\text{FCC}_{ij} = 1$ for all $i, j$.
+The mask permits 6 diagonal entries and $\binom{6}{2} = 15$
+bidirectional off-diagonal connections, for 36 non-zero entries total.
+In practice, the unconstrained bridge is the FCC-masked bridge---the
+topology permits full coupling.
+
+\paragraph{Cubic mask.}
+The cubic lattice connects each node to 6 neighbors along 3
+axis-aligned directions, yielding 3 direction pairs.
+To construct a cubic mask on 6 channels, we retain coupling only
+within each co-planar pair: channels $(0,1)$, $(2,3)$, and $(4,5)$
+may couple, but cross-planar entries are zeroed.
+This produces a block-diagonal mask with three $2 \times 2$ blocks:
+$\mathcal{T}^\text{cubic}_{ij} = 1$ if $\lfloor i/2 \rfloor =
+\lfloor j/2 \rfloor$, and 0 otherwise.
+The cubic mask has 6 diagonal entries and 3 bidirectional off-diagonal
+connections (one per block), for 12 non-zero entries.
+
+\paragraph{Relationship to MELoRA.}
+Setting the mask to $\mathcal{T} = I_C$ (diagonal only, no
+off-diagonal coupling) recovers the block-diagonal structure of
+MELoRA~\cite{ren2024melora}, where each channel operates independently.
+The bridge thus spans a continuum: from fully independent channels
+($M = I_C$, MELoRA), through partially coupled (cubic mask), to fully
+coupled (FCC mask or unconstrained).
+All experiments in this paper use the unconstrained bridge unless
+otherwise noted.
+
+\subsection{Diagnostic Quantities}
+\label{sec:diagnostics}
+
+The bridge is a small, square, real matrix.
+We extract three diagnostic quantities from it, each invariant to the
+rotational symmetry of rank dimensions (\S\ref{sec:bridge}):
+
+\paragraph{Fiedler connectivity.}
+We interpret $|M_{ij}|$ for $i \neq j$ as the edge weight between
+channels $i$ and $j$ in a weighted graph on $C$ nodes, and compute the
+algebraic connectivity (second-smallest eigenvalue of the weighted
+Laplacian)~\cite{fiedler1973algebraic}.
+A Fiedler value of zero indicates a disconnected or identity bridge;
+larger values indicate stronger cross-channel coupling.
+At initialization ($M = I_C$), Fiedler $= 0$.
+
+\paragraph{Frobenius deviation.}
+$\|M - I_C\|_F$ measures how far the bridge has moved from its
+identity initialization.
+This is a scalar summary of total learned coupling, combining both
+diagonal scaling and off-diagonal mixing.
+
+\paragraph{Eigenspectrum.}
+The vector of eigenvalues $\lambda_1, \ldots, \lambda_C$ of $M$
+(sorted by magnitude) provides a rotation-invariant fingerprint of
+the bridge's coupling structure.
+We compare eigenspectra between bridges via cosine similarity:
+$\operatorname{cos}(\boldsymbol{\lambda}^{(a)},
+\boldsymbol{\lambda}^{(b)})$.
+
+\subsection{Figure Description}
+\label{sec:arch-figure}
+
+% [Figure 1: Architecture diagram — to be rendered separately]
+%
+% The figure should show the following, arranged left-to-right as a
+% dataflow diagram:
+%
+% LEFT: Input x (a vertical bar labeled d_in).
+%
+% BLOCK 1: Down-projection A (r × d_in), producing z ∈ R^r (a
+% narrow vertical bar labeled r = 24).
+%
+% RESHAPE: z is reshaped into a 6 × 4 grid (6 rows = channels,
+% 4 columns = rank slices per channel). Each row is color-coded to
+% a direction pair. Visual: a small matrix/grid with 6 colored rows.
+%
+% BLOCK 2: The bridge M (6 × 6), shown as a small square matrix
+% overlaid on the channel grid. Arrows or lines connect each
+% channel row to the output channel rows, with line thickness
+% proportional to |M_{ij}|. The identity initialization is shown
+% as a ghosted version (6 diagonal-only connections), with the
+% learned state showing off-diagonal connections appearing.
+%
+% RESHAPE: The mixed 6 × 4 grid is flattened back to R^r.
+%
+% BLOCK 3: Up-projection B (d_out × r), producing the LoRA
+% correction Δh ∈ R^{d_out}.
+%
+% RIGHT: The correction is added to W_0 x (shown as a separate
+% parallel path from x through W_0, merging with Δh via "+").
+%
+% INSET (bottom-right): Two small 6 × 6 heatmaps side by side:
+% (a) M = I_6 (identity, at initialization — diagonal only, all
+% off-diagonal white), labeled "Step 0: standard LoRA";
+% (b) a learned M (showing off-diagonal structure with varying
+% intensity), labeled "Step 10K: learned coupling".
+%
+% ANNOTATION: A callout on the bridge block reading "36 parameters
+% (0.021% of adapter)" with the equation M_{ij}: channel j → channel i.
+%
+% Caption: "RhombiLoRA architecture. The bridge matrix M couples the
+% C = 6 channels of the rank-r hidden representation between the down-
+% and up-projections A and B. At initialization M = I_6, recovering
+% standard LoRA. Training discovers cross-channel coupling (inset),
+% producing a compact diagnostic of adapter behavior."
+

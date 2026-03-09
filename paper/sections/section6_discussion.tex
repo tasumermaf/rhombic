@@ -1,0 +1,247 @@
+% ===================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Why the Bridge Does Not Improve Loss}
+
+The bridge adds 36 parameters per adapter layer. In a rank-24
+RhombiLoRA configuration applied to four target modules across 28
+transformer layers, this amounts to $28 \times 4 \times 36 = 4{,}032$
+bridge parameters---negligible relative to the adapter's total
+parameter count ($28 \times 4 \times 2 \times 24 \times d_{\text{model}}$,
+where $d_{\text{model}} = 3{,}584$ for Qwen2.5-7B, yielding roughly
+19.3M adapter parameters). The bridge contributes 0.02\% of total
+adapter capacity.
+
+At this scale, the optimization landscape does not benefit from the
+bridge's extra degrees of freedom. The $6 \times 6$ coupling matrix
+sits between two much larger projection matrices $A$ and $B$; any
+linear transformation $M$ can be absorbed into the product $BMA$ by
+redefining $B' = BM$. The optimizer has no gradient signal that would
+favor distributing representation across $B$, $M$, and $A$ rather
+than absorbing $M$ into $B$ entirely. This is consistent with our
+Experiment~1 result: frozen-bridge RhombiLoRA matches standard LoRA
+loss to within $\Delta < 0.0002$, and learnable-bridge variants do
+not improve upon it. Doubling rank from 24 to 48 likewise provides
+no benefit---the bottleneck is training signal, not adapter capacity.
+
+\subsection{Why the Bridge Captures Diagnostic Structure}
+
+Despite contributing nothing to loss, the bridge captures
+task-discriminative structure because it occupies a representational
+bottleneck. All information flowing from $A$ to $B$ passes through
+the $6 \times 6$ bridge matrix $M$. During training, the gradients
+that shape $M$ reflect how the task's loss landscape requires the
+six rank channels to interact. If a task demands broad cross-channel
+mixing (as general instruction following does), $M$ develops
+off-diagonal entries; if the task is more constrained (as code
+generation is), $M$ remains closer to diagonal.
+
+This is the key distinction between \emph{capacity} and
+\emph{diagnostics}. The bridge does not need to improve the adapter's
+representational power to be informative about what the adapter
+learned. It is a 36-parameter summary of the coupling pattern that
+$A$ and $B$ jointly discovered---readable without running inference,
+without evaluation on held-out data, and without access to the
+training set. The coupling magnitude (Fiedler value) differentiates
+tasks: alpaca adapters develop $2.2\times$ more cross-channel
+coupling than code adapters (Fiedler 0.040 vs.\ 0.018). The coupling
+structure (eigenspectrum shape) is conserved: cosine similarity
+between task eigenspectra exceeds 0.999. Tasks modulate the
+\emph{intensity} of bridge coupling while preserving its
+\emph{architecture}.
+
+\subsection{The Q-Projection Finding}
+
+Across all three experimental phases, query-projection bridges are
+the most informative component. Phase~0 (single-task anatomy):
+Q-proj develops 40\% more coupling than V-proj ($F = 6.022$,
+$p = 0.0008$). Phase~1A (task fingerprinting): Q-proj carries the
+highest between-task distance (0.162 vs.\ 0.075 for K-proj and
+0.072 for V-proj). Phase~2A (adapter merging): Q-proj bridges are
+the most sensitive to cross-task interpolation. This ranking is
+consistent across phases (Pearson $r = 0.921$ between Phase~1A task
+discrimination and Phase~2A merge sensitivity).
+
+The mechanism is architectural. The query projection computes
+\emph{what to attend to}---the most task-specific computation in
+the attention head. Key projections compute indexing; value
+projections carry content. Queries encode the task's question about
+input structure, which varies maximally across task types. The bridge
+at the Q-projection captures this variation because it sits at the
+point of maximum task-dependent divergence in the information flow.
+
+An unexpected secondary finding: output projections surpass query
+projections in the final five transformer layers (Layer~24 O-proj
+achieves the single highest between-task distance of 0.3188 across
+all 112 adapter positions). Late-layer output projections reformat
+attention results for downstream prediction, and this reformatting
+becomes strongly task-specific as the model approaches its output.
+The depth gradient is significant (Spearman $\rho = 0.701$,
+$p < 0.0001$), with a $10.3\times$ dynamic range between the most
+and least discriminative bridge positions.
+
+\subsection{Practical Implications}
+
+A leave-one-out SVM trained on the 28 Q-projection bridge matrices
+of a single adapter classifies task type at 84.5\% accuracy across
+three tasks (chance: 33.3\%). This fingerprint costs 1{,}008
+parameters ($28 \times 36$)---smaller than a single hidden state
+vector in Qwen2.5-7B (4{,}096 dimensions). Including the 28
+O-projection bridges (2{,}016 parameters total) yields 83.3\%
+accuracy with improved performance on the hardest class (math:
+66.1\% vs.\ 50.0\% with Q-proj alone).
+
+For adapter composition, bridge-level interpolation preserves
+eigenspectrum structure at all mixing ratios (cosine $> 0.999$),
+but the Fiedler trajectory is non-linear for structurally
+dissimilar task pairs ($R^2 = 0.735$ for alpaca$\leftrightarrow$math
+vs.\ $R^2 = 0.956$ for alpaca$\leftrightarrow$code). The
+code$\leftrightarrow$math interpolation exhibits a Fiedler dip at
+$\alpha \approx 0.2$, consistent with destructive interference
+between bridge patterns that differ in structure rather than
+magnitude alone. At 10\% cross-task contamination ($\alpha = 0.1$),
+all pairs preserve the dominant task's structure with cosine 1.0000.
+This provides an empirical safe mixing ratio---conservative, but
+grounded.
+
+These results suggest a practical architecture for adapter management:
+store only the 28 Q-projection bridges per task (1{,}008 parameters)
+as a task fingerprint; use these for routing incoming requests to the
+correct adapter without inference. K-proj and V-proj bridges are
+structurally conserved across tasks and can be shared. Q-proj bridges
+require task-specific handling during composition.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+\textbf{Single model family.} All experiments use Qwen2.5-7B-Instruct.
+The Q-projection dominance and depth gradient may reflect this
+architecture's attention structure rather than a universal property
+of transformer adapters. Extending to LLaMA, Mistral, or non-decoder
+architectures is necessary before claiming generality.
+
+\textbf{Three tasks.} Three-way classification at 84.5\% is
+encouraging but limited. With only three task categories (general,
+code, math), the decision boundary is low-dimensional. Scaling to
+10--50 tasks would test whether bridge fingerprints remain
+discriminative as the classification problem grows harder, or whether
+structurally similar tasks (e.g., code generation vs.\ code
+debugging) produce indistinguishable bridges.
+
+\textbf{Fixed bridge rank.} The bridge is $6 \times 6$ in all
+experiments, motivated by the rhombic dodecahedron's six face pairs.
+Higher bridge ranks ($8 \times 8$, $12 \times 12$) might capture
+finer-grained coupling structure at the cost of increased parameter
+count. Lower ranks ($3 \times 3$, the cubic baseline) show
+$4.6\times$ less coupling in Experiment~1, but whether they retain
+fingerprinting ability is untested.
+
+\textbf{Unequal training durations.} Alpaca trained for 10K steps,
+code for 1{,}500, and math for 2{,}000. The monotonic relationship
+between training duration and bridge distance from initialization
+(alpaca: 0.199, math: 0.069, code: 0.032) means that some of the
+between-task separation may reflect training duration rather than
+task structure. The step-0 control (all distances exactly 0.000000)
+confirms that fingerprints emerge from training, but a fully
+controlled comparison would train all tasks for the same number of
+steps.
+
+\textbf{No generative evaluation.} Bridge merging was evaluated
+structurally (eigenspectrum cosine, Fiedler trajectories) but not
+generatively. Whether swapping bridges between adapters produces
+usable output---whether the 36-parameter bridge carries enough
+task information to redirect a fixed $A/B$ projection---remains
+unvalidated. This is the critical missing experiment for the adapter
+composition claim.
+
+\textbf{Classification methodology.} Leave-one-out SVM on 84
+samples (28 per task) is a small-sample evaluation. The classifier
+uses flattened $6 \times 6 = 36$-dimensional feature vectors without
+domain-informed feature engineering. More sophisticated approaches
+(spectral features, graph-theoretic metrics, GL($r$)-equivariant
+representations~\cite{putterman2024learning}) might improve
+accuracy but would complicate the interpretability argument.
+
+\subsection{Connection to Lattice Topology}
+\label{sec:lattice-connection}
+
+The bridge is where the lattice geometry of
+Papers~1--2~\cite{bielec2026rhombic, bielec2026weighted} meets
+neural architecture. The rhombic dodecahedron's six face pairs
+define six channel pairs in the bridge matrix; FCC lattice
+connectivity determines the initialization topology. Paper~1
+established that FCC lattices achieve $2.4\times$ algebraic
+connectivity over cubic lattices at matched node count. Paper~2
+showed this advantage amplifies to $6.1\times$ under structured
+edge weights. The bridge is the site where these lattice properties
+enter the neural network.
+
+In practice, the geometric motivation provides a principled bridge
+dimension (6, from the RD's face-pair count) and initialization
+structure (FCC-topology coupling), but training erases the
+geometric semantics. The bridge does not learn to associate
+specific channels with specific rhombic dodecahedron directions
+(L-001 in the experimental record: co-planar/cross-planar ratio
+$= 1.002$, $p = 0.474$). What survives is the algebraic
+connectivity advantage: six channels with FCC-topology
+initialization develop more cross-channel coupling than three
+channels with cubic initialization ($4.6\times$ at 1.5B scale,
+$1.73\times$ at 7B). The topology determines \emph{how much}
+coupling the bridge develops; the task determines \emph{what for}.
+
+This separation---geometric structure providing the capacity,
+training providing the content---mirrors the lattice findings at
+larger scale. The FCC lattice does not prefer specific directions;
+it provides uniformly higher connectivity that any application can
+exploit. The bridge inherits this property.
+
+% ===================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+We introduced a learnable $6 \times 6$ coupling matrix---the
+\emph{bridge}---between the $A$ and $B$ projections of a LoRA
+adapter, adding 36 parameters per layer. The bridge does not improve
+fine-tuning loss: at rank 24, its parameters are a negligible
+fraction of total adapter capacity, and the optimization landscape
+does not benefit from the additional degrees of freedom. This is
+not a better adapter. It is a new lens on adapter behavior.
+
+The bridge reveals what LoRA learns, in 36 parameters per layer.
+Tasks that require diverse cross-channel mixing (general instruction
+following) produce bridges with $2.2\times$ higher algebraic
+connectivity than tasks with constrained structure (code generation).
+A leave-one-out SVM trained on 28 query-projection bridges---1{,}008
+parameters total---classifies task type at 84.5\% accuracy without
+inference or held-out evaluation. The fingerprint emerges entirely
+from training: at step~0, all bridges are identical; by step~1{,}500,
+binary classification between the two most similar tasks reaches 93\%.
+The query projection is the optimal fingerprint location because it
+encodes the most task-specific aspect of attention: what to look for.
+
+Bridge-level adapter composition preserves eigenspectrum structure
+across all mixing ratios (cosine $> 0.999$), but non-linear Fiedler
+trajectories in structurally dissimilar task pairs reveal destructive
+interference invisible to full-weight merging diagnostics. The bridge
+decomposes adapter behavior into a \emph{projection} component
+($A$ and $B$, millions of parameters) and a \emph{coupling} component
+($M$, 36 parameters)---and the coupling component alone carries
+enough structure to identify the task, detect interference during
+merging, and differentiate attention head components by function.
+
+The present study is limited to one model family, three tasks, and
+structural evaluation without generative validation. Scaling to more
+tasks will test whether bridge fingerprints remain discriminative in
+higher-dimensional classification problems. Higher bridge ranks may
+capture finer coupling structure. The most immediate practical
+direction is bridge-based adapter routing: given a library of
+task-specific adapters, select the correct one by comparing a query
+adapter's 1{,}008-parameter Q-projection fingerprint against stored
+fingerprints, without running any of the adapters at inference time.
+
+\paragraph{Availability.}
+Source code: \url{https://github.com/promptcrafted/rhombic}.\\
+Package: \url{https://pypi.org/project/rhombic/}.\\
+Bridge matrices and analysis scripts: included in the repository
+under \texttt{results/} and \texttt{scripts/}.

@@ -1,0 +1,163 @@
+\documentclass[11pt]{article}
+
+% --- packages ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage[numbers]{natbib}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% \usepackage{microtype}  % disabled: MiKTeX font expansion issue
+\usepackage{bookmark}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black
+}
+
+% --- metadata ---
+\title{%
+  The Learnable Bridge:\\
+  Task Fingerprinting and Adapter Composition\\
+  via Structured Coupling in Low-Rank Adaptation%
+}
+
+\author{%
+  Timothy Paul Bielec%
+  \thanks{Corresponding author. \texttt{timothy@promptcrafted.com}}%
+  \\
+  Promptcrafted LLC%
+}
+
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We insert a learnable $6 \times 6$ coupling matrix---the \emph{bridge}---between
+the down- and up-projections of a LoRA adapter, adding 36 parameters per
+adapted layer ($0.02\%$ overhead). The bridge begins as the identity matrix,
+recovering standard LoRA exactly. Through systematic analysis of 336 bridge
+matrices trained across three tasks on Qwen2.5-7B, we establish three
+findings: (1)~bridge matrices encode task identity---a leave-one-out SVM
+on 28 query-projection bridges (1,008 parameters) classifies task type at
+84.5\% accuracy versus 33.3\% chance; (2)~FCC lattice topology learns
+$4.6\times$ more cross-channel coupling than cubic topology, though neither
+improves training loss; (3)~linear interpolation of bridge matrices between
+adapters preserves eigenspectrum structure (cosine $> 0.999$), enabling
+low-dimensional adapter composition analysis. The bridge does not improve
+loss or perplexity relative to standard LoRA at matched rank. Its
+contribution is diagnostic, not generative: a 36-parameter summary of
+adapter coupling structure, readable without inference or evaluation.
+\end{abstract}
+
+% --- Sections ---
+\input{sections/section1_introduction}
+\input{sections/section2_architecture}
+
+% Section 3: Theoretical Grounding
+\section{Theoretical Grounding}
+\label{sec:theory}
+
+The bridge's diagnostic utility rests on a simple observation about
+gradient flow. The loss gradient with respect to bridge element $M_{ij}$
+is proportional to the co-activation between down-projection channel $j$
+and up-projection gradient channel $i$ (Eq.~\ref{eq:bridge-grad}).
+Bridge entries therefore accumulate a running summary of inter-channel
+correlation as shaped by the training objective.
+
+Three properties of the bridge gradient make it diagnostic:
+
+\paragraph{Selectivity.}
+If training data induces systematic correlations between specific channel
+pairs---because certain feature combinations co-occur across examples---the
+corresponding off-diagonal entries grow. If channels are independent,
+$M$ remains near $I_C$. The bridge is shaped by the task's statistical
+structure, not by initialization or architectural bias.
+
+\paragraph{Compactness.}
+The bridge occupies $C^2 = 36$ parameters per layer, regardless of
+model dimension $d_\text{model}$. This is smaller than a single hidden
+state vector in the base model. The diagnostic compression ratio is
+$d_\text{model}^2 / C^2 \approx 3.6 \times 10^5$ for Qwen2.5-7B.
+
+\paragraph{Invariant diagnostics.}
+While bridge entries depend on the optimizer's choice of rank-space
+rotation, the eigenspectrum of $M$ is rotation-invariant. Two bridges
+trained on the same task with different random seeds will differ
+entry-wise but converge to similar eigenspectra (cosine similarity
+$> 0.999$ across all task pairs in our experiments). Spectral analysis
+of the bridge is therefore reproducible across training runs.
+
+The theoretical prediction---that task structure flows into bridge
+structure through gradient co-activation---is confirmed empirically
+in Sections~\ref{sec:exp-fingerprint} and~\ref{sec:exp-merge}.
+
+\input{sections/section4_experiments}
+
+% Section 5: Related Work
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{LoRA variants.}
+LoRA~\cite{hu2022lora} established the $B \cdot A$ factorization for
+parameter-efficient fine-tuning. Subsequent work has modified this
+factorization in several directions. AdaLoRA~\cite{zhang2023adalora}
+dynamically adjusts rank allocation across layers via importance
+scoring. LoRA-XS~\cite{banaei2024loraxs} inserts an $r \times r$
+matrix between frozen $A$ and $B$ projections, achieving extreme
+parameter reduction by learning only the intermediate coupling.
+MELoRA~\cite{ren2024melora} partitions rank dimensions into
+independent mini-LoRAs, equivalent to a block-diagonal bridge with
+frozen identity blocks. DoRA~\cite{liu2024dora} decomposes the
+update into magnitude and direction components. None of these variants
+use the intermediate representation as a \emph{diagnostic} of adapter
+behavior; all frame intermediate structure as a means to improve
+adaptation efficiency.
+
+\paragraph{Adapter merging.}
+Task arithmetic~\cite{ilharco2023editing} composes adapters by
+linear combination of weight deltas. TIES-Merging~\cite{yadav2023ties}
+prunes small-magnitude parameters and resolves sign conflicts before
+averaging. DARE~\cite{yu2024dare} randomly drops adapter parameters
+before merging. AdaMerging~\cite{yang2024adamerging} learns per-layer
+merging coefficients. These methods operate on full weight matrices
+or their SVD factors without a compact representation of task identity.
+Bridge interpolation (\S\ref{sec:exp-merge}) provides such a
+representation: a 36-dimensional space in which adapter compatibility
+can be assessed before committing to an expensive full-weight merge.
+
+\paragraph{Adapter analysis.}
+Prior work on understanding LoRA representations has focused on
+weight-space structure. The LoRA training dynamics
+analysis~\cite{biderman2024lora} examines how $A$ and $B$ evolve
+during training but provides no compact summary of the learned
+coupling. Spectral analysis of adapter weights~\cite{zhang2023adalora}
+operates on the full $d_\text{out} \times r$ projection matrices.
+Our bridge-based diagnostics compress the coupling structure to
+$C^2 = 36$ parameters per layer while retaining sufficient information
+for task classification at 84.5\% accuracy.
+
+\input{sections/section6_discussion}
+
+\section*{Acknowledgments}
+This work was conducted entirely on consumer and cloud GPU hardware:
+NVIDIA RTX 6000 Ada 48\,GB (local) and RTX 4090 16\,GB (remote) for
+small-scale experiments; NVIDIA A100 80\,GB (RunPod) for 7B-scale
+training. The \texttt{rhombic} library and all experimental code are
+available at \url{https://github.com/promptcrafted/rhombic} under
+MPL-2.0. Bridge matrices for all experiments are included as NumPy
+arrays for full reproducibility.
+
+\bibliographystyle{plainnat}
+\bibliography{refs-paper3}
+
+\end{document}

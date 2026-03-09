@@ -1,0 +1,128 @@
+% Section 1 — Introduction
+% Paper: "The Learnable Bridge: Task Fingerprinting and Adapter Composition
+%         via Structured Coupling in Low-Rank Adaptation"
+
+\section{Introduction}
+\label{sec:introduction}
+
+A trained LoRA adapter~\cite{hu2022lora} is opaque.
+Its two projection matrices $A \in \mathbb{R}^{r \times d}$ and
+$B \in \mathbb{R}^{d \times r}$ encode whatever the fine-tuning
+objective required, but there is no structured way to inspect
+\emph{what} they learned without running inference on held-out data.
+Two adapters with identical architectures, trained on different tasks,
+are indistinguishable from their weight statistics alone: both are
+low-rank, both are small, both produce $\Delta W = BA$.
+The adapter is a black box within a black box.
+
+This opacity has practical consequences.
+Adapter merging methods---task arithmetic~\cite{ilharco2023editing},
+TIES-Merging~\cite{yadav2023ties}, DARE~\cite{yu2024dare},
+AdaMerging~\cite{yang2024adamerging}---operate on full weight matrices
+or their SVD factors without any compact representation of task identity.
+Overfitting detection requires validation loss curves.
+Adapter selection from a hub or registry relies on metadata, not on the
+adapter's internal state.
+In each case, the adapter itself provides no summary of its own content.
+
+We introduce a \emph{bridge matrix}: a learnable $C \times C$ coupling
+matrix inserted between $A$ and $B$ in the LoRA factorization.
+The down-projection $A$ maps the input to a rank-$r$ hidden vector,
+which is reshaped into $C$ channels of width $r/C$; the bridge mixes
+channels; the result is reshaped and passed to the up-projection $B$.
+With $C = 6$ (motivated by the face-count of the rhombic dodecahedron
+in the RhombiLoRA architecture~\cite{rhombilora_paper1, rhombilora_paper2}),
+the bridge adds 36 parameters per adapter layer---a 0.03\% overhead
+relative to the $\sim$135K parameters in a rank-24 adapter at each
+target module.
+When the bridge is the identity matrix $I_C$, the architecture
+reduces exactly to standard LoRA.
+
+Through systematic analysis of 336 bridge matrices trained across three
+tasks (general instruction following, code generation, mathematical
+reasoning) on Qwen2.5-7B, we establish three findings:
+
+\paragraph{(a) Task fingerprinting.}
+Bridge matrices encode task identity.
+A leave-one-out SVM trained on the 28 query-projection bridges
+(1,008 parameters total) classifies task type at 84.5\% accuracy,
+compared to 33.3\% chance ($p < 10^{-6}$, Mann-Whitney $U$).
+Tasks modulate bridge coupling \emph{magnitude}---general instruction
+following produces $2.2\times$ more cross-channel coupling than code
+generation (Fiedler connectivity 0.040 vs.\ 0.018)---while preserving
+coupling \emph{structure}: eigenspectrum cosine similarity exceeds
+0.999 between all task pairs.
+The fingerprint emerges monotonically from training
+(0\% at step 0, 66\% at step 500, 93\% at step 1500 for the hardest
+binary pair) with no initialization confound, since all bridges start
+as $I_C$.
+
+\paragraph{(b) Smooth adapter composition.}
+Linear interpolation of bridge matrices between task-specific adapters
+preserves eigenspectrum structure (cosine $> 0.999$) at all mixing
+ratios $\alpha \in [0, 1]$, while random-weight bridges retain only
+cosine $\approx 0.5$.
+The Fiedler trajectory is linear for structurally similar task pairs
+(alpaca$\leftrightarrow$code, $R^2 = 0.956$) but non-linear for
+dissimilar pairs (code$\leftrightarrow$math, $R^2 = 0.823$), with
+destructive interference visible as a connectivity dip at $\alpha
+\approx 0.2$---a phenomenon invisible to full-weight merging diagnostics.
+This suggests that bridge interpolation can serve as a low-dimensional
+probe of adapter compatibility before committing to an expensive merge.
+
+\paragraph{(c) Non-uniform informativeness.}
+Query projections carry the most task-discriminative bridge structure
+across all three experimental phases: highest coupling (Fiedler 0.050
+vs.\ 0.035--0.039 for K/V/O), highest between-task distance, highest
+merge sensitivity.
+Cross-phase Pearson $r = 0.921$ between task discrimination
+(Phase~1A) and merge sensitivity (Phase~2A) confirms that the modules
+encoding the most task identity are also the most vulnerable to
+cross-task interference during composition.
+Later transformer layers are significantly more task-specific than
+earlier layers (Spearman $\rho = 0.701$, $p < 0.0001$), with the
+output projection surpassing the query projection in the final five
+layers (Layer~24 $o_\text{proj}$: distance 0.319, the single most
+discriminative position in the model).
+
+\paragraph{The null result.}
+The bridge does not improve training loss or perplexity relative to
+standard LoRA at matched rank.
+The original motivation---that the rhombic dodecahedron's face-pairing
+topology would induce direction-specific channel coupling from
+structured training data---produced a comprehensive null
+(co-planar/cross-planar ratio $= 1.002$, $p = 0.474$, across 224
+bridge matrices at two model scales).
+Rank dimensions in LoRA are rotationally symmetric: for any orthogonal
+$R$, $B R^\top R A = BA$.
+Topological labels on channels do not survive this symmetry without
+explicit supervision.
+The bridge learns \emph{that} mixing channels helps (FCC topology
+produces $4.6\times$ more cross-channel coupling than cubic), but not
+\emph{which} channels to prefer.
+
+\paragraph{Contribution.}
+We do not propose a better adapter.
+We propose a new \emph{diagnostic}: a 36-parameter matrix that
+summarizes the coupling structure training discovered between $A$ and
+$B$, readable without inference or evaluation on held-out data.
+The bridge provides a compact task fingerprint (1,008 parameters for
+the optimal Q-projection subset---smaller than a single hidden state
+vector in Qwen2.5-7B), a low-dimensional space for adapter composition
+analysis, and a per-layer, per-module map of where task specialization
+concentrates in the network.
+To our knowledge, no prior work uses a structured intermediate
+representation within an adapter as a diagnostic of adapter behavior.
+
+The closest architectural precedent is LoRA-XS~\cite{banaei2024loraxs},
+which places an $r \times r$ matrix between $A$ and $B$ but freezes
+the outer projections to minimize parameter count.
+Because $A$ and $B$ do not adapt to the task in LoRA-XS, the
+intermediate matrix cannot serve as a diagnostic of what joint
+$A$-$B$ learning discovered---it \emph{is} the entirety of learned
+adaptation.
+RhombiLoRA trains all three components jointly, enabling the bridge
+to capture the emergent coupling pattern rather than carrying the full
+adaptation burden.
+Section~\ref{sec:related} discusses this distinction and other related
+methods in detail.

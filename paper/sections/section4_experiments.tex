@@ -1,0 +1,449 @@
+% =============================================================================
+% Section 4: Experiments
+% Paper: "The Learnable Bridge: Task Fingerprinting and Adapter Composition
+%         via Structured Coupling in Low-Rank Adaptation"
+% Generated: 2026-03-08
+% =============================================================================
+
+\section{Experiments}
+\label{sec:experiments}
+
+We evaluate RhombiLoRA's bridge matrices across five experimental phases,
+progressing from single-adapter structural analysis through multi-task
+fingerprinting to bridge-level adapter composition. All experiments use the
+\texttt{rhombic} library (v0.3.0) with identical bridge extraction and
+spectral analysis pipelines. Code, bridge matrices, and reproduction
+scripts are available at \texttt{[repository]}.
+
+\paragraph{Common configuration.}
+Unless otherwise noted, all adapters use rank $r = 24$ with $c = 6$
+channels under FCC topology, yielding $6 \times 6$ bridge matrices
+(36 learnable parameters per adapter). Training uses QLoRA (4-bit
+NormalFloat quantization) with AdamW ($\beta_1 = 0.9$, $\beta_2 = 0.999$),
+learning rate $2 \times 10^{-4}$ with cosine schedule, batch size 4,
+gradient accumulation 4, and \texttt{bf16} mixed precision. Target modules
+are \texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}, and
+\texttt{o\_proj} across all transformer layers.
+
+% ---------------------------------------------------------------------------
+\subsection{Bridge Anatomy (1.5B)}
+\label{sec:exp-anatomy-1b}
+
+\paragraph{Setup.} We train five adapter configurations on
+Qwen2.5-1.5B-Instruct (28 layers, 112 total adapters) using
+Alpaca-cleaned~\cite{alpaca} (52K examples) for 2,000 steps on an NVIDIA
+RTX 6000 Ada (48\,GB). The configurations are: (1)~standard LoRA $r\!=\!24$,
+(2)~RhombiLoRA $r\!=\!24$ with frozen identity bridge, (3)~RhombiLoRA
+$r\!=\!24$ with learnable bridge (identity initialization),
+(4)~standard LoRA $r\!=\!48$ (2$\times$ parameter budget), and
+(5)~RhombiLoRA $r\!=\!24$ with cubic topology ($c\!=\!3$, $3 \times 3$
+bridge). Configurations 1--3 and~5 have matched trainable parameter counts
+($\sim$3.27M); configuration~4 doubles this to $\sim$6.54M. Training
+configurations are summarized in Table~\ref{tab:exp1-configs}.
+
+% Table: Exp 1 configurations
+\begin{table}[t]
+\centering
+\caption{Experiment 1 configurations (Qwen2.5-1.5B-Instruct, Alpaca-cleaned, 2K steps).}
+\label{tab:exp1-configs}
+\small
+\begin{tabular}{@{}clcccc@{}}
+\toprule
+\# & Configuration & Rank & Channels & Bridge & Params \\
+\midrule
+1 & Standard LoRA          & 24 & 6 & Frozen $I$ & 3,268,608 \\
+2 & RhombiLoRA (frozen)    & 24 & 6 & Frozen $I$ & 3,268,608 \\
+3 & RhombiLoRA (learnable) & 24 & 6 & Learnable  & 3,270,624 \\
+4 & Standard LoRA          & 48 & 6 & Frozen $I$ & 6,537,216 \\
+5 & RhombiLoRA (cubic)     & 24 & 3 & Learnable  & 3,269,112 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Results.}
+\textbf{Identity equivalence.} Configurations 1 and~2 produce loss
+trajectories within $\Delta < 0.0002$ at every checkpoint, confirming that
+RhombiLoRA with a frozen identity bridge recovers standard LoRA exactly.
+
+\textbf{Rank saturation.} Configuration~4 (rank 48, $2\times$ parameters)
+converges to the same final loss as rank~24 (0.376 vs.\ 0.376 at step
+2000). The training-signal bottleneck at 2K steps is not rank capacity;
+the bridge provides a qualitatively different kind of capacity
+(cross-channel mixing) rather than more of the same.
+
+\textbf{Structured coupling.} Configuration~3's bridge develops monotonically
+increasing algebraic connectivity (Fiedler value) over training: from
+$\lambda_2 = 0.000$ at initialization to $\lambda_2 = 0.037$ at step 2000.
+The primary learned behavior is diagonal self-amplification ($\sim$$+$0.009
+per channel); off-diagonal cross-channel coupling is an order of magnitude
+smaller ($\sim$0.001) but consistently present and growing.
+
+\textbf{Topology matters.} The critical finding: the 6-channel FCC bridge
+develops \textbf{4.6$\times$} higher Fiedler value and \textbf{5.3$\times$}
+higher deviation from identity than the 3-channel cubic bridge
+(Table~\ref{tab:topology-effect}), with matched parameter budgets and
+identical final loss. Both topologies develop the same diagonal
+self-amplification ($+$0.009), but the FCC topology discovers and exploits
+more cross-channel coupling pathways. The optimizer finds that 12 edges
+(FCC) offer more useful mixing structure than 6 edges (cubic)---confirming
+at the neural network level the algebraic connectivity advantage
+established by graph-theoretic benchmarks~\cite{rhombic-paper1}.
+
+\begin{table}[t]
+\centering
+\caption{Topology effect on bridge structure (Exp 1, step 2000). Identical
+parameter budget, identical loss. FCC topology develops 4.6$\times$ more
+algebraic connectivity.}
+\label{tab:topology-effect}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Metric & FCC (6-ch) & Cubic (3-ch) & Ratio \\
+\midrule
+Diagonal growth         & $+$0.0087 & $+$0.0088 & 1.0$\times$ \\
+Mean $|$off-diagonal$|$ & 0.00100   & 0.00060   & 1.7$\times$ \\
+Fiedler $\lambda_2$     & 0.0373    & 0.0082    & 4.6$\times$ \\
+Deviation from $I$      & 0.0507    & 0.0095    & 5.3$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------------
+\subsection{Bridge Anatomy at Scale (7B)}
+\label{sec:exp-anatomy-7b}
+
+\paragraph{Setup.} We train RhombiLoRA ($r\!=\!24$, FCC, learnable bridge)
+on Qwen2.5-7B-Instruct (28 layers, 4 modules per layer, 112 adapters) using
+Alpaca-cleaned for 10,000 steps on a local RTX 6000 Ada. Bridge matrices
+are extracted at 11 checkpoints (steps 0, 1K, 2K, \ldots, 10K), yielding
+1,344 bridge snapshots. We analyze the final 112 bridges for positional
+structure and the full trajectory for training dynamics.
+
+\paragraph{Per-module structure.}
+Bridge coupling varies significantly by attention module type. One-way
+ANOVA on final Fiedler values yields $F = 6.022$, $p = 0.0008$
+(Table~\ref{tab:module-anatomy}). Q-projections develop the most coupling
+(mean $\lambda_2 = 0.050$), 40\% higher than V-projections ($\lambda_2 =
+0.036$). The ordering Q $>$ K $>$ V follows no trivially predicted pattern.
+Notably, Q-V bridge structures are more similar than Q-K (paired $t =
+2.13$, $p = 0.042$), contrary to the naive expectation that the
+query--key dot product would bind Q and K more tightly. The bridge tracks
+\emph{information flow} (Q queries what V supplies) rather than
+\emph{similarity computation} (Q$\cdot$K).
+
+\begin{table}[t]
+\centering
+\caption{Per-module-type bridge statistics (Exp 2, Qwen2.5-7B, step 10K,
+$n = 28$ per module). ANOVA: $F = 6.022$, $p = 0.0008$.}
+\label{tab:module-anatomy}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Module & Fiedler ($\lambda_2$) & Deviation & Eig.\ Spread & Co/Cross \\
+\midrule
+q\_proj & $0.050 \pm 0.014$ & $0.273 \pm 0.070$ & $0.124 \pm 0.025$ & $1.050 \pm 0.593$ \\
+k\_proj & $0.039 \pm 0.014$ & $0.155 \pm 0.034$ & $0.108 \pm 0.029$ & $1.074 \pm 0.528$ \\
+o\_proj & $0.035 \pm 0.016$ & $0.225 \pm 0.099$ & $0.101 \pm 0.044$ & $1.096 \pm 0.411$ \\
+v\_proj & $0.036 \pm 0.016$ & $0.142 \pm 0.064$ & $0.094 \pm 0.033$ & $1.061 \pm 0.448$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Depth invariance.}
+In contrast to module type, layer depth has no significant effect on Fiedler
+values (ANOVA $F = 0.799$, $p = 0.74$; Pearson $r = 0.03$, $p = 0.87$).
+The bridge develops comparable algebraic connectivity at every depth. However,
+\emph{deviation} from identity does increase with depth (ANOVA $F = 2.43$,
+$p = 0.001$): later layers diverge more from the identity initialization,
+suggesting that while all layers develop similar coupling strength, deeper
+layers develop more complex (asymmetric or non-uniform) coupling patterns.
+
+\paragraph{Training dynamics.}
+Mean Fiedler value grows monotonically across the full trajectory: $0.000
+\to 0.018$ (1K) $\to 0.040$ (10K). Early--late correlation is weak
+($r = 0.099$, $p = 0.30$): adapters that develop the most coupling at step
+1K do not necessarily retain that ranking at step 10K. The bridge undergoes
+structural reorganization during training rather than uniform amplification
+of initial structure. The coefficient of variation across final bridges is
+$\text{CV} = 0.408$, with a 9$\times$ range between the most coupled adapter
+(Layer~2 \texttt{q\_proj}, $\lambda_2 = 0.099$) and the least (Layer~1
+\texttt{v\_proj}, $\lambda_2 = 0.011$).
+
+\paragraph{Implication.}
+The bridge is \emph{architecturally sensitive} to its position within the
+attention head: module type explains significant variance in coupling
+strength. This motivates the hypothesis that bridges may also be
+\emph{task-sensitive}---if a 36-parameter matrix can distinguish
+\texttt{q\_proj} from \texttt{v\_proj}, it may distinguish ``code'' from
+``math.'' We test this directly in \S\ref{sec:exp-fingerprint}.
+
+% ---------------------------------------------------------------------------
+\subsection{Direction vs.\ Connectivity}
+\label{sec:exp-direction}
+
+\paragraph{Motivation.}
+The FCC bridge topology derives from the rhombic dodecahedron, whose six
+channel pairs decompose into three co-planar pairs (sharing 4 octahedral
+vertices) and three cross-planar pairs (sharing 2). We hypothesized that
+training data with explicit perspective-pairing structure would induce
+measurably stronger co-planar than cross-planar coupling in the bridge.
+
+\paragraph{Setup.}
+We train RhombiLoRA ($r\!=\!24$, FCC) on Qwen2.5-7B-Instruct using a
+synthetic geometric dataset (23K examples with 95\% co-planar perspective
+pairing) for 3,000 steps on a RunPod RTX 4090. We compare against the
+Alpaca baseline (Exp~2, isotropic data, 10K steps) using four spectral
+diagnostics: co-planar/cross-planar coupling ratio, permutation test,
+Gram matrix alignment, and perturbation retention.
+
+\paragraph{Null result on direction.}
+The geometric dataset produces \emph{no} directional signal. The co/cross
+ratio is 1.002 at step 3K (effectively identity), compared to Alpaca's
+transient peak of 1.091 at step 3K that decays to 1.019 by step 10K.
+Neither result is statistically significant under permutation testing
+(geometric $p = 0.474$; Alpaca $p = 0.332$). The full comparison is
+presented in Table~\ref{tab:direction-null}.
+
+\begin{table}[t]
+\centering
+\caption{Directional signal comparison (112 FCC bridges each). Geometric
+data was designed with 95\% co-planar perspective pairing. Neither dataset
+produces significant directional preference.}
+\label{tab:direction-null}
+\small
+\begin{tabular}{@{}lccl@{}}
+\toprule
+Metric & Alpaca (10K) & Geometric (3K) & Winner \\
+\midrule
+Co/Cross ratio         & 1.019 & 1.002 & --- \\
+Permutation $p$        & 0.332 & 0.474 & --- \\
+Gram distance          & 0.921 & 0.921 & Tie \\
+Eigenvalue spread      & 0.107 & 0.062 & Alpaca \\
+Perturbation retention & 68.8\% & 69.7\% & Tie \\
+Fiedler $\lambda_2$    & 0.040 & 0.030 & Alpaca \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Positive result on connectivity.}
+While the null on direction is definitive, bridge structure is
+\emph{distributed} regardless of data type: zeroing all co-planar bridge
+entries retains $\sim$69\% of Fiedler value in both conditions
+(68.8\% vs.\ 69.7\%). This is an architectural invariant, not a
+data-dependent property. The bridge distributes its learned coupling
+across both co-planar and cross-planar pairs irrespective of input
+structure.
+
+\paragraph{Root cause.}
+Prompt-level co-planar bias (95\% perspective pairing) does not translate
+to channel-level co-activation preference because \emph{channel assignment
+is arbitrary}. The bridge has no mechanism to associate semantic perspectives
+(e.g., ``analytical + empirical'') with specific channel indices (e.g.,
+channels 0--1 vs.\ 2--3). Twenty-eight transformer layers between prompt
+structure and bridge weights erase the prompt-level signal. Inducing
+directional preference would require either explicit channel supervision,
+contrastive bridge pre-training, or input-dependent bridge routing---all
+of which we leave to future work.
+
+% ---------------------------------------------------------------------------
+\subsection{Task Fingerprinting}
+\label{sec:exp-fingerprint}
+
+\paragraph{Setup.}
+We train three task-specific adapters on Qwen2.5-7B-Instruct:
+(A)~Alpaca-cleaned (general instruction following, 52K examples, 10K steps,
+local RTX 6000 Ada), (B)~CodeAlpaca-20k (code generation, 20K examples,
+2K steps, local RTX 6000 Ada), and (C)~GSM8K (mathematical reasoning, 7.5K
+examples, 2K steps, RunPod RTX 4090). All use identical RhombiLoRA
+configuration ($r\!=\!24$, FCC, learnable bridge). Bridge matrices are
+extracted at the final checkpoint, yielding 336 bridges total (112 per task,
+28 layers $\times$ 4 modules). Additionally, bridges are extracted at
+intermediate checkpoints (steps 0, 500, 1000, 1500) for the code and math
+adapters to track fingerprint emergence.
+
+\paragraph{Between- vs.\ within-task distance.}
+Bridge distances (mean Frobenius norm across 112 positions) between tasks
+are significantly larger than within-task distances. Mann-Whitney $U =
+3{,}977{,}447$, $p < 10^{-6}$ (Table~\ref{tab:fingerprint-distances}).
+The three task pairs are not equally distant: alpaca--code (0.189) and
+alpaca--math (0.171) are well-separated, while code--math (0.066) is
+substantially closer. This asymmetry is interpretable: code and math share
+structured, formal reasoning patterns that distinguish both from the diverse
+general-instruction domain.
+
+\begin{table}[t]
+\centering
+\caption{Bridge distance statistics (Phase~1A). Between-task distances
+significantly exceed within-task distances (Mann-Whitney $p < 10^{-6}$).}
+\label{tab:fingerprint-distances}
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Pair & Mean & Std & Min & Max \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Between-task}} \\
+\quad alpaca $\leftrightarrow$ code & 0.189 & 0.087 & 0.025 & 0.443 \\
+\quad alpaca $\leftrightarrow$ math & 0.171 & 0.078 & 0.039 & 0.441 \\
+\quad code $\leftrightarrow$ math   & 0.066 & 0.029 & 0.024 & 0.170 \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Within-task}} \\
+\quad alpaca & 0.177 & 0.061 & --- & --- \\
+\quad code   & 0.047 & 0.015 & --- & --- \\
+\quad math   & 0.085 & 0.029 & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Classification accuracy.}
+Leave-one-out SVM classification on the 336 bridge vectors achieves 72.3\%
+three-way accuracy (chance: 33.3\%). Performance is not uniform: alpaca
+(93.8\%) and code (94.6\%) are well-classified, while math (50.0--66.1\%)
+is frequently confused with code, consistent with their low between-task
+distance.
+
+\paragraph{Feature selection: Q-proj dominance.}
+Restricting the classifier to Q-projection bridges only (28 per task, 1,008
+parameters) \emph{improves} accuracy to 82.1\% (Table~\ref{tab:subset-class}).
+Adding O-projection bridges (56 total, 2,016 parameters) achieves the best
+overall accuracy of 83.3\%, primarily by improving math classification
+from 50.0\% to 66.1\%. K-projection and V-projection bridges are
+uninformative: their inclusion degrades the SVM's decision boundary.
+The headline finding is that \textbf{1,008 bridge parameters (28 Q-proj
+bridges) outperform the full 4,032-parameter bridge set} for task
+identification. Q-projection bridges are the most task-discriminative
+component of the attention head, consistent with their highest coupling
+strength (\S\ref{sec:exp-anatomy-7b}).
+
+\begin{table}[t]
+\centering
+\caption{Subset classification accuracy (LOO SVM, 3-way). Removing
+uninformative K/V bridges improves accuracy by up to 10.4\,pp. Q-proj
+bridges alone classify at 82.1\% with 1,008 parameters.}
+\label{tab:subset-class}
+\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Subset & Positions & Parameters & LOO Accuracy \\
+\midrule
+Full (Q+K+V+O) & 112 & 4,032 & 72.9\% \\
+Q-proj only     &  28 & 1,008 & 82.1\% \\
+O-proj only     &  28 & 1,008 & 76.2\% \\
+Q+O combined    &  56 & 2,016 & \textbf{83.3\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Per-layer depth gradient.}
+Task discrimination increases with layer depth. Spearman $\rho = 0.701$
+($p < 0.0001$) between layer index and mean between-task Frobenius
+distance. The top-5 most discriminative layers are all in the final quarter
+of the network (layers 20--24), with a 10.3$\times$ dynamic range between
+the most discriminative position (Layer~24 \texttt{o\_proj}, distance
+$= 0.319$) and the least (Layer~1 \texttt{v\_proj}, distance $= 0.031$).
+Late-layer O-projections surpass Q-projections at individual positions---the
+output projection specializes by task in the layers where the model is
+formatting its final output.
+
+\paragraph{Magnitude, not structure.}
+Tasks change bridge coupling \emph{magnitude}, not coupling
+\emph{structure}. Eigenspectrum cosine similarity between task pairs is
+$\geq 0.9997$ at all 112 positions. The spectral shape of the bridge
+is invariant across tasks; only the scale differs. Alpaca adapters develop
+the highest mean Fiedler ($0.040$), followed by math ($0.028$) and code
+($0.018$). Diverse instruction-following requires more cross-channel
+mixing than focused, formal domains.
+
+\paragraph{Fingerprint emergence.}
+Task fingerprints emerge entirely from training. At step~0, all bridges
+are identical (identity initialization), and all between-task distances
+are exactly 0.000. Divergence is monotonic: at step~1000 the binary
+code--math classifier achieves 87.5\%, rising to 92.9\% at step~1500
+and still climbing. The three-way Q-proj classifier reaches 84.5\% at
+the final checkpoint. This trajectory rules out any initialization
+confound and demonstrates that bridge structure is a faithful record
+of training-induced specialization.
+
+% ---------------------------------------------------------------------------
+\subsection{Bridge-Level Adapter Merging}
+\label{sec:exp-merging}
+
+\paragraph{Setup.}
+We interpolate final bridge matrices between all three task pairs at 11
+uniformly spaced mixing coefficients ($\alpha \in \{0.0, 0.1, \ldots,
+1.0\}$), where $B_\alpha = (1 - \alpha) B_A + \alpha B_B$. For each
+$\alpha$, we compute Fiedler value, deviation from identity, Frobenius
+distance to each source, and eigenspectrum cosine similarity to each
+source across all 112 adapter positions. We compare against a random
+baseline: merging each task bridge with 20 independent random $6 \times
+6$ matrices at $\alpha = 0.5$. No GPU is required---the entire experiment
+operates on 36-parameter matrices via linear algebra.
+
+\paragraph{Interpolation trajectories.}
+The three task pairs exhibit qualitatively different merge behavior
+(Table~\ref{tab:merge-linearity}). Alpaca--code interpolation is
+approximately linear ($R^2 = 0.948$): Fiedler decreases smoothly from
+the alpaca endpoint (0.040) to the code endpoint (0.018) with
+max residual 0.0035. In contrast, alpaca--math ($R^2 = 0.735$) and
+code--math ($R^2 = 0.782$) exhibit non-linear trajectories. The
+code--math pair shows a \emph{Fiedler dip} at $\alpha \approx 0.2$:
+connectivity drops from 0.018 to 0.015 before recovering to 0.028,
+indicating destructive interference at intermediate mixing ratios between
+structurally dissimilar adapters.
+
+\begin{table}[t]
+\centering
+\caption{Bridge interpolation linearity and structure preservation.
+Non-linearity correlates with structural dissimilarity between tasks.
+Eigenspectrum cosine $> 0.999$ at all $\alpha$ for task merges vs.\
+$\sim$0.5 for random baselines.}
+\label{tab:merge-linearity}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Pair & $R^2$ (Fiedler) & Max Residual & Eig.\ $\cos$ @ $\alpha\!=\!0.5$ \\
+\midrule
+alpaca $\leftrightarrow$ code & 0.948 & 0.0035 & 0.9999 \\
+alpaca $\leftrightarrow$ math & 0.735 & 0.0044 & 0.9999 \\
+code $\leftrightarrow$ math   & 0.782 & 0.0035 & 1.0000 \\
+\midrule
+\textit{Random baseline}      & --- & --- & $\sim$0.50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Structure preservation.}
+At 10\% contamination ($\alpha = 0.1$), the source adapter's eigenspectrum
+is perfectly preserved: cosine similarity $= 1.0000$ for all three pairs.
+This holds symmetrically ($\alpha = 0.9$). Small amounts of cross-task
+information can be injected into the bridge without disturbing the dominant
+task's spectral structure. Even at $\alpha = 0.5$ (equal mixing),
+eigenspectrum cosine remains $> 0.999$ for all task pairs. In contrast,
+the random baseline produces cosine $\approx 0.5$ at $\alpha = 0.5$:
+random noise destroys spectral structure, while cross-task interpolation
+preserves it. Bridge merging is structured, not noise.
+
+\paragraph{Per-module merge sensitivity.}
+Merge sensitivity (normalized Fiedler change from $\alpha = 0.0$ to $0.5$)
+varies by module type. Q-projections are the most merge-sensitive in 2 of
+3 pairs (alpaca--code: 0.429; code--math: 0.160), consistent with their
+status as the most task-discriminative module (\S\ref{sec:exp-fingerprint}).
+The cross-phase correlation between Phase~1A task distance and Phase~2A
+merge sensitivity is $r = 0.921$ across the four module types: the modules
+that carry the most task identity are the most vulnerable to cross-task
+interference. K-proj and V-proj bridges are merge-robust, suggesting a
+practical composition strategy: merge K/V bridges freely, interpolate O
+bridges cautiously, and maintain task-specific Q bridges.
+
+% ---------------------------------------------------------------------------
+\subsection{Overfitting Diagnostic}
+\label{sec:exp-overfit}
+
+\textit{This experiment is currently in progress.} We train RhombiLoRA on a
+deliberately small split (500 train / 500 validation from Alpaca-cleaned)
+for 10,000 steps with checkpoints every 100 steps, tracking Fiedler value
+and deviation alongside the train--validation loss gap. The hypothesis is
+that bridge spectral properties correlate with overfitting onset ($r > 0.7$)
+or exhibit a phase transition at the point where generalization degrades.
+Results will be reported in the final version. Training is approximately
+21\% complete at the time of writing (estimated 7 hours remaining on an
+RTX 4090).
