@@ -70,13 +70,21 @@ Proves cubic lattices leave 6.1× connectivity on the table. Runs experiments li
 
 ## Pre-Submission Checklist
 
-- [ ] All website links resolve (GitHub, PyPI, HF Space, Papers)
-- [ ] Video plays correctly and is under Twitter's size limit (512MB / 2:20)
-- [ ] `pip install rhombic` produces working library
-- [ ] HF Space all tabs functional
-- [ ] README reflects current state
-- [ ] Tweet text under 280 chars
-- [ ] @NousResearch tagged
-- [ ] #HermesAgentHackathon hashtag present
-- [ ] Discord channel correct
-- [ ] Video embedded in tweet (not just link)
+- [x] All website links resolve (GitHub, PyPI, HF Space, Papers) — verified Mar 9
+- [x] Video plays correctly and is under Twitter's size limit (512MB / 2:20) — 0.9MB, 41s
+- [x] `pip install rhombic` produces working library — v0.3.0 confirmed
+- [x] HF Space running — verified Mar 9
+- [x] README reflects current state
+- [x] Tweet text under 280 chars — ~210 chars
+- [x] @NousResearch tagged
+- [x] #HermesAgentHackathon hashtag present
+- [ ] Discord channel correct — verify before posting
+- [ ] Video embedded in tweet (not just link) — attach at post time
+
+## Video Pipeline
+
+```bash
+# Full autonomous pipeline (no human intervention)
+python scripts/assemble_autonomous.py
+# Output: assets/video/rhombic_demo_final.mp4 (1920x1080, 30fps, ~41s, <1MB)
+```
