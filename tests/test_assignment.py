@@ -3,10 +3,16 @@
 import pytest
 import numpy as np
 from rhombic.polyhedron import RhombicDodecahedron
-from rhombic.corpus import edge_values, TRACKED_PRIMES
+from rhombic.corpus import edge_values, TRACKED_PRIMES, corpus_available
 from rhombic.assignment import (
     total_variation, optimal_assignment, random_assignment_tv, compare_graphs,
     prime_vertex_score, optimal_prime_assignment, null_prime_scores,
+)
+
+# Skip corpus-dependent tests if private data not available
+requires_corpus = pytest.mark.skipif(
+    not corpus_available(),
+    reason="Corpus values are proprietary and not available in this environment"
 )
 
 
@@ -102,6 +108,7 @@ class TestNullDistribution:
 
 class TestCorpusAssignment:
 
+    @requires_corpus
     def test_corpus_values_on_rd(self, ve, rd):
         """The corpus values can be assigned to the rhombic dodecahedron."""
         weights = [float(v) for v in edge_values()]
@@ -147,6 +154,7 @@ class TestPrimeVertexScore:
         score_bad = prime_vertex_score(ve, values, mapping_bad)
         assert score_good > score_bad
 
+    @requires_corpus
     def test_corpus_values(self, ve):
         """Runs on actual corpus values without error."""
         values = edge_values()
@@ -158,6 +166,7 @@ class TestPrimeVertexScore:
 
 class TestOptimalPrimeAssignment:
 
+    @requires_corpus
     def test_returns_mapping_and_score(self, ve):
         """Returns a valid mapping and positive score."""
         values = edge_values()
@@ -169,6 +178,7 @@ class TestOptimalPrimeAssignment:
         assert set(mapping.values()) == set(verts)
         assert score >= 0
 
+    @requires_corpus
     def test_exhaustive_small(self, ve):
         """With 3 primes and 3 vertices, checks all 6 permutations."""
         values = edge_values()
@@ -181,6 +191,7 @@ class TestOptimalPrimeAssignment:
             test_score = prime_vertex_score(ve, values, test_map)
             assert score >= test_score
 
+    @requires_corpus
     def test_deterministic(self, ve):
         values = edge_values()
         primes = [67, 23]
@@ -193,6 +204,7 @@ class TestOptimalPrimeAssignment:
 
 class TestNullPrimeScores:
 
+    @requires_corpus
     def test_returns_all_permutations(self, ve):
         """For 3 items, should return 6 scores."""
         values = edge_values()
@@ -201,6 +213,7 @@ class TestNullPrimeScores:
         scores = null_prime_scores(ve, values, primes, verts)
         assert len(scores) == 6  # 3!
 
+    @requires_corpus
     def test_contains_optimal(self, ve):
         """The optimal score should be the max of the null distribution."""
         values = edge_values()
@@ -210,6 +223,7 @@ class TestNullPrimeScores:
         all_scores = null_prime_scores(ve, values, primes, verts)
         assert abs(opt_score - all_scores.max()) < 1e-10
 
+    @requires_corpus
     def test_all_non_negative(self, ve):
         values = edge_values()
         primes = [67, 23]

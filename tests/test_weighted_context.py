@@ -4,10 +4,16 @@ import numpy as np
 import pytest
 from rhombic.lattice import CubicLattice, FCCLattice
 from rhombic.spatial import build_adjacency
-from rhombic.corpus import edge_values, direction_weights
+from rhombic.corpus import edge_values, direction_weights, corpus_available
 from rhombic.context import (
     weighted_information_diffusion,
     weighted_consensus_speed,
+)
+
+# Skip corpus-dependent tests if private data not available
+requires_corpus = pytest.mark.skipif(
+    not corpus_available(),
+    reason="Corpus values are proprietary and not available in this environment"
 )
 
 
@@ -96,6 +102,7 @@ class TestDirectionWeights:
         for i in range(len(dw) - 1):
             assert dw[i] <= dw[i + 1]
 
+    @requires_corpus
     def test_corpus_values(self):
         """Works with actual corpus values."""
         corpus = [float(v) for v in edge_values()]
