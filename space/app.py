@@ -749,7 +749,68 @@ The only variable is the connectivity pattern: 12 neighbors (FCC) vs 6 (cubic).
         with gr.TabItem("The Thesis"):
             gr.Markdown(THESIS_TEXT)
 
-        # ── Tab 4: Weighted Extensions ──
+        # ── Tab 4: RhombiLoRA ──
+        with gr.TabItem("RhombiLoRA (Paper 3)"):
+            gr.Markdown("""
+# The Learnable Bridge
+
+**RhombiLoRA** adds a learnable 6×6 coupling matrix — the *bridge* —
+between the A and B projections in LoRA, adding **36 parameters per layer**.
+
+When the bridge is the identity matrix, the architecture reduces exactly
+to standard LoRA. Any coupling structure at convergence is entirely learned.
+
+### Key Findings
+
+| Finding | Metric | Value |
+|---------|--------|-------|
+| Task fingerprinting | LOO SVM accuracy (Q-proj, 28 bridges) | **84.5%** (chance 33.3%) |
+| Between > within task | Mann-Whitney U | p < 1e-6 |
+| Bridge coupling | FCC (6-ch) vs cubic (3-ch) Fiedler | **4.6×** |
+| Adapter composition | Eigenspectrum preservation at all α | cos > 0.999 |
+| Merge safety threshold | Cross-task contamination tolerance | 10% |
+| Optimal fingerprint size | Q-proj bridges only | **1,008 parameters** |
+
+### The Null Result (Reported Honestly)
+
+The bridge **does not improve loss or perplexity** relative to standard LoRA
+at matched rank. The original hypothesis — that FCC topology would induce
+direction-specific coupling from structured data — produced a comprehensive
+null (co-planar/cross-planar ratio = 1.002, p = 0.474, across 224 bridges
+at two model scales). Rank dimensions in LoRA are rotationally symmetric.
+
+### The Contribution
+
+The bridge does not beat standard LoRA at standard LoRA's own job. It provides
+something LoRA cannot: **a compact, interpretable diagnostic of adapter behavior** —
+a 36-parameter summary of what training discovered, readable without inference
+or evaluation.
+
+### Experimental Ladder
+
+- **Exp 1** (Qwen2.5-1.5B): Bridge anatomy, identity equivalence confirmed, 4.6× FCC coupling
+- **Exp 2** (Qwen2.5-7B, Alpaca): Task-specific bridge patterns, Q-proj prominence
+- **Exp 2.5** (Qwen2.5-7B, Geometric data): Null on direction, positive on connectivity
+- **Phase 1A**: Task fingerprinting — 73.5% 3-way, 84.5% Q-proj LOO SVM
+- **Phase 2A**: Bridge merging — smooth interpolation, non-linear in 2/3 pairs
+- **Cross-phase synthesis**: 20 learnings, Q-proj as optimal diagnostic
+
+### Architecture
+
+```
+Standard LoRA:   h = Wx + B·A·x
+RhombiLoRA:      h = Wx + B·M·A·x
+
+M ∈ R^{6×6}  (36 params)
+Init: M = I   (recovers standard LoRA)
+```
+
+📄 [Paper draft](https://github.com/promptcrafted/rhombic/blob/main/paper/rhombic-paper3.tex) |
+📊 [All results](https://github.com/promptcrafted/rhombic/tree/main/results) |
+🔬 [Bridge matrices (.npy)](https://github.com/promptcrafted/rhombic/tree/main/results/fingerprints)
+            """)
+
+        # ── Tab 5: Weighted Extensions ──
         with gr.TabItem("Weighted Extensions"):
             gr.Markdown(WEIGHTED_HEADER)
 
