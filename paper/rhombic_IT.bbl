@@ -1,0 +1,95 @@
+\begin{thebibliography}{12}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ashby(1956)]{ashby1956}
+W.~Ross Ashby.
+\newblock \emph{An Introduction to Cybernetics}.
+\newblock Chapman \& Hall, London, 1956.
+
+\bibitem[Beer(1972)]{beer1972}
+Stafford Beer.
+\newblock \emph{Brain of the Firm}.
+\newblock Allen Lane, The Penguin Press, London, 1972.
+\newblock ISBN 978-0-471-94839-2.
+
+\bibitem[Conway and Sloane(1999)]{conway1999}
+John~H. Conway and Neil J.~A. Sloane.
+\newblock \emph{Sphere Packings, Lattices and Groups}.
+\newblock Springer-Verlag, New York, 3rd edition, 1999.
+\newblock ISBN 978-0-387-98585-5.
+
+\bibitem[Coxeter(1973)]{coxeter1973}
+H.~S.~M. Coxeter.
+\newblock \emph{Regular Polytopes}.
+\newblock Dover Publications, New York, 3rd edition, 1973.
+\newblock ISBN 978-0-486-61480-9.
+
+\bibitem[Csebfalvi(2010)]{csebfalvi2010}
+Bal{\'a}zs Csebfalvi.
+\newblock An evaluation of prefiltered {B}-spline reconstruction for
+  quasi-interpolation on the body-centered cubic lattice.
+\newblock \emph{IEEE Transactions on Visualization and Computer Graphics},
+  16\penalty0 (3):\penalty0 499--512, 2010.
+\newblock \doi{10.1109/TVCG.2009.87}.
+
+\bibitem[Entezari et~al.(2004)Entezari, Dyer, and M{\"o}ller]{entezari2004}
+Alireza Entezari, Ramsay Dyer, and Torsten M{\"o}ller.
+\newblock Linear and cubic box splines for the body centered cubic lattice.
+\newblock In \emph{Proceedings of IEEE Visualization}, pages 11--18, 2004.
+\newblock \doi{10.1109/VISUAL.2004.65}.
+
+\bibitem[Fiedler(1973)]{fiedler1973}
+Miroslav Fiedler.
+\newblock Algebraic connectivity of graphs.
+\newblock \emph{Czechoslovak Mathematical Journal}, 23\penalty0 (2):\penalty0
+  298--305, 1973.
+\newblock \doi{10.21136/CMJ.1973.101168}.
+
+\bibitem[Hales et~al.(2017)Hales, Adams, Bauer, Dang, Harrison, Hoang,
+  Kaliszyk, Magron, McLaughlin, Nguyen, Nguyen, Nipkow, Obua, Pleso, Rute,
+  Solovyev, Ta, Tran, Trieu, Urban, Vu, and Zumkeller]{hales2017}
+Thomas Hales, Mark Adams, Gertrud Bauer, Tat~Dat Dang, John Harrison, Le~Truong
+  Hoang, Cezary Kaliszyk, Victor Magron, Sean McLaughlin, Tat~Thang Nguyen,
+  Quang~Truong Nguyen, Tobias Nipkow, Steven Obua, Joseph Pleso, Jason Rute,
+  Alexey Solovyev, Thi Hoai~An Ta, Nam~Trung Tran, Thi~Diep Trieu, Josef Urban,
+  Ky~Vu, and Roland Zumkeller.
+\newblock A formal proof of the {Kepler} conjecture.
+\newblock \emph{Forum of Mathematics, Pi}, 5:\penalty0 e2, 2017.
+\newblock \doi{10.1017/fmp.2017.1}.
+
+\bibitem[Hales(2005)]{hales2005}
+Thomas~C. Hales.
+\newblock A proof of the {Kepler} conjecture.
+\newblock \emph{Annals of Mathematics}, 162\penalty0 (3):\penalty0 1065--1185,
+  2005.
+\newblock \doi{10.4007/annals.2005.162.1065}.
+
+\bibitem[Petersen and Middleton(1962)]{petersen1962}
+D.~P. Petersen and D.~Middleton.
+\newblock Sampling and reconstruction of wave-number-limited functions in
+  {$N$}-dimensional {Euclidean} spaces.
+\newblock \emph{Information and Control}, 5\penalty0 (4):\penalty0 279--323,
+  1962.
+\newblock \doi{10.1016/S0019-9958(62)90633-2}.
+
+\bibitem[Theu{\ss}l and M{\"o}ller(2001)]{theussl2002orvs}
+Thomas Theu{\ss}l and Torsten M{\"o}ller.
+\newblock Optimal regular volume sampling.
+\newblock Technical report, Institute of Computer Graphics, Vienna University
+  of Technology, 2001.
+\newblock Technical Report TR-186-2-01-10.
+  \url{https://www.cg.tuwien.ac.at/research/vis/VolVis/BccGrids/TR_ORVS/}.
+
+\bibitem[Theu{\ss}l et~al.(2000)Theu{\ss}l, Hauser, and
+  Gr{\"o}ller]{theussl2001}
+Thomas Theu{\ss}l, Helwig Hauser, and Eduard Gr{\"o}ller.
+\newblock Mastering windows: improving reconstruction.
+\newblock In \emph{Proceedings of the IEEE Symposium on Volume Visualization
+  (VVS '00)}, pages 101--108, 2000.
+\newblock \doi{10.1145/353888.353906}.
+
+\end{thebibliography}

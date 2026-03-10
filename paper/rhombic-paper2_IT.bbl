@@ -1,0 +1,113 @@
+\begin{thebibliography}{15}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ashby(1956)]{ashby1956}
+W.~Ross Ashby.
+\newblock \emph{An Introduction to Cybernetics}.
+\newblock Chapman \& Hall, London, 1956.
+
+\bibitem[Beer(1972)]{beer1972}
+Stafford Beer.
+\newblock \emph{Brain of the Firm}.
+\newblock Allen Lane, The Penguin Press, London, 1972.
+\newblock ISBN 978-0-471-94839-2.
+
+\bibitem[Bielec(2026{\natexlab{a}})]{bielec2026bridge}
+Timothy~Paul Bielec.
+\newblock The learnable bridge: Task fingerprinting and adapter composition via
+  structured coupling in low-rank adaptation.
+\newblock Promptcrafted LLC. Available at
+  \url{https://github.com/promptcrafted/rhombic}, 2026{\natexlab{a}}.
+
+\bibitem[Bielec(2026{\natexlab{b}})]{bielec2026shape}
+Timothy~Paul Bielec.
+\newblock The shape of the cell: Empirical comparison of cubic and {FCC}
+  lattice topologies across graph theory, spatial operations, signal
+  processing, and embedding retrieval.
+\newblock Promptcrafted LLC. Available at
+  \url{https://github.com/promptcrafted/rhombic}, 2026{\natexlab{b}}.
+
+\bibitem[Chung(1997)]{chung1997}
+Fan R.~K. Chung.
+\newblock \emph{Spectral Graph Theory}.
+\newblock Number~92 in CBMS Regional Conference Series in Mathematics. American
+  Mathematical Society, Providence, RI, 1997.
+\newblock ISBN 978-0-8218-0315-8.
+
+\bibitem[Conway and Sloane(1999)]{conway1999}
+John~H. Conway and Neil J.~A. Sloane.
+\newblock \emph{Sphere Packings, Lattices and Groups}.
+\newblock Springer-Verlag, New York, 3rd edition, 1999.
+\newblock ISBN 978-0-387-98585-5.
+
+\bibitem[Coxeter(1973)]{coxeter1973}
+H.~S.~M. Coxeter.
+\newblock \emph{Regular Polytopes}.
+\newblock Dover Publications, New York, 3rd edition, 1973.
+\newblock ISBN 978-0-486-61480-9.
+
+\bibitem[Dorogovtsev et~al.(2008)Dorogovtsev, Goltsev, and
+  Mendes]{dorogovtsev2008}
+S.~N. Dorogovtsev, A.~V. Goltsev, and J.~F.~F. Mendes.
+\newblock Critical phenomena in complex networks.
+\newblock \emph{Reviews of Modern Physics}, 80\penalty0 (4):\penalty0
+  1275--1335, 2008.
+\newblock \doi{10.1103/RevModPhys.80.1275}.
+
+\bibitem[Fiedler(1973)]{fiedler1973}
+Miroslav Fiedler.
+\newblock Algebraic connectivity of graphs.
+\newblock \emph{Czechoslovak Mathematical Journal}, 23\penalty0 (2):\penalty0
+  298--305, 1973.
+\newblock \doi{10.21136/CMJ.1973.101168}.
+
+\bibitem[Fu et~al.(2009)Fu, Wan, Wong, and Leung]{fu2009rhombic}
+Chi-Wing Fu, Liang Wan, Tien-Tsin Wong, and Chi-Sing Leung.
+\newblock The rhombic dodecahedron map: An efficient scheme for encoding
+  panoramic video.
+\newblock \emph{IEEE Transactions on Multimedia}, 11\penalty0 (4):\penalty0
+  634--644, 2009.
+\newblock \doi{10.1109/TMM.2009.2017629}.
+
+\bibitem[Ghosh et~al.(2008)Ghosh, Boyd, and Saberi]{ghosh2008resistance}
+Arpita Ghosh, Stephen Boyd, and Amin Saberi.
+\newblock Minimizing effective resistance of a graph.
+\newblock \emph{SIAM Review}, 50\penalty0 (1):\penalty0 37--66, 2008.
+\newblock \doi{10.1137/050645452}.
+
+\bibitem[Kirkpatrick et~al.(1983)Kirkpatrick, Gelatt, and
+  Vecchi]{kirkpatrick1983}
+S.~Kirkpatrick, C.~D. Gelatt, and M.~P. Vecchi.
+\newblock Optimization by simulated annealing.
+\newblock \emph{Science}, 220\penalty0 (4598):\penalty0 671--680, 1983.
+\newblock \doi{10.1126/science.220.4598.671}.
+
+\bibitem[Mohar(1991)]{mohar1991}
+Bojan Mohar.
+\newblock The {Laplacian} spectrum of graphs.
+\newblock \emph{Graph Theory, Combinatorics, and Applications}, 2:\penalty0
+  871--898, 1991.
+\newblock Proceedings of the Sixth Quadrennial International Conference on the
+  Theory and Applications of Graphs.
+
+\bibitem[Petersen and Middleton(1962)]{petersen1962}
+D.~P. Petersen and D.~Middleton.
+\newblock Sampling and reconstruction of wave-number-limited functions in
+  {$N$}-dimensional {Euclidean} spaces.
+\newblock \emph{Information and Control}, 5\penalty0 (4):\penalty0 279--323,
+  1962.
+\newblock \doi{10.1016/S0019-9958(62)90633-2}.
+
+\bibitem[Spielman and Teng(2004)]{spielman2004}
+Daniel~A. Spielman and Shang-Hua Teng.
+\newblock Nearly-linear time algorithms for graph partitioning, graph
+  sparsification, and solving linear systems.
+\newblock In \emph{Proceedings of the 36th Annual ACM Symposium on Theory of
+  Computing (STOC)}, pages 81--90, 2004.
+\newblock \doi{10.1145/1007352.1007372}.
+
+\end{thebibliography}

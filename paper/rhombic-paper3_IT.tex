@@ -1,0 +1,1616 @@
+\documentclass[11pt]{article}
+
+% --- packages ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage[numbers]{natbib}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% \usepackage{microtype}  % disabled: MiKTeX font expansion issue
+\usepackage{bookmark}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black
+}
+
+% --- metadata ---
+\title{%
+  La Matrice Ponte Addestrabile:\\
+  Fingerprinting del Task e Composizione di Adattatori\\
+  tramite Accoppiamento Strutturato nell'Adattamento a Basso Rango%
+}
+
+\author{%
+  Timothy Paul Bielec%
+  \thanks{Autore corrispondente. \texttt{timothy@promptcrafted.com}}%
+  \\
+  Promptcrafted LLC%
+}
+
+\date{Marzo 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Inseriamo una matrice di accoppiamento addestrabile $6 \times 6$---la
+\emph{matrice ponte}---tra le proiezioni discendente e ascendente di un
+adattatore LoRA, aggiungendo 36 parametri per ogni livello adattato
+($0{,}02\%$ di sovraccarico). La matrice ponte \`e inizializzata come
+matrice identit\`a, recuperando esattamente il LoRA standard. Attraverso
+sette esperimenti su Qwen2.5 (1,5B e 7B), stabiliamo quattro risultati:
+(1)~le matrici ponte codificano l'identit\`a del task---un SVM
+leave-one-out su 28 matrici ponte delle proiezioni query (1.008
+parametri) classifica il tipo di task con un'accuratezza dell'82,1\%
+(che sale all'84,5\% all'ultimo checkpoint) rispetto al 33,3\% del caso;
+(2)~la topologia del reticolo FCC apprende un accoppiamento tra canali
+$4{,}6\times$ superiore rispetto alla topologia cubica, sebbene nessuna
+delle due migliori la perdita di addestramento; (3)~l'interpolazione
+lineare delle matrici ponte tra adattatori preserva la struttura
+dell'autospettro (coseno $> 0{,}999$), consentendo un'analisi della
+composizione degli adattatori in dimensione ridotta; (4)~il
+pre-addestramento contrastivo della matrice ponte installa una
+preferenza direzionale (rapporto co-planare/cross-planare $> 2.600\times$)
+che persiste come memoria geometrica stabile dopo la rimozione della
+supervisione---decadendo a $16\times$ in 6.000 passi non supervisionati
+ma senza mai raggiungere la baseline nulla di $1{,}0$, mentre la
+connettivit\`a complessiva della matrice ponte cresce indipendentemente
+di $3{,}7\times$. La matrice ponte non migliora la perdita n\'e la
+perplessi\`a rispetto al LoRA standard a parit\`a di rango. Il suo
+contributo \`e diagnostico, non generativo: un riassunto a 36 parametri
+della struttura di accoppiamento dell'adattatore, leggibile senza
+inferenza n\'e valutazione.
+\end{abstract}
+
+% ===================================================================
+% Section 1 — Introduzione
+% ===================================================================
+
+\section{Introduzione}
+\label{sec:introduction}
+
+Un adattatore LoRA addestrato~\cite{hu2022lora} \`e opaco.
+Le sue due matrici di proiezione $A \in \mathbb{R}^{r \times d}$ e
+$B \in \mathbb{R}^{d \times r}$ codificano quanto richiesto
+dall'obiettivo di fine-tuning, ma non esiste un modo strutturato per
+ispezionare \emph{cosa} abbiano appreso senza eseguire l'inferenza su
+dati di valutazione. Due adattatori con architettura identica, addestrati
+su task differenti, sono indistinguibili dalle sole statistiche dei pesi:
+entrambi sono a basso rango, entrambi sono piccoli, entrambi producono
+$\Delta W = BA$.
+L'adattatore \`e una scatola nera dentro una scatola nera.
+
+Questa opacit\`a ha conseguenze pratiche.
+I metodi di fusione degli adattatori---aritmetica dei
+task~\cite{ilharco2023editing},
+TIES-Merging~\cite{yadav2023ties}, DARE~\cite{yu2024dare},
+AdaMerging~\cite{yang2024adamerging}---operano su matrici dei pesi
+complete o sui loro fattori SVD senza alcuna rappresentazione compatta
+dell'identit\`a del task.
+Il rilevamento del sovradattamento richiede curve di perdita sulla
+validazione.
+La selezione dell'adattatore da un hub o registro si basa sui metadati,
+non sullo stato interno dell'adattatore.
+In ciascun caso, l'adattatore stesso non fornisce alcun riassunto del
+proprio contenuto.
+
+Introduciamo una \emph{matrice ponte}: una matrice di accoppiamento
+addestrabile $C \times C$ inserita tra $A$ e $B$ nella fattorizzazione
+LoRA.
+La proiezione discendente $A$ mappa l'input su un vettore nascosto di
+rango $r$, che viene riorganizzato in $C$ canali di larghezza $r/C$;
+la matrice ponte mescola i canali; il risultato viene riorganizzato e
+passato alla proiezione ascendente $B$.
+Con $C = 6$ (motivato dal numero di facce del dodecaedro rombico
+nell'architettura RhombiLoRA~\cite{rhombilora_paper1, rhombilora_paper2}),
+la matrice ponte aggiunge 36 parametri per livello dell'adattatore---un
+sovraccarico dello $0{,}02\%$ rispetto ai parametri totali dell'adattatore.
+Quando la matrice ponte \`e la matrice identit\`a $I_C$, l'architettura
+si riduce esattamente al LoRA standard.
+
+Attraverso sette esperimenti che coprono l'anatomia della matrice ponte,
+il fingerprinting del task, la fusione degli adattatori e il
+pre-addestramento contrastivo su Qwen2.5 (1,5B e 7B), stabiliamo
+quattro risultati:
+
+\paragraph{(a) Fingerprinting del task.}
+Le matrici ponte codificano l'identit\`a del task.
+Un SVM leave-one-out addestrato sulle 28 matrici ponte delle proiezioni
+query (1.008 parametri totali) classifica il tipo di task con
+un'accuratezza dell'84,5\%, rispetto al 33,3\% del caso ($p < 10^{-6}$,
+Mann-Whitney $U$).
+I task modulano la \emph{magnitudine} dell'accoppiamento della matrice
+ponte---l'addestramento su istruzioni generali produce un accoppiamento
+tra canali $2{,}2\times$ superiore rispetto alla generazione di codice
+(connettivit\`a di Fiedler 0,040 contro 0,018)---preservando al contempo
+la \emph{struttura} dell'accoppiamento: la similarit\`a del coseno
+dell'autospettro supera 0,999 tra tutte le coppie di task.
+L'impronta emerge in modo monotono dall'addestramento
+(0\% al passo 0, 66\% al passo 500, 93\% al passo 1.500 per la coppia
+binaria pi\`u difficile) senza alcun artefatto di inizializzazione,
+poich\'e tutte le matrici ponte partono come $I_C$.
+
+\paragraph{(b) Composizione regolare degli adattatori.}
+L'interpolazione lineare delle matrici ponte tra adattatori specifici
+per task preserva la struttura dell'autospettro (coseno $> 0{,}999$) a
+tutti i rapporti di mescolamento $\alpha \in [0, 1]$, mentre le matrici
+ponte con pesi casuali mantengono solo un coseno $\approx 0{,}5$.
+La traiettoria del valore di Fiedler \`e lineare per coppie di task
+strutturalmente simili (alpaca$\leftrightarrow$code, $R^2 = 0{,}948$)
+ma non lineare per coppie dissimili (code$\leftrightarrow$math,
+$R^2 = 0{,}782$), con interferenza distruttiva visibile come una
+diminuzione della connettivit\`a a $\alpha \approx 0{,}2$---un fenomeno
+invisibile alle diagnostiche di fusione a peso pieno.
+Ci\`o suggerisce che l'interpolazione delle matrici ponte pu\`o servire
+come sonda a bassa dimensionalit\`a della compatibilit\`a tra adattatori
+prima di impegnarsi in una fusione a peso pieno costosa.
+
+\paragraph{(c) Informativit\`a non uniforme.}
+Le proiezioni query portano la struttura pi\`u discriminativa per il task
+nella matrice ponte attraverso tutte e tre le fasi sperimentali:
+accoppiamento pi\`u elevato (Fiedler 0,050 contro 0,035--0,039 per K/V/O),
+distanza inter-task pi\`u elevata, sensibilit\`a alla fusione pi\`u
+elevata.
+La correlazione cross-fase di Pearson $r = 0{,}921$ tra la
+discriminazione del task (Fase~1A) e la sensibilit\`a alla fusione
+(Fase~2A) conferma che i moduli che codificano la maggiore identit\`a
+del task sono anche i pi\`u vulnerabili all'interferenza inter-task
+durante la composizione.
+I livelli pi\`u profondi del trasformatore sono significativamente pi\`u
+specifici per il task rispetto ai livelli iniziali (Spearman
+$\rho = 0{,}701$, $p < 0{,}0001$), con la proiezione di uscita che
+supera la proiezione query negli ultimi cinque livelli (Livello~24
+$o_\text{proj}$: distanza 0,319, la singola posizione pi\`u
+discriminativa nel modello).
+
+\paragraph{(d) Memoria geometrica.}
+Il pre-addestramento contrastivo della matrice ponte installa una
+preferenza direzionale (rapporto co-planare/cross-planare
+$> 2.600\times$ dopo 500 passi supervisionati) che persiste come
+memoria geometrica stabile dopo la rimozione della supervisione:
+il rapporto decade a $16\times$ in 6.000 passi non supervisionati
+ma non raggiunge mai la baseline nulla di $1{,}0$ stabilita da due
+esperimenti di controllo indipendenti. Durante lo stesso periodo non
+supervisionato, la connettivit\`a complessiva della matrice ponte
+cresce di $3{,}7\times$ indipendentemente---l'ottimizzatore scopre
+autonomamente l'utilit\`a dell'accoppiamento tra canali, mantenendo
+al contempo la struttura direzionale che gli \`e stata insegnata.
+
+\paragraph{Il risultato nullo.}
+La matrice ponte non migliora la perdita di addestramento n\'e la
+perplessi\`a rispetto al LoRA standard a parit\`a di rango.
+La motivazione originale---che la topologia di accoppiamento delle facce
+del dodecaedro rombico avrebbe indotto un accoppiamento direzionale
+specifico dei canali a partire da dati di addestramento
+strutturati---ha prodotto un risultato nullo completo
+(rapporto co-planare/cross-planare $= 1{,}002$, $p = 0{,}474$),
+confermato da un controllo separato sul tasso di apprendimento della
+matrice ponte ($10\times$ LR, Co/Cross $\approx 1{,}0$).
+Le dimensioni di rango nel LoRA sono rotazionalmente simmetriche: per
+qualsiasi $R$ ortogonale, $B R^\top R A = BA$.
+Le etichette topologiche sui canali non sopravvivono a questa simmetria
+senza supervisione esplicita.
+La matrice ponte apprende \emph{che} mescolare i canali \`e utile
+(la topologia FCC produce un accoppiamento tra canali $4{,}6\times$
+superiore rispetto alla cubica), ma non \emph{quali} canali
+preferire---a meno che non venga esplicitamente istruita.
+
+\paragraph{Contributo.}
+Non proponiamo un adattatore migliore.
+Proponiamo una nuova \emph{diagnostica}: una matrice a 36 parametri che
+riassume la struttura di accoppiamento scoperta dall'addestramento tra
+$A$ e $B$, leggibile senza inferenza n\'e valutazione su dati di
+riserva.
+La matrice ponte fornisce un'impronta compatta del task (1.008 parametri
+per il sottoinsieme ottimale delle proiezioni Q---pi\`u piccola di un
+singolo vettore di stato nascosto in Qwen2.5-7B), uno spazio a bassa
+dimensionalit\`a per l'analisi della composizione degli adattatori, e
+una mappa per livello e per modulo di dove la specializzazione del task
+si concentra nella rete.
+A nostra conoscenza, nessun lavoro precedente utilizza una
+rappresentazione intermedia strutturata all'interno di un adattatore
+come diagnostica del comportamento dell'adattatore.
+
+Il precedente architetturale pi\`u vicino \`e LoRA-XS~\cite{banaei2024loraxs},
+che inserisce una matrice $r \times r$ tra $A$ e $B$ ma congela le
+proiezioni esterne per minimizzare il numero di parametri.
+Poich\'e $A$ e $B$ non si adattano al task in LoRA-XS, la matrice
+intermedia non pu\`o servire come diagnostica di ci\`o che
+l'apprendimento congiunto $A$-$B$ ha scoperto---essa \emph{\`e}
+l'interezza dell'adattamento appreso.
+RhombiLoRA addestra congiuntamente tutte e tre le componenti,
+consentendo alla matrice ponte di catturare il pattern di accoppiamento
+emergente piuttosto che portare l'intero carico dell'adattamento.
+La Sezione~\ref{sec:related} discute questa distinzione e altri metodi
+correlati in dettaglio.
+
+% ===================================================================
+% Section 2 — Architettura
+% ===================================================================
+
+\section{Architettura}
+\label{sec:architecture}
+
+\subsection{LoRA Standard}
+\label{sec:standard-lora}
+
+L'adattamento a basso rango~\cite{hu2022lora} congela una matrice dei
+pesi pre-addestrata $W_0 \in \mathbb{R}^{d_\text{out} \times d_\text{in}}$
+e apprende un aggiornamento a basso rango $\Delta W = BA$, dove
+$B \in \mathbb{R}^{d_\text{out} \times r}$,
+$A \in \mathbb{R}^{r \times d_\text{in}}$, e
+$r \ll \min(d_\text{in}, d_\text{out})$.
+Il passo in avanti adattato \`e
+\begin{equation}
+  h = W_0 x + \frac{\alpha}{r}\, B A x,
+  \label{eq:lora}
+\end{equation}
+dove $\alpha$ \`e un fattore di scala fisso e
+$x \in \mathbb{R}^{d_\text{in}}$.
+$A$ \`e inizializzata tramite uniforme di Kaiming~\cite{he2015delving}
+e $B$ \`e inizializzata a zero, cosicch\'e $\Delta W = 0$ all'inizio
+dell'addestramento.
+Il vettore nascosto di rango $r$ $z = Ax \in \mathbb{R}^r$ funge da
+rappresentazione intermedia, ma LoRA non impone alcuna struttura su di
+esso: le $r$ dimensioni sono una base arbitraria per un sottospazio a
+basso rango.
+Due dimensioni di $z$ interagiscono solo nella misura in cui $B$ le
+mescola nella proiezione ascendente---non esiste un meccanismo esplicito
+di accoppiamento all'interno dello spazio nascosto stesso.
+
+\subsection{La Modifica con Matrice Ponte}
+\label{sec:bridge}
+
+Partizioniamo il vettore nascosto di rango $r$ in $C$ canali di
+larghezza $r / C$ (richiedendo $C \mid r$) e inseriamo una \emph{matrice
+ponte} addestrabile $M \in \mathbb{R}^{C \times C}$ che mescola i
+canali prima della proiezione ascendente.
+Concretamente, il passo in avanti adattato diventa:
+\begin{equation}
+  h = W_0 x + \frac{\alpha}{r}\, B\,
+    \operatorname{vec}\!\bigl(M \cdot
+    \operatorname{mat}_{C \times r/C}(Ax)\bigr),
+  \label{eq:bridge}
+\end{equation}
+dove $\operatorname{mat}_{C \times r/C}$ riorganizza $\mathbb{R}^r
+\to \mathbb{R}^{C \times (r/C)}$ e $\operatorname{vec}$ ne \`e
+l'inversa.
+Equivalentemente, in notazione indiciale: il vettore nascosto $z = Ax$
+viene riorganizzato in $Z \in \mathbb{R}^{C \times (r/C)}$, la matrice
+ponte agisce come $\tilde{Z}_{ik} = \sum_j M_{ij} Z_{jk}$, e
+$\tilde{Z}$ viene appiattito di nuovo in $\mathbb{R}^r$ prima della
+moltiplicazione per $B$.
+
+Nei nostri esperimenti $r = 24$ e $C = 6$, cosicch\'e ogni canale porta
+$r/C = 4$ fette di rango e $M$ \`e una matrice $6 \times 6$ con 36
+parametri addestrabili.
+In corrispondenza di un modulo target rappresentativo in Qwen2.5-7B
+($d_\text{in} = d_\text{out} = 3.584$), le matrici di proiezione LoRA
+standard contengono $2 \times 24 \times 3.584 = 172.032$ parametri; la
+matrice ponte ne aggiunge 36, un sovraccarico dello $0{,}021\%$.
+
+\paragraph{Recupero dell'identit\`a.}
+Quando $M = I_C$, la sequenza riorganizzazione--moltiplicazione--appiattimento
+\`e la mappa identit\`a su $\mathbb{R}^r$.
+L'Equazione~\eqref{eq:bridge} si riduce esattamente
+all'Equazione~\eqref{eq:lora}: l'architettura con matrice ponte \`e una
+generalizzazione stretta del LoRA standard, con LoRA come caso speciale
+$M = I_C$.
+Inizializziamo $M = I_C$ all'inizio dell'addestramento cosicch\'e la
+matrice ponte parta inerte e qualsiasi struttura di accoppiamento in $M$
+a convergenza sia interamente appresa, non ereditata dall'inizializzazione.
+
+\paragraph{Flusso del gradiente.}
+Il gradiente della perdita rispetto a un elemento della matrice ponte
+$M_{ij}$ \`e
+\begin{equation}
+  \frac{\partial \mathcal{L}}{\partial M_{ij}}
+  = \sum_{k=1}^{r/C}
+    \frac{\partial \mathcal{L}}{\partial \tilde{Z}_{ik}}
+    \cdot Z_{jk},
+  \label{eq:bridge-grad}
+\end{equation}
+dove $\tilde{Z}_{ik}$ riceve il suo gradiente attraverso $B$ e la
+perdita a valle.
+$M_{ij}$ accumula quindi un gradiente proporzionale alla
+\emph{co-attivazione} tra il canale~$j$ (nell'uscita della proiezione
+discendente) e il canale~$i$ (nel segnale di gradiente della proiezione
+ascendente).
+Se i dati di addestramento inducono correlazioni sistematiche tra
+specifiche coppie di canali, le corrispondenti voci fuori diagonale di
+$M$ crescono; se le attivazioni dei canali sono indipendenti, $M$
+rimane vicino a $I_C$.
+Questa selettivit\`a \`e il meccanismo che consente il fingerprinting
+del task (\S\ref{sec:experiments}).
+
+\paragraph{Simmetria rotazionale.}
+Per qualsiasi $R \in \mathbb{R}^{r \times r}$ ortogonale, il prodotto
+$BA$ \`e invariante sotto $B \mapsto BR^\top$, $A \mapsto RA$.
+Le dimensioni di rango del LoRA standard sono dunque rotazionalmente
+simmetriche---non esiste un intrinseco ``canale~1'' o ``canale~6''.
+La matrice ponte non rompe questa simmetria: l'ottimizzatore pu\`o
+permutare o ruotare i canali liberamente, e la matrice ponte
+compenser\`a.
+Ci\`o che la matrice ponte \emph{fornisce} \`e un riassunto leggibile
+della struttura di accoppiamento scoperta dall'addestramento,
+indipendentemente dalla rotazione scelta dall'ottimizzatore.
+Due matrici ponte addestrate sullo stesso task non avranno voci
+identiche, ma esibiranno le stesse propriet\`a spettrali (autovalori,
+connettivit\`a di Fiedler) poich\'e queste sono invarianti per
+rotazione.
+Sfruttiamo questo nelle nostre analisi confrontando le matrici ponte
+tramite i loro autospettri e la connettivit\`a grafo-teorica piuttosto
+che la distanza voce per voce.
+
+\subsection{Vincoli Topologici}
+\label{sec:topology}
+
+La matrice ponte $M$ \`e una matrice densa $C \times C$ per default.
+Le sue voci fuori diagonale possono opzionalmente essere vincolate da
+una maschera binaria $\mathcal{T} \in \{0, 1\}^{C \times C}$ derivata
+da una topologia reticolare, imponendo $M_{ij} = 0$ ovunque
+$\mathcal{T}_{ij} = 0$.
+Durante l'addestramento, le voci mascherate non ricevono gradiente e
+rimangono a zero.
+
+Definiamo due maschere topologiche per $C = 6$, derivate dalla
+connettivit\`a di reticoli tridimensionali:
+
+\paragraph{Maschera FCC.}
+I sei canali corrispondono alle sei coppie di facce antipodaliche del
+dodecaedro rombico---equivalentemente, alle sei coppie di direzioni dei
+primi vicini del reticolo cubico a facce centrate (FCC).
+Due coppie di direzioni si \emph{accoppiano} quando condividono vertici
+sul poliedro sottostante.
+Nel dodecaedro rombico, le coppie co-planari (quelle giacenti nello
+stesso piano coordinato, ad es.\ le direzioni $(1,1,0)$ e $(1,-1,0)$ nel
+piano $xy$) condividono 4 vertici ottaedrici; le coppie cross-planari
+ne condividono 2.
+Tutte le coppie condividono almeno 2 vertici, quindi la maschera FCC \`e
+il grafo completo su 6 nodi: $\mathcal{T}^\text{FCC}_{ij} = 1$ per
+tutti gli $i, j$.
+La maschera ammette 6 voci diagonali e $\binom{6}{2} = 15$ connessioni
+fuori diagonale bidirezionali, per un totale di 36 voci non nulle.
+In pratica, la matrice ponte non vincolata \`e la matrice ponte con
+maschera FCC---la topologia consente l'accoppiamento completo.
+
+\paragraph{Maschera cubica.}
+Il reticolo cubico connette ogni nodo a 6 vicini lungo 3 direzioni
+allineate agli assi, producendo 3 coppie di direzioni.
+Per costruire una maschera cubica su 6 canali, manteniamo
+l'accoppiamento solo all'interno di ogni coppia co-planare: i canali
+$(0,1)$, $(2,3)$ e $(4,5)$ possono accoppiarsi, ma le voci
+cross-planari sono azzerate.
+Ci\`o produce una maschera a blocchi diagonali con tre blocchi
+$2 \times 2$: $\mathcal{T}^\text{cubic}_{ij} = 1$ se
+$\lfloor i/2 \rfloor = \lfloor j/2 \rfloor$, e 0 altrimenti.
+La maschera cubica ha 6 voci diagonali e 3 connessioni fuori diagonale
+bidirezionali (una per blocco), per un totale di 12 voci non nulle.
+
+\paragraph{Relazione con MELoRA.}
+Impostando la maschera a $\mathcal{T} = I_C$ (solo diagonale, nessun
+accoppiamento fuori diagonale) si recupera la struttura a blocchi
+diagonali di MELoRA~\cite{ren2024melora}, in cui ogni canale opera
+indipendentemente.
+La matrice ponte copre dunque un continuum: da canali completamente
+indipendenti ($M = I_C$, MELoRA), attraverso l'accoppiamento parziale
+(maschera cubica), fino all'accoppiamento completo (maschera FCC o
+senza vincoli).
+Tutti gli esperimenti in questo articolo utilizzano la matrice ponte
+senza vincoli salvo diversa indicazione.
+
+\subsection{Grandezze Diagnostiche}
+\label{sec:diagnostics}
+
+La matrice ponte \`e una matrice quadrata, reale e di piccole
+dimensioni.
+Ne estraiamo tre grandezze diagnostiche, ciascuna invariante rispetto
+alla simmetria rotazionale delle dimensioni di rango
+(\S\ref{sec:bridge}):
+
+\paragraph{Connettivit\`a di Fiedler.}
+Interpretiamo $|M_{ij}|$ per $i \neq j$ come il peso dell'arco tra i
+canali $i$ e $j$ in un grafo pesato su $C$ nodi, e calcoliamo la
+connettivit\`a algebrica (il secondo autovalore pi\`u piccolo del
+Laplaciano pesato)~\cite{fiedler1973algebraic}.
+Un valore di Fiedler pari a zero indica una matrice ponte disconnessa o
+identit\`a; valori maggiori indicano un accoppiamento tra canali pi\`u
+forte.
+All'inizializzazione ($M = I_C$), Fiedler $= 0$.
+
+\paragraph{Deviazione di Frobenius.}
+$\|M - I_C\|_F$ misura quanto la matrice ponte si \`e allontanata
+dalla sua inizializzazione identit\`a.
+Si tratta di un riassunto scalare dell'accoppiamento totale appreso,
+che combina sia la scalatura diagonale sia il mescolamento fuori
+diagonale.
+
+\paragraph{Autospettro.}
+Il vettore degli autovalori $\lambda_1, \ldots, \lambda_C$ di $M$
+(ordinati per modulo) fornisce un'impronta invariante per rotazione
+della struttura di accoppiamento della matrice ponte.
+Confrontiamo gli autospettri tra matrici ponte tramite similarit\`a del
+coseno:
+$\operatorname{cos}(\boldsymbol{\lambda}^{(a)},
+\boldsymbol{\lambda}^{(b)})$.
+
+\subsection{Descrizione della Figura}
+\label{sec:arch-figure}
+
+% [Figura 1: Diagramma dell'architettura — da renderizzare separatamente]
+%
+% La figura dovrebbe mostrare quanto segue, disposto da sinistra a
+% destra come un diagramma di flusso dati:
+%
+% SINISTRA: Input x (una barra verticale etichettata d_in).
+%
+% BLOCCO 1: Proiezione discendente A (r × d_in), che produce
+% z ∈ R^r (una barra verticale stretta etichettata r = 24).
+%
+% RIORGANIZZAZIONE: z viene riorganizzato in una griglia 6 × 4
+% (6 righe = canali, 4 colonne = fette di rango per canale). Ogni
+% riga è codificata per colore con una coppia di direzioni. Visivo:
+% una piccola matrice/griglia con 6 righe colorate.
+%
+% BLOCCO 2: La matrice ponte M (6 × 6), mostrata come una piccola
+% matrice quadrata sovrapposta alla griglia dei canali. Frecce o
+% linee collegano ogni riga di canale alle righe di canale in uscita,
+% con spessore della linea proporzionale a |M_{ij}|.
+% L'inizializzazione identità è mostrata come versione trasparente
+% (6 connessioni solo diagonali), con lo stato appreso che mostra
+% connessioni fuori diagonale emergenti.
+%
+% RIORGANIZZAZIONE: La griglia 6 × 4 mescolata viene appiattita in R^r.
+%
+% BLOCCO 3: Proiezione ascendente B (d_out × r), che produce la
+% correzione LoRA Δh ∈ R^{d_out}.
+%
+% DESTRA: La correzione viene sommata a W_0 x (mostrato come un
+% percorso parallelo separato da x attraverso W_0, che si unisce a
+% Δh tramite "+").
+%
+% RIQUADRO (in basso a destra): Due piccole mappe di calore 6 × 6
+% affiancate:
+% (a) M = I_6 (identità, all'inizializzazione — solo diagonale,
+% tutto il fuori diagonale bianco), etichettata "Passo 0: LoRA standard";
+% (b) una M appresa (che mostra struttura fuori diagonale con
+% intensità variabile), etichettata "Passo 10K: accoppiamento appreso".
+%
+% ANNOTAZIONE: Un richiamo sul blocco della matrice ponte che recita
+% "36 parametri (0,021% dell'adattatore)" con l'equazione
+% M_{ij}: canale j → canale i.
+%
+% Didascalia: "Architettura RhombiLoRA. La matrice ponte M accoppia i
+% C = 6 canali della rappresentazione nascosta di rango r tra le
+% proiezioni discendente e ascendente A e B. All'inizializzazione
+% M = I_6, recuperando il LoRA standard. L'addestramento scopre
+% l'accoppiamento tra canali (riquadro), producendo una diagnostica
+% compatta del comportamento dell'adattatore."
+
+% ===================================================================
+% Section 3 — Fondamenti Teorici
+% ===================================================================
+
+\section{Fondamenti Teorici}
+\label{sec:theory}
+
+L'utilit\`a diagnostica della matrice ponte si fonda su una semplice
+osservazione sul flusso del gradiente. Il gradiente della perdita
+rispetto all'elemento della matrice ponte $M_{ij}$ \`e proporzionale
+alla co-attivazione tra il canale $j$ della proiezione discendente e il
+canale $i$ del gradiente della proiezione ascendente
+(Eq.~\ref{eq:bridge-grad}).
+Le voci della matrice ponte accumulano quindi un riassunto continuo
+della correlazione tra canali, modellata dall'obiettivo di
+addestramento.
+
+Tre propriet\`a del gradiente della matrice ponte la rendono
+diagnostica:
+
+\paragraph{Selettivit\`a.}
+Se i dati di addestramento inducono correlazioni sistematiche tra
+specifiche coppie di canali---poich\'e certe combinazioni di
+caratteristiche co-occorrono tra gli esempi---le corrispondenti voci
+fuori diagonale crescono. Se i canali sono indipendenti, $M$ rimane
+vicino a $I_C$. La matrice ponte \`e modellata dalla struttura
+statistica del task, non dall'inizializzazione n\'e dal bias
+architetturale.
+
+\paragraph{Compattezza.}
+La matrice ponte occupa $C^2 = 36$ parametri per livello,
+indipendentemente dalla dimensione del modello $d_\text{model}$.
+Questo \`e pi\`u piccolo di un singolo vettore di stato nascosto nel
+modello base. Il rapporto di compressione diagnostica \`e
+$d_\text{model}^2 / C^2 \approx 3{,}6 \times 10^5$ per Qwen2.5-7B.
+
+\paragraph{Diagnostiche invarianti.}
+Sebbene le voci della matrice ponte dipendano dalla scelta
+dell'ottimizzatore in merito alla rotazione nello spazio di rango,
+l'autospettro di $M$ \`e invariante per rotazione. Due matrici ponte
+addestrate sullo stesso task con semi casuali differenti differiranno
+voce per voce ma convergeranno verso autospettri simili (similarit\`a
+del coseno $> 0{,}999$ tra tutte le coppie di task nei nostri
+esperimenti). L'analisi spettrale della matrice ponte \`e pertanto
+riproducibile tra diverse esecuzioni di addestramento.
+
+La previsione teorica---che la struttura del task fluisca nella
+struttura della matrice ponte attraverso la co-attivazione del
+gradiente---\`e confermata empiricamente nelle
+Sezioni~\ref{sec:exp-fingerprint} e~\ref{sec:exp-merging}.
+
+% ===================================================================
+% Section 4 — Esperimenti
+% ===================================================================
+
+\section{Esperimenti}
+\label{sec:experiments}
+
+Valutiamo le matrici ponte di RhombiLoRA attraverso sette esperimenti,
+procedendo dall'analisi strutturale di un singolo adattatore attraverso
+la supervisione direzionale e la memoria geometrica fino al
+fingerprinting multi-task e alla composizione degli adattatori a livello
+di matrice ponte. Tutti gli esperimenti utilizzano la libreria
+\texttt{rhombic} (v0.3.0) con pipeline identiche di estrazione delle
+matrici ponte e analisi spettrale. Codice, matrici ponte e script di
+riproduzione sono disponibili presso
+\texttt{https://github.com/promptcrafted/rhombic}.
+
+\paragraph{Configurazione comune.}
+Salvo diversa indicazione, tutti gli adattatori utilizzano rango
+$r = 24$ con $c = 6$ canali in topologia FCC, producendo matrici ponte
+$6 \times 6$ (36 parametri addestrabili per adattatore).
+L'addestramento utilizza QLoRA (quantizzazione NormalFloat a 4 bit) con
+AdamW ($\beta_1 = 0{,}9$, $\beta_2 = 0{,}999$), tasso di apprendimento
+$2 \times 10^{-4}$ con schedulazione a coseno, dimensione del batch 4,
+accumulazione del gradiente 4, e precisione mista \texttt{bf16}. I
+moduli target sono \texttt{q\_proj}, \texttt{k\_proj}, \texttt{v\_proj}
+e \texttt{o\_proj} attraverso tutti i livelli del trasformatore.
+
+% ---------------------------------------------------------------------------
+\subsection{Anatomia della Matrice Ponte (1,5B)}
+\label{sec:exp-anatomy-1b}
+
+\paragraph{Configurazione.} Addestriamo cinque configurazioni di
+adattatore su Qwen2.5-1.5B-Instruct (28 livelli, 112 adattatori
+totali) utilizzando Alpaca-cleaned~\cite{alpaca} (52K esempi) per 2.000
+passi su una NVIDIA RTX 6000 Ada (48\,GB). Le configurazioni sono:
+(1)~LoRA standard $r\!=\!24$, (2)~RhombiLoRA $r\!=\!24$ con matrice
+ponte identit\`a congelata, (3)~RhombiLoRA $r\!=\!24$ con matrice ponte
+addestrabile (inizializzazione identit\`a), (4)~LoRA standard
+$r\!=\!48$ (budget di parametri $2\times$), e (5)~RhombiLoRA
+$r\!=\!24$ con topologia cubica ($c\!=\!3$, matrice ponte $3 \times 3$).
+Le configurazioni 1--3 e~5 hanno conteggi di parametri addestrabili
+corrispondenti ($\sim$3,27M); la configurazione~4 li raddoppia a
+$\sim$6,54M. Le configurazioni di addestramento sono riassunte nella
+Tabella~\ref{tab:exp1-configs}.
+
+% Table: Exp 1 configurations
+\begin{table}[t]
+\centering
+\caption{Configurazioni dell'Esperimento 1 (Qwen2.5-1.5B-Instruct, Alpaca-cleaned, 2K passi).}
+\label{tab:exp1-configs}
+\small
+\begin{tabular}{@{}clcccc@{}}
+\toprule
+\# & Configurazione & Rango & Canali & Matrice Ponte & Parametri \\
+\midrule
+1 & LoRA Standard          & 24 & 6 & $I$ congelata & 3.268.608 \\
+2 & RhombiLoRA (congelata)    & 24 & 6 & $I$ congelata & 3.268.608 \\
+3 & RhombiLoRA (addestrabile) & 24 & 6 & Addestrabile  & 3.270.624 \\
+4 & LoRA Standard          & 48 & 6 & $I$ congelata & 6.537.216 \\
+5 & RhombiLoRA (cubica)     & 24 & 3 & Addestrabile  & 3.269.112 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Risultati.}
+\textbf{Equivalenza dell'identit\`a.} Le configurazioni 1 e~2 producono
+traiettorie di perdita con $\Delta < 0{,}0002$ a ogni checkpoint,
+confermando che RhombiLoRA con matrice ponte identit\`a congelata
+recupera esattamente il LoRA standard.
+
+\textbf{Saturazione del rango.} La configurazione~4 (rango 48,
+$2\times$ parametri) converge alla stessa perdita finale del rango~24
+(0,376 contro 0,376 al passo 2000). Il collo di bottiglia del segnale
+di addestramento a 2K passi non \`e la capacit\`a di rango; la matrice
+ponte fornisce un tipo qualitativamente differente di capacit\`a
+(mescolamento tra canali) piuttosto che una maggiore quantit\`a dello
+stesso tipo.
+
+\textbf{Accoppiamento strutturato.} La matrice ponte della
+configurazione~3 sviluppa una connettivit\`a algebrica (valore di
+Fiedler) in crescita monotona durante l'addestramento: da
+$\lambda_2 = 0{,}000$ all'inizializzazione a $\lambda_2 = 0{,}037$ al
+passo 2000. Il comportamento primario appreso \`e
+l'auto-amplificazione diagonale ($\sim$$+$0,009 per canale);
+l'accoppiamento fuori diagonale tra canali \`e di un ordine di grandezza
+inferiore ($\sim$0,001) ma costantemente presente e in crescita.
+
+\textbf{La topologia conta.} Il risultato critico: la matrice ponte FCC
+a 6 canali sviluppa un valore di Fiedler \textbf{4,6$\times$} superiore
+e una deviazione dall'identit\`a \textbf{5,3$\times$} superiore rispetto
+alla matrice ponte cubica a 3 canali
+(Tabella~\ref{tab:topology-effect}), con budget di parametri
+corrispondenti e perdita finale identica. Entrambe le topologie
+sviluppano la stessa auto-amplificazione diagonale ($+$0,009), ma la
+topologia FCC scopre e sfrutta pi\`u percorsi di accoppiamento tra
+canali. L'ottimizzatore trova che 12 archi (FCC) offrono una struttura
+di mescolamento pi\`u utile di 6 archi (cubica)---confermando a livello
+di rete neurale il vantaggio di connettivit\`a algebrica stabilito dai
+benchmark grafo-teorici~\cite{rhombilora_paper1}.
+
+\begin{table}[t]
+\centering
+\caption{Effetto della topologia sulla struttura della matrice ponte
+(Esp.\ 1, passo 2000). Budget di parametri identico, perdita identica.
+La topologia FCC sviluppa una connettivit\`a algebrica $4{,}6\times$
+superiore.}
+\label{tab:topology-effect}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Metrica & FCC (6 canali) & Cubica (3 canali) & Rapporto \\
+\midrule
+Crescita diagonale         & $+$0,0087 & $+$0,0088 & 1,0$\times$ \\
+Media $|$fuori diag.$|$ & 0,00100   & 0,00060   & 1,7$\times$ \\
+Fiedler $\lambda_2$     & 0,0373    & 0,0082    & 4,6$\times$ \\
+Deviazione da $I$      & 0,0507    & 0,0095    & 5,3$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------------
+\subsection{Anatomia della Matrice Ponte a Scala (7B)}
+\label{sec:exp-anatomy-7b}
+
+\paragraph{Configurazione.} Addestriamo RhombiLoRA ($r\!=\!24$, FCC,
+matrice ponte addestrabile) su Qwen2.5-7B-Instruct (28 livelli, 4
+moduli per livello, 112 adattatori) utilizzando Alpaca-cleaned per
+10.000 passi su una RTX 6000 Ada locale. Le matrici ponte sono estratte
+a 11 checkpoint (passi 0, 1K, 2K, \ldots, 10K), producendo 1.344
+istantanee della matrice ponte. Analizziamo le 112 matrici ponte finali
+per la struttura posizionale e la traiettoria completa per le dinamiche
+di addestramento.
+
+\paragraph{Struttura per modulo.}
+L'accoppiamento della matrice ponte varia significativamente per tipo di
+modulo di attenzione. L'ANOVA a una via sui valori finali di Fiedler
+produce $F = 6{,}022$, $p = 0{,}0008$
+(Tabella~\ref{tab:module-anatomy}). Le proiezioni Q sviluppano il
+maggior accoppiamento (media $\lambda_2 = 0{,}050$), il 40\% in pi\`u
+rispetto alle proiezioni V ($\lambda_2 = 0{,}036$). L'ordinamento
+Q $>$ K $>$ V non segue alcun pattern banalmente prevedibile.
+In modo notevole, le strutture della matrice ponte Q-V sono pi\`u simili
+di quelle Q-K ($t$ accoppiato $= 2{,}13$, $p = 0{,}042$), contrariamente
+all'aspettativa ingenua che il prodotto scalare query-chiave legherebbe
+Q e K pi\`u strettamente. La matrice ponte traccia il \emph{flusso di
+informazione} (Q interroga ci\`o che V fornisce) piuttosto che il
+\emph{calcolo di similarit\`a} (Q$\cdot$K).
+
+\begin{table}[t]
+\centering
+\caption{Statistiche della matrice ponte per tipo di modulo (Esp.\ 2,
+Qwen2.5-7B, passo 10K, $n = 28$ per modulo). ANOVA: $F = 6{,}022$,
+$p = 0{,}0008$.}
+\label{tab:module-anatomy}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Modulo & Fiedler ($\lambda_2$) & Deviazione & Disp.\ Autov. & Co/Cross \\
+\midrule
+q\_proj & $0{,}050 \pm 0{,}014$ & $0{,}273 \pm 0{,}070$ & $0{,}124 \pm 0{,}025$ & $1{,}050 \pm 0{,}593$ \\
+k\_proj & $0{,}039 \pm 0{,}014$ & $0{,}155 \pm 0{,}034$ & $0{,}108 \pm 0{,}029$ & $1{,}074 \pm 0{,}528$ \\
+o\_proj & $0{,}035 \pm 0{,}016$ & $0{,}225 \pm 0{,}099$ & $0{,}101 \pm 0{,}044$ & $1{,}096 \pm 0{,}411$ \\
+v\_proj & $0{,}036 \pm 0{,}016$ & $0{,}142 \pm 0{,}064$ & $0{,}094 \pm 0{,}033$ & $1{,}061 \pm 0{,}448$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Invarianza rispetto alla profondit\`a.}
+Contrariamente al tipo di modulo, la profondit\`a del livello non ha
+effetto significativo sui valori di Fiedler (ANOVA $F = 0{,}799$,
+$p = 0{,}74$; Pearson $r = 0{,}03$, $p = 0{,}87$).
+La matrice ponte sviluppa una connettivit\`a algebrica comparabile a
+ogni profondit\`a. Tuttavia, la \emph{deviazione} dall'identit\`a
+aumenta con la profondit\`a (ANOVA $F = 2{,}43$, $p = 0{,}001$): i
+livelli pi\`u profondi divergono di pi\`u dall'inizializzazione
+identit\`a, suggerendo che, sebbene tutti i livelli sviluppino una forza
+di accoppiamento simile, i livelli pi\`u profondi sviluppano pattern di
+accoppiamento pi\`u complessi (asimmetrici o non uniformi).
+
+\paragraph{Dinamiche di addestramento.}
+Il valore medio di Fiedler cresce in modo monotono lungo l'intera
+traiettoria: $0{,}000 \to 0{,}018$ (1K) $\to 0{,}040$ (10K). La
+correlazione anticipata--tardiva \`e debole ($r = 0{,}099$,
+$p = 0{,}30$): gli adattatori che sviluppano il maggior accoppiamento
+al passo 1K non mantengono necessariamente quella posizione al passo
+10K. La matrice ponte subisce una riorganizzazione strutturale durante
+l'addestramento piuttosto che un'amplificazione uniforme della struttura
+iniziale. Il coefficiente di variazione tra le matrici ponte finali \`e
+$\text{CV} = 0{,}408$, con un intervallo di $9\times$ tra l'adattatore
+pi\`u accoppiato (Livello~2 \texttt{q\_proj}, $\lambda_2 = 0{,}099$) e
+il meno accoppiato (Livello~1 \texttt{v\_proj},
+$\lambda_2 = 0{,}011$).
+
+\paragraph{Implicazione.}
+La matrice ponte \`e \emph{architetturalmente sensibile} alla sua
+posizione all'interno della testa di attenzione: il tipo di modulo
+spiega una varianza significativa nella forza di accoppiamento.
+Ci\`o motiva l'ipotesi che le matrici ponte possano anche essere
+\emph{sensibili al task}---se una matrice a 36 parametri pu\`o
+distinguere \texttt{q\_proj} da \texttt{v\_proj}, potrebbe distinguere
+``codice'' da ``matematica''.
+Verifichiamo ci\`o direttamente in \S\ref{sec:exp-fingerprint}.
+
+% ---------------------------------------------------------------------------
+\subsection{Direzione vs.\ Connettivit\`a}
+\label{sec:exp-direction}
+
+\paragraph{Motivazione.}
+La topologia della matrice ponte FCC deriva dal dodecaedro rombico, le
+cui sei coppie di canali si decompongono in tre coppie co-planari
+(che condividono 4 vertici ottaedrici) e tre coppie cross-planari
+(che ne condividono 2). Abbiamo ipotizzato che dati di addestramento con
+struttura esplicita di accoppiamento prospettico avrebbero indotto un
+accoppiamento co-planare misurabilmente pi\`u forte di quello
+cross-planare nella matrice ponte.
+
+\paragraph{Configurazione.}
+Addestriamo RhombiLoRA ($r\!=\!24$, FCC) su Qwen2.5-7B-Instruct
+utilizzando un dataset geometrico sintetico (23K esempi con il 95\%
+di accoppiamento prospettico co-planare) per 3.000 passi su una RunPod
+RTX 4090. Confrontiamo con la baseline Alpaca (Esp.~2, dati isotropi,
+10K passi) utilizzando quattro diagnostiche spettrali: rapporto di
+accoppiamento co-planare/cross-planare, test di permutazione,
+allineamento della matrice di Gram e ritenzione della perturbazione.
+
+\paragraph{Risultato nullo sulla direzione.}
+Il dataset geometrico non produce \emph{alcun} segnale direzionale. Il
+rapporto co/cross \`e 1,002 al passo 3K (effettivamente identit\`a),
+rispetto al picco transitorio di Alpaca di 1,091 al passo 3K che decade
+a 1,019 al passo 10K. Nessuno dei due risultati \`e statisticamente
+significativo sotto test di permutazione (geometrico $p = 0{,}474$;
+Alpaca $p = 0{,}332$). Il confronto completo \`e presentato nella
+Tabella~\ref{tab:direction-null}.
+
+\begin{table}[t]
+\centering
+\caption{Confronto del segnale direzionale (112 matrici ponte FCC
+ciascuno). I dati geometrici sono stati progettati con il 95\% di
+accoppiamento prospettico co-planare. Nessun dataset produce una
+preferenza direzionale significativa.}
+\label{tab:direction-null}
+\small
+\begin{tabular}{@{}lccl@{}}
+\toprule
+Metrica & Alpaca (10K) & Geometrico (3K) & Migliore \\
+\midrule
+Rapporto Co/Cross         & 1,019 & 1,002 & --- \\
+Permutazione $p$        & 0,332 & 0,474 & --- \\
+Distanza di Gram          & 0,921 & 0,921 & Parit\`a \\
+Dispersione autovalori      & 0,107 & 0,062 & Alpaca \\
+Ritenzione perturbazione & 68,8\% & 69,7\% & Parit\`a \\
+Fiedler $\lambda_2$    & 0,040 & 0,030 & Alpaca \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Risultato positivo sulla connettivit\`a.}
+Mentre il risultato nullo sulla direzione \`e definitivo, la struttura
+della matrice ponte \`e \emph{distribuita} indipendentemente dal tipo di
+dati: azzerando tutte le voci co-planari della matrice ponte si
+mantiene $\sim$69\% del valore di Fiedler in entrambe le condizioni
+(68,8\% contro 69,7\%). Questo \`e un invariante architetturale, non una
+propriet\`a dipendente dai dati. La matrice ponte distribuisce il suo
+accoppiamento appreso sia sulle coppie co-planari sia su quelle
+cross-planari indipendentemente dalla struttura dell'input.
+
+\paragraph{Causa principale.}
+Il bias co-planare a livello di prompt (95\% di accoppiamento
+prospettico) non si traduce in una preferenza di co-attivazione a
+livello di canale perch\'e \emph{l'assegnazione dei canali \`e
+arbitraria}. La matrice ponte non ha alcun meccanismo per associare
+prospettive semantiche (ad es.\ ``analitica + empirica'') con indici di
+canale specifici (ad es.\ canali 0--1 contro 2--3). Ventotto livelli di
+trasformatore tra la struttura del prompt e i pesi della matrice ponte
+cancellano il segnale a livello di prompt. Indurre una preferenza
+direzionale richiede la supervisione esplicita della struttura di
+accoppiamento della matrice ponte---verifichiamo ci\`o direttamente in
+\S\ref{sec:exp-contrastive}.
+
+% ---------------------------------------------------------------------------
+\subsection{Pre-addestramento Contrastivo della Matrice Ponte}
+\label{sec:exp-contrastive}
+
+\paragraph{Motivazione.}
+Il risultato nullo in \S\ref{sec:exp-direction} ha stabilito che
+l'assegnazione dei canali \`e arbitraria: la matrice ponte non ha alcun
+meccanismo per associare canali specifici a direzioni specifiche del
+reticolo a partire dai soli dati. Verifichiamo se una
+\emph{supervisione esplicita}---una perdita contrastiva che premia
+l'accoppiamento co-planare e penalizza quello cross-planare---possa
+installare una preferenza direzionale, e se tale preferenza persista
+dopo la rimozione della supervisione.
+
+\paragraph{Configurazione.}
+Addestriamo RhombiLoRA ($r\!=\!24$, FCC, matrice ponte addestrabile)
+su Qwen2.5-7B-Instruct utilizzando Alpaca-cleaned in due fasi su una
+RunPod RTX 3090:
+
+\begin{enumerate}
+\item \textbf{Riscaldamento contrastivo} (500 passi): La perdita di
+addestramento
+$\mathcal{L} = \mathcal{L}_\text{LM} + w_c \mathcal{L}_\text{contrastive}$
+combina l'obiettivo standard di modellazione linguistica con un termine
+contrastivo che massimizza l'accoppiamento tra coppie di canali
+co-planari (quelle che condividono 4 vertici ottaedrici) rispetto alle
+coppie cross-planari (che ne condividono 2). Il peso contrastivo cresce
+linearmente da 0 a $w_c = 0{,}01$ in 500 passi.
+
+\item \textbf{Continuazione non supervisionata} (passi 501--10.000+):
+La perdita contrastiva viene interamente rimossa ($w_c = 0$).
+L'addestramento prosegue con il solo obiettivo di modellazione
+linguistica. La matrice ponte riceve gradienti unicamente attraverso il
+percorso standard
+$\partial\mathcal{L}_\text{LM}/\partial M_{ij}$.
+\end{enumerate}
+
+\noindent
+Le matrici ponte sono salvate ogni 100 passi. Il rapporto di
+accoppiamento co-planare/cross-planare (Co/Cross) fornisce la
+diagnostica principale: a quale velocit\`a il segnale direzionale
+supervisionato decade sotto addestramento non supervisionato, e
+raggiunge la baseline nulla di 1,0 stabilita dagli Esperimenti~2.5
+e~2.7?
+
+\paragraph{Riscaldamento contrastivo.}
+Al passo 500, la matrice ponte esibisce una massiccia preferenza
+direzionale: Co/Cross $= 2.660\times$
+(Tabella~\ref{tab:geometric-memory}). La perdita contrastiva installa
+con successo la semantica geometrica che l'addestramento guidato dai
+dati (\S\ref{sec:exp-direction}) non era riuscito a produrre: le coppie
+co-planari portano ordini di grandezza pi\`u peso di accoppiamento
+rispetto alle coppie cross-planari.
+
+\paragraph{Memoria geometrica.}
+Dopo la rimozione della supervisione al passo 500, il segnale
+direzionale decade rapidamente ma \emph{non raggiunge mai la baseline
+nulla} (Tabella~\ref{tab:geometric-memory}). Al passo 5.000 (4.500
+passi non supervisionati), il rapporto Co/Cross \`e decaduto da
+$2.660\times$ a $18{,}6\times$---una riduzione del 99,3\% in
+magnitudine, ma comunque $18{,}6\times$ al di sopra della baseline nulla
+di $1{,}0$ stabilita da due esperimenti indipendenti
+(\S\ref{sec:exp-direction}, \S\ref{sec:exp-bridge-lr}). Al passo 6.500,
+il rapporto si stabilizza intorno a $16\times$, con decrementi
+successivi su 500 passi che si riducono sotto 0,5.
+
+\begin{table}[t]
+\centering
+\caption{Memoria geometrica: rapporto di accoppiamento
+co-planare/cross-planare (Co/Cross), valore di Fiedler e perdita di
+validazione dopo 500 passi di riscaldamento contrastivo seguiti da
+addestramento non supervisionato. Il segnale direzionale decade verso la
+baseline nulla ($\approx$1,0) ma non la raggiunge mai.
+L'addestramento era in corso al momento della stesura; la tendenza
+asintotica \`e gi\`a chiara.}
+\label{tab:geometric-memory}
+\small
+\begin{tabular}{@{}rlrrr@{}}
+\toprule
+Passo & Fase & Co/Cross & Fiedler $\lambda_2$ & Perd.\ Val. \\
+\midrule
+0     & Iniz.            & 1,000    & 0,000 & --- \\
+500   & Fine risc.      & 2.660  & ---   & --- \\
+3.500 & Non superv.  & 56,0   & 0,007 & --- \\
+5.000 & Non superv.  & 18,6   & 0,022 & 0,301 \\
+5.500 & Non superv.  & 17,3   & 0,024 & 0,297 \\
+6.500 & Non superv.  & 16,1   & 0,026 & 0,295 \\
+\midrule
+\multicolumn{2}{@{}l}{\textit{Baseline nulle}} \\
+\quad Esp.\ 2.5 & Dati geometrici    & 1,002  & 0,030 & --- \\
+\quad Esp.\ 2.7 & LR ponte elevato    & $\approx$1,0 & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{La connettivit\`a emerge indipendentemente.}
+Mentre il segnale direzionale decade, la connettivit\`a
+\emph{complessiva} della matrice ponte cresce in modo monotono. Il
+valore di Fiedler aumenta da $0{,}007$ al passo 3.500 a $0{,}026$ al
+passo 6.500---un incremento di $3{,}7\times$ guidato interamente da
+gradienti non supervisionati. La deviazione dall'identit\`a aumenta
+analogamente ($0{,}151 \to 0{,}193$), indicando che la matrice ponte
+diventa \emph{pi\`u} espressiva, non meno, durante la fase non
+supervisionata. La perdita di validazione migliora costantemente
+($0{,}307 \to 0{,}295$). La matrice ponte si sta riorganizzando---cedendo
+l'eccesso di specificit\`a direzionale in favore di un accoppiamento
+utile al task---mantenendo al contempo una memoria geometrica persistente
+della struttura direzionale mostratale durante il riscaldamento.
+
+\paragraph{Risultato rivisto.}
+Il risultato originale L-001 (``la matrice ponte non pu\`o apprendere la
+preferenza direzionale dai soli dati,'' \S\ref{sec:exp-direction}) deve
+essere rivisto: \emph{la matrice ponte non pu\`o scoprire la direzione
+dai soli dati, ma una volta mostrata la direzione attraverso supervisione
+esplicita, mantiene una memoria geometrica stabile che migliaia di passi
+di addestramento non supervisionato non riescono a cancellare.} La
+direzione richiede insegnamento; una volta insegnata, persiste.
+
+% ---------------------------------------------------------------------------
+\subsection{Controllo del Tasso di Apprendimento della Matrice Ponte}
+\label{sec:exp-bridge-lr}
+
+\paragraph{Configurazione.}
+Per escludere le dinamiche di ottimizzazione come spiegazione
+alternativa del risultato nullo direzionale
+(\S\ref{sec:exp-direction}), addestriamo RhombiLoRA ($r\!=\!24$, FCC,
+matrice ponte addestrabile) su Qwen2.5-7B-Instruct utilizzando
+Alpaca-cleaned per 3.000 passi su una RunPod RTX 3090, con un tasso di
+apprendimento separato per i parametri della matrice ponte fissato a
+$10\times$ il tasso base dell'adattatore ($2 \times 10^{-3}$ contro
+$2 \times 10^{-4}$). Non viene applicata alcuna perdita contrastiva. Se
+il risultato nullo direzionale nell'Esperimento~2.5 fosse dovuto a un
+tasso di apprendimento insufficiente della matrice ponte---la matrice
+ponte semplicemente non aggiornandosi abbastanza velocemente rispetto
+alle matrici di proiezione---allora amplificare il gradiente della
+matrice ponte dovrebbe produrre un segnale direzionale.
+
+\paragraph{Risultato nullo.}
+Il rapporto co-planare/cross-planare rimane a $\approx$1,0 per tutto
+l'addestramento---indistinguibile dall'inizializzazione identit\`a e
+dal risultato nullo dell'Esperimento~2.5
+(Tabella~\ref{tab:geometric-memory}, righe inferiori).
+Aumentare il tasso di apprendimento della matrice ponte di $10\times$
+non induce preferenza direzionale. Combinato con il risultato
+dell'Esperimento~2.5 (LR standard, dati geometrici) e il risultato
+dell'Esperimento~2.6 (LR standard, supervisione contrastiva), ci\`o
+stabilisce che la preferenza direzionale richiede \emph{supervisione
+contrastiva esplicita}, non un'ottimizzazione pi\`u rapida n\'e dati
+strutturati.
+
+% ---------------------------------------------------------------------------
+\subsection{Fingerprinting del Task}
+\label{sec:exp-fingerprint}
+
+\paragraph{Configurazione.}
+Addestriamo tre adattatori specifici per task su Qwen2.5-7B-Instruct:
+(A)~Alpaca-cleaned (seguire istruzioni generali, 52K esempi, 10K passi,
+RTX 6000 Ada locale), (B)~CodeAlpaca-20k (generazione di codice, 20K
+esempi, 2K passi, RTX 6000 Ada locale), e (C)~GSM8K (ragionamento
+matematico, 7,5K esempi, 2K passi, RunPod RTX 4090). Tutti utilizzano
+una configurazione RhombiLoRA identica ($r\!=\!24$, FCC, matrice ponte
+addestrabile). Le matrici ponte sono estratte all'ultimo checkpoint,
+producendo 336 matrici ponte totali (112 per task, 28 livelli
+$\times$ 4 moduli). Inoltre, le matrici ponte sono estratte a
+checkpoint intermedi (passi 0, 500, 1000, 1500) per gli adattatori di
+codice e matematica per tracciare l'emergenza dell'impronta.
+
+\paragraph{Distanza inter-task vs.\ intra-task.}
+Le distanze delle matrici ponte (norma di Frobenius media su 112
+posizioni) tra i task sono significativamente maggiori delle distanze
+intra-task. Mann-Whitney $U = 3.977.447$, $p < 10^{-6}$
+(Tabella~\ref{tab:fingerprint-distances}).
+Le tre coppie di task non sono equidistanti: alpaca--codice (0,189) e
+alpaca--matematica (0,171) sono ben separate, mentre codice--matematica
+(0,066) \`e sostanzialmente pi\`u vicina. Questa asimmetria \`e
+interpretabile: codice e matematica condividono pattern di ragionamento
+strutturato e formale che distinguono entrambi dal dominio diversificato
+delle istruzioni generali.
+
+\begin{table}[t]
+\centering
+\caption{Statistiche della distanza delle matrici ponte (Fase~1A). Le
+distanze inter-task superano significativamente le distanze intra-task
+(Mann-Whitney $p < 10^{-6}$).}
+\label{tab:fingerprint-distances}
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Coppia & Media & Dev.\ St. & Min & Max \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Inter-task}} \\
+\quad alpaca $\leftrightarrow$ codice & 0,189 & 0,087 & 0,025 & 0,443 \\
+\quad alpaca $\leftrightarrow$ matem. & 0,171 & 0,078 & 0,039 & 0,441 \\
+\quad codice $\leftrightarrow$ matem.   & 0,066 & 0,029 & 0,024 & 0,170 \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Intra-task}} \\
+\quad alpaca & 0,177 & 0,061 & --- & --- \\
+\quad codice   & 0,047 & 0,015 & --- & --- \\
+\quad matem.   & 0,085 & 0,029 & --- & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Accuratezza della classificazione.}
+La classificazione SVM leave-one-out sui 336 vettori delle matrici ponte
+raggiunge il 72,9\% di accuratezza a tre vie (caso: 33,3\%). La
+prestazione non \`e uniforme: alpaca (93,8\%) e codice (94,6\%) sono ben
+classificati, mentre la matematica (50,0--66,1\%) \`e frequentemente
+confusa con il codice, coerentemente con la loro bassa distanza
+inter-task.
+
+\paragraph{Selezione delle caratteristiche: dominanza della proiezione Q.}
+Restringendo il classificatore alle sole matrici ponte della proiezione
+Q (28 per task, 1.008 parametri) l'accuratezza \emph{migliora}
+all'82,1\% (Tabella~\ref{tab:subset-class}).
+Aggiungendo le matrici ponte della proiezione O (56 totali, 2.016
+parametri) si ottiene la migliore accuratezza complessiva dell'83,3\%,
+principalmente migliorando la classificazione della matematica dal
+50,0\% al 66,1\%. Le matrici ponte delle proiezioni K e V non sono
+informative: la loro inclusione degrada il confine decisionale del SVM.
+Il risultato principale \`e che \textbf{1.008 parametri delle matrici
+ponte (28 ponti Q-proj) superano l'intero insieme di 4.032 parametri}
+per l'identificazione del task. Le matrici ponte della proiezione query
+sono la componente pi\`u discriminativa per il task nella testa di
+attenzione, coerentemente con la loro forza di accoppiamento pi\`u
+elevata (\S\ref{sec:exp-anatomy-7b}).
+
+\begin{table}[t]
+\centering
+\caption{Accuratezza della classificazione per sottoinsieme (LOO SVM, 3
+vie). La rimozione delle matrici ponte K/V non informative migliora
+l'accuratezza fino a 10,4\,pp. Le sole matrici ponte Q-proj
+classificano all'82,1\% con 1.008 parametri.}
+\label{tab:subset-class}
+\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Sottoinsieme & Posizioni & Parametri & Accuratezza LOO \\
+\midrule
+Completo (Q+K+V+O) & 112 & 4.032 & 72,9\% \\
+Solo Q-proj     &  28 & 1.008 & 82,1\% \\
+Solo O-proj     &  28 & 1.008 & 76,2\% \\
+Q+O combinati    &  56 & 2.016 & \textbf{83,3\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Gradiente di profondit\`a per livello.}
+La discriminazione del task aumenta con la profondit\`a del livello.
+Spearman $\rho = 0{,}701$ ($p < 0{,}0001$) tra l'indice del livello e
+la distanza media inter-task di Frobenius. I primi 5 livelli pi\`u
+discriminativi si trovano tutti nell'ultimo quarto della rete (livelli
+20--24), con un intervallo dinamico di $10{,}3\times$ tra la posizione
+pi\`u discriminativa (Livello~24 \texttt{o\_proj}, distanza $= 0{,}319$)
+e la meno discriminativa (Livello~1 \texttt{v\_proj},
+distanza $= 0{,}031$).
+Le proiezioni di uscita dei livelli tardivi superano le proiezioni query
+nelle singole posizioni---la proiezione di uscita si specializza per
+task nei livelli in cui il modello sta formattando il suo output finale.
+
+\paragraph{Magnitudine, non struttura.}
+I task modificano la \emph{magnitudine} dell'accoppiamento della matrice
+ponte, non la \emph{struttura} dell'accoppiamento. La similarit\`a del
+coseno dell'autospettro tra coppie di task \`e $\geq 0{,}9997$ in tutte
+le 112 posizioni. La forma spettrale della matrice ponte \`e invariante
+tra i task; solo la scala differisce. Gli adattatori alpaca sviluppano
+il Fiedler medio pi\`u elevato ($0{,}040$), seguiti dalla matematica
+($0{,}028$) e dal codice ($0{,}018$). Il seguito di istruzioni
+diversificate richiede pi\`u mescolamento tra canali rispetto ai domini
+formali e focalizzati.
+
+\paragraph{Emergenza dell'impronta.}
+Le impronte del task emergono interamente dall'addestramento. Al
+passo~0, tutte le matrici ponte sono identiche (inizializzazione
+identit\`a) e tutte le distanze inter-task sono esattamente 0,000. La
+divergenza \`e monotona: al passo~1000 il classificatore binario
+codice--matematica raggiunge l'87,5\%, salendo al 92,9\% al passo~1500
+e ancora in crescita. Il classificatore a tre vie sulle proiezioni Q
+raggiunge l'84,5\% all'ultimo checkpoint. Questa traiettoria esclude
+qualsiasi artefatto di inizializzazione e dimostra che la struttura
+della matrice ponte \`e una registrazione fedele della specializzazione
+indotta dall'addestramento.
+
+% ---------------------------------------------------------------------------
+\subsection{Fusione degli Adattatori a Livello di Matrice Ponte}
+\label{sec:exp-merging}
+
+\paragraph{Configurazione.}
+Interpoliamo le matrici ponte finali tra tutte e tre le coppie di task a
+11 coefficienti di mescolamento uniformemente spaziati ($\alpha \in
+\{0{,}0,\; 0{,}1,\; \ldots,\; 1{,}0\}$), dove
+$B_\alpha = (1 - \alpha) B_A + \alpha B_B$. Per ogni $\alpha$,
+calcoliamo il valore di Fiedler, la deviazione dall'identit\`a, la
+distanza di Frobenius da ciascuna sorgente e la similarit\`a del coseno
+dell'autospettro rispetto a ciascuna sorgente su tutte le 112 posizioni
+degli adattatori. Confrontiamo con una baseline casuale: fusione di ogni
+matrice ponte del task con 20 matrici $6 \times 6$ casuali indipendenti
+a $\alpha = 0{,}5$. Non \`e necessaria alcuna GPU---l'intero
+esperimento opera su matrici a 36 parametri tramite algebra lineare.
+
+\paragraph{Traiettorie di interpolazione.}
+Le tre coppie di task esibiscono comportamenti di fusione
+qualitativamente differenti (Tabella~\ref{tab:merge-linearity}).
+L'interpolazione alpaca--codice \`e approssimativamente lineare
+($R^2 = 0{,}948$): il Fiedler decresce regolarmente dall'estremo alpaca
+(0,040) all'estremo codice (0,018) con residuo massimo 0,0035. Al
+contrario, alpaca--matematica ($R^2 = 0{,}735$) e codice--matematica
+($R^2 = 0{,}782$) esibiscono traiettorie non lineari. La coppia
+codice--matematica mostra una \emph{diminuzione del Fiedler} a
+$\alpha \approx 0{,}2$: la connettivit\`a scende da 0,018 a 0,015
+prima di recuperare a 0,028, indicando interferenza distruttiva a
+rapporti di mescolamento intermedi tra adattatori strutturalmente
+dissimili.
+
+\begin{table}[t]
+\centering
+\caption{Linearit\`a dell'interpolazione e preservazione della struttura
+della matrice ponte. La non linearit\`a correla con la dissimilarit\`a
+strutturale tra i task. Il coseno dell'autospettro $> 0{,}999$ a tutti
+gli $\alpha$ per le fusioni tra task contro $\sim$0,5 per le baseline
+casuali.}
+\label{tab:merge-linearity}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Coppia & $R^2$ (Fiedler) & Res.\ Max. & $\cos$ autov.\ @ $\alpha\!=\!0{,}5$ \\
+\midrule
+alpaca $\leftrightarrow$ codice & 0,948 & 0,0035 & 0,9999 \\
+alpaca $\leftrightarrow$ matem. & 0,735 & 0,0044 & 0,9999 \\
+codice $\leftrightarrow$ matem.   & 0,782 & 0,0035 & 1,0000 \\
+\midrule
+\textit{Baseline casuale}      & --- & --- & $\sim$0,50 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Preservazione della struttura.}
+Al 10\% di contaminazione ($\alpha = 0{,}1$), l'autospettro
+dell'adattatore sorgente \`e perfettamente preservato: similarit\`a del
+coseno $= 1{,}0000$ per tutte e tre le coppie. Ci\`o vale
+simmetricamente ($\alpha = 0{,}9$). Piccole quantit\`a di informazione
+inter-task possono essere iniettate nella matrice ponte senza
+disturbare la struttura spettrale del task dominante. Anche a
+$\alpha = 0{,}5$ (mescolamento paritario), il coseno dell'autospettro
+rimane $> 0{,}999$ per tutte le coppie di task. Al contrario, la
+baseline casuale produce un coseno $\approx 0{,}5$ a $\alpha = 0{,}5$:
+il rumore casuale distrugge la struttura spettrale, mentre
+l'interpolazione inter-task la preserva. La fusione delle matrici ponte
+\`e strutturata, non rumore.
+
+\paragraph{Sensibilit\`a alla fusione per modulo.}
+La sensibilit\`a alla fusione (variazione normalizzata del Fiedler da
+$\alpha = 0{,}0$ a $0{,}5$) varia per tipo di modulo. Le proiezioni Q
+sono le pi\`u sensibili alla fusione in 2 coppie su 3
+(alpaca--codice: 0,429; codice--matematica: 0,160), coerentemente con il
+loro status di modulo pi\`u discriminativo per il task
+(\S\ref{sec:exp-fingerprint}).
+La correlazione cross-fase tra la distanza del task nella Fase~1A e la
+sensibilit\`a alla fusione nella Fase~2A \`e $r = 0{,}921$ tra i
+quattro tipi di modulo: i moduli che portano la maggiore identit\`a del
+task sono i pi\`u vulnerabili all'interferenza inter-task. Le matrici
+ponte K-proj e V-proj sono robuste alla fusione, suggerendo una
+strategia di composizione pratica: fondere liberamente le matrici ponte
+K/V, interpolare con cautela le matrici ponte O, e mantenere matrici
+ponte Q specifiche per task.
+
+% ---------------------------------------------------------------------------
+\subsection{Diagnostica del Sovradattamento}
+\label{sec:exp-overfit}
+
+Addestriamo RhombiLoRA su una
+porzione deliberatamente ridotta (500 addestramento / 500 validazione da
+Alpaca-cleaned) per 10.000 passi con checkpoint ogni 100 passi,
+tracciando il valore di Fiedler e la deviazione insieme al divario di
+perdita addestramento--validazione su una RunPod RTX 4090.
+
+La perdita di addestramento scende a 0,012 mentre la perdita di
+validazione si stabilizza a 1,51 al passo 10K (divario $= +1{,}50$),
+confermando un grave sovradattamento. Entrambe le propriet\`a spettrali
+della matrice ponte correlano fortemente con il divario
+addestramento--validazione: deviazione ($r = 0{,}888$,
+$p = 7{,}3 \times 10^{-35}$) e valore di Fiedler ($r = 0{,}825$,
+$p = 5{,}6 \times 10^{-26}$). Entrambi superano la soglia $r > 0{,}7$.
+
+Una transizione di fase nella connettivit\`a della matrice ponte si
+verifica al passo 400: la variazione massima del Fiedler tra un passo
+e l'altro ($0{,}019$) supera la variazione mediana
+($2{,}3 \times 10^{-5}$) di $807\times$, coincidendo con la rapida
+discesa iniziale della perdita di addestramento. Dopo questa
+riconfigurazione iniziale, le propriet\`a spettrali della matrice ponte
+evolvono in modo monotono parallelamente al crescente divario di
+generalizzazione. La matrice ponte non predice l'insorgenza del
+sovradattamento \emph{in anticipo}---traccia lo stesso segnale di
+gradiente che guida il divario di perdita---ma fornisce un riassunto
+compatto e privo di inferenza dello stato dell'adattatore che potrebbe
+integrare il monitoraggio basato sulla perdita nella pratica.
+
+% ===================================================================
+% Section 5 — Lavori Correlati
+% ===================================================================
+
+\section{Lavori Correlati}
+\label{sec:related}
+
+\paragraph{Varianti di LoRA.}
+LoRA~\cite{hu2022lora} ha stabilito la fattorizzazione $B \cdot A$ per
+il fine-tuning efficiente in termini di parametri. I lavori successivi
+hanno modificato questa fattorizzazione in diverse direzioni.
+AdaLoRA~\cite{zhang2023adalora} regola dinamicamente l'allocazione del
+rango tra i livelli tramite punteggio di importanza.
+LoRA-XS~\cite{banaei2024loraxs} inserisce una matrice $r \times r$ tra
+le proiezioni $A$ e $B$ congelate, ottenendo una riduzione estrema dei
+parametri apprendendo solo l'accoppiamento intermedio.
+MELoRA~\cite{ren2024melora} partiziona le dimensioni di rango in
+mini-LoRA indipendenti, equivalenti a una matrice ponte a blocchi
+diagonali con blocchi identit\`a congelati.
+DoRA~\cite{liu2024dora} decompone l'aggiornamento in componenti di
+magnitudine e direzione. Nessuna di queste varianti utilizza la
+rappresentazione intermedia come \emph{diagnostica} del comportamento
+dell'adattatore; tutte inquadrano la struttura intermedia come un mezzo
+per migliorare l'efficienza dell'adattamento.
+
+\paragraph{Fusione degli adattatori.}
+L'aritmetica dei task~\cite{ilharco2023editing} compone gli adattatori
+mediante combinazione lineare dei delta dei pesi.
+TIES-Merging~\cite{yadav2023ties} elimina i parametri di piccola
+magnitudine e risolve i conflitti di segno prima della media.
+DARE~\cite{yu2024dare} elimina casualmente i parametri dell'adattatore
+prima della fusione. AdaMerging~\cite{yang2024adamerging} apprende
+coefficienti di fusione per livello. Questi metodi operano su matrici
+dei pesi complete o sui loro fattori SVD senza una rappresentazione
+compatta dell'identit\`a del task.
+L'interpolazione delle matrici ponte (\S\ref{sec:exp-merging}) fornisce
+tale rappresentazione: uno spazio a 36 dimensioni in cui la
+compatibilit\`a tra adattatori pu\`o essere valutata prima di
+impegnarsi in una costosa fusione a peso pieno.
+
+\paragraph{Analisi degli adattatori.}
+I lavori precedenti sulla comprensione delle rappresentazioni LoRA si
+sono concentrati sulla struttura nello spazio dei pesi. L'analisi delle
+dinamiche di addestramento di LoRA~\cite{biderman2024lora} esamina come
+$A$ e $B$ evolvono durante l'addestramento ma non fornisce alcun
+riassunto compatto dell'accoppiamento appreso. L'analisi spettrale dei
+pesi dell'adattatore~\cite{zhang2023adalora} opera sulle matrici di
+proiezione complete $d_\text{out} \times r$.
+Le nostre diagnostiche basate sulla matrice ponte comprimono la
+struttura di accoppiamento in $C^2 = 36$ parametri per livello
+mantenendo informazione sufficiente per la classificazione del task
+all'84,5\% di accuratezza.
+
+% ===================================================================
+% Section 6 — Discussione
+% ===================================================================
+
+\section{Discussione}
+\label{sec:discussion}
+
+\subsection{Perch\'e la Matrice Ponte Non Migliora la Perdita}
+
+La matrice ponte aggiunge 36 parametri per livello dell'adattatore. In
+una configurazione RhombiLoRA a rango 24 applicata a quattro moduli
+target su 28 livelli del trasformatore, ci\`o ammonta a
+$28 \times 4 \times 36 = 4.032$ parametri della matrice
+ponte---trascurabili rispetto al conteggio totale dei parametri
+dell'adattatore
+($28 \times 4 \times 2 \times 24 \times d_{\text{model}}$, dove
+$d_{\text{model}} = 3.584$ per Qwen2.5-7B, producendo circa 19,3M di
+parametri dell'adattatore). La matrice ponte contribuisce lo 0,02\%
+della capacit\`a totale dell'adattatore.
+
+A questa scala, il panorama di ottimizzazione non beneficia dei gradi di
+libert\`a aggiuntivi della matrice ponte. La matrice di accoppiamento
+$6 \times 6$ si trova tra due matrici di proiezione molto pi\`u grandi
+$A$ e $B$; qualsiasi trasformazione lineare $M$ pu\`o essere assorbita
+nel prodotto $BMA$ ridefinendo $B' = BM$. L'ottimizzatore non ha alcun
+segnale di gradiente che favorisca la distribuzione della
+rappresentazione tra $B$, $M$ e $A$ piuttosto che l'assorbimento di $M$
+interamente in $B$. Ci\`o \`e coerente con il risultato del nostro
+Esperimento~1: RhombiLoRA con matrice ponte congelata corrisponde alla
+perdita del LoRA standard entro $\Delta < 0{,}0002$, e le varianti con
+matrice ponte addestrabile non migliorano. Raddoppiare il rango da 24 a
+48 non fornisce parimenti alcun beneficio---il collo di bottiglia \`e
+il segnale di addestramento, non la capacit\`a dell'adattatore.
+
+\subsection{Perch\'e la Matrice Ponte Cattura Struttura Diagnostica}
+
+Nonostante non contribuisca alla perdita, la matrice ponte cattura
+struttura discriminativa per il task poich\'e occupa un collo di
+bottiglia rappresentazionale. Tutta l'informazione che fluisce da $A$ a
+$B$ passa attraverso la matrice ponte $6 \times 6$ $M$. Durante
+l'addestramento, i gradienti che modellano $M$ riflettono il modo in
+cui il panorama di perdita del task richiede l'interazione tra i sei
+canali di rango. Se un task richiede un ampio mescolamento tra canali
+(come nel caso del seguito di istruzioni generali), $M$ sviluppa voci
+fuori diagonale; se il task \`e pi\`u vincolato (come nel caso della
+generazione di codice), $M$ rimane pi\`u vicino alla diagonale.
+
+Questa \`e la distinzione chiave tra \emph{capacit\`a} e
+\emph{diagnostica}. La matrice ponte non ha bisogno di migliorare il
+potere rappresentazionale dell'adattatore per essere informativa su ci\`o
+che l'adattatore ha appreso. \`E un riassunto a 36 parametri del
+pattern di accoppiamento che $A$ e $B$ hanno scoperto
+congiuntamente---leggibile senza eseguire l'inferenza, senza valutazione
+su dati di riserva e senza accesso all'insieme di addestramento. La
+magnitudine dell'accoppiamento (valore di Fiedler) differenzia i task:
+gli adattatori alpaca sviluppano un accoppiamento tra canali $2{,}2\times$
+superiore rispetto agli adattatori di codice (Fiedler 0,040 contro
+0,018). La struttura dell'accoppiamento (forma dell'autospettro) \`e
+conservata: la similarit\`a del coseno tra gli autospettri dei task
+supera 0,999. I task modulano l'\emph{intensit\`a} dell'accoppiamento
+della matrice ponte preservandone l'\emph{architettura}.
+
+\subsection{Il Risultato della Proiezione Q}
+
+In tutte e tre le fasi sperimentali, le matrici ponte della proiezione
+query sono la componente pi\`u informativa. Fase~0 (anatomia
+single-task): Q-proj sviluppa il 40\% in pi\`u di accoppiamento
+rispetto a V-proj ($F = 6{,}022$, $p = 0{,}0008$). Fase~1A
+(fingerprinting del task): Q-proj porta la distanza inter-task pi\`u
+elevata (0,162 contro 0,075 per K-proj e 0,072 per V-proj). Fase~2A
+(fusione degli adattatori): le matrici ponte Q-proj sono le pi\`u
+sensibili all'interpolazione inter-task. Questo ordinamento \`e
+coerente tra le fasi (Pearson $r = 0{,}921$ tra la discriminazione del
+task nella Fase~1A e la sensibilit\`a alla fusione nella Fase~2A).
+
+Il meccanismo \`e architetturale. La proiezione query calcola
+\emph{a cosa prestare attenzione}---il calcolo pi\`u specifico per il
+task nella testa di attenzione. Le proiezioni chiave calcolano
+l'indicizzazione; le proiezioni valore trasportano il contenuto. Le
+query codificano la domanda del task sulla struttura dell'input, che
+varia massimamente tra i tipi di task. La matrice ponte nella proiezione
+Q cattura questa variazione poich\'e si trova nel punto di massima
+divergenza dipendente dal task nel flusso di informazione.
+
+Un risultato secondario inatteso: le proiezioni di uscita superano le
+proiezioni query negli ultimi cinque livelli del trasformatore (O-proj
+del Livello~24 raggiunge la singola distanza inter-task pi\`u elevata
+di 0,3188 su tutte le 112 posizioni degli adattatori). Le proiezioni
+di uscita dei livelli tardivi riformattano i risultati dell'attenzione
+per la predizione a valle, e questa riformattazione diventa fortemente
+specifica per il task man mano che il modello si avvicina al suo output.
+Il gradiente di profondit\`a \`e significativo (Spearman
+$\rho = 0{,}701$, $p < 0{,}0001$), con un intervallo dinamico di
+$10{,}3\times$ tra le posizioni di matrice ponte pi\`u e meno
+discriminative.
+
+\subsection{Implicazioni Pratiche}
+
+Un SVM leave-one-out addestrato sulle 28 matrici ponte della proiezione
+Q di un singolo adattatore classifica il tipo di task con un'accuratezza
+dell'84,5\% su tre task (caso: 33,3\%). Questa impronta costa 1.008
+parametri ($28 \times 36$)---pi\`u piccola di un singolo vettore di
+stato nascosto in Qwen2.5-7B (4.096 dimensioni). Includendo le 28
+matrici ponte della proiezione O (2.016 parametri totali) si ottiene
+l'83,3\% di accuratezza con prestazioni migliorate sulla classe pi\`u
+difficile (matematica: 66,1\% contro 50,0\% con la sola Q-proj).
+
+Per la composizione degli adattatori, l'interpolazione a livello di
+matrice ponte preserva la struttura dell'autospettro a tutti i rapporti
+di mescolamento (coseno $> 0{,}999$), ma la traiettoria del Fiedler \`e
+non lineare per coppie di task strutturalmente dissimili
+($R^2 = 0{,}735$ per alpaca$\leftrightarrow$matematica contro
+$R^2 = 0{,}948$ per alpaca$\leftrightarrow$codice).
+L'interpolazione codice$\leftrightarrow$matematica esibisce una
+diminuzione del Fiedler a $\alpha \approx 0{,}2$, coerente con
+l'interferenza distruttiva tra pattern della matrice ponte che
+differiscono in struttura piuttosto che nella sola magnitudine. Al 10\%
+di contaminazione inter-task ($\alpha = 0{,}1$), tutte le coppie
+preservano la struttura del task dominante con coseno 1,0000. Ci\`o
+fornisce un rapporto di mescolamento sicuro empirico---conservativo, ma
+fondato.
+
+Questi risultati suggeriscono un'architettura pratica per la gestione
+degli adattatori: memorizzare solo le 28 matrici ponte della proiezione
+Q per task (1.008 parametri) come impronta del task; utilizzarle per
+indirizzare le richieste in arrivo verso l'adattatore corretto senza
+inferenza. Le matrici ponte K-proj e V-proj sono strutturalmente
+conservate tra i task e possono essere condivise. Le matrici ponte
+Q-proj richiedono un trattamento specifico per task durante la
+composizione.
+
+\subsection{Limitazioni}
+\label{sec:limitations}
+
+\textbf{Singola famiglia di modelli.} Tutti gli esperimenti utilizzano
+Qwen2.5-7B-Instruct. La dominanza della proiezione Q e il gradiente di
+profondit\`a potrebbero riflettere la struttura di attenzione di questa
+architettura piuttosto che una propriet\`a universale degli adattatori
+per trasformatori. L'estensione a LLaMA, Mistral o architetture non
+decoder \`e necessaria prima di rivendicare la generalit\`a.
+
+\textbf{Tre task.} La classificazione a tre vie all'84,5\% \`e
+incoraggiante ma limitata. Con sole tre categorie di task (generale,
+codice, matematica), il confine decisionale \`e a bassa dimensionalit\`a.
+Il passaggio a 10--50 task verificherebbe se le impronte delle matrici
+ponte rimangono discriminative man mano che il problema di
+classificazione diventa pi\`u difficile, o se task strutturalmente simili
+(ad es.\ generazione di codice vs.\ debug di codice) producono matrici
+ponte indistinguibili.
+
+\textbf{Rango fisso della matrice ponte.} La matrice ponte \`e
+$6 \times 6$ in tutti gli esperimenti, motivata dalle sei coppie di
+facce del dodecaedro rombico. Ranghi pi\`u elevati della matrice ponte
+($8 \times 8$, $12 \times 12$) potrebbero catturare una struttura di
+accoppiamento pi\`u fine al costo di un maggiore numero di parametri.
+Ranghi inferiori ($3 \times 3$, la baseline cubica) mostrano un
+accoppiamento $4{,}6\times$ inferiore nell'Esperimento~1, ma se
+mantengano la capacit\`a di fingerprinting non \`e stato verificato.
+
+\textbf{Durate di addestramento non uniformi.} Alpaca \`e stato
+addestrato per 10K passi, codice e matematica per 2K ciascuno. La
+relazione monotona tra durata dell'addestramento e distanza della
+matrice ponte dall'inizializzazione (alpaca: 0,199, matematica: 0,069,
+codice: 0,032) implica che parte della separazione inter-task potrebbe
+riflettere la durata dell'addestramento piuttosto che la struttura del
+task. Il controllo al passo 0 (tutte le distanze esattamente 0,000000)
+conferma che le impronte emergono dall'addestramento, ma un confronto
+completamente controllato addestrerebbe tutti i task per lo stesso
+numero di passi.
+
+\textbf{Nessuna valutazione generativa.} La fusione delle matrici ponte
+\`e stata valutata strutturalmente (coseno dell'autospettro, traiettorie
+del Fiedler) ma non generativamente. Se lo scambio di matrici ponte tra
+adattatori produca un output utilizzabile---se la matrice ponte a 36
+parametri porti sufficiente informazione sul task per redirigere una
+proiezione $A/B$ fissa---rimane non validato. Questo \`e l'esperimento
+critico mancante per l'affermazione sulla composizione degli adattatori.
+
+\textbf{Metodologia di classificazione.} L'SVM leave-one-out su 84
+campioni (28 per task) \`e una valutazione a piccolo campione. Il
+classificatore utilizza vettori di caratteristiche a 36 dimensioni
+($6 \times 6$) appiattiti senza ingegneria delle caratteristiche
+informata dal dominio. Approcci pi\`u sofisticati (caratteristiche
+spettrali, metriche grafo-teoriche, rappresentazioni
+GL($r$)-equivarianti~\cite{putterman2024learning}) potrebbero migliorare
+l'accuratezza ma complicherebbero l'argomento di interpretabilit\`a.
+
+\subsection{Connessione con la Topologia Reticolare}
+\label{sec:lattice-connection}
+
+La matrice ponte \`e il punto in cui la geometria reticolare degli
+Articoli~1--2~\cite{rhombilora_paper1, rhombilora_paper2} incontra
+l'architettura neurale. Le sei coppie di facce del dodecaedro rombico
+definiscono sei coppie di canali nella matrice ponte; la connettivit\`a
+del reticolo FCC determina la topologia di inizializzazione.
+L'Articolo~1 ha stabilito che i reticoli FCC raggiungono una
+connettivit\`a algebrica $2{,}4\times$ superiore rispetto ai reticoli
+cubici a parit\`a di numero di nodi. L'Articolo~2 ha mostrato che
+questo vantaggio si amplifica a $6{,}1\times$ sotto pesi degli archi
+strutturati. La matrice ponte \`e il sito in cui queste propriet\`a
+reticolari entrano nella rete neurale.
+
+La geometria reticolare fornisce due risorse distinte.
+\textbf{Connettivit\`a}---il vantaggio algebrico di pi\`u percorsi di
+accoppiamento---emerge naturalmente dall'addestramento non
+supervisionato. Sei canali con inizializzazione a topologia FCC
+sviluppano una connettivit\`a algebrica $4{,}6\times$ superiore rispetto
+a tre canali con inizializzazione cubica a parit\`a di budget di
+parametri (\S\ref{sec:exp-anatomy-1b}).
+L'ottimizzatore scopre indipendentemente che la disposizione FCC dei
+percorsi di accoppiamento \`e utile, senza alcuna supervisione sulla
+semantica dei canali. Questa \`e la dimensione della capacit\`a: la
+topologia determina \emph{quanto} accoppiamento la matrice ponte
+sviluppa.
+
+\textbf{Direzione}---l'associazione di canali specifici con direzioni
+specifiche del reticolo---non pu\`o emergere dai soli dati. Due
+risultati nulli indipendenti lo confermano: dati geometrici strutturati
+producono Co/Cross $= 1{,}002$ (\S\ref{sec:exp-direction}); un tasso di
+apprendimento della matrice ponte $10\times$ pi\`u elevato produce
+Co/Cross $\approx 1{,}0$ (\S\ref{sec:exp-bridge-lr}). Tuttavia, 500
+passi di supervisione contrastiva installano una preferenza direzionale
+(Co/Cross $= 2.660\times$) che persiste come memoria geometrica stabile:
+dopo 6.000 passi di addestramento non supervisionato, il rapporto rimane
+a $16\times$---senza mai avvicinarsi alla baseline nulla
+(\S\ref{sec:exp-contrastive}). Durante lo stesso periodo non
+supervisionato, la connettivit\`a di Fiedler cresce di $3{,}7\times$
+indipendentemente. La matrice ponte sviluppa simultaneamente pi\`u
+accoppiamento complessivo \emph{e} mantiene la struttura direzionale che
+le \`e stata insegnata.
+
+Questa separazione tra le due risorse chiarisce la relazione tra
+topologia reticolare e adattamento neurale. Il reticolo FCC fornisce un
+\emph{sistema di coordinate geometriche indirizzabile}: alle sue sei
+coppie di direzioni pu\`o essere assegnato un significato semantico
+attraverso la supervisione contrastiva, e quel significato persiste
+attraverso l'addestramento successivo. La connettivit\`a \`e la risorsa
+gratuita---qualsiasi topologia la fornisce, ma l'FCC ne fornisce
+$4{,}6\times$ di pi\`u. La direzione \`e la risorsa costosa---deve
+essere esplicitamente insegnata. Una volta insegnata, la geometria
+reticolare garantisce che abbia un luogo stabile in cui risiedere.
+
+% ===================================================================
+\section{Conclusione}
+\label{sec:conclusion}
+
+Abbiamo introdotto una matrice di accoppiamento addestrabile
+$6 \times 6$---la \emph{matrice ponte}---tra le proiezioni $A$ e $B$ di
+un adattatore LoRA, aggiungendo 36 parametri per livello. La matrice
+ponte non migliora la perdita di fine-tuning: a rango 24, i suoi
+parametri sono una frazione trascurabile della capacit\`a totale
+dell'adattatore, e il panorama di ottimizzazione non beneficia dei gradi
+di libert\`a aggiuntivi. Non si tratta di un adattatore migliore. \`E
+una nuova lente sul comportamento dell'adattatore.
+
+La matrice ponte rivela ci\`o che LoRA apprende, in 36 parametri per
+livello. I task che richiedono un ampio mescolamento tra canali (seguito
+di istruzioni generali) producono matrici ponte con una connettivit\`a
+algebrica $2{,}2\times$ superiore rispetto ai task con struttura
+vincolata (generazione di codice). Un SVM leave-one-out addestrato su
+28 matrici ponte della proiezione query---1.008 parametri
+totali---classifica il tipo di task con un'accuratezza dell'84,5\% senza
+inferenza n\'e valutazione su dati di riserva. L'impronta emerge
+interamente dall'addestramento: al passo~0, tutte le matrici ponte sono
+identiche; al passo~1.500, la classificazione binaria tra i due task
+pi\`u simili raggiunge il 93\%.
+La proiezione query \`e la posizione ottimale per l'impronta poich\'e
+codifica l'aspetto pi\`u specifico per il task dell'attenzione: cosa
+cercare.
+
+La composizione degli adattatori a livello di matrice ponte preserva la
+struttura dell'autospettro a tutti i rapporti di mescolamento
+(coseno $> 0{,}999$), ma le traiettorie non lineari del Fiedler nelle
+coppie di task strutturalmente dissimili rivelano interferenza
+distruttiva invisibile alle diagnostiche di fusione a peso pieno. La
+matrice ponte decompone il comportamento dell'adattatore in una
+componente di \emph{proiezione} ($A$ e $B$, milioni di parametri) e una
+componente di \emph{accoppiamento} ($M$, 36 parametri)---e la sola
+componente di accoppiamento porta struttura sufficiente per identificare
+il task, rilevare l'interferenza durante la fusione e differenziare i
+componenti della testa di attenzione per funzione.
+
+La matrice ponte esibisce inoltre \emph{memoria geometrica}. Il
+pre-addestramento contrastivo installa una preferenza direzionale nella
+struttura di accoppiamento della matrice ponte (rapporto
+co-planare/cross-planare $> 2.600\times$ dopo 500 passi
+supervisionati). Quando la supervisione viene rimossa, il segnale
+direzionale decade ma non raggiunge mai la baseline nulla: dopo 6.000
+passi non supervisionati, il rapporto si stabilizza intorno a
+$16\times$---mentre due esperimenti di controllo indipendenti confermano
+che l'addestramento non supervisionato da solo produce un rapporto di
+$\approx 1{,}0$.
+Durante lo stesso periodo non supervisionato, la connettivit\`a
+complessiva della matrice ponte cresce di $3{,}7\times$
+indipendentemente: l'ottimizzatore scopre autonomamente l'utilit\`a
+dell'accoppiamento tra canali, ma non pu\`o scoprire \emph{quali}
+canali accoppiare preferenzialmente. La matrice ponte separa due risorse
+fornite dalla topologia reticolare: connettivit\`a (gratuita, emerge
+dall'addestramento) e direzione (costosa, richiede insegnamento,
+persiste una volta insegnata).
+
+Il presente studio \`e limitato a una singola famiglia di modelli, tre
+task e valutazione strutturale senza validazione generativa. Il
+passaggio a pi\`u task verificher\`a se le impronte delle matrici ponte
+rimangono discriminative in problemi di classificazione a dimensionalit\`a
+pi\`u elevata. Ranghi pi\`u elevati della matrice ponte potrebbero
+catturare una struttura di accoppiamento pi\`u fine. Il risultato sulla
+memoria geometrica apre una nuova direzione: se un breve riscaldamento
+contrastivo pu\`o installare una struttura geometrica persistente, la
+matrice ponte potrebbe servire non solo come diagnostica passiva ma come
+sito per l'iniezione di bias induttivi che modellano l'addestramento non
+supervisionato successivo. La direzione pratica pi\`u immediata \`e
+l'instradamento degli adattatori basato sulla matrice ponte: data una
+libreria di adattatori specifici per task, selezionare quello corretto
+confrontando l'impronta della proiezione Q a 1.008 parametri di un
+adattatore interrogativo con le impronte memorizzate, senza eseguire
+alcuno degli adattatori al momento dell'inferenza.
+
+\paragraph{Disponibilit\`a.}
+Codice sorgente: \url{https://github.com/promptcrafted/rhombic}.\\
+Pacchetto: \url{https://pypi.org/project/rhombic/}.\\
+Matrici ponte e script di analisi: inclusi nel repository sotto
+\texttt{results/} e \texttt{scripts/}.
+
+\section*{Ringraziamenti}
+Questo lavoro \`e stato condotto interamente su hardware GPU consumer e
+cloud: NVIDIA RTX 6000 Ada 48\,GB (locale), RTX 4090 16\,GB e RTX 3090
+24\,GB (RunPod) per esperimenti su piccola scala e contrastivi. La
+libreria \texttt{rhombic} e tutto il codice sperimentale sono
+disponibili presso \url{https://github.com/promptcrafted/rhombic} sotto
+licenza MPL-2.0. Le matrici ponte per tutti gli esperimenti sono incluse
+come array NumPy per la piena riproducibilit\`a.
+
+\bibliographystyle{plainnat}
+\bibliography{refs-paper3}
+
+\end{document}
