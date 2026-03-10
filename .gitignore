@@ -63,6 +63,17 @@ monitor.log
 # --- Video Pipeline Build Artifacts ---
 assets/video/frames/
 assets/video/*.mp4
+assets/video/demo_frames/
+assets/video/logo_frames/
+assets/video/preview/
+assets/video/segments/
+assets/video/slide_frames/
+assets/video/terminal_frames/
+assets/audio/
+
+# --- Temp files ---
+temp/
+temp_gpu.json
 
 # --- OS & Editor ---
 .DS_Store

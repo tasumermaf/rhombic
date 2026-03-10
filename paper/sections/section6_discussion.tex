@@ -177,24 +177,41 @@ showed this advantage amplifies to $6.1\times$ under structured
 edge weights. The bridge is the site where these lattice properties
 enter the neural network.
 
-In practice, the geometric motivation provides a principled bridge
-dimension (6, from the RD's face-pair count) and initialization
-structure (FCC-topology coupling), but training erases the
-geometric semantics. The bridge does not learn to associate
-specific channels with specific rhombic dodecahedron directions
-(L-001 in the experimental record: co-planar/cross-planar ratio
-$= 1.002$, $p = 0.474$). What survives is the algebraic
-connectivity advantage: six channels with FCC-topology
-initialization develop more cross-channel coupling than three
-channels with cubic initialization ($4.6\times$ at 1.5B scale;
-the 7B experiments use FCC topology exclusively). The topology determines \emph{how much}
-coupling the bridge develops; the task determines \emph{what for}.
+The lattice geometry provides two distinct resources.
+\textbf{Connectivity}---the algebraic advantage of more coupling
+pathways---emerges naturally from unsupervised training. Six
+channels with FCC-topology initialization develop $4.6\times$
+more algebraic connectivity than three channels with cubic
+initialization at matched parameter budgets (\S\ref{sec:exp-anatomy-1b}).
+The optimizer independently discovers that the FCC arrangement of
+coupling pathways is useful, without any supervision about channel
+semantics. This is the capacity dimension: the topology determines
+\emph{how much} coupling the bridge develops.
 
-This separation---geometric structure providing the capacity,
-training providing the content---mirrors the lattice findings at
-larger scale. The FCC lattice does not prefer specific directions;
-it provides uniformly higher connectivity that any application can
-exploit. The bridge inherits this property.
+\textbf{Direction}---the association of specific channels with
+specific lattice directions---cannot emerge from data alone. Two
+independent null results confirm this: structured geometric data
+produces Co/Cross $= 1.002$ (\S\ref{sec:exp-direction}); a
+$10\times$ higher bridge learning rate produces Co/Cross
+$\approx 1.0$ (\S\ref{sec:exp-bridge-lr}). However, 500 steps
+of contrastive supervision installs directional preference
+(Co/Cross $= 2{,}660\times$) that persists as a stable geometric
+memory: after 6{,}000 unsupervised training steps, the ratio
+remains at $16\times$---never approaching the null baseline
+(\S\ref{sec:exp-contrastive}). During the same unsupervised
+period, Fiedler connectivity rises $3.7\times$ independently.
+The bridge simultaneously develops more overall coupling
+\emph{and} retains the directional structure it was taught.
+
+This two-resource separation clarifies the relationship between
+lattice topology and neural adaptation. The FCC lattice provides
+an \emph{addressable geometric coordinate system}: its six
+direction pairs can be given semantic meaning through contrastive
+supervision, and that meaning persists through subsequent training.
+Connectivity is the free resource---any topology provides it, but
+FCC provides $4.6\times$ more. Direction is the expensive
+resource---it must be explicitly taught. Once taught, the lattice
+geometry ensures it has somewhere stable to live.
 
 % ===================================================================
 \section{Conclusion}
@@ -230,11 +247,31 @@ decomposes adapter behavior into a \emph{projection} component
 enough structure to identify the task, detect interference during
 merging, and differentiate attention head components by function.
 
+The bridge also exhibits \emph{geometric memory}. Contrastive
+pre-training installs directional preference into the bridge's
+coupling structure (co-planar/cross-planar ratio $> 2{,}600\times$
+after 500 supervised steps). When supervision is removed, the
+directional signal decays but never reaches the null baseline:
+after 6{,}000 unsupervised steps, the ratio stabilizes near
+$16\times$---while two independent control experiments confirm
+that unsupervised training alone produces a ratio of $\approx 1.0$.
+During the same unsupervised period, overall bridge connectivity
+rises $3.7\times$ independently: the optimizer discovers the utility
+of cross-channel coupling on its own, but cannot discover
+\emph{which} channels to couple preferentially. The bridge
+separates two resources that the lattice topology provides:
+connectivity (free, emerges from training) and direction (expensive,
+requires teaching, persists once taught).
+
 The present study is limited to one model family, three tasks, and
 structural evaluation without generative validation. Scaling to more
 tasks will test whether bridge fingerprints remain discriminative in
 higher-dimensional classification problems. Higher bridge ranks may
-capture finer coupling structure. The most immediate practical
+capture finer coupling structure. The geometric memory finding opens
+a new direction: if brief contrastive warmup can install persistent
+geometric structure, the bridge may serve not only as a passive
+diagnostic but as a site for injecting inductive biases that shape
+subsequent unsupervised training. The most immediate practical
 direction is bridge-based adapter routing: given a library of
 task-specific adapters, select the correct one by comparing a query
 adapter's 1{,}008-parameter Q-projection fingerprint against stored
