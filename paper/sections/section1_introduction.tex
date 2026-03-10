@@ -37,9 +37,9 @@ relative to total adapter parameters.
 When the bridge is the identity matrix $I_C$, the architecture
 reduces exactly to standard LoRA.
 
-Through systematic analysis of 336 bridge matrices trained across three
-tasks (general instruction following, code generation, mathematical
-reasoning) on Qwen2.5-7B, we establish three findings:
+Through seven experiments spanning bridge anatomy, task fingerprinting,
+adapter merging, and contrastive pre-training on Qwen2.5 (1.5B and 7B),
+we establish four findings:
 
 \paragraph{(a) Task fingerprinting.}
 Bridge matrices encode task identity.
@@ -84,21 +84,33 @@ output projection surpassing the query projection in the final five
 layers (Layer~24 $o_\text{proj}$: distance 0.319, the single most
 discriminative position in the model).
 
+\paragraph{(d) Geometric memory.}
+Contrastive bridge pre-training installs directional preference
+(co-planar/cross-planar ratio $> 2{,}600\times$ after 500 supervised
+steps) that persists as a stable geometric memory after supervision is
+removed: the ratio decays to $16\times$ over 6{,}000 unsupervised steps
+but never reaches the null baseline of $1.0$ established by two
+independent control experiments. During the same unsupervised period,
+overall bridge connectivity rises $3.7\times$ independently---the
+optimizer discovers the utility of cross-channel coupling on its own,
+while retaining the directional structure it was taught.
+
 \paragraph{The null result.}
 The bridge does not improve training loss or perplexity relative to
 standard LoRA at matched rank.
 The original motivation---that the rhombic dodecahedron's face-pairing
 topology would induce direction-specific channel coupling from
 structured training data---produced a comprehensive null
-(co-planar/cross-planar ratio $= 1.002$, $p = 0.474$, across 224
-bridge matrices at two model scales).
+(co-planar/cross-planar ratio $= 1.002$, $p = 0.474$), confirmed by
+a separate bridge learning rate control ($10\times$ LR, Co/Cross
+$\approx 1.0$).
 Rank dimensions in LoRA are rotationally symmetric: for any orthogonal
 $R$, $B R^\top R A = BA$.
 Topological labels on channels do not survive this symmetry without
 explicit supervision.
 The bridge learns \emph{that} mixing channels helps (FCC topology
 produces $4.6\times$ more cross-channel coupling than cubic), but not
-\emph{which} channels to prefer.
+\emph{which} channels to prefer---unless explicitly taught.
 
 \paragraph{Contribution.}
 We do not propose a better adapter.

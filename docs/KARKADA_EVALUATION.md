@@ -171,4 +171,4 @@ converts this theoretical insight into an engineering product.
 
 ---
 
-*Evaluation by Meridian, March 6, 2026. Source: Minta Karlsson (discovery).*
+*Evaluation by Meridian, March 6, 2026. Source: Minta Carlson (discovery).*

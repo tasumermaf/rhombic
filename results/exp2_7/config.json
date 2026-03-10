@@ -1,0 +1,28 @@
+{
+  "name": "exp2_7_constant_10x",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "rank": 24,
+  "n_channels": 6,
+  "alpha": 16.0,
+  "max_seq_len": 512,
+  "batch_size": 2,
+  "gradient_accumulation": 8,
+  "base_lr": 0.0002,
+  "bridge_lr_multiplier": 10.0,
+  "bridge_lr_schedule": "constant",
+  "bridge_lr_warmup_steps": 1000,
+  "warmup_steps": 200,
+  "checkpoint_steps": 1000,
+  "max_steps": 10000,
+  "num_epochs": 4,
+  "seed": 42,
+  "gradient_checkpointing": true,
+  "bridge_mode": "identity",
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ],
+  "experiment": "2.7"
+}

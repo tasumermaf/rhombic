@@ -45,15 +45,20 @@
 We insert a learnable $6 \times 6$ coupling matrix---the \emph{bridge}---between
 the down- and up-projections of a LoRA adapter, adding 36 parameters per
 adapted layer ($0.02\%$ overhead). The bridge begins as the identity matrix,
-recovering standard LoRA exactly. Through systematic analysis of 336 bridge
-matrices trained across three tasks on Qwen2.5-7B, we establish three
-findings: (1)~bridge matrices encode task identity---a leave-one-out SVM
-on 28 query-projection bridges (1,008 parameters) classifies task type at
-82.1\% accuracy (rising to 84.5\% at the final checkpoint) versus 33.3\% chance; (2)~FCC lattice topology learns
+recovering standard LoRA exactly. Through seven experiments on Qwen2.5
+(1.5B and 7B), we establish four findings: (1)~bridge matrices encode task
+identity---a leave-one-out SVM on 28 query-projection bridges (1,008
+parameters) classifies task type at 82.1\% accuracy (rising to 84.5\% at
+the final checkpoint) versus 33.3\% chance; (2)~FCC lattice topology learns
 $4.6\times$ more cross-channel coupling than cubic topology, though neither
 improves training loss; (3)~linear interpolation of bridge matrices between
 adapters preserves eigenspectrum structure (cosine $> 0.999$), enabling
-low-dimensional adapter composition analysis. The bridge does not improve
+low-dimensional adapter composition analysis; (4)~contrastive bridge
+pre-training installs directional preference (co-planar/cross-planar ratio
+$> 2{,}600\times$) that persists as a stable geometric memory after
+supervision is removed---decaying to $16\times$ over 6{,}000 unsupervised
+steps but never reaching the null baseline of $1.0$, while overall bridge
+connectivity rises $3.7\times$ independently. The bridge does not improve
 loss or perplexity relative to standard LoRA at matched rank. Its
 contribution is diagnostic, not generative: a 36-parameter summary of
 adapter coupling structure, readable without inference or evaluation.
@@ -150,9 +155,8 @@ for task classification at 84.5\% accuracy.
 
 \section*{Acknowledgments}
 This work was conducted entirely on consumer and cloud GPU hardware:
-NVIDIA RTX 6000 Ada 48\,GB (local) and RTX 4090 16\,GB (remote) for
-small-scale experiments; NVIDIA A100 80\,GB (RunPod) for 7B-scale
-training. The \texttt{rhombic} library and all experimental code are
+NVIDIA RTX 6000 Ada 48\,GB (local), RTX 4090 16\,GB and RTX 3090
+24\,GB (RunPod) for small-scale and contrastive experiments. The \texttt{rhombic} library and all experimental code are
 available at \url{https://github.com/promptcrafted/rhombic} under
 MPL-2.0. Bridge matrices for all experiments are included as NumPy
 arrays for full reproducibility.

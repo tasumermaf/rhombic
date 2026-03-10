@@ -1,0 +1,30 @@
+{
+  "name": "exp3_cybernetic_bridge",
+  "rank": 24,
+  "n_channels": 6,
+  "bridge_mode": "identity",
+  "bridge_trainable": true,
+  "model_name": "Qwen/Qwen2.5-0.5B",
+  "dataset_name": "yahma/alpaca-cleaned",
+  "max_seq_len": 512,
+  "batch_size": 2,
+  "gradient_accumulation": 8,
+  "lr": 0.0002,
+  "num_epochs": 4,
+  "warmup_steps": 10,
+  "checkpoint_steps": 100,
+  "max_steps": 50,
+  "seed": 42,
+  "gradient_checkpointing": true,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ],
+  "experiment": "3.0",
+  "feedback_interval": 25,
+  "initial_contrastive": 0.1,
+  "initial_spectral": 0.05,
+  "initial_spectral_target": 0.1
+}

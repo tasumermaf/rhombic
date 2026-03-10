@@ -5,7 +5,7 @@
 > **Prizes:** $7,500 / $2,000 / $500
 > **Judging:** Creativity, usefulness, and presentation
 > **Submission:** Tweet @NousResearch with video demo + brief writeup → post tweet link to Discord #hermes-agent-hackathon-submissions
-> **Team:** Timothy Paul Bielec (Promptcrafted) + Minta Karlsson (Alvdansen)
+> **Team:** Timothy Paul Bielec (Promptcrafted) + Minta Carlson (Alvdansen)
 
 ---
 

@@ -1,7 +1,7 @@
 # Paper 3: RhombiLoRA — Geometric Lattice Adapters for Cross-Modal Transit
 
 > **Status:** Research plan (March 6, 2026)
-> **Authors:** Timothy Paul Bielec, Minta Karlsson, Meridian
+> **Authors:** Timothy Paul Bielec, Minta Carlson, Meridian
 > **Affiliation:** Promptcrafted LLC / Alvdansen Labs
 
 ---
