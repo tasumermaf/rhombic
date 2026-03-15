@@ -10,7 +10,13 @@ except ImportError:
         "rhombic.nn requires PyTorch. Install with: pip install rhombic[nn]"
     )
 
-from rhombic.nn.rhombi_lora import RhombiLoRALinear
-from rhombic.nn.topology import direction_pair_coupling, bridge_init
+from rhombic.nn.rhombi_lora import RhombiLoRALinear, EmanationBridge
+from rhombic.nn.topology import direction_pair_coupling, bridge_init, create_emanation_bridge
 
-__all__ = ["RhombiLoRALinear", "direction_pair_coupling", "bridge_init"]
+__all__ = [
+    "RhombiLoRALinear",
+    "EmanationBridge",
+    "direction_pair_coupling",
+    "bridge_init",
+    "create_emanation_bridge",
+]

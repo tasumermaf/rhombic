@@ -1,0 +1,66 @@
+# RhombiLoRA Experiment — CORPUS (Corpus-Weighted Bridges)
+# RhombiLoRA rank 24 (6ch x 4), corpus bridge init, Wan 2.1 T2V, Prodigy, Holly mini
+# Identical to experiment except bridge_mode=corpus
+
+model:
+  variant: 2.1_t2v
+  dit: /workspace/models/wan2.1_t2v_14B_fp16.safetensors
+  vae: /workspace/models/wan_2.1_vae.safetensors
+  t5: /workspace/models/umt5_xxl_fp16.safetensors
+
+data_config: /workspace/dataset/flimmer_data.yaml
+
+lora:
+  rank: 24
+  alpha: 24
+  loraplus_lr_ratio: 1.0
+  dropout: 0.0
+
+optimizer:
+  type: prodigy
+  learning_rate: 1.0
+  weight_decay: 0.01
+
+scheduler:
+  type: constant
+  warmup_steps: 0
+
+training:
+  mixed_precision: bf16
+  base_model_precision: bf16
+  gradient_checkpointing: true
+  blocks_to_swap: 28
+  seed: 42
+  unified_epochs: 50
+  batch_size: 1
+  gradient_accumulation_steps: 1
+  caption_dropout_rate: 0.10
+  timestep_sampling: shift
+
+moe:
+  enabled: false
+  fork_enabled: false
+
+save:
+  output_dir: /workspace/output/rhombi-corpus
+  name: holly_corpus_r24
+  save_every_n_epochs: 2
+  save_last: true
+  format: safetensors
+
+logging:
+  backends: [console, wandb]
+  wandb_project: rhombi-experiment
+  wandb_run_name: holly-corpus-r24-prodigy
+  wandb_tags: [experiment, corpus-lora, wan21, prodigy, holly-mini, proprietary]
+  log_every_n_steps: 5
+
+sampling:
+  enabled: true
+  every_n_epochs: 2
+  prompts:
+    - "close-up, Holly Golightly smiles gently, adjusting her earring, soft indoor lighting"
+    - "medium shot, Holly Golightly walks up a staircase, looking back over her shoulder"
+  seed: 42
+  sample_steps: 25
+  guidance_scale: 4.0

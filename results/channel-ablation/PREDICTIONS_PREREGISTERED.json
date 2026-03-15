@@ -1,0 +1,64 @@
+{
+  "H1": {
+    "n": 3,
+    "off_diag_dof": 3,
+    "prediction": "No block structure possible. All 3 off-diagonal entries active.",
+    "expected_blocks": 0,
+    "expected_block_sizes": [],
+    "reason": "With only 3 pairs, every channel is connected. The Steersman has no DOF to suppress.",
+    "result": "CONFIRMED \u2014 all pairs active, val loss identical to n=6"
+  },
+  "H2": {
+    "n": 4,
+    "off_diag_dof": 6,
+    "prediction": "2 blocks of size 2 (one pair suppressed from each axis). Missing 1 of 3 RD axes.",
+    "expected_blocks": 2,
+    "expected_block_sizes": [
+      2,
+      2
+    ],
+    "alternative_1": "1 block of 4 (all connected, no suppression)",
+    "alternative_2": "4 blocks of 1 (all suppressed)",
+    "reason": "With 4 channels, the Steersman can form at most 2 pairs of size 2 \n(using 2 of the 6 off-diagonal DOF, suppressing 4). This encodes 2 of the 3 RD coordinate \naxes. The 3rd axis requires channels that don't exist. This is the CRITICAL test: if n=4 \nforms 2 blocks (not 3), it confirms the RD 3-axis geometry specifically, not just \"some \nblock structure.\"",
+    "result": "PENDING"
+  },
+  "H3": {
+    "n": 6,
+    "off_diag_dof": 15,
+    "prediction": "3 blocks of size 2. Exact replication of C-001/exp3 results.",
+    "expected_blocks": 3,
+    "expected_block_sizes": [
+      2,
+      2,
+      2
+    ],
+    "reason": "Replication at 10K steps. Should match C-001 at 4K with continued ratio growth.",
+    "result": "PENDING (expected: trivially confirmed)"
+  },
+  "H4": {
+    "n": 8,
+    "off_diag_dof": 28,
+    "prediction_1": "4 blocks of size 2 (3 strong RD + 1 weak)",
+    "prediction_2": "3 blocks of mixed sizes (2,2,4 or 2,3,3)",
+    "prediction_3": "3 blocks of size 2 + 2 orphans (6+2 structure)",
+    "expected_blocks_range": [
+      3,
+      4
+    ],
+    "reason": "The Steersman needs only 3 axes. With 8 channels, there are 5 \"extra\" \nchannels beyond the minimum 6. Three scenarios: (1) the extra 2 channels form a 4th weak \npair, (2) they get absorbed into existing blocks, (3) they remain disconnected. The result \ndistinguishes \"minimal 3-axis\" from \"fill all available structure.\"",
+    "result": "PENDING"
+  },
+  "H5": {
+    "n": 12,
+    "off_diag_dof": 66,
+    "prediction_1": "6 blocks of size 2 (3 strong + 3 degenerate)",
+    "prediction_2": "3 blocks of size 4 (each axis gets 4 channels)",
+    "prediction_3": "3 blocks of size 2 + 6 orphans",
+    "expected_blocks_range": [
+      3,
+      6
+    ],
+    "reason": "12 = 2 \u00d7 6 channels. Most redundant parameterization. The result \nreveals whether the Steersman's attractor is \"exactly 3 axes\" (6+6 orphans) or \"3 axes \nwith proportional resources\" (4+4+4) or \"fill all pairs\" (6 pairs).",
+    "result": "PENDING"
+  }
+}

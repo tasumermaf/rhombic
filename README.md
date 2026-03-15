@@ -186,37 +186,36 @@ is universal across 24-edge polytopes, not RD-specific.
 - [Raw data and tables](results/paper2/RESULTS.md)
 - [What the numbers mean](results/paper2/INTERPRETATION.md)
 
-### Paper 3: RhombiLoRA Experiments (7 experiments, 256 tests)
+### Paper 3: The Learnable Bridge (13 experiments, 312 tests)
 
-Seven experiments mapping the lattice topology advantage onto neural
-architecture, from proof-of-concept (1.5B params) through systematic
-7B analysis to geometric supervision.
+Thirteen experiments across four model families (1.1B–14B parameters),
+demonstrating that a cybernetic feedback mechanism discovers rhombic
+dodecahedral geometry in multi-channel LoRA bridge matrices.
 
-| Experiment | Finding | Key metric |
-|------------|---------|------------|
-| Exp 1 (1.5B PoC) | FCC > cubic topology | 4.6× Fiedler ratio |
-| Exp 2 (7B Anatomy) | Module type differentiates | Q-proj 40% more coupling |
-| Exp 2.5 (7B Geometric) | Direction not emergent | Co/Cross = 1.002 (null) |
-| Exp 3 (Fingerprinting) | Bridge encodes task identity | 84.5% LOO SVM accuracy |
-| Exp 4 (Merging) | Smooth bridge interpolation | cos > 0.999 eigenspectrum |
-| Exp 5 (Overfitting) | Bridge tracks generalization | r = 0.888 (p = 7.3e-35) |
-| **Exp 6 (Contrastive)** | **Geometric memory** | **47× Co/Cross 4K steps post-supervision** |
+**Key finding:** When the Steersman (contrastive + spectral feedback) is
+active at channel count n=6, 100% of bridge matrices develop block-diagonal
+structure aligned to the three coordinate planes of the rhombic dodecahedron.
+Without the Steersman: 0%. The co-planar/cross-planar coupling ratio peaks
+at 82,854:1. Structure locks in by step 200, survives adversarial initialization,
+and costs 0.17% validation loss.
 
-**Geometric memory** (Exp 6, in progress): 500 steps of contrastive warmup
-teaching co-planar vs cross-planar channel structure creates a persistent
-directional imprint. Co/Cross ratio decays from 2,660× at warmup end to ~47×
-after 4,000 steps of unsupervised fine-tuning — still 47× above the null
-baseline of 1.0. Separate bridge learning rate (10×, Exp 7) confirms the null:
-direction requires explicit supervision, not more learning rate. Once supervised,
-the geometric structure persists.
+| Finding | Value |
+|---------|-------|
+| Block-diagonal rate (cybernetic n=6) | **100%** (42,500+ matrices) |
+| Block-diagonal rate (non-cybernetic) | **0%** (570 matrices) |
+| Peak co-planar/cross-planar ratio | **82,854:1** |
+| Lock-in speed | **~200 steps** (half-life 123 steps) |
+| Adversarial initialization suppression | **99.5% in 900 steps** |
+| Bridge Fiedler bifurcation (n=6 vs n≠6) | **1,020×** |
+| Val loss cost of topology | **0.17% max** |
+| Scale invariance | **1.1B, 7B, 14B** (Fiedler converges ~0.10) |
 
-- Exp 1: [Analysis](results/exp1/ANALYSIS.md)
-- Exp 2: [Bridge anatomy](results/exp2/bridge_anatomy.md)
-- Exp 2.5: [Comparison report](results/exp2_5/COMPARISON_REPORT.md) — null on direction, positive on connectivity
-- Exp 3: [Task fingerprints](results/fingerprints/TASK_FINGERPRINT_REPORT.md) — 84.5% Q-proj
-- Exp 4: [Bridge merging](results/bridge_merge/MERGE_REPORT.md) — smooth interpolation, non-linear in 2/3 pairs
-- Exp 5: [Overfitting diagnostic](results/exp3a-overfit/) — 807× phase transition at step 400
-- [Cross-phase synthesis](results/CROSS_PHASE_SYNTHESIS.md) — 20 learnings, Q-proj optimal diagnostic
+**7-round adversarial audit complete.** 232 findings across 7 rounds, 87
+fixed, zero CRITICAL or MAJOR findings remaining. Both Papers 2 and 3 are
+submission-ready.
+
+- [Audit trail](paper/audit/) — full findings, hub validations, rewrite log
+- [Cross-phase synthesis](results/CROSS_PHASE_SYNTHESIS.md)
 
 ### Synthesis
 
@@ -250,35 +249,26 @@ to run experiments, generate visualizations, and explain the geometry.
 
 ### RhombiLoRA — Neural Adapter Geometry
 
-What happens when you apply the lattice topology to LoRA adapters?
-**RhombiLoRA** adds a learnable 6×6 coupling matrix — the *bridge* —
-between the A and B projections in LoRA, adding 36 parameters per layer.
+**RhombiLoRA** adds a learnable n×n coupling matrix — the *bridge* —
+between the A and B projections in LoRA, adding n² parameters per layer.
 When the bridge is the identity matrix, the architecture reduces exactly
 to standard LoRA.
 
 The bridge does not improve fine-tuning loss. It provides something LoRA
-cannot: a compact, interpretable diagnostic of adapter behavior — a
-36-parameter summary of what training discovered, readable without
-inference or evaluation.
-
-| Finding | Metric | Value |
-|---------|--------|-------|
-| Task fingerprinting | LOO SVM accuracy (Q-proj, 28 bridges) | **84.5%** (chance 33.3%) |
-| Topology advantage | FCC (6-ch) vs cubic (3-ch) Fiedler | **4.6×** |
-| Adapter composition | Eigenspectrum preservation at all α | cos > 0.999 |
-| Overfitting detection | Deviation~gap correlation | r = 0.888 (p = 7.3e-35) |
-| Geometric memory | Co/Cross after 4K unsupervised steps | **47×** (null: 1.0) |
-| Optimal fingerprint | Q-proj bridges only | **1,008 parameters** |
+cannot: a compact, interpretable diagnostic of adapter behavior — an
+n²-parameter summary of what training discovered, readable without
+inference or evaluation. At n=6, a cybernetic feedback mechanism
+(the Steersman) discovers rhombic dodecahedral geometry in the bridge.
 
 - Architecture: [`rhombic.nn`](rhombic/nn/) — `RhombiLoRALinear`, topology, bridge init
-- Training harness: [`scripts/train_comparison.py`](scripts/train_comparison.py)
+- Training: [`scripts/train_cybernetic.py`](scripts/train_cybernetic.py) — full Steersman pipeline
 - 20 experimental learnings: [LEARNINGS.md](docs/LEARNINGS.md)
 
 ### Papers
 
 - [Paper 1: The Shape of the Cell](paper/rhombic.tex) — four-domain topology comparison (arXiv cs.DS)
 - [Paper 2: Structured Edge Weights Amplify FCC Lattice Topology](paper/rhombic-paper2.tex) — bottleneck resilience under heterogeneous weights
-- [Paper 3: The Learnable Bridge](paper/rhombic-paper3.tex) — task fingerprinting, adapter composition, and geometric memory via structured coupling in LoRA
+- [Paper 3: The Learnable Bridge](paper/rhombic-paper3.tex) — cybernetic feedback discovers rhombic dodecahedral geometry in multi-channel LoRA (13 experiments, 4 model families, 7-round audit)
 
 ## Contributing
 

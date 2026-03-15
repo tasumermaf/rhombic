@@ -1,0 +1,246 @@
+{
+  "experiment": "C-003",
+  "checkpoints": [
+    {
+      "step": 0,
+      "co_cross_ratio": 1.3621340990066528,
+      "fiedler": 0.023369879577837763,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 100,
+      "co_cross_ratio": 7.568435935811563,
+      "fiedler": 0.01050617793254616,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 200,
+      "co_cross_ratio": 38.882788533514194,
+      "fiedler": 0.005296454455974309,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 300,
+      "co_cross_ratio": 678.3812282735652,
+      "fiedler": 0.0019906549824109366,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 400,
+      "co_cross_ratio": 1762.5582083246925,
+      "fiedler": 0.0008342720069441506,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 500,
+      "co_cross_ratio": 2662.1808923591266,
+      "fiedler": 0.00046447160748651004,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 600,
+      "co_cross_ratio": 3608.2349321625447,
+      "fiedler": 0.00023039439153067816,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 700,
+      "co_cross_ratio": 4463.325992757624,
+      "fiedler": 0.00016728199807659145,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 800,
+      "co_cross_ratio": 5355.298577395352,
+      "fiedler": 0.0001299043905642063,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 900,
+      "co_cross_ratio": 6681.651680166071,
+      "fiedler": 0.00011516406721213353,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1000,
+      "co_cross_ratio": 6968.55008281361,
+      "fiedler": 0.0001241038597045753,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1100,
+      "co_cross_ratio": 6547.539422468705,
+      "fiedler": 0.00015221281601380106,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1200,
+      "co_cross_ratio": 7487.884557550604,
+      "fiedler": 0.00015549715560431848,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1300,
+      "co_cross_ratio": 7746.795491998846,
+      "fiedler": 0.00016294963583632892,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1400,
+      "co_cross_ratio": 7346.936454079368,
+      "fiedler": 0.00018890374159663927,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1500,
+      "co_cross_ratio": 7822.652168967507,
+      "fiedler": 0.00020353094795322769,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1600,
+      "co_cross_ratio": 7375.570073908026,
+      "fiedler": 0.000236303041977651,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1700,
+      "co_cross_ratio": 7291.25650509921,
+      "fiedler": 0.0002518808109158434,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1800,
+      "co_cross_ratio": 7294.564991344105,
+      "fiedler": 0.0002615001210537024,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 1900,
+      "co_cross_ratio": 7687.6363338123665,
+      "fiedler": 0.0002317376265817614,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2000,
+      "co_cross_ratio": 7589.501627141779,
+      "fiedler": 0.0002526671168324237,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2100,
+      "co_cross_ratio": 6962.376004305753,
+      "fiedler": 0.00029605431739875904,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2200,
+      "co_cross_ratio": 7226.566121881659,
+      "fiedler": 0.0002976758969862035,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2300,
+      "co_cross_ratio": 7194.139208706943,
+      "fiedler": 0.0003388123355522973,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2400,
+      "co_cross_ratio": 7295.383857727051,
+      "fiedler": 0.000318890164777111,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2500,
+      "co_cross_ratio": 7860.747408086603,
+      "fiedler": 0.0003240921213697593,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2600,
+      "co_cross_ratio": 7685.37184975364,
+      "fiedler": 0.0003492000342346799,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2700,
+      "co_cross_ratio": 7938.369656649503,
+      "fiedler": 0.0003527168177997041,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2800,
+      "co_cross_ratio": 8052.683146390048,
+      "fiedler": 0.00036064881237201133,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    },
+    {
+      "step": 2900,
+      "co_cross_ratio": 8528.742904663086,
+      "fiedler": 0.000348882421533743,
+      "co_planar_mean": 0,
+      "cross_planar_mean": 0,
+      "block_diagonal_pct": 0
+    }
+  ],
+  "total_entries": 30
+}

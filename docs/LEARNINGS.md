@@ -529,8 +529,288 @@ the bridge fingerprint."
 
 ---
 
+## L-021: Cybernetic Closed-Loop Training Solves the Directionality Problem
+
+**The problem:** Experiments 2.5 and 2.7 produced comprehensive nulls on
+directional channel preference. Data structure does not imprint on bridge
+weights (L-001, L-003). Higher bridge learning rate increases total
+coupling but not directional preference (Exp 2.7). The bridge needed
+explicit supervision, not data-driven discovery (L-010).
+
+**The solution:** Cybernetic closed-loop training with three components:
+1. `differentiable_fiedler()` — weighted Laplacian from bridge off-diagonal
+   elements, second eigenvalue via `torch.linalg.eigvalsh` (differentiable)
+2. Contrastive loss separating co-planar from cross-planar coupling
+3. Steersman feedback adjusting regularization weights based on bridge state
+
+**The result:** Axis alignment of **22,477:1** (Qwen 7B) and **47,145:1**
+(TinyLlama 1.1B). Cross-planar coupling suppressed by 4-5 orders of
+magnitude. The bridge learns the RD geometry's three coordinate axes with
+near-perfect fidelity.
+
+**The principle:** When emergence fails (L-010), engineering succeeds —
+but the engineering must be cybernetic. A static loss function cannot
+adapt to the bridge's evolving state. The Steersman's three control laws
+(connectivity trending, directionality stagnation, stability monitoring)
+create a feedback loop that adjusts the training signal as the bridge
+develops. The bridge doesn't just learn structure; it learns structure
+under adaptive supervision that responds to what it has learned so far.
+
+**Evidence:** Exp 3.0 (Qwen 7B, 12,900 steps) and Exp 3.0-TL (TinyLlama
+1.1B, 10,000 steps). Verified findings at
+`results/VERIFIED_FINDINGS_2026_03_12.md`.
+
+---
+
+## L-022: Axis Alignment Emerges Immediately
+
+**The finding:** Co/cross ratio at step 200 is already **816:1**. By
+step 500 it reaches 3,621:1. The final value of 22,477:1 is refinement,
+not discovery — the bridge identifies the RD's coordinate axes within
+the first ~1% of training.
+
+**The trajectory (Qwen 7B):**
+```
+Step   100:    26:1
+Step   200:   816:1
+Step   500: 3,621:1
+Step 1,000: 8,408:1
+Step 3,000: 11,800:1
+Step12,900: 22,477:1
+```
+
+**The principle:** When the correct inductive bias is provided (RD
+topology + contrastive supervision), the network converges to the
+geometric structure almost instantly. The long tail of training refines
+the ratio by suppressing residual cross-planar leakage, but the
+qualitative result is established by step 200. This has practical
+implications: bridge diagnostics can be extracted very early in training
+without waiting for convergence.
+
+**Evidence:** Exp 3.0 step-by-step analysis from results.json.
+
+---
+
+## L-023: Fiedler Eigenvalue Is Scale-Invariant
+
+**The finding:** The algebraic connectivity (Fiedler eigenvalue) of the
+trained bridge converges to **~0.10** across three model scales:
+- TinyLlama 1.1B: 0.1006
+- Qwen 7B: 0.102
+- Wan 2.1 14B (Holly Battery): 0.108
+
+The absolute coupling magnitude varies (co-planar mean: 0.778 at 1.1B,
+1.517 at 7B) but the Fiedler value — which measures the bridge's
+algebraic connectivity independent of scale — settles to the same point.
+
+**The principle:** The bridge's connectivity structure is determined by
+the RD topology and the cybernetic training protocol, not by the model
+it's embedded in. This suggests a universal property of the 6-channel
+FCC bridge under contrastive supervision: the eigenstructure converges
+to a fixed point regardless of how many parameters surround it.
+
+**Implication:** The Fiedler value could serve as a convergence
+diagnostic — when it stabilizes near 0.10, the bridge has learned its
+geometric structure and further training primarily refines coupling
+magnitudes.
+
+**Evidence:** Three independent experiments across three model scales.
+
+---
+
+## L-024: Wrong Pair Definitions Produce Misleadingly Low Ratios
+
+**The error:** Prior analysis reported co/cross ratio as ~3.0 using
+hemisphere groupings ({0,1,2} vs {3,4,5}) as the pair definition.
+The correct pairs use the RD's `direction_pair_coupling()` function:
+co-planar = axis-aligned pairs (0,1), (2,3), (4,5); cross-planar =
+all 12 remaining pairs.
+
+**The correct number:** 22,477:1 (Qwen 7B), 47,145:1 (TinyLlama 1.1B).
+The hemisphere grouping dilutes the signal because it mixes some
+axis-aligned pairs with cross-planar ones within each hemisphere.
+
+**The principle:** Metric definitions matter as much as the values
+they produce. A 3× ratio and a 22,000× ratio describe the same
+underlying data — the difference is entirely in how "co-planar" and
+"cross-planar" are defined. Always use the geometric definition from
+the library (`direction_pair_coupling()`), not ad-hoc groupings.
+
+**Additionally:** The Steersman bug (`break` at line 305 of
+`train_cybernetic.py`) caused results.json to report single-bridge
+metrics instead of aggregates. Two bugs compounding — wrong pairs AND
+single-bridge sampling — produced the misleading 3.0 number. Fixed
+March 12, 2026.
+
+**Evidence:** Re-analysis of Exp 3.0 raw bridge .npy files.
+
+---
+
+## L-025: Bridge Spectral Properties Track Overfitting
+
+**The finding:** Deviation from identity correlates with train-val gap
+at **r = 0.888** (p = 7.3e-35). Fiedler eigenvalue correlates at
+**r = 0.825** (p = 5.6e-26). Both bridge spectral properties rise in
+lockstep with the onset of memorization.
+
+**The phase transition:** At step 400 (epoch 13 of 500-sample training),
+deviation jumps 2× (0.046 → 0.093) while the train-val gap crosses from
+0.062 to 0.132. This marks the onset of overfitting — the model begins
+memorizing, and the bridge immediately reflects it.
+
+**Saturation:** Bridge metrics plateau by step ~1000 (deviation ~0.174,
+Fiedler ~0.070) even as the train-val gap continues growing (1.057 at
+step 1000 → 1.500 at step 10000). The bridge saturates before the model
+does. This means bridge metrics are most diagnostic in the EARLY phase
+of overfitting (steps 200-1000), before saturation limits their
+dynamic range.
+
+**The principle:** The bridge is a leading indicator of overfitting,
+not a lagging one. It responds to the onset of memorization before
+the gap has fully developed. A practitioner monitoring bridge deviation
+during training would see the warning signal at step 400, when the gap
+is only 0.13 — long before the gap reaches catastrophic levels (>1.0).
+
+**Evidence:** Phase 3A, 500/500 train/val split, 101 checkpoints over
+10,000 steps. Raw data at `results/exp3a-overfit/results.json`.
+
+---
+
+## L-026: Corpus Weighting Was Misapplied (RETRACTED, March 13 2026)
+
+**The original claim:** Holly Battery (Wan 2.1 14B) corpus-weighted
+RhombiLoRA achieved loss 1.645 — worse than unweighted RhombiLoRA (1.552).
+
+**What actually happened:** The corpus weights were placed on the
+**diagonal** (scaling individual channels) rather than the **off-diagonal**
+(coupling between channels). This is fundamentally wrong: the corpus
+arithmetic describes *relationships between* prime threads, not the
+magnitude of individual threads. Diagonal weighting over-constrains
+channel scaling while providing zero coupling information. The experiment
+tested the wrong thing.
+
+**The correction:** `corpus_coupled` mode (added March 13, 2026) places
+hexagram-derived coupling × geometric coupling × thread density on the
+off-diagonal, with identity on the diagonal. This tests the actual
+hypothesis: that corpus arithmetic encodes inter-channel relationships,
+not channel magnitudes.
+
+**The principle STILL HOLDS (refined):** Theoretical advantages in
+simplified models do not automatically transfer to full-scale systems.
+But the specific failure here was not "corpus weights don't work" — it
+was "corpus weights were applied to the wrong matrix elements." The
+diagonal-vs-off-diagonal distinction is the difference between asking
+"how important is each channel?" (wrong question) and "how do channels
+relate to each other?" (the actual corpus arithmetic question).
+
+**Status:** Retracted pending re-evaluation with correct off-diagonal
+application (experiments C-001 through C-004).
+
+**Evidence:** Holly Battery, 3 runs on Wan 2.1 14B, WandB
+`alvdansen-labs/rhombi-experiment`. See `corpus_coupled_matrix()` in
+`rhombic/corpus.py` for the corrected implementation.
+
+---
+
+## L-027: RhombiLoRA Produces Smaller Checkpoints
+
+**The finding:** Holly Battery final checkpoints:
+- Standard LoRA r24: **439 MB**
+- RhombiLoRA r24: **220 MB** (50% smaller)
+
+Both at identical rank (24), alpha (12), and target modules. The
+bridge architecture constrains the effective parameter space, producing
+a checkpoint approximately half the size of standard LoRA.
+
+**The principle:** The bridge doesn't just change HOW parameters
+couple — it reduces the effective parameter count by constraining
+A/B interaction through a 36-parameter bottleneck. This has practical
+deployment implications: smaller checkpoints = faster loading, less
+storage, easier distribution. The 9.15 GB VRAM saving during training
+and the 50% checkpoint size reduction are likely the same underlying
+phenomenon: the bridge makes the adapter more parameter-efficient.
+
+**Evidence:** File sizes from `aramintak/rhombi-experiment-backup`.
+
+---
+
+## L-028: Contrastive Topology IS the Structure Signal
+
+**The finding:** Channel ablation across n=3, 4, 6, 8 proves that
+block-diagonal structure emerges ONLY when contrastive topology (co-axial
+pair specification) is active. Spectral-only training (eigenvalue
+regularization without co/cross pair definitions) converges to Fiedler
+~0.09 regardless of channel count. The bridge learns connectivity but
+not directionality.
+
+**The data:**
+
+| Run | Channels | Topology | Co/Cross | Fiedler | BD? |
+|-----|----------|----------|----------|---------|-----|
+| H-ch3 | 3 | spectral-only | N/A | 0.0951 | NO |
+| H-ch4 | 4 | spectral-only | N/A | 0.0918 | NO |
+| H-ch6 | 6 | RD contrastive | 70,404:1 | 0.00009 | YES |
+| H-ch8 | 8 | spectral-only | N/A | 0.0944 | NO |
+| T-001 | 8 | tesseract contrastive | 5,395:1 | 0.00070 | YES |
+
+**Three conclusions from one table:**
+
+1. **Spectral-only is channel-count-invariant.** n=3,4,8 all converge to
+   Fiedler 0.0918-0.0951 — a 3.5% spread across a 2.7× range of channel
+   counts. The bridge finds the same connectivity level regardless of how
+   many channels exist. The spectral loss creates a universal attractor
+   near Fiedler ≈ 0.09.
+
+2. **Contrastive topology creates block-diagonal immediately.** Both H-ch6
+   (RD, 70,404:1) and T-001 (tesseract, 5,395:1 at step 2700) produce extreme co/cross
+   ratios. The Fiedler drops 3 orders of magnitude (from ~0.09 to ~0.0002)
+   because the bridge suppresses cross-planar coupling, which is precisely
+   the algebraic connectivity the spectral loss was maintaining.
+
+3. **The Steersman is a general topology programmer.** T-001 uses tesseract
+   (4D hypercube) pairs — 4 co-axial, 24 cross-planar — and the Steersman
+   programs the bridge into 4+4 block-diagonal structure without any change
+   to the feedback laws. The same three control laws (connectivity trending,
+   directionality stagnation, stability monitoring) work for ANY co-axial
+   pair specification. The Steersman is not RD-specific; it is topology-
+   agnostic.
+
+**The eigenvalue signature (T-001 at step 500):**
+```
+Block A: [~0, 0.000177, 0.000197, 0.000255]  ← suppressed
+Block B: [0.1638, 0.1708, 0.1722, 0.1726]    ← active
+```
+Four eigenvalues near zero, four near 0.17 — a clean 4+4 split matching
+the tesseract's 4 co-axial pairs. The bridge has decomposed into two
+independent 4-channel blocks connected only by near-zero coupling.
+
+**The principle:** Structural inductive bias in neural adapters requires
+explicit supervision at the coupling level. Spectral regularization alone
+(encouraging connectivity via eigenvalue targets) produces quantitatively
+consistent but qualitatively undifferentiated bridges. Only contrastive
+topology — telling the bridge WHICH pairs should couple and which should
+not — produces the block-diagonal structure that encodes geometric meaning.
+The bridge needs both the map (pair definitions) and the compass (Steersman
+feedback) to navigate to structured solutions.
+
+**For Paper 3:** This is the ablation study. The table above is the
+definitive evidence that the contrastive loss is necessary and sufficient
+for geometric structure. Spectral-only is the control condition that proves
+the effect.
+
+**Evidence:** Channel ablation series H-ch3, H-ch4, H-ch6, H-ch8 (Hermes
+RTX 4090), T-001 partial (local RTX 6000 Ada). Full data at
+`rhombic/docs/EXPERIMENT_TRACKER.md` Channel Ablation section.
+
+---
+
 *Knowledge base started March 8, 2026. Each entry is a lesson extracted
-from experimental results. Updated as new experiments produce new
-understanding. The goal is not to record what happened, but to record
-what was learned — so the same errors are never repeated and the same
-insights don't need to be re-derived.*
+from experimental results. Updated March 15, 2026: L-028 added for
+channel ablation key finding — contrastive topology is necessary and
+sufficient for block-diagonal structure. The Steersman generalizes to
+arbitrary topologies (tesseract confirmed).
+L-026 RETRACTED March 13: corpus weights were misapplied (diagonal not
+off-diagonal); corpus_coupled mode implements the correction.
+The goal is not to record what happened, but to record what was learned
+— so the same errors are never repeated and the same insights don't need
+to be re-derived.*

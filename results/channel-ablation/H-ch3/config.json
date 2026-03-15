@@ -1,0 +1,30 @@
+{
+  "name": "exp3_cybernetic_identity",
+  "rank": 24,
+  "n_channels": 3,
+  "bridge_mode": "identity",
+  "bridge_trainable": true,
+  "model_name": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "dataset_name": "yahma/alpaca-cleaned",
+  "max_seq_len": 512,
+  "batch_size": 2,
+  "gradient_accumulation": 8,
+  "lr": 0.0002,
+  "num_epochs": 4,
+  "warmup_steps": 200,
+  "checkpoint_steps": 100,
+  "max_steps": 10000,
+  "seed": 42,
+  "gradient_checkpointing": true,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ],
+  "experiment": "3.0",
+  "feedback_interval": 100,
+  "initial_contrastive": 0.1,
+  "initial_spectral": 0.05,
+  "initial_spectral_target": 0.1
+}

@@ -1,0 +1,189 @@
+{
+  "pod1-prodigy-control\\checkpoints\\holly_standard_r24_full_noise_epoch050.safetensors": {
+    "pod": "pod1-prodigy-control",
+    "type": "CONTROL",
+    "epoch": 50,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.033,
+      "median_ratio": 0.977,
+      "std_ratio": 0.544,
+      "mean_fiedler": 0.842194
+    },
+    "gram": {
+      "mean_ratio": 1.001,
+      "median_ratio": 1.0,
+      "std_ratio": 0.036
+    }
+  },
+  "pod2-prodigy-rhombi\\checkpoints\\holly_rhombi_r24_full_noise_epoch050.safetensors": {
+    "pod": "pod2-prodigy-rhombi",
+    "type": "RHOMBI",
+    "epoch": 50,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.071,
+      "median_ratio": 0.972,
+      "std_ratio": 0.833,
+      "mean_fiedler": 1.001594
+    },
+    "gram": {
+      "mean_ratio": 0.999,
+      "median_ratio": 1.0,
+      "std_ratio": 0.027
+    }
+  },
+  "pod3-adamw-control\\checkpoints\\holly_standard_r24_adamw_full_noise_epoch002.safetensors": {
+    "pod": "pod3-adamw-control",
+    "type": "CONTROL",
+    "epoch": 2,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.039,
+      "median_ratio": 0.974,
+      "std_ratio": 0.536,
+      "mean_fiedler": 0.066957
+    },
+    "gram": {
+      "mean_ratio": 1.003,
+      "median_ratio": 1.0,
+      "std_ratio": 0.063
+    }
+  },
+  "pod3-adamw-control\\checkpoints\\holly_standard_r24_adamw_full_noise_epoch004.safetensors": {
+    "pod": "pod3-adamw-control",
+    "type": "CONTROL",
+    "epoch": 4,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.049,
+      "median_ratio": 0.986,
+      "std_ratio": 0.652,
+      "mean_fiedler": 0.083137
+    },
+    "gram": {
+      "mean_ratio": 0.999,
+      "median_ratio": 1.0,
+      "std_ratio": 0.047
+    }
+  },
+  "pod3-adamw-control\\checkpoints\\holly_standard_r24_adamw_full_noise_epoch006.safetensors": {
+    "pod": "pod3-adamw-control",
+    "type": "CONTROL",
+    "epoch": 6,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.081,
+      "median_ratio": 0.986,
+      "std_ratio": 0.98,
+      "mean_fiedler": 0.115961
+    },
+    "gram": {
+      "mean_ratio": 0.998,
+      "median_ratio": 0.999,
+      "std_ratio": 0.03
+    }
+  },
+  "pod3-adamw-control\\checkpoints\\holly_standard_r24_adamw_full_noise_epoch008.safetensors": {
+    "pod": "pod3-adamw-control",
+    "type": "CONTROL",
+    "epoch": 8,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.093,
+      "median_ratio": 0.988,
+      "std_ratio": 1.065,
+      "mean_fiedler": 0.139411
+    },
+    "gram": {
+      "mean_ratio": 0.998,
+      "median_ratio": 1.0,
+      "std_ratio": 0.025
+    }
+  },
+  "pod3-adamw-control\\checkpoints\\holly_standard_r24_adamw_full_noise_epoch010.safetensors": {
+    "pod": "pod3-adamw-control",
+    "type": "CONTROL",
+    "epoch": 10,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.112,
+      "median_ratio": 0.982,
+      "std_ratio": 1.279,
+      "mean_fiedler": 0.158575
+    },
+    "gram": {
+      "mean_ratio": 0.998,
+      "median_ratio": 1.0,
+      "std_ratio": 0.024
+    }
+  },
+  "pod3-adamw-control\\checkpoints\\holly_standard_r24_adamw_full_noise_epoch012.safetensors": {
+    "pod": "pod3-adamw-control",
+    "type": "CONTROL",
+    "epoch": 12,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.111,
+      "median_ratio": 0.978,
+      "std_ratio": 1.297,
+      "mean_fiedler": 0.17666
+    },
+    "gram": {
+      "mean_ratio": 0.998,
+      "median_ratio": 1.0,
+      "std_ratio": 0.024
+    }
+  },
+  "pod3-adamw-control\\checkpoints\\holly_standard_r24_adamw_full_noise_epoch014.safetensors": {
+    "pod": "pod3-adamw-control",
+    "type": "CONTROL",
+    "epoch": 14,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.113,
+      "median_ratio": 0.974,
+      "std_ratio": 1.366,
+      "mean_fiedler": 0.188607
+    },
+    "gram": {
+      "mean_ratio": 0.998,
+      "median_ratio": 1.0,
+      "std_ratio": 0.023
+    }
+  },
+  "pod3-adamw-control\\checkpoints\\holly_standard_r24_adamw_full_noise_epoch016.safetensors": {
+    "pod": "pod3-adamw-control",
+    "type": "CONTROL",
+    "epoch": 16,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.128,
+      "median_ratio": 0.978,
+      "std_ratio": 1.621,
+      "mean_fiedler": 0.194219
+    },
+    "gram": {
+      "mean_ratio": 0.998,
+      "median_ratio": 1.0,
+      "std_ratio": 0.023
+    }
+  },
+  "pod3-adamw-control\\checkpoints\\holly_standard_r24_adamw_full_noise_epoch018.safetensors": {
+    "pod": "pod3-adamw-control",
+    "type": "CONTROL",
+    "epoch": 18,
+    "n_modules_analyzed": 6,
+    "correlation": {
+      "mean_ratio": 1.128,
+      "median_ratio": 0.978,
+      "std_ratio": 1.674,
+      "mean_fiedler": 0.201618
+    },
+    "gram": {
+      "mean_ratio": 0.998,
+      "median_ratio": 1.0,
+      "std_ratio": 0.022
+    }
+  }
+}

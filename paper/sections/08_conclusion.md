@@ -1,0 +1,9 @@
+# 8. Conclusion
+
+The learnable bridge in multi-channel LoRA, under cybernetic feedback, discovers the 3-axis coordinate geometry of the rhombic dodecahedron. This geometry is not imposed — it emerges as the unique attractor of a feedback loop that encodes face-pair relationships through a contrastive loss and monitors spectral connectivity through a reactive controller.
+
+The finding is robust across every experimental axis we tested. Six cybernetic experiments at $n = 6$ produce 100% block-diagonal structure across 42,500+ bridges; six non-cybernetic controls produce 0%. Three initialization strategies — including one that actively opposes the target topology — converge to the same attractor within 200 training steps. Validation loss is independent of bridge topology (0.17% maximum delta across $n \in \{3, 4, 6\}$). The contrastive loss component, encoding RD face-pair geometry, is both necessary and sufficient: removing it (at $n \in \{3, 4, 8\}$) produces 1,020$\times$ higher Bridge Fiedler eigenvalue with 0% block structure.
+
+The effective dimensionality of the discovered structure is exactly 3 — the number of coordinate axes, not the number of faces. This is confirmed both by the bridge's internal structure (12 of 15 off-diagonal entries driven to zero) and by the channel count ablation ($n = 3$ matches $n = 6$ task performance with $4\times$ fewer bridge parameters). The 6-channel bridge is a redundant parameterization that reveals structure; the 3-channel bridge achieves the same function without revealing it.
+
+These results suggest that multi-channel LoRA adapters have latent geometric preferences that standard training does not surface. Cybernetic feedback — even a simple reactive controller with fixed control laws — is sufficient to discover and stabilize these preferences. The Steersman provides no task performance benefit; its contribution is structural transparency. The bridge, under feedback, tells us what it has learned.

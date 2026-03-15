@@ -1,11 +1,13 @@
 """Tests for rhombic.nn — RhombiLoRA and bridge topology.
 
-Five tiers:
+Six tiers:
   1. Topology — coupling matrix from RD geometry
   2. Construction — valid/invalid params, shapes, initialization
   3. Forward pass — shapes, identity equivalence, zero at init, scaling
   4. Gradients — flow to A, B, bridge; frozen bridge blocks grads
   5. Ablation — frozen bridge = LoRA, state_dict round-trip, diagnostics
+  6. Dynamic Bridge — input-dependent gating with temperature annealing
+  7. Emanation — shared master bridge with per-layer sigmoid projection
 """
 
 import numpy as np
@@ -13,8 +15,9 @@ import pytest
 import torch
 import torch.nn as nn
 
-from rhombic.nn.topology import direction_pair_coupling, bridge_init
+from rhombic.nn.topology import direction_pair_coupling, bridge_init, create_emanation_bridge
 from rhombic.nn.rhombi_lora import RhombiLoRALinear
+from rhombic.corpus import corpus_available as _corpus_available
 
 
 # ── Tier 1: Topology ────────────────────────────────────────────────
@@ -99,6 +102,37 @@ class TestTopology:
     def test_bridge_init_geometric_requires_6(self):
         with pytest.raises(ValueError, match="n_channels=6"):
             bridge_init(3, 'geometric')
+
+    @pytest.mark.skipif(
+        not _corpus_available(),
+        reason="Corpus values required for corpus_coupled mode"
+    )
+    def test_bridge_init_corpus_coupled_shape(self):
+        B = bridge_init(6, 'corpus_coupled')
+        assert B.shape == (6, 6)
+
+    @pytest.mark.skipif(
+        not _corpus_available(),
+        reason="Corpus values required for corpus_coupled mode"
+    )
+    def test_bridge_init_corpus_coupled_diagonal(self):
+        """Corpus-coupled init has identity diagonal."""
+        B = bridge_init(6, 'corpus_coupled')
+        np.testing.assert_allclose(np.diag(B), np.ones(6), atol=1e-10)
+
+    @pytest.mark.skipif(
+        not _corpus_available(),
+        reason="Corpus values required for corpus_coupled mode"
+    )
+    def test_bridge_init_corpus_coupled_differs_from_geometric(self):
+        """Corpus-coupled init produces a different matrix than geometric."""
+        B_geo = bridge_init(6, 'geometric')
+        B_cc = bridge_init(6, 'corpus_coupled')
+        assert not np.allclose(B_geo, B_cc)
+
+    def test_bridge_init_corpus_coupled_requires_6(self):
+        with pytest.raises(ValueError, match="n_channels=6"):
+            bridge_init(3, 'corpus_coupled')
 
     def test_bridge_init_invalid_mode(self):
         with pytest.raises(ValueError, match="Unknown mode"):
@@ -416,3 +450,409 @@ class TestAblation:
         assert "out=128" in r
         assert "rank=24" in r
         assert "channels=6" in r
+
+
+# ── Tier 6: Dynamic Bridge (L9 Prototype) ─────────────────────────
+
+
+class TestDynamicBridge:
+    """Input-dependent bridge gating with temperature annealing."""
+
+    def test_construction_default_static(self):
+        """Default construction has no gate_proj."""
+        m = RhombiLoRALinear(64, 128, rank=24)
+        assert m.gate_proj is None
+        assert not m.dynamic_bridge
+
+    def test_construction_dynamic(self):
+        """Dynamic bridge creates gate_proj with correct dimensions."""
+        m = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        assert m.gate_proj is not None
+        assert m.dynamic_bridge
+        assert m.gate_proj.weight.shape == (36, 64)  # C*C=36, in=64
+
+    def test_dynamic_forward_shape(self):
+        """Dynamic forward pass produces same output shape as static."""
+        m_static = RhombiLoRALinear(64, 128, rank=24)
+        m_dyn = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        x = torch.randn(2, 10, 64)
+        y_static = m_static(x)
+        y_dyn = m_dyn(x)
+        assert y_static.shape == y_dyn.shape == (2, 10, 128)
+
+    def test_dynamic_forward_differs_per_token(self):
+        """Different input tokens should produce different gating."""
+        m = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        # Set gate and lora_B nonzero so outputs are nonzero and differ
+        nn.init.normal_(m.gate_proj.weight, std=0.1)
+        nn.init.normal_(m.lora_B, std=0.01)
+        x = torch.randn(1, 5, 64)
+        y = m(x)
+        # All-same input would produce all-same output
+        x_same = x[:, 0:1, :].expand(1, 5, 64)
+        y_same = m(x_same)
+        # Random tokens: outputs should NOT all be equal
+        assert not torch.allclose(y[:, 0], y[:, 1], atol=1e-6)
+        # Same tokens: outputs SHOULD all be equal
+        assert torch.allclose(y_same[:, 0], y_same[:, 1], atol=1e-6)
+
+    def test_temperature_annealing(self):
+        """Gate temperature can be set and affects output."""
+        m = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        assert m.gate_temperature() == 5.0
+        m.set_gate_temperature(0.1)
+        assert abs(m.gate_temperature() - 0.1) < 1e-6
+
+    def test_zero_init_gate_neutral(self):
+        """Zero-initialized gate_proj produces gate ≈ 0.5 (neutral)."""
+        m = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        x = torch.randn(1, 64)
+        with torch.no_grad():
+            logits = m.gate_proj(x)
+            gate = torch.sigmoid(logits / m._gate_temperature)
+        # All gate values should be ≈ 0.5 since logits ≈ 0
+        assert torch.allclose(gate, torch.full_like(gate, 0.5), atol=0.01)
+
+    def test_gate_gradient_flow(self):
+        """Gradients flow through the gate to gate_proj weights."""
+        m = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        # lora_B must be nonzero for gradients to flow through
+        nn.init.normal_(m.lora_B, std=0.01)
+        x = torch.randn(2, 10, 64)
+        y = m(x)
+        y.sum().backward()
+        assert m.gate_proj.weight.grad is not None
+        assert m.gate_proj.weight.grad.abs().sum() > 0
+
+    def test_gate_sparsity(self):
+        """gate_sparsity returns a float for dynamic, None for static."""
+        m_static = RhombiLoRALinear(64, 128, rank=24)
+        m_dyn = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        assert m_static.gate_sparsity() is None
+        sp = m_dyn.gate_sparsity()
+        assert isinstance(sp, float)
+        assert 0.0 <= sp <= 1.0
+
+    def test_dynamic_extra_repr(self):
+        """Dynamic bridge shows in repr."""
+        m = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        r = m.extra_repr()
+        assert "dynamic=True" in r
+        assert "gate_T=" in r
+
+    def test_param_count(self):
+        """Dynamic bridge adds exactly C*C*in_features parameters."""
+        m_static = RhombiLoRALinear(64, 128, rank=24)
+        m_dyn = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        static_params = sum(p.numel() for p in m_static.parameters())
+        dyn_params = sum(p.numel() for p in m_dyn.parameters())
+        # gate_proj: no bias, weight = (C*C) * in_features = 36 * 64 = 2304
+        assert dyn_params - static_params == 36 * 64
+
+    def test_state_dict_roundtrip(self):
+        """Dynamic bridge survives save/load cycle."""
+        m1 = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        nn.init.normal_(m1.gate_proj.weight, std=0.1)
+        m1.set_gate_temperature(1.5)
+        sd = m1.state_dict()
+        m2 = RhombiLoRALinear(64, 128, rank=24, dynamic_bridge=True)
+        m2.load_state_dict(sd)
+        assert abs(m2.gate_temperature() - 1.5) < 1e-6
+        x = torch.randn(1, 5, 64)
+        assert torch.allclose(m1(x), m2(x))
+
+
+# ── Tier 7: Emanation Architecture ────────────────────────────────────
+
+
+class TestEmanation:
+    """Shared master bridge with per-layer sigmoid projection."""
+
+    def test_create_emanation_bridge_returns_tuple(self):
+        """create_emanation_bridge returns (Parameter, callable)."""
+        master, factory = create_emanation_bridge(6, 'identity')
+        assert isinstance(master, nn.Parameter)
+        assert callable(factory)
+
+    def test_create_emanation_bridge_shape(self):
+        """Master bridge has correct shape."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        assert master.shape == (6, 6)
+
+    def test_create_emanation_bridge_geometric(self):
+        """Master bridge can be initialized with geometric mode."""
+        master, _ = create_emanation_bridge(6, 'geometric')
+        # Should be near identity (geometric = I + eps * coupling)
+        dev = float(torch.norm(master.data - torch.eye(6)).item())
+        assert 0.0 < dev < 0.1
+
+    def test_factory_returns_parameter(self):
+        """Factory produces nn.Parameter of correct shape."""
+        master, factory = create_emanation_bridge(6, 'identity')
+        proj = factory()
+        assert isinstance(proj, nn.Parameter)
+        assert proj.shape == (6, 6)
+
+    def test_factory_returns_zeros(self):
+        """Factory produces zero-initialized projections."""
+        _, factory = create_emanation_bridge(6, 'identity')
+        proj = factory()
+        assert torch.all(proj == 0)
+
+    def test_factory_returns_independent_params(self):
+        """Each factory call produces an independent parameter."""
+        _, factory = create_emanation_bridge(6, 'identity')
+        p1 = factory()
+        p2 = factory()
+        assert p1 is not p2
+        # Mutating one doesn't affect the other
+        with torch.no_grad():
+            p1.fill_(1.0)
+        assert torch.all(p2 == 0)
+
+    def test_construction_emanation(self):
+        """RhombiLoRALinear with master_bridge enters emanation mode."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        assert m.emanation is True
+        assert hasattr(m, 'layer_proj')
+        assert hasattr(m, 'master_bridge')
+        assert not hasattr(m, 'bridge')
+
+    def test_construction_default_not_emanation(self):
+        """Default construction is not emanation mode."""
+        m = RhombiLoRALinear(64, 128, rank=24)
+        assert m.emanation is False
+        assert hasattr(m, 'bridge')
+        assert not hasattr(m, 'layer_proj')
+
+    def test_layer_proj_shape(self):
+        """layer_proj has (n_channels, n_channels) shape."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        assert m.layer_proj.shape == (6, 6)
+
+    def test_layer_proj_initialized_to_zeros(self):
+        """layer_proj starts at zero (sigmoid(0)=0.5, *2 = identity)."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        assert torch.all(m.layer_proj == 0)
+
+    def test_effective_bridge_identity_at_init(self):
+        """With identity master and zero layer_proj, effective bridge = I."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        eb = m.effective_bridge
+        torch.testing.assert_close(eb, torch.eye(6), atol=1e-6, rtol=1e-6)
+
+    def test_effective_bridge_geometric_at_init(self):
+        """With geometric master and zero layer_proj, effective bridge = master."""
+        master, _ = create_emanation_bridge(6, 'geometric')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        eb = m.effective_bridge
+        torch.testing.assert_close(eb, master.data, atol=1e-6, rtol=1e-6)
+
+    def test_forward_shape(self):
+        """Emanation forward produces correct output shape."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        x = torch.randn(4, 16, 64)
+        y = m(x)
+        assert y.shape == (4, 16, 128)
+
+    def test_zero_output_at_init(self):
+        """Emanation module produces zero output at init (B=0)."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        x = torch.randn(4, 64)
+        y = m(x)
+        torch.testing.assert_close(y, torch.zeros(4, 128))
+
+    def test_emanation_matches_standard_at_init(self):
+        """With identity master, emanation output matches standard LoRA at init."""
+        torch.manual_seed(42)
+        master, _ = create_emanation_bridge(6, 'identity')
+        m_eman = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+
+        torch.manual_seed(42)
+        m_std = RhombiLoRALinear(64, 128, rank=24, bridge_mode='identity')
+
+        # Copy non-bridge params
+        m_eman.lora_A.data.copy_(m_std.lora_A.data)
+        m_eman.lora_B.data.copy_(m_std.lora_B.data)
+        nn.init.normal_(m_eman.lora_B, std=0.01)
+        m_std.lora_B.data.copy_(m_eman.lora_B.data)
+
+        x = torch.randn(4, 64)
+        torch.testing.assert_close(m_eman(x), m_std(x), atol=1e-5, rtol=1e-5)
+
+    def test_master_bridge_shared_across_layers(self):
+        """Multiple layers share the same master_bridge tensor."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m1 = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        m2 = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        assert m1.master_bridge is m2.master_bridge
+        assert m1.master_bridge.data_ptr() == m2.master_bridge.data_ptr()
+
+    def test_layer_proj_independent_across_layers(self):
+        """Each layer has its own layer_proj."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m1 = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        m2 = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        assert m1.layer_proj is not m2.layer_proj
+
+    def test_layer_proj_modulation_changes_output(self):
+        """Non-zero layer_proj produces different output from standard."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        nn.init.normal_(m.lora_B, std=0.01)
+
+        x = torch.randn(4, 64)
+        y_init = m(x).clone()
+
+        # Perturb layer_proj
+        with torch.no_grad():
+            m.layer_proj.data += torch.randn(6, 6) * 2.0
+        y_perturbed = m(x)
+
+        assert not torch.allclose(y_init, y_perturbed, atol=1e-6)
+
+    def test_master_bridge_mutation_affects_all_layers(self):
+        """Mutating master_bridge affects all layers sharing it."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m1 = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        m2 = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        nn.init.normal_(m1.lora_B, std=0.01)
+        nn.init.normal_(m2.lora_B, std=0.01)
+
+        x = torch.randn(4, 64)
+        y1_before = m1(x).clone()
+        y2_before = m2(x).clone()
+
+        # Mutate master bridge
+        with torch.no_grad():
+            master.data += torch.randn(6, 6) * 0.5
+
+        y1_after = m1(x)
+        y2_after = m2(x)
+
+        assert not torch.allclose(y1_before, y1_after, atol=1e-6)
+        assert not torch.allclose(y2_before, y2_after, atol=1e-6)
+
+    def test_gradient_flow_to_layer_proj(self):
+        """Gradients flow through to layer_proj."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        nn.init.normal_(m.lora_B, std=0.01)
+
+        x = torch.randn(4, 64)
+        y = m(x)
+        y.sum().backward()
+
+        assert m.layer_proj.grad is not None
+        assert m.layer_proj.grad.abs().sum() > 0
+
+    def test_gradient_flow_to_master_bridge(self):
+        """Gradients flow through to the shared master bridge."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        nn.init.normal_(m.lora_B, std=0.01)
+
+        x = torch.randn(4, 64)
+        y = m(x)
+        y.sum().backward()
+
+        assert master.grad is not None
+        assert master.grad.abs().sum() > 0
+
+    def test_gradient_accumulates_from_multiple_layers(self):
+        """Master bridge grad accumulates from multiple layer forward passes."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m1 = RhombiLoRALinear(32, 16, rank=6, n_channels=6, master_bridge=master)
+        m2 = RhombiLoRALinear(32, 16, rank=6, n_channels=6, master_bridge=master)
+        nn.init.normal_(m1.lora_B, std=0.01)
+        nn.init.normal_(m2.lora_B, std=0.01)
+
+        x = torch.randn(4, 32)
+        (m1(x).sum() + m2(x).sum()).backward()
+
+        # master_bridge should have accumulated gradients from both layers
+        assert master.grad is not None
+        grad_both = master.grad.clone()
+
+        # Compare: single layer grad should be smaller
+        master.grad = None
+        m1.layer_proj.grad = None
+        m2.layer_proj.grad = None
+        m1.lora_A.grad = None
+        m1.lora_B.grad = None
+        m1(x).sum().backward()
+        grad_one = master.grad.clone()
+
+        # Two-layer grad should differ from single-layer (accumulated)
+        assert not torch.allclose(grad_both, grad_one, atol=1e-7)
+
+    def test_freeze_bridge_freezes_layer_proj(self):
+        """freeze_bridge in emanation mode freezes layer_proj."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        m.freeze_bridge()
+        assert not m.layer_proj.requires_grad
+
+    def test_unfreeze_bridge_unfreezes_layer_proj(self):
+        """unfreeze_bridge in emanation mode restores layer_proj grad."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        m.freeze_bridge()
+        m.unfreeze_bridge()
+        assert m.layer_proj.requires_grad
+
+    def test_bridge_deviation_at_init(self):
+        """Identity emanation bridge has zero deviation at init."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        assert abs(m.bridge_deviation()) < 1e-6
+
+    def test_bridge_fiedler_at_init(self):
+        """Identity emanation bridge has zero Fiedler at init."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        assert abs(m.bridge_fiedler()) < 1e-7
+
+    def test_bridge_fiedler_geometric_emanation(self):
+        """Geometric emanation bridge has non-zero Fiedler."""
+        master, _ = create_emanation_bridge(6, 'geometric')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        assert m.bridge_fiedler() > 0.0
+
+    def test_extra_repr_shows_emanation(self):
+        """Emanation flag appears in repr."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        r = m.extra_repr()
+        assert "emanation=True" in r
+
+    def test_param_count_emanation(self):
+        """Emanation mode: layer_proj replaces bridge (same param count)."""
+        master, _ = create_emanation_bridge(6, 'identity')
+        m_eman = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        m_std = RhombiLoRALinear(64, 128, rank=24)
+        # Emanation has: lora_A + lora_B + layer_proj (no bridge)
+        # Note: master_bridge is shared, not owned by this module
+        eman_params = sum(p.numel() for p in m_eman.parameters())
+        std_params = sum(p.numel() for p in m_std.parameters())
+        # Both should have same local param count: A + B + (bridge or layer_proj)
+        # But emanation also has master_bridge registered as parameter
+        # master_bridge is assigned as attribute -> it IS a parameter
+        expected_local = 24 * 64 + 128 * 24 + 6 * 6 + 6 * 6  # A + B + master + layer_proj
+        assert eman_params == expected_local
+
+    def test_custom_channels_emanation(self):
+        """Emanation works with non-default channel count."""
+        master, factory = create_emanation_bridge(3, 'identity')
+        m = RhombiLoRALinear(64, 128, rank=12, n_channels=3, master_bridge=master)
+        assert m.master_bridge.shape == (3, 3)
+        assert m.layer_proj.shape == (3, 3)
+        x = torch.randn(4, 64)
+        y = m(x)
+        assert y.shape == (4, 128)

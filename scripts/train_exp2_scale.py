@@ -65,6 +65,9 @@ class ExperimentConfig:
     target_modules: list[str] = field(
         default_factory=lambda: ["q_proj", "k_proj", "v_proj", "o_proj"]
     )
+    dynamic_bridge: bool = False
+    gate_temperature_start: float = 5.0
+    gate_temperature_end: float = 0.1
 
 
 CONFIGS: dict[int, ExperimentConfig] = {
@@ -96,22 +99,34 @@ _COUPLING = direction_pair_coupling()
 def _coplanar_crossplanar_indices(n_channels: int):
     """Return indices of co-planar and cross-planar pairs for the bridge.
 
-    For n_channels=6: co-planar pairs share 4 octahedral vertices,
-    cross-planar share 2. For n_channels=3 or other: returns None
-    (geometric analysis not applicable).
+    For n_channels=6: co-planar pairs share 4 octahedral vertices (RD geometry),
+    cross-planar share 2. 3 co-planar pairs, 12 cross-planar.
+    For n_channels=8: co-axial pairs along tesseract coordinate axes,
+    (0,1)=±w, (2,3)=±x, (4,5)=±y, (6,7)=±z. 4 co-axial, 24 cross-axial.
+    For other n_channels: returns None (geometric analysis not applicable).
     """
-    if n_channels != 6:
+    if n_channels == 6:
+        coplanar = []
+        crossplanar = []
+        for i in range(6):
+            for j in range(i + 1, 6):
+                if _COUPLING[i, j] >= 4:
+                    coplanar.append((i, j))
+                else:
+                    crossplanar.append((i, j))
+        return coplanar, crossplanar
+    elif n_channels == 8:
+        # Tesseract geometry: 8 cubic cells pair into 4 opposite pairs
+        # along 4 coordinate axes of the 4D hypercube
+        coaxial = [(0, 1), (2, 3), (4, 5), (6, 7)]
+        coaxial_set = set(coaxial)
+        crossaxial = [
+            (i, j) for i in range(8) for j in range(i + 1, 8)
+            if (i, j) not in coaxial_set
+        ]
+        return coaxial, crossaxial
+    else:
         return None, None
-
-    coplanar = []
-    crossplanar = []
-    for i in range(6):
-        for j in range(i + 1, 6):
-            if _COUPLING[i, j] >= 4:
-                coplanar.append((i, j))
-            else:
-                crossplanar.append((i, j))
-    return coplanar, crossplanar
 
 
 def coplanar_crossplanar_ratio(bridge: np.ndarray) -> dict | None:
@@ -163,6 +178,8 @@ def inject_lora(model: nn.Module, config: ExperimentConfig) -> dict[str, RhombiL
             rank=config.rank,
             n_channels=config.n_channels,
             bridge_mode=config.bridge_mode,
+            dynamic_bridge=config.dynamic_bridge,
+            gate_temperature=config.gate_temperature_start,
         )
 
         if not config.bridge_trainable:

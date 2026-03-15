@@ -43,12 +43,16 @@ paper/*.out
 paper/*.pdf
 paper/*.tar
 paper/*.tar.gz
+paper/*.fdb_latexmk
+paper/*.fls
 paper/figures/*.pdf
 paper/versions/
 
 # --- Large Generated Data ---
 data/geometric/*.json
 !data/geometric/dataset_stats.json
+*.npy
+experiments/
 
 # --- Reference Material (not part of library) ---
 paper2_deep-research-report*.md

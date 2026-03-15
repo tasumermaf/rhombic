@@ -57,7 +57,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
 
-from rhombic.nn.rhombi_lora import RhombiLoRALinear
+from rhombic.nn.rhombi_lora import RhombiLoRALinear, EmanationBridge
 from rhombic.nn.topology import direction_pair_coupling
 from rhombic.spectral import (
     weighted_laplacian,
@@ -81,7 +81,10 @@ from train_exp2_scale import (
 # Co-planar pairs from Exp 2.6
 from train_contrastive_bridge import (
     _compute_pair_indices,
+    _compute_wrong_label_pairs,
+    _compute_resonance_pairs,
     contrastive_bridge_loss,
+    circular_resonance_loss,
 )
 
 
@@ -128,11 +131,11 @@ def spectral_reg_loss(
     The loss is minimized when every bridge's algebraic connectivity
     equals the target. The Steersman adjusts the target dynamically.
     """
-    device = next(iter(injected.values())).bridge.device
+    device = next(iter(injected.values())).effective_bridge.device
     losses = []
 
     for lora in injected.values():
-        B = lora.bridge
+        B = lora.effective_bridge
         if B.shape[0] < 2:
             continue
         fv = differentiable_fiedler(B)
@@ -267,7 +270,7 @@ class Steersman:
         # ── SENSOR: extract bridge matrices ──
         bridges = {}
         for name, lora in injected.items():
-            bridges[name] = lora.bridge.detach().cpu().numpy()
+            bridges[name] = lora.effective_bridge.detach().cpu().numpy()
 
         # ── OSCILLOSCOPE: spectral diagnostics ──
         fiedlers = []
@@ -294,15 +297,15 @@ class Steersman:
         d_mean = float(np.mean(deviations))
         d_std = float(np.std(deviations))
 
-        # Co/cross ratio (guard against inf/nan from near-zero bridges)
-        co_cross = None
+        # Co/cross ratio — aggregate across ALL bridges
+        co_cross_values = []
         for B in bridges.values():
             r = coplanar_crossplanar_ratio(B)
             if r is not None:
                 ratio = r["ratio"]
                 if np.isfinite(ratio):
-                    co_cross = ratio
-                break
+                    co_cross_values.append(ratio)
+        co_cross = float(np.mean(co_cross_values)) if co_cross_values else None
 
         # Gradient effective rank
         eff_rank = gradient_effective_rank(injected)
@@ -441,10 +444,20 @@ def train_cybernetic(
     output_dir: Path,
     # Feedback parameters
     feedback_interval: int = 100,
+    # Contrastive topology override
+    contrastive_topology: str = "auto",
     # Steersman initial values
     initial_contrastive: float = 0.1,
     initial_spectral: float = 0.05,
     initial_spectral_target: float = 0.1,
+    # Optional Steersman overrides (corpus preset passes these)
+    fiedler_decline_threshold: Optional[float] = None,
+    co_cross_stagnation_band: Optional[float] = None,
+    deviation_rate_threshold: Optional[float] = None,
+    # Emanation architecture
+    emanation: bool = False,
+    # Model export
+    save_merged: bool = False,
 ):
     """Experiment 3: Cybernetic bridge training with closed-loop feedback.
 
@@ -461,10 +474,22 @@ def train_cybernetic(
     config_dict["initial_contrastive"] = initial_contrastive
     config_dict["initial_spectral"] = initial_spectral
     config_dict["initial_spectral_target"] = initial_spectral_target
+    config_dict["emanation"] = emanation
     with open(output_dir / "config.json", "w") as f:
         json.dump(config_dict, f, indent=2)
 
-    co_pairs, cross_pairs = _compute_pair_indices()
+    if contrastive_topology == "wrong-labels":
+        co_pairs, cross_pairs = _compute_wrong_label_pairs()
+        geom_label = "WRONG-LABELS (random partition of 6 channels)"
+    elif contrastive_topology == "resonance":
+        co_pairs, cross_pairs = _compute_resonance_pairs(config.n_channels)
+        geom_label = "RESONANCE (prime threading topology)"
+    else:
+        co_pairs, cross_pairs = _compute_pair_indices(config.n_channels)
+        geom_label = {6: "RD (rhombic dodecahedron)", 8: "Tesseract (4D hypercube)"}.get(
+            config.n_channels, f"n={config.n_channels} (no geometric prior)"
+        )
+    contrastive_active = bool(co_pairs and cross_pairs)
 
     print(f"\n{'='*70}")
     print(f"Experiment 3.0: CYBERNETIC Bridge Training")
@@ -472,13 +497,17 @@ def train_cybernetic(
     print(f"{'='*70}")
     print(f"Model:              {config.model_name}")
     print(f"Rank:               {config.rank}, Channels: {config.n_channels}")
+    print(f"Geometry:           {geom_label}")
+    print(f"Contrastive:        {'ACTIVE' if contrastive_active else 'DISABLED (no pairs for this n)'}")
     print(f"Steps:              {config.max_steps}")
     print(f"Feedback interval:  every {feedback_interval} steps")
     print(f"Initial contrastive: {initial_contrastive}")
     print(f"Initial spectral:   {initial_spectral}")
     print(f"Spectral target:    {initial_spectral_target}")
-    print(f"Co-planar pairs:    {co_pairs}")
-    print(f"Cross-planar pairs: {len(cross_pairs)} pairs")
+    if contrastive_active:
+        print(f"Co-planar pairs:    {co_pairs}")
+        print(f"Cross-planar pairs: {len(cross_pairs)} pairs")
+    print(f"Emanation:          {'ACTIVE' if emanation else 'DISABLED'}")
     print(f"{'='*70}\n")
 
     torch.manual_seed(config.seed)
@@ -514,14 +543,45 @@ def train_cybernetic(
     injected = inject_lora(model, config)
     print(f"Injected {len(injected)} LoRA adapters")
 
+    # Emanation architecture: single master bridge emanates into per-layer bridges
+    emanation_bridge = None
+    if emanation:
+        n_layers = len(injected)
+        emanation_bridge = EmanationBridge(
+            n_channels=config.n_channels,
+            n_layers=n_layers,
+        ).to(device)
+        # Wire each adapter to its emanated bridge
+        for layer_idx, (name, lora) in enumerate(injected.items()):
+            # Freeze the adapter's own bridge — emanation replaces it
+            lora.freeze_bridge()
+            # Set external bridge function: this layer's effective_bridge
+            # will call emanation.get_bridge(layer_idx) instead of using
+            # the local bridge parameter
+            idx = layer_idx  # capture in closure
+            lora._external_bridge_fn = lambda _idx=idx: emanation_bridge.get_bridge(_idx)
+        print(f"Emanation: master bridge ({config.n_channels}x{config.n_channels}) "
+              f"→ {n_layers} layer offsets")
+        print(f"Emanation coherence: {emanation_bridge.coherence:.4f}")
+
     trainable_params = sum(
         p.numel() for p in model.parameters() if p.requires_grad
     )
+    # Add emanation params if present (they're not part of the model)
+    if emanation_bridge is not None:
+        trainable_params += sum(
+            p.numel() for p in emanation_bridge.parameters()
+        )
     total_params = sum(p.numel() for p in model.parameters())
-    bridge_params = sum(
-        lora.bridge.numel() for lora in injected.values()
-        if lora.bridge.requires_grad
-    )
+    if emanation_bridge is not None:
+        bridge_params = sum(
+            p.numel() for p in emanation_bridge.parameters()
+        )
+    else:
+        bridge_params = sum(
+            lora.bridge.numel() for lora in injected.values()
+            if lora.bridge.requires_grad
+        )
     print(f"Trainable: {trainable_params:,} / {total_params:,}")
     print(f"Bridge params: {bridge_params:,}")
 
@@ -530,8 +590,13 @@ def train_cybernetic(
     bridge_param_list = []
     for lora in injected.values():
         lora_params.extend([lora.lora_A, lora.lora_B])
-        if lora.bridge.requires_grad:
+        if not emanation and lora.bridge.requires_grad:
             bridge_param_list.append(lora.bridge)
+
+    # Emanation: master + offsets replace per-adapter bridge params
+    if emanation_bridge is not None:
+        bridge_param_list.append(emanation_bridge.master)
+        bridge_param_list.extend(list(emanation_bridge.offsets))
 
     optimizer = torch.optim.AdamW(
         [
@@ -572,12 +637,19 @@ def train_cybernetic(
         num_workers=0, pin_memory=True,
     )
 
-    # Initialize the Steersman
-    steersman = Steersman(
+    # Initialize the Steersman (with optional preset overrides)
+    steersman_kwargs = dict(
         base_contrastive_weight=initial_contrastive,
         base_spectral_weight=initial_spectral,
         initial_spectral_target=initial_spectral_target,
     )
+    if fiedler_decline_threshold is not None:
+        steersman_kwargs["fiedler_decline_threshold"] = fiedler_decline_threshold
+    if co_cross_stagnation_band is not None:
+        steersman_kwargs["co_cross_stagnation_band"] = co_cross_stagnation_band
+    if deviation_rate_threshold is not None:
+        steersman_kwargs["deviation_rate_threshold"] = deviation_rate_threshold
+    steersman = Steersman(**steersman_kwargs)
 
     # Training state
     checkpoints: list[dict] = []
@@ -595,7 +667,12 @@ def train_cybernetic(
         safe = name.replace(".", "_")
         np.save(
             output_dir / f"bridge_step0_{safe}.npy",
-            lora.bridge.detach().cpu().numpy(),
+            lora.effective_bridge.detach().cpu().numpy(),
+        )
+    if emanation_bridge is not None:
+        np.save(
+            output_dir / "bridge_emanation_master_step0.npy",
+            emanation_bridge.master.detach().cpu().numpy(),
         )
 
     # Initial Steersman read (before training begins)
@@ -607,6 +684,8 @@ def train_cybernetic(
     print(f"      Deviation:     {initial_state.deviation_mean:.5f}")
     if initial_state.co_cross_ratio is not None:
         print(f"      Co/Cross:      {initial_state.co_cross_ratio:.3f}")
+    if emanation_bridge is not None:
+        print(f"      Emanation coh: {emanation_bridge.coherence:.4f}")
     print()
 
     print(f"Training for {total_steps} steps...")
@@ -635,7 +714,7 @@ def train_cybernetic(
 
             # Contrastive bridge loss (Steersman-controlled weight)
             c_weight = steersman._contrastive_weight
-            if c_weight > 0 and config.n_channels == 6:
+            if c_weight > 0 and contrastive_active:
                 c_loss = contrastive_bridge_loss(
                     injected, co_pairs, cross_pairs
                 )
@@ -711,6 +790,19 @@ def train_cybernetic(
                     state = steersman.observe_and_decide(global_step, injected)
                     feedback_log.append(asdict(state))
 
+                    # Dynamic bridge temperature annealing (L9)
+                    if config.dynamic_bridge:
+                        progress = min(global_step / total_steps, 1.0)
+                        T = (
+                            config.gate_temperature_start
+                            + progress * (
+                                config.gate_temperature_end
+                                - config.gate_temperature_start
+                            )
+                        )
+                        for lora in injected.values():
+                            lora.set_gate_temperature(T)
+
                     # Validation loss
                     val_loss = evaluate(model, val_dataloader, device)
 
@@ -743,6 +835,14 @@ def train_cybernetic(
                         "control_signals": state.control_signals,
                         "wall_time": time.time() - start_time,
                     }
+                    # Dynamic bridge metrics (L9)
+                    if config.dynamic_bridge:
+                        sample_lora = next(iter(injected.values()))
+                        cp["gate_temperature"] = sample_lora.gate_temperature()
+                        cp["gate_sparsity"] = sample_lora.gate_sparsity()
+                    # Emanation metrics
+                    if emanation_bridge is not None:
+                        cp["emanation_coherence"] = emanation_bridge.coherence
                     checkpoints.append(cp)
 
                     # Save bridge matrices
@@ -750,14 +850,48 @@ def train_cybernetic(
                         safe = name.replace(".", "_")
                         np.save(
                             output_dir / f"bridge_step{global_step}_{safe}.npy",
-                            lora.bridge.detach().cpu().numpy(),
+                            lora.effective_bridge.detach().cpu().numpy(),
                         )
+                    # Save emanation master bridge
+                    if emanation_bridge is not None:
+                        np.save(
+                            output_dir / f"bridge_emanation_master_step{global_step}.npy",
+                            emanation_bridge.master.detach().cpu().numpy(),
+                        )
+
+                    # Emanation coherence monitoring: if coherence drops
+                    # below 0.5, the system is fragmenting — increase
+                    # spectral regularization to pull layers back toward master
+                    if emanation_bridge is not None:
+                        eman_coh = emanation_bridge.coherence
+                        if eman_coh < 0.5:
+                            boost = min(
+                                0.02,
+                                steersman.max_spectral - steersman._spectral_weight,
+                            )
+                            steersman._spectral_weight = min(
+                                steersman._spectral_weight + boost,
+                                steersman.max_spectral,
+                            )
+                            state.control_signals["emanation"] = (
+                                f"FRAGMENTING (coherence={eman_coh:.4f}), "
+                                f"spec_reg +{boost:.4f}"
+                            )
+                        else:
+                            state.control_signals["emanation"] = (
+                                f"COHERENT ({eman_coh:.4f})"
+                            )
 
                     # Print Steersman report
                     co_str = (
                         f"{state.co_cross_ratio:.3f}" if state.co_cross_ratio
                         else "N/A"
                     )
+                    eman_str = ""
+                    if emanation_bridge is not None:
+                        eman_str = (
+                            f"    Emanation:     {emanation_bridge.coherence:.4f}\n"
+                        )
                     print(
                         f"\n  {'='*60}\n"
                         f"  STEERSMAN @ step {global_step}\n"
@@ -768,6 +902,7 @@ def train_cybernetic(
                         f"    Co/Cross:      {co_str} (trend: {state.co_cross_trend:+.5f})\n"
                         f"    Deviation:     {state.deviation_mean:.5f} (trend: {state.deviation_trend:+.5f})\n"
                         f"    Eff rank:      {state.grad_eff_rank:.2f}\n"
+                        f"{eman_str}"
                         f"  Loss Components:\n"
                         f"    LM:            {avg_lm:.4f}\n"
                         f"    Val:           {val_loss:.4f}\n"
@@ -795,6 +930,7 @@ def train_cybernetic(
                         output_dir, config, checkpoints, feedback_log,
                         trainable_params, total_params, bridge_params,
                         injected,
+                        emanation_bridge=emanation_bridge,
                     )
 
                 if global_step >= total_steps:
@@ -805,7 +941,16 @@ def train_cybernetic(
         output_dir, config, checkpoints, feedback_log,
         trainable_params, total_params, bridge_params,
         injected,
+        emanation_bridge=emanation_bridge,
     )
+
+    # Optionally merge LoRA+bridge into base and save as HF model
+    if save_merged:
+        print("\nMerging LoRA+bridge into base model for lm-eval...")
+        merged_dir = merge_and_save(model, injected, output_dir)
+        # Also save the tokenizer so lm-eval can load it
+        tokenizer.save_pretrained(merged_dir)
+        print(f"  Merged model ready at {merged_dir}")
 
     elapsed = time.time() - start_time
     print(f"\nExperiment 3.0 COMPLETE")
@@ -838,6 +983,7 @@ def _save_results(
     output_dir, config, checkpoints, feedback_log,
     trainable_params, total_params, bridge_params,
     injected,
+    emanation_bridge=None,
 ):
     """Save all results with cybernetic metadata."""
     results = {
@@ -858,8 +1004,73 @@ def _save_results(
         safe = name.replace(".", "_")
         np.save(
             output_dir / f"bridge_final_{safe}.npy",
-            lora.bridge.detach().cpu().numpy(),
+            lora.effective_bridge.detach().cpu().numpy(),
         )
+    # Save final emanation master bridge
+    if emanation_bridge is not None:
+        np.save(
+            output_dir / "bridge_emanation_master_final.npy",
+            emanation_bridge.master.detach().cpu().numpy(),
+        )
+
+    # Save adapter state dict (lora_A, bridge, lora_B per layer — compact)
+    adapter_state = {}
+    for name, lora in injected.items():
+        safe = name.replace(".", "_")
+        adapter_state[f"{safe}.lora_A"] = lora.lora_A.detach().cpu()
+        adapter_state[f"{safe}.lora_B"] = lora.lora_B.detach().cpu()
+        adapter_state[f"{safe}.bridge"] = lora.effective_bridge.detach().cpu()
+        adapter_state[f"{safe}.scaling"] = torch.tensor(lora.scaling)
+        adapter_state[f"{safe}.n_channels"] = torch.tensor(lora.n_channels)
+        adapter_state[f"{safe}.rank"] = torch.tensor(lora.rank)
+    torch.save(adapter_state, output_dir / "adapter_state.pt")
+    print(f"  Saved adapter state ({len(injected)} layers)")
+
+
+def merge_and_save(model, injected, output_dir):
+    """Merge LoRA+bridge deltas into base weights and save as HF model.
+
+    This produces a standard HuggingFace model that lm-eval can load directly.
+    The delta for each adapted layer is: scaling * lora_B @ bridge_expanded @ lora_A
+    where bridge_expanded is the block-diagonal expansion of the n×n bridge to rank×rank.
+    """
+    import copy
+    merged = copy.deepcopy(model)
+
+    for name, lora in injected.items():
+        # Navigate to the LoRAWrappedLinear and get the base layer
+        parts = name.split(".")
+        parent = merged
+        for p in parts[:-1]:
+            parent = getattr(parent, p)
+        wrapped = getattr(parent, parts[-1])
+        base_linear = wrapped.base if hasattr(wrapped, 'base') else wrapped
+
+        # Compute expanded bridge: (rank, rank) block-diagonal
+        bridge = lora.effective_bridge.detach().float()  # (C, C)
+        C, R = lora.n_channels, lora.channel_size
+        bridge_expanded = torch.zeros(lora.rank, lora.rank)
+        for i in range(C):
+            for j in range(C):
+                bridge_expanded[i*R:(i+1)*R, j*R:(j+1)*R] = bridge[i, j] * torch.eye(R)
+
+        # delta_W = scaling * lora_B @ bridge_expanded @ lora_A
+        lora_A = lora.lora_A.detach().float()   # (rank, in_features)
+        lora_B = lora.lora_B.detach().float()   # (out_features, rank)
+        delta_W = lora.scaling * (lora_B @ bridge_expanded @ lora_A)
+
+        # Merge into base weight
+        base_linear.weight.data += delta_W.to(base_linear.weight.dtype).to(base_linear.weight.device)
+
+        # Replace the wrapped module with the plain base linear
+        setattr(parent, parts[-1], base_linear)
+
+    # Save merged model
+    merged_dir = output_dir / "merged_model"
+    merged_dir.mkdir(parents=True, exist_ok=True)
+    merged.save_pretrained(merged_dir)
+    print(f"  Saved merged model to {merged_dir}")
+    return merged_dir
 
 
 # ── CLI ──────────────────────────────────────────────────────────────
@@ -914,13 +1125,60 @@ def main():
     parser.add_argument(
         "--seed", type=int, default=42,
     )
+    parser.add_argument(
+        "--bridge-mode", type=str, default="identity",
+        choices=["identity", "geometric", "corpus", "corpus_coupled"],
+        help="Bridge initialization mode",
+    )
+    parser.add_argument(
+        "--n-channels", type=int, default=6,
+        help="Number of bridge channels (default 6 = FCC direction pairs)",
+    )
+    parser.add_argument(
+        "--steersman-preset", type=str, default="default",
+        choices=["default", "corpus"],
+        help="Steersman parameter preset. 'corpus' uses tighter thresholds "
+             "calibrated to corpus-coupled bridge dynamics.",
+    )
+    parser.add_argument(
+        "--dynamic-bridge", action="store_true",
+        help="Enable input-dependent dynamic bridge gating (L9 prototype)",
+    )
+    parser.add_argument(
+        "--gate-temperature-start", type=float, default=5.0,
+        help="Initial gate temperature for dynamic bridge (default 5.0, soft)",
+    )
+    parser.add_argument(
+        "--gate-temperature-end", type=float, default=0.1,
+        help="Final gate temperature for dynamic bridge (default 0.1, hard)",
+    )
+    parser.add_argument(
+        "--contrastive-topology", type=str, default="auto",
+        choices=["auto", "wrong-labels", "resonance"],
+        help="Contrastive pair topology. 'auto' selects based on n-channels "
+             "(n=6→RD, n=8→tesseract). 'wrong-labels' uses random partition "
+             "of 6 channels (tests whether RD geometry is special). "
+             "'resonance' uses prime-threading topology from the corpus "
+             "(Sophie Germain, consecutive primes, mod-6 residue).",
+    )
+    parser.add_argument(
+        "--emanation", action="store_true",
+        help="Enable emanation architecture: a single master bridge emanates "
+             "into per-layer bridges via learned additive offsets. "
+             "The One produces without diminishing.",
+    )
+    parser.add_argument(
+        "--save-merged", action="store_true",
+        help="After training, merge LoRA+bridge into base model and save as "
+             "standard HuggingFace model for lm-eval benchmarking.",
+    )
     args = parser.parse_args()
 
     config = ExperimentConfig(
-        name="exp3_cybernetic_bridge",
+        name=f"exp3_cybernetic_{args.bridge_mode}",
         rank=24,
-        n_channels=6,
-        bridge_mode="identity",
+        n_channels=args.n_channels,
+        bridge_mode=args.bridge_mode,
         bridge_trainable=True,
         model_name=args.model,
         max_steps=args.max_steps,
@@ -930,15 +1188,36 @@ def main():
         warmup_steps=args.warmup_steps,
         checkpoint_steps=args.checkpoint_steps,
         seed=args.seed,
+        dynamic_bridge=args.dynamic_bridge,
+        gate_temperature_start=args.gate_temperature_start,
+        gate_temperature_end=args.gate_temperature_end,
     )
+
+    # Steersman preset: corpus uses tighter thresholds derived from
+    # Fiedler ~0.10 convergence point and corpus-coupled init dynamics
+    steersman_kwargs = {}
+    if args.steersman_preset == "corpus":
+        steersman_kwargs = dict(
+            initial_spectral_target=0.1,
+            fiedler_decline_threshold=-0.000894,
+            co_cross_stagnation_band=0.00957,
+            deviation_rate_threshold=0.04677,
+        )
 
     train_cybernetic(
         config,
         Path(args.output),
         feedback_interval=args.feedback_interval,
+        contrastive_topology=args.contrastive_topology,
         initial_contrastive=args.initial_contrastive,
         initial_spectral=args.initial_spectral,
-        initial_spectral_target=args.spectral_target,
+        initial_spectral_target=(
+            steersman_kwargs.get("initial_spectral_target", args.spectral_target)
+        ),
+        emanation=args.emanation,
+        save_merged=args.save_merged,
+        **{k: v for k, v in steersman_kwargs.items()
+           if k != "initial_spectral_target"},
     )
 
 

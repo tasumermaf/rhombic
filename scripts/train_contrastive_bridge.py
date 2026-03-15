@@ -71,29 +71,78 @@ from train_exp2_scale import (
 # ── Co-planar / cross-planar pair indices from RD topology ────────────
 
 
-def _compute_pair_indices() -> tuple[list[tuple[int, int]], list[tuple[int, int]]]:
-    """Derive co-planar and cross-planar channel pairs from RD geometry.
+def _compute_pair_indices(
+    n_channels: int = 6,
+    topology: str = "auto",
+) -> tuple[list[tuple[int, int]], list[tuple[int, int]]]:
+    """Derive co-planar and cross-planar channel pairs from geometry.
 
-    Co-planar pairs share 4 octahedral vertices (same axis-plane).
+    For n=6 (RD): Co-planar pairs share 4 octahedral vertices (same axis-plane).
     Cross-planar pairs share 2 octahedral vertices (across planes).
+    3 co-planar, 12 cross-planar.
+
+    For n=8 (tesseract): Co-axial pairs along 4 coordinate axes of the 4D
+    hypercube: (0,1)=±w, (2,3)=±x, (4,5)=±y, (6,7)=±z.
+    4 co-axial, 24 cross-axial.
+
+    topology='resonance': Uses prime-threading topology instead of geometry.
+    Delegates to _compute_resonance_pairs(). Only valid for n=6.
 
     Returns (co_planar, cross_planar) as lists of (i, j) index pairs.
     """
-    coupling = direction_pair_coupling()
-    co_planar: list[tuple[int, int]] = []
-    cross_planar: list[tuple[int, int]] = []
-    n = coupling.shape[0]
-    for i in range(n):
-        for j in range(i + 1, n):
-            if coupling[i, j] >= 4:
-                co_planar.append((i, j))
-            else:
-                cross_planar.append((i, j))
-    return co_planar, cross_planar
+    if topology == "resonance":
+        return _compute_resonance_pairs(n_channels)
+    if n_channels == 6:
+        coupling = direction_pair_coupling()
+        co_planar: list[tuple[int, int]] = []
+        cross_planar: list[tuple[int, int]] = []
+        n = coupling.shape[0]
+        for i in range(n):
+            for j in range(i + 1, n):
+                if coupling[i, j] >= 4:
+                    co_planar.append((i, j))
+                else:
+                    cross_planar.append((i, j))
+        return co_planar, cross_planar
+    elif n_channels == 8:
+        # Tesseract geometry: 8 cubic cells pair into 4 opposite pairs
+        # along 4 coordinate axes of the 4D hypercube
+        coaxial = [(0, 1), (2, 3), (4, 5), (6, 7)]
+        coaxial_set = set(coaxial)
+        crossaxial = [
+            (i, j) for i in range(8) for j in range(i + 1, 8)
+            if (i, j) not in coaxial_set
+        ]
+        return coaxial, crossaxial
+    else:
+        return [], []
 
 
-# Precompute once at module load
-_CO_PLANAR_PAIRS, _CROSS_PLANAR_PAIRS = _compute_pair_indices()
+def _compute_wrong_label_pairs(seed: int = 42) -> tuple[list[tuple[int, int]], list[tuple[int, int]]]:
+    """Random partition of 6 channels into 3 pairs (WRONG labels).
+
+    Tests whether the bridge accepts arbitrary topology or whether RD is special.
+    Uses a fixed seed for reproducibility. The partition is random — NOT aligned
+    with RD face pairs.
+    """
+    import random
+    rng = random.Random(seed)
+    channels = list(range(6))
+    rng.shuffle(channels)
+    # Partition into 3 random pairs
+    wrong_co = [(channels[0], channels[1]), (channels[2], channels[3]), (channels[4], channels[5])]
+    # Normalize pair ordering
+    wrong_co = [tuple(sorted(p)) for p in wrong_co]
+    wrong_co_set = set(wrong_co)
+    wrong_cross = [
+        (i, j) for i in range(6) for j in range(i + 1, 6)
+        if (i, j) not in wrong_co_set
+    ]
+    return wrong_co, wrong_cross
+
+
+# Precompute RD pairs at module load (backward compat)
+_CO_PLANAR_PAIRS, _CROSS_PLANAR_PAIRS = _compute_pair_indices(6)
 
 
 # ── Contrastive loss ──────────────────────────────────────────────────
@@ -109,14 +158,22 @@ def contrastive_bridge_loss(
     L = -(mean(|B[co_planar]|) - mean(|B[cross_planar]|))
 
     Averaged across all adapters. Returns a scalar tensor with grad.
+    Works for any n where co_pairs and cross_pairs are defined
+    (n=6 RD geometry, n=8 tesseract geometry).
     """
     device = next(iter(injected.values())).bridge.device
     total_loss = torch.tensor(0.0, device=device)
 
+    if not co_pairs or not cross_pairs:
+        return total_loss
+
+    count = 0
     for lora in injected.values():
         B = lora.bridge
-        if B.shape[0] != 6:
-            continue  # Only meaningful for 6-channel bridges
+        # Validate that pair indices are within bridge dimensions
+        max_idx = max(max(i, j) for i, j in co_pairs + cross_pairs)
+        if B.shape[0] <= max_idx:
+            continue
 
         co_vals = torch.stack([B[i, j].abs() for i, j in co_pairs])
         cross_vals = torch.stack([B[i, j].abs() for i, j in cross_pairs])
@@ -126,8 +183,97 @@ def contrastive_bridge_loss(
 
         # Negative: we MAXIMIZE co - cross (minimize the negative)
         total_loss = total_loss - (co_mean - cross_mean)
+        count += 1
 
-    return total_loss / max(len(injected), 1)
+    return total_loss / max(count, 1)
+
+
+# ── Circular resonance loss (prime threading topology) ────────────
+
+
+# Prime threading from the corpus
+CORPUS_PRIMES = [67, 23, 29, 17, 19, 31, 11, 89]
+
+
+def _compute_resonance_pairs(
+    n_channels: int = 6,
+) -> tuple[list[tuple[int, int]], list[tuple[int, int]]]:
+    """Compute resonant and orthogonal channel pairs from corpus prime threading.
+
+    Channel-to-prime assignment: {0: 11, 1: 67, 2: 23, 3: 31, 4: 29, 5: 17}
+
+    Three resonance criteria define the resonant pairs:
+      - Sophie Germain: 2*11 + 1 = 23  =>  channels (0, 2) resonate
+      - Consecutive primes: (29, 31)    =>  channels (4, 3) = (3, 4) resonate
+      - Same residue mod 6: 11 ≡ 5, 17 ≡ 5  =>  channels (0, 5) resonate
+
+    All other pairs from range(6) are orthogonal (no prime-theoretic bond).
+
+    Returns (resonant_pairs, orthogonal_pairs).
+    """
+    if n_channels != 6:
+        return [], []
+
+    # Channel prime assignments (from corpus.py CHANNEL_PRIME_MAP)
+    # {0: 11, 1: 67, 2: 23, 3: 31, 4: 29, 5: 17}
+
+    # Resonant pairs from prime-theoretic relationships:
+    #   Sophie Germain: 2(11)+1 = 23  => (0, 2)
+    #   Consecutive primes: (29, 31)  => (3, 4)  [sorted: 3 < 4]
+    #   Same residue mod 6: 11 % 6 = 5, 17 % 6 = 5  => (0, 5)
+    resonant_pairs: list[tuple[int, int]] = [(0, 2), (3, 4), (0, 5)]
+
+    resonant_set = set(resonant_pairs)
+    orthogonal_pairs: list[tuple[int, int]] = [
+        (i, j) for i in range(6) for j in range(i + 1, 6)
+        if (i, j) not in resonant_set
+    ]
+
+    return resonant_pairs, orthogonal_pairs
+
+
+def circular_resonance_loss(
+    injected: dict,  # dict[str, RhombiLoRALinear]
+    resonant_pairs: list[tuple[int, int]],
+    orthogonal_pairs: list[tuple[int, int]],
+) -> torch.Tensor:
+    """Circular resonance loss: encourage prime-threaded channels to correlate.
+
+    Works exactly like contrastive_bridge_loss but with resonant/orthogonal
+    pairs instead of co-planar/cross-planar. Resonant pairs (channels whose
+    primes share a number-theoretic relationship) are pushed toward high
+    coupling; orthogonal pairs (no prime relationship) toward low coupling.
+
+    L = -(mean(|B[resonant]|) - mean(|B[orthogonal]|))
+
+    Averaged across all adapters. Returns a scalar tensor with grad.
+    """
+    device = next(iter(injected.values())).bridge.device
+    total_loss = torch.tensor(0.0, device=device)
+
+    if not resonant_pairs or not orthogonal_pairs:
+        return total_loss
+
+    count = 0
+    for lora in injected.values():
+        B = lora.bridge
+        max_idx = max(max(i, j) for i, j in resonant_pairs + orthogonal_pairs)
+        if B.shape[0] <= max_idx:
+            continue
+
+        res_vals = torch.stack([B[i, j].abs() for i, j in resonant_pairs])
+        orth_vals = torch.stack([B[i, j].abs() for i, j in orthogonal_pairs])
+
+        res_mean = res_vals.mean()
+        orth_mean = orth_vals.mean()
+
+        total_loss = total_loss - (res_mean - orth_mean)
+        count += 1
+
+    return total_loss / max(count, 1)
+
+
+# ── Contrastive scheduling ──────────────────────────────────────────
 
 
 def contrastive_weight(

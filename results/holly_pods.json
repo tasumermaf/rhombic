@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ku57em9ko4ac2x",
+    "name": "holly-ctrl-s42",
+    "config": "control",
+    "seed": 42
+  },
+  {
+    "id": "aybdjh0chqm2g4",
+    "name": "holly-ctrl-s123",
+    "config": "control",
+    "seed": 123
+  },
+  {
+    "id": "7trt449enqipmr",
+    "name": "holly-ctrl-s456",
+    "config": "control",
+    "seed": 456
+  },
+  {
+    "id": "nagjuyp22j8tqw",
+    "name": "holly-rhombi-s42",
+    "config": "rhombi",
+    "seed": 42
+  },
+  {
+    "id": "upyyxx6ocaeuxt",
+    "name": "holly-rhombi-s123",
+    "config": "rhombi",
+    "seed": 123
+  },
+  {
+    "id": "r1ao6zjz02yfug",
+    "name": "holly-rhombi-s456",
+    "config": "rhombi",
+    "seed": 456
+  }
+]

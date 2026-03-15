@@ -1,9 +1,33 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{26}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aghajanyan et~al.(2021)Aghajanyan, Gupta, and
+  Zettlemoyer]{aghajanyan2021}
+Armen Aghajanyan, Sonal Gupta, and Luke Zettlemoyer.
+\newblock Intrinsic dimensionality explains the effectiveness of language model
+  fine-tuning.
+\newblock \emph{arXiv preprint arXiv:2012.13255}, 2021.
+
+\bibitem[Amer and Maul(2019)]{amer2019modular}
+Mohammed Amer and Tom{\'a}s Maul.
+\newblock A review of modularization techniques in artificial neural networks.
+\newblock \emph{Artificial Intelligence Review}, 52:\penalty0 527--561, 2019.
+
+\bibitem[Andrychowicz et~al.(2016)Andrychowicz, Denil, Gomez, Hoffman, Pfau,
+  Schaul, Shillingford, and de~Freitas]{andrychowicz2016}
+Marcin Andrychowicz, Misha Denil, Sergio Gomez, Matthew~W. Hoffman, David Pfau,
+  Tom Schaul, Brendan Shillingford, and Nando de~Freitas.
+\newblock Learning to learn by gradient descent by gradient descent.
+\newblock \emph{Advances in Neural Information Processing Systems}, 29, 2016.
+
+\bibitem[Ashby(1956)]{ashby1956}
+W.~Ross Ashby.
+\newblock \emph{An Introduction to Cybernetics}.
+\newblock Chapman \& Hall, London, 1956.
 
 \bibitem[Banaei et~al.(2024)Banaei, Meister, Kurz, and
   Cotterell]{banaei2024loraxs}
@@ -12,53 +36,91 @@ Klaudia Banaei, Niklas Meister, David Kurz, and Ryan Cotterell.
   parameters.
 \newblock \emph{arXiv preprint arXiv:2405.17604}, 2024.
 
-\bibitem[Biderman et~al.(2024)Biderman, Portes, Ortiz, Paul, Greengard,
-  Jennings, King, Havens, Chiley, Frankle, et~al.]{biderman2024lora}
-Dan Biderman, Jacob Portes, Jose Javier~Gonzalez Ortiz, Mansheej Paul, Philip
-  Greengard, Connor Jennings, Daniel King, Sam Havens, Vitaliy Chiley, Jonathan
-  Frankle, et~al.
-\newblock Lora learns less and forgets less.
-\newblock \emph{arXiv preprint arXiv:2405.09673}, 2024.
+\bibitem[Beer(1972)]{beer1972}
+Stafford Beer.
+\newblock \emph{Brain of the Firm}.
+\newblock Allen Lane, The Penguin Press, London, 1972.
+\newblock ISBN 978-0-471-94839-2.
 
-\bibitem[Bielec(2026{\natexlab{a}})]{rhombilora_paper1}
+\bibitem[Bielec(2026{\natexlab{a}})]{bielec2026shape}
 Timothy~Paul Bielec.
 \newblock The shape of the cell: Empirical comparison of cubic and {FCC}
-  lattice topologies.
-\newblock \emph{arXiv preprint}, 2026{\natexlab{a}}.
-\newblock In preparation.
+  lattice topologies across graph theory, spatial operations, signal
+  processing, and embedding retrieval.
+\newblock Promptcrafted LLC. Available at
+  \url{https://github.com/promptcrafted/rhombic}, 2026{\natexlab{a}}.
 
-\bibitem[Bielec(2026{\natexlab{b}})]{rhombilora_paper2}
+\bibitem[Bielec(2026{\natexlab{b}})]{bielec2026weights}
 Timothy~Paul Bielec.
 \newblock Structured edge weights amplify {FCC} lattice topology advantages via
   bottleneck resilience.
-\newblock \emph{arXiv preprint}, 2026{\natexlab{b}}.
-\newblock In preparation.
+\newblock Promptcrafted LLC. Available at
+  \url{https://github.com/promptcrafted/rhombic}, 2026{\natexlab{b}}.
 
-\bibitem[Fiedler(1973)]{fiedler1973algebraic}
+\bibitem[Clune et~al.(2013)Clune, Mouret, and Lipson]{clune2013}
+Jeff Clune, Jean-Baptiste Mouret, and Hod Lipson.
+\newblock The evolutionary origins of modularity.
+\newblock \emph{Proceedings of the Royal Society B}, 280\penalty0
+  (1755):\penalty0 20122863, 2013.
+
+\bibitem[Conway and Sloane(1999)]{conway1999}
+John~H. Conway and Neil J.~A. Sloane.
+\newblock \emph{Sphere Packings, Lattices and Groups}.
+\newblock Springer-Verlag, New York, 3rd edition, 1999.
+\newblock ISBN 978-0-387-98585-5.
+
+\bibitem[Fedus et~al.(2022)Fedus, Zoph, and Shazeer]{fedus2022switch}
+William Fedus, Barret Zoph, and Noam Shazeer.
+\newblock Switch transformers: Scaling to trillion parameter models with simple
+  and efficient sparsity.
+\newblock \emph{Journal of Machine Learning Research}, 23\penalty0
+  (120):\penalty0 1--39, 2022.
+
+\bibitem[Fiedler(1973)]{fiedler1973}
 Miroslav Fiedler.
 \newblock Algebraic connectivity of graphs.
 \newblock \emph{Czechoslovak Mathematical Journal}, 23\penalty0 (2):\penalty0
   298--305, 1973.
+\newblock \doi{10.21136/CMJ.1973.101168}.
 
-\bibitem[He et~al.(2015)He, Zhang, Ren, and Sun]{he2015delving}
-Kaiming He, Xiangyu Zhang, Shaoqing Ren, and Jian Sun.
-\newblock Delving deep into rectifiers: Surpassing human-level performance on
-  {ImageNet} classification.
-\newblock In \emph{ICCV}, 2015.
+\bibitem[Frankle and Carlin(2019)]{frankle2019lottery}
+Jonathan Frankle and Michael Carlin.
+\newblock The lottery ticket hypothesis: Finding sparse, trainable neural
+  networks.
+\newblock \emph{arXiv preprint arXiv:1803.03635}, 2019.
 
 \bibitem[Hu et~al.(2022)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and
   Chen]{hu2022lora}
 Edward~J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean
   Wang, Lu~Wang, and Weizhu Chen.
-\newblock Lora: Low-rank adaptation of large language models.
+\newblock {LoRA}: Low-rank adaptation of large language models.
 \newblock \emph{arXiv preprint arXiv:2106.09685}, 2022.
 
-\bibitem[Ilharco et~al.(2023)Ilharco, Ribeiro, Wortsman, Gururangan, Schmidt,
-  Hajishirzi, and Farhadi]{ilharco2023editing}
-Gabriel Ilharco, Marco~Tulio Ribeiro, Mitchell Wortsman, Suchin Gururangan,
-  Ludwig Schmidt, Hannaneh Hajishirzi, and Ali Farhadi.
-\newblock Editing models with task arithmetic.
-\newblock \emph{arXiv preprint arXiv:2212.04089}, 2023.
+\bibitem[Huang et~al.(2023)Huang, Liu, Lin, Pang, Du, and
+  Lin]{huang2023lorahub}
+Chengsong Huang, Qian Liu, Bill~Yuchen Lin, Tianyu Pang, Chao Du, and Min Lin.
+\newblock {LoRAHub}: Efficient cross-task generalization via dynamic {LoRA}
+  composition.
+\newblock \emph{arXiv preprint arXiv:2307.13269}, 2023.
+
+\bibitem[Lepikhin et~al.(2021)Lepikhin, Lee, Xu, Chen, Firat, Huang, Krikun,
+  Shazeer, and Chen]{lepikhin2021gshard}
+Dmitry Lepikhin, HyoukJoong Lee, Yuanzhong Xu, Dehao Chen, Orhan Firat, Yanping
+  Huang, Maxim Krikun, Noam Shazeer, and Zhifeng Chen.
+\newblock {GShard}: Scaling giant models with conditional computation and
+  automatic sharding.
+\newblock \emph{arXiv preprint arXiv:2006.16668}, 2021.
+
+\bibitem[Li et~al.(2018)Li, Xu, Taylor, Studer, and
+  Goldstein]{li2018visualizing}
+Hao Li, Zheng Xu, Gavin Taylor, Christoph Studer, and Tom Goldstein.
+\newblock Visualizing the loss landscape of neural nets.
+\newblock \emph{Advances in Neural Information Processing Systems}, 31, 2018.
+
+\bibitem[Li et~al.(2024)Li, Li, and Wang]{li2024moe}
+Xun Li, Yue Li, and Bin Wang.
+\newblock Mixture of {LoRA} experts.
+\newblock \emph{arXiv preprint arXiv:2404.13628}, 2024.
 
 \bibitem[Liu et~al.(2024)Liu, Wang, Yin, Molchanov, Wang, Cheng, and
   Chen]{liu2024dora}
@@ -66,12 +128,6 @@ Shih-Yang Liu, Chien-Yi Wang, Hongxu Yin, Pavlo Molchanov, Yu-Chiang~Frank
   Wang, Kwang-Ting Cheng, and Min-Hung Chen.
 \newblock {DoRA}: Weight-decomposed low-rank adaptation.
 \newblock \emph{arXiv preprint arXiv:2402.09353}, 2024.
-
-\bibitem[Putterman et~al.(2024)Putterman, Maile, and
-  Lawrence]{putterman2024learning}
-Eli Putterman, Kaitlin Maile, and David~J. Lawrence.
-\newblock Learning group actions on latent representations.
-\newblock \emph{arXiv preprint arXiv:2402.09366}, 2024.
 
 \bibitem[Ren et~al.(2024)Ren, Shi, Wu, Zhang, Zhuang, Ren, and
   de~Rijke]{ren2024melora}
@@ -81,6 +137,11 @@ Pengjie Ren, Chengshun Shi, Shiguang Wu, Mengqi Zhang, Zhaochun Zhuang,
   fine-tuning.
 \newblock \emph{arXiv preprint arXiv:2402.17263}, 2024.
 
+\bibitem[Smith(2017)]{smith2017cyclical}
+Leslie~N. Smith.
+\newblock Cyclical learning rates for training neural networks.
+\newblock \emph{arXiv preprint arXiv:1506.01186}, 2017.
+
 \bibitem[Taori et~al.(2023)Taori, Gulrajani, Zhang, Dubois, Li, Guestrin,
   Liang, and Hashimoto]{alpaca}
 Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos
@@ -89,24 +150,16 @@ Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos
 \newblock 2023.
 \newblock URL \url{https://github.com/tatsu-lab/stanford_alpaca}.
 
-\bibitem[Yadav et~al.(2023)Yadav, Tam, Choshen, Raffel, and
-  Bansal]{yadav2023ties}
-Prateek Yadav, Derek Tam, Leshem Choshen, Colin Raffel, and Mohit Bansal.
-\newblock {TIES-Merging}: Resolving interference when merging models.
-\newblock \emph{arXiv preprint arXiv:2306.01708}, 2023.
+\bibitem[Wang et~al.(2024)Wang, Gupta, and Roth]{wang2024multihead}
+Lucas Wang, Ankur Gupta, and Dan Roth.
+\newblock Multi-head adapter routing for cross-task generalization.
+\newblock \emph{arXiv preprint arXiv:2211.03831}, 2024.
 
-\bibitem[Yang et~al.(2024)Yang, Shen, Wang, Guo, Chen, Wang, and
-  Tao]{yang2024adamerging}
-Enneng Yang, Li~Shen, Zhenyi Wang, Guibing Guo, Xiaojun Chen, Xingwei Wang, and
-  Dacheng Tao.
-\newblock {AdaMerging}: Adaptive model merging for multi-task learning.
-\newblock \emph{arXiv preprint arXiv:2310.02575}, 2024.
-
-\bibitem[Yu et~al.(2024)Yu, Yu, Yu, Huang, and Li]{yu2024dare}
-Le~Yu, Bowen Yu, Haiyang Yu, Fei Huang, and Yongbin Li.
-\newblock Language models are super {Mario}: Absorbing abilities from
-  homologous models as a free lunch.
-\newblock \emph{arXiv preprint arXiv:2311.03099}, 2024.
+\bibitem[Wiener(1948)]{wiener1948}
+Norbert Wiener.
+\newblock \emph{Cybernetics: Or Control and Communication in the Animal and the
+  Machine}.
+\newblock MIT Press, Cambridge, MA, 1948.
 
 \bibitem[Zhang et~al.(2023)Zhang, Chen, Bukharin, He, Cheng, Chen, and
   Zhao]{zhang2023adalora}
@@ -115,5 +168,10 @@ Qingru Zhang, Minshuo Chen, Alexander Bukharin, Pengcheng He, Yu~Cheng, Weizhu
 \newblock {AdaLoRA}: Adaptive budget allocation for parameter-efficient
   fine-tuning.
 \newblock \emph{arXiv preprint arXiv:2303.10512}, 2023.
+
+\bibitem[Zoph and Le(2017)]{zoph2017neural}
+Barret Zoph and Quoc~V. Le.
+\newblock Neural architecture search with reinforcement learning.
+\newblock \emph{arXiv preprint arXiv:1611.01578}, 2017.
 
 \end{thebibliography}
