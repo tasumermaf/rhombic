@@ -1,7 +1,7 @@
-# RhombiLoRA for Video LoRA Builders
+# TeLoRA for Video LoRA Builders
 
 > A bridge document for Minta Carlson and anyone who trains LoRA adapters
-> and wants to understand what RhombiLoRA gives them.
+> and wants to understand what TeLoRA gives them.
 
 ---
 
@@ -28,7 +28,7 @@ internal structure without running inference.
 
 ---
 
-## 2. What RhombiLoRA Adds
+## 2. What TeLoRA Adds
 
 One thing. A small learnable matrix -- the **bridge** -- that sits
 between A and B.
@@ -38,7 +38,7 @@ Standard LoRA:
 input -> A (down) -> B (up) -> output
 ```
 
-RhombiLoRA:
+TeLoRA:
 ```
 input -> A (down) -> bridge (6x6) -> B (up) -> output
 ```
@@ -111,17 +111,17 @@ with each other.
 
 Drop-in replacement. In `flimmer/training/wan/`, where Wan's transformer
 blocks get their LoRA layers injected, you replace `LoRALinear` with
-`RhombiLoRALinear`. The constructor takes the same `in_features`,
+`TeLoRALinear`. The constructor takes the same `in_features`,
 `out_features`, and `rank` arguments. Add `n_channels=6`. Done.
 
 ```python
-from rhombic.nn import RhombiLoRALinear
+from rhombic.nn import TeLoRALinear
 
 # Instead of:
 # layer = LoRALinear(in_features=4096, out_features=4096, rank=24)
 
 # Use:
-layer = RhombiLoRALinear(
+layer = TeLoRALinear(
     in_features=4096,
     out_features=4096,
     rank=24,        # must be divisible by n_channels
@@ -162,7 +162,7 @@ required.
 
 ## 5. The Three Numbers
 
-**4.6x** -- The cross-channel coupling advantage of 6-channel (RhombiLoRA)
+**4.6x** -- The cross-channel coupling advantage of 6-channel (TeLoRA)
 over 3-channel (cubic) bridge topology. More coupling means a richer,
 more readable diagnostic signal from fewer parameters.
 
@@ -175,4 +175,4 @@ oscilloscope reading of your adapter's internal structure, for the price
 of a rounding error.
 
 The bridge is a 6x6 oscilloscope reading of your adapter's internal
-coupling. Standard LoRA is flying blind. RhombiLoRA gives you instruments.
+coupling. Standard LoRA is flying blind. TeLoRA gives you instruments.

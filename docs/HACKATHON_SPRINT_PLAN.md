@@ -5,7 +5,7 @@
 > **Prizes:** $7,500 / $2,000 / $500
 > **Judging:** Creativity, usefulness, and presentation
 > **Submission:** Tweet @NousResearch with video demo + brief writeup → post tweet link to Discord #hermes-agent-hackathon-submissions
-> **Team:** Timothy Paul Bielec (Promptcrafted) + Minta Carlson (Alvdansen)
+> **Team:** Timothy Paul Bielec (TASUMER MAF) + Minta Carlson (Alvdansen)
 
 ---
 
@@ -61,7 +61,7 @@ the `rhombic` library through natural conversation:
   "what is a lattice" to "6.1× amplification" in conversational steps
 - `rhombic-experiment` — Run a custom experiment with user-specified
   parameters and explain results
-- `rhombic-lora-concept` — Explain the RhombiLoRA forward vision
+- `rhombic-lora-concept` — Explain the TeLoRA forward vision
   with analogies and diagrams
 
 **Context files:**
@@ -94,11 +94,11 @@ academic, visually stunning. Our aesthetic layer on top.
 5. **The Agent Demo** — Embedded video of the Hermes Agent in action.
    The agent runs experiments, generates visualizations, explains
    results. Conversational interaction demonstrating the tools.
-6. **The Forward Vision** — RhombiLoRA in 3 sentences. "The cube
+6. **The Forward Vision** — TeLoRA in 3 sentences. "The cube
    isn't the enemy — it's the skeleton. The RD contains it. Your
    existing infrastructure is already Phase 1." One-liner on Karkada
    et al. [2026]: "Recent theory proves data symmetry determines
-   representation geometry. RhombiLoRA is the adapter that matches."
+   representation geometry. TeLoRA is the adapter that matches."
 7. **Try It** — `pip install rhombic` + link to HF Space + link to
    GitHub
 8. **Papers** — Links to Paper 1 and Paper 2 PDFs
@@ -117,7 +117,7 @@ Screen recording of the Hermes Agent in action:
 - Agent explains bottleneck resilience in plain language
 - Quick cut to the permutation control: "Is this just bin count? No.
   p = 0.001. It's alignment."
-- Close on the RhombiLoRA concept: "Keep your cube, add six bridges."
+- Close on the TeLoRA concept: "Keep your cube, add six bridges."
 
 Voiceover by Timothy (optional, adds personality). Background music
 if time allows. Screen recording + post in CapCut or similar.
@@ -277,7 +277,7 @@ ambitious without being hand-wavy — we have the numbers.
 with 256 tests. The agent makes it conversationally accessible. A
 researcher can ask "what happens to the Fiedler ratio at scale 2000
 with power-law weights?" and get a computed answer in seconds. The
-RhombiLoRA concept is a genuine forward contribution to ML architecture.
+TeLoRA concept is a genuine forward contribution to ML architecture.
 
 **Why this wins on presentation:** We have the aesthetic vocabulary
 (8-Law Weave), the website template inspiration (multigen), the
@@ -292,7 +292,7 @@ the judges excited too.
 
 | Item | Location | Status |
 |------|----------|--------|
-| rhombic library | `github.com/promptcrafted/rhombic` | Complete (v0.3.0) |
+| rhombic library | `github.com/tasumermaf/rhombic` | Complete (v0.3.0) |
 | Paper 1 | `rhombic/paper/rhombic-paper1.tex` | Published |
 | Paper 2 | `rhombic/paper/rhombic-paper2.tex` | Remediated, PDF built |
 | Paper 3 plan | `rhombic/docs/PAPER3_RESEARCH_PLAN.md` | Plan complete |
@@ -323,7 +323,7 @@ finished credential, not as active work.
 
 ## Paper 3 (After Hackathon)
 
-The full RhombiLoRA research plan (`PAPER3_RESEARCH_PLAN.md`) begins
+The full TeLoRA research plan (`PAPER3_RESEARCH_PLAN.md`) begins
 after the hackathon sprint. The hackathon demo is the proof-of-concept
 presentation. Paper 3 is the peer-reviewed follow-through.
 

@@ -15,7 +15,7 @@ The security surface is effectively zero.
 
 If you find a vulnerability (dependency issue, unexpected file access, etc.):
 
-**Email:** security@promptcrafted.com
+**Email:** timothy@promptcrafted.com
 
 Allow 72 hours for initial response. Do not open public issues for security concerns.
 

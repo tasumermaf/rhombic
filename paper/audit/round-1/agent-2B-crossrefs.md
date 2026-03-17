@@ -34,7 +34,7 @@ The subtitle is completely different. This will render as an incorrect title in 
 
 Line 111: "Prior work~\cite{bielec2026weights} established that untrained bridges learn task-discriminative structure: a leave-one-out SVM on 28 query-projection bridges (1,008 parameters) classifies task type at 84.5% accuracy..."
 
-Lines 273-278: "RhombiLoRA~\cite{bielec2026weights} introduces the bridge matrix... Paper~2 in this series established that the bridge learns task-discriminative structure: bridge fingerprints classify task type with 84.5% leave-one-out accuracy..."
+Lines 273-278: "TeLoRA~\cite{bielec2026weights} introduces the bridge matrix... Paper~2 in this series established that the bridge learns task-discriminative structure: bridge fingerprints classify task type with 84.5% leave-one-out accuracy..."
 
 **Paper 2's actual content** is entirely about weighted lattice topology benchmarks (7 experiments comparing FCC vs SC lattices under heterogeneous edge weights). It contains zero content about bridge matrices, SVM classification, task fingerprinting, or LoRA training. The word "bridge" appears only in the Future Work section (line 862) pointing forward to Paper 3.
 

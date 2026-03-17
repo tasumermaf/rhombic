@@ -10,7 +10,7 @@
 Low-rank adaptation (LoRA) decomposes weight updates into two projection
 matrices A and B, but provides no structured intermediate representation
 of how these projections interact. We introduce a learnable 6×6 coupling
-matrix — the *bridge* — between A and B in the RhombiLoRA architecture,
+matrix — the *bridge* — between A and B in the TeLoRA architecture,
 adding 36 parameters per adapter layer. Through systematic analysis of
 336 bridge matrices across three tasks (general instruction following,
 code generation, mathematical reasoning) on Qwen2.5-7B, we demonstrate

@@ -50,19 +50,19 @@ learnable $n \times n$ bridge matrix. We introduce the Steersman, a
 cybernetic feedback mechanism that monitors the bridge's spectral
 properties during training and encodes a geometric prior based on the
 rhombic dodecahedron's 3-axis coordinate system. Across 13 experiments
-spanning 1.1B--14B parameters, 60{,}000+ bridge matrices, and four
-model scales (Qwen~1.5B, TinyLlama~1.1B, Qwen~7B, Wan~2.1~14B), the
+spanning 1.1B--14B parameters, 60{,}000+ bridge matrices, and three
+model scales (TinyLlama~1.1B, Qwen~7B, Wan~2.1~14B), the
 Steersman at $n = 6$ produces 100\% block-diagonal bridge
 structure---three independent $2 \times 2$ blocks aligned with the RD
 coordinate axes---while non-cybernetic training produces 0\%.
-Block-diagonal lock-in occurs within 200 training steps and is
+Block-diagonal lock-in occurs within 300 training steps and is
 independent of initialization strategy, including initializations that
 actively oppose the target topology (I~Ching complementary trigrams
 suppressed 99.5\% in 900 steps). Channel-count ablation across
 $n \in \{3, 4, 6, 8\}$ reveals that the contrastive loss encoding RD
 face-pair geometry is necessary and sufficient at $n = 6$: with
 contrastive active, the co-planar/cross-planar coupling ratio reaches a
-peak of 82{,}854:1 and Bridge Fiedler eigenvalue collapses to 0.00009;
+peak of 82{,}154:1 and Bridge Fiedler eigenvalue collapses to 0.00009;
 at $n \in \{3, 4, 8\}$ (contrastive disabled), Bridge Fiedler converges
 to ${\sim}0.09$ with 0\% block structure---a $1{,}020\times$
 bifurcation. The discovered structure has effective dimensionality~3,
@@ -154,21 +154,21 @@ initialization strategies---identity (no bias), geometric (weak
 co-planar bias), and corpus-coupled (I~Ching complementary trigrams
 that actively oppose the target topology)---converge to the same final
 state: 100\% block-diagonal, co-planar/cross-planar ratios in the
-64{,}000:1--71{,}000:1 band, and validation loss within 0.13\% of
-each other. The corpus-coupled initialization starts with cross-planar
+64{,}000:1--71{,}000:1 band, and validation loss within 0.025\% of
+each other (C-002 and C-003 at 10{,}000 steps). The corpus-coupled initialization starts with cross-planar
 dominance; the Steersman inverts the coupling hierarchy within 75
 steps and suppresses the opposing structure by 99.5\% within 900
 steps (I~Ching complementary coupling:
 $0.029 \to 0.0001$). Initialization effects vanish within 200~steps.
 
-\textbf{Lock-in is fast.} Block-diagonal structure reaches 100\% by
-step~200 in all experiments. Cross-planar coupling decays
+\textbf{Lock-in is fast.} Block-diagonal structure reaches 100\% within
+the first 300~steps in all experiments. Cross-planar coupling decays
 exponentially with a half-life of 123~steps. Co-planar coupling grows
-linearly. The topology is selected in the first 200 steps; the
+linearly. The topology is selected in the first 300 steps; the
 remaining training deepens the separation, driving the
 co-planar/cross-planar ratio from ${\sim}200$:1 at lock-in to a peak
 of 82{,}854:1 (C-003, step~9{,}000) and a convergence band of
-${\sim}70{,}000$:1 at 10{,}000~steps.
+64{,}000:1--71{,}000:1 at 10{,}000~steps.
 
 \textbf{Task performance is orthogonal to bridge topology.} Validation
 loss at 10{,}000 steps is 0.4015--0.4022 across channel counts
@@ -600,7 +600,7 @@ spectral losses, reactive feedback---we turn to the experimental
 evidence.
 
 Table~\ref{tab:experiments} presents the complete experimental record.
-Across 13~experiments spanning four model scales, two training
+Across 13~experiments spanning three model scales, two training
 regimes, four channel counts, and three initialization strategies, the
 block-diagonal classification is binary: every cybernetic experiment
 at $n = 6$ produces 100\% block-diagonal bridge structure, and every
@@ -633,7 +633,7 @@ H1 & TinyLlama & 3 & identity & Yes & 10K & 0.4020 & N/A & N/A \\
 H2 & TinyLlama & 4 & identity & Yes & 10K & 0.4022 & ${\sim}1$:1 & 0\% \\
 H4 & TinyLlama & 8 & identity & Yes & 10K & 0.4024 & ${\sim}1$:1 & 0\% \\
 \midrule
-Holly & Wan 2.1 14B & 6 & identity & No & 10 ep & 1.493 & 1.07:1 & 0\% \\
+Holly & Wan 2.1 14B & 6 & identity & No & 50 ep & 1.552 & 1.07:1 & 0\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -652,8 +652,8 @@ Six non-cybernetic experiments contribute 570 final-state bridges.
 None exhibits block-diagonal structure. Co-planar/cross-planar ratios
 range from 0.99:1 to 1.07:1---statistically indistinguishable from
 uniform coupling. The Holly Battery experiment (Wan~2.1~14B, Prodigy
-optimizer, no Steersman) achieves 3.8\% lower loss than the non-RhombiLoRA baseline while using 9.15\,GB less VRAM and producing
-6\% faster inference, but its bridge matrices remain near-identity
+optimizer, no Steersman) achieves 3.8\% lower loss than the standard LoRA baseline while using 9.15\,GB less VRAM and
+6\% faster training, but its bridge matrices remain near-identity
 with $\rho = 1.07$:1. Performance benefits from multi-channel
 parameterization do not require---and do not induce---topological
 structure.
@@ -668,15 +668,15 @@ Figure~\ref{fig:cybernetic} shows the co-planar/cross-planar ratio on
 a logarithmic scale for all six experiments. Despite spanning two
 model scales and three initialization strategies, the trajectories
 are qualitatively identical: rapid exponential growth in the first
-200~steps, followed by sustained linear growth on the log scale. By
-step~200, every experiment exceeds $\rho = 100$:1. By step~1{,}000,
+300~steps, followed by sustained linear growth on the log scale. By
+step~300, every experiment exceeds $\rho = 100$:1. By step~1{,}000,
 every experiment exceeds $\rho = 5{,}000$:1.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\textwidth]{figures3/fig1-cybernetic-overview}
 \caption{Co-planar/cross-planar coupling ratio (log scale) for all
-  six cybernetic $n = 6$ experiments. Lock-in occurs by step~200.
+  six cybernetic $n = 6$ experiments. Lock-in ($\rho > 100$:1) occurs by step~300.
   Convergence band at 10{,}000~steps: 64{,}168:1--71{,}337:1. Peak:
   82{,}854:1 (C-003, step~9{,}000). The exp3 (Qwen~7B) lower ratio
   reflects an earlier code version, not a scale-dependent effect.}
@@ -846,7 +846,7 @@ $n$ & Bridge params/mod & Val Loss & Bridge Fiedler & $\rho$ & BD\% & Contrastiv
 \caption{Channel count ablation. Left: validation loss (all channel
   counts within 0.22\%). Center: Bridge Fiedler eigenvalue (log scale;
   $1{,}020\times$ bifurcation between $n = 6$ and all others). Right:
-  co-planar/cross-planar ratio ($n = 6$ only; peak 82{,}854:1).}
+  co-planar/cross-planar ratio ($n = 6$ only; peak 82{,}154:1).}
 \label{fig:ablation}
 \end{figure}
 
@@ -1026,8 +1026,8 @@ minimal bridge perturbations are trivially correlated.
 The Holly Battery experiment provides the non-cybernetic control at
 14B~scale. Wan~2.1 is fine-tuned with 6-channel RhombiLoRA but
 without the Steersman. The adapter achieves 3.8\% lower loss than the
-standard LoRA baseline, requires 9.15\,GB less VRAM, and produces
-6\% faster inference.
+standard LoRA baseline, requires 9.15\,GB less VRAM, and trains
+6\% faster.
 
 Despite these performance benefits, the Holly Battery bridge matrices
 are near-identity: mean off-diagonal magnitude~0.010,
@@ -1211,7 +1211,7 @@ tells us what it has learned.
 
 \paragraph{Availability.}
 Source code:
-\url{https://github.com/promptcrafted/rhombic}.\\
+\url{https://github.com/tasumermaf/rhombic}.\\
 Package: \url{https://pypi.org/project/rhombic/} (v0.3.0, 312~tests).\\
 Reproduction: install \texttt{rhombic} and run the training scripts
 with \texttt{seed=42}.
@@ -1313,7 +1313,7 @@ Holly & Wan-2.1-14B & 6 & identity & 10 epochs & A100 80\,GB & ${\sim}12$h \\
 uses Prodigy optimizer (d0 = $10^{-4}$, weight decay 0.01) instead of
 AdamW; fine-tunes a video diffusion model on proprietary video data
 (not alpaca-cleaned); targets attention layers in the Wan~2.1
-transformer blocks; and trains for 10~epochs (${\sim}600$ steps at
+transformer blocks; and trains for 50~epochs (${\sim}1{,}450$ steps at
 batch size 1, gradient accumulation 4). No Steersman is applied. The
 Holly Battery serves as a non-cybernetic control at 14B scale and is
 not intended to be independently reproduced; the more controlled

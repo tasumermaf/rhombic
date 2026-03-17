@@ -1,4 +1,4 @@
-# Experiment 1: RhombiLoRA vs Standard LoRA
+# Experiment 1: TeLoRA vs Standard LoRA
 
 ## Setup
 
@@ -12,15 +12,15 @@
 | # | Config | Rank | Channels | Bridge | Trainable Params |
 |---|--------|------|----------|--------|-----------------|
 | 1 | Standard LoRA | 24 | 6 | Frozen identity | 3,268,608 |
-| 2 | RhombiLoRA frozen | 24 | 6 | Frozen identity | 3,268,608 |
-| 3 | RhombiLoRA learnable | 24 | 6 | Learnable (I init) | 3,270,624 |
+| 2 | TeLoRA frozen | 24 | 6 | Frozen identity | 3,268,608 |
+| 3 | TeLoRA learnable | 24 | 6 | Learnable (I init) | 3,270,624 |
 | 4 | Standard LoRA | 48 | 6 | Frozen identity | 6,537,216 |
-| 5 | RhombiLoRA cubic | 24 | 3 | Learnable (I init) | 3,269,112 |
+| 5 | TeLoRA cubic | 24 | 3 | Learnable (I init) | 3,269,112 |
 
 ## Result 1: Identity Equivalence Confirmed
 
 Configs 1 and 2 produce nearly identical loss curves (delta < 0.0002 at
-every checkpoint). RhombiLoRA with frozen identity bridge IS standard LoRA.
+every checkpoint). TeLoRA with frozen identity bridge IS standard LoRA.
 
 ## Result 2: Doubling Rank Does Not Help
 
@@ -30,7 +30,7 @@ training signal per step. This is important context: the bridge provides
 a DIFFERENT kind of capacity (cross-channel mixing) rather than MORE
 capacity (higher rank).
 
-| Step | Std r24 | Std r48 | RhombiLoRA r24 |
+| Step | Std r24 | Std r48 | TeLoRA r24 |
 |------|---------|---------|----------------|
 | 500  | 0.7217  | 0.7315  | 0.7214         |
 | 1000 | 0.3770  | 0.3769  | 0.3768         |
@@ -88,7 +88,7 @@ reveal this more clearly.
 
 ## Summary
 
-1. RhombiLoRA with frozen bridge = standard LoRA (verified)
+1. TeLoRA with frozen bridge = standard LoRA (verified)
 2. The bridge learns structured coupling, not random noise
 3. 6-channel (FCC) topology learns 4.6x more cross-channel mixing than
    3-channel (cubic) topology — at zero additional parameter cost

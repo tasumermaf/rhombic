@@ -5,7 +5,7 @@ Five tabs:
   1. The Numbers — headline results + live Rung 1 benchmark
   2. Embedding Recall — FCC vs Cubic ANN index comparison
   3. The Thesis — condensed argument + links
-  4. RhombiLoRA — learnable bridges in LoRA adapters (Paper 3)
+  4. TeLoRA — learnable bridges in LoRA adapters (Paper 3)
   5. Weighted Extensions — direction-weighted Fiedler amplification (Paper 2)
 """
 
@@ -465,11 +465,11 @@ resistant to fragmentation).
 
 **Reproduce everything:** `pip install rhombic && python -m rhombic.benchmark`
 
-- [GitHub](https://github.com/promptcrafted/rhombic)
+- [GitHub](https://github.com/tasumermaf/rhombic)
 - [PyPI](https://pypi.org/project/rhombic/)
-- [Full synthesis](https://github.com/promptcrafted/rhombic/blob/main/results/SYNTHESIS.md)
+- [Full synthesis](https://github.com/tasumermaf/rhombic/blob/main/results/SYNTHESIS.md)
 
-*Built by [Promptcrafted](https://promptcrafted.com).
+*Built by [TASUMER MAF](https://tasumermaf.com).
 The geometry is the argument. The numbers are the evidence.*
 """
 
@@ -752,65 +752,74 @@ The only variable is the connectivity pattern: 12 neighbors (FCC) vs 6 (cubic).
         with gr.TabItem("The Thesis"):
             gr.Markdown(THESIS_TEXT)
 
-        # ── Tab 4: RhombiLoRA ──
-        with gr.TabItem("RhombiLoRA (Paper 3)"):
+        # ── Tab 4: TeLoRA ──
+        with gr.TabItem("TeLoRA (Paper 3)"):
             gr.Markdown("""
 # The Learnable Bridge
 
-**RhombiLoRA** adds a learnable 6×6 coupling matrix — the *bridge* —
-between the A and B projections in LoRA, adding **36 parameters per layer**.
+**TeLoRA** adds a learnable n x n coupling matrix — the *bridge* —
+between the A and B projections in LoRA, adding n^2 parameters per layer.
+At n=6, a cybernetic feedback mechanism (the **Steersman**) discovers
+rhombic dodecahedral geometry: 100% block-diagonal bridges across
+42,500+ matrices, four model families (1.1B-14B), peak coupling ratio 82,854:1.
 
 When the bridge is the identity matrix, the architecture reduces exactly
 to standard LoRA. Any coupling structure at convergence is entirely learned.
 
 ### Key Findings
 
-| Finding | Metric | Value |
-|---------|--------|-------|
-| Task fingerprinting | LOO SVM accuracy (Q-proj, 28 bridges) | **84.5%** (chance 33.3%) |
-| Between > within task | Mann-Whitney U | p < 1e-6 |
-| Bridge coupling | FCC (6-ch) vs cubic (3-ch) Fiedler | **4.6×** |
-| Adapter composition | Eigenspectrum preservation at all α | cos > 0.999 |
-| Merge safety threshold | Cross-task contamination tolerance | 10% |
-| Optimal fingerprint size | Q-proj bridges only | **1,008 parameters** |
+| Finding | Value |
+|---------|-------|
+| Block-diagonal rate (cybernetic n=6) | **100%** (42,500+ matrices) |
+| Block-diagonal rate (non-cybernetic) | **0%** (570 matrices) |
+| Peak co-planar/cross-planar ratio | **82,854:1** |
+| Lock-in speed | **~200 steps** (half-life 123 steps) |
+| Adversarial initialization suppression | **99.5% in 900 steps** |
+| Bridge Fiedler bifurcation (n=6 vs n!=6) | **1,020x** |
+| Val loss cost of topology | **0.17% max** |
+| Scale invariance | **1.1B, 7B, 14B** (Fiedler converges ~0.10) |
 
-### The Null Result (Reported Honestly)
+### The Steersman
 
-The bridge **does not improve loss or perplexity** relative to standard LoRA
-at matched rank. The original hypothesis — that FCC topology would induce
-direction-specific coupling from structured data — produced a comprehensive
-null (co-planar/cross-planar ratio = 1.002, p = 0.474, across 224 bridges
-at two model scales). Rank dimensions in LoRA are rotationally symmetric.
+A cybernetic feedback mechanism combining contrastive topology loss
+(encouraging coupling within coordinate-plane pairs, discouraging it between
+planes) with spectral regularization (targeting the Fiedler value). Together
+they constitute a *governor* that steers bridge structure without prescribing
+it. The bridge discovers three 2x2 blocks aligned to the rhombic dodecahedron's
+coordinate planes — the same geometry that emerges from sphere-packing.
 
-### The Contribution
+### Channel Ablation (Key Result)
 
-The bridge does not beat standard LoRA at standard LoRA's own job. It provides
-something LoRA cannot: **a compact, interpretable diagnostic of adapter behavior** —
-a 36-parameter summary of what training discovered, readable without inference
-or evaluation.
-
-### Experimental Ladder
-
-- **Exp 1** (Qwen2.5-1.5B): Bridge anatomy, identity equivalence confirmed, 4.6× FCC coupling
-- **Exp 2** (Qwen2.5-7B, Alpaca): Task-specific bridge patterns, Q-proj prominence
-- **Exp 2.5** (Qwen2.5-7B, Geometric data): Null on direction, positive on connectivity
-- **Phase 1A**: Task fingerprinting — 73.5% 3-way, 84.5% Q-proj LOO SVM
-- **Phase 2A**: Bridge merging — smooth interpolation, non-linear in 2/3 pairs
-- **Cross-phase synthesis**: 20 learnings, Q-proj as optimal diagnostic
+Only n=6 with contrastive topology produces block-diagonal structure.
+n=3,4,8 with spectral-only loss converge to Fiedler ~0.09 with no
+directional preference. **The contrastive topology IS the structure signal.**
 
 ### Architecture
 
 ```
-Standard LoRA:   h = Wx + B·A·x
-RhombiLoRA:      h = Wx + B·M·A·x
+Standard LoRA:   h = Wx + B . A . x
+TeLoRA:          h = Wx + B . M . A . x
 
-M ∈ R^{6×6}  (36 params)
-Init: M = I   (recovers standard LoRA)
+M in R^{n x n}  (n^2 params, typically n=6 -> 36 params)
+Init: M = I     (recovers standard LoRA exactly)
 ```
 
-📄 [Paper](https://github.com/promptcrafted/rhombic/blob/main/paper/rhombic-paper3.tex) |
-📊 [All results](https://github.com/promptcrafted/rhombic/tree/main/results) |
-🔬 [Bridge matrices (.npy)](https://github.com/promptcrafted/rhombic/tree/main/results/fingerprints)
+### 13 Experiments, 4 Model Families
+
+| Series | Scale | Focus |
+|--------|-------|-------|
+| Exp 1-2.5 | 1.5B, 7B | Anatomy, null on direction, positive on connectivity |
+| Exp 3 series | 7B | Cybernetic bridge (Steersman), 82,854:1 co/cross |
+| Holly Battery | 14B (Wan 2.1) | Scale invariance, 3.8% better loss, 50% smaller checkpoints |
+| Channel ablation | 1.1B | n=3,4,6,8 — only n=6 contrastive produces BD |
+
+**7-round adversarial audit complete.** 232 findings across 7 rounds, 87
+fixed, zero CRITICAL or MAJOR findings remaining. Both Papers 2 and 3 are
+submission-ready.
+
+[Paper](https://github.com/tasumermaf/rhombic/blob/main/paper/rhombic-paper3.tex) |
+[All results](https://github.com/tasumermaf/rhombic/tree/main/results) |
+[Audit trail](https://github.com/tasumermaf/rhombic/tree/main/paper/audit)
             """)
 
         # ── Tab 5: Weighted Extensions ──

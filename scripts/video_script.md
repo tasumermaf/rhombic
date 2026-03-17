@@ -37,13 +37,13 @@ Shows Paper 1 → Paper 2 → Paper 3 arc.
 
 Text overlay: "Paper 1 asked what happens when you replace the cube."
 Text overlay: "Paper 2 found the mechanism."
-Text overlay: "RhombiLoRA asks: what happens when you embrace it?"
+Text overlay: "TeLoRA asks: what happens when you embrace it?"
 
 ## Closing (60-75s)
 Visual: Weave pattern banner, fade to website URL.
 Text overlays (stacked):
 - `pip install rhombic`
-- https://promptcrafted.github.io/rhombic/
+- https://tasumermaf.github.io/rhombic/
 - 256 tests. 3 papers. 0 competitors.
 
 ---

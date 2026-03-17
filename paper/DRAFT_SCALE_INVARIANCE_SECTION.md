@@ -25,7 +25,7 @@ including 14B — the largest model tested.
 ### 6.2 The Holly Battery Null Result
 
 The Holly Battery provides the definitive control experiment. Wan 2.1 is a
-14B-parameter video diffusion model fine-tuned with 6-channel RhombiLoRA using
+14B-parameter video diffusion model fine-tuned with 6-channel TeLoRA using
 Prodigy optimizer — a completely different training paradigm from the text
 experiments. Without the Steersman:
 
@@ -36,7 +36,7 @@ experiments. Without the Steersman:
 - **Speed:** 6% faster training
 - **Checkpoint size:** 50% smaller
 
-The Holly Battery demonstrates that RhombiLoRA provides practical benefits
+The Holly Battery demonstrates that TeLoRA provides practical benefits
 (VRAM reduction, speed, smaller checkpoints) even without the Steersman. But
 the block-diagonal structure — the geometric self-organization — requires
 cybernetic feedback. Architecture alone is insufficient.

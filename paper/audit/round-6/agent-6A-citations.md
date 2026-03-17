@@ -76,7 +76,7 @@
 - **Severity:** MAJOR
 - **Paper:** P2
 - **Location:** Section 6.1, lines 868--872
-- **Finding:** Paper 2 mentions "low-rank adapters (LoRA) for large language models" and "RhombiLoRA" in the Future Work section without citing hu2022lora. The term "LoRA" is a specific method introduced by Hu et al. (2022) and requires a citation on first use. Additionally, `hu2022lora` does not exist in rhombic-paper2.bib at all -- it would need to be added.
+- **Finding:** Paper 2 mentions "low-rank adapters (LoRA) for large language models" and "TeLoRA" in the Future Work section without citing hu2022lora. The term "LoRA" is a specific method introduced by Hu et al. (2022) and requires a citation on first use. Additionally, `hu2022lora` does not exist in rhombic-paper2.bib at all -- it would need to be added.
 - **Recommendation:** Add the `hu2022lora` entry to rhombic-paper2.bib and cite it at line 868: "low-rank adapters (LoRA)~\cite{hu2022lora}".
 
 ### F-6A-12: Uncited claim -- quantum error correction in P2

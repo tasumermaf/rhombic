@@ -14,7 +14,7 @@ PROVEN (Papers 1-3)           BUILDING (Now)              FORWARD VISION
 Rung 0-4 library              Exp 3 cybernetic loop       SuperLoRA product
 Paper 1: 2.3x connectivity    Hackathon: Hermes Agent     GNN on lattice
 Paper 2: 6.1x amplification   Flimmer integration         Cross-modal transit
-Paper 3: RhombiLoRA bridge    Community tools              World model arch
+Paper 3: TeLoRA bridge    Community tools              World model arch
 255 tests, PyPI, MPL-2.0      Consulting pilots            24-cell / D4
 
 Open source credibility       Revenue: consulting          Revenue: product

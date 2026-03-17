@@ -32,7 +32,7 @@ channels are used across layers — a higher-level structural metric.
 **Results (from VERIFIED_FINDINGS):**
 - Qwen 7B exp3: **0.102**
 - TinyLlama exp3_tiny: **0.101**
-- Holly 14B (RhombiLoRA): **1.002**
+- Holly 14B (TeLoRA): **1.002**
 - Holly 14B (standard): **0.842**
 
 ## Why the Discrepancy Makes Sense

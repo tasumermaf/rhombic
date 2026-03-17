@@ -1,5 +1,5 @@
-# RhombiLoRA Experiment — CORPUS (Corpus-Weighted Bridges)
-# RhombiLoRA rank 24 (6ch x 4), corpus bridge init, Wan 2.1 T2V, Prodigy, Holly mini
+# TeLoRA Experiment — CORPUS (Corpus-Weighted Bridges)
+# TeLoRA rank 24 (6ch x 4), corpus bridge init, Wan 2.1 T2V, Prodigy, Holly mini
 # Identical to experiment except bridge_mode=corpus
 
 model:

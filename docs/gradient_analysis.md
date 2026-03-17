@@ -19,7 +19,7 @@ coupling than cross-planar pairs (2 shared vertices).
 Standard LoRA computes: `dW(x) = B @ A @ x`, where A is (r, d_in)
 and B is (d_out, r).
 
-RhombiLoRA reshapes the rank-r hidden state into C channels of size
+TeLoRA reshapes the rank-r hidden state into C channels of size
 r/C, applies a C×C bridge, then reshapes back:
 
 ```
@@ -190,7 +190,7 @@ create sufficient gradient signal. Options:
 
 The bridge is a **geometric inductive bias** — it tells the optimizer
 that the rank-r hidden space has structure. Standard LoRA treats
-rank-r as a flat vector. RhombiLoRA treats it as a lattice of
+rank-r as a flat vector. TeLoRA treats it as a lattice of
 direction-pair channels with defined coupling.
 
 If training data can teach the bridge to recover the RD coupling
@@ -202,7 +202,7 @@ matrix from data alone, this proves:
    algebraic connectivity) over cubic (6-connected) is not just
    graph-theoretic — it manifests in learned representations
 
-This positions RhombiLoRA as the first LoRA variant where the
+This positions TeLoRA as the first LoRA variant where the
 **topology of the hidden space is a measurable, trainable quantity**
 rather than an arbitrary vector partition.
 

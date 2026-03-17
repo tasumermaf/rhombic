@@ -7,7 +7,7 @@ license: MPL-2.0
 metadata:
   hermes:
     tags: [Lattice, Experiment, Spectral, Graph Theory, Research, Rhombic]
-    homepage: https://github.com/promptcrafted/rhombic
+    homepage: https://github.com/tasumermaf/rhombic
     related_skills: [rhombic-tutorial, rhombic-lora-concept]
 ---
 

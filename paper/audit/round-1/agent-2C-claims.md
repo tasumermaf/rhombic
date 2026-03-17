@@ -191,7 +191,7 @@ Scope: Causal claims, universality claims, negative claims, statistical claims, 
 
 - **Severity:** LOW
 - **Location:** Lines 621-626
-- **Claim:** Holly Battery achieves "3.8% lower loss than the non-RhombiLoRA baseline while using 9.15 GB less VRAM and producing 6% faster inference."
+- **Claim:** Holly Battery achieves "3.8% lower loss than the non-TeLoRA baseline while using 9.15 GB less VRAM and producing 6% faster inference."
 - **Evidence:** Not detailed in this paper; cited from prior work/experiment.
 - **Problem:** These performance comparisons (loss, VRAM, speed) are presented without specifying the baseline configuration. Is it standard LoRA with the same rank? Full fine-tuning? The comparison is tangential to Paper 3's thesis (which is about bridge structure, not performance) but is stated as fact without citation or specification.
 - **Resolution:** Either specify the baseline or cite the source for these numbers. Minor issue since Holly's role in this paper is as a structural control, not a performance benchmark.

@@ -1,4 +1,4 @@
-# Karkada et al. — Evaluation for RhombiLoRA Synergies
+# Karkada et al. — Evaluation for TeLoRA Synergies
 
 > **Paper:** "Symmetry in language statistics shapes the geometry of model representations"
 > **Authors:** Dhruva Karkada, Daniel J. Korchinski, Andres Nava, Matthieu Wyart, Yasaman Bahri
@@ -39,7 +39,7 @@ representations**. Their key results:
 
 ---
 
-## Direct Synergies with RhombiLoRA
+## Direct Synergies with TeLoRA
 
 ### Synergy 1: Data Symmetry → Adapter Topology
 
@@ -54,11 +54,11 @@ into coherent directional channels.
 
 **The connection:** If data symmetry determines representation geometry, then
 **the adapter's internal topology should match the data's symmetry group**.
-A RhombiLoRA whose 6 direction-pair channels align with the dominant symmetry
+A TeLoRA whose 6 direction-pair channels align with the dominant symmetry
 axes of the data should produce better representations than a linear adapter
 that ignores the data's geometric structure entirely.
 
-This is testable: train RhombiLoRA on data with known 6-fold or 12-fold
+This is testable: train TeLoRA on data with known 6-fold or 12-fold
 symmetry structure and measure whether the direction-pair channels specialize
 to the data's symmetry axes.
 
@@ -66,11 +66,11 @@ to the data's symmetry axes.
 
 Karkada et al. show you can **analytically predict** the eigenstructure of
 learned representations from the data's co-occurrence matrix. This gives us
-a diagnostic tool for RhombiLoRA experiments:
+a diagnostic tool for TeLoRA experiments:
 
 - Compute the PMI matrix of the training data
 - Eigendecompose to predict representation geometry
-- Compare predicted geometry against RhombiLoRA's direction-pair structure
+- Compare predicted geometry against TeLoRA's direction-pair structure
 - Measure how well the adapter's topology matches the data's natural geometry
 
 If the match is good → the adapter is geometrically appropriate for the data.
@@ -101,9 +101,9 @@ the same representation geometry, regardless of the architecture**. This is
 exactly the theoretical foundation for our Experiment 3 (cross-modal transit):
 
 If two models (language + video) both process data with shared geometric
-structure, and both carry RhombiLoRAs with matching direction-pair topology,
+structure, and both carry TeLoRAs with matching direction-pair topology,
 then Karkada's theory predicts they will develop **shared representation
-geometry**. The RhombiLoRA doesn't just provide a convenient shared structure
+geometry**. The TeLoRA doesn't just provide a convenient shared structure
 — it creates the conditions under which Karkada's universality result
 guarantees geometric alignment across modalities.
 
@@ -118,7 +118,7 @@ to adapters with matching topology.
 Paper 3 should cite Karkada et al. for:
 
 1. **Theoretical grounding:** "Data symmetry determines representation
-   geometry" provides the *why* behind RhombiLoRA. We're not just adding
+   geometry" provides the *why* behind TeLoRA. We're not just adding
    bridges — we're matching the adapter's topology to the data's symmetry
    structure.
 
@@ -151,7 +151,7 @@ For the Nous Hermes Agent Hackathon (deadline Mar 16):
 
 - **Mention in the presentation website** (Section 6, Forward Vision): "Recent
   theoretical work [Karkada et al. 2026] proves that data symmetry determines
-  representation geometry. RhombiLoRA is the adapter that matches."
+  representation geometry. TeLoRA is the adapter that matches."
 - **Do NOT attempt to integrate their code.** Their repo requires Python 3.13+
   and CUDA. Our hackathon demo runs on the Hermes server's existing
   infrastructure.
@@ -166,7 +166,7 @@ Karkada et al. answer the question "why does geometry matter in
 representations?" Our work answers "which geometry should you use?" The
 combination: **the symmetry of your data tells you which lattice topology
 your adapter should have, and FCC is strictly better than cubic when the
-data has heterogeneous structure.** RhombiLoRA is the mechanism that
+data has heterogeneous structure.** TeLoRA is the mechanism that
 converts this theoretical insight into an engineering product.
 
 ---

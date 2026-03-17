@@ -11,7 +11,7 @@
 ## §4.1 Experimental Setup
 
 - **Model:** Qwen2.5-7B-Instruct (28 layers, 4 target modules per layer)
-- **Architecture:** RhombiLoRA r=24 with FCC topology → 6×6 bridge (36 params/layer)
+- **Architecture:** TeLoRA r=24 with FCC topology → 6×6 bridge (36 params/layer)
 - **Tasks:** Alpaca-cleaned (general), CodeAlpaca-20k (code), GSM8K (math)
 - **Training:** 2K-10K steps, AdamW, LR=2e-4, bf16, QLoRA
 - **Bridge extraction:** 112 bridge matrices per adapter (28 layers × 4 modules)
@@ -127,7 +127,7 @@ differently, and the bridge reveals this at 36 parameters per layer.
 
 "All bridge matrices, analysis scripts, and reproduction instructions are
 available at [GitHub/HuggingFace]. The training infrastructure uses
-standard HuggingFace Transformers and PEFT. The RhombiLoRA implementation
+standard HuggingFace Transformers and PEFT. The TeLoRA implementation
 is available as the `rhombic` Python library."
 
 ---

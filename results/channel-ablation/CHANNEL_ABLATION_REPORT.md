@@ -1,4 +1,4 @@
-# Channel Ablation Analysis — Decision Gate Report
+# Channel Ablation Analysis ï¿½ Decision Gate Report
 
 Generated: 2026-03-13T15:23:06.561556
 
@@ -9,14 +9,14 @@ Rank: 24 (fixed across all runs)
 | Run | n_channels | ch_size | bridge_params | Steps | Final Val Loss | Best Val Loss | Fiedler | Deviation | Efficiency |
 |-----|-----------|---------|--------------|-------|---------------|--------------|---------|-----------|------------|
 | H-ch3 | 3 | 8 | 9 | 8400 | 0.4035 | 0.4035 | 0.09423 | 0.187 | 0.010721 |
-| H-ch4 | 4 | 6 | 16 | — | — | — | — | — | — |
-| H-ch6 | 6 | 4 | 36 | — | — | — | — | — | — |
-| H-ch8 | 8 | 3 | 64 | — | — | — | — | — | — |
-| H-ch12 | 12 | 2 | 144 | — | — | — | — | — | — |
+| H-ch4 | 4 | 6 | 16 | ï¿½ | ï¿½ | ï¿½ | ï¿½ | ï¿½ | ï¿½ |
+| H-ch6 | 6 | 4 | 36 | ï¿½ | ï¿½ | ï¿½ | ï¿½ | ï¿½ | ï¿½ |
+| H-ch8 | 8 | 3 | 64 | ï¿½ | ï¿½ | ï¿½ | ï¿½ | ï¿½ | ï¿½ |
+| H-ch12 | 12 | 2 | 144 | ï¿½ | ï¿½ | ï¿½ | ï¿½ | ï¿½ | ï¿½ |
 
 ## Decision Gate: Does n=6 Win?
 
-**INSUFFICIENT DATA** — Need at least 2 completed runs for comparison.
+**INSUFFICIENT DATA** ï¿½ Need at least 2 completed runs for comparison.
 Currently have 1 run(s) with data.
 
 ## Fiedler Value Comparison
@@ -40,7 +40,7 @@ Comparing all runs at common checkpoints for fair evaluation.
 | 7000 | 0.4054 |
 | 8000 | 0.4039 |
 
-## Implications for Paper 3 (RhombiLoRA)
+## Implications for Paper 3 (TeLoRA)
 
 Results pending full ablation completion. The decision gate requires all 5 channel counts to be evaluated before concluding.
 

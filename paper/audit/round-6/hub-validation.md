@@ -38,14 +38,14 @@
 - **Hub verdict: ACCEPTED — FIXED**
 - Restored LoRA-XS comparison paragraph into Section 2.2 from the
   draft text at sections/section1_introduction.tex. The distinction
-  (LoRA-XS freezes A,B and trains r×r; RhombiLoRA trains all three
+  (LoRA-XS freezes A,B and trains r×r; TeLoRA trains all three
   with n×n where n<<r) is the most important positioning statement.
 
 ### F-6B-02: MELoRA discussion lost in consolidation
 - Agent severity: HIGH
 - **Hub verdict: ACCEPTED — FIXED**
 - Restored MELoRA comparison into Section 2.2. The continuum framing
-  (MELoRA = diagonal, RhombiLoRA = coupled) provides clean positioning.
+  (MELoRA = diagonal, TeLoRA = coupled) provides clean positioning.
 
 ### F-6B-03: GaLore not cited
 - Agent severity: MEDIUM

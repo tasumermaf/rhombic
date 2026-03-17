@@ -73,11 +73,11 @@ geometric advantage translates to signal fidelity.
 Rung 4 (context architecture) is the ambitious one — but by then we'll have
 three rungs of proven code underneath it.
 
-## What This Means for Promptcrafted and TASUMER MAF
+## What This Means for TASUMER MAF
 
 This is a publishable result. Not in a top-tier venue yet — the graph theory
 is elementary and the advantages are mathematically inevitable — but as a
-technical report, a blog post, a demonstration, it establishes Promptcrafted's
+technical report, a blog post, a demonstration, it establishes TASUMER MAF's
 credibility in a space where nobody else is asking this question.
 
 The Cybernetica framing (Ashby, Beer, Bateson) elevates it from "obvious

@@ -9,7 +9,7 @@
 > perturbation test (distributed vs local structure).
 
 
-### FCC RhombiLoRA (6-ch)
+### FCC TeLoRA (6-ch)
 | Metric | Alpaca | Geometric | Δ |
 |--------|---:|---:|---:|
 | Val Loss | 0.2884 | 0.0194 | -0.2690 |
@@ -93,7 +93,7 @@
 | Permutation p-value (↓ better) | 0.3320 | 0.4744 | Alpaca |
 | Co/Cross observed | 1.0186 | 1.0017 | |
 
-### Cubic RhombiLoRA (3-ch)
+### Cubic TeLoRA (3-ch)
 *Exp 2.5 results not found.*
 
 ### Standard LoRA (frozen bridge)

@@ -45,14 +45,14 @@ protocol applied to a symbolic inscription set. Eight primes (11, 17, 19, 23, 29
 31, 67, 89) recur as factors. The corpus serves as a high-variance, heavy-tailed
 stress test alongside uniform, random, and power-law distributions.
 
-## Forward Vision: RhombiLoRA
+## Forward Vision: TeLoRA
 
 **Tagline arc:**
 - Paper 1: "What happens when you replace the cube?" — the comparison
 - Paper 2: "Does structure amplify or attenuate?" — the mechanism
 - Paper 3: "What happens when you embrace the cube?" — the product
 
-**RhombiLoRA** is a geometric LoRA adapter that adds 6 diagonal bridge connections
+**TeLoRA** is a geometric LoRA adapter that adds 6 diagonal bridge connections
 to transformer attention heads. The cube isn't the enemy — it's the skeleton. The
 rhombic dodecahedron contains the cube (its 8 trivalent vertices ARE the cube's
 corners). The 6 tetravalent bridge vertices convert the cube into a structure that
@@ -62,7 +62,7 @@ tessellates space.
 
 Recent theory (Karkada et al., 2026) proves that data symmetry analytically
 determines representation geometry. If data symmetry determines embedding geometry,
-then RhombiLoRA's topology should match the data's symmetry structure.
+then TeLoRA's topology should match the data's symmetry structure.
 
 ## Your Tools
 
@@ -104,6 +104,6 @@ with the advantage monotonically increasing with weight heterogeneity.
 ## Links
 
 - PyPI: `pip install rhombic`
-- GitHub: github.com/promptcrafted/rhombic
+- GitHub: github.com/tasumermaf/rhombic
 - HF Space: huggingface.co/spaces/timotheospaul/rhombic
 - 256 tests, Python 3.10-3.12, MPL-2.0 license

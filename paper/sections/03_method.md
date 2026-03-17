@@ -1,14 +1,14 @@
 # 3. Method
 
-## 3.1 RhombiLoRA Architecture
+## 3.1 TeLoRA Architecture
 
-Standard LoRA (Hu et al., 2021) decomposes each weight update as $\Delta W = BA$, where $A \in \mathbb{R}^{r \times d_{\text{in}}}$ and $B \in \mathbb{R}^{d_{\text{out}} \times r}$ are low-rank factors with rank $r$. RhombiLoRA introduces a single additional component: a learnable *bridge matrix* $\mathbf{M} \in \mathbb{R}^{n \times n}$ that couples $n$ parallel channels within the low-rank bottleneck.
+Standard LoRA (Hu et al., 2021) decomposes each weight update as $\Delta W = BA$, where $A \in \mathbb{R}^{r \times d_{\text{in}}}$ and $B \in \mathbb{R}^{d_{\text{out}} \times r}$ are low-rank factors with rank $r$. TeLoRA introduces a single additional component: a learnable *bridge matrix* $\mathbf{M} \in \mathbb{R}^{n \times n}$ that couples $n$ parallel channels within the low-rank bottleneck.
 
 Given $n$ channels, the rank $r$ is partitioned into $n$ equal segments of size $s = r / n$ (we require $n | r$). The hidden representation $\mathbf{h} = A\mathbf{x} \in \mathbb{R}^r$ is reshaped into a matrix $\mathbf{H} \in \mathbb{R}^{n \times s}$, where each row corresponds to one channel. The bridge acts on the channel dimension:
 
 $$\mathbf{H}' = \mathbf{M} \mathbf{H}$$
 
-The coupled representation $\mathbf{H}'$ is then flattened back to $\mathbb{R}^r$ and projected through $B$. The complete forward pass for a single RhombiLoRA adapter is:
+The coupled representation $\mathbf{H}'$ is then flattened back to $\mathbb{R}^r$ and projected through $B$. The complete forward pass for a single TeLoRA adapter is:
 
 $$\Delta \mathbf{y} = \frac{\alpha}{r} B \cdot \text{flatten}(\mathbf{M} \cdot \text{reshape}(A\mathbf{x}, [n, s]))$$
 
@@ -54,7 +54,7 @@ The Steersman's control laws are purely reactive: they adjust weights and learni
 
 ## 3.3 Rhombic Dodecahedral Geometry and Co-planar Pairs
 
-The rhombic dodecahedron (RD) is a convex polyhedron with 12 congruent rhombic faces, 14 vertices (8 cubic and 6 octahedral), and 24 edges. Its faces partition naturally into 6 antipodal pairs, each pair sharing a common coordinate axis. In the standard embedding, the 6 face-pair normals align with the FCC lattice directions: $(\pm 1, \pm 1, 0)$, $(\pm 1, 0, \pm 1)$, and $(0, \pm 1, \pm 1)$. These 6 direction pairs are the channels of RhombiLoRA when $n = 6$.
+The rhombic dodecahedron (RD) is a convex polyhedron with 12 congruent rhombic faces, 14 vertices (8 cubic and 6 octahedral), and 24 edges. Its faces partition naturally into 6 antipodal pairs, each pair sharing a common coordinate axis. In the standard embedding, the 6 face-pair normals align with the FCC lattice directions: $(\pm 1, \pm 1, 0)$, $(\pm 1, 0, \pm 1)$, and $(0, \pm 1, \pm 1)$. These 6 direction pairs are the channels of TeLoRA when $n = 6$.
 
 The 6 face pairs decompose further by coordinate axis. Each pair of opposite faces is perpendicular to one of the three Cartesian axes, yielding 3 axis-aligned groupings of 2 face pairs each:
 

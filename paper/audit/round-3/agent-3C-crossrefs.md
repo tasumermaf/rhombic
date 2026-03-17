@@ -29,14 +29,14 @@
 | 3C-10 | Claim verification | INFO | CLEAN | Paper 2 line 82: "125--8,000 nodes" -- Paper 1 tests 125--8,000 (though most tables stop at 4,000; 8,000 appears in spatial) |
 | 3C-11 | Claim verification | INFO | CLEAN | Paper 2 line 494: consensus inversion "matches the unweighted Paper 1 finding" -- Paper 1 reports 0.93x at 1,000 nodes (line 488) |
 | 3C-12 | Claim verification | INFO | CLEAN | Paper 3 line 327-329: "30% shorter paths and 2.4x higher algebraic connectivity" -- Paper 1 reports 29-32% and 2.3-2.5x; 2.4x is a reasonable midpoint |
-| 3C-13 | Forward ref | INFO | CLEAN | Paper 2 Future Work cites `bielec2026bridge` for RhombiLoRA results -- Paper 3 delivers this |
+| 3C-13 | Forward ref | INFO | CLEAN | Paper 2 Future Work cites `bielec2026bridge` for TeLoRA results -- Paper 3 delivers this |
 | 3C-14 | Forward ref | MINOR | FINDING | Paper 1 promises BCC baseline as future work (line 189-190); Paper 2 Future Work also promises BCC (sec 6.3); neither Paper 2 nor 3 delivers BCC |
 | 3C-15 | Forward ref | INFO | NOTE | Paper 1 promises higher-dimensional extensions (D4, E8) as future work; Paper 2 Future Work promises 4D/24-cell extension; Paper 3 does not deliver these |
 | 3C-16 | Forward ref | INFO | NOTE | Paper 1 promises formal null model; neither Paper 2 nor 3 delivers one (Paper 3 limitations explicitly acknowledges this at line 1082-1085) |
 | 3C-17 | Forward ref | INFO | CLEAN | Paper 1 promises matched-count control for ANN index; not addressed in Papers 2/3 (reasonable -- different research direction) |
 | 3C-18 | Missing back-ref | MODERATE | FINDING | Paper 3 never cites Paper 2 (`bielec2026weights`), despite the series being sequential (1->2->3) and Paper 2's Future Work explicitly pointing to Paper 3 |
 | 3C-19 | Claim verification | INFO | CLEAN | Paper 2 Sec 1.2 describes corpus as "24 structured integers (range 18--1,296, mean 318.8, std 292.9)" -- internal consistency check; no Paper 1 claim to verify (Paper 1 does not publish these statistics) |
-| 3C-20 | Bib metadata | INFO | CLEAN | All three bib entries for companion papers use consistent author name "Timothy Paul Bielec" and URL `https://github.com/promptcrafted/rhombic` |
+| 3C-20 | Bib metadata | INFO | CLEAN | All three bib entries for companion papers use consistent author name "Timothy Paul Bielec" and URL `https://github.com/tasumermaf/rhombic` |
 | 3C-21 | Version consistency | MINOR | FINDING | Paper 2 reports "v0.3.0, 256 tests" (line 955); Paper 3 reports "v0.3.0, 312 tests" (line 1161); these are inconsistent for the same version number |
 | 3C-22 | Claim verification | INFO | CLEAN | Paper 2 Table 7 summary: "Paper 1 = 2.55x, Paper 2 = 6.11x" Fiedler -- Paper 1 Table 1 at scale ~1000 shows 2.55x; Paper 2 Table 2 at scale 1000 corpus shows 6.11x |
 | 3C-23 | Missing back-ref | MINOR | FINDING | Paper 3 does not reference Paper 2's direction-pair weighting results despite its own architecture being motivated by the same 6 face-pair / 3-axis decomposition |
@@ -78,7 +78,7 @@
 **File:** `rhombic-paper3.tex`
 **Issue:** Paper 3 cites Paper 1 (`bielec2026shape`) at line 327 but never cites Paper 2 (`bielec2026weights`). The three papers form an explicit series:
 - Paper 2's dependency diagram (Figure 1) shows Paper 1 -> Paper 2
-- Paper 2's Future Work (Section 6.1, line 861-862) says "Results on this 'RhombiLoRA' architecture are reported in the companion paper~\cite{bielec2026bridge}" -- explicitly pointing to Paper 3
+- Paper 2's Future Work (Section 6.1, line 861-862) says "Results on this 'TeLoRA' architecture are reported in the companion paper~\cite{bielec2026bridge}" -- explicitly pointing to Paper 3
 - Paper 2 establishes the direction-pair weighting concept (6 face-pairs of the RD) that Paper 3's Steersman contrastive loss directly builds on
 - Paper 2 demonstrates the 6.1x Fiedler amplification under direction-based weights -- the structural motivation for why 6 channels matter
 
@@ -119,7 +119,7 @@ The following cross-paper references were checked and confirmed accurate:
 
 4. **Paper 2 line 494 -> Paper 1:** consensus inversion at scale 1,000 "matches the unweighted Paper 1 finding" -- Paper 1 line 487-488 reports "0.93x" at 1,000 nodes. Confirmed.
 
-5. **Paper 2 line 861-862 -> Paper 3:** Forward reference to `bielec2026bridge` for "RhombiLoRA architecture" -- Paper 3 is indeed titled "The Learnable Bridge" and covers RhombiLoRA. Accurate.
+5. **Paper 2 line 861-862 -> Paper 3:** Forward reference to `bielec2026bridge` for "TeLoRA architecture" -- Paper 3 is indeed titled "The Learnable Bridge" and covers TeLoRA. Accurate.
 
 6. **Paper 3 line 327-329 -> Paper 1:** "12-connected FCC lattices provide 30% shorter paths and 2.4x higher algebraic connectivity than 6-connected cubic lattices" -- Paper 1 reports 29-32% path advantage and 2.3-2.5x algebraic connectivity. "30%" and "2.4x" are reasonable midpoint summaries. Accurate.
 
@@ -149,7 +149,7 @@ The following cross-paper references were checked and confirmed accurate:
 ### Paper 2 Promises (from Future Work, Section 6)
 | Promise | Delivered in Paper 3? | Status |
 |---------|----------------------|--------|
-| RhombiLoRA / geometric learning architectures | YES | FULFILLED |
+| TeLoRA / geometric learning architectures | YES | FULFILLED |
 | Migration strategy (cubic to RD) | No | OPEN |
 | BCC comparison | No | OPEN |
 | Consensus dynamics multi-seed | No | OPEN |

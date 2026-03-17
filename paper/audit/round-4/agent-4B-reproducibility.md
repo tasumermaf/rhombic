@@ -210,12 +210,12 @@ None that would impede reproduction. All metrics are computable from the bridge 
 **Rating: GOOD with one significant limitation.**
 
 The paper provides:
-- GitHub URL: `https://github.com/promptcrafted/rhombic`
+- GitHub URL: `https://github.com/tasumermaf/rhombic`
 - PyPI package: `https://pypi.org/project/rhombic/` (v0.3.0, 312 tests)
 - Reproduction instruction: "install rhombic and run the training scripts with seed=42"
 
 The code repository contains:
-- `rhombic/nn/rhombi_lora.py` — the RhombiLoRA architecture
+- `rhombic/nn/rhombi_lora.py` — the TeLoRA architecture
 - `rhombic/nn/topology.py` — bridge initialization and geometric derivations
 - `scripts/train_cybernetic.py` — the full cybernetic training loop including the Steersman class
 - `scripts/train_contrastive_bridge.py` — contrastive loss pair indices

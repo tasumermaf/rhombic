@@ -1,4 +1,4 @@
-# RhombiLoRA Competitive Landscape — Paper 3 Positioning
+# TeLoRA Competitive Landscape — Paper 3 Positioning
 
 > **Status:** Updated March 8, 2026 (literature search refresh)
 > **Sources:** EMNLP 2024, ICLR 2024-2025, ACL 2024-2025, ICML 2024, NeurIPS 2024
@@ -7,11 +7,11 @@
 
 ## The Unique Position
 
-**RhombiLoRA is the first LoRA variant that places a learnable dense coupling
+**TeLoRA is the first LoRA variant that places a learnable dense coupling
 matrix between A and B while BOTH outer projections also remain learnable.**
 
 The closest prior art (LoRA-XS, EMNLP 2024) uses a similar r×r bridge but
-freezes A and B. RhombiLoRA trains A, B, and bridge jointly, enabling the
+freezes A and B. TeLoRA trains A, B, and bridge jointly, enabling the
 bridge to serve as an interpretable diagnostic (task fingerprinting, overfitting
 detection) rather than just a compression mechanism.
 
@@ -25,7 +25,7 @@ overfitting diagnostic.** This is a genuine gap in the literature.
 **Banaei et al., "LoRA-XS: Low-Rank Adaptation with Extremely Small Number of
 Parameters" (EMNLP 2024, arXiv 2405.17604)**
 
-| Feature | LoRA-XS | RhombiLoRA |
+| Feature | LoRA-XS | TeLoRA |
 |---------|---------|------------|
 | Bridge matrix | r × r (same as rank) | 6 × 6 (fixed, geometry-motivated) |
 | Outer projections | **Frozen** (SVD-initialized) | **Learnable** |
@@ -35,10 +35,10 @@ Parameters" (EMNLP 2024, arXiv 2405.17604)**
 | Diagnostic use | None | Task fingerprint, overfit detection |
 
 **Differentiation strategy:** LoRA-XS answers "how few parameters can you
-train?" RhombiLoRA answers "what does the coupling between A and B encode?"
+train?" TeLoRA answers "what does the coupling between A and B encode?"
 The questions are complementary. LoRA-XS's frozen outer projections prevent
 the bridge from serving as a diagnostic because A and B don't adapt to the
-task — only the bridge does. In RhombiLoRA, the bridge captures the coupling
+task — only the bridge does. In TeLoRA, the bridge captures the coupling
 pattern that emerges when A and B jointly learn, which is why it differentiates
 by task (Phase 1A early signal: p = 6.66e-10) and potentially by training
 phase (Phase 3A).
@@ -47,7 +47,7 @@ phase (Phase 3A).
 
 ## Methods That Modify the A-to-B Pathway
 
-| Method | Venue | Mechanism | A/B Status | Measures Geometry? | RhombiLoRA Differentiator |
+| Method | Venue | Mechanism | A/B Status | Measures Geometry? | TeLoRA Differentiator |
 |--------|-------|-----------|------------|-------------------|--------------------------|
 | **LoRA-XS** | EMNLP 2024 | r×r learnable matrix between A and B | **Frozen** (SVD) | No | Both A and B learnable; bridge as diagnostic, not compression |
 | **LoRA-Mini** | AAAI WS 2025 | Inner/outer decomposition, train inner only | **Frozen** (outer) | No | Same distinction as LoRA-XS — inner-only training |
@@ -57,9 +57,9 @@ phase (Phase 3A).
 
 ## Methods That Decompose/Restructure the Update
 
-| Method | Venue | Mechanism | RhombiLoRA Differentiator |
+| Method | Venue | Mechanism | TeLoRA Differentiator |
 |--------|-------|-----------|--------------------------|
-| **DoRA** | ICML 2024 (Oral) | Magnitude/direction decomposition of W | Operates on frozen weight, not adapter; **composable** with RhombiLoRA |
+| **DoRA** | ICML 2024 (Oral) | Magnitude/direction decomposition of W | Operates on frozen weight, not adapter; **composable** with TeLoRA |
 | **MoRA** | arXiv 2405.12130 | Replaces A/B with square matrix M | No factored structure at all |
 | **LoRMA** | ACL Findings 2025 | Multiplicative: W' = BA × W₀ | Fixed permutation for rank inflation, not learnable coupling |
 | **TLoRA** | arXiv 2501.08727 | Learnable transform on W₀ before adaptation | Transform on pretrained weight, not between A and B |
@@ -101,7 +101,7 @@ structure). This is a genuine gap. Phase 3A would be novel.
 
 ## MoE-Based LoRA Routing
 
-| Method | Venue | Mechanism | RhombiLoRA Differentiator |
+| Method | Venue | Mechanism | TeLoRA Differentiator |
 |--------|-------|-----------|--------------------------|
 | **X-LoRA** | arXiv 2402.07148 | Token-level gating across LoRA experts | Cross-adapter routing, not within-adapter coupling |
 | **L-MoE** | arXiv 2510.17898 | Lightweight gating over LoRA experts | Same — routing between, not coupling within |

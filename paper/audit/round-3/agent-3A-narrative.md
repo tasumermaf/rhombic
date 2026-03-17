@@ -53,9 +53,9 @@
 ### F-3A-04: Paper 2 Future Work -> Paper 3 Link Is Accurate
 - Severity: POLISH (positive finding)
 - Location: Paper 2, Section 7.1 (lines 855-862)
-- Finding: Paper 2's Future Work section describes "RhombiLoRA" and forward-references Paper 3 (`bielec2026bridge`) accurately. The description matches what Paper 3 actually delivers.
+- Finding: Paper 2's Future Work section describes "TeLoRA" and forward-references Paper 3 (`bielec2026bridge`) accurately. The description matches what Paper 3 actually delivers.
 - Evidence:
-  - Paper 2 (lines 857-862): "a learnable bridge matrix with 6 channels following the RD's face-pair topology could add cross-rank mixing at negligible parameter cost. Results on this 'RhombiLoRA' architecture are reported in the companion paper [bielec2026bridge]."
+  - Paper 2 (lines 857-862): "a learnable bridge matrix with 6 channels following the RD's face-pair topology could add cross-rank mixing at negligible parameter cost. Results on this 'TeLoRA' architecture are reported in the companion paper [bielec2026bridge]."
   - Paper 3 delivers exactly this: a 6-channel bridge matrix, RD face-pair topology, negligible parameter cost (0.04% of LoRA budget).
   - The forward reference is accurate and the delivered content matches.
 - Status: NEW

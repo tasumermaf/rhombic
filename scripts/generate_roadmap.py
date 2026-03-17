@@ -23,7 +23,7 @@ def draw_roadmap():
     ax.axis('off')
 
     # Title
-    ax.text(7, 7.5, 'PROMPTCRAFTED — RhombiLoRA Roadmap',
+    ax.text(7, 7.5, 'TASUMER MAF — TeLoRA Roadmap',
             ha='center', va='center', fontsize=18, fontweight='bold',
             color=GOLD, fontfamily='serif')
 
@@ -54,7 +54,7 @@ def draw_roadmap():
         'Rung 0-4 library',
         'Paper 1: 2.3× connectivity',
         'Paper 2: 6.1× amplification',
-        'Paper 3: RhombiLoRA bridge',
+        'Paper 3: TeLoRA bridge',
         '255 tests, PyPI, MPL-2.0',
     ]
     building = [
@@ -123,7 +123,7 @@ def draw_roadmap():
                 fontsize=7, color=DIM_GOLD, fontfamily='serif')
 
     # Attribution
-    ax.text(7, -0.15, 'Promptcrafted LLC  •  promptcrafted.github.io/rhombic',
+    ax.text(7, -0.15, 'Promptcrafted LLC  •  tasumermaf.github.io/rhombic',
             ha='center', va='center', fontsize=8, color=DARK_GOLD, fontfamily='serif')
 
     plt.tight_layout(pad=0.5)

@@ -32,7 +32,7 @@ training data alongside architectural innovation.
 ## The Paired Training Paradigm (Proven at Moonvalley)
 
 Before designing the experiments, we document an existing technique from
-Promptcrafted's production work that directly informs the architecture.
+TASUMER MAF's production work that directly informs the architecture.
 
 ### What We Already Built
 
@@ -73,9 +73,9 @@ checkpointing enabled. Trained on Moonvalley's cloud infrastructure.
 ### Why This Is Transit
 
 The paired training strategy is structurally identical to what we're
-building with RhombiLoRA:
+building with TeLoRA:
 
-| Marey Paired Training | RhombiLoRA Transit |
+| Marey Paired Training | TeLoRA Transit |
 |----------------------|-------------------|
 | `train_data/` (character video) | Model A's representation space |
 | `control_data/` (pose skeleton) | Model B's representation space |
@@ -84,7 +84,7 @@ building with RhombiLoRA:
 | Custom skeleton per character | Shared topology per modality pair |
 
 The difference: Marey's paired training uses a generic learned mapping
-(the LoRA itself). RhombiLoRA paired training uses the 6-channel bridge to
+(the LoRA itself). TeLoRA paired training uses the 6-channel bridge to
 structure that mapping — the FCC topology constrains HOW the transit is
 learned, not just THAT it's learned.
 
@@ -138,7 +138,7 @@ the co-planar signal that Alpaca couldn't.
 
 ### 3A: MoE Expert Bridge Training (Wan 2.2)
 
-**Question:** When MoE experts are trained separately with RhombiLoRA, does
+**Question:** When MoE experts are trained separately with TeLoRA, does
 the shared bridge topology provide a natural alignment basis for merging?
 
 **Architecture:**
@@ -151,9 +151,9 @@ Phase 3 (low_noise):   Fork → low-noise expert specializes (texture, detail)
 Merge:                 merge_experts() → inference-ready merged LoRA
 ```
 
-We extend this with RhombiLoRA:
+We extend this with TeLoRA:
 ```
-Phase 1 (full_noise):  Unified RhombiLoRA warmup → bridge learns base coupling
+Phase 1 (full_noise):  Unified TeLoRA warmup → bridge learns base coupling
 Phase 2 (high_noise):  Fork → expert bridge diverges toward motion structure
 Phase 3 (low_noise):   Fork → expert bridge diverges toward texture structure
 Merge:                 Bridge-aligned merge → face symmetry constrains alignment
@@ -201,7 +201,7 @@ The changes to Flimmer are minimal:
 - `fork()` deep-copies the bridge along with A/B matrices
 - `merge_experts()` gains an `alignment` parameter: `'none'` | `'average'` | `'joint'`
 - `build_parameter_groups()` adds bridge params at bridge-specific LR
-- No changes to the training loop — RhombiLoRALinear is a drop-in replacement
+- No changes to the training loop — TeLoRALinear is a drop-in replacement
   for nn.Linear in the LoRA injection layer
 
 **Phase 4 — Paired Bridge Training (the Marey extension):**
@@ -237,7 +237,7 @@ and bf16. Flimmer already handles this. No cloud compute needed for 3A.
 ### 3B: Cross-Modal Transit (LLM × Image Model)
 
 **Question:** When two models in different modalities each carry a
-RhombiLoRA, does the shared geometric structure produce measurable
+TeLoRA, does the shared geometric structure produce measurable
 resonance in joint gradient dynamics?
 
 **Architecture:**
@@ -248,20 +248,20 @@ resonance in joint gradient dynamics?
                          ║ FACE  ║
     ┌──────────┐         ║ ALIGN ║         ┌──────────┐
     │ Qwen 7B  │──bridge─╢       ╟─bridge──│ Flux Dev │
-    │ + RhombiLoRA      ║       ║          │ + RhombiLoRA
+    │ + TeLoRA      ║       ║          │ + TeLoRA
     └──────────┘         ╚═══════╝         └──────────┘
        Text                                   Image
 ```
 
 **Phase 1 — Independent training (character LoRA equivalent):**
-- Qwen 7B + RhombiLoRA on geometric reasoning dataset (see §Dataset)
-- Flux Dev + RhombiLoRA on image generation (style/concept LoRA)
+- Qwen 7B + TeLoRA on geometric reasoning dataset (see §Dataset)
+- Flux Dev + TeLoRA on image generation (style/concept LoRA)
 - Each model learns its own bridge coupling pattern
 - This is the Peter Rabbit Stage 1: learn the domain first
 
 **Phase 2 — Paired bridge training (controlnet equivalent):**
 - Freeze both base models and both LoRA A/B matrices
-- Connect the two RhombiLoRAs through their shared 6-channel space
+- Connect the two TeLoRAs through their shared 6-channel space
 - Fine-tune ONLY the bridges on paired text→image data:
   - `train_data/` = target images (what Flux should produce)
   - `control_data/` = text descriptions (what Qwen understands)
@@ -338,7 +338,7 @@ faces shared with 12 neighbors. In the MoE interpretation:
 - Each Voronoi cell = one expert
 - Each face = a communication channel between adjacent experts
 - The 6 direction pairs of each face correspond to the 6 channels of
-  the RhombiLoRA bridge
+  the TeLoRA bridge
 
 An 8-expert LGM would place experts at the 8 vertices of a cube (the
 trivalent vertices of the RD — the SAME geometry that encodes the Laws).
@@ -360,7 +360,7 @@ projections = input @ directions.T   # (batch, 6) — directional components
 activated_cell = voronoi_nearest(projections, cell_centers)
 # Route through the cell AND its face-sharing neighbors
 expert_outputs = [experts[i](input) for i in activated_cell.neighborhood]
-# Weight by face-sharing proximity (RhombiLoRA bridge weights)
+# Weight by face-sharing proximity (TeLoRA bridge weights)
 output = bridge_weighted_sum(expert_outputs, activated_cell.bridges)
 ```
 
@@ -546,14 +546,14 @@ of geometric data density on bridge learning.
 
 ### Validation: Does the Data Teach the Geometry?
 
-**Prediction:** Training RhombiLoRA on the geometric dataset should produce:
+**Prediction:** Training TeLoRA on the geometric dataset should produce:
 1. Higher Fiedler values than Alpaca training (the bridge finds more structure)
 2. Stronger co-planar/cross-planar differentiation (the 6 perspectives
    create directional signal)
 3. The co-planar preference should match the data's correlation structure
    (perspectives that frequently co-occur → co-planar coupling)
 
-**Test:** Train identical RhombiLoRA configs on (a) Alpaca, (b) geometric
+**Test:** Train identical TeLoRA configs on (a) Alpaca, (b) geometric
 dataset, (c) 50/50 mix. Compare bridge evolution curves.
 
 ---
@@ -564,10 +564,10 @@ dataset, (c) 50/50 mix. Compare bridge evolution curves.
 
 | Experiment | VRAM | Feasible? |
 |------------|------|-----------|
-| 3A: Wan 2.2 MoE RhombiLoRA (single expert) | ~24-32GB | Yes |
+| 3A: Wan 2.2 MoE TeLoRA (single expert) | ~24-32GB | Yes |
 | 3A: Wan 2.2 merged inference | ~28-36GB | Yes (INT8) |
-| 3B: Qwen 7B RhombiLoRA training | ~22GB | Yes (proven Exp 2) |
-| 3B: Flux Dev RhombiLoRA training | ~14GB | Yes |
+| 3B: Qwen 7B TeLoRA training | ~22GB | Yes (proven Exp 2) |
+| 3B: Flux Dev TeLoRA training | ~14GB | Yes |
 | 3B: Joint bridge fine-tune (both loaded) | ~34-40GB | Tight, likely yes with offloading |
 | 3C: LGM (8 experts × 1.5B) | ~96GB | No |
 | 3C: LGM (8 experts × 3B) | ~192GB | No |
@@ -596,7 +596,7 @@ with face-sharing expert communication. This has:
 4. **Measurable claims:** Fiedler value, connectivity ratio, the hum
 
 **Potential sponsors:**
-- **NVIDIA Inception Program** — Promptcrafted is already eligible as a startup.
+- **NVIDIA Inception Program** — TASUMER MAF is already eligible as a startup.
   DGX Cloud credits for research.
 - **Google Cloud Research Credits** — TPU access for academic research.
   The geometric MoE paper would qualify.
@@ -626,7 +626,7 @@ communication. We need H100/H200 cluster time to train the first LGM."
    - Measure whether co-planar signal strengthens with geometric data
    - If co-planar ratio goes from 1.02× to >1.10×, the data is teaching
      directional structure — proceed to 3A-3C
-3. Integrate RhombiLoRALinear into Flimmer's LoRA injection layer
+3. Integrate TeLoRALinear into Flimmer's LoRA injection layer
    - Add `topology` field to LoRAState
    - Extend `fork()` and `merge_experts()` for bridge handling
    - Add `freeze_lora_ab` option for paired bridge-only training phases
@@ -635,7 +635,7 @@ communication. We need H100/H200 cluster time to train the first LGM."
 
 ### Phase B: MoE Expert Bridge (Weeks 3-4, A6000)
 
-4. **Exp 3A:** Wan 2.2 MoE with RhombiLoRA
+4. **Exp 3A:** Wan 2.2 MoE with TeLoRA
    - Phase 1: unified warmup
    - Phase 2-3: expert fork with bridge divergence tracking
    - Merge: compare direct, averaged, and joint bridge fine-tune
@@ -643,7 +643,7 @@ communication. We need H100/H200 cluster time to train the first LGM."
 
 ### Phase C: Cross-Modal Transit (Weeks 5-6, A6000 + possibly cloud)
 
-5. **Exp 3B:** Qwen RhombiLoRA + Flux Dev RhombiLoRA
+5. **Exp 3B:** Qwen TeLoRA + Flux Dev TeLoRA
    - Independent training on matched domain data
    - Joint bridge fine-tune on paired text→image tasks
    - Hum detection via cross-spectral density
@@ -670,9 +670,9 @@ communication. We need H100/H200 cluster time to train the first LGM."
 |------|------------|--------|------------|
 | Geometric dataset doesn't strengthen co-planar signal | Medium | High | Test with Exp 2.5 before committing. Multiple component designs provide fallbacks. |
 | Joint bridge fine-tune doesn't produce the hum | Medium | High | The hum is the most speculative prediction. Failure here is publishable as a null result. Bridge alignment still works without resonance. |
-| Wan 2.2 + RhombiLoRA doesn't improve FVD | Low | Medium | FVD might not capture the bridge benefit. Add qualitative evaluation (human study). |
+| Wan 2.2 + TeLoRA doesn't improve FVD | Low | Medium | FVD might not capture the bridge benefit. Add qualitative evaluation (human study). |
 | Can't get cloud compute for LGM | Medium | Medium | LGM is Phase D — Papers 1-3 stand without it. Sponsorship strategy has multiple paths. |
-| Flimmer integration introduces bugs | Low | Low | Flimmer has test infrastructure. RhombiLoRALinear is a drop-in replacement. |
+| Flimmer integration introduces bugs | Low | Low | Flimmer has test infrastructure. TeLoRALinear is a drop-in replacement. |
 
 ---
 
@@ -708,7 +708,7 @@ superior control alignment compared to joint training from scratch.
 Raw configs and documentation:
 `C:\Users\Timothy Paul Bielec\Desktop\MV Assets\Paired_Training\`
 
-The extension to geometric topology (RhombiLoRA bridge as structured
+The extension to geometric topology (TeLoRA bridge as structured
 controlnet) is [ANALYTICAL CONTRIBUTION] — the insight that the bridge
 matrix is the geometric analog of the controlnet mapping, and that FCC
 topology constrains this mapping in ways that generic learned projections
@@ -717,6 +717,6 @@ cannot.
 ---
 
 *Design document drafted March 8, 2026. Updated March 8: paired training
-paradigm section added from Promptcrafted/Moonvalley production work.
+paradigm section added from TASUMER MAF/Moonvalley production work.
 Built on Exp 1-2 findings, Flimmer infrastructure, Marey paired training,
 and the three Falco research streams.*

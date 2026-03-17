@@ -53,7 +53,7 @@ All bib entry titles verified against the actual `\title{}` commands in each pap
 
 - **P1 cites P2/P3:** No. Correct---Paper 1 is LOCKED and has no forward references.
 - **P2 cites P1:** Yes, `bielec2026shape` at lines 45, 78, 171, 504. Correct.
-- **P2 cites P3:** Yes, `bielec2026bridge` at line 872 (Future Work). Correct---forward reference to the RhombiLoRA architecture.
+- **P2 cites P3:** Yes, `bielec2026bridge` at line 872 (Future Work). Correct---forward reference to the TeLoRA architecture.
 - **P3 cites P1:** Yes, `bielec2026shape` at line 341. Correct.
 - **P3 cites P2:** Yes, `bielec2026weights` at line 344. Correct---added in Round 3 fix.
 
@@ -67,7 +67,7 @@ All bib entry titles verified against the actual `\title{}` commands in each pap
 
 **P1 establishes:** FCC lattice provides 2.3-2.5x algebraic connectivity advantage over SC under uniform weights, across four domains (graph theory, spatial ops, signal processing, embedding retrieval). Scale range 125-8,000 nodes.
 
-**P2 extends:** Heterogeneous edge weights amplify the FCC advantage. Seven experiments across two registers (lattice-scale, single-cell). Key result: direction-weighted corpus pushes Fiedler ratio from 2.55x (uniform) to 6.11x (corpus) at scale 1,000. Mechanism identified as bottleneck resilience. Future Work section explicitly previews Paper 3's RhombiLoRA.
+**P2 extends:** Heterogeneous edge weights amplify the FCC advantage. Seven experiments across two registers (lattice-scale, single-cell). Key result: direction-weighted corpus pushes Fiedler ratio from 2.55x (uniform) to 6.11x (corpus) at scale 1,000. Mechanism identified as bottleneck resilience. Future Work section explicitly previews Paper 3's TeLoRA.
 
 **P3 applies:** The RD's 6 face-pair direction structure (which P2 showed amplifies the lattice advantage) becomes the geometric prior for multi-channel LoRA. The Steersman encodes face-pair relationships via contrastive loss. Block-diagonal structure emerges, organized along the same 3-axis coordinate system.
 

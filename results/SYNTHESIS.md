@@ -377,8 +377,8 @@ The bottleneck is not the processor. It is the shape of the cell.
 
 ---
 
-*Built by [Promptcrafted](https://promptcrafted.com).*
-*Code: [github.com/promptcrafted/rhombic](https://github.com/promptcrafted/rhombic)*
+*Built by [TASUMER MAF](https://tasumermaf.com).*
+*Code: [github.com/tasumermaf/rhombic](https://github.com/tasumermaf/rhombic)*
 *Interactive demo: [huggingface.co/spaces/timotheospaul/rhombic](https://huggingface.co/spaces/timotheospaul/rhombic)*
 *Essay: [The Shape of the Cell](https://timotheospaul.substack.com/p/the-shape-of-the-cell)*
 *The geometry is the argument. The numbers are the evidence.*

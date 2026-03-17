@@ -19,7 +19,7 @@
 | **H3** | TinyLlama | 1.1B | **6** | identity | **Yes** | 10K | **0.4015** @10K | **70,404:1** | **100%** | **Done** |
 | **H4** | TinyLlama | 1.1B | **8** | identity | **Yes** | 10K | 0.4227 @2.9K | **~1:1** | **0%** | Running |
 | H5 | TinyLlama | 1.1B | **12** | identity | **Yes** | 10K | — | — | — | Queued |
-| Holly | Wan 2.1 | 14B | 6 | identity | No | 10 ep | 1.493 | **1.07:1** | **0%** | Done |
+| Holly | Wan 2.1 | 14B | 6 | identity | No | 10 ep | 1.552 | **1.07:1** | **0%** | Done |
 
 ## Evidence Summary
 

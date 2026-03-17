@@ -72,7 +72,7 @@ Five papers. One thesis per paper. Each builds on the last.
 |---------|---------|----------|
 | §1 Introduction | Multi-channel LoRA, bridge as learnable object | — |
 | §2 Background | LoRA, cybernetic optimization, BD in neural nets | — |
-| §3 Method | RhombiLoRA architecture, Steersman, RD geometry | — |
+| §3 Method | TeLoRA architecture, Steersman, RD geometry | — |
 | §4.1 BD emergence | 100% cybernetic vs 0% non-cybernetic | 6 cybernetic + 6 non-cybernetic exps |
 | §4.2 Lock-in dynamics | Step 200, exponential decay (t½=123), linear growth | All 5 cybernetic runs |
 | §4.3 Init independence | Identity + geometric + corpus-coupled converge | C-001, C-002, C-003 |
@@ -120,7 +120,7 @@ Five papers. One thesis per paper. Each builds on the last.
 
 | Fig | Content | Source |
 |-----|---------|--------|
-| 1 | RhombiLoRA architecture diagram | New (schematic) |
+| 1 | TeLoRA architecture diagram | New (schematic) |
 | 2 | Temporal emergence (all cybernetic runs) | fig_all_cybernetic_temporal.png |
 | 3 | Coupling dynamics with exp/linear fits | fig_temporal_emergence.png |
 | 4 | Three-way init convergence | fig_init_convergence_comprehensive.png |
@@ -240,7 +240,7 @@ Paper 2 cites Paper 1. Paper 3 cites Papers 1-2. Paper 4 cites Papers 1-3. Paper
 | Layer | Open (Stream A) | Proprietary (Stream B) |
 |-------|-----------------|----------------------|
 | Library | `rhombic` (pip-installable) | — |
-| Architecture | RhombiLoRA, Steersman, bridge matrix | — |
+| Architecture | TeLoRA, Steersman, bridge matrix | — |
 | Methodology | Contrastive loss, spectral regularization, topology programming | — |
 | Benchmarks | All lattice/graph results | — |
 | 24 corpus values | Statistical characterization only | **Protected** (Promptcrafted LLC) |

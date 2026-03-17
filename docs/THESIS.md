@@ -101,7 +101,7 @@ and forgot there was an alternative.
 The Continental tradition — Lévi's original attributions — was
 computationally verified to produce coherent results where the
 Golden Dawn's do not (see: the Falco Trump Isopsephy project,
-Promptcrafted, 2025-2026). The same pattern: a default inherited
+TASUMER MAF, 2025-2026). The same pattern: a default inherited
 without examination, displacing a system that actually works.
 
 Descartes to von Neumann to the cubic lattice. Mathers to the
@@ -169,5 +169,5 @@ the cube is consistently outperformed. The evidence is here. The alternative is 
 
 ---
 
-*Built by [Promptcrafted](https://promptcrafted.com).*
+*Built by [TASUMER MAF](https://tasumermaf.com).*
 *The geometry is the argument. The numbers are the evidence.*

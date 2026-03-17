@@ -137,7 +137,7 @@ All 9 figures present. Note: Paper 3 figures are PNG only (no PDF versions). Pap
 ## 10. Code Availability
 
 ### Paper 2
-- **Source code:** `https://github.com/promptcrafted/rhombic` — PASS
+- **Source code:** `https://github.com/tasumermaf/rhombic` — PASS
 - **Package:** `https://pypi.org/project/rhombic/` (v0.3.0, 312 tests) — PASS
 - **Provenance:** PyPI trusted publishing binding to commit hash — PASS
 - **Reproduction command:** `pip install rhombic==0.3.0 && python scripts/run_experiments.py` — PASS
@@ -145,7 +145,7 @@ All 9 figures present. Note: Paper 3 figures are PNG only (no PDF versions). Pap
 - **Seed:** 42 for all stochastic operations — PASS
 
 ### Paper 3
-- **Source code:** `https://github.com/promptcrafted/rhombic` — PASS
+- **Source code:** `https://github.com/tasumermaf/rhombic` — PASS
 - **Package:** `https://pypi.org/project/rhombic/` (v0.3.0, 312 tests) — PASS
 - **Reproduction:** install rhombic + run training scripts with seed=42 — PASS
 - **Note:** Paper 3's reproduction instruction is less specific than Paper 2's (no single `run_experiments.py` equivalent cited). Consider adding the exact script path or command.
