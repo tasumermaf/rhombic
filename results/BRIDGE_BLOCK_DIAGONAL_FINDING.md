@@ -158,7 +158,7 @@ Qwen 7B (both cybernetic). The 3-axis self-organization is an
 architectural property, not a model-capacity artifact.
 
 **Holly Battery (Wan 2.1 14B, video diffusion, NON-cybernetic):**
-RhombiLoRA co/cross ratio = 1.071:1 (essentially uniform). Standard
+TeLoRA co/cross ratio = 1.071:1 (essentially uniform). Standard
 LoRA control = 1.033:1. Delta = +0.038 — negligible. Even at 14B scale
 in a completely different modality, without the Steersman the bridge
 remains a generic coupling matrix. This confirms the Steersman is the
@@ -179,7 +179,7 @@ it a priori. The scientific value is in the discovery, not the efficiency.
 
 This finding should be a central result. The narrative:
 1. Standard LoRA adds learnable parameters with no structural constraint
-2. RhombiLoRA adds a bridge with geometric initialization
+2. TeLoRA adds a bridge with geometric initialization
 3. The Steersman (cybernetic training) causes the bridge to self-organize
 4. The emergent structure matches the RD's 3-axis coordinate geometry
 5. This is evidence that the geometry is not arbitrary — the training

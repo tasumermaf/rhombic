@@ -1,7 +1,7 @@
 ![rhombic banner](assets/banner.png)
 
 [![PyPI](https://img.shields.io/pypi/v/rhombic)](https://pypi.org/project/rhombic/)
-[![CI](https://github.com/promptcrafted/rhombic/actions/workflows/ci.yml/badge.svg)](https://github.com/promptcrafted/rhombic/actions/workflows/ci.yml)
+[![CI](https://github.com/tasumermaf/rhombic/actions/workflows/ci.yml/badge.svg)](https://github.com/tasumermaf/rhombic/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/pypi/pyversions/rhombic)](https://pypi.org/project/rhombic/)
 [![License: MPL 2.0](https://img.shields.io/badge/License-MPL_2.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)
 
@@ -237,7 +237,7 @@ evidence, cybernetic interpretation, and practical recommendations.
 that thinks in 12 dimensions. 9 custom tools + 3 conversational skills. Ask it
 to run experiments, generate visualizations, and explain the geometry.
 
-[Hackathon Demo →](https://promptcrafted.github.io/rhombic/)
+[Hackathon Demo →](https://tasumermaf.github.io/rhombic/)
 
 ## Ecosystem
 
@@ -247,9 +247,9 @@ to run experiments, generate visualizations, and explain the geometry.
 - [Full synthesis](results/SYNTHESIS.md) — the complete argument across all four rungs
 - [Weighted extensions](results/paper2/RESULTS.md) — what happens under heterogeneous weights
 
-### RhombiLoRA — Neural Adapter Geometry
+### TeLoRA — Neural Adapter Geometry
 
-**RhombiLoRA** adds a learnable n×n coupling matrix — the *bridge* —
+**TeLoRA** adds a learnable n×n coupling matrix — the *bridge* —
 between the A and B projections in LoRA, adding n² parameters per layer.
 When the bridge is the identity matrix, the architecture reduces exactly
 to standard LoRA.
@@ -280,4 +280,4 @@ new metrics, and new rungs on the experimental ladder.
 [MPL-2.0](LICENSE) — Use freely. Modifications to library files shared
 back to the commons.
 
-## Built by [Promptcrafted](https://promptcrafted.com)
+## Built by [TASUMER MAF](https://tasumermaf.com)

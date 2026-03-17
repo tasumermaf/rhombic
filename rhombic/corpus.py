@@ -74,7 +74,7 @@ def _require_corpus() -> None:
         raise CorpusUnavailable(
             "Corpus values are proprietary (Promptcrafted LLC). "
             "Use uniform, random, or power_law distributions instead. "
-            "See: https://github.com/promptcrafted/rhombic"
+            "See: https://github.com/tasumermaf/rhombic"
         )
 
 

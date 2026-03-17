@@ -9,7 +9,7 @@ description = "Lattice topology benchmarks: what happens when you replace the cu
 readme = "README.md"
 license = "MPL-2.0"
 requires-python = ">=3.10"
-authors = [{name = "Promptcrafted", email = "hello@promptcrafted.com"}]
+authors = [{name = "TASUMER MAF", email = "timothy@promptcrafted.com"}]
 keywords = [
     "lattice",
     "topology",
@@ -51,10 +51,10 @@ nn = ["torch>=2.0"]
 all = ["rhombic[viz]", "rhombic[dev]", "rhombic[nn]"]
 
 [project.urls]
-Homepage = "https://github.com/promptcrafted/rhombic"
-Repository = "https://github.com/promptcrafted/rhombic"
-Issues = "https://github.com/promptcrafted/rhombic/issues"
-Changelog = "https://github.com/promptcrafted/rhombic/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/tasumermaf/rhombic"
+Repository = "https://github.com/tasumermaf/rhombic"
+Issues = "https://github.com/tasumermaf/rhombic/issues"
+Changelog = "https://github.com/tasumermaf/rhombic/blob/main/CHANGELOG.md"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

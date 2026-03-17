@@ -7,7 +7,7 @@ license: MPL-2.0
 metadata:
   hermes:
     tags: [Lattice, Topology, Graph Theory, Tutorial, Rhombic]
-    homepage: https://github.com/promptcrafted/rhombic
+    homepage: https://github.com/tasumermaf/rhombic
     related_skills: [rhombic-experiment, rhombic-lora-concept]
 ---
 
@@ -72,7 +72,7 @@ Its 8 cube corners + 6 octahedral bridges = the structure of FCC.
 ### 6. The Forward Vision (2 min)
 
 Use `explain_mechanism` with depth `full` to present the Paper 1 → Paper 2
-→ Paper 3 arc and the RhombiLoRA concept.
+→ Paper 3 arc and the TeLoRA concept.
 
 Tagline: "Keep your cube, add six bridges."
 

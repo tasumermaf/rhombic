@@ -18,7 +18,7 @@
 | T-006 | **NONE** | Papers 2-3 | "Fiedler eigenvalue" definition | CONSISTENT |
 | T-007 | **NONE** | Paper 3 | "block-diagonal," "co-planar," "cross-planar" definitions | CONSISTENT within P3; not used in P2 |
 | T-008 | **NONE** | Paper 3 | "Steersman" description | CONSISTENT (not mentioned in P2) |
-| T-009 | **NONE** | Papers 2-3 | "RhombiLoRA" vs. "multi-channel LoRA" usage | CONSISTENT |
+| T-009 | **NONE** | Papers 2-3 | "TeLoRA" vs. "multi-channel LoRA" usage | CONSISTENT |
 | T-010 | **NONE** | Papers 2-3 | "bridge matrix" definition | CONSISTENT across papers (see T-001 for within-P3 issue) |
 | T-011 | LOW | Paper 2 line 859 vs. Paper 3 passim | Paper 2 previews "6 channels" in future work; Paper 3 uses $n=6$ as one of four tested values | OK -- no contradiction |
 | T-012 | LOW | Paper 3 lines 64-67 vs. 184-187 | Abstract and intro report slightly different Fiedler numbers for non-$n=6$ cases | VERIFY |
@@ -130,10 +130,10 @@ Paper 2 does not use any of these terms. No cross-paper inconsistency possible.
 
 ---
 
-### T-009: "RhombiLoRA" vs. "Multi-Channel LoRA"
+### T-009: "TeLoRA" vs. "Multi-Channel LoRA"
 **Severity:** NONE
 **Location:** Paper 2 (line 861) vs. Paper 3 (line 47 and passim)
-**Finding:** Paper 2 introduces "RhombiLoRA" in quotation marks as a preview name in the future-work section (line 861: `this ``RhombiLoRA'' architecture`). Paper 3 uses both terms: "Multi-channel LoRA (RhombiLoRA)" in the abstract (line 47), establishing "RhombiLoRA" as the specific name for the multi-channel LoRA architecture with a bridge matrix. Throughout Paper 3, both terms appear contextually: "multi-channel LoRA" for the general concept, "RhombiLoRA" for the specific architecture. This is consistent.
+**Finding:** Paper 2 introduces "TeLoRA" in quotation marks as a preview name in the future-work section (line 861: `this ``TeLoRA'' architecture`). Paper 3 uses both terms: "Multi-channel LoRA (TeLoRA)" in the abstract (line 47), establishing "TeLoRA" as the specific name for the multi-channel LoRA architecture with a bridge matrix. Throughout Paper 3, both terms appear contextually: "multi-channel LoRA" for the general concept, "TeLoRA" for the specific architecture. This is consistent.
 
 **Status:** CONSISTENT
 
@@ -175,7 +175,7 @@ Paper 2 does not use any of these terms. No cross-paper inconsistency possible.
 | Fiedler eigenvalue | $\lambda_2$, $\lambda_2(L_w)$ | $\lambda_2$, $\lambda_2^a$, Bridge Fiedler, Correlation Fiedler | Yes -- P3 extends |
 | Bridge matrix | "bridge matrix" (informal, future work) | $\mathcal{B}$ (intro) / $\mathbf{M}$ (method+) | **No -- within-P3 conflict** |
 | Channel | "channels" (quoted metaphor for lattice) | channels (formal LoRA term) | Yes -- deliberate transition |
-| RhombiLoRA | "RhombiLoRA" (quoted preview) | RhombiLoRA (formal name) | Yes |
+| TeLoRA | "TeLoRA" (quoted preview) | TeLoRA (formal name) | Yes |
 | Steersman | Not mentioned | Defined in Section 3.2 | N/A |
 | Paper 1 metrics | 2.3--2.5x, 30--32% | 2.4x, 30% | **No -- point vs. range** |
 | Direction pair / face pair | "direction pair" (primary) | "face pair" (primary), "direction pair" (once, line 496) | Yes -- contextually appropriate |

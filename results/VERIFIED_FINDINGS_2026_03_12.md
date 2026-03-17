@@ -7,23 +7,23 @@
 
 ## 1. Holly Battery (Wan 2.1 14B T2V — Real Video Model)
 
-Three-way comparison: Standard LoRA vs RhombiLoRA vs Corpus-Weighted RhombiLoRA.
+Three-way comparison: Standard LoRA vs TeLoRA vs Corpus-Weighted TeLoRA.
 All runs: rank 24, Prodigy optimizer (lr=1, constant schedule), 50 epochs, 1450 global steps.
 Platform: RunPod (Minta's account), WandB entity: `alvdansen-labs/rhombi-experiment`.
 
 | Run | WandB ID | Final Loss EMA | Min Loss EMA | Peak VRAM (GB) | Runtime (min) |
 |-----|----------|---------------|-------------|----------------|--------------|
 | **Standard LoRA** | `rxhm9a4i` | **1.6137** | 1.6132 | **75.75** | 1625 |
-| **RhombiLoRA** | `u2acmrs0` | **1.5517** | 1.5447 | **66.60** | 1527 |
+| **TeLoRA** | `u2acmrs0` | **1.5517** | 1.5447 | **66.60** | 1527 |
 | **Corpus-Weighted** | `n9t7op19` | **1.6453** | 1.6362 | **66.60** | 1528 |
 
 ### Key Findings
 
-- **RhombiLoRA beats standard by 3.8%** (1.5517 vs 1.6137 final loss EMA)
-- **RhombiLoRA uses 9.15 GB less peak VRAM** (66.60 vs 75.75 GB)
-- **RhombiLoRA trains 6% faster** (1527 vs 1625 min)
+- **TeLoRA beats standard by 3.8%** (1.5517 vs 1.6137 final loss EMA)
+- **TeLoRA uses 9.15 GB less peak VRAM** (66.60 vs 75.75 GB)
+- **TeLoRA trains 6% faster** (1527 vs 1625 min)
 - **Corpus weighting HURTS** — 1.6453 is worse than both alternatives
-- Bridge metrics (RhombiLoRA): Fiedler = 0.108, deviation = 0.185
+- Bridge metrics (TeLoRA): Fiedler = 0.108, deviation = 0.185
 - Bridge metrics (corpus): Fiedler = 0.125, deviation = 2.030
 
 ### Loss Curve Verification (sampled from WandB history)
@@ -37,7 +37,7 @@ step   995: 1.7131
 step  1320: 1.6137
 ```
 
-**RhombiLoRA:**
+**TeLoRA:**
 ```
 step     5: 3.1776
 step   325: 2.5087
@@ -55,7 +55,7 @@ step   965: 1.7448
 step  1285: 1.6453
 ```
 
-RhombiLoRA converges faster at every checkpoint AND to a lower final value.
+TeLoRA converges faster at every checkpoint AND to a lower final value.
 
 ### adamw8bit Crashes
 
@@ -149,7 +149,7 @@ All three axis pairs have similar magnitude. Signs vary by projection type (indi
 | Co-planar coupling | 1.517 | 0.778 | — |
 | Cross-planar coupling | 7.3e-5 | 2.1e-5 | — |
 
-**The cross-layer correlation Fiedler converges to ~0.10 across three model scales (1.1B, 7B, 14B).** This is a scale-invariant property of the RhombiLoRA bridge — the structural consistency of the block-diagonal pattern settles to a universal value regardless of model size.
+**The cross-layer correlation Fiedler converges to ~0.10 across three model scales (1.1B, 7B, 14B).** This is a scale-invariant property of the TeLoRA bridge — the structural consistency of the block-diagonal pattern settles to a universal value regardless of model size.
 
 > **⚠ Metric clarification (March 14):** The Fiedler values in this table
 > (0.102, 0.101, 0.108) are the **correlation Fiedler** computed by

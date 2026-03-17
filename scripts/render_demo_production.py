@@ -419,10 +419,10 @@ def render_scene_vision(frame_in_scene, total_frames):
     body_font = get_font(scale(48), "sans")
     tagline_font = get_font(scale(72), "serif")
 
-    # RhombiLoRA title
+    # TeLoRA title
     op1 = fade_in_out(frame_in_scene, 0, 20, total_frames - 35, 15)
     if op1 > 0:
-        draw_centered_text(draw, "RhombiLoRA", int(H * 0.18), title_font, VIOLA)
+        draw_centered_text(draw, "TeLoRA", int(H * 0.18), title_font, VIOLA)
         draw_centered_text(draw, "Geometric LoRA adapters that add diagonal bridges",
                            int(H * 0.30), body_font, DIM)
 
@@ -471,8 +471,8 @@ def render_scene_cta(frame_in_scene, total_frames):
     op2 = fade_in_out(frame_in_scene, 20, 15, total_frames - 45, 10)
     if op2 > 0:
         links = [
-            "promptcrafted.github.io/rhombic",
-            "github.com/promptcrafted/rhombic",
+            "tasumermaf.github.io/rhombic",
+            "github.com/tasumermaf/rhombic",
             "pypi.org/project/rhombic",
         ]
         for i, link in enumerate(links):
@@ -488,7 +488,7 @@ def render_scene_cta(frame_in_scene, total_frames):
     # Attribution
     op4 = fade_in_out(frame_in_scene, 60, 15, total_frames - 85, 10)
     if op4 > 0:
-        draw_centered_text(draw, "Promptcrafted  |  @NousResearch  |  #HermesAgentHackathon",
+        draw_centered_text(draw, "TASUMER MAF  |  @NousResearch  |  #HermesAgentHackathon",
                            int(H * 0.90), small_font, DIM)
 
     return img

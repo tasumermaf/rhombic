@@ -113,7 +113,7 @@ contrasted with the cybernetic values:
 May belong in a separate paper or in this one as a section on scale.
 
 **Key numbers:**
-- 3.8% better final loss (1.552 → 1.493 val loss)
+- 3.8% better final loss (1.6137 → 1.5517 val loss EMA, per WandB verified data)
 - 9.15 GB less VRAM (37.59 GB → 28.44 GB)
 - 6% faster training (3.12 → 2.94 s/step)
 - 50% smaller checkpoint (2.1 GB → 1.05 GB)

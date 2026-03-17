@@ -14,7 +14,7 @@ regularization, or the contrastive pair specification?
 
 ## Experimental Design
 
-We trained five RhombiLoRA adapters varying two factors: channel count
+We trained five TeLoRA adapters varying two factors: channel count
 (n ∈ {3, 4, 6, 8}) and training topology (spectral-only vs. contrastive).
 All runs shared identical hyperparameters (TinyLlama 1.1B, Alpaca-cleaned,
 r=24, LR=2e-4, batch 2 × 8 grad accum, 10K steps, seed 42) and differed

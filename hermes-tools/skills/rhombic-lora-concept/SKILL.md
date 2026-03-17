@@ -1,19 +1,19 @@
 ---
 name: rhombic-lora-concept
-description: Explore the RhombiLoRA concept — a geometric LoRA adapter that adds 6 diagonal bridge connections to transformer attention heads, converting cubic topology to FCC.
+description: Explore the TeLoRA concept — a geometric LoRA adapter that adds 6 diagonal bridge connections to transformer attention heads, converting cubic topology to FCC.
 version: 1.0.0
 author: Promptcrafted
 license: MPL-2.0
 metadata:
   hermes:
-    tags: [LoRA, Transformer, ML, Adapter, Geometry, Rhombic, RhombiLoRA]
-    homepage: https://github.com/promptcrafted/rhombic
+    tags: [LoRA, Transformer, ML, Adapter, Geometry, Rhombic, TeLoRA]
+    homepage: https://github.com/tasumermaf/rhombic
     related_skills: [rhombic-tutorial, rhombic-experiment]
 ---
 
-# RhombiLoRA Concept Explorer
+# TeLoRA Concept Explorer
 
-Explore the theoretical basis for RhombiLoRA — a geometric LoRA adapter
+Explore the theoretical basis for TeLoRA — a geometric LoRA adapter
 that leverages FCC lattice topology for improved gradient flow in
 transformer architectures.
 
@@ -27,7 +27,7 @@ Load the research context from `~/hermes-agent/rhombic-context.md` before starti
 |-------|----------|--------|
 | Paper 1 | What happens when you replace the cube? | 2.3x connectivity, 30% shorter paths |
 | Paper 2 | Does structure amplify or attenuate? | Amplifies to 6.1x under heterogeneous weights |
-| Paper 3 | What happens when you embrace the cube? | RhombiLoRA — keep the cube, add six bridges |
+| Paper 3 | What happens when you embrace the cube? | TeLoRA — keep the cube, add six bridges |
 
 ## The Key Insight
 
@@ -36,7 +36,7 @@ the cube's corners. The 6 tetravalent vertices are the bridges that convert
 the cube into a space-filling structure.
 
 In transformer terms: the existing attention head topology is cubic
-(6-connected). RhombiLoRA adds 6 diagonal bridge connections per node,
+(6-connected). TeLoRA adds 6 diagonal bridge connections per node,
 converting it to FCC (12-connected) topology — without replacing any
 existing connections.
 
@@ -70,7 +70,7 @@ bridge connections provide alternative routes around bottlenecks.
 
 Use `explain_mechanism` at `full` depth to discuss the consensus inversion.
 At small scale (125 nodes), FCC consensus is 6.7x faster. At scale 1000,
-it's 0.73x (slower). This means RhombiLoRA works best at the attention
+it's 0.73x (slower). This means TeLoRA works best at the attention
 head level (small scale), not at the full-model level.
 
 ### 5. Theoretical Backing
@@ -79,12 +79,12 @@ Reference Karkada et al. (2026): "data symmetry analytically determines
 representation geometry." If this is true, then:
 - Data with cubic symmetry → cubic attention is sufficient
 - Data with higher symmetry → FCC attention should match better
-- RhombiLoRA's topology should ADAPT to the data's symmetry structure
+- TeLoRA's topology should ADAPT to the data's symmetry structure
 
 ## Implementation Sketch
 
 ```python
-class RhombiLoRALayer(nn.Module):
+class TeLoRALayer(nn.Module):
     """6 diagonal bridge connections per attention head."""
 
     def __init__(self, d_model, rank=4):
@@ -117,7 +117,7 @@ directions to specific attention head interaction patterns.
 
 ## Rules
 
-1. Present RhombiLoRA as a research concept, not a finished product
+1. Present TeLoRA as a research concept, not a finished product
 2. Use live computations to back every claim
 3. Always show both the advantage AND the cost
 4. Reference Karkada et al. as theoretical motivation, not proof

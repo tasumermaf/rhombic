@@ -221,7 +221,7 @@ Sources: `EXPERIMENT_TRACKER.md`, `COMPREHENSIVE_EXPERIMENT_TABLE.md`, `DEFINITI
 - **Location:** Section 6.2, lines 973-977
 - **Paper claims:** "The Correlation Fiedler converges to ~0.10 across all three model scales: 0.102 (Qwen 7B), 0.101 (TinyLlama), 1.002 (Holly Battery 14B). This scale-invariant value indicates..."
 - **Data shows:** Holly Battery Correlation Fiedler = **1.002**, which is NOT ~0.10 — it is 10× higher. The paper lists all three values correctly but then claims they all "converge to ~0.10," which is only true for the first two.
-- **Evidence:** FIEDLER_METRIC_NOTE.md line 35: "Holly 14B (RhombiLoRA): 1.002". The paper correctly prints 1.002 but incorrectly describes it as convergent with the ~0.10 values.
+- **Evidence:** FIEDLER_METRIC_NOTE.md line 35: "Holly 14B (TeLoRA): 1.002". The paper correctly prints 1.002 but incorrectly describes it as convergent with the ~0.10 values.
 - **Resolution:** Rewrite to note that Correlation Fiedler = ~0.10 for cybernetic text models (Qwen, TinyLlama) and ~1.0 for the non-cybernetic Holly Battery. The scale-invariance claim applies to the text models; Holly behaves differently (likely because its single adapter produces near-perfect correlation across its layers, giving Fiedler near 1.0). This is still a meaningful finding but requires proper framing.
 
 ### F-01-11: I Ching Step 200 Coupling Value

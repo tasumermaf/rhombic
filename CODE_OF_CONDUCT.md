@@ -30,7 +30,7 @@ Examples of unacceptable behavior:
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the project maintainers at **security@promptcrafted.com**. All
+reported to the project maintainers at **timothy@promptcrafted.com**. All
 complaints will be reviewed and investigated promptly and fairly.
 
 ## Attribution

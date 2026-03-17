@@ -29,7 +29,7 @@ The section file `section2_architecture.tex` is not `\input`-ed by the
 final tex — it is a draft artifact.
 
 **Impact: MODERATE.** The paper describes a novel architecture
-(RhombiLoRA with bridge matrix) entirely through text and equations.
+(TeLoRA with bridge matrix) entirely through text and equations.
 Reviewers of ML papers universally expect an architecture diagram for
 novel components. The reshape-bridge-flatten pipeline is straightforward
 in equations but would be immediately comprehensible as a figure. This

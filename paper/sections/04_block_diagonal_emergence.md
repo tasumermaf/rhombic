@@ -6,7 +6,7 @@ Table 1 presents the complete experimental record. Across 15 experiments spannin
 
 Six cybernetic experiments at $n = 6$ contribute 42,500+ bridge matrices to the analysis. Each matrix is classified as block-diagonal if $\rho > 10$ and all cross-planar entries fall below $10^{-3}$ in absolute value. The classification rate is 100.0% in every experiment, at every checkpoint from step 200 onward. There are no exceptions, no near-misses, and no late-onset failures. The attractor is absolute.
 
-Six non-cybernetic experiments contribute 570 final-state bridges across three model scales. None exhibits block-diagonal structure. Co-planar/cross-planar ratios range from 0.99:1 to 1.07:1 — statistically indistinguishable from the null hypothesis of uniform coupling. The Holly Battery experiment (Wan 2.1 14B, 10 training epochs, Prodigy optimizer, no Steersman) achieves 3.8% lower loss than the non-RhombiLoRA baseline while using 9.15 GB less VRAM and producing 6% faster inference, but its bridge matrices remain near-identity with $\rho = 1.07$:1. Performance benefits from multi-channel parameterization do not require — and do not induce — topological structure.
+Six non-cybernetic experiments contribute 570 final-state bridges across three model scales. None exhibits block-diagonal structure. Co-planar/cross-planar ratios range from 0.99:1 to 1.07:1 — statistically indistinguishable from the null hypothesis of uniform coupling. The Holly Battery experiment (Wan 2.1 14B, 10 training epochs, Prodigy optimizer, no Steersman) achieves 3.8% lower loss than the non-TeLoRA baseline while using 9.15 GB less VRAM and producing 6% faster inference, but its bridge matrices remain near-identity with $\rho = 1.07$:1. Performance benefits from multi-channel parameterization do not require — and do not induce — topological structure.
 
 **Table 1: Complete Experiment Summary**
 
@@ -24,7 +24,7 @@ Six non-cybernetic experiments contribute 570 final-state bridges across three m
 | H1 | TinyLlama | 3 | identity | Yes | 10K | 0.4020 | N/A | N/A |
 | H2 | TinyLlama | 4 | identity | Yes | 10K | 0.4022 | $\sim$1:1 | 0% |
 | H4 | TinyLlama | 8 | identity | Yes | 10K | — | $\sim$1:1 | 0% |
-| Holly | Wan 2.1 14B | 6 | identity | No | 10 ep | 1.493 | 1.07:1 | 0% |
+| Holly | Wan 2.1 14B | 6 | identity | No | 10 ep | 1.552 | 1.07:1 | 0% |
 
 
 ## 4.2 Lock-in Dynamics

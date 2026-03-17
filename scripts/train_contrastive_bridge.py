@@ -104,6 +104,15 @@ def _compute_pair_indices(
                 else:
                     cross_planar.append((i, j))
         return co_planar, cross_planar
+    elif n_channels == 4:
+        # Octahedral geometry: 8 triangular faces form 4 antipodal pairs.
+        # The octahedron has uniform inter-pair symmetry (no natural co/cross
+        # heterogeneity like RD), so we impose a 2-axis partition:
+        # channels (0,1) aligned along one axis, (2,3) along the orthogonal.
+        # 2 co-planar pairs (same axis), 4 cross-planar (across axes).
+        co_planar = [(0, 1), (2, 3)]
+        cross_planar = [(0, 2), (0, 3), (1, 2), (1, 3)]
+        return co_planar, cross_planar
     elif n_channels == 8:
         # Tesseract geometry: 8 cubic cells pair into 4 opposite pairs
         # along 4 coordinate axes of the 4D hypercube

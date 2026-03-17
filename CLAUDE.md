@@ -2,7 +2,7 @@
 
 You are assisting with **rhombic**, a lattice topology benchmarking library
 that compares cubic (6-connected) and FCC/rhombic dodecahedral (12-connected)
-lattice topologies. Built by Promptcrafted.
+lattice topologies. Built by TASUMER MAF.
 
 ## The Thesis
 

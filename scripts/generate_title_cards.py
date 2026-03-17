@@ -72,15 +72,15 @@ def closing_card():
     # Gold line
     draw.line([(W//2 - 300, 370), (W//2 + 300, 370)], fill=GOLD, width=2)
 
-    draw_centered(draw, "promptcrafted.github.io/rhombic", 400, link_font, TEXT)
-    draw_centered(draw, "github.com/promptcrafted/rhombic", 445, link_font, DIM)
+    draw_centered(draw, "tasumermaf.github.io/rhombic", 400, link_font, TEXT)
+    draw_centered(draw, "github.com/tasumermaf/rhombic", 445, link_font, DIM)
     draw_centered(draw, "huggingface.co/spaces/timotheospaul/rhombic", 490, link_font, DIM)
 
     # Tagline
     draw_centered(draw, "256 tests. 3 papers. 0 competitors.", 580, big_font, GOLD)
 
     # Attribution
-    draw_centered(draw, "Built by Promptcrafted  \u00b7  @NousResearch #HermesAgentHackathon", 700, tag_font, DIM)
+    draw_centered(draw, "Built by TASUMER MAF  \u00b7  @NousResearch #HermesAgentHackathon", 700, tag_font, DIM)
 
     img.save(os.path.join(OUT, 'closing_card.png'), quality=95)
     print(f"Saved: closing_card.png ({W}x{H})")

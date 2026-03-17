@@ -56,4 +56,4 @@ Figure PDFs and compiled paper PDFs are gitignored — build from source.
 1. Build the PDF and verify all tables/figures render correctly
 2. Submit to arXiv at https://arxiv.org/submit
 3. Primary category: cs.DS (Data Structures and Algorithms)
-4. Add comment: "Open-source library: https://github.com/promptcrafted/rhombic"
+4. Add comment: "Open-source library: https://github.com/tasumermaf/rhombic"

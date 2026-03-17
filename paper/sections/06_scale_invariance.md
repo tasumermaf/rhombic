@@ -22,7 +22,7 @@ The Correlation Fiedler converges to ${\sim}0.10$ for cybernetic text models: 0.
 
 ## 6.3 The Holly Battery Null Result
 
-The Holly Battery experiment provides the non-cybernetic control at 14B scale. Wan 2.1, a 14B-parameter video diffusion backbone, is fine-tuned with 6-channel RhombiLoRA but without the Steersman (no contrastive loss, no spectral loss, no feedback controller). The adapter achieves 3.8% lower loss than the standard LoRA baseline, requires 9.15 GB less VRAM (gradient checkpointing benefits from the factored bridge), and produces 6% faster inference.
+The Holly Battery experiment provides the non-cybernetic control at 14B scale. Wan 2.1, a 14B-parameter video diffusion backbone, is fine-tuned with 6-channel TeLoRA but without the Steersman (no contrastive loss, no spectral loss, no feedback controller). The adapter achieves 3.8% lower loss than the standard LoRA baseline, requires 9.15 GB less VRAM (gradient checkpointing benefits from the factored bridge), and produces 6% faster inference.
 
 Despite these performance benefits, the Holly Battery bridge matrices are near-identity: mean off-diagonal magnitude 0.010, co-planar/cross-planar ratio 1.07:1, Bridge Fiedler $\sim$0.10 (well-connected, no block structure). The bridge learns small perturbations from identity that improve task performance, but these perturbations are uniformly distributed across all off-diagonal entries with no preferential topology.
 

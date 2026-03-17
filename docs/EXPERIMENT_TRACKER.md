@@ -1,4 +1,4 @@
-# RhombiLoRA Experiment Tracker — Master Document
+# TeLoRA Experiment Tracker — Master Document
 
 > **Purpose:** Single source of truth for all experiments, their status,
 > success criteria, decision gates, and dependencies.
@@ -104,23 +104,23 @@ immediately (step 200 already at 816:1).
 | Run | WandB ID | Final Loss EMA | Min Loss EMA | Peak VRAM (GB) | Runtime |
 |-----|----------|---------------|-------------|----------------|---------|
 | Standard LoRA | `rxhm9a4i` | 1.6137 | 1.6132 | 75.75 | 27.1h |
-| **RhombiLoRA** | `u2acmrs0` | **1.5517** | **1.5447** | **66.60** | 25.5h |
+| **TeLoRA** | `u2acmrs0` | **1.5517** | **1.5447** | **66.60** | 25.5h |
 | Corpus-Weighted | `n9t7op19` | 1.6453 | 1.6362 | 66.60 | 25.5h |
 
 **Deltas:**
-- **Loss:** 3.8% improvement (RhombiLoRA vs standard)
+- **Loss:** 3.8% improvement (TeLoRA vs standard)
 - **VRAM:** 9.15 GB less (66.60 vs 75.75)
 - **Speed:** 6% faster (25.5h vs 27.1h)
-- **Corpus weighting hurts** — worse than both standard and RhombiLoRA
+- **Corpus weighting hurts** — worse than both standard and TeLoRA
 
 ### Crashed adamw8bit Runs
 
 | WandB ID | Status | Runtime | Notes |
 |----------|--------|---------|-------|
 | `yi68ouj9` | crashed | 23.3h | Standard, VRAM reservation issue |
-| `em6bc79n` | crashed | 3.5h | RhombiLoRA |
-| `oy53awuf` | crashed | 1.0h | RhombiLoRA |
-| `ola8rw8n` | crashed | 12.9h | RhombiLoRA |
+| `em6bc79n` | crashed | 3.5h | TeLoRA |
+| `oy53awuf` | crashed | 1.0h | TeLoRA |
+| `ola8rw8n` | crashed | 12.9h | TeLoRA |
 | `ls150mpp` | crashed | 11.7h | Standard |
 
 **Root cause:** VRAM reservation issue on 80 GB cards with adamw8bit. Minta
@@ -131,7 +131,7 @@ GitHub have the most up-to-date scripts but need further debugging.
 
 - [ ] Holly .safetensors weights from Minta (via alvdansen-labs GitHub)
 - [ ] Timothy's access to alvdansen-labs GitHub org (timm156 invite sent)
-- [ ] Minta observed RhombiLoRA "converging and training faster" — qualitative
+- [ ] Minta observed TeLoRA "converging and training faster" — qualitative
 - [ ] Wan 2.1 training pipeline bug (not inference) — Minta investigating
 
 ---

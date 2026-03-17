@@ -43,7 +43,7 @@
 
 **P3-JD-01: Abstract, first sentence (lines 47--57)**
 - Severity: **HIGH**
-- Issue: The abstract's opening sentence packs four domain-specific terms without definition: "Multi-channel LoRA (RhombiLoRA)," "bottleneck," "bridge matrix," "Steersman," plus "rhombic dodecahedron's 3-axis coordinate system." An ICML reviewer can handle LoRA and bottleneck, but "Steersman," "bridge matrix," and RD geometry in a single sentence is too dense for first contact with the paper. The second sentence compounds with "cybernetic feedback mechanism" and "geometric prior."
+- Issue: The abstract's opening sentence packs four domain-specific terms without definition: "Multi-channel LoRA (TeLoRA)," "bottleneck," "bridge matrix," "Steersman," plus "rhombic dodecahedron's 3-axis coordinate system." An ICML reviewer can handle LoRA and bottleneck, but "Steersman," "bridge matrix," and RD geometry in a single sentence is too dense for first contact with the paper. The second sentence compounds with "cybernetic feedback mechanism" and "geometric prior."
 - Fix: Restructure the opening. Lead with what the paper does in plain terms (partitions LoRA rank into coupled channels, adds feedback), then introduce terminology. Example: "We partition a low-rank adapter's bottleneck into parallel channels coupled through a learnable mixing matrix, and add a feedback mechanism that monitors the matrix's spectral properties during training."
 
 **P3-JD-02: Section 3.2 Steersman description (lines 395--481)**
@@ -120,7 +120,7 @@
 
 ### 7. Active vs. Passive Balance
 
-**P3-AP-01: Section 3.1 RhombiLoRA Architecture (lines 344--393)**
+**P3-AP-01: Section 3.1 TeLoRA Architecture (lines 344--393)**
 - Severity: **MEDIUM**
 - Issue: Heavy passive construction: "the rank is partitioned," "the bridge acts on," "the coupled representation is flattened," "channels are uncoupled," "the bridge is initialized." Seven passives in 50 lines. The method section benefits from some passive voice (it's describing a system), but the density here makes the prose flat.
 - Fix: Convert 2--3 to active: "We partition the rank into n equal segments." "The bridge couples channels by mixing their activations." Active voice is appropriate for describing design choices.

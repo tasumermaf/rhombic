@@ -29,7 +29,7 @@ emerging immediately. Need 10K steps for full convergence.
 **Goal:** Translate val loss into standard benchmark scores.
 
 **Design:** Qwen 7B + exp3 adapter, lm_eval on MMLU/ARC/HellaSwag.
-Compare: base Qwen, Qwen+standard LoRA, Qwen+RhombiLoRA.
+Compare: base Qwen, Qwen+standard LoRA, Qwen+TeLoRA.
 
 **Machine:** Local GPU. ~3 hours.
 **Dependencies:** eval_language_benchmarks.py (IMPLEMENTING — agent working)
@@ -51,7 +51,7 @@ keep lora_A/B, swap bridge. Measure perplexity on held-out validation.
 
 **Goal:** Statistical confidence on the 3.8% Holly improvement.
 
-**Design:** 3 seeds RhombiLoRA (43, 44, 45) + 2 seeds standard LoRA (43, 44).
+**Design:** 3 seeds TeLoRA (43, 44, 45) + 2 seeds standard LoRA (43, 44).
 Wan 2.1 14B, Prodigy optimizer, 10 epochs.
 
 **Machine:** RunPod A100 80GB. ~60 hours, ~$60.

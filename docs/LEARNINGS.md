@@ -1,4 +1,4 @@
-# RhombiLoRA — Research Learnings Knowledge Base
+# TeLoRA — Research Learnings Knowledge Base
 
 > **Purpose:** Institutional memory of what was learned, how, and why it matters.
 > Not just results — the reasoning errors, the corrections, and the principles
@@ -102,7 +102,7 @@ the threshold.
 
 **The finding:** Perturbation retention (~69%) and Gram alignment (0.921)
 are identical between Alpaca and geometric data. These are architectural
-properties of the RhombiLoRA bridge, not data-dependent learned features.
+properties of the TeLoRA bridge, not data-dependent learned features.
 
 **The implication:** The bridge's structural properties — distributed
 coupling, connectivity level — come from the architecture and
@@ -144,7 +144,7 @@ trustworthy.
 
 **The strategic insight:** Standard LoRA (the "cube" — 6-connected,
 orthogonal, the unexamined default) already handles the core task of
-low-rank weight adaptation. RhombiLoRA should not try to do that job
+low-rank weight adaptation. TeLoRA should not try to do that job
 better. It should find what the bridge enables ON TOP of what the cube
 already does.
 
@@ -679,7 +679,7 @@ is only 0.13 — long before the gap reaches catastrophic levels (>1.0).
 ## L-026: Corpus Weighting Was Misapplied (RETRACTED, March 13 2026)
 
 **The original claim:** Holly Battery (Wan 2.1 14B) corpus-weighted
-RhombiLoRA achieved loss 1.645 — worse than unweighted RhombiLoRA (1.552).
+TeLoRA achieved loss 1.645 — worse than unweighted TeLoRA (1.552).
 
 **What actually happened:** The corpus weights were placed on the
 **diagonal** (scaling individual channels) rather than the **off-diagonal**
@@ -712,11 +712,11 @@ application (experiments C-001 through C-004).
 
 ---
 
-## L-027: RhombiLoRA Produces Smaller Checkpoints
+## L-027: TeLoRA Produces Smaller Checkpoints
 
 **The finding:** Holly Battery final checkpoints:
 - Standard LoRA r24: **439 MB**
-- RhombiLoRA r24: **220 MB** (50% smaller)
+- TeLoRA r24: **220 MB** (50% smaller)
 
 Both at identical rank (24), alpha (12), and target modules. The
 bridge architecture constrains the effective parameter space, producing

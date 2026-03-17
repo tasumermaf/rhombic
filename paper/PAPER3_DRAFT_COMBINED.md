@@ -2,7 +2,7 @@
 
 ## Abstract
 
-Multi-channel LoRA (RhombiLoRA) partitions a low-rank adapter's bottleneck into $n$ parallel channels and couples them through a learnable $n \times n$ bridge matrix. We introduce the Steersman, a cybernetic feedback mechanism that monitors the bridge's spectral properties during training and encodes a geometric prior based on the rhombic dodecahedron's 3-axis coordinate system. Across 15 experiments spanning 1.1B–14B parameters, 60,000+ bridge matrices, and three model architectures (TinyLlama, Qwen 7B, Wan 2.1), the Steersman at $n = 6$ produces 100% block-diagonal bridge structure — three independent $2 \times 2$ blocks aligned with the RD coordinate axes — while non-cybernetic training produces 0%. Block-diagonal lock-in occurs within 200 training steps and is independent of initialization strategy, including initializations that actively oppose the target topology (I Ching complementary trigrams suppressed 99.5% in 900 steps). Channel-count ablation across $n \in \{3, 4, 6, 8\}$ reveals that the contrastive loss encoding RD face-pair geometry is necessary and sufficient: at $n = 6$ (contrastive active), the co-planar/cross-planar coupling ratio reaches 82,854:1 and Bridge Fiedler eigenvalue collapses to 0.00009; at $n \in \{3, 4, 8\}$ (contrastive disabled), Bridge Fiedler converges to $\sim$0.09 with 0% block structure — a 1,020$\times$ bifurcation. The effective dimensionality of the discovered structure is exactly 3, matching the number of coordinate axes: $n = 3$ achieves identical validation loss to $n = 6$ (0.17% maximum delta) with $4\times$ fewer bridge parameters. Task performance is orthogonal to bridge topology. The Steersman reveals structural preferences that standard training does not surface.
+Multi-channel LoRA (TeLoRA) partitions a low-rank adapter's bottleneck into $n$ parallel channels and couples them through a learnable $n \times n$ bridge matrix. We introduce the Steersman, a cybernetic feedback mechanism that monitors the bridge's spectral properties during training and encodes a geometric prior based on the rhombic dodecahedron's 3-axis coordinate system. Across 15 experiments spanning 1.1B–14B parameters, 60,000+ bridge matrices, and three model architectures (TinyLlama, Qwen 7B, Wan 2.1), the Steersman at $n = 6$ produces 100% block-diagonal bridge structure — three independent $2 \times 2$ blocks aligned with the RD coordinate axes — while non-cybernetic training produces 0%. Block-diagonal lock-in occurs within 200 training steps and is independent of initialization strategy, including initializations that actively oppose the target topology (I Ching complementary trigrams suppressed 99.5% in 900 steps). Channel-count ablation across $n \in \{3, 4, 6, 8\}$ reveals that the contrastive loss encoding RD face-pair geometry is necessary and sufficient: at $n = 6$ (contrastive active), the co-planar/cross-planar coupling ratio reaches 82,854:1 and Bridge Fiedler eigenvalue collapses to 0.00009; at $n \in \{3, 4, 8\}$ (contrastive disabled), Bridge Fiedler converges to $\sim$0.09 with 0% block structure — a 1,020$\times$ bifurcation. The effective dimensionality of the discovered structure is exactly 3, matching the number of coordinate axes: $n = 3$ achieves identical validation loss to $n = 6$ (0.17% maximum delta) with $4\times$ fewer bridge parameters. Task performance is orthogonal to bridge topology. The Steersman reveals structural preferences that standard training does not surface.
 # 1. Introduction
 
 Low-rank adaptation (LoRA; Hu et al., 2021) has become the dominant method
@@ -158,7 +158,7 @@ We make the following contributions:
 
 The remainder of this paper is organized as follows. Section 2 reviews
 background and related work in parameter-efficient fine-tuning, multi-channel
-adaptation, and cybernetic optimization. Section 3 describes the RhombiLoRA
+adaptation, and cybernetic optimization. Section 3 describes the TeLoRA
 architecture, the Steersman feedback mechanism, and the rhombic dodecahedral
 geometry that motivates the contrastive loss. Section 4 presents the core
 experimental evidence for block-diagonal emergence, lock-in dynamics, and
@@ -177,7 +177,7 @@ LoRA (Hu et al., 2021) injects trainable low-rank decompositions into frozen pre
 
 Several works partition the adapter's parameter space into parallel components. Multi-head LoRA (Wang et al., 2024) splits the rank into heads that attend to different input subspaces. Mixture-of-LoRA (Li et al., 2024) routes inputs through multiple LoRA experts. These methods introduce structural decomposition but do not include learnable inter-component coupling — each head or expert operates independently, and the outputs are combined through fixed aggregation (concatenation, addition, or gating).
 
-RhombiLoRA (Bielec, 2026a) introduces the bridge matrix as an explicit parameterization of inter-channel coupling. Paper 2 in this series established that the bridge learns task-discriminative structure under standard (non-cybernetic) training: bridge fingerprints classify task type with 84.5% leave-one-out accuracy, and bridge interpolation preserves eigenspectrum structure at all mixing ratios. However, without structured feedback, the bridge develops uniform coupling with no topological preference (co-planar/cross-planar ratio 1.002:1). The present work introduces the Steersman to provide that structured feedback.
+TeLoRA (Bielec, 2026a) introduces the bridge matrix as an explicit parameterization of inter-channel coupling. Paper 2 in this series established that the bridge learns task-discriminative structure under standard (non-cybernetic) training: bridge fingerprints classify task type with 84.5% leave-one-out accuracy, and bridge interpolation preserves eigenspectrum structure at all mixing ratios. However, without structured feedback, the bridge develops uniform coupling with no topological preference (co-planar/cross-planar ratio 1.002:1). The present work introduces the Steersman to provide that structured feedback.
 
 ## 2.3 Cybernetic Optimization
 
@@ -192,15 +192,15 @@ Block-diagonal weight matrices arise naturally in modular networks (Clune et al.
 The rhombic dodecahedron (RD) is the Voronoi cell of the face-centered cubic (FCC) lattice (Conway and Sloane, 1999). Its 12 faces tessellate $\mathbb{R}^3$ without gaps, and its dual is the cuboctahedron. The RD's 6 face pairs partition naturally by coordinate axis, yielding the 3-fold symmetry that motivates the contrastive loss in Section 3.2. In prior work (Bielec, 2026a), we established that 12-connected FCC lattices provide 30% shorter paths and 2.4$\times$ higher algebraic connectivity than 6-connected cubic lattices at comparable spatial resolution. The present work uses the RD's coordinate geometry as a structural prior for multi-channel coupling, not as a spatial lattice.
 # 3. Method
 
-## 3.1 RhombiLoRA Architecture
+## 3.1 TeLoRA Architecture
 
-Standard LoRA (Hu et al., 2021) decomposes each weight update as $\Delta W = BA$, where $A \in \mathbb{R}^{r \times d_{\text{in}}}$ and $B \in \mathbb{R}^{d_{\text{out}} \times r}$ are low-rank factors with rank $r$. RhombiLoRA introduces a single additional component: a learnable *bridge matrix* $\mathbf{M} \in \mathbb{R}^{n \times n}$ that couples $n$ parallel channels within the low-rank bottleneck.
+Standard LoRA (Hu et al., 2021) decomposes each weight update as $\Delta W = BA$, where $A \in \mathbb{R}^{r \times d_{\text{in}}}$ and $B \in \mathbb{R}^{d_{\text{out}} \times r}$ are low-rank factors with rank $r$. TeLoRA introduces a single additional component: a learnable *bridge matrix* $\mathbf{M} \in \mathbb{R}^{n \times n}$ that couples $n$ parallel channels within the low-rank bottleneck.
 
 Given $n$ channels, the rank $r$ is partitioned into $n$ equal segments of size $s = r / n$ (we require $n | r$). The hidden representation $\mathbf{h} = A\mathbf{x} \in \mathbb{R}^r$ is reshaped into a matrix $\mathbf{H} \in \mathbb{R}^{n \times s}$, where each row corresponds to one channel. The bridge acts on the channel dimension:
 
 $$\mathbf{H}' = \mathbf{M} \mathbf{H}$$
 
-The coupled representation $\mathbf{H}'$ is then flattened back to $\mathbb{R}^r$ and projected through $B$. The complete forward pass for a single RhombiLoRA adapter is:
+The coupled representation $\mathbf{H}'$ is then flattened back to $\mathbb{R}^r$ and projected through $B$. The complete forward pass for a single TeLoRA adapter is:
 
 $$\Delta \mathbf{y} = \frac{\alpha}{r} B \cdot \text{flatten}(\mathbf{M} \cdot \text{reshape}(A\mathbf{x}, [n, s]))$$
 
@@ -246,7 +246,7 @@ The Steersman's control laws are purely reactive: they adjust weights and learni
 
 ## 3.3 Rhombic Dodecahedral Geometry and Co-planar Pairs
 
-The rhombic dodecahedron (RD) is a convex polyhedron with 12 congruent rhombic faces, 14 vertices (8 cubic and 6 octahedral), and 24 edges. Its faces partition naturally into 6 antipodal pairs, each pair sharing a common coordinate axis. In the standard embedding, the 6 face-pair normals align with the FCC lattice directions: $(\pm 1, \pm 1, 0)$, $(\pm 1, 0, \pm 1)$, and $(0, \pm 1, \pm 1)$. These 6 direction pairs are the channels of RhombiLoRA when $n = 6$.
+The rhombic dodecahedron (RD) is a convex polyhedron with 12 congruent rhombic faces, 14 vertices (8 cubic and 6 octahedral), and 24 edges. Its faces partition naturally into 6 antipodal pairs, each pair sharing a common coordinate axis. In the standard embedding, the 6 face-pair normals align with the FCC lattice directions: $(\pm 1, \pm 1, 0)$, $(\pm 1, 0, \pm 1)$, and $(0, \pm 1, \pm 1)$. These 6 direction pairs are the channels of TeLoRA when $n = 6$.
 
 The 6 face pairs decompose further by coordinate axis. Each pair of opposite faces is perpendicular to one of the three Cartesian axes, yielding 3 axis-aligned groupings of 2 face pairs each:
 
@@ -285,7 +285,7 @@ Table 1 presents the complete experimental record. Across 15 experiments spannin
 
 Six cybernetic experiments at $n = 6$ contribute 42,500+ bridge matrices to the analysis. Each matrix is classified as block-diagonal if $\rho > 10$ and all cross-planar entries fall below $10^{-3}$ in absolute value. The classification rate is 100.0% in every experiment, at every checkpoint from step 200 onward. There are no exceptions, no near-misses, and no late-onset failures. The attractor is absolute.
 
-Six non-cybernetic experiments contribute 570 final-state bridges across three model scales. None exhibits block-diagonal structure. Co-planar/cross-planar ratios range from 0.99:1 to 1.07:1 — statistically indistinguishable from the null hypothesis of uniform coupling. The Holly Battery experiment (Wan 2.1 14B, 10 training epochs, Prodigy optimizer, no Steersman) achieves 3.8% lower loss than the non-RhombiLoRA baseline while using 9.15 GB less VRAM and producing 6% faster inference, but its bridge matrices remain near-identity with $\rho = 1.07$:1. Performance benefits from multi-channel parameterization do not require — and do not induce — topological structure.
+Six non-cybernetic experiments contribute 570 final-state bridges across three model scales. None exhibits block-diagonal structure. Co-planar/cross-planar ratios range from 0.99:1 to 1.07:1 — statistically indistinguishable from the null hypothesis of uniform coupling. The Holly Battery experiment (Wan 2.1 14B, 10 training epochs, Prodigy optimizer, no Steersman) achieves 3.8% lower loss than the non-TeLoRA baseline while using 9.15 GB less VRAM and producing 6% faster inference, but its bridge matrices remain near-identity with $\rho = 1.07$:1. Performance benefits from multi-channel parameterization do not require — and do not induce — topological structure.
 
 **Table 1: Complete Experiment Summary**
 
@@ -438,12 +438,12 @@ The analysis employs two distinct applications of the Fiedler eigenvalue that mu
 
 **Correlation Fiedler** measures *cross-layer* structural consistency. For each module type (e.g., $q$\_proj), the flattened bridge matrices across all layers form a set of $n^2$-dimensional vectors. The pairwise Pearson correlation matrix is constructed, and its Fiedler eigenvalue measures how uniformly the bridge structure propagates across the model's depth. A high Correlation Fiedler indicates that all layers develop the same bridge pattern; a low value indicates layer-specific variation.
 
-The Correlation Fiedler converges to ${\sim}0.10$ across all three model scales: 0.102 (Qwen 7B), 0.101 (TinyLlama), 1.002 (Holly Battery 14B, single RhombiLoRA adapter). This scale-invariant value indicates that bridge structure is remarkably uniform across layers, regardless of model depth (22, 28, or 40 layers), model size (1.1B to 14B), or training regime (cybernetic or non-cybernetic). The cross-layer consistency is an intrinsic property of the multi-channel LoRA parameterization, not of the Steersman.
+The Correlation Fiedler converges to ${\sim}0.10$ across all three model scales: 0.102 (Qwen 7B), 0.101 (TinyLlama), 1.002 (Holly Battery 14B, single TeLoRA adapter). This scale-invariant value indicates that bridge structure is remarkably uniform across layers, regardless of model depth (22, 28, or 40 layers), model size (1.1B to 14B), or training regime (cybernetic or non-cybernetic). The cross-layer consistency is an intrinsic property of the multi-channel LoRA parameterization, not of the Steersman.
 
 
 ## 6.3 The Holly Battery Null Result
 
-The Holly Battery experiment provides the non-cybernetic control at 14B scale. Wan 2.1, a 14B-parameter video diffusion backbone, is fine-tuned with 6-channel RhombiLoRA but without the Steersman (no contrastive loss, no spectral loss, no feedback controller). The adapter achieves 3.8% lower loss than the standard LoRA baseline, requires 9.15 GB less VRAM (gradient checkpointing benefits from the factored bridge), and produces 6% faster inference.
+The Holly Battery experiment provides the non-cybernetic control at 14B scale. Wan 2.1, a 14B-parameter video diffusion backbone, is fine-tuned with 6-channel TeLoRA but without the Steersman (no contrastive loss, no spectral loss, no feedback controller). The adapter achieves 3.8% lower loss than the standard LoRA baseline, requires 9.15 GB less VRAM (gradient checkpointing benefits from the factored bridge), and produces 6% faster inference.
 
 Despite these performance benefits, the Holly Battery bridge matrices are near-identity: mean off-diagonal magnitude 0.010, co-planar/cross-planar ratio 1.07:1, Bridge Fiedler $\sim$0.10 (well-connected, no block structure). The bridge learns small perturbations from identity that improve task performance, but these perturbations are uniformly distributed across all off-diagonal entries with no preferential topology.
 

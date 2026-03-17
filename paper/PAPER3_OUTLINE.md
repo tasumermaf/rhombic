@@ -57,7 +57,7 @@ bridge parameters.
 
 ## 3. Method
 
-### 3.1 RhombiLoRA Architecture
+### 3.1 TeLoRA Architecture
 - n-channel bridge matrix B (n × n, learnable, per-module)
 - Channel size = rank / n_channels
 - Forward pass: y = B @ lora_A(x) reshaped through bridge → lora_B
@@ -191,7 +191,7 @@ as a general-purpose topology programmer.
 
 | Fig | Content | Status | Source File |
 |-----|---------|--------|-------------|
-| 1 | RhombiLoRA architecture + Steersman diagram | NEW (schematic) | — |
+| 1 | TeLoRA architecture + Steersman diagram | NEW (schematic) | — |
 | 2 | Temporal emergence (all cybernetic runs) | DONE | fig_all_cybernetic_temporal.png |
 | 3 | Coupling dynamics with exp/linear fits | DONE | fig_temporal_emergence.png |
 | 4 | Three-way init convergence | DONE | fig_init_convergence_comprehensive.png |

@@ -33,7 +33,7 @@ fi
 # Clone and install rhombic
 if [ ! -d "$WORKSPACE/rhombic" ]; then
     cd $WORKSPACE
-    git clone https://github.com/promptcrafted/rhombic.git 2>&1 | tail -2
+    git clone https://github.com/tasumermaf/rhombic.git 2>&1 | tail -2
     cd rhombic
     pip install -e . 2>&1 | tail -3
 fi

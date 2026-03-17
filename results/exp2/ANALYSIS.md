@@ -1,4 +1,4 @@
-# Experiment 2 Analysis: RhombiLoRA at 7B Scale
+# Experiment 2 Analysis: TeLoRA at 7B Scale
 
 > **Date:** March 8, 2026
 > **Model:** Qwen/Qwen2.5-7B-Instruct (7.6B params)
@@ -176,7 +176,7 @@ Config 1 (standard LoRA r24) is training. Expected completion ~11h from
 cubic completion (~March 8, late evening PST). This will provide:
 
 - Baseline val loss for direct comparison
-- Confirmation that bridge-frozen RhombiLoRA = standard LoRA at 7B scale
+- Confirmation that bridge-frozen TeLoRA = standard LoRA at 7B scale
 - The denominator for "what did the bridge add?"
 
 The analysis above is complete for the FCC vs cubic comparison. The

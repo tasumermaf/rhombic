@@ -1049,10 +1049,10 @@ def merge_and_save(model, injected, output_dir):
         # Compute expanded bridge: (rank, rank) block-diagonal
         bridge = lora.effective_bridge.detach().float()  # (C, C)
         C, R = lora.n_channels, lora.channel_size
-        bridge_expanded = torch.zeros(lora.rank, lora.rank)
+        bridge_expanded = torch.zeros(lora.rank, lora.rank, device=bridge.device)
         for i in range(C):
             for j in range(C):
-                bridge_expanded[i*R:(i+1)*R, j*R:(j+1)*R] = bridge[i, j] * torch.eye(R)
+                bridge_expanded[i*R:(i+1)*R, j*R:(j+1)*R] = bridge[i, j] * torch.eye(R, device=bridge.device)
 
         # delta_W = scaling * lora_B @ bridge_expanded @ lora_A
         lora_A = lora.lora_A.detach().float()   # (rank, in_features)

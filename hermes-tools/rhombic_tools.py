@@ -397,7 +397,7 @@ def explain_mechanism_handler(args: dict, **kwargs) -> str:
                 "Mechanism: per-neighbor dilution."
             ),
             "forward_vision": (
-                "RhombiLoRA: a geometric LoRA adapter that adds 6 diagonal bridge "
+                "TeLoRA: a geometric LoRA adapter that adds 6 diagonal bridge "
                 "connections to transformer attention heads. The cube isn't the enemy — "
                 "it's the skeleton. The rhombic dodecahedron contains the cube. "
                 "Keep your cube, add six bridges."

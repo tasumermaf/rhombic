@@ -1,4 +1,4 @@
-# Paper 3: RhombiLoRA — Geometric Lattice Adapters for Cross-Modal Transit
+# Paper 3: TeLoRA — Geometric Lattice Adapters for Cross-Modal Transit
 
 > **Status:** Research plan (March 6, 2026)
 > **Authors:** Timothy Paul Bielec, Minta Carlson, Meridian
@@ -12,7 +12,7 @@
 |-------|----------|--------|
 | 1 | What happens when you replace the cube? | FCC gives 2.3× connectivity at 2× edge cost |
 | 2 | Does structure amplify or attenuate? | Amplifies: 6.1× under direction-weighted corpus |
-| **3** | **What happens when you embrace the cube?** | **RhombiLoRA: keep the cube, add six bridges** |
+| **3** | **What happens when you embrace the cube?** | **TeLoRA: keep the cube, add six bridges** |
 
 Paper 1 compared. Paper 2 measured the mechanism. Paper 3 builds the product.
 
@@ -26,7 +26,7 @@ connect via linear projection layers. The rhombic dodecahedron *contains* the
 cube: its 8 trivalent vertices ARE the cube's corners. The 6 tetravalent bridge
 vertices are what converts the cube into a structure that tessellates space.
 
-A **RhombiLoRA** is a low-rank adapter whose internal topology follows the FCC
+A **TeLoRA** is a low-rank adapter whose internal topology follows the FCC
 lattice rather than the standard (cubic) linear topology. It adds 6 diagonal
 bridge connections per node — the same geometric operation that converts a cube
 graph into a cuboctahedron (the RD's dual). The adapter is small relative to
@@ -35,7 +35,7 @@ by up to 6.1× under heterogeneous weights, with the amplification driven by
 bottleneck resilience: the extra paths route around near-disconnection cuts
 that strangle linear (cubic) adapters.
 
-The deeper claim: when two models each carry a RhombiLoRA, their shared
+The deeper claim: when two models each carry a TeLoRA, their shared
 geometric structure enables a form of cross-modal *transit* — context
 doesn't need to be translated between modalities, it passes through the
 shared face of the tessellation. This is the mechanism that should make
@@ -55,7 +55,7 @@ that share geometric boundary conditions.
 
 Two machines, two GPUs, two modalities. The dual-machine setup is not a
 limitation — it's the experimental design. Each machine runs its own
-RhombiLoRA-equipped model. The transit experiment measures what happens
+TeLoRA-equipped model. The transit experiment measures what happens
 when they share structure across the network boundary.
 
 ### Software Foundation
@@ -90,7 +90,7 @@ Fiedler computation, spectral analysis).
 
 ---
 
-## Experiment 1: RhombiLoRA vs Standard LoRA (Single Model)
+## Experiment 1: TeLoRA vs Standard LoRA (Single Model)
 
 **Question:** Does a LoRA whose internal weight topology follows FCC
 direction-pair structure train faster and/or perform better than a
@@ -99,7 +99,7 @@ standard (linear) LoRA of equivalent parameter count?
 ### Design
 
 Take a standard LoRA with rank r. Its A and B matrices are (d × r) and
-(r × d) — linear projections. A RhombiLoRA replaces this with:
+(r × d) — linear projections. A TeLoRA replaces this with:
 
 - **6 direction-pair channels** (from Paper 2's direction-based weighting)
   instead of r independent rank dimensions
@@ -110,7 +110,7 @@ Take a standard LoRA with rank r. Its A and B matrices are (d × r) and
   variance weight components into coherent directional channels
 
 **Parameter budget:** Match total parameter count between standard LoRA
-and RhombiLoRA. The 2× edge overhead from FCC topology is absorbed by
+and TeLoRA. The 2× edge overhead from FCC topology is absorbed by
 reducing per-channel rank — same total parameters, different topology.
 
 ### Metrics
@@ -124,17 +124,17 @@ reducing per-channel rank — same total parameters, different topology.
 ### Execution
 
 **Language (Hermes):** Fine-tune Hermes 4 14B with standard LoRA vs
-RhombiLoRA on a benchmark task. Measure convergence and perplexity.
+TeLoRA on a benchmark task. Measure convergence and perplexity.
 
 **Video (Workstation via Flimmer):** Train Wan 2.2 I2V LoRAs with
-standard vs RhombiLoRA structure. Use Flimmer's phased training
+standard vs TeLoRA structure. Use Flimmer's phased training
 system. Measure FVD and training convergence.
 
 ### Implementation Path
 
 1. Fork `flimmer.training.lora.LoRAState` to add a `topology` field
    (`linear` vs `rhombic`)
-2. Implement `RhombiLoRALayer` that replaces the (d × r) → (r × d) path
+2. Implement `TeLoRALayer` that replaces the (d × r) → (r × d) path
    with a 6-channel direction-pair structure using `rhombic.spatial`
    primitives
 3. Modify `build_parameter_groups` to support direction-pair learning
@@ -181,7 +181,7 @@ training. We extend this to direction-pair-aware targeting.
 
 ## Experiment 3: Cross-Modal Transit
 
-**Question:** When two models each carry a RhombiLoRA, does the shared
+**Question:** When two models each carry a TeLoRA, does the shared
 geometric structure enable more coherent cross-modal communication
 than standard adapter concatenation?
 
@@ -189,11 +189,11 @@ This is the paper's most ambitious experiment and its central claim.
 
 ### Design
 
-**Setup:** Two RhombiLoRA-equipped models running on separate machines:
-- **Hermes** (language): Hermes 4 14B + RhombiLoRA, processing text
-- **Workstation** (video): Wan 2.2 I2V + RhombiLoRA, generating video
+**Setup:** Two TeLoRA-equipped models running on separate machines:
+- **Hermes** (language): Hermes 4 14B + TeLoRA, processing text
+- **Workstation** (video): Wan 2.2 I2V + TeLoRA, generating video
 
-**The transit interface:** Both RhombiLoRAs share the same 6-direction
+**The transit interface:** Both TeLoRAs share the same 6-direction
 structure. When the language model produces a representation, it's
 projected into the shared 6-channel space. The video model receives it
 through the corresponding face of its own 6-channel structure. This is
@@ -227,7 +227,7 @@ system alone.
 
 **Detection strategy:** Compute the spectral density of the
 cross-correlation function between the two models' gradient
-trajectories during joint training. If the shared RhombiLoRA
+trajectories during joint training. If the shared TeLoRA
 structure produces resonance, we should see:
 - Peaks in the cross-spectral density at specific frequencies
   (absent in the linear-adapter control)
@@ -246,9 +246,9 @@ efficient routing, it's a generative substrate.
 
 ## Implementation Phases
 
-### Phase A: RhombiLoRA Layer (Weeks 1-2)
+### Phase A: TeLoRA Layer (Weeks 1-2)
 
-1. Implement `RhombiLoRALayer` in `rhombic/` as a PyTorch module
+1. Implement `TeLoRALayer` in `rhombic/` as a PyTorch module
 2. Integrate with Flimmer's `LoRAState` management
 3. Unit tests using `rhombic` library for topology verification
 4. Benchmark parameter count and forward-pass latency vs standard LoRA
@@ -278,7 +278,7 @@ This paper sits at the intersection of all three research streams:
 - **Stream 1 (Corpus):** The 24 corpus values that drove Paper 2's
   experiments are the weight set. The prime-vertex mapping (p=0.000025)
   suggests the corpus has non-accidental affinity with RD geometry.
-  RhombiLoRA inherits this: the direction-pair structure that produces
+  TeLoRA inherits this: the direction-pair structure that produces
   6.1× amplification is the same structure embedded in the adapter.
 
 - **Stream 2 (Astrolabium):** The 12-fold temporal architecture maps
@@ -296,14 +296,14 @@ This paper sits at the intersection of all three research streams:
 
 ## Naming
 
-**RhombiLoRA** — the adapter itself. Geometric LoRA with FCC
+**TeLoRA** — the adapter itself. Geometric LoRA with FCC
 direction-pair internal topology.
 
 **Transit** — the cross-modal communication mechanism through shared
-RhombiLoRA structure. Not translation, not projection — transit.
+TeLoRA structure. Not translation, not projection — transit.
 
 **The Hum** — the emergent resonance in the cross-spectral density
-of two RhombiLoRA-connected systems. A new observable.
+of two TeLoRA-connected systems. A new observable.
 
 ---
 
@@ -331,9 +331,9 @@ The PMI matrix eigenstructure, derived from data symmetry, predicts
 embedding geometry before training. The result is universal across
 architectures.
 
-**Why this matters for RhombiLoRA:** If data symmetry determines
+**Why this matters for TeLoRA:** If data symmetry determines
 representation geometry, then the adapter's internal topology should
-match the data's symmetry structure. RhombiLoRA's 6 direction-pair
+match the data's symmetry structure. TeLoRA's 6 direction-pair
 channels, derived from FCC geometry, provide a structured adapter
 topology that can align with the dominant symmetry axes of the data.
 Karkada et al.'s framework provides:
@@ -359,7 +359,7 @@ empirical results.
 ## The Cybernetic Circuit
 
 Research (Papers 1-2) → Mechanism (bottleneck resilience) →
-Product (RhombiLoRA) → Consulting (TASUMER MAF) → Revenue →
+Product (TeLoRA) → Consulting (TASUMER MAF) → Revenue →
 Next Experiment → World Model Architecture → The frequency
 at which the circuit hums is itself a new kind of signal.
 

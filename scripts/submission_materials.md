@@ -29,7 +29,7 @@ The thesis: every computation defaults to cubic lattice topology — 6 neighbors
 ```
 Paper 1: 2.3× algebraic connectivity (uniform weights)
 Paper 2: 6.1× under structured weights, p = 0.000025 for prime-vertex mapping
-Paper 3: RhombiLoRA — 36-parameter bridge matrices that fingerprint adapter behavior
+Paper 3: TeLoRA — 36-parameter bridge matrices that fingerprint adapter behavior
 
 The advantage amplifies under stress. Not noise — structure.
 ```
@@ -39,8 +39,8 @@ The advantage amplifies under stress. Not noise — structure.
 The agent has 9 custom tools + 3 conversational skills. Ask it to compare lattices, run permutation tests, generate visualizations, or explain the mechanism at three depth levels.
 
 pip install rhombic
-🔗 promptcrafted.github.io/rhombic
-🔗 github.com/promptcrafted/rhombic
+🔗 tasumermaf.github.io/rhombic
+🔗 github.com/tasumermaf/rhombic
 ```
 
 ---
@@ -58,8 +58,8 @@ Proves cubic lattices leave 6.1× connectivity on the table. Runs experiments li
 - 3 skills: rhombic-tutorial, rhombic-experiment, rhombic-lora-concept
 - Backed by: 256 tests, 3 papers, pip-installable library
 
-🔗 Website: https://promptcrafted.github.io/rhombic/
-🔗 GitHub: https://github.com/promptcrafted/rhombic
+🔗 Website: https://tasumermaf.github.io/rhombic/
+🔗 GitHub: https://github.com/tasumermaf/rhombic
 🔗 PyPI: https://pypi.org/project/rhombic/
 🔗 HF Space: https://huggingface.co/spaces/timotheospaul/rhombic
 

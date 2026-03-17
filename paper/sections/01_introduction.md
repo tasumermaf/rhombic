@@ -153,7 +153,7 @@ We make the following contributions:
 
 The remainder of this paper is organized as follows. Section 2 reviews
 background and related work in parameter-efficient fine-tuning, multi-channel
-adaptation, and cybernetic optimization. Section 3 describes the RhombiLoRA
+adaptation, and cybernetic optimization. Section 3 describes the TeLoRA
 architecture, the Steersman feedback mechanism, and the rhombic dodecahedral
 geometry that motivates the contrastive loss. Section 4 presents the core
 experimental evidence for block-diagonal emergence, lock-in dynamics, and
