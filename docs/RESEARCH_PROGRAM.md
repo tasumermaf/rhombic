@@ -14,8 +14,8 @@ Five papers. One thesis per paper. Each builds on the last.
 |---|-------|--------|--------|
 | 1 | Why the Cube Persists | FCC gives 2.3× connectivity over cubic | **PUBLISHED** |
 | 2 | Structured Edge Weights Amplify FCC Topology | Heterogeneous weights amplify to 6.1× via bottleneck resilience | arXiv-ready |
-| 3 | The Learnable Bridge | Cybernetic feedback discovers RD geometry in multi-channel LoRA | Data complete → write |
-| 4 | The Topology Programmer | The Steersman programs arbitrary topologies: 3D, 4D, number-theoretic | Experiments running |
+| 3 | The Learnable Bridge | Cybernetic feedback discovers RD geometry in multi-channel LoRA | SUBMISSION-READY (blocked: arXiv endorsement) |
+| 4 | The Topology Programmer | The Steersman programs arbitrary topologies: 3D, 4D, number-theoretic | 11/12 experiments COMPLETE (24C-001: 35,808:1 via PC-001) |
 | 5 | The Cybernetic Circuit | Cross-modal transit through shared geometric structure | Future (Q3 2026) |
 
 **Progression:** Pure geometry → Weighted geometry → Learnable geometry → Programmable geometry → Living geometry.
@@ -135,24 +135,30 @@ Five papers. One thesis per paper. Each builds on the last.
 
 ---
 
-## Paper 4: "The Topology Programmer" — EXPERIMENTS RUNNING
+## Paper 4: "The Topology Programmer" — 10/12 COMPLETE
 
 **Working title:** The Topology Programmer: Cybernetic Feedback as a General-Purpose Geometric Prior for Neural Network Adapters
 
 **Target:** arXiv → ICLR / AAAI
 
-**Thesis:** The Steersman is not specific to the rhombic dodecahedron. It is a general-purpose mechanism for programming arbitrary topological structure into learnable bridge matrices. Any contrastive prior — 3D, 4D, number-theoretic, or random — can be programmed. The spectral attractor (~0.09) is a universal property of spectral-only training, independent of channel count.
+**Thesis:** The Steersman is not specific to the rhombic dodecahedron. It is a general-purpose mechanism for programming arbitrary topological structure into learnable bridge matrices — but only when the pair specification carries genuine geometric coherence. Four polytopes confirmed (RD, tesseract, octahedron, 24-cell). The spectral attractor (~0.09) is a universal property of spectral-only training. Wrong-labels and resonance negative controls sharpen the geometric coherence requirement.
 
 ### Core experiments
 
-| ID | n | Topology | What it proves | Status | ETA |
-|----|---|----------|---------------|--------|-----|
-| T-001r1 | 8 | tesseract (4D) | 4+4 blocks, 4D programming works | COMPLETE (partial, 2700 steps) | — |
-| T-001r2 | 8 | tesseract (4D) | Full 10K replication, r=1.0000 vs r1 | RUNNING (step 1100) | ~9h |
-| WL-001 | 6 | wrong-labels | Programmable (any pairs create BD) vs geometric (only correct pairs) | QUEUED (Hermes) | ~25h |
-| R-001 | 8 | resonance | Number-theoretic topology programmable | QUEUED | ~39h |
-| E-001 | 8 | emanation | Hierarchical bridge with coherence | QUEUED | ~53h |
-| H-ch12 | 12 | spectral-only | Spectral attractor extends to n=12 | RUNNING (Hermes) | ~11h |
+| ID | n | Topology | What it proves | Status |
+|----|---|----------|---------------|--------|
+| T-001r2 | 8 | tesseract (4D) | 4+4 blocks, 4D programming works, r=1.0000 | **COMPLETE** |
+| O-001 | 4 | octahedral (3D) | 2+2 blocks, simplest polytope | **COMPLETE** |
+| 24C-001 | 24 | 24-cell (4D) | 12+12 blocks, 35,808:1 co/cross (PC-001), fixed c_w=0.1 | **COMPLETE** |
+| WL-001 | 6 | wrong-labels | 3+3 eigenvalues, co/cross ~0 → geometric coherence required | **COMPLETE** |
+| R-001 | 6 | resonance | Chain-like eigenvalues, no BD → number theory insufficient | **COMPLETE** |
+| E-001 | 6 | emanation | Spectral attractor, co/cross 1.12 → hierarchy ≠ geometry | **COMPLETE** |
+| H-ch12 | 12 | spectral-only | Spectral attractor extends to n=12 (Fiedler 0.102) | **COMPLETE** |
+| CW-001 | 6 | whisper-strength | 13,456:1 final, three-phase trajectory, c_w speed control | **COMPLETE** |
+| FI-002 | 6 | init independence | 50K:1 from 3 seeds, P-CTRL stalled 1300 | **COMPLETE** |
+| FI-004 | 6 | Steersman annealing | Peak 18,671:1 at c_w=0.017, cliff at c_w=0 | **COMPLETE** |
+| AR-001 | — | asymmetry analysis | BD signal IS asymmetry, 99.95% in asymmetry | **COMPLETE** |
+| FI-003 | 6 | Steersman ablation | Signs collapse in 100 steps without Steersman | **COMPLETE** |
 
 ### Key claims
 
@@ -186,9 +192,11 @@ Five papers. One thesis per paper. Each builds on the last.
 | 9 | Reproducibility | T-001r1 vs T-001r2 |
 | 10 | Discussion | Implications for adapter design |
 
-### Timeline
+### Timeline (updated March 21)
 
-All experiments complete by ~March 17. Write-up: 2-3 weeks after data. Target submission: April 2026.
+11/12 experiments COMPLETE. 24C-001 COMPLETE: PC-001 recovery reveals 35,808:1 co/cross
+(CL2 logging bug hid 85% of growth trajectory). CW-001 COMPLETE with nuanced findings.
+Write-up in progress. Target submission: April 2026 (blocked: arXiv endorsement).
 
 ---
 
@@ -224,9 +232,9 @@ This is where Stream A (open, publishable) meets Stream B (proprietary, Falco-sp
 | Paper | Target Venue | Action | Timeline |
 |-------|-------------|--------|----------|
 | 1 | — | Published | DONE |
-| 2 | arXiv | Submit | This week |
-| 3 | NeurIPS/ICML | Write from existing data | 2-3 weeks |
-| 4 | arXiv → ICLR/AAAI | Write after experiments | April 2026 |
+| 2 | arXiv | SUBMISSION-READY | Blocked: arXiv endorsement |
+| 3 | arXiv → NeurIPS/ICML | SUBMISSION-READY | Blocked: arXiv endorsement |
+| 4 | arXiv → ICLR/AAAI | Writing in progress (§9.5 drafted) | April 2026 |
 | 5 | TASUMER MAF / arXiv | Design + execute | Q3 2026 |
 
 ### Citation chain
@@ -251,13 +259,13 @@ Paper 2 cites Paper 1. Paper 3 cites Papers 1-2. Paper 4 cites Papers 1-3. Paper
 
 ---
 
-## Machine Allocation
+## Machine Allocation (Updated March 21, 2026)
 
-| Machine | Current | Next |
+| Machine | Current | Next (awaiting Timothy) |
 |---------|---------|------|
-| Local (RTX 6000 Ada 48GB) | T-001r2 (step 1100/10K) | Auto-chain: baseline lm-eval → adapted lm-eval |
-| Hermes (RTX 4090 16GB) | H-ch12 (running) | Auto-chain: WL-001 → R-001 → E-001 |
-| RunPod (6 pods, stopped) | BLOCKED (Holly dataset) | Multi-seed Holly validation |
+| Local (RTX 6000 Ada 48GB) | **IDLE** (CW-001 complete) | G2-001 (bridge-swap eval, 3h) → FC-001 (fixed c_w, 12h) |
+| Hermes (RTX 4090 16GB) | **IDLE** (24C-001 COMPLETE: 35,808:1) | CW-002 (tesseract fixed c_w, 25h) — awaiting Timothy |
+| RunPod (6 pods, stopped) | BLOCKED (Holly dataset) | Nemotron competition (active, separate effort) |
 
 ---
 

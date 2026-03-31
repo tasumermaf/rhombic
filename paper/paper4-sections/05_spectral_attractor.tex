@@ -1,0 +1,80 @@
+\section{The Spectral Attractor}
+\label{sec:spectral-attractor}
+
+\subsection{Universal Convergence}
+
+When the Steersman operates with spectral regularization alone---no contrastive
+loss specifying which channels should couple preferentially---the bridge
+converges to a characteristic connectivity level independent of the number of
+channels. We term this the \emph{spectral attractor}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Experiment} & $n$ & \textbf{Final Fiedler} & \textbf{Topology} \\
+\midrule
+H-ch3  & 3  & 0.0951 & spectral-only \\
+H-ch4  & 4  & 0.0918 & spectral-only \\
+E-001  & 6  & 0.0836 & emanation (spectral effective) \\
+H-ch8  & 8  & 0.0944 & spectral-only \\
+H-ch12 & 12 & 0.1019 & spectral-only \\
+\midrule
+\multicolumn{2}{l}{\textbf{Mean $\pm$ SD}} & $0.0934 \pm 0.0065$ & \\
+\multicolumn{2}{l}{\textbf{Band}} & 19.4\% (min/max) & \\
+\bottomrule
+\end{tabular}
+\caption{Spectral attractor convergence across channel counts $n \in \{3, 4, 6, 8, 12\}$.
+All experiments converge to Fiedler $\approx 0.09$ regardless of $n$.
+E-001 (emanation architecture) converges to the same attractor, confirming
+that hierarchical constraints do not override the spectral equilibrium.}
+\label{tab:spectral-attractor}
+\end{table}
+
+The spectral attractor at Fiedler $\approx 0.09$ is stable across a $4\times$
+range of channel counts ($n{=}3$ to $n{=}12$), with only 19.4\% variation
+(Figure~\ref{fig:spectral-attractor}).
+This invariance suggests the attractor is a property of the spectral
+regularization objective itself, not of the bridge dimensionality.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.7\textwidth]{paper4/figures/fig_spectral_attractor.pdf}
+  \caption{Spectral attractor: universal Fiedler convergence across channel
+  counts $n \in \{3, 4, 8, 12\}$. The shaded band shows 19.4\% variation
+  around the mean (0.0934). The spectral attractor is the bridge's
+  unprogrammed connectivity equilibrium.}
+  \label{fig:spectral-attractor}
+\end{figure}
+
+\subsection{Bifurcation Under Contrastive Loss}
+
+Adding the contrastive loss breaks the spectral attractor. At $n{=}6$ with
+RD contrastive pairs, the Fiedler drops from $\sim$0.09 (attractor) to
+$9.0 \times 10^{-5}$---a factor of 1{,}000$\times$. The contrastive loss
+does not merely redirect connectivity; it \emph{concentrates} it along the
+specified axes while suppressing it everywhere else.
+
+This bifurcation reveals the two independent control channels of the
+Steersman:
+\begin{enumerate}
+  \item \textbf{Spectral regularization} provides \emph{connectivity}---how
+    much total coupling the bridge develops.
+  \item \textbf{Contrastive loss} provides \emph{topology}---which channels
+    receive the coupling budget.
+\end{enumerate}
+
+Without contrastive specification, connectivity distributes uniformly across
+all channel pairs, producing the attractor. With specification, the same
+connectivity budget concentrates along the specified axes, producing
+block-diagonal structure.
+
+\subsection{Emanation as Spectral Attractor Variant}
+
+E-001 uses the emanation architecture (a single master bridge with per-layer
+offsets and coherence monitoring) instead of independent per-layer bridges.
+Its final state---Fiedler 0.084, co/cross 1.12---places it squarely in the
+spectral attractor regime. The hierarchical constraint maintains layer
+coherence (low deviation from master) but does not create directional
+preference. Emanation is thus a \emph{constrained} variant of spectral-only
+training, not a topology-programming mechanism.

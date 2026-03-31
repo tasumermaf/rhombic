@@ -1,0 +1,142 @@
+\subsection{The Tesseract: 4D Programming}
+\label{sec:tesseract}
+
+The tesseract (4D hypercube) provides the first test beyond 3D polytopes.
+With $n{=}8$ channels and 4 co-axial pairs, the predicted outcome is a
+$4{+}4$ eigenvalue split --- four near-zero eigenvalues (one per co-axial
+pair) and four large eigenvalues (the cross-axial coupling).
+
+\textbf{Result (T-001r2, 10{,}000 steps):} Co/cross ratio 41{,}564:1.
+Fiedler $1.91 \times 10^{-4}$. Eigenvalue pattern:
+$[0, 0, 0, 0, 0.65, 0.68, 0.68, 0.68]$ --- a clean $4{+}4$ split.
+Validation loss 0.4016, within 0.17\% of baseline. The Steersman programs
+4D geometry with the same efficacy as 3D.
+
+\textbf{Reproducibility (T-001r1 vs.\ T-001r2):} Two independent runs with
+identical seeds and hyperparameters produce Pearson $r = 1.0000$ at all 6
+matching checkpoint steps, with maximum deviation 3.5\%. The cybernetic
+training loop is deterministic to within floating-point noise.
+
+\subsection{The 24-Cell: Dense 4D Sphere Packing}
+\label{sec:24cell}
+
+The 24-cell is the $D_4$ root polytope --- the unique regular self-dual
+polytope in 4D, with 24 vertices as permutations of $(\pm 1, \pm 1, 0, 0)$
+in $\mathbb{R}^4$. It tiles 4-space and defines the densest 4D sphere
+packing, making it the 4D analogue of the rhombic dodecahedron's role in 3D
+(FCC lattice). Its 12 antipodal pairs group into 6 coordinate-plane families
+of 2 pairs each, producing $n{=}24$ channels with the richest pair structure
+tested.
+
+\textbf{Prediction:} A $12{+}12$ eigenvalue split --- twelve near-zero
+eigenvalues (one per co-axial pair) and twelve large eigenvalues. If
+confirmed, this demonstrates topology programming at a scale ($24 \times 24$
+bridge matrices, 576 learnable parameters per layer) far beyond the $6
+\times 6$ bridges of Paper~3.
+
+\textbf{Design note:} At rank 24 with $n{=}24$ channels, each channel
+occupies a 1-dimensional subspace of the adapter's rank space. This
+extreme partitioning tests whether the Steersman can maintain block-diagonal
+coherence when each channel's ``budget'' is minimal. In contrast, T-001r2
+($n{=}8$, rank 24) gives each channel a 3-dimensional subspace, and H-ch6
+($n{=}6$, rank 24) gives each channel 4 dimensions.
+
+\textbf{Signal density challenge:} The 24-cell's co-axial/cross-axial ratio
+is 12/264 $= 0.045$, significantly lower than the tesseract's 4/24 $= 0.167$
+(a factor of $3.7\times$). Each contrastive update must reinforce 12 co-axial
+pairs while suppressing 264 cross-axial pairs, compared to 4 and 24 for the
+tesseract. Whether the contrastive signal remains sufficient at this density
+is the central experimental question.
+
+\textbf{Result (24C-001, 10{,}000 steps):} The eigenvalue
+spectrum shows a clean $12{+}12$ split emerging from step~300 and growing
+monotonically. By step~1{,}000, the low block [0:12] occupies
+$[0.000, 0.016]$ while the high block [12:24] clusters at $[0.263, 0.300]$,
+producing block separation of $16.8\times$. By step~3{,}000 (30\% of
+training), block separation reaches $127\times$ as the high block migrates
+to $[0.737, 0.781]$ while the low block compresses to $[0.000, 0.006]$.
+
+Post-hoc co/cross recovery (PC-001) from all 100 saved bridge checkpoints
+fills a logging blind spot that had hidden 85\% of the co/cross growth
+trajectory. A bug in Control Law~2's $n{=}6$ gate prevented real-time
+co/cross tracking for $n{=}24$, but all bridge matrices were saved.
+Recovery reveals monotonic growth from $3$:1 (step~100) through
+$1{,}832$:1 (step~1{,}000), $5{,}673$:1 (step~4{,}300), $10{,}831$:1
+(step~6{,}000), $22{,}455$:1 (step~7{,}500), to a stabilization band of
+$34{,}600$--$37{,}600$:1 from step~8{,}000 onward. Final co/cross:
+$35{,}808$:1 at step~10{,}000.
+
+The Fiedler trajectory reveals two distinct decline phases. Phase~1
+(steps~0--1{,}200): exponential decline from $0.043$ to ${\sim}0.002$,
+followed by apparent stabilization near $0.002$ for ${\sim}3{,}000$ steps.
+Phase~2 (steps~4{,}000--10{,}000): a second, slower decline carrying the
+Fiedler from $0.0026$ through $0.0012$ (step~7{,}000) and $0.00098$
+(step~7{,}600, breaking sub-milliunit) to a stabilization band of
+$0.000535$--$0.000588$ (steps~8{,}000--10{,}000, confirmed for 2{,}100
+steps). The two-phase structure mirrors CW-001's plateau-then-breakout
+pattern (\S\ref{sec:disc-whisper}), though here the second decline is gradual
+rather than exponential.
+
+At step~10{,}000, the Fiedler has stabilized at
+$5.55 \times 10^{-4}$---comparable to CW-001's final value ($4.6 \times
+10^{-4}$ at $c_w{=}0.005$) and well above H-ch6's final value ($9 \times
+10^{-5}$ at adaptive $c_w$ from $0.1$). The 2{,}100-step stabilization
+band confirms the Fiedler floor depends on both $c_w$ and $n$: the fixed
+$c_w{=}0.1$ drives strong BD at $n{=}24$ but does not reach the same
+depth as adaptive decay at $n{=}6$.
+
+\textbf{Convergence rate scaling.} Comparing co/cross ratios at step~1{,}000
+across all four polytope experiments reveals a sharply non-linear
+relationship with the per-axis suppression load $\ell = n - 2$ (the number
+of cross-axial pairs each co-axial pair must compete against). For $n{=}4$
+($\ell{=}2$) and $n{=}6$ ($\ell{=}4$), the step-1{,}000 co/cross ratios are
+nearly identical: 7{,}224:1 and 7{,}246:1. At $n{=}8$ ($\ell{=}6$), the
+ratio drops 36\% to 4{,}611:1. At $n{=}24$ ($\ell{=}22$), the
+step-1{,}000 ratio is $1{,}832$:1 (PC-001 recovery)---a 75\% reduction
+from $n{=}6$. However, the 24-cell eventually reaches $35{,}808$:1 by
+step~10{,}000, demonstrating that the suppression load slows convergence
+\emph{rate} without limiting the eventual \emph{depth}. The ceiling appears
+governed by $c_w$, not $\ell$.
+
+\textbf{Confirmation: adaptive vs.\ fixed $c_w$ (24C-002).} A matched
+experiment with the Steersman's adaptive decay active (rather than fixed
+$c_w{=}0.1$) provides the decisive test. The adaptive mechanism, tuned at
+$n{=}6$, decays $c_w$ from $0.1$ to a settled value of ${\sim}0.025$---the
+same regime as FI-004's optimal fixed $c_w$ for $n{=}6$. At $n{=}24$,
+however, 264 cross-axial pairs require proportionally more contrastive
+pressure per co-axial pair than the 4 cross-axial pairs at $n{=}6$. The
+adaptive mechanism, calibrated for the latter, \emph{undershoots} for the
+former.
+
+The result is unambiguous: final co/cross $5{,}983$:1 (peak $6{,}691$:1
+at step~9{,}800)---a factor of $6\times$ below 24C-001's $35{,}808$:1 at
+matched step count and identical architecture. The Fiedler eigenvalue
+confirms the gap: $0.00461$ (24C-002) vs.\ $0.000555$ (24C-001), an
+$8.3\times$ difference. The trajectory is also qualitatively distinct:
+24C-002 exhibits a non-monotonic co/cross dip to $936$:1 near step~3{,}000
+before recovering---a pattern absent from the fixed-$c_w$ run, likely
+reflecting the Steersman's overshoot-then-correct dynamics at low $c_w$.
+
+This confirms the ceiling claim: at $n{=}24$, reducing $c_w$ from $0.1$
+to $0.025$ reduces the final BD strength by $6\times$. The contrastive
+weight governs the \emph{depth} of block-diagonal formation, not merely
+its \emph{speed}---resolving the speed-vs.-attractor question posed in
+\S\ref{sec:disc-whisper} decisively in favour of the attractor hypothesis.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{paper4/figures/fig_24cell_emergence.pdf}
+  \caption{24-cell experiment (24C-001) full trajectory, 10{,}000 steps.
+  (a)~Fiedler value (log scale) showing two-phase decline: exponential to
+  ${\sim}0.002$ (steps 0--1{,}200), then gradual to stabilization band
+  $0.000535$--$0.000588$ (steps 8{,}000--10{,}000, 2{,}100 steps).
+  (b)~Co/cross ratio (PC-001 post-hoc recovery) reaching $35{,}808$:1
+  at step~10{,}000. Block separation $127\times$ at 30\% of training.
+  Fixed $c_w{=}0.1$.}
+  \label{fig:24cell-emergence}
+\end{figure}
+
+% NOTE: 24C-001 COMPLETE at step 10000. PC-001 recovery DONE — co/cross 35,808:1 final.
+% CL2 logging bug: co_cross gated to n==6 in train_contrastive_bridge.py logging code.
+% Contrastive LOSS was applied correctly via train_cybernetic.py (no n==6 gate on loss).
+% PC-001 results saved to 24C-001/pc_001_co_cross_recovery.json (101 checkpoints).

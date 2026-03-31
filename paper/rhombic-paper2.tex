@@ -60,7 +60,7 @@ $p \approx 2.5 \times 10^{-5}$ against an exhaustive null, while spectral analys
 reveals that corpus-weight Fiedler suppression occurs across all
 tested 24-edge polytopes (percentiles 0.02\%--5.94\%), suggesting the
 effect is driven by the weight distribution rather than the graph. All results are reproducible via \texttt{rhombic} v0.3.0
-(256~tests, \texttt{seed=42}).
+(334~tests, \texttt{seed=42}).
 \end{abstract}
 
 \noindent\textbf{Keywords:} lattice topology, weighted graphs,
@@ -360,7 +360,7 @@ computed as $p = (\text{number of null scores} \geq \text{observed}) /
 N_{\text{null}}$. When no null trial exceeds the observed value, we
 report $p \leq 1/N_{\text{null}}$. Hardware: Windows~11,
 Intel CPU, NVIDIA RTX 6000 Ada 48\,GB (unused---all benchmarks are
-CPU-bound). 312 tests verify library correctness. Source code and
+CPU-bound). 334 tests verify library correctness. Source code and
 raw results are publicly available (see
 Section~\ref{sec:conclusion}).
 
@@ -866,10 +866,11 @@ at lower magnitude).
 
 The direction-pair structure suggests a natural application to
 low-rank adapters (LoRA;~\citealt{hu2022lora}) for large language models: a learnable
-bridge matrix with 6 channels following the RD's face-pair topology
-could add cross-rank mixing at negligible parameter cost.
-Results on this ``RhombiLoRA'' architecture are reported in the
-companion paper~\cite{bielec2026bridge}.
+bridge matrix whose channels follow polytope face-pair topology
+adds cross-rank mixing at negligible parameter cost.
+This ``TeLoRA'' (Topology-Enhanced LoRA) architecture is validated in the
+companion paper~\cite{bielec2026bridge}, where polytope-derived bridges
+produce coherence-to-cross ratios exceeding $10^4$:1.
 
 \subsection{Migration Strategy: Cubic to RD}
 \label{sec:migration}
@@ -963,7 +964,7 @@ characterize real systems, it is amplified.
 \paragraph{Availability.}
 \begin{sloppypar}
 Source code: \url{https://github.com/tasumermaf/rhombic}.
-Package: \url{https://pypi.org/project/rhombic/} (v0.3.0, 312 tests,
+Package: \url{https://pypi.org/project/rhombic/} (v0.3.0, 334 tests,
 PyPI trusted publishing provenance binding to commit
 \texttt{c4d2845}).
 Reproduction: \texttt{pip install rhombic==0.3.0 \&\& python

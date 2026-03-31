@@ -1,0 +1,73 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+The Steersman is a general-purpose topology programmer for neural
+network adapter bridges---but a selective one. Given a pair
+specification derived from the co-axial structure of a polytope, it
+compiles the corresponding block-diagonal partition with coupling ratios
+exceeding 40{,}000:1. Given a specification lacking geometric
+coherence, it drives the bridge into connectivity collapse. The
+selectivity is the finding: it confirms that successful topology
+programming encodes genuine geometric information, not an artifact of
+the loss formulation.
+
+Three polytope geometries are confirmed. The octahedron ($n{=}4$)
+produces $2{+}2$ blocks at 473{,}622:1---the programme's strongest
+signal. The rhombic dodecahedron ($n{=}6$) produces $3{+}3$ blocks at
+70{,}404:1. The tesseract ($n{=}8$) produces $4{+}4$ blocks at
+41{,}564:1, extending topology programming to four dimensions. A
+24-cell experiment ($n{=}24$, D4 root polytope) confirms a
+$12{+}12$ eigenvalue split with co/cross $35{,}808$:1 (post-hoc
+PC-001 recovery) and Fiedler stabilized at $5.6 \times 10^{-4}$
+for 2{,}100 steps (fixed $c_w{=}0.1$).
+In every
+confirmed case, the Steersman's control laws, loss formulation, and
+hyperparameters are identical; only the pair specification changes.
+
+The spectral attractor at Fiedler $\approx 0.09$ is the universal
+unprogrammed state. Spectral regularization alone produces this
+equilibrium across $n \in \{3, 4, 8, 12\}$ with 10.4\% variation, and
+the emanation architecture converges to the same attractor through a
+different mechanism. Contrastive loss breaks this equilibrium by
+redirecting connectivity from isotropic distribution to specified
+axes---a $1{,}130\times$ Fiedler drop at $n{=}6$.
+
+Geometric coherence is required. Wrong-labels (random partition)
+produces a clean $3{+}3$ eigenvalue split but co/cross
+$\approx 0$---structure without direction. Resonance
+(number-theoretic pairs) produces a chain-like eigenvalue pattern with
+neither blocks nor direction. These two negative controls, together
+with the three positive results and the spectral attractor baseline,
+define four cleanly separated regimes that classify all observed bridge
+behavior.
+
+Bridge initialization independence confirms that the topology is
+determined by the pair specification, not the initial conditions:
+three maximally different corpus-coupled initializations converge to
+identical block-diagonal structure
+(50--52{,}000:1, Frobenius distance ${\sim}10^{-4}$), with the
+Steersman actively correcting 75\% wrong initial signs to the
+canonical pattern. Yet this topology requires continuous maintenance:
+removing the Steersman causes signs to collapse to random within 100
+steps and co/cross to decay exponentially toward the isotropic
+equilibrium. The block-diagonal configuration is a Steersman-maintained
+fixed point---accessible from any initialization, but unstable under
+the language modelling loss alone.
+
+Steersman annealing reveals that the optimal operating point is not at
+full strength. Linearly reducing the contrastive weight from $0.10$ to
+zero produces five regimes: maintenance, interference (co/cross floor
+at 7:1), exponential growth (peak 18{,}671:1 at $c_w = 0.017$), gradual
+decay, and a cliff (76\% drop) at $c_w = 0$. The topology programmer
+works best at approximately 2\% of its nominal weight---full strength
+operates in the interference regime where contrastive and LM gradients
+conflict. Even at zero weight, the bridge retains 2{,}942:1,
+two orders of magnitude above the isotropic equilibrium, confirming
+that annealing imprints topology that partially persists beyond the
+Steersman's removal.
+
+The practical implication is precise: adapter topology is now a
+designable property, not an emergent accident. The pair specification is
+the program, the Steersman is the compiler, and the bridge is the
+substrate. The compiler accepts real geometry and rejects everything
+else---and it operates most efficiently at near-whisper intensity.

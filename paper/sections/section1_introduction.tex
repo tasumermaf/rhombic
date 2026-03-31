@@ -31,7 +31,7 @@ The down-projection $A$ maps the input to a rank-$r$ hidden vector,
 which is reshaped into $C$ channels of width $r/C$; the bridge mixes
 channels; the result is reshaped and passed to the up-projection $B$.
 With $C = 6$ (motivated by the face-count of the rhombic dodecahedron
-in the RhombiLoRA architecture~\cite{rhombilora_paper1, rhombilora_paper2}),
+in the TeLoRA architecture~\cite{rhombilora_paper1, rhombilora_paper2}),
 the bridge adds 36 parameters per adapter layer---a $0.02\%$ overhead
 relative to total adapter parameters.
 When the bridge is the identity matrix $I_C$, the architecture
@@ -132,7 +132,7 @@ Because $A$ and $B$ do not adapt to the task in LoRA-XS, the
 intermediate matrix cannot serve as a diagnostic of what joint
 $A$-$B$ learning discovered---it \emph{is} the entirety of learned
 adaptation.
-RhombiLoRA trains all three components jointly, enabling the bridge
+TeLoRA trains all three components jointly, enabling the bridge
 to capture the emergent coupling pattern rather than carrying the full
 adaptation burden.
 Section~\ref{sec:related} discusses this distinction and other related

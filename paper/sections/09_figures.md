@@ -8,7 +8,7 @@
 | 2 | `fig_init_convergence_final.png` | §4.3 | Four-panel init convergence proof: co/cross ratio, val loss, ratio delta (%), Bridge Fiedler. All 4 n=6 runs (C-001, C-002, C-003, H3). |
 | 3 | `fig_corpus_dismantling_full.png` | §4.3 | Corpus-coupled dismantling: per-pair coupling trajectories showing IC→RD crossover at step ~75 and 99.5% suppression by step 900. |
 | 4 | `fig_bridge_heatmap_c002_vs_exp2.png` | §4.1, §6.1 | 2×4 panel: cybernetic (C-002) vs non-cybernetic (exp2) bridge heatmaps per module. Visual BD vs near-identity contrast. |
-| 5 | `channel-ablation/fig_channel_ablation_definitive.png` | §5.2 | THE ablation figure. Three panels: val loss (n=3/4/6), Bridge Fiedler (log, 1,020× gap), co/cross ratio (n=6 only, peak 82,154:1). |
+| 5 | `channel-ablation/fig_channel_ablation_definitive.png` | §5.2 | THE ablation figure. Three panels: val loss (n=3/4/6), Bridge Fiedler (log, 1,020× gap), co/cross ratio (n=6 only, peak 82,854:1). |
 | 6 | `channel-ablation/fig_h2_eigenvalue_divergence.png` | §5.2.3 | H2 eigenvalue ratios diverging from degeneracy — no block structure at n=4. |
 | 7 | `channel-ablation/fig_fiedler_saturation_comparison.png` | §5.2.2 | Fiedler saturation across n=3/4/6 + val loss comparison. |
 | 8 | `fig_per_layer_coupling.png` | §6.1 | Per-layer co-planar coupling: Qwen 7B vs TinyLlama. |

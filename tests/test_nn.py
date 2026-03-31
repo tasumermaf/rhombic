@@ -1,6 +1,6 @@
 """Tests for rhombic.nn — RhombiLoRA and bridge topology.
 
-Six tiers:
+Eight tiers:
   1. Topology — coupling matrix from RD geometry
   2. Construction — valid/invalid params, shapes, initialization
   3. Forward pass — shapes, identity equivalence, zero at init, scaling
@@ -8,6 +8,7 @@ Six tiers:
   5. Ablation — frozen bridge = LoRA, state_dict round-trip, diagnostics
   6. Dynamic Bridge — input-dependent gating with temperature annealing
   7. Emanation — shared master bridge with per-layer sigmoid projection
+  8. Absorption — fold bridge into A/B for standard LoRA export
 """
 
 import numpy as np
@@ -17,6 +18,7 @@ import torch.nn as nn
 
 from rhombic.nn.topology import direction_pair_coupling, bridge_init, create_emanation_bridge
 from rhombic.nn.rhombi_lora import RhombiLoRALinear
+from rhombic.nn.absorb import absorb_bridge, absorb_bridge_into_state_dict
 from rhombic.corpus import corpus_available as _corpus_available
 
 
@@ -856,3 +858,226 @@ class TestEmanation:
         x = torch.randn(4, 64)
         y = m(x)
         assert y.shape == (4, 128)
+
+
+# ── Tier 8: Bridge Absorption ──────────────────────────────────────────
+
+
+class TestAbsorption:
+    """Fold bridge into A/B for standard LoRA export."""
+
+    def _make_trained(self, bridge_mode='identity', perturb=False,
+                      n_channels=6, rank=24, in_f=64, out_f=128):
+        """Create a module simulating post-training state."""
+        torch.manual_seed(42)
+        m = RhombiLoRALinear(in_f, out_f, rank=rank,
+                             n_channels=n_channels, bridge_mode=bridge_mode)
+        nn.init.normal_(m.lora_B, std=0.01)
+        if perturb:
+            with torch.no_grad():
+                m.bridge.data += torch.randn_like(m.bridge) * 0.1
+        m.eval()
+        return m
+
+    # -- Shape preservation --
+
+    def test_absorbed_A_shape(self):
+        m = self._make_trained()
+        result = absorb_bridge(m, strategy='into_B', verify=False)
+        assert result['lora_A'].shape == (24, 64)
+
+    def test_absorbed_B_shape(self):
+        m = self._make_trained()
+        result = absorb_bridge(m, strategy='into_B', verify=False)
+        assert result['lora_B'].shape == (128, 24)
+
+    # -- Strategy: into_A --
+
+    def test_into_A_identity_bridge(self):
+        """into_A with identity bridge: A unchanged, B unchanged."""
+        m = self._make_trained(bridge_mode='identity')
+        result = absorb_bridge(m, strategy='into_A', verify=True)
+        # With identity bridge, new_A should equal original A
+        torch.testing.assert_close(result['lora_A'], m.lora_A.data,
+                                   atol=1e-6, rtol=1e-6)
+
+    def test_into_A_perturbed_bridge(self):
+        """into_A with perturbed bridge passes verification."""
+        m = self._make_trained(perturb=True)
+        result = absorb_bridge(m, strategy='into_A', verify=True)
+        assert result['bridge_absorbed'] is True
+        assert result['bridge_deviation'] > 0.01
+
+    def test_into_A_B_unchanged(self):
+        """into_A leaves B unchanged."""
+        m = self._make_trained(perturb=True)
+        result = absorb_bridge(m, strategy='into_A', verify=False)
+        torch.testing.assert_close(result['lora_B'], m.lora_B.data,
+                                   atol=1e-7, rtol=1e-7)
+
+    # -- Strategy: into_B --
+
+    def test_into_B_identity_bridge(self):
+        """into_B with identity bridge: B unchanged."""
+        m = self._make_trained(bridge_mode='identity')
+        result = absorb_bridge(m, strategy='into_B', verify=True)
+        torch.testing.assert_close(result['lora_B'], m.lora_B.data,
+                                   atol=1e-6, rtol=1e-6)
+
+    def test_into_B_perturbed_bridge(self):
+        """into_B with perturbed bridge passes verification."""
+        m = self._make_trained(perturb=True)
+        result = absorb_bridge(m, strategy='into_B', verify=True)
+        assert result['bridge_absorbed'] is True
+
+    def test_into_B_A_unchanged(self):
+        """into_B leaves A unchanged."""
+        m = self._make_trained(perturb=True)
+        result = absorb_bridge(m, strategy='into_B', verify=False)
+        torch.testing.assert_close(result['lora_A'], m.lora_A.data,
+                                   atol=1e-7, rtol=1e-7)
+
+    # -- Strategy: balanced --
+
+    def test_balanced_identity_bridge(self):
+        """balanced with identity bridge passes verification."""
+        m = self._make_trained(bridge_mode='identity')
+        result = absorb_bridge(m, strategy='balanced', verify=True)
+        assert result['bridge_absorbed'] is True
+
+    def test_balanced_perturbed_bridge(self):
+        """balanced with perturbed bridge passes verification."""
+        m = self._make_trained(perturb=True)
+        result = absorb_bridge(m, strategy='balanced', verify=True)
+        assert result['bridge_absorbed'] is True
+
+    def test_balanced_geometric_bridge(self):
+        """balanced with geometric bridge passes verification."""
+        m = self._make_trained(bridge_mode='geometric')
+        result = absorb_bridge(m, strategy='balanced', verify=True)
+        assert result['bridge_deviation'] > 0.0
+
+    # -- Cross-strategy consistency --
+
+    def test_all_strategies_produce_same_output(self):
+        """All three strategies produce identical final output."""
+        m = self._make_trained(perturb=True)
+        x = torch.randn(4, 16, 64)
+
+        results = {}
+        for strat in ('into_A', 'into_B', 'balanced'):
+            r = absorb_bridge(m, strategy=strat, verify=False)
+            h = x @ r['lora_A'].T
+            y = h @ r['lora_B'].T * r['scaling']
+            results[strat] = y
+
+        torch.testing.assert_close(results['into_A'], results['into_B'],
+                                   atol=1e-5, rtol=1e-5)
+        torch.testing.assert_close(results['into_A'], results['balanced'],
+                                   atol=1e-5, rtol=1e-5)
+
+    # -- Emanation mode --
+
+    def test_absorb_emanation_mode(self):
+        """Absorption works with emanation (shared master bridge)."""
+        torch.manual_seed(42)
+        master, _ = create_emanation_bridge(6, 'geometric')
+        m = RhombiLoRALinear(64, 128, rank=24, master_bridge=master)
+        nn.init.normal_(m.lora_B, std=0.01)
+        with torch.no_grad():
+            m.layer_proj.data += torch.randn(6, 6) * 0.5
+        m.eval()
+
+        for strat in ('into_A', 'into_B', 'balanced'):
+            result = absorb_bridge(m, strategy=strat, verify=True)
+            assert result['bridge_absorbed'] is True
+
+    # -- Non-standard channel counts --
+
+    def test_absorb_3_channels(self):
+        """Absorption works with n_channels=3."""
+        m = self._make_trained(n_channels=3, rank=12, in_f=32, out_f=48,
+                               perturb=True)
+        result = absorb_bridge(m, strategy='into_B', verify=True)
+        assert result['lora_A'].shape == (12, 32)
+        assert result['lora_B'].shape == (48, 12)
+
+    # -- State dict export --
+
+    def test_state_dict_export_keys(self):
+        """absorb_bridge_into_state_dict produces PEFT-compatible keys."""
+        m = self._make_trained(perturb=True)
+        sd = absorb_bridge_into_state_dict(m, strategy='into_B')
+        assert 'lora_A.weight' in sd
+        assert 'lora_B.weight' in sd
+        assert len(sd) == 2
+
+    def test_state_dict_export_with_prefix(self):
+        """Key prefix is prepended correctly."""
+        m = self._make_trained(perturb=True)
+        sd = absorb_bridge_into_state_dict(m, strategy='into_B',
+                                           key_prefix='model.layers.0.')
+        assert 'model.layers.0.lora_A.weight' in sd
+        assert 'model.layers.0.lora_B.weight' in sd
+
+    def test_state_dict_shapes(self):
+        """Exported tensors have correct shapes."""
+        m = self._make_trained(perturb=True)
+        sd = absorb_bridge_into_state_dict(m, strategy='into_B')
+        assert sd['lora_A.weight'].shape == (24, 64)
+        assert sd['lora_B.weight'].shape == (128, 24)
+
+    # -- Result metadata --
+
+    def test_result_metadata(self):
+        """Result dict contains all expected metadata fields."""
+        m = self._make_trained(perturb=True)
+        result = absorb_bridge(m, strategy='into_B', verify=False)
+        assert result['rank'] == 24
+        assert result['in_features'] == 64
+        assert result['out_features'] == 128
+        assert result['bridge_absorbed'] is True
+        assert result['strategy'] == 'into_B'
+        assert isinstance(result['bridge_deviation'], float)
+        assert isinstance(result['scaling'], float)
+
+    # -- Invalid strategy --
+
+    def test_invalid_strategy_raises(self):
+        """Invalid strategy name raises ValueError."""
+        m = self._make_trained()
+        with pytest.raises(ValueError, match="strategy"):
+            absorb_bridge(m, strategy='invalid')
+
+    # -- Verification catches real errors --
+
+    def test_verification_catches_wrong_weights(self):
+        """Verification raises AssertionError when weights are wrong."""
+        m = self._make_trained(perturb=True)
+        # Manually corrupt lora_A after absorbing
+        result = absorb_bridge(m, strategy='into_B', verify=False)
+        # Corrupt the A matrix
+        result['lora_A'] += torch.randn_like(result['lora_A']) * 10.0
+        # Rebuild module won't match — use _verify_absorption directly
+        from rhombic.nn.absorb import _verify_absorption
+        with pytest.raises(AssertionError, match="FAILED"):
+            _verify_absorption(
+                module=m,
+                new_A=result['lora_A'],
+                new_B=result['lora_B'],
+                scaling=result['scaling'],
+            )
+
+    # -- Bridge deviation tracking --
+
+    def test_identity_bridge_zero_deviation(self):
+        """Identity bridge reports zero deviation."""
+        m = self._make_trained(bridge_mode='identity')
+        result = absorb_bridge(m, strategy='into_B', verify=False)
+        assert abs(result['bridge_deviation']) < 1e-7
+
+    def test_perturbed_bridge_nonzero_deviation(self):
+        """Perturbed bridge reports nonzero deviation."""
+        m = self._make_trained(perturb=True)
+        result = absorb_bridge(m, strategy='into_B', verify=False)
+        assert result['bridge_deviation'] > 0.01

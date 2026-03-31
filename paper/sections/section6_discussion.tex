@@ -5,7 +5,7 @@
 \subsection{Why the Bridge Does Not Improve Loss}
 
 The bridge adds 36 parameters per adapter layer. In a rank-24
-RhombiLoRA configuration applied to four target modules across 28
+TeLoRA configuration applied to four target modules across 28
 transformer layers, this amounts to $28 \times 4 \times 36 = 4{,}032$
 bridge parameters---negligible relative to the adapter's total
 parameter count ($28 \times 4 \times 2 \times 24 \times d_{\text{model}}$,
@@ -20,7 +20,7 @@ linear transformation $M$ can be absorbed into the product $BMA$ by
 redefining $B' = BM$. The optimizer has no gradient signal that would
 favor distributing representation across $B$, $M$, and $A$ rather
 than absorbing $M$ into $B$ entirely. This is consistent with our
-Experiment~1 result: frozen-bridge RhombiLoRA matches standard LoRA
+Experiment~1 result: frozen-bridge TeLoRA matches standard LoRA
 loss to within $\Delta < 0.0002$, and learnable-bridge variants do
 not improve upon it. Doubling rank from 24 to 48 likewise provides
 no benefit---the bottleneck is training signal, not adapter capacity.

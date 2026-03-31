@@ -115,6 +115,12 @@ def _coplanar_crossplanar_indices(n_channels: int):
                 else:
                     crossplanar.append((i, j))
         return coplanar, crossplanar
+    elif n_channels == 4:
+        # Octahedral geometry: 2-axis partition
+        # channels (0,1) along one axis, (2,3) along orthogonal
+        coplanar = [(0, 1), (2, 3)]
+        crossplanar = [(0, 2), (0, 3), (1, 2), (1, 3)]
+        return coplanar, crossplanar
     elif n_channels == 8:
         # Tesseract geometry: 8 cubic cells pair into 4 opposite pairs
         # along 4 coordinate axes of the 4D hypercube
@@ -122,6 +128,23 @@ def _coplanar_crossplanar_indices(n_channels: int):
         coaxial_set = set(coaxial)
         crossaxial = [
             (i, j) for i in range(8) for j in range(i + 1, 8)
+            if (i, j) not in coaxial_set
+        ]
+        return coaxial, crossaxial
+    elif n_channels == 24:
+        # 24-cell (D4 root polytope): 12 co-axial pairs from 6 coordinate planes
+        # Vertices: permutations of (+-1,+-1,0,0) in R^4, grouped by coordinate plane
+        coaxial = [
+            (0, 3), (1, 2),      # wx group
+            (4, 7), (5, 6),      # wy group
+            (8, 11), (9, 10),    # wz group
+            (12, 15), (13, 14),  # xy group
+            (16, 19), (17, 18),  # xz group
+            (20, 23), (21, 22),  # yz group
+        ]
+        coaxial_set = set(coaxial)
+        crossaxial = [
+            (i, j) for i in range(24) for j in range(i + 1, 24)
             if (i, j) not in coaxial_set
         ]
         return coaxial, crossaxial
@@ -630,6 +653,16 @@ def _save_results(
         safe_name = name.replace(".", "_")
         B = lora.bridge.detach().cpu().numpy()
         np.save(output_dir / f"bridge_final_{safe_name}.npy", B)
+
+    # Save full adapter state (lora_A, lora_B, bridge) for bridge-swap eval
+    adapter_state = {}
+    for name, lora in injected.items():
+        safe = name.replace(".", "_")
+        adapter_state[f"{safe}.lora_A"] = lora.lora_A.detach().cpu()
+        adapter_state[f"{safe}.lora_B"] = lora.lora_B.detach().cpu()
+        adapter_state[f"{safe}.bridge"] = lora.bridge.detach().cpu()
+    torch.save(adapter_state, output_dir / "adapter_state.pt")
+    print(f"  Saved adapter state ({len(injected)} layers)")
 
 
 # ── CLI ─────────────────────────────────────────────────────────────

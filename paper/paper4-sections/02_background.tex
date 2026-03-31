@@ -1,0 +1,130 @@
+\section{Background}
+\label{sec:background}
+
+\subsection{The Learnable Bridge and the Steersman}
+
+Paper~3 in this series~\cite{bielec2026bridge} introduced the \emph{learnable bridge}:
+a per-layer coupling matrix $\mathbf{B}_l \in \mathbb{R}^{n \times n}$ that
+mediates interaction between $n$ parallel LoRA channels in a multi-channel
+adapter. The bridge is trained jointly with the adapter weights, governed by
+a cybernetic feedback loop called the \emph{Steersman}.
+
+The Steersman implements a classical control cycle: a \emph{sensor} extracts
+the bridge's graph Laplacian eigenvalues at each feedback interval; an
+\emph{oscilloscope} tracks connectivity (Fiedler algebraic connectivity
+$\lambda_2$) and co-planar/cross-planar coupling ratios; a \emph{steersman}
+module adjusts loss weights; and the modified loss signal acts as the
+\emph{actuator} on the bridge parameters. The full loop operates at a
+configurable interval (default: every 100 optimizer steps) without
+interrupting gradient flow.
+
+Two loss components provide independent control channels:
+\begin{itemize}
+  \item \textbf{Spectral regularization} targets aggregate connectivity by
+    penalizing deviations of $\lambda_2$ from a reference value, ensuring the
+    bridge develops non-trivial coupling.
+  \item \textbf{Contrastive loss} specifies \emph{which} channels should
+    couple preferentially: designated \emph{co-axial} pairs are attracted
+    (their coupling is reinforced) while \emph{cross-axial} pairs are repelled
+    (their coupling is suppressed).
+\end{itemize}
+
+Paper~3 demonstrated that this mechanism, applied with pair specifications
+derived from the rhombic dodecahedron's 3-axis face-pair geometry at $n{=}6$,
+produces block-diagonal bridge structure with co-planar/cross-planar coupling
+ratios exceeding 70{,}000:1. The present paper asks whether this result
+generalizes beyond a single polytope.
+
+\subsection{Polytope Geometry and Antipodal Pairing}
+
+A \emph{regular polytope} is a geometric object whose vertices, edges, and
+faces are congruent under its symmetry group. Several regular and semi-regular
+polytopes admit a natural \emph{antipodal pairing}: for each vertex $v$,
+there exists a unique vertex $-v$ at maximal distance through the polytope's
+center. When the polytope's vertices are mapped to adapter channels, antipodal
+pairs define co-axial specifications for the contrastive loss.
+
+We test four polytope geometries spanning 3D and 4D:
+
+\begin{description}
+  \item[Octahedron] ($n{=}4$, 2 axes): The regular octahedron in
+    $\mathbb{R}^3$ has 6 vertices forming 3 antipodal pairs. We use 4
+    vertices (2 pairs) corresponding to a 2-axis partition.
+  \item[Rhombic dodecahedron] ($n{=}6$, 3 axes): The RD's 14 vertices
+    include 6 degree-4 vertices forming 3 face-diagonal pairs aligned with
+    the coordinate axes.
+  \item[Tesseract] ($n{=}8$, 4 axes): The 4D hypercube's 16 vertices form
+    8 antipodal pairs. We use 8 vertices (4 pairs) corresponding to the four
+    coordinate axes.
+  \item[24-cell] ($n{=}24$, 12 axes): The $D_4$ root polytope in
+    $\mathbb{R}^4$, self-dual, with 24 vertices as permutations of
+    $(\pm 1, \pm 1, 0, 0)$. Its 12 antipodal pairs group into 6
+    coordinate-plane families (wx, wy, wz, xy, xz, yz).
+\end{description}
+
+The key insight is that the Steersman mechanism requires \emph{no
+modification} to accommodate different polytopes. Only the pair specification
+--- which channels are co-axial --- changes.
+
+\subsection{Programmable Inductive Biases}
+
+Prior work on structured adapters has explored low-rank
+variants~\cite{valipour2023dylora,loraxs2024},
+mixture-of-experts~\cite{zadouri2023pushing},
+and hypernetworks~\cite{ha2017hypernetworks} that generate adapter weights
+conditioned on task embeddings. Zhu et al.~\cite{zhu2024asymmetry} analyze
+the asymmetric roles of the $A$ and $B$ projections in LoRA, showing that
+structure within the adapter matters beyond rank alone.
+
+Recent work has converged independently on block-diagonal adapter structure.
+G{\"u}rses et al.~\cite{gurses2026diablo} prove that block-diagonal
+fine-tuning (DiaBlo) is theoretically at least as expressive as standard
+LoRA and empirically competitive, validating the block-diagonal form as a
+first-class adapter architecture. Wang et al.~\cite{wang2025gralora}
+(GraLoRA) and Barazandeh et al.~\cite{barazandeh2025localized} (Localized
+LoRA) partition adapter matrices into independent blocks for
+parameter-efficient fine-tuning. Tian et al.~\cite{tian2026spectral}
+(Spectral Surgery) analyze LoRA's spectral properties for training-free
+refinement, demonstrating the diagnostic value of spectral decomposition
+in adapter weight spaces.
+
+Our approach differs from all of these in a specific way: we do not merely
+\emph{impose} block-diagonal structure (as DiaBlo and GraLoRA do through
+architectural constraint) but \emph{program} it through cybernetic
+feedback. The pair specification declares which channels are co-axial;
+the Steersman compiles this specification into the bridge matrix during
+training. The topology is a design choice, not an emergent property or
+a fixed architectural constraint. This aligns with geometric deep
+learning~\cite{bronstein2021geometric}, where the structure of the
+computation graph reflects the structure of the problem domain---but
+extends it from the network architecture to the adapter's internal
+coupling topology.
+
+\subsection{Spectral Graph Theory Preliminaries}
+
+We characterize bridge structure through the graph Laplacian
+$\mathbf{L} = \mathbf{D} - \mathbf{W}$, where $\mathbf{W}$ is the
+absolute-value weight matrix derived from the bridge and $\mathbf{D}$ is
+the degree matrix. The eigenvalues $0 = \lambda_1 \leq \lambda_2 \leq
+\cdots \leq \lambda_n$ encode connectivity:
+
+\begin{itemize}
+  \item $\lambda_2$ (Fiedler value): algebraic connectivity. $\lambda_2 = 0$
+    indicates a disconnected graph; $\lambda_2 > 0$ indicates a connected
+    graph.
+  \item Block-diagonal structure manifests as $k$ near-zero eigenvalues
+    followed by $k$ large eigenvalues, where $k$ equals the number of
+    co-axial pairs --- a clean $k{+}k$ split.
+  \item The \emph{co-planar/cross-planar ratio} (co/cross) measures
+    directional preference: the ratio of mean absolute coupling within
+    co-axial pairs to mean absolute coupling between non-paired channels.
+\end{itemize}
+
+These two metrics --- Fiedler value and co/cross ratio --- jointly classify
+bridge states into the four regimes described in~\S\ref{sec:negative-controls}.
+
+Tam et al.~\cite{tam2020fiedler} introduced differentiable Fiedler
+regularization as a sparsity-promoting objective for neural network
+pruning, minimizing $\lambda_2$ to disconnect subgraphs. Our spectral
+loss inverts this application: we \emph{target} a specific $\lambda_2$
+attractor to program topology, not to prune it.
