@@ -15,7 +15,7 @@ This experiment closes the loop. Every N steps:
      and derivative trends (PID-like control)
   4. ACTUATOR: Adjust learning rate, contrastive weight, spectral
      regularization weight, bridge learning rate
-  5. SYSTEM: Training continues with adjusted parameters → back to SENSOR
+  5. SYSTEM: Training continues with adjusted parameters -> back to SENSOR
 
 Two new loss components:
   - Spectral regularization: differentiable Fiedler proxy drives algebraic
@@ -208,6 +208,8 @@ class Steersman:
         spectral_target_tracking_rate: float = 0.1,
         # Window size for trend estimation
         window_size: int = 5,
+        # Fixed contrastive weight (bypasses Control Law 2)
+        fixed_contrastive_weight: Optional[float] = None,
     ):
         self.base_contrastive = base_contrastive_weight
         self.base_spectral = base_spectral_weight
@@ -224,11 +226,15 @@ class Steersman:
         self.target_tracking_rate = spectral_target_tracking_rate
 
         self.window_size = window_size
+        self.fixed_contrastive = fixed_contrastive_weight
         self.history: list[SteersmanState] = []
 
         # Current actuator outputs
         self._lr_scale = 1.0
-        self._contrastive_weight = base_contrastive_weight
+        self._contrastive_weight = (
+            fixed_contrastive_weight if fixed_contrastive_weight is not None
+            else base_contrastive_weight
+        )
         self._spectral_weight = base_spectral_weight
         self._bridge_lr_scale = 1.0
 
@@ -354,11 +360,18 @@ class Steersman:
             self.spectral_target += self.target_tracking_rate * (
                 f_mean - self.spectral_target
             )
-            signals["target_adaptation"] = f"target → {self.spectral_target:.4f}"
+            signals["target_adaptation"] = f"target -> {self.spectral_target:.4f}"
 
         # Control Law 2: DIRECTIONALITY
         # If co/cross ratio is stagnant near 1.0, increase contrastive pressure
-        if co_cross is not None and len(co_cross_history) >= 2:
+        # SKIP when fixed_contrastive is set — weight stays constant
+        if self.fixed_contrastive is not None:
+            signals["directionality"] = (
+                f"FIXED (c_w={self.fixed_contrastive:.4f}, "
+                f"ratio={co_cross:.3f})" if co_cross is not None
+                else f"FIXED (c_w={self.fixed_contrastive:.4f})"
+            )
+        elif co_cross is not None and len(co_cross_history) >= 2:
             if abs(co_cross_trend) < self.co_cross_stagnation and co_cross < 1.1:
                 boost = min(0.02, self.max_contrastive - self._contrastive_weight)
                 self._contrastive_weight = min(
@@ -394,7 +407,7 @@ class Steersman:
             )
             signals["stability"] = (
                 f"FAST GROWTH (trend={deviation_trend:.5f}), "
-                f"bridge_lr ×{dampen:.3f} → {self._bridge_lr_scale:.3f}"
+                f"bridge_lr x{dampen:.3f} -> {self._bridge_lr_scale:.3f}"
             )
         elif deviation_trend < -0.01:
             # Bridge converging back — can restore LR
@@ -405,7 +418,7 @@ class Steersman:
             )
             signals["stability"] = (
                 f"CONVERGING (trend={deviation_trend:.5f}), "
-                f"bridge_lr ×{recover:.3f} → {self._bridge_lr_scale:.3f}"
+                f"bridge_lr x{recover:.3f} -> {self._bridge_lr_scale:.3f}"
             )
         else:
             signals["stability"] = f"STABLE (trend={deviation_trend:.5f})"
@@ -436,6 +449,88 @@ class Steersman:
         return state
 
 
+# ── Resume from checkpoint ──────────────────────────────────────────
+
+
+def _load_resume_checkpoint(
+    resume_dir: Path,
+    injected: dict[str, RhombiLoRALinear],
+    device: torch.device,
+    emanation_bridge=None,
+) -> int:
+    """Load adapter/bridge state from a checkpoint directory and return the resume step.
+
+    Loads lora_A, lora_B, and bridge weights from adapter_state.pt.
+    Reads the last checkpoint step from results.json.
+
+    NOTE: Optimizer state is NOT saved in current checkpoints, so the optimizer
+    will restart from scratch. The model continues from saved adapter/bridge
+    weights, but momentum and adaptive learning rate state are lost. This means
+    the first few hundred steps after resume may have slightly different dynamics
+    than an uninterrupted run. For long runs this is acceptable; for precise
+    reproducibility, full optimizer state checkpointing would need to be added.
+
+    Parameters
+    ----------
+    resume_dir : Path to the checkpoint directory
+    injected : dict of adapter name -> RhombiLoRALinear (already on device)
+    device : torch device
+    emanation_bridge : optional EmanationBridge instance
+
+    Returns
+    -------
+    int : the global step to resume from
+    """
+    adapter_path = resume_dir / "adapter_state.pt"
+    results_path = resume_dir / "results.json"
+
+    if not adapter_path.exists():
+        raise FileNotFoundError(f"No adapter_state.pt found in {resume_dir}")
+
+    # Load adapter state
+    adapter_state = torch.load(adapter_path, map_location="cpu", weights_only=True)
+    loaded_count = 0
+    for name, lora in injected.items():
+        safe = name.replace(".", "_")
+        key_a = f"{safe}.lora_A"
+        key_b = f"{safe}.lora_B"
+        key_bridge = f"{safe}.bridge"
+        if key_a in adapter_state and key_b in adapter_state:
+            lora.lora_A.data.copy_(adapter_state[key_a].to(device))
+            lora.lora_B.data.copy_(adapter_state[key_b].to(device))
+            loaded_count += 1
+        else:
+            print(f"  WARNING: adapter state not found for {name}, using fresh init")
+        if key_bridge in adapter_state:
+            lora.bridge.data.copy_(adapter_state[key_bridge].to(device))
+
+    print(f"  Loaded adapter state for {loaded_count}/{len(injected)} layers")
+
+    # Load emanation master bridge if applicable
+    if emanation_bridge is not None:
+        master_path = resume_dir / "bridge_emanation_master_final.npy"
+        if master_path.exists():
+            master_np = np.load(master_path)
+            emanation_bridge.master.data.copy_(
+                torch.from_numpy(master_np).to(device)
+            )
+            print(f"  Loaded emanation master bridge")
+
+    # Determine resume step from results.json
+    resume_step = 0
+    if results_path.exists():
+        with open(results_path) as f:
+            results = json.load(f)
+        checkpoints = results.get("checkpoints", [])
+        if checkpoints:
+            resume_step = checkpoints[-1].get("step", 0)
+    else:
+        print(f"  WARNING: No results.json in {resume_dir}, resuming from step 0")
+
+    print(f"  Resuming from step {resume_step}")
+    return resume_step
+
+
 # ── Cybernetic Training Loop ─────────────────────────────────────────
 
 
@@ -458,6 +553,10 @@ def train_cybernetic(
     emanation: bool = False,
     # Model export
     save_merged: bool = False,
+    # Fixed contrastive weight (bypasses adaptive Control Law 2)
+    fixed_contrastive: Optional[float] = None,
+    # Resume from checkpoint
+    resume: Optional[str] = None,
 ):
     """Experiment 3: Cybernetic bridge training with closed-loop feedback.
 
@@ -475,6 +574,8 @@ def train_cybernetic(
     config_dict["initial_spectral"] = initial_spectral
     config_dict["initial_spectral_target"] = initial_spectral_target
     config_dict["emanation"] = emanation
+    config_dict["fixed_contrastive"] = fixed_contrastive
+    config_dict["resumed_from"] = resume
     with open(output_dir / "config.json", "w") as f:
         json.dump(config_dict, f, indent=2)
 
@@ -486,9 +587,12 @@ def train_cybernetic(
         geom_label = "RESONANCE (prime threading topology)"
     else:
         co_pairs, cross_pairs = _compute_pair_indices(config.n_channels)
-        geom_label = {6: "RD (rhombic dodecahedron)", 8: "Tesseract (4D hypercube)"}.get(
-            config.n_channels, f"n={config.n_channels} (no geometric prior)"
-        )
+        geom_label = {
+            4: "Octahedron (2-axis partition)",
+            6: "RD (rhombic dodecahedron)",
+            8: "Tesseract (4D hypercube)",
+            24: "24-cell (D4 root polytope, 12 antipodal axes)",
+        }.get(config.n_channels, f"n={config.n_channels} (no geometric prior)")
     contrastive_active = bool(co_pairs and cross_pairs)
 
     print(f"\n{'='*70}")
@@ -508,6 +612,10 @@ def train_cybernetic(
         print(f"Co-planar pairs:    {co_pairs}")
         print(f"Cross-planar pairs: {len(cross_pairs)} pairs")
     print(f"Emanation:          {'ACTIVE' if emanation else 'DISABLED'}")
+    if fixed_contrastive is not None:
+        print(f"Fixed contrastive:  {fixed_contrastive} (Control Law 2 DISABLED)")
+    if resume is not None:
+        print(f"Resume from:        {resume}")
     print(f"{'='*70}\n")
 
     torch.manual_seed(config.seed)
@@ -561,7 +669,7 @@ def train_cybernetic(
             idx = layer_idx  # capture in closure
             lora._external_bridge_fn = lambda _idx=idx: emanation_bridge.get_bridge(_idx)
         print(f"Emanation: master bridge ({config.n_channels}x{config.n_channels}) "
-              f"→ {n_layers} layer offsets")
+              f"-> {n_layers} layer offsets")
         print(f"Emanation coherence: {emanation_bridge.coherence:.4f}")
 
     trainable_params = sum(
@@ -584,6 +692,21 @@ def train_cybernetic(
         )
     print(f"Trainable: {trainable_params:,} / {total_params:,}")
     print(f"Bridge params: {bridge_params:,}")
+
+    # Resume from checkpoint: load adapter/bridge weights before optimizer setup
+    resume_step = 0
+    if resume is not None:
+        resume_dir = Path(resume)
+        print(f"\n  Loading checkpoint from {resume_dir}...")
+        resume_step = _load_resume_checkpoint(
+            resume_dir, injected, device,
+            emanation_bridge=emanation_bridge,
+        )
+        print(f"  Training will continue from step {resume_step} to {config.max_steps}")
+        if resume_step >= config.max_steps:
+            print(f"  WARNING: resume step {resume_step} >= max_steps {config.max_steps}, nothing to do")
+            return []
+        print()
 
     # Separate parameter groups: LoRA A/B vs Bridge
     lora_params = []
@@ -649,36 +772,45 @@ def train_cybernetic(
         steersman_kwargs["co_cross_stagnation_band"] = co_cross_stagnation_band
     if deviation_rate_threshold is not None:
         steersman_kwargs["deviation_rate_threshold"] = deviation_rate_threshold
+    if fixed_contrastive is not None:
+        steersman_kwargs["fixed_contrastive_weight"] = fixed_contrastive
     steersman = Steersman(**steersman_kwargs)
 
     # Training state
     checkpoints: list[dict] = []
     feedback_log: list[dict] = []
     model.train()
-    global_step = 0
+    global_step = resume_step
     accumulation_loss = 0.0
     accumulation_contrastive = 0.0
     accumulation_spectral = 0.0
     steps_since_log = 0
     start_time = time.time()
 
-    # Save step-0 bridges
-    for name, lora in injected.items():
-        safe = name.replace(".", "_")
-        np.save(
-            output_dir / f"bridge_step0_{safe}.npy",
-            lora.effective_bridge.detach().cpu().numpy(),
-        )
-    if emanation_bridge is not None:
+    # Advance LR scheduler to resume position so cosine schedule is correct
+    if resume_step > 0:
+        for _ in range(resume_step):
+            scheduler.step()
+        print(f"  Advanced LR scheduler to step {resume_step}")
+
+    # Save step-0 bridges (skip when resuming — the checkpoint has them)
+    if resume_step == 0:
+        for name, lora in injected.items():
+            safe = name.replace(".", "_")
+            np.save(
+                output_dir / f"bridge_step0_{safe}.npy",
+                lora.effective_bridge.detach().cpu().numpy(),
+            )
+    if emanation_bridge is not None and resume_step == 0:
         np.save(
             output_dir / "bridge_emanation_master_step0.npy",
             emanation_bridge.master.detach().cpu().numpy(),
         )
 
-    # Initial Steersman read (before training begins)
-    initial_state = steersman.observe_and_decide(0, injected)
+    # Initial Steersman read (before training begins, or at resume point)
+    initial_state = steersman.observe_and_decide(resume_step, injected)
     feedback_log.append(asdict(initial_state))
-    print(f"\n  *** STEERSMAN @ step 0 ***")
+    print(f"\n  *** STEERSMAN @ step {resume_step} ***")
     print(f"      Fiedler:       {initial_state.fiedler_mean:.5f}")
     print(f"      Spectral gap:  {initial_state.spectral_gap_mean:.5f}")
     print(f"      Deviation:     {initial_state.deviation_mean:.5f}")
@@ -688,7 +820,10 @@ def train_cybernetic(
         print(f"      Emanation coh: {emanation_bridge.coherence:.4f}")
     print()
 
-    print(f"Training for {total_steps} steps...")
+    if resume_step > 0:
+        print(f"Resuming training from step {resume_step} to {total_steps}...")
+    else:
+        print(f"Training for {total_steps} steps...")
     print(f"Effective batch size: {config.batch_size * config.gradient_accumulation}")
     print()
 
@@ -1156,10 +1291,15 @@ def main():
         "--contrastive-topology", type=str, default="auto",
         choices=["auto", "wrong-labels", "resonance"],
         help="Contrastive pair topology. 'auto' selects based on n-channels "
-             "(n=6→RD, n=8→tesseract). 'wrong-labels' uses random partition "
+             "(n=6=RD, n=8=tesseract). 'wrong-labels' uses random partition "
              "of 6 channels (tests whether RD geometry is special). "
              "'resonance' uses prime-threading topology from the corpus "
              "(Sophie Germain, consecutive primes, mod-6 residue).",
+    )
+    parser.add_argument(
+        "--fixed-contrastive", type=float, default=None,
+        help="Fixed contrastive weight (skips adaptive Control Law 2). "
+             "None = adaptive.",
     )
     parser.add_argument(
         "--emanation", action="store_true",
@@ -1171,6 +1311,13 @@ def main():
         "--save-merged", action="store_true",
         help="After training, merge LoRA+bridge into base model and save as "
              "standard HuggingFace model for lm-eval benchmarking.",
+    )
+    parser.add_argument(
+        "--resume", type=str, default=None,
+        help="Path to checkpoint directory to resume training from. "
+             "Loads adapter weights, bridge matrices, and training step. "
+             "Optimizer state is NOT restored (restarts from scratch). "
+             "Results are written to --output (must differ from --resume).",
     )
     args = parser.parse_args()
 
@@ -1204,6 +1351,16 @@ def main():
             deviation_rate_threshold=0.04677,
         )
 
+    # Validate --resume and --output are different directories
+    if args.resume is not None:
+        resume_path = Path(args.resume).resolve()
+        output_path = Path(args.output).resolve()
+        if resume_path == output_path:
+            parser.error(
+                f"--resume and --output must be different directories. "
+                f"Both resolve to: {resume_path}"
+            )
+
     train_cybernetic(
         config,
         Path(args.output),
@@ -1216,6 +1373,8 @@ def main():
         ),
         emanation=args.emanation,
         save_merged=args.save_merged,
+        fixed_contrastive=args.fixed_contrastive,
+        resume=args.resume,
         **{k: v for k, v in steersman_kwargs.items()
            if k != "initial_spectral_target"},
     )

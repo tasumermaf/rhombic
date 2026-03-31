@@ -1,0 +1,184 @@
+% ===================================================================
+\section{Method: Generalized Pair Specification}
+\label{sec:method}
+
+The Steersman's contrastive loss, as defined in
+Paper~3~\cite{bielec2026bridge}, encodes the rhombic dodecahedron's
+face-pair geometry through a fixed partition of channel indices into
+co-planar and cross-planar sets.  We generalize this mechanism by
+replacing the hard-coded RD partition with a configurable pair
+specification interface.  The Steersman itself---its three control laws
+(connectivity trending, directionality stagnation, stability
+monitoring), spectral regularization target, and feedback dynamics---is
+\emph{unchanged}.  The only modification is the pair specification fed
+to the contrastive loss.
+
+\subsection{The Pair Specification Interface}
+\label{sec:pairs}
+
+The function \texttt{\_compute\_pair\_indices}$(n)$ returns two
+lists: \emph{co-axial} pairs $\mathcal{C}$ (channels that should
+couple strongly) and \emph{cross-axial} pairs $\mathcal{X}$ (all
+remaining distinct-index pairs).  The contrastive loss attracts
+co-axial pairs and repels cross-axial pairs, operating on the
+partition $(\mathcal{C}, \mathcal{X})$ identically to Paper~3.
+The spectral loss maintains overall algebraic connectivity by
+targeting a Fiedler eigenvalue $\lambda_2 \approx 0.1$.
+
+Four geometric specifications derived from polytope vertex-opposition
+structure are tested:
+
+\paragraph{Octahedron ($n{=}4$).}
+Two co-axial pairs encoding a 2-axis partition of the octahedron's
+three vertex-opposition axes:
+\begin{equation}
+  \texttt{pairs}_{\text{oct}}(4) = \{(0,1),\; (2,3)\}
+  \label{eq:oct_pairs}
+\end{equation}
+with $|\mathcal{C}| = 2$ and $|\mathcal{X}| = 4$.  This is the
+minimum-channel-count geometry: only two co-axial pairs and the
+smallest cross/co ratio ($4/2 = 2$), providing the strongest co-axial
+signal per channel pair.
+
+\paragraph{Rhombic dodecahedron ($n{=}6$).}
+Three co-planar pairs from the RD's 3-axis face-pair geometry:
+\begin{equation}
+  \texttt{pairs}_{\text{RD}}(6) = \{(0,5),\; (1,4),\; (2,3)\}
+  \label{eq:rd_pairs}
+\end{equation}
+with $|\mathcal{C}| = 3$ and $|\mathcal{X}| = 12$.  Each pair shares
+a vanishing coordinate in the face-normal vectors, producing three
+independent $2 \times 2$ blocks when compiled.
+
+\paragraph{Tesseract ($n{=}8$).}
+Four co-axial pairs aligned with the four coordinate axes of the
+4D hypercube:
+\begin{equation}
+  \texttt{pairs}_{\text{tess}}(8) = \{(0,1),\; (2,3),\; (4,5),\;
+    (6,7)\}
+  \label{eq:tess_pairs}
+\end{equation}
+with $|\mathcal{C}| = 4$ and $|\mathcal{X}| = 24$.  If the
+Steersman generalizes beyond 3D, this specification should produce
+four independent $2 \times 2$ blocks---a $4{+}4$ eigenvalue split.
+
+\paragraph{24-cell ($n{=}24$, D4 root polytope).}
+Twelve co-axial pairs from the 24 vertices expressed as permutations
+of $(\pm 1, \pm 1, 0, 0)$ in $\mathbb{R}^4$.  Vertices are indexed
+by coordinate plane: $wx$ (indices 0--3), $wy$ (4--7), $wz$ (8--11),
+$xy$ (12--15), $xz$ (16--19), $yz$ (20--23), with two antipodal
+pairs per plane:
+\begin{equation}
+  \texttt{pairs}_{\text{24c}}(24) =
+    \bigl\{(0,3),(1,2),\; (4,7),(5,6),\; (8,11),(9,10),\;
+    (12,15),(13,14),\; (16,19),(17,18),\; (20,23),(21,22)\bigr\}
+  \label{eq:24c_pairs}
+\end{equation}
+with $|\mathcal{C}| = 12$ and $|\mathcal{X}| = \binom{24}{2} - 12
+= 264$.  The 24-cell is the densest 4D sphere-packing polytope
+(the D4 root system), standing in the same relation to 4D as the
+rhombic dodecahedron does to 3D.  If the Steersman scales, this
+specification should produce twelve independent $2 \times 2$
+blocks---a $12{+}12$ eigenvalue split.
+
+The interface imposes no constraint on which indices are paired.
+Any partition of $n$~channels into $\lfloor n/2 \rfloor$ pairs
+constitutes a valid input.  This generality enables the non-geometric
+controls described next.
+
+\subsection{Non-Geometric Controls}
+\label{sec:controls}
+
+Two negative controls test whether the Steersman requires geometric
+coherence in the pair specification or compiles arbitrary partitions.
+
+\paragraph{Wrong-Labels (WL-001).}
+Six channels partitioned into three pairs by random permutation
+(seed~42), producing co-axial pairs that do not correspond to any
+polytope's antipodal structure.  The Steersman receives the same
+contrastive loss function with the same hyperparameters as the
+standard $n{=}6$ RD experiment; only the pair specification differs.
+If the Steersman is a brute-force topology programmer, random
+pairs should produce block-diagonal structure.  If geometric
+coherence is required, the random partition should fail.
+
+\paragraph{Resonance (R-001).}
+Six channels with co-axial pairs derived from number-theoretic
+relationships among corpus primes:  Sophie~Germain
+($2(11){+}1 {=} 23 \to$ channels $(0,2)$), consecutive primes
+($29, 31 \to$ channels $(3,4)$), and shared residue class
+($11 \equiv 17 \equiv 5 \pmod{6} \to$ channels $(0,5)$).  These
+pairs carry genuine algebraic structure---prime-theoretic bonds---but
+no geometric embedding in any spatial dimension.  This control tests
+whether mathematical structure in general, or spatial structure
+specifically, is the operative requirement.
+
+\subsection{Emanation Architecture (E-001)}
+\label{sec:emanation_method}
+
+The emanation architecture introduces hierarchical bridge structure as
+a variant of the standard per-layer independent bridges.  A single
+master bridge matrix $\mathbf{M}_{\text{master}}$ is shared across all
+transformer layers, with per-layer offset matrices capturing local
+variation:
+\begin{equation}
+  \mathbf{M}^{(l)} = \mathbf{M}_{\text{master}} +
+    \boldsymbol{\Delta}^{(l)},
+  \label{eq:emanation}
+\end{equation}
+where offsets are scaled by $1/\sqrt{l}$ for layer index~$l$.  The
+Steersman monitors a \emph{coherence} metric---the mean Frobenius norm
+of the offsets relative to the master---and applies regularization
+pressure when individual layers fragment excessively from the global
+topology.  The same RD co-axial pairs are specified, but contrastive
+loss operates through the master matrix rather than per-layer bridges.
+This tests whether global topological coherence can coexist with local
+layer-wise adaptation.
+
+\subsection{Spectral-Only Baseline}
+\label{sec:spectral_baseline}
+
+Channel counts $n \in \{3, 4, 6, 8, 12\}$ are trained with spectral
+regularization alone---contrastive loss disabled.  The Steersman's
+feedback loop targets Fiedler algebraic connectivity
+$\lambda_2 \approx 0.1$ but provides no directional preference
+among channel pairs.  This baseline establishes the \emph{spectral
+attractor}: the bridge's unprogrammed equilibrium, the connectivity
+level it reaches when the Steersman provides coupling pressure but
+no topological specification.
+
+\subsection{Training Setup}
+\label{sec:training_setup}
+
+All experiments use TinyLlama-1.1B-Chat with identical hyperparameters:
+learning rate $2 \times 10^{-4}$, batch size~2, gradient
+accumulation~8 (effective batch~16), LoRA rank~24, identity
+initialization, random seed~42, maximum sequence length~512,
+alpaca-cleaned dataset, 10{,}000~training steps.  The channel size
+$s = r/n$ varies with~$n$: $s{=}8$ ($n{=}3$), $s{=}6$ ($n{=}4$),
+$s{=}4$ ($n{=}6$), $s{=}3$ ($n{=}8$), $s{=}1$ ($n{=}24$).
+Table~\ref{tab:topology_specs} summarizes all pair specifications.
+
+\begin{table}[t]
+\centering
+\caption{Pair specifications for all experimental topologies.  Co-axial
+  pairs receive positive contrastive gradient; all remaining
+  off-diagonal pairs are cross-axial and receive negative gradient.
+  $|\mathcal{C}|$ = co-axial pair count,
+  $|\mathcal{X}|$ = cross-axial pair count.}
+\label{tab:topology_specs}
+\small
+\begin{tabular}{llclcc}
+\toprule
+Topology & $n$ & Co-axial pairs & Source & $|\mathcal{C}|$ & $|\mathcal{X}|$ \\
+\midrule
+Octahedron (3D) & 4 & $(0,1), (2,3)$ & Vertex opposition & 2 & 4 \\
+RD (3D)         & 6 & $(0,5), (1,4), (2,3)$ & Face opposition & 3 & 12 \\
+Tesseract (4D)  & 8 & $(0,1), (2,3), (4,5), (6,7)$ & Vertex opposition & 4 & 24 \\
+24-cell (4D)    & 24 & 12 antipodal pairs (Eq.~\ref{eq:24c_pairs}) & D4 root system & 12 & 264 \\
+\midrule
+Wrong-labels    & 6 & Random partition (seed 42) & None (control)  & 3 & 12 \\
+Resonance       & 6 & $(0,2), (3,4), (0,5)$ & Number-theoretic & 3 & 12 \\
+\bottomrule
+\end{tabular}
+\end{table}

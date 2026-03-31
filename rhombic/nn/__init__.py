@@ -12,6 +12,7 @@ except ImportError:
 
 from rhombic.nn.rhombi_lora import RhombiLoRALinear, EmanationBridge
 from rhombic.nn.topology import direction_pair_coupling, bridge_init, create_emanation_bridge
+from rhombic.nn.absorb import absorb_bridge, absorb_bridge_into_state_dict
 
 __all__ = [
     "RhombiLoRALinear",
@@ -19,4 +20,6 @@ __all__ = [
     "direction_pair_coupling",
     "bridge_init",
     "create_emanation_bridge",
+    "absorb_bridge",
+    "absorb_bridge_into_state_dict",
 ]

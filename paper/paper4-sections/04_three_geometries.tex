@@ -1,0 +1,87 @@
+\section{Topology Programming Across Three Geometries}
+\label{sec:three-geometries}
+
+The Steersman mechanism introduced in Paper~3 discovered block-diagonal structure
+aligned with the rhombic dodecahedron's 3-axis coordinate geometry at $n{=}6$.
+We now show this is not specific to the RD\@. The same cybernetic feedback loop,
+with no modification except the pair specification, programs topology from three
+distinct polytopes: the octahedron ($n{=}4$, 2 axes), the rhombic dodecahedron
+($n{=}6$, 3 axes), and the tesseract ($n{=}8$, 4 axes).
+
+\subsection{Experimental Design}
+
+Each experiment uses TinyLlama~1.1B with identical hyperparameters (rank~24,
+$\text{lr}{=}2{\times}10^{-4}$, batch~size~2, gradient accumulation~8,
+10{,}000 steps). The \emph{only} variable is the contrastive pair specification:
+
+\begin{itemize}
+  \item \textbf{Octahedron (O-001, $n{=}4$):} Two co-axial pairs
+    $\{(0,1),(2,3)\}$ encoding a 2-axis partition. Four cross-axial pairs.
+  \item \textbf{Rhombic dodecahedron (H-ch6, $n{=}6$):} Three co-planar pairs
+    from RD face-pair geometry. Twelve cross-planar pairs.
+  \item \textbf{Tesseract (T-001r2, $n{=}8$):} Four co-axial pairs
+    $\{(0,1),(2,3),(4,5),(6,7)\}$ encoding the four coordinate axes of the
+    4D hypercube. Twenty-four cross-axial pairs.
+\end{itemize}
+
+\subsection{Results}
+
+All three geometries produce block-diagonal structure with extreme co-planar
+vs.\ cross-planar separation:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccccc}
+\toprule
+\textbf{Geometry} & $n$ & \textbf{Axes} & \textbf{Co/Cross} & \textbf{Fiedler} & \textbf{Eigenvalue Pattern} \\
+\midrule
+Octahedron  & 4 & 2 & $\sim$10\textsuperscript{5}:1 & $1.1{\times}10^{-5}$ & $[0, 0, 2.06, 2.08]$ \\
+RD          & 6 & 3 & 70{,}404:1 & $9.0{\times}10^{-5}$ & $[0, 0, 0, 2.4, 2.4, 2.4]$ \\
+Tesseract   & 8 & 4 & 41{,}564:1 & $1.9{\times}10^{-4}$ & $[0, 0, 0, 0, 0.65, 0.68, 0.68, 0.68]$ \\
+\bottomrule
+\end{tabular}
+\caption{Block-diagonal emergence across three polytope geometries. All
+experiments use identical hyperparameters; only the contrastive pair
+specification differs. Each geometry produces the predicted block structure:
+$k{+}k$ eigenvalue split where $k$ equals the number of co-axial pairs.}
+\label{tab:three-geometries}
+\end{table}
+
+The eigenvalue spectra confirm the predicted structure in each case. The
+octahedron produces a clean $2{+}2$ split, the RD a $3{+}3$ split, and the
+tesseract a $4{+}4$ split. In all cases, cross-planar eigenvalues are
+suppressed by 4--5 orders of magnitude relative to co-planar eigenvalues.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{paper4/figures/fig_inverse_n.pdf}
+  \caption{Co-planar/cross-planar coupling ratio across polytope geometries.
+  The inverse relationship between channel count $n$ and co/cross ratio
+  suggests that lower-dimensional polytopes (fewer cross-axial pairs to
+  suppress) achieve stronger block separation. Within the RD geometry ($n{=}6$),
+  three independent runs produce ratios within 5\% of each other.}
+  \label{fig:inverse-n}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{paper4/figures/fig_o001_emergence.pdf}
+  \caption{O-001 block-diagonal emergence (octahedron, $n{=}4$). \textbf{Left:}
+  Co-planar coupling grows monotonically while cross-planar coupling is
+  suppressed by 5 orders of magnitude. \textbf{Right:} The co/cross ratio
+  reaches 473{,}622:1 at step 10{,}000, the highest of any geometry tested.}
+  \label{fig:o001-emergence}
+\end{figure}
+
+\subsection{Interpretation}
+
+The Steersman does not discover geometry---it \emph{compiles} it. Given a
+valid pair specification encoding the antipodal structure of a polytope, the
+cybernetic feedback loop produces the corresponding block-diagonal partition.
+The dimensionality of the source polytope (3D for octahedron and RD, 4D for
+tesseract) is irrelevant; what matters is the co-axial pair structure.
+
+This suggests a general principle: \emph{any} polytope whose vertices admit
+a natural antipodal pairing can serve as a topology specification for the
+Steersman. The bridge matrix is a programmable substrate that accepts
+geometric instructions and produces the corresponding algebraic structure.

@@ -1,0 +1,412 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{The Bridge as Programmable Substrate}
+\label{sec:disc-substrate}
+
+Paper~3 framed the bridge as a geometry-\emph{discovering} mechanism:
+cybernetic feedback reveals latent rhombic dodecahedral structure in
+$6$-channel LoRA bridges. The present paper reframes this. The bridge
+is a programmable substrate. The Steersman is the programmer.
+
+The evidence for this reframing is straightforward. Three polytope
+geometries---octahedron ($n{=}4$, $2{+}2$ blocks), rhombic dodecahedron
+($n{=}6$, $3{+}3$ blocks), and tesseract ($n{=}8$, $4{+}4$
+blocks)---all produce block-diagonal structure with coupling ratios
+exceeding 40{,}000:1 when the pair specification encodes their
+respective co-axial decompositions. The Steersman's control laws,
+loss formulation, and hyperparameters remain identical across all three;
+only the pair specification $\mathcal{C}$ changes. The bridge compiles
+whatever geometric program it receives.
+
+But the compiler is selective. The wrong-labels experiment (WL-001) is
+the decisive evidence. A random 3-pair partition of 6~channels produces
+a clean $3{+}3$ eigenvalue split---proof that the contrastive mechanism
+\emph{can} bisect the channel space from any pair specification. Yet the
+co/cross ratio is $8.7 \times 10^{-6}$:1, functionally zero. The
+Steersman creates eigenvalue structure from any pair specification, but
+it cannot impose directional coherence without genuine geometry. The
+distinction between ``structured'' (eigenvalue split) and ``directed''
+(co/cross $\gg 1$) is the central finding of this paper, and it
+sharpens the characterization of the Steersman from general-purpose
+enforcer to selective geometric compiler.
+
+\subsection{Bridge Initialization Independence}
+\label{sec:disc-init-independence}
+
+A natural question follows: does the bridge's final topology depend on the
+specific initialization, or does the Steersman converge to a canonical
+structure regardless of starting conditions?
+
+The FI-002 experiment addresses this directly. Three corpus-coupled
+initializations---identical in hexagram structure and geometric coupling
+but differing in channel permutation---produce sign patterns with Hamming
+distances up to 9/12 (75\% of cross-planar signs differ at initialization).
+Despite these differences, all three converge to \emph{identical}
+block-diagonal structure: co/cross ratios of 50{,}344:1,
+51{,}677:1, and 50{,}382:1 respectively, with validation losses within
+0.02\% of each other. The mean bridge matrices agree to four decimal
+places (Frobenius distance ${\sim}10^{-4}$), and all 12 consensus sign
+positions match perfectly across configurations. Critically, the
+configuration with 75\% wrong initial signs (P-001, 9/12 Hamming
+distance) converges to the same sign pattern as the configuration
+with 100\% correct initial signs (P-000)---the Steersman actively
+corrects misaligned signs during training.
+
+A control run with identity initialization (no
+corpus coupling) reaches 8{,}085:1 at step~1{,}000---remarkably close to the
+original H-ch6 experiment's 7{,}246:1 at the same step, despite the corpus-coupled
+run starting from a geometrically structured bridge while the control starts from
+identity matrices. By step~1{,}300, P-CTRL reaches 10{,}654:1, but the growth rate
+collapses from $+1{,}329$/step to $+98$/step (93\% deceleration) while the Fiedler
+value bounces from its minimum ($9.9 \times 10^{-5}$) to $1.07 \times 10^{-4}$---the
+same plateau-onset dynamics observed in H-ch6 at comparable training fractions.
+The identity control produces random sign patterns (50\% positive, 41.7\%
+consensus agreement with corpus configurations), confirming that the
+canonical sign pattern requires corpus-coupled initialization to
+establish but is independent of the specific channel mapping used.
+The early-phase convergence rate is pair-specification-determined.
+
+The convergence of maximally different initial sign patterns to equivalent
+final topology has two implications. First, the Steersman is robust to
+initialization: the same geometric program compiles to the same
+block-diagonal structure regardless of the bridge's starting state. The
+topology is determined by the pair specification, not the initial
+conditions. Second, the sign pattern frozen into the bridge during
+training---which FI-001 established as 98.2\% stable after $\sim$1{,}200
+steps---may represent a degree of freedom that is determined by
+initialization but irrelevant to the block-diagonal structure itself.
+The topology has a well-defined ``shape'' (block-diagonal with $k{+}k$
+eigenvalue split) and an initialization-dependent ``orientation'' (sign
+pattern within the blocks) that the Steersman does not constrain.
+
+This decomposition---universal topology, initialization-dependent
+orientation---parallels the distinction between a crystal's lattice
+structure and its orientation in space. The Steersman programs the
+lattice; it does not select the orientation.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{paper4/figures/fig_fi002_init_independence.pdf}
+  \caption{Bridge initialization independence (FI-002). Three corpus-coupled
+  initializations with Hamming distances up to 9/12 converge to
+  statistically indistinguishable co/cross ratios (50--52{,}000:1).
+  An identity-initialized control (P-CTRL) reaches 10{,}654:1 at step~1{,}300,
+  following the same $3{+}3$ block-diagonal trajectory with plateau onset
+  matching H-ch6's two-phase dynamics.
+  Topology is pair-specification-determined, not initialization-determined.}
+  \label{fig:fi002-init}
+\end{figure}
+
+\subsection{Topology Requires Continuous Maintenance}
+\label{sec:disc-homeostasis}
+
+A natural follow-up: once the Steersman has programmed the bridge, is the
+topology self-sustaining? The crystal analogy from \S\ref{sec:disc-init-independence}
+would predict yes---crystals maintain their lattice without external forcing.
+FI-003 tests this directly.
+
+Starting from a fully converged $n{=}6$ bridge (P-000 adapter, co/cross
+50{,}344:1 after 3{,}000 Steersman-guided steps), FI-003 continues training
+with \emph{only} the language modelling loss---no spectral loss, no
+contrastive loss. The Steersman is switched off. If the block-diagonal
+topology is an attractor of the LM loss landscape (i.e., the structure is
+self-sustaining once established), the topology should persist. If it
+requires active maintenance, it should decay.
+
+The topology decays immediately. Within 100~steps of LM-only training (3.3\%
+of the original training budget), the sign pattern collapses from 100\%
+agreement with the converged snapshot to 50.85\%---statistically
+indistinguishable from random (50\%). The co/cross ratio undergoes
+exponential decay: $12{,}586 \to 179 \to 60 \to 30 \to 22 \to 18 \to 16
+\to 14 \to 13 \to 12 \to 11 \to 10$ over 1{,}200~steps (40\% of the original
+training budget), approaching the isotropic equilibrium. The decay
+exhibits two timescales: a fast component (half-life ${\sim}15$~steps)
+that destroys the block-diagonal structure, and a slow component
+(half-life ${\sim}230$~steps) that diffuses the remaining directional
+coherence toward isotropy. The bridge magnitudes change minimally
+($0.0277 \to 0.0280$), confirming that the decay is not driven by weight
+magnitude changes but by loss of directional coherence. Validation loss
+rises from 0.499 to 0.608, then partially recovers to
+${\sim}0.52$---the adapter still functions as a LoRA module but loses
+its geometric organization.
+
+The crystal analogy fails. A better analogy is a spinning top: the
+block-diagonal structure is dynamically stable under the Steersman's
+continuous forcing but immediately topples to the isotropic equilibrium
+when the forcing is removed. The Steersman does not program the bridge
+once and walk away; it performs continuous homeostatic maintenance.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{paper4/figures/fig_fi003_homeostasis.pdf}
+  \caption{Topology homeostasis (FI-003). Starting from a converged
+  bridge (co/cross 50{,}344:1), the Steersman is removed and training
+  continues with LM loss only. (a)~Co/cross ratio decays exponentially
+  from 12{,}586:1 toward the isotropic equilibrium, with decelerating
+  halving time. (b)~Sign stability collapses from 100\% to random
+  (${\sim}50\%$) within 100~steps---the block-diagonal structure is
+  dynamically maintained, not permanently impressed.}
+  \label{fig:fi003-homeostasis}
+\end{figure}
+
+Combined with \S\ref{sec:disc-init-independence}, this yields a complete
+characterization. The Steersman is both robust (same topology regardless
+of initialization) and necessary (topology dissolves without it). The
+block-diagonal structure exists in a region of parameter space that is
+\emph{accessible} from any initialization via the Steersman's loss
+landscape, but \emph{unstable} under the LM loss alone. The spectral
+attractor at Fiedler~$\approx 0.09$ is the true minimum of the LM-only
+landscape; the block-diagonal configuration is a Steersman-maintained
+fixed point that requires active control to sustain.
+
+\subsection{Steersman Annealing: Five Regimes of Control}
+\label{sec:disc-annealing}
+
+FI-003 established that removing the Steersman entirely causes rapid
+topology decay. A natural question follows: how does the topology respond
+to \emph{gradual} removal? FI-004 answers this by linearly annealing both
+contrastive ($0.1 \to 0$) and spectral ($0.05 \to 0$) weights over
+3{,}000~steps from a converged P-000 adapter.
+
+The result is not a monotonic decay. Five distinct regimes emerge as the
+contrastive weight $c_w$ decreases:
+
+\begin{enumerate}
+\item \textbf{Maintenance} ($c_w = 0.10$): The starting point. Co/cross
+  12{,}586:1, inherited from the converged P-000 adapter. Signs 100\%
+  stable.
+\item \textbf{Interference} ($0.087 < c_w < 0.097$): Rapid co/cross
+  collapse to a floor of 7.3:1 within 400~steps. The contrastive and
+  LM gradients are in destructive conflict---full-strength Steersman
+  forcing fights the optimizer's preferred direction, producing worse
+  topology than either alone.
+\item \textbf{Growth} ($0.017 < c_w < 0.087$): Exponential co/cross
+  recovery from 7.3:1 to a peak of 18{,}671:1 at $c_w = 0.017$
+  (step~2{,}500). The growth oscillates between compression
+  ($1.17$--$1.22\times$/step) and expansion ($1.37$--$1.55\times$/step)
+  phases, with a geometric mean of $\sim$$1.33\times$/100~steps. During this
+  regime, sign stability settles to $51$--$55\%$ (random). The weak
+  contrastive signal provides a directional bias that the LM optimizer
+  amplifies without gradient conflict.
+\item \textbf{Decay} ($0.003 < c_w < 0.017$): Gradual decline from
+  18{,}671:1 to 12{,}467:1 ($\sim$6\%/step). The contrastive signal
+  weakens below the threshold required to maintain the growth trajectory,
+  but topology degrades slowly.
+\item \textbf{Cliff} ($c_w = 0.003 \to 0.000$): Co/cross drops 76\%
+  from 12{,}467:1 to 2{,}942:1 in the final step. The last 0.3\% of
+  contrastive weight was maintaining three-quarters of the directional
+  coherence.
+\end{enumerate}
+
+Two findings are striking. First, the \textbf{optimal operating point
+is at $c_w \approx 0.02$}, not at the nominal training weight of $0.10$.
+Full-strength Steersman forcing operates in the interference regime.
+The topology programmer works best when it whispers. Second, even at
+$c_w = 0$, the bridge retains 2{,}942:1---$294\times$ higher than
+FI-003's comparable training fraction ($\sim$10:1 at step~1{,}200 of
+LM-only training). The annealing process imprints topology that persists
+beyond the Steersman's removal, though presumably the residual will decay
+under extended LM-only training following FI-003's exponential pattern.
+
+Throughout all five regimes, sign stability remains at $51$--$55\%$
+(random). The co/cross ratio reaches 18{,}671:1 with signs statistically
+indistinguishable from chance. This confirms the decomposition from
+\S\ref{sec:disc-init-independence}: directional coherence (magnitude
+alignment across co-axial pairs) and sign structure are orthogonal
+properties of the bridge. The annealing experiment programs the former
+without the latter.
+
+Validation loss improves monotonically from 0.499 to 0.315 throughout
+training, confirming that the topology programming does not degrade
+language modelling performance. The Fiedler value rises from 0.10 to
+0.47 as the spectral constraint anneals away---the bridge becomes
+over-connected as the connectivity regularization disappears, but this
+excess connectivity does not impair downstream performance.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{paper4/figures/fig_fi004_annealing.pdf}
+  \caption{Steersman annealing (FI-004). (a)~Co/cross ratio vs.\ training
+  step showing five regimes: maintenance (step~0), interference (floor 7:1),
+  exponential growth (peak 18{,}671:1 at $c_w{=}0.017$), gradual decay,
+  and cliff ($76\%$ drop at $c_w{=}0$). (b)~Operating curve: co/cross vs.\
+  contrastive weight reveals the optimal operating point at
+  $c_w \approx 0.02$, not at the nominal training weight of $0.10$.}
+  \label{fig:fi004-annealing}
+\end{figure}
+
+\subsection{Implications for Adapter Design}
+\label{sec:disc-adapter}
+
+If the bridge is programmable, topology becomes a design parameter.
+
+\paragraph{Topology as hyperparameter for PEFT.}
+Current parameter-efficient fine-tuning methods treat the adapter's
+internal structure as homogeneous or leave it to the optimizer.
+DiaBlo~\cite{gurses2026diablo} proves that block-diagonal structure is at
+least as expressive as standard LoRA, and GraLoRA~\cite{wang2025gralora}
+demonstrates competitive performance with granular block partitions.
+These results validate block-diagonal adapters as a structural class.
+The Steersman adds a further axis: the \emph{topology specification}---a
+set of co-axial pairs derived from a polytope's vertex decomposition.
+Where DiaBlo and GraLoRA fix the block structure architecturally, the
+Steersman \emph{programs} it through cybernetic feedback, making the
+block topology a trainable design parameter rather than a static
+constraint. This specification joins rank $r$, learning rate, and target
+modules as a hyperparameter that the practitioner selects before training.
+
+\paragraph{Task-specific topology.}
+Different task families may benefit from different geometric priors.
+A task requiring two independent subspaces (e.g., separating style from
+content) might use octahedral topology ($n{=}4$, 2~axes). A task with
+higher-dimensional factored structure might use tesseract topology
+($n{=}8$, 4~axes). The inverse-$n$ relationship between channel count
+and coupling strength (474K:1 at $n{=}4$ vs.\ 42K:1 at $n{=}8$)
+provides a practical trade-off: fewer axes yield stronger per-axis
+signal, while more axes provide finer-grained topological control.
+
+\paragraph{The four regimes as diagnostic framework.}
+The four-regime taxonomy provides a diagnostic for any multi-channel
+bridge configuration. Practitioners should measure both the eigenvalue
+pattern (to detect whether a partition exists) and the co/cross ratio
+$\rho$ (to detect whether the partition carries directional content).
+A configuration with a clean eigenvalue split but $\rho \approx 0$
+occupies Regime~3 (wrong-partition)---structured but undirected. Only
+configurations with both a clean split \emph{and} $\rho \gg 1$ occupy
+Regime~1 (block-diagonal). This two-metric diagnostic prevents the
+false positive of interpreting eigenvalue structure as evidence of
+geometric programming when no directional coherence exists.
+
+\paragraph{Multi-modal adapters.}
+When adapting models across modalities, different modalities could carry
+different geometric structures within a shared bridge. The pair
+specification provides an interface for encoding known cross-modal
+relationships---e.g., specifying which channels should couple across
+a vision-language boundary---while the Steersman enforces the
+specification during training. The block structure would then serve as
+both an inductive bias and a compositional interface: blocks
+corresponding to different modalities could be independently updated,
+merged, or swapped.
+
+\subsection{The Spectral Attractor as Default State}
+\label{sec:disc-attractor}
+
+Without geometric programming, bridges reach a universal connectivity
+equilibrium: Fiedler $\approx 0.09$, stable across a $4\times$ range
+of channel counts ($n \in \{3, 4, 8, 12\}$, 10.4\% band). This is the
+bridge's unprogrammed state---connected but undirected, with coupling
+distributed isotropically across all channel pairs.
+
+The spectral attractor clarifies what contrastive loss does. It does not
+\emph{add} connectivity to the bridge. The bridge already has
+connectivity---approximately $\lambda_2 \approx 0.09$ worth of it.
+Contrastive loss \emph{redirects} this connectivity from the isotropic
+attractor to specific axes. The $1{,}130\times$ Fiedler drop at $n{=}6$
+(from $0.09$ to $9.0 \times 10^{-5}$) quantifies this redirection: the
+connectivity budget that was distributed across all 15~channel pairs is
+concentrated into 3~co-axial pairs, suppressing the remaining 12 by
+a factor of $\sim$70{,}000.
+
+The emanation architecture (E-001) reaches the same attractor through a
+different mechanism---a master bridge with per-layer offsets and
+coherence monitoring. Its convergence to Fiedler $0.084$, co/cross
+$1.12$:1, confirms that the spectral attractor is robust to
+architectural variation. Whether the bridge is independent per-layer
+(spectral-only experiments) or hierarchically constrained (emanation),
+the unprogrammed equilibrium is the same. The attractor is a property
+of the spectral loss landscape, not of the bridge architecture.
+
+\subsection{What Constitutes Geometric Coherence?}
+\label{sec:disc-coherence}
+
+The paper demonstrates that geometric coherence in the pair
+specification is required for topology programming, but does not
+provide a formal characterization of what makes a specification
+``geometric.'' This is an open question.
+
+What has been tested: three confirmed polytope pair specifications
+work---octahedron, rhombic dodecahedron, tesseract---and a fourth
+(24-cell) shows the predicted $12{+}12$ eigenvalue split with
+$127\times$ block separation at 30\% of training and co/cross
+$35{,}808$:1 at completion. These share a common property: each encodes the antipodal
+vertex structure of a polytope embeddable in Euclidean space, with the
+co-axial pairs aligned to coordinate axes. Random partitions that do not
+correspond to any polytope's antipodal structure produce eigenvalue
+splits without directional content (WL-001). Number-theoretic bonds that
+carry genuine algebraic structure but no spatial embedding produce
+neither eigenvalue blocks nor directional content (R-001).
+
+A working hypothesis emerges: the pair specification must correspond to
+the antipodal structure of a regular or semi-regular polytope
+embedded in the channel space, such that the co-axial pairs identify
+axis-aligned subspaces that can be independently optimized. This
+would explain why four polytopes spanning two spatial dimensionalities
+(3D octahedron and RD, 4D tesseract and 24-cell) all succeed---they
+share the antipodal property---while random and algebraic specifications
+fail.
+
+Several directions remain unexplored. Do irregular polytopes work?
+Do non-antipodal pair structures (e.g., face-diagonal rather than
+body-diagonal) produce block-diagonal structure? How does the ratio
+of co-axial to cross-axial pairs ($|\mathcal{C}|/|\mathcal{X}|$)
+interact with the coupling ratio $\rho$?
+
+\input{paper4-sections/09_5_whisper_strength}
+
+\subsection{Limitations}
+\label{sec:disc-limitations}
+
+Several limitations qualify the present results.
+
+\textbf{Pair-based specifications only.}
+All topology specifications tested partition channels into co-axial
+pairs. More complex topologies---triplets, cycles, cliques of
+size~${>}\,2$, hierarchical nesting---would require extending the
+contrastive loss formulation. Whether the Steersman can program
+non-pair-based structures is untested.
+
+\textbf{Single task family.}
+All experiments use instruction-following fine-tuning on
+alpaca-cleaned. Whether the four-regime taxonomy, spectral attractor,
+and geometric selectivity transfer to other task types
+(classification, summarization, code generation) is unknown.
+
+\textbf{Single model family.}
+Topology programming experiments use TinyLlama~1.1B. Paper~3
+established scale consistency for RD contrastive at 1.1B and 7B, but
+the generalization of 4D programming, geometric selectivity, and the
+full four-regime taxonomy to larger models is untested.
+
+\textbf{No formal optimality proof.}
+We demonstrate that the Steersman programs a given topology, but we
+do not prove that any particular topology is optimal for a downstream
+task. The relationship between topology specification and task
+performance remains to be characterized.
+
+\textbf{24-cell CL2 logging blind spot.}
+The 24-cell experiment (24C-001) completed 10{,}000 steps. A logging bug
+in Control Law~2 (co/cross tracking gated to $n{=}6$) silenced real-time
+co/cross after step~4{,}300 ($5{,}673$:1). Post-hoc recovery (PC-001)
+from all 100 saved bridge checkpoints revealed that co/cross grew to
+$35{,}808$:1---6.3$\times$ beyond the last real-time measurement. The
+contrastive loss itself was applied correctly throughout (via the
+cybernetic training script, which has no $n$-gate); only the metric
+logging was affected. The bug has been documented for correction.
+
+\textbf{FI-003 sign persistence preliminary.}
+The sign persistence experiment (\S\ref{sec:disc-homeostasis}) has
+1{,}200~steps of LM-only data (12~checkpoints). The two-timescale decay
+trajectory is clear, but the asymptotic equilibrium co/cross ratio
+(expected to converge to ${\sim}1$:1) and the long-term validation
+loss impact are not yet determined.
+
+\textbf{No theoretical account of the attractor or selectivity.}
+The spectral attractor at Fiedler $\approx 0.09$ is empirically
+consistent but lacks a theoretical derivation. Similarly, we observe
+that only polytope-derived pair specifications produce block-diagonal
+structure, but provide no formal characterization of which
+specifications constitute valid geometric programs. Both are open
+questions for future theoretical work, possibly through random matrix
+theory (attractor) or group-theoretic analysis of the contrastive loss
+landscape (selectivity).

@@ -1,0 +1,128 @@
+\section{The Four Regimes}
+\label{sec:four-regimes}
+
+The complete experimental programme --- three polytope geometries, five
+spectral-only baselines, two non-geometric controls, and an emanation
+architecture --- reveals four distinct training outcomes. Together they form
+a taxonomy of bridge behavior under the Steersman.
+
+\subsection{Regime Classification}
+
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{llcccp{4.5cm}}
+\toprule
+\textbf{Regime} & \textbf{Experiments} & \textbf{Fiedler} & \textbf{Co/Cross} & \textbf{Eigenvalues} & \textbf{Mechanism} \\
+\midrule
+\textbf{1: Block-Diagonal} & H-ch6, O-001, T-001r2 & $\sim$10\textsuperscript{-5}--10\textsuperscript{-4} & 10\textsuperscript{4}--10\textsuperscript{5}:1 & Clean $k{+}k$ split & Geometric contrastive: valid polytope pair spec \\
+\textbf{2: Spectral Attractor} & H-ch3/4/8/12, E-001 & $0.084$--$0.102$ & $\sim$1:1 & Smooth distribution & Spectral-only or non-directional architecture \\
+\textbf{3: Wrong-Partition} & WL-001 & $\sim$10\textsuperscript{-5} & $\sim$0 & $k{+}k$ split, wrong direction & Contrastive with incoherent pair spec \\
+\textbf{4: Collapse} & R-001 & $\sim$10\textsuperscript{-5} & $\sim$0 & Chain-like progression & Non-geometric pair structure \\
+\bottomrule
+\end{tabular}
+\caption{The four training regimes. Block-diagonal (Regime~1) requires all
+three ingredients: cybernetic feedback, contrastive loss, and geometrically
+coherent pair specification. The spectral attractor (Regime~2) is the
+bridge's unprogrammed equilibrium. Wrong-partition (Regime~3) produces
+eigenvalue structure without directional content. Collapse (Regime~4) produces
+neither blocks nor connectivity.}
+\label{tab:four-regimes-full}
+\end{table*}
+
+The regimes are distinguished by two independent diagnostics:
+
+\begin{enumerate}
+  \item \textbf{Eigenvalue structure:} Does the Laplacian spectrum exhibit a
+    clean $k{+}k$ split (near-zero eigenvalues followed by large eigenvalues)?
+    Regimes 1 and 3 exhibit this structure; Regimes 2 and 4 do not.
+  \item \textbf{Directional coherence:} Does the co-planar/cross-planar
+    coupling ratio indicate systematic directional preference? Only Regime~1
+    produces this; all other regimes have co/cross $\sim$1 or $\sim$0.
+\end{enumerate}
+
+This creates a $2 \times 2$ classification:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l|cc}
+ & \textbf{Has eigenvalue structure} & \textbf{No structure} \\
+\hline
+\textbf{Directional} & Regime 1 (BD) & --- \\
+\textbf{Non-directional} & Regime 3 (wrong-partition) & Regime 4 (collapse) \\
+\end{tabular}
+\caption{The $2 \times 2$ regime matrix. Regime~2 (spectral attractor)
+precedes this classification --- it is the default state before any pair
+specification is applied.}
+\label{tab:regime-matrix}
+\end{table}
+
+Figure~\ref{fig:four-regimes} illustrates the four regimes with representative
+trajectories.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{paper4/figures/fig_four_regimes.pdf}
+  \caption{The four regimes of topology programming. \textbf{(a)}~Block-diagonal:
+  O-001 co/cross ratio climbs monotonically to 473{,}622:1.
+  \textbf{(b)}~Spectral attractor: Fiedler converges to $\sim$0.09 regardless
+  of channel count. \textbf{(c)}~Hierarchical coherence (emanation): Fiedler
+  and co/cross both converge to the spectral attractor, confirming hierarchy
+  provides connectivity without directionality. \textbf{(d)}~Connectivity
+  collapse: WL-001 and R-001 produce identical trajectories approaching zero.}
+  \label{fig:four-regimes}
+\end{figure*}
+
+The fourth cell (directional without eigenvalue structure) is unoccupied in
+our experiments. This absence may reflect a geometric constraint: directional
+coherence requires the channel space to partition into coupled blocks, which
+necessarily produces eigenvalue structure. Whether this cell is geometrically
+impossible or merely unvisited remains an open question.
+
+\subsection{Regime Transitions}
+
+The regimes form a hierarchy of requirements. Topology programming
+(Regime~1) requires three simultaneous conditions:
+
+\begin{enumerate}
+  \item \textbf{Cybernetic feedback} (the Steersman): Without the
+    sensor--oscilloscope--steersman--actuator loop, bridge matrices show no
+    systematic structure development.
+  \item \textbf{Contrastive loss}: Without pair-based attraction/repulsion,
+    the bridge converges to the spectral attractor (Regime~2) regardless of
+    channel count or architecture.
+  \item \textbf{Geometrically coherent pair specification}: Without valid
+    polytope geometry, contrastive loss produces either structure without
+    direction (Regime~3) or complete collapse (Regime~4).
+\end{enumerate}
+
+Removing any single condition produces a predictable degradation:
+\begin{itemize}
+  \item Remove contrastive loss $\rightarrow$ Regime~2 (spectral attractor)
+  \item Replace geometric pairs with random pairs $\rightarrow$ Regime~3
+    (wrong-partition)
+  \item Replace geometric pairs with algebraic pairs $\rightarrow$ Regime~4
+    (collapse)
+\end{itemize}
+
+The distinction between Regimes~3 and~4 is diagnostic. Wrong-labels (random
+partition) creates valid block structure because \emph{any} partition of $n$
+channels into $k$ pairs induces a $k$-way bisection --- the contrastive loss
+acts on the partition structure. But the resulting blocks have no internal
+orientation: co-axial coupling equals cross-axial coupling within the blocks.
+Resonance (number-theoretic) fails even to create clean blocks: the overlapping
+pair structure (some channels appear in multiple relationships) produces a
+connectivity \emph{gradient} rather than a partition.
+
+\subsection{The Spectral Attractor as Ground State}
+
+Regime~2 occupies a distinguished role: it is the bridge's \emph{ground
+state}. Five independent experiments across $n \in \{3, 4, 6, 8, 12\}$ and
+one architectural variant (emanation) converge to Fiedler $\approx 0.09$
+(\S\ref{sec:spectral-attractor}). The contrastive loss does not add
+connectivity to this ground state --- it \emph{redirects} it. The total
+coupling budget remains approximately constant; the contrastive loss
+concentrates it along the specified axes while suppressing it everywhere
+else. This concentration produces the 1{,}130$\times$ Fiedler drop (from
+0.09 to $9.0 \times 10^{-5}$) observed when comparing spectral-only to RD
+contrastive at $n{=}6$.

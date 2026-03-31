@@ -1,0 +1,123 @@
+\documentclass[11pt]{article}
+
+% --- packages ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage[numbers]{natbib}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% \usepackage{microtype}  % disabled: MiKTeX font expansion issue
+\usepackage{bookmark}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black
+}
+
+% --- metadata ---
+\title{%
+  The Topology Programmer:\\
+  Cybernetic Feedback as a General-Purpose Geometric\\
+  Prior for Neural Network Adapters%
+}
+
+\author{%
+  Timothy Paul Bielec%
+  \thanks{Corresponding author. \texttt{timothy@promptcrafted.com}}%
+  \\
+  Promptcrafted LLC\\
+  Los Angeles, CA
+}
+
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+% ===================================================================
+\begin{abstract}
+A companion paper established that cybernetic feedback drives
+block-diagonal emergence in 6-channel LoRA bridges aligned with
+rhombic dodecahedral face-pair geometry (co/cross 70{,}404:1). We show
+the mechanism is general across four polytope geometries: octahedron
+($2{+}2$ blocks, $n{=}4$, co/cross 473{,}622:1), rhombic dodecahedron
+($3{+}3$ blocks, $n{=}6$), tesseract ($4{+}4$ blocks, $n{=}8$, co/cross
+41{,}564:1), and 24-cell ($12{+}12$ blocks, $n{=}24$, co/cross
+35{,}808:1)---with identical Steersman, identical hyperparameters, and
+only the pair specification changed. Channel ablation across
+$n \in \{3, 4, 6, 8, 12\}$ reveals a universal spectral attractor at
+Fiedler $0.084$--$0.102$ for spectral-only training: the bridge's
+natural connectivity equilibrium. Contrastive loss breaks this
+equilibrium by $1{,}130\times$ at $n{=}6$. Two negative controls
+establish the geometric coherence requirement: wrong-labels (random
+3-pair partition) produces clean $3{+}3$ eigenvalue splits but co/cross
+${\sim}\,10^{-5}$:1---eigenvalue structure without directional content.
+Resonance (number-theoretic pairs) produces chain-like eigenvalues with
+no block structure. An emanation architecture (master bridge with
+per-layer offsets) converges to the spectral attractor, confirming
+hierarchy provides connectivity without directionality. These outcomes
+define four cleanly separated regimes: block-diagonal, spectral
+attractor, wrong-partition, and collapse. The bridge is not a
+geometry-discovering mechanism---it is a programmable topology substrate
+that accepts only geometrically coherent programs. A Steersman annealing
+experiment reveals five control regimes: the optimal operating point is
+at ${\sim}2\%$ of nominal weight (co/cross 18{,}671:1), not full
+strength, which operates in a destructive interference regime. A
+whisper-strength experiment ($c_w = 0.02$, adaptive decay to floor
+$0.005$) reveals a three-phase trajectory: rapid growth, incubation
+plateau at ${\sim}1{,}700$:1, then exponential breakout to peak
+15{,}183:1, stabilizing at 13{,}456:1---$5.2\times$ below the
+aggressive regime, suggesting $c_w$ controls at minimum the rate and
+possibly the ceiling of structural formation. Training is reproducible:
+tesseract contrastive at $n{=}8$ replicates with Pearson $r = 1.0000$
+across independent runs.
+\end{abstract}
+
+\noindent\textbf{Keywords:} topology programming, cybernetic feedback,
+bridge matrix, polytope geometry, spectral attractor, multi-channel
+LoRA, parameter-efficient fine-tuning, block-diagonal structure
+
+
+% ===================================================================
+\input{paper4-sections/01_introduction}
+
+% ===================================================================
+\input{paper4-sections/02_background}
+
+% ===================================================================
+\input{paper4-sections/03_method}
+
+% ===================================================================
+\input{paper4-sections/04_three_geometries}
+
+\input{paper4-sections/04b_four_dimensions}
+
+% ===================================================================
+\input{paper4-sections/05_spectral_attractor}
+
+% ===================================================================
+\input{paper4-sections/06_negative_controls}
+
+% ===================================================================
+\input{paper4-sections/04c_regimes_synthesis}
+
+% ===================================================================
+\input{paper4-sections/07_discussion}
+
+% ===================================================================
+\input{paper4-sections/08_conclusion}
+
+% ===================================================================
+% --- references ---
+\bibliographystyle{plainnat}
+\bibliography{rhombic-paper4}
+
+\end{document}

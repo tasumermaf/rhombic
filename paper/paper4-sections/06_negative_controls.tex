@@ -1,0 +1,87 @@
+\section{Topology Programmability: Negative Controls}
+\label{sec:negative-controls}
+
+The three-geometry results (\S\ref{sec:three-geometries}) show the Steersman
+compiles valid geometric programs. Two negative controls test the boundaries
+of this claim: what happens when the pair specification lacks geometric
+coherence?
+
+\subsection{Wrong-Labels (WL-001)}
+
+WL-001 uses a random partition of 6 channels into 3 pairs (seed 42),
+producing pairs that do not correspond to any polytope's antipodal structure.
+The Steersman receives the same contrastive loss function with the same
+hyperparameters---only the pair specification differs.
+
+\textbf{Result:} The eigenvalue spectrum at step 10{,}000 shows a $3{+}3$
+split: $[0, 10^{-5}, 2{\times}10^{-5}, 2.437, 2.438, 2.444]$. The
+contrastive loss \emph{does} create a 2-partition---any specification of 3
+pairs on 6 channels will bisect the channel space. However, the co/cross
+ratio is $8.7 \times 10^{-6}$, effectively zero. Compare to H-ch6 (RD
+contrastive) at $70{,}404{:}1$.
+
+The interpretation is precise: the contrastive mechanism creates a partition
+from \emph{any} 3-pair specification, but only geometrically coherent pairs
+produce directional structure within that partition. Wrong-labels produces
+two blocks with no internal organization; correct labels produce two blocks
+whose internal coupling is $10^5\times$ stronger than their cross-block
+coupling.
+
+\subsection{Resonance (R-001)}
+
+R-001 uses pairs derived from number-theoretic relationships among the corpus
+primes: Sophie Germain ($2(11){+}1{=}23$, channels 0--2), consecutive primes
+($(29,31)$, channels 3--4), and residue class ($11 \equiv 17 \pmod{6}$,
+channels 0--5). These pairs carry genuine algebraic structure but no
+geometric embedding.
+
+\textbf{Result:} Fiedler $1.2 \times 10^{-5}$, co/cross $\approx 0$.
+The eigenvalue pattern is $[0, 2{\times}10^{-5}, 1.222, 2.447, 3.667]$---a
+chain-like progression, \emph{not} a clean block split. The prime-theoretic
+relationships create a connectivity \emph{gradient} rather than a partition.
+
+This is a stronger negative than WL-001: wrong-labels at least produces the
+right \emph{shape} (two blocks) with the wrong content; resonance produces
+the wrong shape entirely. Number-theoretic structure is insufficient for
+topology programming. The Steersman requires geometric coherence---a valid
+antipodal pairing from a polytope's vertex set.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{paper4/figures/fig_wl_r001_identity.pdf}
+  \caption{Collapse trajectories for the two negative controls. WL-001
+  (random pairs) and R-001 (prime-theoretic pairs) produce indistinguishable
+  co/cross and Fiedler trajectories, both converging to $\sim$0. The
+  mechanisms differ---WL-001 creates blocks without direction; R-001 creates
+  a gradient without blocks---but the endpoint is the same: no topology.}
+  \label{fig:wl-r001}
+\end{figure}
+
+\subsection{Regime Classification}
+
+The complete experimental landscape now partitions into four regimes:
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{llccp{5cm}}
+\toprule
+\textbf{Regime} & \textbf{Experiments} & \textbf{Fiedler} & \textbf{Co/Cross} & \textbf{Mechanism} \\
+\midrule
+Block-diagonal & H-ch6, O-001, T-001r2 & $\sim$10\textsuperscript{-5} & $10^4$--$10^5$:1 & Geometric contrastive \\
+Spectral attractor & H-ch3/4/8/12, E-001 & $\sim$0.09 & $\sim$1:1 & Spectral-only or non-directional \\
+Wrong-partition & WL-001 & $\sim$10\textsuperscript{-5} & $\sim$0 & Contrastive with incoherent pairs \\
+Collapse & R-001 & $\sim$10\textsuperscript{-5} & $\sim$0 & Non-geometric pair structure \\
+\bottomrule
+\end{tabular}
+\caption{Four training regimes. Block-diagonal requires geometric contrastive
+pairs. The spectral attractor is the bridge's unprogrammed equilibrium.
+Wrong-partition creates blocks without directional structure. Collapse
+produces neither blocks nor connectivity.}
+\label{tab:four-regimes}
+\end{table}
+
+The four-regime classification establishes a clear hierarchy: topology
+programming requires (1)~the Steersman (cybernetic feedback), (2)~contrastive
+loss, and (3)~geometrically coherent pair specification. Remove any one of
+these three and the bridge converges to one of the non-BD regimes.

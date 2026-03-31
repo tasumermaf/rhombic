@@ -123,6 +123,34 @@ def _compute_pair_indices(
             if (i, j) not in coaxial_set
         ]
         return coaxial, crossaxial
+    elif n_channels == 24:
+        # 24-cell geometry (D4 root polytope): 24 vertices as permutations
+        # of (±1, ±1, 0, 0) in R⁴. Self-dual, densest 4D sphere packing.
+        # 12 antipodal pairs (v, -v) define the co-axial structure.
+        #
+        # Vertex indexing by coordinate-plane groups:
+        #   wx: 0=(1,1,0,0) 1=(1,-1,0,0) 2=(-1,1,0,0) 3=(-1,-1,0,0)
+        #   wy: 4=(1,0,1,0) 5=(1,0,-1,0) 6=(-1,0,1,0) 7=(-1,0,-1,0)
+        #   wz: 8=(1,0,0,1) 9=(1,0,0,-1) 10=(-1,0,0,1) 11=(-1,0,0,-1)
+        #   xy: 12=(0,1,1,0) 13=(0,1,-1,0) 14=(-1,1,0) 15=(0,-1,-1,0)
+        #   xz: 16=(0,1,0,1) 17=(0,1,0,-1) 18=(0,-1,0,1) 19=(0,-1,0,-1)
+        #   yz: 20=(0,0,1,1) 21=(0,0,1,-1) 22=(0,0,-1,1) 23=(0,0,-1,-1)
+        #
+        # Antipodal pairs: vertex v paired with vertex -v
+        coaxial = [
+            (0, 3), (1, 2),      # wx group
+            (4, 7), (5, 6),      # wy group
+            (8, 11), (9, 10),    # wz group
+            (12, 15), (13, 14),  # xy group
+            (16, 19), (17, 18),  # xz group
+            (20, 23), (21, 22),  # yz group
+        ]
+        coaxial_set = set(coaxial)
+        crossaxial = [
+            (i, j) for i in range(24) for j in range(i + 1, 24)
+            if (i, j) not in coaxial_set
+        ]
+        return coaxial, crossaxial
     else:
         return [], []
 

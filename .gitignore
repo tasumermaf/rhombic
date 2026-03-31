@@ -79,6 +79,11 @@ assets/audio/
 temp/
 temp_gpu.json
 
+# --- Large Untracked Directories ---
+competition/
+assets/video/captures_ep2/
+assets/video/final_frames/
+
 # --- OS & Editor ---
 .DS_Store
 Thumbs.db

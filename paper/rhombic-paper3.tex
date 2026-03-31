@@ -44,7 +44,7 @@
 
 % ===================================================================
 \begin{abstract}
-Multi-channel LoRA (RhombiLoRA) partitions a low-rank adapter's
+Multi-channel LoRA (TeLoRA) partitions a low-rank adapter's
 bottleneck into $n$ parallel channels and couples them through a
 learnable $n \times n$ bridge matrix. We introduce the Steersman, a
 cybernetic feedback mechanism that monitors the bridge's spectral
@@ -62,7 +62,7 @@ suppressed 99.5\% in 900 steps). Channel-count ablation across
 $n \in \{3, 4, 6, 8\}$ reveals that the contrastive loss encoding RD
 face-pair geometry is necessary and sufficient at $n = 6$: with
 contrastive active, the co-planar/cross-planar coupling ratio reaches a
-peak of 82{,}154:1 and Bridge Fiedler eigenvalue collapses to 0.00009;
+peak of 82{,}854:1 and Bridge Fiedler eigenvalue collapses to 0.00009;
 at $n \in \{3, 4, 8\}$ (contrastive disabled), Bridge Fiedler converges
 to ${\sim}0.09$ with 0\% block structure---a $1{,}020\times$
 bifurcation. The discovered structure has effective dimensionality~3,
@@ -235,7 +235,7 @@ We make the following contributions:
 
 The remainder of this paper is organized as follows.
 Section~\ref{sec:background} reviews background and related work.
-Section~\ref{sec:method} describes the RhombiLoRA architecture, the
+Section~\ref{sec:method} describes the TeLoRA architecture, the
 Steersman feedback mechanism, and the RD geometry.
 Section~\ref{sec:emergence} presents the core experimental evidence
 for block-diagonal emergence.
@@ -285,12 +285,12 @@ between $A$ and $B$ but freezes the outer projections to minimize
 parameter count. Because $A$ and $B$ do not adapt to the task in
 LoRA-XS, the intermediate matrix cannot serve as a diagnostic of what
 joint $A$-$B$ learning discovered---it \emph{is} the entirety of
-learned adaptation. RhombiLoRA trains all three components jointly
+learned adaptation. TeLoRA trains all three components jointly
 ($A$, $B$, and an $n \times n$ bridge with $n \ll r$), enabling the
 bridge to capture the emergent coupling pattern rather than carrying
 the full adaptation burden.
 
-RhombiLoRA introduces the bridge matrix as an explicit
+TeLoRA introduces the bridge matrix as an explicit
 parameterization of inter-channel coupling. Preliminary experiments
 (Table~\ref{tab:experiments}, exp1a--e) established that the bridge
 learns task-discriminative structure under standard (non-cybernetic)
@@ -357,12 +357,12 @@ spatial lattice.
 \section{Method}
 \label{sec:method}
 
-\subsection{RhombiLoRA Architecture}
+\subsection{TeLoRA Architecture}
 
 Standard LoRA~\cite{hu2022lora} decomposes each weight update as
 $\Delta W = BA$, where $A \in \mathbb{R}^{r \times d_{\text{in}}}$
 and $B \in \mathbb{R}^{d_{\text{out}} \times r}$ are low-rank factors
-with rank~$r$. RhombiLoRA introduces a single additional component: a
+with rank~$r$. TeLoRA introduces a single additional component: a
 learnable \emph{bridge matrix}
 $\mathbf{M} \in \mathbb{R}^{n \times n}$ that couples $n$ parallel
 channels within the low-rank bottleneck.
@@ -380,7 +380,7 @@ channel dimension:
 
 The coupled representation $\mathbf{H}'$ is flattened back to
 $\mathbb{R}^r$ and projected through $B$. The complete forward pass
-for a single RhombiLoRA adapter is:
+for a single TeLoRA adapter is:
 %
 \begin{equation}
   \Delta \mathbf{y} = \frac{\alpha}{r}\, B \cdot
@@ -456,7 +456,11 @@ adapter~$a$, we construct the weighted Laplacian~$\mathbf{L}^a$ by
 treating $|M^a_{ij}|$ ($i \neq j$) as edge weights of a complete
 graph on $n$~nodes. The Fiedler value~$\lambda_2^a$ is the
 second-smallest eigenvalue of~$\mathbf{L}^a$, computed via
-\texttt{torch.linalg.eigvalsh} to maintain differentiability:
+\texttt{torch.linalg.eigvalsh} to maintain differentiability.
+Tam et al.~\cite{tam2020fiedler} used differentiable Fiedler values as a
+sparsity-promoting regularizer for network pruning; our application
+inverts the objective, \emph{targeting} a specific $\lambda_2$ attractor
+rather than minimizing it:
 %
 \begin{equation}
   \mathcal{L}_{\text{spec}} = \frac{1}{|\mathcal{A}|}
@@ -516,7 +520,7 @@ sharing a common coordinate axis. In the standard embedding, the
 6~face-pair normals align with the FCC lattice directions:
 $(\pm 1, \pm 1, 0)$, $(\pm 1, 0, \pm 1)$, and
 $(0, \pm 1, \pm 1)$. These 6~direction pairs are the channels of
-RhombiLoRA when $n = 6$.
+TeLoRA when $n = 6$.
 
 The 6 face pairs decompose further into 3 groups of 2 by the
 coordinate that vanishes in their normal vectors:
@@ -846,7 +850,7 @@ $n$ & Bridge params/mod & Val Loss & Bridge Fiedler & $\rho$ & BD\% & Contrastiv
 \caption{Channel count ablation. Left: validation loss (all channel
   counts within 0.22\%). Center: Bridge Fiedler eigenvalue (log scale;
   $1{,}020\times$ bifurcation between $n = 6$ and all others). Right:
-  co-planar/cross-planar ratio ($n = 6$ only; peak 82{,}154:1).}
+  co-planar/cross-planar ratio ($n = 6$ only; peak 82{,}854:1).}
 \label{fig:ablation}
 \end{figure}
 
@@ -1024,7 +1028,7 @@ minimal bridge perturbations are trivially correlated.
 \subsection{The Holly Battery Null Result}
 
 The Holly Battery experiment provides the non-cybernetic control at
-14B~scale. Wan~2.1 is fine-tuned with 6-channel RhombiLoRA but
+14B~scale. Wan~2.1 is fine-tuned with 6-channel TeLoRA but
 without the Steersman. The adapter achieves 3.8\% lower loss than the
 standard LoRA baseline, requires 9.15\,GB less VRAM, and trains
 6\% faster.

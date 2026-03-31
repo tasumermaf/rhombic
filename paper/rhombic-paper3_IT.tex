@@ -111,7 +111,7 @@ rango $r$, che viene riorganizzato in $C$ canali di larghezza $r/C$;
 la matrice ponte mescola i canali; il risultato viene riorganizzato e
 passato alla proiezione ascendente $B$.
 Con $C = 6$ (motivato dal numero di facce del dodecaedro rombico
-nell'architettura RhombiLoRA~\cite{rhombilora_paper1, rhombilora_paper2}),
+nell'architettura TeLoRA~\cite{rhombilora_paper1, rhombilora_paper2}),
 la matrice ponte aggiunge 36 parametri per livello dell'adattatore---un
 sovraccarico dello $0{,}02\%$ rispetto ai parametri totali dell'adattatore.
 Quando la matrice ponte \`e la matrice identit\`a $I_C$, l'architettura
@@ -227,7 +227,7 @@ Poich\'e $A$ e $B$ non si adattano al task in LoRA-XS, la matrice
 intermedia non pu\`o servire come diagnostica di ci\`o che
 l'apprendimento congiunto $A$-$B$ ha scoperto---essa \emph{\`e}
 l'interezza dell'adattamento appreso.
-RhombiLoRA addestra congiuntamente tutte e tre le componenti,
+TeLoRA addestra congiuntamente tutte e tre le componenti,
 consentendo alla matrice ponte di catturare il pattern di accoppiamento
 emergente piuttosto che portare l'intero carico dell'adattamento.
 La Sezione~\ref{sec:related} discute questa distinzione e altri metodi
@@ -489,7 +489,7 @@ $\operatorname{cos}(\boldsymbol{\lambda}^{(a)},
 % "36 parametri (0,021% dell'adattatore)" con l'equazione
 % M_{ij}: canale j → canale i.
 %
-% Didascalia: "Architettura RhombiLoRA. La matrice ponte M accoppia i
+% Didascalia: "Architettura TeLoRA. La matrice ponte M accoppia i
 % C = 6 canali della rappresentazione nascosta di rango r tra le
 % proiezioni discendente e ascendente A e B. All'inizializzazione
 % M = I_6, recuperando il LoRA standard. L'addestramento scopre
@@ -554,7 +554,7 @@ Sezioni~\ref{sec:exp-fingerprint} e~\ref{sec:exp-merging}.
 \section{Esperimenti}
 \label{sec:experiments}
 
-Valutiamo le matrici ponte di RhombiLoRA attraverso sette esperimenti,
+Valutiamo le matrici ponte di TeLoRA attraverso sette esperimenti,
 procedendo dall'analisi strutturale di un singolo adattatore attraverso
 la supervisione direzionale e la memoria geometrica fino al
 fingerprinting multi-task e alla composizione degli adattatori a livello
@@ -583,10 +583,10 @@ e \texttt{o\_proj} attraverso tutti i livelli del trasformatore.
 adattatore su Qwen2.5-1.5B-Instruct (28 livelli, 112 adattatori
 totali) utilizzando Alpaca-cleaned~\cite{alpaca} (52K esempi) per 2.000
 passi su una NVIDIA RTX 6000 Ada (48\,GB). Le configurazioni sono:
-(1)~LoRA standard $r\!=\!24$, (2)~RhombiLoRA $r\!=\!24$ con matrice
-ponte identit\`a congelata, (3)~RhombiLoRA $r\!=\!24$ con matrice ponte
+(1)~LoRA standard $r\!=\!24$, (2)~TeLoRA $r\!=\!24$ con matrice
+ponte identit\`a congelata, (3)~TeLoRA $r\!=\!24$ con matrice ponte
 addestrabile (inizializzazione identit\`a), (4)~LoRA standard
-$r\!=\!48$ (budget di parametri $2\times$), e (5)~RhombiLoRA
+$r\!=\!48$ (budget di parametri $2\times$), e (5)~TeLoRA
 $r\!=\!24$ con topologia cubica ($c\!=\!3$, matrice ponte $3 \times 3$).
 Le configurazioni 1--3 e~5 hanno conteggi di parametri addestrabili
 corrispondenti ($\sim$3,27M); la configurazione~4 li raddoppia a
@@ -604,10 +604,10 @@ Tabella~\ref{tab:exp1-configs}.
 \# & Configurazione & Rango & Canali & Matrice Ponte & Parametri \\
 \midrule
 1 & LoRA Standard          & 24 & 6 & $I$ congelata & 3.268.608 \\
-2 & RhombiLoRA (congelata)    & 24 & 6 & $I$ congelata & 3.268.608 \\
-3 & RhombiLoRA (addestrabile) & 24 & 6 & Addestrabile  & 3.270.624 \\
+2 & TeLoRA (congelata)    & 24 & 6 & $I$ congelata & 3.268.608 \\
+3 & TeLoRA (addestrabile) & 24 & 6 & Addestrabile  & 3.270.624 \\
 4 & LoRA Standard          & 48 & 6 & $I$ congelata & 6.537.216 \\
-5 & RhombiLoRA (cubica)     & 24 & 3 & Addestrabile  & 3.269.112 \\
+5 & TeLoRA (cubica)     & 24 & 3 & Addestrabile  & 3.269.112 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -615,7 +615,7 @@ Tabella~\ref{tab:exp1-configs}.
 \paragraph{Risultati.}
 \textbf{Equivalenza dell'identit\`a.} Le configurazioni 1 e~2 producono
 traiettorie di perdita con $\Delta < 0{,}0002$ a ogni checkpoint,
-confermando che RhombiLoRA con matrice ponte identit\`a congelata
+confermando che TeLoRA con matrice ponte identit\`a congelata
 recupera esattamente il LoRA standard.
 
 \textbf{Saturazione del rango.} La configurazione~4 (rango 48,
@@ -672,7 +672,7 @@ Deviazione da $I$      & 0,0507    & 0,0095    & 5,3$\times$ \\
 \subsection{Anatomia della Matrice Ponte a Scala (7B)}
 \label{sec:exp-anatomy-7b}
 
-\paragraph{Configurazione.} Addestriamo RhombiLoRA ($r\!=\!24$, FCC,
+\paragraph{Configurazione.} Addestriamo TeLoRA ($r\!=\!24$, FCC,
 matrice ponte addestrabile) su Qwen2.5-7B-Instruct (28 livelli, 4
 moduli per livello, 112 adattatori) utilizzando Alpaca-cleaned per
 10.000 passi su una RTX 6000 Ada locale. Le matrici ponte sono estratte
@@ -765,7 +765,7 @@ accoppiamento co-planare misurabilmente pi\`u forte di quello
 cross-planare nella matrice ponte.
 
 \paragraph{Configurazione.}
-Addestriamo RhombiLoRA ($r\!=\!24$, FCC) su Qwen2.5-7B-Instruct
+Addestriamo TeLoRA ($r\!=\!24$, FCC) su Qwen2.5-7B-Instruct
 utilizzando un dataset geometrico sintetico (23K esempi con il 95\%
 di accoppiamento prospettico co-planare) per 3.000 passi su una RunPod
 RTX 4090. Confrontiamo con la baseline Alpaca (Esp.~2, dati isotropi,
@@ -842,7 +842,7 @@ installare una preferenza direzionale, e se tale preferenza persista
 dopo la rimozione della supervisione.
 
 \paragraph{Configurazione.}
-Addestriamo RhombiLoRA ($r\!=\!24$, FCC, matrice ponte addestrabile)
+Addestriamo TeLoRA ($r\!=\!24$, FCC, matrice ponte addestrabile)
 su Qwen2.5-7B-Instruct utilizzando Alpaca-cleaned in due fasi su una
 RunPod RTX 3090:
 
@@ -952,7 +952,7 @@ direzione richiede insegnamento; una volta insegnata, persiste.
 \paragraph{Configurazione.}
 Per escludere le dinamiche di ottimizzazione come spiegazione
 alternativa del risultato nullo direzionale
-(\S\ref{sec:exp-direction}), addestriamo RhombiLoRA ($r\!=\!24$, FCC,
+(\S\ref{sec:exp-direction}), addestriamo TeLoRA ($r\!=\!24$, FCC,
 matrice ponte addestrabile) su Qwen2.5-7B-Instruct utilizzando
 Alpaca-cleaned per 3.000 passi su una RunPod RTX 3090, con un tasso di
 apprendimento separato per i parametri della matrice ponte fissato a
@@ -987,7 +987,7 @@ Addestriamo tre adattatori specifici per task su Qwen2.5-7B-Instruct:
 RTX 6000 Ada locale), (B)~CodeAlpaca-20k (generazione di codice, 20K
 esempi, 2K passi, RTX 6000 Ada locale), e (C)~GSM8K (ragionamento
 matematico, 7,5K esempi, 2K passi, RunPod RTX 4090). Tutti utilizzano
-una configurazione RhombiLoRA identica ($r\!=\!24$, FCC, matrice ponte
+una configurazione TeLoRA identica ($r\!=\!24$, FCC, matrice ponte
 addestrabile). Le matrici ponte sono estratte all'ultimo checkpoint,
 producendo 336 matrici ponte totali (112 per task, 28 livelli
 $\times$ 4 moduli). Inoltre, le matrici ponte sono estratte a
@@ -1197,7 +1197,7 @@ ponte Q specifiche per task.
 \subsection{Diagnostica del Sovradattamento}
 \label{sec:exp-overfit}
 
-Addestriamo RhombiLoRA su una
+Addestriamo TeLoRA su una
 porzione deliberatamente ridotta (500 addestramento / 500 validazione da
 Alpaca-cleaned) per 10.000 passi con checkpoint ogni 100 passi,
 tracciando il valore di Fiedler e la deviazione insieme al divario di
@@ -1287,7 +1287,7 @@ all'84,5\% di accuratezza.
 \subsection{Perch\'e la Matrice Ponte Non Migliora la Perdita}
 
 La matrice ponte aggiunge 36 parametri per livello dell'adattatore. In
-una configurazione RhombiLoRA a rango 24 applicata a quattro moduli
+una configurazione TeLoRA a rango 24 applicata a quattro moduli
 target su 28 livelli del trasformatore, ci\`o ammonta a
 $28 \times 4 \times 36 = 4.032$ parametri della matrice
 ponte---trascurabili rispetto al conteggio totale dei parametri
@@ -1305,7 +1305,7 @@ nel prodotto $BMA$ ridefinendo $B' = BM$. L'ottimizzatore non ha alcun
 segnale di gradiente che favorisca la distribuzione della
 rappresentazione tra $B$, $M$ e $A$ piuttosto che l'assorbimento di $M$
 interamente in $B$. Ci\`o \`e coerente con il risultato del nostro
-Esperimento~1: RhombiLoRA con matrice ponte congelata corrisponde alla
+Esperimento~1: TeLoRA con matrice ponte congelata corrisponde alla
 perdita del LoRA standard entro $\Delta < 0{,}0002$, e le varianti con
 matrice ponte addestrabile non migliorano. Raddoppiare il rango da 24 a
 48 non fornisce parimenti alcun beneficio---il collo di bottiglia \`e
