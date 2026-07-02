@@ -44,7 +44,7 @@ Visual: Weave pattern banner, fade to website URL.
 Text overlays (stacked):
 - `pip install rhombic`
 - https://tasumermaf.github.io/rhombic/
-- 256 tests. 3 papers. 0 competitors.
+- 357 tests. Nulls published. Reproducible by default.
 
 ---
 

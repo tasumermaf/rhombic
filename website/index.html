@@ -205,10 +205,15 @@
         The 6 tetravalent vertices are the bridges that convert cubic topology into
         space-filling FCC.</p>
       <p><strong>TeLoRA</strong> adds a learnable n×n bridge matrix between LoRA's
-        A and B projections. At n=6, a cybernetic feedback mechanism (the Steersman)
-        discovers rhombic dodecahedral geometry: 100% block-diagonal bridges across
-        42,500+ matrices, four model families (1.1B–14B), peak coupling ratio 82,854:1.
-        Both papers submission-ready after 7-round adversarial audit.</p>
+        A and B projections. A cybernetic feedback mechanism (the Steersman)
+        <em>programs</em> a chosen coupling topology into the bridge — the rhombic
+        dodecahedron is the canonical target, not a discovery: 100% block-diagonal
+        bridges across 42,500+ matrices, four model families (1.1B–14B), peak
+        coupling ratio 82,854:1, at benchmark parity with standard LoRA. The
+        mechanism is topology-agnostic (octahedron, tesseract, and 24-cell program
+        just as cleanly), and the geometry does not emerge from data on its own —
+        our own null results say so, and we publish them. Papers 2–4 are working
+        drafts, internally audited across 7 adversarial rounds; Paper 1 is complete.</p>
       <blockquote>
         "Data symmetry analytically determines representation geometry."
         <cite>— Karkada et al., 2026</cite>
@@ -232,7 +237,7 @@
         <div class="arc-step">
           <div class="arc-num"><a href="https://github.com/tasumermaf/rhombic/blob/main/paper/rhombic-paper3.tex">Paper 3</a></div>
           <div class="arc-q">"What happens when you embrace the cube?"</div>
-          <div class="arc-a">The discovery. 13 experiments, 4 model families, 7-round audit.</div>
+          <div class="arc-a">The programming. 13 experiments, 4 model families, 7-round audit.</div>
         </div>
       </div>
     </div>
@@ -276,9 +281,9 @@
 
 @unpublished{bielec2026bridge,
   author  = {Timothy Paul Bielec},
-  title   = {The Learnable Bridge: Cybernetic Feedback Discovers
-             Rhombic Dodecahedral Geometry in Multi-Channel {LoRA}},
-  note    = {Promptcrafted LLC},
+  title   = {The Learnable Bridge: Task Fingerprinting and Adapter
+             Composition via Structured Coupling in Low-Rank Adaptation},
+  note    = {Promptcrafted LLC. Working draft},
   year    = {2026}
 }</code></pre>
       </div>
@@ -289,7 +294,7 @@
   <footer>
     <div class="section-inner">
       <p class="footer-brand">rhombic — <a href="https://tasumermaf.com">TASUMER MAF</a></p>
-      <p class="footer-meta">v0.3.0 · 312 tests · MPL-2.0 · Python 3.10-3.12</p>
+      <p class="footer-meta">v0.3.0 · 357 tests · MPL-2.0 · Python 3.10-3.12</p>
     </div>
   </footer>
 

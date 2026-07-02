@@ -18,10 +18,10 @@
 | **3.0** | **Qwen 7B** | **12,900** | **COMPLETE — BREAKTHROUGH** | **22,477:1 axis alignment** |
 | 3.0-TL | TinyLlama 1.1B | 10K | COMPLETE | 47,145:1 alignment (scale-invariant) |
 | Phase 0 | Qwen 7B | — | COMPLETE | Q-proj 40% more coupling (p=0.0008) |
-| Phase 1A | Qwen 7B | — | COMPLETE | 72.3% LOO SVM (all modules); Q-proj-only claim retracted pending re-run |
+| Phase 1A | Qwen 7B | — | COMPLETE | 72.3% LOO SVM (all modules); Q-proj-only 84.5% retraction CONFIRMED — per-module re-run completed Apr 6 (q=69.0%), persisted 2026-07-02 to results/fingerprints/PER_MODULE_RERUN_2026-07-02.txt |
 | Phase 2A | Qwen 7B | — | COMPLETE | Eigenspectrum cos > 0.999 under merging |
 | **Phase 3A** | **Qwen 7B** | **10K** | **COMPLETE** | **r=0.888 deviation~gap, phase transition step 400** |
-| **Holly** | **Wan 2.1 14B** | **full** | **COMPLETE (WandB)** | **3.8% better loss, 9.15 GB less VRAM** |
+| **Holly** | **Wan 2.1 14B** | **full** | **RETRACTED 2026-03-13** | Dataset provenance unclear, L-026 contamination (results/EXPERIMENT_TRACKER.md Retracted table) — do not cite the 3.8% / 9.15 GB / 6% numbers |
 | H-ch3 | TinyLlama 1.1B | 10K | COMPLETE | Fiedler 0.095, no BD (spectral-only) |
 | H-ch4 | TinyLlama 1.1B | 10K | COMPLETE | Fiedler 0.092, no BD (spectral-only) |
 | H-ch6 | TinyLlama 1.1B | 10K | COMPLETE | **70,404:1 co/cross, full BD** |
@@ -107,9 +107,14 @@ immediately (step 200 already at 816:1).
 
 ---
 
-## Holly Battery: Wan 2.1 14B T2V — COMPLETE
+## Holly Battery: Wan 2.1 14B T2V — RETRACTED
 
-**Status:** COMPLETE — 3 production runs finished, 5 adamw8bit runs crashed
+> ⚠ RETRACTED (2026-03-13): Holly Battery results were retracted — dataset
+> provenance unclear, L-026 contamination (see results/EXPERIMENT_TRACKER.md,
+> Retracted table). The numbers below are preserved for the record and must
+> not be cited as findings.
+
+**Status:** RETRACTED — 3 production runs finished, 5 adamw8bit runs crashed
 **Platform:** Minta's RunPod (alvdansen-labs)
 **WandB project:** `alvdansen-labs/rhombi-experiment`
 **Verified:** Mar 12, against both WandB API and raw .npy files
@@ -229,9 +234,9 @@ not just the hyperparameters.
 
 ### Phase 1A: Task Fingerprints (STRONG SIGNAL)
 - **Results:** `results/fingerprints/`
-- **Key findings:** 72.3% LOO SVM (all modules, 336 adapters) / 73.5% (2-way). Code most
-  distinctive (97.3%). Mann-Whitney p = 0.000000.
-  **CORRECTION (Apr 6, 2026):** Q-proj-only SVM re-run produces **69.0%** (84 samples, 36 params). Previously reported as 84.5% — that number was never backed by reproducible computation. Q-proj is the best single module but WORSE than all-modules-combined. Per-module breakdown: q_proj=69.0%, o_proj=60.7%, k_proj=58.3%, v_proj=51.2%.
+- **Key findings:** 72.3% LOO SVM (all modules, 336 bridge samples, 112 per task). Code most
+  distinctive (106/112 correct). Mann-Whitney p = 0.000000.
+  **CORRECTION (Apr 6, 2026):** Q-proj-only SVM re-run produces **69.0%** (84 samples, 36 params). Previously reported as 84.5% — that number was never backed by reproducible computation. Q-proj is the best single module but WORSE than all-modules-combined. Per-module breakdown: q_proj=69.0%, o_proj=60.7%, k_proj=58.3%, v_proj=51.2%. Re-run persisted 2026-07-02 to `results/fingerprints/PER_MODULE_RERUN_2026-07-02.txt`.
 
 ### Phase 2A: Bridge-Level Merging (MIXED)
 - **Results:** `results/bridge_merge/`
@@ -473,7 +478,7 @@ via Structured Coupling in Low-Rank Adaptation"
 ### Remaining for arXiv Submission
 - [ ] Final proofread
 - [ ] Update Exp 3.0 numbers with corrected 22,477:1 axis alignment
-- [ ] Add Holly Battery results (Wan 2.1 14B — real-world validation)
+- [ ] ~~Add Holly Battery results (Wan 2.1 14B — real-world validation)~~ DROPPED — Holly Battery retracted 2026-03-13 (provenance/L-026); must not appear in the paper
 - [ ] Verify all cross-references and citations
 - [ ] Generate final figures with `scripts/generate_paper3_figures.py`
 
@@ -623,16 +628,16 @@ emanation/E-001/       — COMPLETE
 |-------|-------|--------|
 | FCC > cubic Fiedler (1.5B) | 4.6× | Exp 1 |
 | FCC > cubic Fiedler (7B) | 1.73× | Exp 2 |
-| Task fingerprint LOO SVM | 72.3% (all modules) / 73.5% (2-way) | Phase 1A |
+| Task fingerprint LOO SVM | 72.3% (all modules) | Phase 1A |
 | Bridge merge eigenspectrum | cos > 0.999 | Phase 2A |
 | Deviation ~ overfit gap | r = 0.888, p = 7.3e-35 | Phase 3A |
 | Fiedler ~ overfit gap | r = 0.825, p = 5.6e-26 | Phase 3A |
 | Axis alignment (7B) | 22,477:1 | Exp 3.0 |
 | Axis alignment (1.1B) | 47,145:1 | Exp 3.0-TL |
 | Fiedler convergence | ~0.10 (scale-invariant) | Exp 3.0 + 3.0-TL |
-| Holly loss improvement | 3.8% (1.5517 vs 1.6137) | Holly Battery |
-| Holly VRAM savings | 9.15 GB (66.60 vs 75.75) | Holly Battery |
-| Holly speed improvement | 6% (25.5h vs 27.1h) | Holly Battery |
+| Holly loss improvement | RETRACTED 2026-03-13 (was 3.8%) — provenance/L-026 | Holly Battery |
+| Holly VRAM savings | RETRACTED 2026-03-13 (was 9.15 GB) — provenance/L-026 | Holly Battery |
+| Holly speed improvement | RETRACTED 2026-03-13 (was 6%) — provenance/L-026 | Holly Battery |
 | **Spectral-only Fiedler (n=3)** | **0.0951** | Channel Ablation H-ch3 |
 | **Spectral-only Fiedler (n=4)** | **0.0918** | Channel Ablation H-ch4 |
 | **Spectral-only Fiedler (n=8)** | **0.0889** | Channel Ablation H-ch8 (proj) |

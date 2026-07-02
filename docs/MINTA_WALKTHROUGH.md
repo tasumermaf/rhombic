@@ -77,12 +77,12 @@ types (general instruction, code, math) and then asked: can we tell
 which task produced which adapter just by reading its bridge matrices?
 No inference. No generation. Just the 36 numbers per layer.
 
-Answer: **84.5% accuracy**, from a pool of 28 Q-projection bridges
-(1,008 total parameters). Chance would be 33.3%. The bridge encodes
-a fingerprint of what happened during training, and that fingerprint
-is readable.
+Answer: **72.3% accuracy** (corrected 2026-07-02), from the pooled
+all-module bridge set — 336 bridge samples (112 per task), 36 parameters
+each. Chance would be 33.3%. The bridge encodes a fingerprint of what
+happened during training, and that fingerprint is readable.
 
-For video LoRA, this means: your Q-projection bridges can tell you
+For video LoRA, this means: your bridge matrices can tell you
 whether the adapter learned motion style, lighting, or composition
 -- without generating a single frame.
 
@@ -143,9 +143,10 @@ Unfreezing it lets it learn during training at negligible cost.
 
 **After training**, the bridge matrices are your adapter's dashboard:
 
-- Read Q-projection bridges to fingerprint what the adapter learned.
-  Q-projections carry the most task-specific information (40% more
-  coupling than other projection types in our experiments).
+- Read the bridge matrices to fingerprint what the adapter learned.
+  Q-projections carry the most task-specific information of any single
+  module (40% more coupling than other projection types in our
+  experiments), but pooling all modules classifies best.
 - Compare bridge eigenspectra across checkpoints to track training
   dynamics without generating video.
 - Compare bridges across adapters to predict composition behavior
@@ -153,10 +154,11 @@ Unfreezing it lets it learn during training at negligible cost.
 
 For Wan video adapters specifically: the model has 28 transformer
 blocks, each with self-attention and cross-attention projections (Q, K,
-V, O). The Q-projection bridges across those 28 blocks are where the
-fingerprint lives. That is 28 x 36 = 1,008 parameters that tell you
-what your adapter learned -- readable in milliseconds, no GPU inference
-required.
+V, O). The bridges across those 28 blocks are where the fingerprint
+lives — pooled across all modules (corrected 2026-07-02: 72.3% pooled
+vs 69.0% for Q-proj alone). That is 28 x 4 x 36 = 4,032 parameters that
+tell you what your adapter learned -- readable in milliseconds, no GPU
+inference required.
 
 ---
 
@@ -166,8 +168,9 @@ required.
 over 3-channel (cubic) bridge topology. More coupling means a richer,
 more readable diagnostic signal from fewer parameters.
 
-**84.5%** -- Task fingerprint accuracy from bridge matrices alone. 1,008
-parameters classify what happened during training at 2.5x above chance.
+**72.3%** -- Task fingerprint accuracy from bridge matrices alone (all
+modules, 336 bridge samples; corrected 2026-07-02). 36 parameters per
+bridge classify what happened during training at 2.2x above chance.
 No inference needed.
 
 **36** -- Parameters per layer. The total cost of the bridge. An

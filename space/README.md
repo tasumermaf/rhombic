@@ -27,7 +27,7 @@ tags:
 
 > *The bottleneck is not the processor. It is the shape of the cell.*
 
-Interactive demo comparing cubic (6-connected) and FCC/rhombic dodecahedral (12-connected) lattice topologies. 312 tests, 3 papers, MPL-2.0.
+Interactive demo comparing cubic (6-connected) and FCC/rhombic dodecahedral (12-connected) lattice topologies. 357 tests, MPL-2.0. Paper 1 complete; Papers 2–4 are working drafts.
 
 **Tab 1 — The Numbers:** Headline results + live graph theory benchmark at any scale.
 
@@ -35,7 +35,7 @@ Interactive demo comparing cubic (6-connected) and FCC/rhombic dodecahedral (12-
 
 **Tab 3 — The Thesis:** The full argument for why computation inherited the wrong geometry.
 
-**Tab 4 — TeLoRA:** The Learnable Bridge — cybernetic feedback discovers rhombic dodecahedral geometry in multi-channel LoRA (Paper 3). 13 experiments, 4 model families, 7-round audit.
+**Tab 4 — TeLoRA:** The Learnable Bridge — cybernetic feedback programs a chosen coupling topology into multi-channel LoRA bridges (Paper 3 draft; the mechanism is topology-agnostic, and the geometry is programmed, not discovered). 13 experiments, 4 model families, 7-round internal audit.
 
 **Tab 5 — Weighted Extensions:** Direction-weighted Fiedler amplification benchmark (Paper 2). See how structured edge weights amplify the FCC advantage from 2.3x to 6.1x.
 

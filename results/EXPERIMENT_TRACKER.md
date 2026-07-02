@@ -79,6 +79,7 @@ Seed-44 auto-launched after Seed-43 completion + lm-eval. Chain watcher PID 4343
 |----|--------|------|
 | L-026 | Corpus weights misapplied (diagonal not off-diagonal) | 2026-03-13 |
 | Holly Battery | Dataset provenance unclear, L-026 contamination | 2026-03-13 |
+| Phase 1A 84.5% Q-proj fingerprinting | Never backed by reproducible computation; verified value 72.3% all-modules | 2026-04-06 |
 
 ## Key Findings
 

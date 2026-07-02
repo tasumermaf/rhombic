@@ -83,14 +83,15 @@ and least discriminative bridge positions.
 
 \subsection{Practical Implications}
 
-A leave-one-out SVM trained on the 28 Q-projection bridge matrices
-of a single adapter classifies task type at 84.5\% accuracy across
-three tasks (chance: 33.3\%). This fingerprint costs 1{,}008
-parameters ($28 \times 36$)---smaller than a single hidden state
-vector in Qwen2.5-7B (4{,}096 dimensions). Including the 28
-O-projection bridges (2{,}016 parameters total) yields 83.3\%
-accuracy with improved performance on the hardest class (math:
-66.1\% vs.\ 50.0\% with Q-proj alone).
+A linear SVM over 336 individual bridge matrices (112 per task
+across three tasks, each a 36-parameter $6 \times 6$ bridge)
+classifies task type at 72.3\% leave-one-out accuracy (chance:
+33.3\%). Each fingerprint sample costs 36 parameters ($6 \times
+6$)---far smaller than a single hidden state vector in Qwen2.5-7B
+(4{,}096 dimensions). Per-module classifiers rank q\_proj (69.0\%)
+above o\_proj (60.7\%), k\_proj (58.3\%), and v\_proj (51.2\%): the
+query projection is the most discriminative single module, but no
+single module outperforms the pooled all-module classifier.
 
 For adapter composition, bridge-level interpolation preserves
 eigenspectrum structure at all mixing ratios (cosine $> 0.999$),
@@ -106,11 +107,13 @@ This provides an empirical safe mixing ratio---conservative, but
 grounded.
 
 These results suggest a practical architecture for adapter management:
-store only the 28 Q-projection bridges per task (1{,}008 parameters)
-as a task fingerprint; use these for routing incoming requests to the
-correct adapter without inference. K-proj and V-proj bridges are
-structurally conserved across tasks and can be shared. Q-proj bridges
-require task-specific handling during composition.
+store an adapter's bridge matrices as its task fingerprint and use
+them to route incoming requests to the correct adapter without
+inference. Pooling all modules gives the best classification
+(72.3\%); if storage is constrained, q\_proj bridges are the most
+informative single-module subset (69.0\% alone), though every module
+carries task signal (all per-module classifiers exceed chance).
+Q-proj bridges require task-specific handling during composition.
 
 \subsection{Limitations}
 \label{sec:limitations}
@@ -121,7 +124,7 @@ architecture's attention structure rather than a universal property
 of transformer adapters. Extending to LLaMA, Mistral, or non-decoder
 architectures is necessary before claiming generality.
 
-\textbf{Three tasks.} Three-way classification at 84.5\% is
+\textbf{Three tasks.} Three-way classification at 72.3\% is
 encouraging but limited. With only three task categories (general,
 code, math), the decision boundary is low-dimensional. Scaling to
 10--50 tasks would test whether bridge fingerprints remain
@@ -229,13 +232,17 @@ The bridge reveals what LoRA learns, in 36 parameters per layer.
 Tasks that require diverse cross-channel mixing (general instruction
 following) produce bridges with $2.2\times$ higher algebraic
 connectivity than tasks with constrained structure (code generation).
-A leave-one-out SVM trained on 28 query-projection bridges---1{,}008
-parameters total---classifies task type at 84.5\% accuracy without
+A linear SVM over 336 individual bridge matrices---112 per task
+across three tasks, each a 36-parameter $6 \times 6$
+bridge---classifies task type at 72.3\% leave-one-out accuracy
+(chance 33.3\%) without
 inference or held-out evaluation. The fingerprint emerges entirely
 from training: at step~0, all bridges are identical; by step~1{,}500,
 binary classification between the two most similar tasks reaches 93\%.
-The query projection is the optimal fingerprint location because it
-encodes the most task-specific aspect of attention: what to look for.
+The query projection is the most discriminative single module
+(69.0\% alone)---it encodes the most task-specific aspect of
+attention: what to look for---though no single module outperforms
+the pooled classifier.
 
 Bridge-level adapter composition preserves eigenspectrum structure
 across all mixing ratios (cosine $> 0.999$), but non-linear Fiedler
@@ -274,8 +281,9 @@ diagnostic but as a site for injecting inductive biases that shape
 subsequent unsupervised training. The most immediate practical
 direction is bridge-based adapter routing: given a library of
 task-specific adapters, select the correct one by comparing a query
-adapter's 1{,}008-parameter Q-projection fingerprint against stored
-fingerprints, without running any of the adapters at inference time.
+adapter's bridge fingerprints (36 parameters per bridge) against
+stored fingerprints, without running any of the adapters at
+inference time.
 
 \paragraph{Availability.}
 Source code: \url{https://github.com/tasumermaf/rhombic}.\\

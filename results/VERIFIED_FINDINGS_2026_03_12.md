@@ -7,6 +7,12 @@
 
 ## 1. Holly Battery (Wan 2.1 14B T2V — Real Video Model)
 
+> ⚠ RETRACTED (2026-03-13): Holly Battery results were retracted one day
+> after this file was written — dataset provenance unclear, L-026
+> contamination (see results/EXPERIMENT_TRACKER.md, Retracted table). The
+> numbers below are preserved for the record and must not be cited as
+> findings.
+
 Three-way comparison: Standard LoRA vs TeLoRA vs Corpus-Weighted TeLoRA.
 All runs: rank 24, Prodigy optimizer (lr=1, constant schedule), 50 epochs, 1450 global steps.
 Platform: RunPod (Minta's account), WandB entity: `alvdansen-labs/rhombi-experiment`.

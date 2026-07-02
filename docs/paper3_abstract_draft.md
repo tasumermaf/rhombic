@@ -2,6 +2,9 @@
 
 > **Working title:** "The Learnable Bridge: Task Fingerprinting and Adapter
 > Composition via Structured Coupling Matrices in Low-Rank Adaptation"
+>
+> NOTE (2026-07-02): fingerprinting numbers corrected after the Apr 6, 2026
+> retraction — verified value is 72.3% (all modules). See docs/EXPERIMENT_TRACKER.md.
 
 ---
 
@@ -17,9 +20,9 @@ code generation, mathematical reasoning) on Qwen2.5-7B, we demonstrate
 three findings:
 
 **(1) Task fingerprinting.** Bridge matrices encode task identity: a
-leave-one-out SVM classifies task type at 83.3% accuracy using only
-the 56 query+output-projection bridges (2,016 parameters total), compared
-to 33.3% chance. Tasks modulate bridge coupling *magnitude* — general
+leave-one-out SVM classifies task type at 72.3% accuracy across all 336
+bridge matrices (36 parameters per bridge sample), compared to 33.3%
+chance (corrected 2026-07-02). Tasks modulate bridge coupling *magnitude* — general
 instruction following produces 2.2× more cross-channel coupling than
 code generation (Fiedler 0.040 vs 0.018) — while preserving coupling *structure* (eigenspectrum
 cosine similarity > 0.999 between tasks).
@@ -51,13 +54,12 @@ readable without inference or evaluation on held-out data.
 
 | Finding | Metric | Value |
 |---------|--------|-------|
-| Task classification (Q+O) | LOO SVM accuracy | 83.3% |
-| Task classification (Q-proj) | LOO SVM accuracy | 82.1% |
-| Task classification (all) | LOO SVM accuracy | 72.9% |
+| Task classification (all modules, pooled) | LOO SVM accuracy | 72.3% |
+| Task classification (q_proj, best single module) | LOO SVM accuracy | 69.0% |
 | Chance level | 3 tasks | 33.3% |
 | Between > within task | Mann-Whitney p | < 1e-6 |
 | Bridge parameters per layer | 6×6 matrix | 36 |
-| Optimal fingerprint size | 56 Q+O bridges | 2,016 params |
+| Fingerprint basis | pooled all-module bridges | 336 samples × 36 params |
 | Eigenspectrum preservation | cosine at α=0.1 | 1.0000 |
 | Task merge vs random | eigenspectrum cos | 0.999 vs 0.5 |
 | Module ranking consistency | Ph1A × Ph2A Pearson r | 0.921 |

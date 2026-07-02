@@ -23,7 +23,13 @@ See `docs/EXPERIMENTAL_LADDER.md` for the 5-rung experimental plan.
 | 2 | Spatial Operations | Complete |
 | 3 | Signal Processing | Complete |
 | 4 | Context Architecture | Complete |
-| P2 | Weighted Extensions (Paper 2) | Complete — 7 experiments, 256 tests |
+| P2 | Weighted Extensions (Paper 2) | Draft complete — 7 experiments |
+| P3 | The Learnable Bridge (Paper 3) | Draft — 13 experiments; fingerprinting figure corrected Apr 2026 (72.3%, not 84.5%) |
+| P4 | The Topology Programmer (Paper 4) | Draft — 4 polytopes, 4 regimes |
+| EE | Equal-edge random-graph control (EE-001) | Complete — narrows Paper 1 claim to spatially-embeddable class |
+
+Suite: **357 tests** (`pytest -v`). Paper status: Paper 1 complete
+(unpublished); Papers 2–4 working drafts. Nothing is submitted or published.
 
 ## How to Add a New Rung
 

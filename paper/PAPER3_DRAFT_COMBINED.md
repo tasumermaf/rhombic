@@ -30,8 +30,11 @@ projection matrices $A$ and $B$, the bridge is small ($n^2$ parameters per
 adapted module), invariant-rich (its eigenspectrum is rotation-invariant), and
 directly interpretable (each entry quantifies a specific inter-channel
 interaction). Prior work (Bielec, 2026a) established that untrained bridges
-learn task-discriminative structure: a leave-one-out SVM on 28 query-projection
-bridges (1,008 parameters) classifies task type at 84.5% accuracy, and bridge
+learn task-discriminative structure: a linear SVM over 336 individual bridge
+matrices (112 per task across three tasks, each a 36-parameter 6×6 bridge)
+classifies task type at 72.3% leave-one-out accuracy (chance 33.3%),
+between-task bridge distances exceed within-task distances (Mann-Whitney
+$p < 10^{-6}$), and bridge
 interpolation between adapters preserves eigenspectrum structure (cosine
 similarity $> 0.999$) at all mixing ratios. That same work reported a null
 result: without explicit supervision, the bridge learns *that* cross-channel
@@ -177,7 +180,7 @@ LoRA (Hu et al., 2021) injects trainable low-rank decompositions into frozen pre
 
 Several works partition the adapter's parameter space into parallel components. Multi-head LoRA (Wang et al., 2024) splits the rank into heads that attend to different input subspaces. Mixture-of-LoRA (Li et al., 2024) routes inputs through multiple LoRA experts. These methods introduce structural decomposition but do not include learnable inter-component coupling — each head or expert operates independently, and the outputs are combined through fixed aggregation (concatenation, addition, or gating).
 
-TeLoRA (Bielec, 2026a) introduces the bridge matrix as an explicit parameterization of inter-channel coupling. Paper 2 in this series established that the bridge learns task-discriminative structure under standard (non-cybernetic) training: bridge fingerprints classify task type with 84.5% leave-one-out accuracy, and bridge interpolation preserves eigenspectrum structure at all mixing ratios. However, without structured feedback, the bridge develops uniform coupling with no topological preference (co-planar/cross-planar ratio 1.002:1). The present work introduces the Steersman to provide that structured feedback.
+TeLoRA (Bielec, 2026a) introduces the bridge matrix as an explicit parameterization of inter-channel coupling. Paper 2 in this series established that the bridge learns task-discriminative structure under standard (non-cybernetic) training: bridge fingerprints classify task type with 72.3% leave-one-out accuracy (linear SVM over 336 individual 6×6 bridge matrices, 112 per task across three tasks; chance 33.3%), and bridge interpolation preserves eigenspectrum structure at all mixing ratios. However, without structured feedback, the bridge develops uniform coupling with no topological preference (co-planar/cross-planar ratio 1.002:1). The present work introduces the Steersman to provide that structured feedback.
 
 ## 2.3 Cybernetic Optimization
 

@@ -323,7 +323,7 @@ def fig5_summary_dashboard():
         ('Task Fingerprinting', '72.3%', 'LOO SVM accuracy\n(all modules, chance = 33.3%)'),
         ('Bridge Coupling', '4.6×', 'FCC vs cubic\nFiedler ratio'),
         ('Eigenspectrum', '>0.999', 'Cosine similarity\nduring interpolation'),
-        ('Diagnostic Size', '1,008', 'Parameters per adapter\n(28 layers × 36)'),
+        ('Diagnostic Size', '4,032', 'Parameters per adapter\n(28 layers × 4 modules × 36)'),
     ]
 
     for i, (label, value, detail) in enumerate(metrics):

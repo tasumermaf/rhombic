@@ -43,9 +43,11 @@ we establish four findings:
 
 \paragraph{(a) Task fingerprinting.}
 Bridge matrices encode task identity.
-A leave-one-out SVM trained on the 28 query-projection bridges
-(1,008 parameters total) classifies task type at 84.5\% accuracy,
-compared to 33.3\% chance ($p < 10^{-6}$, Mann-Whitney $U$).
+A linear SVM trained on 336 individual bridge matrices (112 per task
+across three tasks, each a 36-parameter $6 \times 6$ bridge)
+classifies task type at 72.3\% leave-one-out accuracy, compared to
+33.3\% chance; between-task bridge distances exceed within-task
+distances ($p < 10^{-6}$, Mann-Whitney $U$).
 Tasks modulate bridge coupling \emph{magnitude}---general instruction
 following produces $2.2\times$ more cross-channel coupling than code
 generation (Fiedler connectivity 0.040 vs.\ 0.018)---while preserving
@@ -117,9 +119,11 @@ We do not propose a better adapter.
 We propose a new \emph{diagnostic}: a 36-parameter matrix that
 summarizes the coupling structure training discovered between $A$ and
 $B$, readable without inference or evaluation on held-out data.
-The bridge provides a compact task fingerprint (1,008 parameters for
-the optimal Q-projection subset---smaller than a single hidden state
-vector in Qwen2.5-7B), a low-dimensional space for adapter composition
+The bridge provides a compact task fingerprint (36 parameters per
+bridge---far smaller than a single hidden state vector in
+Qwen2.5-7B; pooled all-module fingerprints classify best, with the
+query projection the most discriminative single module), a
+low-dimensional space for adapter composition
 analysis, and a per-layer, per-module map of where task specialization
 concentrates in the network.
 To our knowledge, no prior work uses a structured intermediate

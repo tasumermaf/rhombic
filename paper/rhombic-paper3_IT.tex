@@ -48,10 +48,11 @@ adattatore LoRA, aggiungendo 36 parametri per ogni livello adattato
 ($0{,}02\%$ di sovraccarico). La matrice ponte \`e inizializzata come
 matrice identit\`a, recuperando esattamente il LoRA standard. Attraverso
 sette esperimenti su Qwen2.5 (1,5B e 7B), stabiliamo quattro risultati:
-(1)~le matrici ponte codificano l'identit\`a del task---un SVM
-leave-one-out su 28 matrici ponte delle proiezioni query (1.008
-parametri) classifica il tipo di task con un'accuratezza dell'82,1\%
-(che sale all'84,5\% all'ultimo checkpoint) rispetto al 33,3\% del caso;
+(1)~le matrici ponte codificano l'identit\`a del task---un SVM lineare
+su 336 matrici ponte individuali (112 per task su tre task, ciascuna
+una matrice ponte $6 \times 6$ a 36 parametri) classifica il tipo di
+task con un'accuratezza leave-one-out del 72,3\% rispetto al 33,3\%
+del caso;
 (2)~la topologia del reticolo FCC apprende un accoppiamento tra canali
 $4{,}6\times$ superiore rispetto alla topologia cubica, sebbene nessuna
 delle due migliori la perdita di addestramento; (3)~l'interpolazione
@@ -124,9 +125,11 @@ quattro risultati:
 
 \paragraph{(a) Fingerprinting del task.}
 Le matrici ponte codificano l'identit\`a del task.
-Un SVM leave-one-out addestrato sulle 28 matrici ponte delle proiezioni
-query (1.008 parametri totali) classifica il tipo di task con
-un'accuratezza dell'84,5\%, rispetto al 33,3\% del caso ($p < 10^{-6}$,
+Un SVM lineare addestrato su 336 matrici ponte individuali (112 per
+task su tre task, ciascuna una matrice ponte $6 \times 6$ a 36
+parametri) classifica il tipo di task con un'accuratezza leave-one-out
+del 72,3\%, rispetto al 33,3\% del caso; le distanze inter-task tra
+matrici ponte superano quelle intra-task ($p < 10^{-6}$,
 Mann-Whitney $U$).
 I task modulano la \emph{magnitudine} dell'accoppiamento della matrice
 ponte---l'addestramento su istruzioni generali produce un accoppiamento
@@ -210,9 +213,11 @@ Proponiamo una nuova \emph{diagnostica}: una matrice a 36 parametri che
 riassume la struttura di accoppiamento scoperta dall'addestramento tra
 $A$ e $B$, leggibile senza inferenza n\'e valutazione su dati di
 riserva.
-La matrice ponte fornisce un'impronta compatta del task (1.008 parametri
-per il sottoinsieme ottimale delle proiezioni Q---pi\`u piccola di un
-singolo vettore di stato nascosto in Qwen2.5-7B), uno spazio a bassa
+La matrice ponte fornisce un'impronta compatta del task (36 parametri
+per matrice ponte---molto pi\`u piccola di un singolo vettore di stato
+nascosto in Qwen2.5-7B; le impronte aggregate di tutti i moduli
+classificano meglio, con la proiezione query come modulo singolo pi\`u
+discriminativo), uno spazio a bassa
 dimensionalit\`a per l'analisi della composizione degli adattatori, e
 una mappa per livello e per modulo di dove la specializzazione del task
 si concentra nella rete.
@@ -1031,45 +1036,45 @@ Coppia & Media & Dev.\ St. & Min & Max \\
 \end{table}
 
 \paragraph{Accuratezza della classificazione.}
-La classificazione SVM leave-one-out sui 336 vettori delle matrici ponte
-raggiunge il 72,9\% di accuratezza a tre vie (caso: 33,3\%). La
-prestazione non \`e uniforme: alpaca (93,8\%) e codice (94,6\%) sono ben
-classificati, mentre la matematica (50,0--66,1\%) \`e frequentemente
-confusa con il codice, coerentemente con la loro bassa distanza
-inter-task.
+Un SVM lineare sulle 336 matrici ponte individuali (112 per task su
+tre task, ciascuna una matrice ponte $6 \times 6$ a 36 parametri)
+raggiunge il 72,3\% di accuratezza leave-one-out a tre vie (caso:
+33,3\%). La coppia codice--matematica \`e la pi\`u vicina in distanza
+tra matrici ponte (Tabella~\ref{tab:fingerprint-distances}) e di
+conseguenza la pi\`u difficile da separare.
 
-\paragraph{Selezione delle caratteristiche: dominanza della proiezione Q.}
-Restringendo il classificatore alle sole matrici ponte della proiezione
-Q (28 per task, 1.008 parametri) l'accuratezza \emph{migliora}
-all'82,1\% (Tabella~\ref{tab:subset-class}).
-Aggiungendo le matrici ponte della proiezione O (56 totali, 2.016
-parametri) si ottiene la migliore accuratezza complessiva dell'83,3\%,
-principalmente migliorando la classificazione della matematica dal
-50,0\% al 66,1\%. Le matrici ponte delle proiezioni K e V non sono
-informative: la loro inclusione degrada il confine decisionale del SVM.
-Il risultato principale \`e che \textbf{1.008 parametri delle matrici
-ponte (28 ponti Q-proj) superano l'intero insieme di 4.032 parametri}
-per l'identificazione del task. Le matrici ponte della proiezione query
-sono la componente pi\`u discriminativa per il task nella testa di
-attenzione, coerentemente con la loro forza di accoppiamento pi\`u
-elevata (\S\ref{sec:exp-anatomy-7b}).
+\paragraph{Discriminativit\`a per modulo.}
+Addestrando classificatori separati sulle matrici ponte di ciascun
+modulo (84 campioni per modulo, 36 parametri ciascuno) si ottiene la
+classifica dei moduli: q\_proj 69,0\%, o\_proj 60,7\%, k\_proj 58,3\%,
+v\_proj 51,2\% (Tabella~\ref{tab:subset-class}). La proiezione query
+\`e il modulo singolo pi\`u discriminativo per il task, coerentemente
+con la sua distanza media inter-task pi\`u elevata (0,16076) e la sua
+forza di accoppiamento pi\`u elevata (\S\ref{sec:exp-anatomy-7b}).
+Nessun modulo singolo, tuttavia, supera il classificatore aggregato:
+le impronte di tutti i moduli raggiungono il 72,3\%, superando il
+miglior modulo singolo di 3,3 punti percentuali. L'identit\`a del task
+\`e distribuita tra le matrici ponte della testa di attenzione anzich\'e
+concentrata in un sottoinsieme sparso.
 
 \begin{table}[t]
 \centering
-\caption{Accuratezza della classificazione per sottoinsieme (LOO SVM, 3
-vie). La rimozione delle matrici ponte K/V non informative migliora
-l'accuratezza fino a 10,4\,pp. Le sole matrici ponte Q-proj
-classificano all'82,1\% con 1.008 parametri.}
+\caption{Accuratezza della classificazione per modulo (LOO SVM, 3 vie;
+ogni campione \`e una singola matrice ponte $6 \times 6$ a 36
+parametri). Nessun modulo singolo supera il classificatore aggregato
+di tutti i moduli; la proiezione query \`e il modulo singolo pi\`u
+discriminativo.}
 \label{tab:subset-class}
 \small
 \begin{tabular}{@{}lrrr@{}}
 \toprule
-Sottoinsieme & Posizioni & Parametri & Accuratezza LOO \\
+Insieme di impronte & Campioni & Param./ponte & Accuratezza LOO \\
 \midrule
-Completo (Q+K+V+O) & 112 & 4.032 & 72,9\% \\
-Solo Q-proj     &  28 & 1.008 & 82,1\% \\
-Solo O-proj     &  28 & 1.008 & 76,2\% \\
-Q+O combinati    &  56 & 2.016 & \textbf{83,3\%} \\
+Tutti i moduli (Q+K+V+O) & 336 & 36 & \textbf{72,3\%} \\
+Solo q\_proj & 84 & 36 & 69,0\% \\
+Solo o\_proj & 84 & 36 & 60,7\% \\
+Solo k\_proj & 84 & 36 & 58,3\% \\
+Solo v\_proj & 84 & 36 & 51,2\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1104,8 +1109,9 @@ passo~0, tutte le matrici ponte sono identiche (inizializzazione
 identit\`a) e tutte le distanze inter-task sono esattamente 0,000. La
 divergenza \`e monotona: al passo~1000 il classificatore binario
 codice--matematica raggiunge l'87,5\%, salendo al 92,9\% al passo~1500
-e ancora in crescita. Il classificatore a tre vie sulle proiezioni Q
-raggiunge l'84,5\% all'ultimo checkpoint. Questa traiettoria esclude
+e ancora in crescita. All'ultimo checkpoint, le impronte aggregate di
+tutti i moduli classificano il tipo di task a tre vie al 72,3\%
+(q\_proj da solo: 69,0\%). Questa traiettoria esclude
 qualsiasi artefatto di inizializzazione e dimostra che la struttura
 della matrice ponte \`e una registrazione fedele della specializzazione
 indotta dall'addestramento.
@@ -1275,7 +1281,7 @@ proiezione complete $d_\text{out} \times r$.
 Le nostre diagnostiche basate sulla matrice ponte comprimono la
 struttura di accoppiamento in $C^2 = 36$ parametri per livello
 mantenendo informazione sufficiente per la classificazione del task
-all'84,5\% di accuratezza.
+al 72,3\% di accuratezza leave-one-out (caso: 33,3\%).
 
 % ===================================================================
 % Section 6 — Discussione
@@ -1375,14 +1381,16 @@ discriminative.
 
 \subsection{Implicazioni Pratiche}
 
-Un SVM leave-one-out addestrato sulle 28 matrici ponte della proiezione
-Q di un singolo adattatore classifica il tipo di task con un'accuratezza
-dell'84,5\% su tre task (caso: 33,3\%). Questa impronta costa 1.008
-parametri ($28 \times 36$)---pi\`u piccola di un singolo vettore di
-stato nascosto in Qwen2.5-7B (4.096 dimensioni). Includendo le 28
-matrici ponte della proiezione O (2.016 parametri totali) si ottiene
-l'83,3\% di accuratezza con prestazioni migliorate sulla classe pi\`u
-difficile (matematica: 66,1\% contro 50,0\% con la sola Q-proj).
+Un SVM lineare su 336 matrici ponte individuali (112 per task su tre
+task, ciascuna una matrice ponte $6 \times 6$ a 36 parametri)
+classifica il tipo di task con un'accuratezza leave-one-out del
+72,3\% (caso: 33,3\%). Ogni campione d'impronta costa 36 parametri
+($6 \times 6$)---molto pi\`u piccolo di un singolo vettore di stato
+nascosto in Qwen2.5-7B (4.096 dimensioni). I classificatori per
+modulo ordinano q\_proj (69,0\%) sopra o\_proj (60,7\%), k\_proj
+(58,3\%) e v\_proj (51,2\%): la proiezione query \`e il modulo singolo
+pi\`u discriminativo, ma nessun modulo singolo supera il
+classificatore aggregato di tutti i moduli.
 
 Per la composizione degli adattatori, l'interpolazione a livello di
 matrice ponte preserva la struttura dell'autospettro a tutti i rapporti
@@ -1400,11 +1408,14 @@ fornisce un rapporto di mescolamento sicuro empirico---conservativo, ma
 fondato.
 
 Questi risultati suggeriscono un'architettura pratica per la gestione
-degli adattatori: memorizzare solo le 28 matrici ponte della proiezione
-Q per task (1.008 parametri) come impronta del task; utilizzarle per
-indirizzare le richieste in arrivo verso l'adattatore corretto senza
-inferenza. Le matrici ponte K-proj e V-proj sono strutturalmente
-conservate tra i task e possono essere condivise. Le matrici ponte
+degli adattatori: memorizzare le matrici ponte di un adattatore come
+sua impronta del task e utilizzarle per indirizzare le richieste in
+arrivo verso l'adattatore corretto senza inferenza. L'aggregazione di
+tutti i moduli fornisce la migliore classificazione (72,3\%); se lo
+spazio di memorizzazione \`e vincolato, le matrici ponte q\_proj sono
+il sottoinsieme a modulo singolo pi\`u informativo (69,0\% da sole),
+sebbene ogni modulo porti segnale del task (tutti i classificatori per
+modulo superano il caso). Le matrici ponte
 Q-proj richiedono un trattamento specifico per task durante la
 composizione.
 
@@ -1418,7 +1429,7 @@ architettura piuttosto che una propriet\`a universale degli adattatori
 per trasformatori. L'estensione a LLaMA, Mistral o architetture non
 decoder \`e necessaria prima di rivendicare la generalit\`a.
 
-\textbf{Tre task.} La classificazione a tre vie all'84,5\% \`e
+\textbf{Tre task.} La classificazione a tre vie al 72,3\% \`e
 incoraggiante ma limitata. Con sole tre categorie di task (generale,
 codice, matematica), il confine decisionale \`e a bassa dimensionalit\`a.
 Il passaggio a 10--50 task verificherebbe se le impronte delle matrici
@@ -1536,16 +1547,18 @@ La matrice ponte rivela ci\`o che LoRA apprende, in 36 parametri per
 livello. I task che richiedono un ampio mescolamento tra canali (seguito
 di istruzioni generali) producono matrici ponte con una connettivit\`a
 algebrica $2{,}2\times$ superiore rispetto ai task con struttura
-vincolata (generazione di codice). Un SVM leave-one-out addestrato su
-28 matrici ponte della proiezione query---1.008 parametri
-totali---classifica il tipo di task con un'accuratezza dell'84,5\% senza
+vincolata (generazione di codice). Un SVM lineare su 336 matrici
+ponte individuali---112 per task su tre task, ciascuna una matrice
+ponte $6 \times 6$ a 36 parametri---classifica il tipo di task con
+un'accuratezza leave-one-out del 72,3\% (caso 33,3\%) senza
 inferenza n\'e valutazione su dati di riserva. L'impronta emerge
 interamente dall'addestramento: al passo~0, tutte le matrici ponte sono
 identiche; al passo~1.500, la classificazione binaria tra i due task
 pi\`u simili raggiunge il 93\%.
-La proiezione query \`e la posizione ottimale per l'impronta poich\'e
-codifica l'aspetto pi\`u specifico per il task dell'attenzione: cosa
-cercare.
+La proiezione query \`e il modulo singolo pi\`u discriminativo
+(69,0\% da sola)---codifica l'aspetto pi\`u specifico per il task
+dell'attenzione: cosa cercare---sebbene nessun modulo singolo superi
+il classificatore aggregato.
 
 La composizione degli adattatori a livello di matrice ponte preserva la
 struttura dell'autospettro a tutti i rapporti di mescolamento
@@ -1591,7 +1604,8 @@ sito per l'iniezione di bias induttivi che modellano l'addestramento non
 supervisionato successivo. La direzione pratica pi\`u immediata \`e
 l'instradamento degli adattatori basato sulla matrice ponte: data una
 libreria di adattatori specifici per task, selezionare quello corretto
-confrontando l'impronta della proiezione Q a 1.008 parametri di un
+confrontando le impronte delle matrici ponte (36 parametri per matrice
+ponte) di un
 adattatore interrogativo con le impronte memorizzate, senza eseguire
 alcuno degli adattatori al momento dell'inferenza.
 

@@ -300,9 +300,12 @@ and gradually crystallizes into co-planar/cross-planar structure.
 ## L-013: The Bridge Encodes Task Identity
 
 **The finding:** A leave-one-out SVM trained on flattened 6×6 bridge matrices
-classifies task type (alpaca/code/math) at **73.5% accuracy** (chance = 33.3%).
-Mann-Whitney U between-task vs within-task: p = 0.000000. Code is most
-distinctive (97.3% correct); math is least (70.5%, confused with both others).
+classifies task type (alpaca/code/math) at **72.3% accuracy** (chance = 33.3%;
+336 bridge samples, 112 per task, all modules). Mann-Whitney U between-task vs
+within-task: p = 0.000000. Code is most distinctive (106/112 correct); math is
+least (72/112 correct, confused with both others). (Corrected 2026-07-02: this
+entry previously cited 73.5% and per-task rates from a mislabeled file; verified
+values are from `results/fingerprints/TASK_FINGERPRINT_REPORT.md`.)
 
 **Why this matters:** The bridge has 36 learnable parameters per layer. Standard
 LoRA has no structured intermediate element at all — task information is
@@ -393,7 +396,8 @@ preserves meaningful structure; random noise destroys it.
 **Why this matters for adapter composition:** Standard adapter merging operates
 on the full weight matrices (millions of parameters). Bridge-level merging
 operates on 36 parameters per layer (6×6 matrix). If task structure is encoded
-in the bridge (Phase 1A: 73.5% task classification accuracy), and bridge
+in the bridge (Phase 1A: 72.3% task classification accuracy; corrected
+2026-07-02), and bridge
 interpolation preserves that structure (Phase 2A: cos > 0.999), then the bridge
 is a sufficient target for adapter composition.
 
@@ -411,39 +415,31 @@ and requires GPU.
 
 ---
 
-## L-017: Less Data, Better Classification — Feature Selection Matters
+## L-017: Bridge Fingerprints Are Linearly Task-Identifiable — Pooling Beats Any Single Module
 
-**The finding:** LOO SVM on 28 Q-proj bridges achieves **84.5% accuracy** —
-10.4 percentage points HIGHER than the full 112-bridge set (74.1%). Removing
-K-proj and V-proj bridges improves classification because they add noise without
-task-discriminative signal.
+(Corrected 2026-07-02: original entry claimed 84.5% Q-proj-only and that
+subsets beat the full set — retracted Apr 6, 2026, never backed by
+reproducible computation.)
 
-**The ranking of subsets:**
-- Q-proj only (28 bridges, 1,008 params): **84.5%**
-- Q+O combined (56 bridges, 2,016 params): 83.3%
-- O-proj only (28 bridges, 1,008 params): 77.4%
-- All 112 (4,032 params): 74.1%
+**The finding:** LOO SVM on pooled all-module bridges classifies task type at
+**72.3%** vs 33.3% chance (336 bridge samples, 112 per task, 36 params per
+bridge sample). The per-module re-run (Apr 6, 2026; 84 samples per module)
+ranks q_proj = 69.0%, o_proj = 60.7%, k_proj = 58.3%, v_proj = 51.2%.
 
-**Why Q-proj is the optimal subset:** Q-projections compute attention queries
-over the full input space. They are the most expressive attention component —
-and the bridge at Q-projections develops the most task-specific coupling
-pattern. K and V bridges are structurally conserved across tasks (Phase 1A
-distances: 0.075 and 0.072 respectively), so including them dilutes the
-task signal with task-invariant noise.
+**The direction inversion:** Q-proj is the best single module but performs
+WORSE than the pooled all-module set (69.0% < 72.3%). The retracted claim ran
+in the opposite direction — that removing K/V bridges improved classification.
+Any "less data, better classification" argument from this experiment is
+falsified by the verified numbers.
 
-**The principle:** In classification from structured intermediate representations,
-feature selection can matter more than feature quantity. The bridge provides a
-natural feature decomposition (Q/K/V/O × 28 layers) where only a subset carries
-diagnostic information. Using all features assumes uniform informativeness —
-selecting the right subset assumes non-uniform informativeness and benefits from it.
+**The principle:** Modules carry unequal task signal (q > o > k > v, matching
+the Phase 1A between-task distance ranking), but no single-module subset beats
+pooling all modules. The bridge is linearly task-identifiable; feature
+selection did not improve this classifier.
 
-**Practical implication:** A task fingerprint based on 28 Q-proj bridges costs
-1,008 parameters — smaller than a single hidden state vector (4,096 dimensions
-in Qwen2.5-7B). This is the most compact task diagnostic known to us as of
-March 2026.
-
-**Evidence:** Cross-phase synthesis analysis, LOO SVM with consistent pipeline
-across 7 subsets. Full data at `results/CROSS_PHASE_SYNTHESIS.md`.
+**Evidence:** `results/fingerprints/TASK_FINGERPRINT_REPORT.md` (72.3% pooled
+all-module LOO SVM, 336 samples); per-module re-run completed Apr 6, 2026,
+persisted 2026-07-02 to `results/fingerprints/PER_MODULE_RERUN_2026-07-02.txt`.
 
 ---
 
@@ -597,7 +593,9 @@ without waiting for convergence.
 trained bridge converges to **~0.10** across three model scales:
 - TinyLlama 1.1B: 0.1006
 - Qwen 7B: 0.102
-- Wan 2.1 14B (Holly Battery): 0.108
+- Wan 2.1 14B (Holly Battery): 0.108 (Holly Battery retracted 2026-03-13 —
+  dataset provenance unclear, L-026 contamination; treat the 14B point as
+  unverified)
 
 The absolute coupling magnitude varies (co-planar mean: 0.778 at 1.1B,
 1.517 at 7B) but the Fiedler value — which measures the bridge's
@@ -713,6 +711,11 @@ application (experiments C-001 through C-004).
 ---
 
 ## L-027: TeLoRA Produces Smaller Checkpoints
+
+> ⚠ Note (2026-07-02): Holly Battery was retracted 2026-03-13 (dataset
+> provenance unclear, L-026 contamination — see results/EXPERIMENT_TRACKER.md,
+> Retracted table). The checkpoint sizes and the 9.15 GB VRAM figure below
+> derive from those runs and must not be cited as findings pending re-run.
 
 **The finding:** Holly Battery final checkpoints:
 - Standard LoRA r24: **439 MB**

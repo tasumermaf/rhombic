@@ -452,7 +452,7 @@ def render_scene_vision(frame_in_scene, total_frames):
 
 
 def render_scene_cta(frame_in_scene, total_frames):
-    """Scene 5: Call to action — install, links, 0 competitors."""
+    """Scene 5: Call to action — install, links, closing tagline."""
     img = make_frame()
     draw = ImageDraw.Draw(img)
     particle_field(img, frame_in_scene + 2000)
@@ -483,7 +483,7 @@ def render_scene_cta(frame_in_scene, total_frames):
     op3 = fade_in_out(frame_in_scene, 45, 20, total_frames - 75, 10)
     if op3 > 0:
         draw_gold_rule(draw, int(H * 0.66), 0.25)
-        draw_centered_text(draw, "0 competitors.", int(H * 0.73), tag_font, GOLD)
+        draw_centered_text(draw, "Nulls published.", int(H * 0.73), tag_font, GOLD)
 
     # Attribution
     op4 = fade_in_out(frame_in_scene, 60, 15, total_frames - 85, 10)
