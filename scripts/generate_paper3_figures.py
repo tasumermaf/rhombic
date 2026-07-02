@@ -320,7 +320,7 @@ def fig5_summary_dashboard():
     ax = axes[0, 0]
     ax.axis('off')
     metrics = [
-        ('Task Fingerprinting', '84.5%', 'LOO SVM accuracy\n(Q-proj, chance = 33.3%)'),
+        ('Task Fingerprinting', '72.3%', 'LOO SVM accuracy\n(all modules, chance = 33.3%)'),
         ('Bridge Coupling', '4.6×', 'FCC vs cubic\nFiedler ratio'),
         ('Eigenspectrum', '>0.999', 'Cosine similarity\nduring interpolation'),
         ('Diagnostic Size', '1,008', 'Parameters per adapter\n(28 layers × 36)'),

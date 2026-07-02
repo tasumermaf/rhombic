@@ -1,0 +1,50 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "eval_dataset": "wikitext",
+  "n_eval_samples": 500,
+  "tasks": [
+    "code",
+    "math"
+  ],
+  "adapter_config": {
+    "rank": 24,
+    "n_channels": 6
+  },
+  "has_trained_lora_AB": {
+    "code": false,
+    "math": false
+  },
+  "native_perplexity": {
+    "code": 14.23094759196427,
+    "math": 14.23094759196427
+  },
+  "swap_matrix": {
+    "code": {
+      "code": 14.23094759196427,
+      "math": 14.23094759196427
+    },
+    "math": {
+      "code": 14.23094759196427,
+      "math": 14.23094759196427
+    }
+  },
+  "swap_penalties": {
+    "code": {
+      "math": {
+        "absolute": 0.0,
+        "percentage": 0.0,
+        "swap_ppl": 14.23094759196427,
+        "native_ppl": 14.23094759196427
+      }
+    },
+    "math": {
+      "code": {
+        "absolute": 0.0,
+        "percentage": 0.0,
+        "swap_ppl": 14.23094759196427,
+        "native_ppl": 14.23094759196427
+      }
+    }
+  },
+  "wall_time_seconds": 80.88907265663147
+}

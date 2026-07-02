@@ -117,13 +117,14 @@ LOO SVM accuracy using different bridge subsets, consistent pipeline:
 | Subset | Positions | Parameters | LOO Accuracy | vs Full Set |
 |--------|-----------|-----------|-------------|-------------|
 | All 112 | 112 | 4,032 | 72.9% | baseline |
-| Q-proj only | 28 | 1,008 | 82.1% | +9.2pp |
+| Q-proj only | 28 | 1,008 | 82.1%* | +9.2pp |
 | O-proj only | 28 | 1,008 | 76.2% | +3.3pp |
 | **Q+O combined** | **56** | **2,016** | **83.3%** | **+10.4pp** |
 | Top 5 layers, all | 20 | 720 | 78.3%* | +5.4pp |
 | Top 5 layers, Q+O | 10 | 360 | 76.7%* | +3.8pp |
 
 *Top-5-layer values from step-1500 analysis; qualitative ranking unchanged.
+**NOTE (Apr 6, 2026):** Q-proj-only 82.1% and Q+O 83.3% were not independently reproduced from the report files on disk. The verified all-module accuracy is 72.3% (TASK_FINGERPRINT_REPORT.md) / 73.5% (2-way). Q-proj-only SVM re-run pending.
 
 **Key finding:** Removing K-proj and V-proj bridges IMPROVES classification
 by up to 10.4 percentage points. The uninformative modules add noise that
@@ -169,7 +170,7 @@ the easy separations, not from resolving the hard one.
 |------|---------|------|
 | 0 | 33.3% (chance) | All bridges identical |
 | 1000 | 51.2% | Signal emerging, above chance |
-| Final | **84.5%** | Strong separation |
+| Final | **72.3%** (all modules; previously reported 84.5% retracted — not backed by report on disk) | Strong separation |
 
 **Code↔Math binary LOO SVM (finer resolution):**
 

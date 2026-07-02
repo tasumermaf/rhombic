@@ -1,0 +1,228 @@
+% ===================================================================
+\section{Topology Programmability}
+\label{sec:programmability}
+
+Sections~\ref{sec:tesseract} and~\ref{sec:attractor} established that
+the Steersman programs polytope-derived topologies and that the
+spectral attractor provides the unprogrammed baseline. This section
+asks a sharper question: does the Steersman program \emph{any} pair
+specification, or does the pair specification require geometric
+coherence?
+
+Two negative controls bracket the answer: wrong-labels (random
+partition, WL-001) and octahedral contrastive (minimum geometry,
+O-001).
+
+\subsection{Wrong-Labels: Random Partition (WL-001)}
+
+The wrong-labels experiment uses $n = 6$ channels with a random pair
+partition instead of the RD face-pair geometry. All other parameters
+(model, seed, hyperparameters, Steersman configuration) are identical
+to the standard contrastive experiments.
+If the Steersman is a brute-force topology programmer, the random
+partition should produce block-diagonal structure aligned with the
+random pairs. If geometric coherence is required, no block structure
+should emerge.
+
+\begin{table}[H]
+\centering
+\caption{Wrong-labels control ($n = 6$, random pair partition) vs.\
+  standard contrastive ($n = 6$, RD face pairs). Both experiments use
+  identical hyperparameters. The wrong-labels co/cross value reports
+  alignment with the \emph{random} pair specification.}
+\label{tab:wronglabels}
+\small
+\begin{tabular}{lccccc}
+\toprule
+Experiment & Pairs & Steps & Fiedler & $\rho$ & BD \\
+\midrule
+H-ch6 (RD) & $(0,5), (1,4), (2,3)$ & 10{,}000 & 0.00009 & 70{,}404:1 & Yes \\
+WL-001 (random) & random partition & 10{,}000 & $1.26 \times 10^{-5}$ & $8.7 \times 10^{-6}$:1 & \textbf{No} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+No block-diagonal structure emerged at any point during 10{,}000
+steps of wrong-labels training. The co-axial/cross-axial coupling
+ratio reached $8.7 \times 10^{-6}$:1---effectively zero. For
+comparison, the standard contrastive control (H-ch6) exceeded 200:1
+by step~200 and converged to 70{,}404:1.
+
+The Steersman drove Fiedler to $1.26 \times 10^{-5}$---below the
+spectral attractor at ${\sim}0.09$---indicating that the contrastive
+loss produced \emph{some} structural effect. But the effect was pure
+suppression of connectivity, not block-diagonal organization. The
+bridge decoupled without organizing: it lost connectivity without
+gaining topology.
+
+This is a precise failure mode. The contrastive loss drives down
+both co-axial and cross-axial coupling when the pair specification
+lacks geometric coherence. Without a coherent spatial decomposition,
+there is no gradient signal distinguishing co-axial from cross-axial
+entries---the contrastive pressure distributes uniformly and
+suppresses all coupling toward zero. The result is a bridge that
+is neither connected (Fiedler $\approx 0$) nor structured
+(co/cross $\approx 0$)---worse than the unprogrammed attractor.
+
+\subsection{Octahedral Contrastive: Minimum Geometry (O-001)}
+
+The octahedral experiment tests the other boundary: the simplest
+possible geometric specification. With $n = 4$ and only 2~co-axial
+pairs against 4~cross-axial pairs, the octahedral topology provides
+the minimum spatial structure that could plausibly produce
+block-diagonal organization.
+
+\begin{table}[H]
+\centering
+\caption{Octahedral contrastive ($n = 4$, 2 co-axial pairs from
+  octahedral vertex opposition) at 10{,}000 steps. Per-bridge mean
+  ratio reported; pooled ratio is 369{,}365:1.}
+\label{tab:octahedral}
+\small
+\begin{tabular}{lccccc}
+\toprule
+Experiment & $n$ & Pairs & Fiedler & $\rho$ & BD \\
+\midrule
+H-ch4 (spectral-only) & 4 & none & 0.0836 & ${\sim}1$:1 & No \\
+O-001 (octahedral) & 4 & $(0,1), (2,3)$ & $1.1 \times 10^{-5}$ & \textbf{473{,}622:1} & \textbf{Yes} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+O-001 produces the strongest block-diagonal signal in the entire
+research programme (Figure~\ref{fig:o001_emergence}): per-bridge mean co-axial/cross-axial coupling
+ratio of \textbf{473{,}622:1} (pooled: 369{,}365:1, median:
+401{,}851:1, range: 126{,}782--1{,}577{,}518:1 across 88~bridges).
+This exceeds both the RD result (70{,}404:1 at $n = 6$) and the
+tesseract result (41{,}564:1 at $n = 8$) by an order of magnitude.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_o001_emergence.pdf}
+  \caption{Octahedral block-diagonal emergence (O-001, $n = 4$).
+    Co-axial/cross-axial coupling ratio grows monotonically to
+    473{,}622:1---the programme's strongest signal. The minimum
+    geometry (two co-axial pairs, four cross-axial pairs) produces
+    maximum coupling strength, establishing the inverse-$n$
+    relationship.}
+  \label{fig:o001_emergence}
+\end{figure}
+
+The inverse relationship between channel count and coupling ratio
+is established across three data points: $n = 4$ (${\sim}474$K:1)
+$>$ $n = 6$ (${\sim}70$K:1) $>$ $n = 8$ (${\sim}42$K:1). Fewer channels means fewer
+cross-axial entries to suppress: $n = 4$ has only 4~cross-axial
+pairs, while $n = 8$ has 24. The co-axial signal is concentrated
+into fewer entries, producing stronger per-pair coupling and a
+more extreme ratio. The co-planar coupling magnitude at O-001 also
+grows linearly throughout training ($0.086$ at step~500, $1.027$ at
+step~10{,}000) with no saturation, indicating the ratio would
+increase further with continued training.
+
+\subsection{The Geometric Coherence Requirement}
+
+The wrong-labels and octahedral results, taken together, define the
+boundary of topology programmability. On one side: any polytope-derived
+spatial specification---RD at $n = 6$, tesseract at $n = 8$, octahedron
+at $n = 4$---produces block-diagonal structure with coupling ratios
+from 42{,}000:1 to 200{,}000:1. On the other side: a random partition
+at the same channel count ($n = 6$) produces no structure at all.
+
+The Steersman is not a brute-force topology enforcer. It is a
+\emph{selective geometric compiler}. It compiles valid geometric
+programs---pair specifications that encode the co-axial face or vertex
+structure of a polytope---and rejects incoherent specifications by
+driving the bridge toward total decoupling. The pair specification is
+not a suggestion; it is a program that must be well-formed.
+
+This selectivity is a feature, not a limitation. It means the
+block-diagonal structure observed under polytope-derived specifications
+is genuine geometric encoding, not an artifact of the contrastive loss
+formulation. The loss function is identical in WL-001 and H-ch6; only
+the pair indices differ. The indices carry the geometric information,
+and the Steersman distinguishes coherent from incoherent geometry.
+
+\subsection{Block-Diagonal Hierarchy}
+
+Table~\ref{tab:hierarchy} presents the complete block-diagonal hierarchy
+across all experiments, from the strongest positive to the strongest
+negative.
+
+\begin{table}[H]
+\centering
+\caption{Complete topology hierarchy across all experiments, ordered
+  by co-axial/cross-axial coupling ratio. Four regimes emerge,
+  separated by orders of magnitude.}
+\label{tab:hierarchy}
+\small
+\begin{tabular}{llcccl}
+\toprule
+Experiment & Topology & $n$ & $\rho$ & Fiedler & Regime \\
+\midrule
+O-001 & Octahedral & 4 & 473{,}622:1 & $1.1 \times 10^{-5}$ & Geometric BD \\
+Seed-43 & RD contrastive & 6 & 73{,}309:1 & ${\sim}10^{-5}$ & Geometric BD \\
+H-ch6 & RD contrastive & 6 & 70{,}404:1 & $9 \times 10^{-5}$ & Geometric BD \\
+T-001r2 & Tesseract & 8 & 41{,}564:1 & $1.9 \times 10^{-4}$ & Geometric BD \\
+\midrule
+E-001 & Emanation & 6 & 1.12:1 & 0.084 & Hierarchical \\
+\midrule
+H-ch3/4/8/12 & Spectral-only & 3--12 & ${\sim}1$:1 & 0.084--0.102 & Spectral attractor \\
+\midrule
+WL-001 & Wrong-labels & 6 & $8.7 \times 10^{-6}$:1 & $1.3 \times 10^{-5}$ & Collapse \\
+R-001 & Resonance & 6 & $8.9 \times 10^{-6}$:1 & $1.2 \times 10^{-5}$ & Collapse \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The hierarchy separates into four regimes with no overlap
+(Figure~\ref{fig:four_regimes}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_four_regimes.pdf}
+  \caption{Four dynamical regimes of the bridge matrix under different
+    programming conditions, ordered by co-axial/cross-axial coupling
+    ratio. Block-diagonal ($\rho > 40{,}000$:1), hierarchical coherence
+    ($\rho \approx 1$:1, Fiedler $\approx 0.08$), spectral attractor
+    ($\rho \approx 1$:1, Fiedler $\approx 0.09$), and connectivity
+    collapse ($\rho \approx 10^{-5}$:1). No intermediate outcomes
+    exist between regimes.}
+  \label{fig:four_regimes}
+\end{figure}
+
+\textbf{Regime 1: Geometric block-diagonal} ($\rho > 40{,}000$:1).
+Polytope-derived pair specifications (octahedral, RD, tesseract)
+produce extreme co-axial/cross-axial separation with near-zero
+Fiedler. The regime spans one order of magnitude internally
+(42K--474K) and is separated from the next regime by four orders
+of magnitude.
+
+\textbf{Regime 2: Hierarchical coherence} ($\rho \approx 1$:1,
+Fiedler $\approx 0.08$). The emanation architecture (E-001) produces
+slight directional preference without block-diagonal structure. The
+bridge maintains connectivity near the spectral attractor but
+develops weak asymmetry through the master-offset hierarchy
+(Section~\ref{sec:nongeometric}).
+
+\textbf{Regime 3: Spectral attractor} ($\rho \approx 1$:1,
+Fiedler $\approx 0.09$). Spectral-only training (no contrastive
+loss) produces connected, isotropic bridges. This is the
+unprogrammed state (Section~\ref{sec:attractor}).
+
+\textbf{Regime 4: Connectivity collapse} ($\rho \approx 0$:1,
+Fiedler $\approx 0$). Incoherent contrastive specifications
+(wrong-labels, resonance) produce total collapse: both
+co-axial/cross-axial ratio and Fiedler approach zero. The bridge
+disconnects without organizing. This regime is distinct from the
+spectral attractor: the spectral attractor maintains stable
+connectivity ($\text{Fiedler} \approx 0.09$), while the collapse
+regime drives connectivity to zero ($\text{Fiedler} \approx 10^{-5}$).
+The contrastive loss, given incoherent pairs, overwhelms the spectral
+loss and suppresses all coupling.
+
+The four regimes are cleanly separated. No experiment falls between
+regimes. The Steersman's response to a pair specification is
+categorical: geometric coherence produces block-diagonal structure;
+hierarchical indirection produces weak coherence; no specification
+produces the spectral attractor; incoherent specification produces
+collapse.

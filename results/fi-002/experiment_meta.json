@@ -1,0 +1,52 @@
+{
+  "experiment": "FI-002",
+  "description": "Corpus-Derived Pair Specification via Geometric Embedding. Tests whether different channel permutations produce distinguishable sign patterns in cross-planar residuals.",
+  "max_steps": 3000,
+  "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "seed": 42,
+  "configs": [
+    "P-000",
+    "P-001",
+    "P-002",
+    "P-CTRL"
+  ],
+  "pair_specs": {
+    "P-000": {
+      "label": "Canonical channel mapping (corpus.py original)",
+      "channel_perm": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "P-001": {
+      "label": "Max-diff permutation [0,2,4,1,5,3] \u2014 9/12 signs differ",
+      "channel_perm": [
+        0,
+        2,
+        4,
+        1,
+        5,
+        3
+      ]
+    },
+    "P-002": {
+      "label": "Moderate permutation [0,1,4,3,5,2] \u2014 7/12 signs differ",
+      "channel_perm": [
+        0,
+        1,
+        4,
+        3,
+        5,
+        2
+      ]
+    },
+    "P-CTRL": {
+      "label": "Identity control (no corpus coupling)",
+      "channel_perm": null
+    }
+  }
+}

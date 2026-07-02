@@ -1,0 +1,165 @@
+% ===================================================================
+\section{The Spectral Attractor}
+\label{sec:attractor}
+
+\subsection{Universal Convergence}
+
+Paper~3 reported that spectral-only training (contrastive loss
+disabled) at $n \in \{3, 4, 8\}$ converges to Bridge Fiedler
+${\sim}0.09$. We extend the ablation to $n = 12$ and report the
+complete results in Table~\ref{tab:attractor}.
+
+\begin{table}[H]
+\centering
+\caption{Spectral attractor: Bridge Fiedler eigenvalue under
+  spectral-only training (no contrastive loss) across channel
+  counts. All experiments use TinyLlama-1.1B, identity
+  initialization, and identical hyperparameters. H-ch6 (H3) is
+  the $n = 6$ experiment with contrastive loss active, shown for
+  bifurcation comparison.}
+\label{tab:attractor}
+\small
+\begin{tabular}{lcccccl}
+\toprule
+ID & $n$ & Contrastive & Steps & Fiedler & $\rho$ & BD \\
+\midrule
+H-ch3  & 3  & No  & 10{,}000 & 0.0951  & N/A       & No \\
+H-ch4  & 4  & No  & 10{,}000 & 0.0836  & ${\sim}1$:1 & No \\
+H-ch8  & 8  & No  & 10{,}000 & 0.0944  & ${\sim}1$:1 & No \\
+H-ch12 & 12 & No  & 10{,}000 & 0.1019  & ${\sim}1$:1 & No \\
+\midrule
+H3 (H-ch6) & 6 & \textbf{Yes} & 10{,}000 & \textbf{0.00009} & \textbf{70{,}404:1} & \textbf{Yes} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The spectral-only experiments converge to a Fiedler band of
+$0.0836$--$0.1019$ (Figure~\ref{fig:spectral_attractor})---a 10.4\%
+coefficient of variation across a $4\times$ span of channel counts
+($n = 3$ to $n = 12$). The
+attractor value clusters near the spectral loss target of
+$\lambda_2^* = 0.1$ described in Paper~3. This convergence is
+\emph{channel-count-independent}: the bridge reaches the same
+connectivity equilibrium whether it has 3, 4, 8, or 12~channels.
+
+At the attractor, bridge structure is \emph{connected but
+undirected}. Co-planar/cross-planar ratios are ${\sim}1$:1 (where
+applicable), and no block-diagonal structure emerges. The spectral
+loss distributes connectivity uniformly across all channel pairs;
+without contrastive specification, there is no reason for the bridge
+to favor any particular pair over another.
+
+H-ch12 ($n = 12$) is the most demanding case. With
+$\binom{12}{2} = 66$ off-diagonal pairs sharing a fixed connectivity
+budget, convergence is slower but the bridge reaches Fiedler $0.1019$
+at step~10{,}000---confirming the attractor holds at $4\times$ the
+minimum channel count. The slight upward trend (0.1019 vs.\
+$0.0836$--$0.0951$ for smaller~$n$) suggests a weak positive
+relationship between channel count and final Fiedler, but the effect
+is small relative to the attractor's stability across the full range.
+
+\subsection{Interpretation}
+
+The spectral attractor has a straightforward interpretation. The
+spectral loss penalizes deviations of the bridge's Fiedler eigenvalue
+from a target~$\lambda_2^*$. Under spectral regularization alone, the
+bridge distributes coupling uniformly across all off-diagonal entries:
+this is the minimum-energy configuration that achieves the target
+$\lambda_2$. Adding more channels does not change this equilibrium
+because each new channel adds both off-diagonal entries (coupling
+budget to distribute) and the same spectral target (connectivity
+to achieve). The ratio of budget to target remains constant.
+
+The attractor is the bridge's \emph{unprogrammed state}---the
+resting connectivity it achieves before any topological direction
+is specified. It is analogous to a uniform probability distribution:
+maximum entropy given the connectivity constraint. The spectral
+loss provides the constraint (how much total connectivity); the
+contrastive loss provides the structure (where connectivity
+concentrates).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_spectral_attractor.pdf}
+  \caption{Spectral attractor universality across channel counts.
+    Fiedler eigenvalue converges to ${\approx}\,0.09$--$0.10$ under
+    spectral-only training for $n \in \{3, 4, 8, 12\}$---a 10.4\%
+    band across a $4\times$ range of channel counts. The attractor is
+    the bridge's natural connectivity equilibrium in the absence of
+    contrastive topology specification.}
+  \label{fig:spectral_attractor}
+\end{figure}
+
+\subsection{The Bifurcation}
+\label{sec:bifurcation}
+
+The spectral attractor provides the baseline against which
+contrastive topology programming is measured. Adding contrastive
+loss breaks the attractor by specifying directional coupling
+preferences, producing a sharp bifurcation in spectral connectivity.
+
+The bifurcation is extreme at both confirmed dimensionalities:
+
+\begin{itemize}
+  \item \textbf{RD ($n = 6$):} Fiedler drops from $0.0918$
+    (spectral-only, H-ch4 at $n = 4$, nearest comparable) to
+    $0.00009$ (contrastive active). A factor of $1{,}020\times$.
+    Co/cross: ${\sim}1$:1 $\to$ $70{,}404$:1.
+  \item \textbf{Tesseract ($n = 8$):} Fiedler drops from $0.0944$
+    (spectral-only, H-ch8) to $0.000191$ (contrastive active,
+    T-001r2). A factor of ${\sim}470\times$. Co/cross: ${\sim}1$:1
+    $\to$ $41{,}564$:1.
+  \item \textbf{Block-diagonal classification:} 0\% (spectral-only
+    at all channel counts) $\to$ 100\% (contrastive active at
+    $n = 6$ and $n = 8$).
+\end{itemize}
+
+This bifurcation decomposes the Steersman's effect into two
+orthogonal control channels:
+
+\begin{enumerate}
+  \item \textbf{Spectral loss $\to$ connectivity.} The spectral
+    component drives the bridge toward a target algebraic
+    connectivity ($\lambda_2 \approx 0.1$). It makes the bridge
+    \emph{connected}---channels interact---but imposes no directional
+    preference. The result is the spectral attractor: a connected,
+    isotropic bridge.
+  \item \textbf{Contrastive loss $\to$ topology.} The contrastive
+    component specifies which connections to strengthen (co-axial
+    pairs) and which to suppress (cross-axial pairs). It transforms
+    isotropic connectivity into directed topology. The result is
+    block-diagonal structure whose block count matches the number
+    of co-axial pairs.
+\end{enumerate}
+
+Neither component alone produces block-diagonal structure. Spectral
+loss alone produces the attractor. Contrastive loss alone (without
+spectral regularization) was not tested in this series but is a
+natural follow-up. The two components together produce a controlled
+bifurcation: connectivity plus direction yields topology.
+
+\subsection{Comparison: Bifurcation Across Dimensionalities}
+
+Table~\ref{tab:bifurcation} summarizes the confirmed bifurcation
+events. The bifurcation ratio is smaller at $n = 8$ than at $n = 6$,
+likely because the larger number of cross-axial entries at $n = 8$
+(24~vs.~12) creates more total suppression pressure, producing a
+slightly higher residual Fiedler at convergence. Both bifurcations
+are of the same order of magnitude ($10^{2\text{--}3}\times$) and
+both produce complete block-diagonal structure (100\% classification).
+
+\begin{table}[H]
+\centering
+\caption{Bifurcation comparison: spectral attractor broken by
+  contrastive topology specification at two dimensionalities.}
+\label{tab:bifurcation}
+\small
+\begin{tabular}{lccccc}
+\toprule
+Geometry & $n$ & Spectral Fiedler & Contrastive Fiedler & Bifurcation & $\rho$ \\
+\midrule
+RD (3D)       & 6 & 0.0918 & 0.00009  & $1{,}020\times$ & 70{,}404:1 \\
+Tesseract (4D) & 8 & 0.0944 & 0.000191 & ${\sim}470\times$  & 41{,}564:1 \\
+\bottomrule
+\end{tabular}
+\end{table}

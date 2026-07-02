@@ -1,0 +1,26 @@
+{
+  "standard_p0": {
+    "success": true,
+    "prompt_id": "03b9cfdf-fefc-4155-be3c-d10eae36e6bd",
+    "prompt": "atlantis style ancient stone steps ascending through terraced levels with ornate carved statues among lush vegetation",
+    "lora": "standard"
+  },
+  "telora_p0": {
+    "success": true,
+    "prompt_id": "ccd5c4ad-3c6c-400f-ace6-2ee712afcd4f",
+    "prompt": "atlantis style ancient stone steps ascending through terraced levels with ornate carved statues among lush vegetation",
+    "lora": "telora"
+  },
+  "standard_p1": {
+    "success": true,
+    "prompt_id": "e09de53c-2a78-41ee-a34c-52b26219795c",
+    "prompt": "atlantis style golden sunlight streaming through crystal domes reflecting off still water pools in a subterranean temple",
+    "lora": "standard"
+  },
+  "telora_p1": {
+    "success": true,
+    "prompt_id": "e55927c3-9c4f-4d86-b59c-8d0661403f75",
+    "prompt": "atlantis style golden sunlight streaming through crystal domes reflecting off still water pools in a subterranean temple",
+    "lora": "telora"
+  }
+}

@@ -16,7 +16,10 @@ import pytest
 import torch
 import torch.nn as nn
 
-from rhombic.nn.topology import direction_pair_coupling, bridge_init, create_emanation_bridge
+from rhombic.nn.topology import (
+    direction_pair_coupling, bridge_init, create_emanation_bridge,
+    rd_adjacency_mask,
+)
 from rhombic.nn.rhombi_lora import RhombiLoRALinear
 from rhombic.nn.absorb import absorb_bridge, absorb_bridge_into_state_dict
 from rhombic.corpus import corpus_available as _corpus_available
@@ -139,6 +142,164 @@ class TestTopology:
     def test_bridge_init_invalid_mode(self):
         with pytest.raises(ValueError, match="Unknown mode"):
             bridge_init(6, 'bogus')
+
+    def test_rd_adjacency_mask_shape(self):
+        mask = rd_adjacency_mask(6)
+        assert mask.shape == (6, 6)
+
+    def test_rd_adjacency_mask_symmetric(self):
+        mask = rd_adjacency_mask(6)
+        np.testing.assert_array_almost_equal(mask, mask.T)
+
+    def test_rd_adjacency_mask_diagonal_ones(self):
+        mask = rd_adjacency_mask(6)
+        np.testing.assert_array_almost_equal(np.diag(mask), np.ones(6))
+
+    def test_rd_adjacency_mask_values(self):
+        """Mask values should be 0.5 (cross-planar) or 1.0 (co-planar/diagonal)."""
+        mask = rd_adjacency_mask(6)
+        for i in range(6):
+            for j in range(6):
+                assert mask[i, j] in (0.5, 1.0), f"mask[{i},{j}]={mask[i,j]}"
+
+    def test_rd_adjacency_mask_co_planar_count(self):
+        """3 co-planar pairs should have mask value 1.0 (coupling=4)."""
+        mask = rd_adjacency_mask(6)
+        off_diag_ones = 0
+        for i in range(6):
+            for j in range(6):
+                if i != j and mask[i, j] == 1.0:
+                    off_diag_ones += 1
+        # 3 pairs × 2 entries each = 6
+        assert off_diag_ones == 6
+
+    def test_bridge_init_rd_graph_near_identity(self):
+        bridge = bridge_init(6, 'rd_graph')
+        np.testing.assert_array_almost_equal(
+            np.diag(bridge), np.ones(6), decimal=3
+        )
+        # Off-diagonal should be small but nonzero
+        off_diag_max = np.abs(bridge - np.diag(np.diag(bridge))).max()
+        assert 0 < off_diag_max < 0.2
+
+
+# ── Tier 1b: RD Graph Convolution ──────────────────────────────────
+
+
+class TestRDGraphBridge:
+    """RD graph convolution bridge: fixed topology × learnable edge weights."""
+
+    def test_construction(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        assert m.rd_graph is True
+        assert hasattr(m, 'rd_mask')
+        assert hasattr(m, 'edge_weights')
+        assert not hasattr(m, 'bridge')
+
+    def test_rd_mask_is_buffer(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        assert 'rd_mask' in dict(m.named_buffers())
+        assert not m.rd_mask.requires_grad
+
+    def test_edge_weights_is_parameter(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        assert 'edge_weights' in dict(m.named_parameters())
+        assert m.edge_weights.requires_grad
+
+    def test_effective_bridge_shape(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        b = m.effective_bridge
+        assert b.shape == (6, 6)
+
+    def test_effective_bridge_respects_mask(self):
+        """Effective bridge should be element-wise product of mask and weights."""
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        expected = m.rd_mask * m.edge_weights
+        torch.testing.assert_close(m.effective_bridge, expected)
+
+    def test_forward_shape(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        x = torch.randn(2, 16, 64)
+        y = m(x)
+        assert y.shape == (2, 16, 128)
+
+    def test_zero_output_at_init(self):
+        """lora_B initialized to zeros → output should be ~zero at init."""
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        x = torch.randn(4, 64)
+        y = m(x)
+        assert y.abs().max().item() < 1e-6
+
+    def test_gradient_flows_to_edge_weights(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        nn.init.normal_(m.lora_B, std=0.01)
+        x = torch.randn(2, 64)
+        y = m(x)
+        y.sum().backward()
+        assert m.edge_weights.grad is not None
+        assert m.edge_weights.grad.abs().sum() > 0
+
+    def test_gradient_does_not_flow_to_mask(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        nn.init.normal_(m.lora_B, std=0.01)
+        x = torch.randn(2, 64)
+        y = m(x)
+        y.sum().backward()
+        assert m.rd_mask.grad is None
+
+    def test_freeze_bridge(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        m.freeze_bridge()
+        assert not m.edge_weights.requires_grad
+
+    def test_unfreeze_bridge(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        m.freeze_bridge()
+        m.unfreeze_bridge()
+        assert m.edge_weights.requires_grad
+
+    def test_bridge_param_returns_edge_weights(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        assert m.bridge_param is m.edge_weights
+
+    def test_bridge_deviation(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        dev = m.bridge_deviation()
+        # Not zero because rd_graph init has nonzero off-diagonal
+        assert dev > 0
+
+    def test_absorption_roundtrip(self):
+        """Absorbed rd_graph bridge must produce identical output."""
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        nn.init.normal_(m.lora_B, std=0.01)
+        # Perturb edge weights to simulate training
+        with torch.no_grad():
+            m.edge_weights.data += torch.randn_like(m.edge_weights) * 0.1
+        m.eval()
+        result = absorb_bridge(m, strategy='into_B', verify=True, atol=1e-4)
+        assert result['bridge_absorbed'] is True
+
+    def test_all_absorption_strategies(self):
+        """All three strategies work with rd_graph mode."""
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        nn.init.normal_(m.lora_B, std=0.01)
+        with torch.no_grad():
+            m.edge_weights.data += torch.randn_like(m.edge_weights) * 0.1
+        m.eval()
+        for strategy in ['into_A', 'into_B', 'balanced']:
+            result = absorb_bridge(m, strategy=strategy, verify=True, atol=1e-4)
+            assert result['bridge_absorbed'] is True
+
+    def test_extra_repr(self):
+        m = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        assert 'rd_graph=True' in m.extra_repr()
+
+    def test_state_dict_roundtrip(self):
+        m1 = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        sd = m1.state_dict()
+        m2 = RhombiLoRALinear(64, 128, rank=24, bridge_mode='rd_graph')
+        m2.load_state_dict(sd)
+        torch.testing.assert_close(m1.effective_bridge, m2.effective_bridge)
 
 
 # ── Tier 2: Construction ────────────────────────────────────────────

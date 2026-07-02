@@ -502,7 +502,7 @@ def _load_resume_checkpoint(
         else:
             print(f"  WARNING: adapter state not found for {name}, using fresh init")
         if key_bridge in adapter_state:
-            lora.bridge.data.copy_(adapter_state[key_bridge].to(device))
+            lora.bridge_param.data.copy_(adapter_state[key_bridge].to(device))
 
     print(f"  Loaded adapter state for {loaded_count}/{len(injected)} layers")
 
@@ -557,6 +557,10 @@ def train_cybernetic(
     fixed_contrastive: Optional[float] = None,
     # Resume from checkpoint
     resume: Optional[str] = None,
+    # Seed bridges from prior run (bridge-only transfer)
+    seed_bridges: Optional[str] = None,
+    # Dataset selection
+    dataset_name: str = "alpaca",
 ):
     """Experiment 3: Cybernetic bridge training with closed-loop feedback.
 
@@ -612,6 +616,9 @@ def train_cybernetic(
         print(f"Co-planar pairs:    {co_pairs}")
         print(f"Cross-planar pairs: {len(cross_pairs)} pairs")
     print(f"Emanation:          {'ACTIVE' if emanation else 'DISABLED'}")
+    print(f"Bridge trainable:   {config.bridge_trainable}")
+    if not config.bridge_trainable:
+        print(f"  *** STANDARD LORA MODE — bridge frozen at identity ***")
     if fixed_contrastive is not None:
         print(f"Fixed contrastive:  {fixed_contrastive} (Control Law 2 DISABLED)")
     if resume is not None:
@@ -687,8 +694,8 @@ def train_cybernetic(
         )
     else:
         bridge_params = sum(
-            lora.bridge.numel() for lora in injected.values()
-            if lora.bridge.requires_grad
+            lora.bridge_param.numel() for lora in injected.values()
+            if lora.bridge_param.requires_grad
         )
     print(f"Trainable: {trainable_params:,} / {total_params:,}")
     print(f"Bridge params: {bridge_params:,}")
@@ -708,13 +715,32 @@ def train_cybernetic(
             return []
         print()
 
+    # Seed bridges from a prior run (bridge-only transfer, fresh lora_A/B)
+    if seed_bridges is not None:
+        seed_dir = Path(seed_bridges)
+        seeded = 0
+        missing = 0
+        for name, lora in injected.items():
+            safe = name.replace(".", "_")
+            npy_path = seed_dir / f"bridge_final_{safe}.npy"
+            if npy_path.exists():
+                bridge_np = np.load(npy_path)
+                lora.bridge_param.data.copy_(torch.from_numpy(bridge_np).float().to(device))
+                seeded += 1
+            else:
+                missing += 1
+        print(f"  Bridge seeding: loaded {seeded}/{seeded+missing} bridges from {seed_dir}")
+        if missing > 0:
+            print(f"  WARNING: {missing} bridges not found, left at identity")
+        print()
+
     # Separate parameter groups: LoRA A/B vs Bridge
     lora_params = []
     bridge_param_list = []
     for lora in injected.values():
         lora_params.extend([lora.lora_A, lora.lora_B])
-        if not emanation and lora.bridge.requires_grad:
-            bridge_param_list.append(lora.bridge)
+        if not emanation and lora.bridge_param.requires_grad:
+            bridge_param_list.append(lora.bridge_param)
 
     # Emanation: master + offsets replace per-adapter bridge params
     if emanation_bridge is not None:
@@ -744,11 +770,22 @@ def train_cybernetic(
     )
 
     # Dataset
-    print("Loading Alpaca-cleaned dataset...")
-    dataset = AlpacaDataset(tokenizer, max_len=config.max_seq_len)
-    val_dataset = AlpacaDataset(
-        tokenizer, max_len=config.max_seq_len, max_samples=1000
-    )
+    if dataset_name == "code":
+        from train_task_fingerprint import CodeAlpacaDataset
+        print("Loading CodeAlpaca-20k dataset...")
+        dataset = CodeAlpacaDataset(tokenizer, max_len=config.max_seq_len)
+        val_dataset = CodeAlpacaDataset(tokenizer, max_len=config.max_seq_len)
+    elif dataset_name == "math":
+        from train_task_fingerprint import GSM8KDataset
+        print("Loading GSM8K dataset...")
+        dataset = GSM8KDataset(tokenizer, max_len=config.max_seq_len)
+        val_dataset = GSM8KDataset(tokenizer, max_len=config.max_seq_len)
+    else:
+        print("Loading Alpaca-cleaned dataset...")
+        dataset = AlpacaDataset(tokenizer, max_len=config.max_seq_len)
+        val_dataset = AlpacaDataset(
+            tokenizer, max_len=config.max_seq_len, max_samples=1000
+        )
     print(f"Training examples: {len(dataset)}")
 
     dataloader = DataLoader(
@@ -1262,8 +1299,9 @@ def main():
     )
     parser.add_argument(
         "--bridge-mode", type=str, default="identity",
-        choices=["identity", "geometric", "corpus", "corpus_coupled"],
-        help="Bridge initialization mode",
+        choices=["identity", "geometric", "corpus", "corpus_coupled", "rd_graph"],
+        help="Bridge initialization mode. 'rd_graph' uses RD graph convolution "
+             "with fixed topology mask and learnable edge weights.",
     )
     parser.add_argument(
         "--n-channels", type=int, default=6,
@@ -1319,14 +1357,44 @@ def main():
              "Optimizer state is NOT restored (restarts from scratch). "
              "Results are written to --output (must differ from --resume).",
     )
+    parser.add_argument(
+        "--no-bridge-training", action="store_true",
+        help="Freeze bridge matrices at identity (exact standard LoRA). "
+             "Disables Steersman feedback and contrastive/spectral losses.",
+    )
+    parser.add_argument(
+        "--seed-bridges", type=str, default=None,
+        help="Path to directory containing bridge_final_*.npy files from a "
+             "prior training run.  Initialises each adapter's bridge matrix "
+             "from the matching file instead of identity.  lora_A/B start "
+             "fresh; training begins at step 0.  Use with Steersman active "
+             "to test whether pre-discovered topology accelerates learning.",
+    )
+    parser.add_argument(
+        "--dataset", type=str, default="alpaca",
+        choices=["alpaca", "code", "math"],
+        help="Training dataset: alpaca (default), code (CodeAlpaca-20k), "
+             "math (GSM8K).",
+    )
+    parser.add_argument(
+        "--no-steersman", action="store_true",
+        help="Disable Steersman feedback loop and all auxiliary losses "
+             "(contrastive, spectral). Bridge remains trainable with LM loss "
+             "only. Use with --bridge-mode rd_graph for structural RD topology.",
+    )
     args = parser.parse_args()
+
+    # --no-bridge-training → exact standard LoRA (frozen identity bridge)
+    no_bridge = getattr(args, 'no_bridge_training', False)
+    # --no-steersman → bridge trainable, but LM loss only (no auxiliary losses)
+    no_steersman = getattr(args, 'no_steersman', False)
 
     config = ExperimentConfig(
         name=f"exp3_cybernetic_{args.bridge_mode}",
         rank=24,
         n_channels=args.n_channels,
         bridge_mode=args.bridge_mode,
-        bridge_trainable=True,
+        bridge_trainable=not no_bridge,
         model_name=args.model,
         max_steps=args.max_steps,
         lr=args.lr,
@@ -1361,20 +1429,28 @@ def main():
                 f"Both resolve to: {resume_path}"
             )
 
+    # When bridge is frozen OR steersman is disabled, zero all auxiliary losses
+    disable_aux = no_bridge or no_steersman
+    eff_contrastive = 0.0 if disable_aux else args.initial_contrastive
+    eff_spectral = 0.0 if disable_aux else args.initial_spectral
+    eff_fixed_contrastive = 0.0 if disable_aux else args.fixed_contrastive
+
     train_cybernetic(
         config,
         Path(args.output),
         feedback_interval=args.feedback_interval,
         contrastive_topology=args.contrastive_topology,
-        initial_contrastive=args.initial_contrastive,
-        initial_spectral=args.initial_spectral,
+        initial_contrastive=eff_contrastive,
+        initial_spectral=eff_spectral,
         initial_spectral_target=(
             steersman_kwargs.get("initial_spectral_target", args.spectral_target)
         ),
         emanation=args.emanation,
         save_merged=args.save_merged,
-        fixed_contrastive=args.fixed_contrastive,
+        fixed_contrastive=eff_fixed_contrastive,
         resume=args.resume,
+        seed_bridges=args.seed_bridges,
+        dataset_name=args.dataset,
         **{k: v for k, v in steersman_kwargs.items()
            if k != "initial_spectral_target"},
     )

@@ -1,0 +1,50 @@
+{
+  "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "eval_dataset": "wikitext",
+  "n_eval_samples": 200,
+  "tasks": [
+    "Seed-43",
+    "Seed-44"
+  ],
+  "adapter_config": {
+    "rank": 24,
+    "n_channels": 6
+  },
+  "has_trained_lora_AB": {
+    "Seed-43": true,
+    "Seed-44": true
+  },
+  "native_perplexity": {
+    "Seed-43": 11.644561776836472,
+    "Seed-44": 11.635590483529674
+  },
+  "swap_matrix": {
+    "Seed-43": {
+      "Seed-43": 11.644561776836472,
+      "Seed-44": 11.4462024771375
+    },
+    "Seed-44": {
+      "Seed-43": 11.56710284714916,
+      "Seed-44": 11.635590483529674
+    }
+  },
+  "swap_penalties": {
+    "Seed-43": {
+      "Seed-44": {
+        "absolute": -0.19835929969897137,
+        "percentage": -1.7034501040095,
+        "swap_ppl": 11.4462024771375,
+        "native_ppl": 11.644561776836472
+      }
+    },
+    "Seed-44": {
+      "Seed-43": {
+        "absolute": -0.0684876363805138,
+        "percentage": -0.5886047337043954,
+        "swap_ppl": 11.56710284714916,
+        "native_ppl": 11.635590483529674
+      }
+    }
+  },
+  "wall_time_seconds": 12.780771017074585
+}

@@ -1,0 +1,606 @@
+% paper4-main.tex — The Topology Programmer
+% TASUMER MAF Paper 4: Cybernetic feedback as general-purpose geometric prior
+%
+% Compile: pdflatex paper4-main && bibtex paper4-main && pdflatex paper4-main && pdflatex paper4-main
+
+\documentclass[11pt]{article}
+
+% --- packages ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage[numbers]{natbib}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% \usepackage{microtype}  % disabled: MiKTeX font expansion issue
+\usepackage{bookmark}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black,
+  hypertexnames=false
+}
+
+% --- metadata ---
+\title{%
+  The Topology Programmer:\\
+  Cybernetic Feedback as a General-Purpose Geometric\\
+  Prior for Neural Network Adapters%
+}
+
+\author{%
+  Timothy Paul Bielec%
+  \thanks{Corresponding author. \texttt{timothy@promptcrafted.com}}%
+  \\
+  Promptcrafted LLC / TASUMER MAF\\
+  Los Angeles, CA
+}
+
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+% ===================================================================
+\begin{abstract}
+A companion paper established that cybernetic feedback drives
+block-diagonal emergence in 6-channel LoRA bridges aligned with
+rhombic dodecahedral (RD) face-pair geometry. This paper asks whether
+the mechanism is specific to the RD or general-purpose, and
+characterizes its boundaries. The answer: the Steersman is a
+\emph{selective geometric compiler}. It programs any pair specification
+derived from polytope co-axial structure and rejects all others. The
+same feedback mechanism, with no modification beyond the pair
+specification, programs 4-dimensional tesseract geometry into 8-channel
+bridges (four independent $2 \times 2$ blocks, co-axial/cross-axial
+coupling ratio \textbf{41{,}564:1}, Fiedler eigenvalue 0.000191, clean
+$4{+}4$ eigenvalue split) and octahedral geometry into 4-channel bridges
+(two $2 \times 2$ blocks, \textbf{473{,}622:1}---the programme's
+strongest signal). Four negative controls sharpen the claim:
+spectral-only training produces a universal attractor at Fiedler
+${\approx}\,0.09$ across $n \in \{3, 4, 8, 12\}$; wrong-labels
+(random pair partition) and resonance (number-theoretic pairs) both
+collapse to co/cross ${\sim}\,10^{-5}$:1, functionally
+indistinguishable from each other ($<10\%$ divergence across 10{,}000
+steps); and an emanation architecture (hierarchical master bridge)
+produces weak coherence (1.12:1) without block-diagonal structure.
+These outcomes define four cleanly separated dynamical regimes:
+block-diagonal ($\rho > 40{,}000$:1), spectral attractor
+($\text{Fiedler} \approx 0.09$), hierarchical coherence
+($\rho \approx 1$:1), and connectivity collapse
+($\rho \approx 10^{-5}$:1). The requirement is spatial coherence:
+number-theoretic structure without geometric embedding is functionally
+equivalent to random noise. Tesseract training is reproducible
+($r = 1.0000$ across independent runs). The bridge is a programmable
+topology substrate; the pair specification is the program; the
+Steersman compiles valid geometric programs and rejects incoherent ones.
+\end{abstract}
+
+\noindent\textbf{Keywords:} topology programming, cybernetic feedback,
+bridge matrix, selective geometric compiler, spectral attractor,
+multi-channel LoRA, parameter-efficient fine-tuning, block-diagonal
+structure
+
+
+% ===================================================================
+\section{Introduction}
+\label{sec:intro}
+
+Low-rank adaptation~\cite{hu2022lora} modifies pretrained models by
+injecting rank-$r$ update matrices $\Delta W = BA$ alongside frozen
+weight matrices. Multi-channel extensions~\cite{bielec2026weights,
+bielec2026bridge} partition the rank dimension into $n$ channels with
+an $n \times n$ bridge matrix governing inter-channel coupling. The
+bridge adds $n^2$ learnable parameters (36 at $n = 6$) and introduces
+a new degree of freedom: the \emph{topology} of the adapter.
+
+Paper~3~\cite{bielec2026bridge} demonstrated that cybernetic
+feedback---a closed-loop control system called the Steersman---drives
+the bridge toward 3-axis block-diagonal structure aligned with the
+rhombic dodecahedron's face-pair geometry. The result was consistent:
+100\% block-diagonal across six experiments, 42{,}500+ bridges, two
+model scales, and three initialization strategies, with 0\% in all
+non-cybernetic controls. Co-planar/cross-planar coupling ratios
+exceeded 22{,}000:1. The Bridge Fiedler eigenvalue converged to
+${\sim}10^{-5}$, indicating near-perfect disconnection between blocks.
+
+That paper left a question open. The Steersman encodes
+rhombic dodecahedral geometry through a specific pair specification:
+six channels decompose into three co-planar pairs aligned with the
+$x$, $y$, and $z$ axes. Block-diagonal emergence with three
+independent $2 \times 2$ blocks is the unique structural solution for
+this specification. Is this result specific to the RD---a property of
+the 3-axis geometry, the six-channel count, or the particular
+face-pair decomposition---or is the Steersman a general-purpose
+mechanism for programming arbitrary topology into learnable bridge
+matrices?
+
+This paper provides the answer: the Steersman is general, but
+\emph{selective}. With no modification to the feedback mechanism,
+control laws, or training procedure---only the pair specification
+changes---the Steersman programs 4-dimensional tesseract geometry
+into 8-channel bridges (T-001r2: co-axial/cross-axial coupling ratio
+\textbf{41{,}564:1}, Fiedler 0.000191, clean $4{+}4$ eigenvalue
+split) and octahedral geometry into 4-channel bridges (O-001:
+per-bridge mean \textbf{473{,}622:1}---the programme's strongest
+signal).
+
+Four negative controls define the boundaries. Spectral-only training
+across $n \in \{3, 4, 8, 12\}$ reveals a universal spectral attractor
+at Fiedler ${\approx}\,0.09$---the bridge's natural connectivity
+equilibrium when the Steersman provides spectral pressure but no
+topological direction. Wrong-labels (WL-001, random pair partition)
+and resonance (R-001, number-theoretic pairs) both collapse to
+co/cross ${\sim}\,10^{-5}$:1 with functionally identical trajectories
+($<10\%$ divergence), demonstrating that algebraic structure without
+spatial embedding carries no information the contrastive loss can use.
+An emanation architecture (E-001, hierarchical master bridge with
+per-layer offsets) produces weak directional coherence (1.12:1)
+without block-diagonal structure, establishing that topology
+programming requires direct contrastive feedback to individual bridge
+matrices.
+
+These outcomes define four cleanly separated dynamical regimes
+with no intermediate or overlapping cases: (1)~block-diagonal
+($\rho > 40{,}000$:1), (2)~spectral attractor ($\text{Fiedler}
+\approx 0.09$, $\rho \approx 1$:1), (3)~hierarchical coherence
+($\rho \approx 1$:1, Fiedler $\approx 0.08$), and (4)~connectivity
+collapse ($\rho \approx 10^{-5}$:1, Fiedler $\approx 10^{-5}$).
+
+We make the following contributions:
+
+\begin{enumerate}
+  \item \textbf{4D topology programming.} The Steersman programs
+    tesseract geometry ($n = 8$, four co-axial pairs) with the same
+    fidelity as 3D rhombic dodecahedral geometry ($n = 6$, three
+    co-planar pairs). Co-axial/cross-axial ratio: 41{,}564:1 at 10K
+    steps. Fiedler: 0.000191. Clean $4{+}4$ eigenvalue split.
+  \item \textbf{Minimum-geometry programming.} Octahedral contrastive
+    ($n = 4$, two co-axial pairs) produces the programme's strongest
+    signal: 473{,}622:1 per-bridge mean coupling ratio.
+  \item \textbf{Spectral attractor universality.} Spectral-only
+    training converges to Fiedler ${\approx}\,0.09$--$0.10$ across
+    $n \in \{3, 4, 8, 12\}$---a 10.4\% band across a $4\times$ range
+    of channel counts.
+  \item \textbf{The selective geometric compiler.} The Steersman
+    compiles polytope-derived pair specifications into block-diagonal
+    structure and rejects non-spatial specifications (random partitions,
+    number-theoretic relationships) by driving the bridge into
+    connectivity collapse.
+  \item \textbf{Number-theoretic equivalence to random noise.}
+    Wrong-labels (random partition) and resonance (number-theoretic
+    pairs) produce functionally identical collapse trajectories
+    ($<10\%$ divergence across 10{,}000 steps).
+  \item \textbf{Four-regime taxonomy.} The complete experimental
+    programme produces four cleanly separated dynamical regimes
+    with no intermediate outcomes.
+  \item \textbf{Reproducibility.} $n = 8$ tesseract contrastive
+    replicates with Pearson $r = 1.0000$ across 34 matching checkpoints.
+\end{enumerate}
+
+The remainder of this paper is organized as follows.
+Section~\ref{sec:background} reviews Paper~3's findings and related
+work on programmable inductive biases.
+Section~\ref{sec:method} introduces the generalized pair specification
+interface and the five experimental topologies.
+Section~\ref{sec:tesseract} presents the 4D programming results.
+Section~\ref{sec:attractor} characterizes the spectral attractor.
+Section~\ref{sec:programmability} tests topology programmability
+through wrong-labels and octahedral controls.
+Section~\ref{sec:nongeometric} examines non-geometric topologies
+(resonance and emanation) and presents the four-regime taxonomy.
+Section~\ref{sec:discussion} discusses implications and limitations.
+Section~\ref{sec:conclusion} concludes.
+
+
+% ===================================================================
+\section{Background}
+\label{sec:background}
+
+\subsection{Paper 3: The Learnable Bridge}
+
+The companion paper~\cite{bielec2026bridge} established three results
+relevant to the present work.
+
+First, the Steersman---a cybernetic feedback mechanism applying
+contrastive and spectral pressure to multi-channel LoRA bridge
+matrices---produces 100\% block-diagonal structure at $n = 6$
+channels, with three independent $2 \times 2$ blocks aligned to the
+rhombic dodecahedron's three coordinate axes. The co-planar/cross-planar
+coupling ratio exceeded 82{,}154:1 across 60{,}000+ bridges and three
+model scales (TinyLlama~1.1B, Qwen~7B, Wan~2.1~14B), while all
+non-cybernetic controls produced 0\% block-diagonal structure.
+
+Second, the block-diagonal attractor is initialization-independent:
+identity, geometric bias, and corpus-coupled (I~Ching complementary
+trigram) initializations converge to the same block-diagonal structure
+within 200~steps (Figure~\ref{fig:fi002_init_independence}). The
+I~Ching initialization, which actively opposes the target topology,
+is suppressed 99.5\% in 900~steps.
+
+Third, the channel-count ablation at $n \in \{3, 4, 6, 8\}$ showed
+that the contrastive loss encoding RD face-pair geometry is necessary
+and sufficient for block-diagonal emergence at $n = 6$; at other
+channel counts (where contrastive loss was not defined), spectral
+regularization alone produces uniform coupling with Fiedler eigenvalue
+${\sim}0.09$. Paper~3 interpreted this convergence as the spectral
+loss driving connectivity without topological direction.
+
+The present paper tests this interpretation directly. By defining
+contrastive loss for additional geometries ($n = 8$ tesseract, $n = 4$
+octahedron) and additional non-geometric specifications ($n = 6$
+wrong-labels, resonance), we characterize the full boundary between
+successful and unsuccessful topology programming.
+
+\subsection{Programmable Inductive Biases}
+
+The idea that geometric or structural priors improve neural network
+training is well-established. Convolutional networks encode
+translation equivariance~\cite{lecun1998}. Graph neural networks
+encode permutation equivariance over relational
+structures~\cite{scarselli2009, kipf2017}. Geometric deep
+learning~\cite{bronstein2021} provides a unified framework for
+equivariant architectures over groups and manifolds.
+
+These priors are typically \emph{architectural}: the network's
+connectivity is designed to enforce the desired invariance. The
+Steersman operates differently. It does not constrain the bridge
+architecture---the bridge remains a dense, unconstrained
+$n \times n$ matrix throughout training. Instead, it applies
+\emph{training-time feedback} that guides the bridge toward a target
+topology through the optimization dynamics. The structure is
+discovered, not imposed.
+
+Hypernetworks~\cite{ha2017} generate network weights conditioned on
+external inputs, enabling task-conditional structure. Meta-learned
+optimizers~\cite{andrychowicz2016} adapt optimization dynamics
+through learned feedback. The Steersman differs from both: its
+control laws are fixed (not learned), its state space is
+low-dimensional (three scalar diagnostics), and its target topology
+is specified declaratively through pair indices rather than learned
+from data. This simplicity is a design choice: we aim to demonstrate
+that minimal feedback with explicit geometric specification is
+sufficient for robust topology programming.
+
+\subsection{Tesseract Geometry}
+
+The tesseract (4-cube, hypercube, $\gamma_4$) is the
+four-dimensional analogue of the cube. It has 16~vertices, 32~edges,
+24~square faces, and 8~cubic cells. For the present work, the
+relevant property is its axis structure: the 16~vertices decompose
+into 4~co-axial pairs along the four coordinate axes of
+$\mathbb{R}^4$. This decomposition provides the pair specification
+for 8-channel bridges: each of the four coordinate axes maps to one
+co-axial channel pair, yielding four independent $2 \times 2$ blocks
+if the topology is successfully programmed.
+
+Higher-dimensional geometric structure has appeared in ML in several
+contexts: hyperbolic embeddings for hierarchical
+data~\cite{nickel2017}, algebraic geometry for neural network loss
+landscapes~\cite{watanabe2009}, and quaternionic
+networks~\cite{parcollet2019} for 4D rotation representation. The
+present work uses 4D geometry differently: not as a representation
+space or an architectural constraint, but as a target topology for
+a feedback-driven bridge matrix.
+
+\subsection{Spectral Graph Theory and Bridge Structure}
+
+The bridge matrix $\mathbf{M} \in \mathbb{R}^{n \times n}$ can be
+interpreted as a weighted adjacency matrix of a complete graph on
+$n$~nodes. The Fiedler eigenvalue~\cite{fiedler1973}---the
+second-smallest eigenvalue of the weighted graph Laplacian---measures
+algebraic connectivity: how well-connected the graph is. A Fiedler
+value near zero indicates near-disconnection; a positive value
+indicates that all nodes participate in a connected component.
+
+This spectral perspective provides the diagnostic framework for the
+Steersman's control laws. The contrastive loss operates on the
+distinction between co-axial entries (to be strengthened) and
+cross-axial entries (to be suppressed). When this distinction
+produces block-diagonal structure, the bridge graph decomposes into
+disconnected cliques (the blocks), and the Fiedler eigenvalue
+approaches zero. When the distinction is absent (spectral-only) or
+incoherent (wrong-labels, resonance), the Fiedler eigenvalue reflects
+the outcome: stable connectivity (${\sim}0.09$) or total collapse
+(${\sim}10^{-5}$).
+
+The stochastic block model~\cite{holland1983} provides the graph-theoretic
+analogue of the Steersman's output: a random graph with known
+community structure, where within-community edge probabilities exceed
+between-community probabilities. Block-diagonal bridge structure is
+the extreme case: within-block coupling is maximal and between-block
+coupling approaches zero.
+
+
+% ===================================================================
+% Sections 3--8 are modular files
+\input{section3_method}
+\input{section4_4d}
+\input{section5_attractor}
+\input{section6_programmability}
+\input{section7_nongeometric}
+\input{section8_discussion}
+
+
+% ===================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+The bridge matrix in a multi-channel LoRA adapter is a programmable
+topology substrate. The Steersman---a cybernetic feedback mechanism
+comprising three closed-loop control laws---compiles polytope-derived
+pair specifications into block-diagonal structure with coupling ratios
+exceeding 40{,}000:1, preserving the property across 3D (rhombic
+dodecahedron, octahedron) and 4D (tesseract) geometries.
+
+The mechanism is confirmed at three dimensionalities and four channel
+counts:
+
+\begin{itemize}
+  \item \textbf{Octahedron} ($n = 4$, 3D): two $2 \times 2$ blocks,
+    per-bridge mean coupling ratio \textbf{473{,}622:1}. The
+    programme's strongest signal.
+  \item \textbf{Rhombic dodecahedron} ($n = 6$, 3D): three
+    $2 \times 2$ blocks, coupling ratio \textbf{70{,}404:1}. Paper~3's
+    result, reproduced across seeds (Seed-43: 73{,}309:1).
+  \item \textbf{Tesseract} ($n = 8$, 4D): four $2 \times 2$ blocks,
+    coupling ratio \textbf{41{,}564:1}. Clean $4{+}4$ eigenvalue
+    split. Reproducible ($r = 1.0000$).
+\end{itemize}
+
+Three findings sharpen the understanding of this mechanism.
+\emph{First}, the spectral attractor at Fiedler ${\approx}\,0.09$
+is universal across channel counts ($n \in \{3, 4, 8, 12\}$, 10.4\%
+band), providing the natural connectivity equilibrium from which
+contrastive programming departs. \emph{Second}, the Steersman is a
+selective geometric compiler: it accepts spatial pair specifications
+and rejects algebraic ones, as demonstrated by the functional
+equivalence of wrong-label and resonance controls ($<10\%$ trajectory
+divergence over 10{,}000 steps). \emph{Third}, the inverse-$n$
+relationship---474K:1 ($n = 4$) $>$ 70K:1 ($n = 6$) $>$ 42K:1
+($n = 8$)---establishes a practical design principle: minimum
+geometry produces maximum signal.
+
+The four-regime taxonomy---block-diagonal, spectral attractor,
+hierarchical coherence, and connectivity collapse---provides a
+complete map of the bridge's dynamical behavior under different
+programming conditions. These regimes are cleanly separated with no
+intermediate outcomes, suggesting that the spectral-contrastive
+decomposition is a fundamental feature of the loss landscape.
+
+Topology is now a hyperparameter. The choice of polytope geometry
+joins rank, learning rate, and target modules as a design decision
+for adapter construction. The pair specification is the program; the
+Steersman is the compiler; the bridge is the substrate. The compiler
+accepts valid geometric programs and rejects incoherent ones---and
+this selectivity confirms that successful topology programming
+encodes genuine geometric information, not an artifact of the loss
+formulation.
+
+
+% ===================================================================
+\appendix
+\section{Experimental Details}
+\label{app:details}
+
+\subsection{Model and Training Configuration}
+
+All experiments use TinyLlama-1.1B-Chat-v1.0 with the following
+hyperparameters held constant across all experiments:
+
+\begin{table}[H]
+\centering
+\caption{Shared training configuration across all experiments.}
+\label{tab:config}
+\small
+\begin{tabular}{ll}
+\toprule
+Parameter & Value \\
+\midrule
+Base model & TinyLlama-1.1B-Chat-v1.0 \\
+Dataset & alpaca-cleaned~\cite{alpaca} \\
+Training steps & 10{,}000 \\
+Learning rate & $2 \times 10^{-4}$ \\
+LR scheduler & Cosine \\
+Batch size & 2 \\
+Gradient accumulation & 8 (effective batch 16) \\
+LoRA rank ($r$) & 24 \\
+LoRA alpha & 32 \\
+LoRA target modules & q\_proj, k\_proj, v\_proj, o\_proj \\
+Initialization & Identity \\
+Max sequence length & 512 \\
+Precision & bfloat16 \\
+Random seed & 42 (except Seed-43: 43, Seed-44: 44) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The channel size $s = r / n$ varies with channel count: $s = 8$
+($n = 3$), $s = 6$ ($n = 4$), $s = 4$ ($n = 6$), $s = 3$ ($n = 8$),
+$s = 2$ ($n = 12$). All experiments run to 10{,}000 steps with
+checkpoints saved every 100 steps for the first 1{,}000 steps and
+every 500 steps thereafter.
+
+\subsection{Steersman Configuration}
+
+The Steersman applies two loss components to the bridge matrix
+$\mathbf{M} \in \mathbb{R}^{n \times n}$:
+
+\paragraph{Spectral loss.}
+Regularizes the Fiedler eigenvalue $\lambda_2$ of the weighted graph
+Laplacian $\mathbf{L} = \mathbf{D} - |\mathbf{M}|$, where
+$\mathbf{D}$ is the degree matrix of $|\mathbf{M}|$. This loss
+encourages algebraic connectivity without specifying direction.
+
+\paragraph{Contrastive loss.}
+Given a set of co-axial pairs $\mathcal{C}$ and the complementary set
+of cross-axial pairs $\mathcal{X}$, the contrastive loss rewards
+$|\mathbf{M}_{ij}|$ for $(i,j) \in \mathcal{C}$ and penalizes
+$|\mathbf{M}_{ij}|$ for $(i,j) \in \mathcal{X}$.
+
+\paragraph{Control laws.}
+The Steersman monitors three diagnostics: (1)~connectivity trending
+(Fiedler eigenvalue trajectory), (2)~directionality stagnation
+(co-axial/cross-axial coupling ratio plateau detection), and
+(3)~stability monitoring (loss component variance). These three
+scalar diagnostics modulate the relative weighting of spectral and
+contrastive losses. The control laws are identical across all
+experiments; only the pair specification $\mathcal{C}$ changes.
+
+\subsection{Experiment Index}
+
+\begin{table}[H]
+\centering
+\caption{Complete experiment index. All experiments use identical
+  Steersman configuration and training hyperparameters; only $n$,
+  pair specification, and architecture differ.}
+\label{tab:experiments}
+\small
+\begin{tabular}{llcclll}
+\toprule
+ID & Topology & $n$ & $|\mathcal{C}|$ & Pairs & Architecture & Section \\
+\midrule
+O-001 & Octahedral & 4 & 2 & $(0,1),(2,3)$ & Independent & \ref{sec:programmability} \\
+H-ch6 & RD contrastive & 6 & 3 & $(0,5),(1,4),(2,3)$ & Independent & \ref{sec:programmability} \\
+Seed-43 & RD contrastive & 6 & 3 & $(0,5),(1,4),(2,3)$ & Independent & \ref{sec:programmability} \\
+Seed-44 & RD contrastive & 6 & 3 & $(0,5),(1,4),(2,3)$ & Independent & \ref{sec:programmability} \\
+T-001r2 & Tesseract & 8 & 4 & $(0,1),(2,3),(4,5),(6,7)$ & Independent & \ref{sec:tesseract} \\
+\midrule
+H-ch3 & Spectral-only & 3 & --- & --- & Independent & \ref{sec:attractor} \\
+H-ch4 & Spectral-only & 4 & --- & --- & Independent & \ref{sec:attractor} \\
+H-ch8 & Spectral-only & 8 & --- & --- & Independent & \ref{sec:attractor} \\
+H-ch12 & Spectral-only & 12 & --- & --- & Independent & \ref{sec:attractor} \\
+\midrule
+E-001 & Emanation & 6 & 3 & $(0,5),(1,4),(2,3)$ & Hierarchical & \ref{sec:nongeometric} \\
+\midrule
+WL-001 & Wrong-labels & 6 & 3 & Random partition & Independent & \ref{sec:programmability} \\
+R-001 & Resonance & 6 & 3 & $(0,2),(3,4),(1,5)$ & Independent & \ref{sec:nongeometric} \\
+\midrule
+P0-LoRA & Standard LoRA & --- & --- & --- & Baseline & \ref{sec:discussion} \\
+P0-TeLoRA & TeLoRA (no contrastive) & 6 & --- & --- & Independent & \ref{sec:discussion} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Metrics}
+
+\paragraph{Co-axial/cross-axial coupling ratio ($\rho$).}
+For each bridge matrix $\mathbf{M}$, compute the mean absolute value
+of co-axial entries (those at positions $(i,j) \in \mathcal{C}$) and
+cross-axial entries (those at positions $(i,j) \in \mathcal{X}$). The
+ratio $\rho = \bar{|M_\mathcal{C}|} \,/\, \bar{|M_\mathcal{X}|}$
+measures directional preference. Values $\gg 1$ indicate
+block-diagonal structure; values $\approx 1$ indicate isotropy;
+values $\ll 1$ indicate suppression of the specified co-axial
+direction.
+
+\paragraph{Fiedler eigenvalue ($\lambda_2$).}
+The second-smallest eigenvalue of the weighted graph Laplacian
+$\mathbf{L} = \mathbf{D} - |\mathbf{M}|$. Measures algebraic
+connectivity of the bridge. Values near zero indicate
+near-disconnection (block-diagonal or collapse); values near $0.1$
+indicate stable connectivity (spectral attractor).
+
+\paragraph{Deviation from identity.}
+Mean Frobenius norm of the difference between each bridge matrix and
+the identity matrix, normalized by dimension. Measures how far the
+bridge has departed from initialization. Reported primarily for the
+collapse and emanation regimes.
+
+\paragraph{Eigenvalue split.}
+For $n$-channel bridges with $k$ co-axial pairs, successful topology
+programming produces a $k + (n-k)$ eigenvalue split: $k$~eigenvalues
+elevated (within-block connectivity) and $n-k$~eigenvalues suppressed
+to $\mathcal{O}(10^{-4})$ (between-block disconnection).
+
+\subsection{Hardware}
+
+Experiments were conducted on two machines:
+
+\begin{itemize}
+  \item \textbf{Local:} NVIDIA RTX 6000 Ada Generation (48\,GB VRAM).
+    Used for T-001r2 (tesseract contrastive).
+  \item \textbf{Hermes:} NVIDIA RTX 4090 (16\,GB VRAM). Used for
+    spectral-only ablation (H-ch3, H-ch4, H-ch8, H-ch12),
+    wrong-labels (WL-001), resonance (R-001), emanation (E-001),
+    octahedral (O-001), and seed replication (Seed-43, Seed-44).
+\end{itemize}
+
+The P0 head-to-head experiment (Section~\ref{sec:discussion}) uses
+Qwen~2.5-1.5B-Instruct on the local RTX~6000~Ada to validate
+zero-cost bridge overhead on a different model family.
+
+
+% ===================================================================
+\section{Supplementary Figures}
+\label{app:supplementary}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_24cell_emergence.pdf}
+  \caption{24-cell topology programming ($n = 24$). The 24-cell is a
+    self-dual regular 4-polytope with 24~vertices forming 12~co-axial
+    pairs. Co-axial/cross-axial coupling ratio reaches 35{,}808:1,
+    extending the inverse-$n$ relationship beyond the tesseract
+    ($n = 8$) to higher channel counts. The block-diagonal attractor
+    generalizes to 12~independent $2 \times 2$ blocks.}
+  \label{fig:24cell_emergence}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_fi002_init_independence.pdf}
+  \caption{Initialization independence (FI-002). Trained bridge sign
+    matrices converge to 100\% identical patterns from initializations
+    with Hamming distance 9/12. Final bridge Frobenius distance
+    ${\sim}10^{-4}$, confirming that the block-diagonal attractor is
+    an initialization-independent fixed point of the Steersman
+    dynamics.}
+  \label{fig:fi002_init_independence}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_fi003_homeostasis.pdf}
+  \caption{Persistence test (FI-003). When the Steersman is disabled
+    after topology has emerged, block-diagonal structure dissolves:
+    co-axial/cross-axial ratio decays from 12{,}586:1 to
+    ${\sim}10$:1 within 1{,}200~steps. The block-diagonal attractor
+    is a maintained fixed point requiring continuous cybernetic
+    feedback, not a self-sustaining equilibrium.}
+  \label{fig:fi003_homeostasis}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_fi004_annealing.pdf}
+  \caption{Contrastive weight annealing (FI-004). Coupling ratio as
+    a function of fixed contrastive weight $c_w$. Peak performance
+    at $c_w = 0.017$ (18{,}671:1). The curve characterizes the
+    sensitivity of block-diagonal emergence to the contrastive loss
+    magnitude, informing the adaptive Steersman's operating range.}
+  \label{fig:fi004_annealing}
+\end{figure}
+
+
+% ===================================================================
+\section*{Acknowledgements}
+
+The rhombic library is open source under MPL-2.0. We thank the
+reviewers of Papers~1--3 for feedback that shaped this experimental
+programme.
+
+
+% ===================================================================
+% --- references ---
+\bibliographystyle{plainnat}
+\bibliography{paper4}
+
+\end{document}

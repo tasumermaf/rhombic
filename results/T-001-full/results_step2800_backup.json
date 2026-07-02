@@ -1,0 +1,2415 @@
+{
+  "config": {
+    "name": "exp3_cybernetic_identity",
+    "rank": 24,
+    "n_channels": 8,
+    "bridge_mode": "identity",
+    "bridge_trainable": true,
+    "model_name": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+    "dataset_name": "yahma/alpaca-cleaned",
+    "max_seq_len": 512,
+    "batch_size": 2,
+    "gradient_accumulation": 8,
+    "lr": 0.0002,
+    "num_epochs": 4,
+    "warmup_steps": 200,
+    "checkpoint_steps": 100,
+    "max_steps": 10000,
+    "seed": 42,
+    "gradient_checkpointing": true,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "dynamic_bridge": false,
+    "gate_temperature_start": 5.0,
+    "gate_temperature_end": 0.1
+  },
+  "experiment": "3.0",
+  "description": "Cybernetic bridge training \u2014 the lattice IS the steersman",
+  "checkpoints": [
+    {
+      "step": 100,
+      "train_loss": 4.484088284829632,
+      "val_loss": 0.476480775475502,
+      "contrastive_loss": -0.0001124443040798051,
+      "spectral_loss": 0.00042400242382427676,
+      "fiedler_mean": 0.007245093531003235,
+      "fiedler_std": 0.006246484246361576,
+      "co_cross_ratio": 13.12486605481668,
+      "spectral_gap": 0.28060099870137983,
+      "deviation_mean": 0.023994982652282806,
+      "deviation_std": 0.002710927152166284,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.1,
+      "spectral_weight": 0.045,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 0.007245093531003235,
+      "co_cross_trend": 0.0,
+      "deviation_trend": 0.023994982652282806,
+      "control_signals": {
+        "connectivity": "IMPROVING (trend=0.00725), spec_reg -0.0050",
+        "stability": "STABLE (trend=0.02399)"
+      },
+      "wall_time": 794.1455721855164
+    },
+    {
+      "step": 200,
+      "train_loss": 0.4455209238268435,
+      "val_loss": 0.44745924562215805,
+      "contrastive_loss": -0.0013543843704974278,
+      "spectral_loss": 0.0002573902667791117,
+      "fiedler_mean": 0.001445590070358755,
+      "fiedler_std": 0.003281956938725387,
+      "co_cross_ratio": 347.95574166558004,
+      "spectral_gap": 0.025553688193513915,
+      "deviation_mean": 0.05990886758164793,
+      "deviation_std": 0.009246975630455866,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.1,
+      "spectral_weight": 0.045,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 0.0007227950351793775,
+      "co_cross_trend": 334.8308756107633,
+      "deviation_trend": 0.029954433790823964,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00072)",
+        "stability": "STABLE (trend=0.02995)"
+      },
+      "wall_time": 1455.1030247211456
+    },
+    {
+      "step": 300,
+      "train_loss": 0.4444689929578453,
+      "val_loss": 0.4435278706252575,
+      "contrastive_loss": -0.0033824082254432144,
+      "spectral_loss": 0.0001409994386631297,
+      "fiedler_mean": 0.0004522466096986269,
+      "fiedler_std": 0.000724028131249269,
+      "co_cross_ratio": 1016.5019762732766,
+      "spectral_gap": 0.004772728538591043,
+      "deviation_mean": 0.10629808963317772,
+      "deviation_std": 0.01391540435348319,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.09000000000000001,
+      "spectral_weight": 0.045,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.00044427636315485977,
+      "co_cross_trend": 501.68855510923,
+      "deviation_trend": 0.03548081538288983,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00044)",
+        "directionality": "STRONG (ratio=1016.502), contrastive -0.0100",
+        "stability": "STABLE (trend=0.03548)"
+      },
+      "wall_time": 2133.498208284378
+    },
+    {
+      "step": 400,
+      "train_loss": 0.43746053747832775,
+      "val_loss": 0.4403394854068756,
+      "contrastive_loss": -0.004853964997455478,
+      "spectral_loss": 6.652681746345479e-05,
+      "fiedler_mean": 0.0002577056561737066,
+      "fiedler_std": 0.0003282482859686736,
+      "co_cross_ratio": 1888.368283922022,
+      "spectral_gap": 0.0019309590753426016,
+      "deviation_mean": 0.14673026394396996,
+      "deviation_std": 0.015939488804228453,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.08100000000000002,
+      "spectral_weight": 0.045,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.0006277435608957195,
+      "co_cross_trend": 629.4276488209313,
+      "deviation_trend": 0.03757636348688348,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00063)",
+        "directionality": "STRONG (ratio=1888.368), contrastive -0.0090",
+        "stability": "STABLE (trend=0.03758)"
+      },
+      "wall_time": 2787.316840171814
+    },
+    {
+      "step": 500,
+      "train_loss": 0.4292173897847533,
+      "val_loss": 0.4389313630759716,
+      "contrastive_loss": -0.005841852091252804,
+      "spectral_loss": 3.201492449079524e-05,
+      "fiedler_mean": 0.00021945314998300972,
+      "fiedler_std": 0.00026273584215247416,
+      "co_cross_ratio": 2688.845874266191,
+      "spectral_gap": 0.0013002625064467638,
+      "deviation_mean": 0.18204604022364013,
+      "deviation_std": 0.016424927297478326,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.07290000000000002,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.0015239165176225498,
+      "co_cross_trend": 689.185455867919,
+      "deviation_trend": 0.04029235115050367,
+      "control_signals": {
+        "connectivity": "DECLINING (trend=-0.00152), spec_reg +0.0152",
+        "directionality": "STRONG (ratio=2688.846), contrastive -0.0081",
+        "stability": "STABLE (trend=0.04029)"
+      },
+      "wall_time": 3439.812186717987
+    },
+    {
+      "step": 600,
+      "train_loss": 0.42141588009893893,
+      "val_loss": 0.4376455046236515,
+      "contrastive_loss": -0.0064842961356043815,
+      "spectral_loss": 2.092585706122918e-05,
+      "fiedler_mean": 0.00021018352839794992,
+      "fiedler_std": 0.00023986193002784392,
+      "co_cross_ratio": 3256.83162316409,
+      "spectral_gap": 0.0010446171059983083,
+      "deviation_mean": 0.21414505237900305,
+      "deviation_std": 0.01611932003507543,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.06561000000000002,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.0002703606543637227,
+      "co_cross_trend": 749.0095660989934,
+      "deviation_trend": 0.038422032018517266,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00027)",
+        "directionality": "STRONG (ratio=3256.832), contrastive -0.0073",
+        "stability": "STABLE (trend=0.03842)"
+      },
+      "wall_time": 4091.495831489563
+    },
+    {
+      "step": 700,
+      "train_loss": 0.42565926008857785,
+      "val_loss": 0.436914671510458,
+      "contrastive_loss": -0.00686662261839956,
+      "spectral_loss": 9.681816723059455e-06,
+      "fiedler_mean": 0.00021099974626949335,
+      "fiedler_std": 0.000261088122235463,
+      "co_cross_ratio": 3834.313064141707,
+      "spectral_gap": 0.0009073674380766794,
+      "deviation_mean": 0.24369400629261015,
+      "deviation_std": 0.016112057515866984,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.05904900000000001,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -5.300158546340237e-05,
+      "co_cross_trend": 700.408551497893,
+      "deviation_trend": 0.03422066217538979,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00005)",
+        "directionality": "STRONG (ratio=3834.313), contrastive -0.0066",
+        "stability": "STABLE (trend=0.03422)"
+      },
+      "wall_time": 4743.668921470642
+    },
+    {
+      "step": 800,
+      "train_loss": 0.443908704565838,
+      "val_loss": 0.43577465310692787,
+      "contrastive_loss": -0.007049498166888952,
+      "spectral_loss": 4.793520504335902e-06,
+      "fiedler_mean": 0.0002153567963772551,
+      "fiedler_std": 0.0002570745616157684,
+      "co_cross_ratio": 4151.27879446203,
+      "spectral_gap": 0.0008236655722872865,
+      "deviation_mean": 0.2712221816053045,
+      "deviation_std": 0.016313386747420482,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.053144100000000014,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -9.315112330641945e-06,
+      "co_cross_trend": 567.1288210955532,
+      "deviation_trend": 0.031063180139163905,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00001)",
+        "directionality": "STRONG (ratio=4151.279), contrastive -0.0059",
+        "stability": "STABLE (trend=0.03106)"
+      },
+      "wall_time": 5395.726309776306
+    },
+    {
+      "step": 900,
+      "train_loss": 0.4410985819902271,
+      "val_loss": 0.43489392444491387,
+      "contrastive_loss": -0.0070792131079360845,
+      "spectral_loss": 2.4751021408064846e-06,
+      "fiedler_mean": 0.00023659322383856908,
+      "fiedler_std": 0.00028485459506382744,
+      "co_cross_ratio": 4578.903442556208,
+      "spectral_gap": 0.0008183873021070843,
+      "deviation_mean": 0.2970526898072997,
+      "deviation_std": 0.016576491020810494,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.04782969000000001,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.945341569042387e-06,
+      "co_cross_trend": 467.4562307877974,
+      "deviation_trend": 0.02870904283936206,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00000)",
+        "directionality": "STRONG (ratio=4578.903), contrastive -0.0053",
+        "stability": "STABLE (trend=0.02871)"
+      },
+      "wall_time": 6047.793456077576
+    },
+    {
+      "step": 1000,
+      "train_loss": 0.4491719113383442,
+      "val_loss": 0.43430583372712134,
+      "contrastive_loss": -0.006992929372936487,
+      "spectral_loss": 1.28112941240488e-06,
+      "fiedler_mean": 0.00027017807516019164,
+      "fiedler_std": 0.00031644896897776444,
+      "co_cross_ratio": 4579.302996375344,
+      "spectral_gap": 0.0008560743301285878,
+      "deviation_mean": 0.3215289066388907,
+      "deviation_std": 0.01708730997948228,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.04304672100000001,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 1.4558257109355916e-05,
+      "co_cross_trend": 338.95331248370087,
+      "deviation_trend": 0.026812639203446488,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00001)",
+        "directionality": "STRONG (ratio=4579.303), contrastive -0.0048",
+        "stability": "STABLE (trend=0.02681)"
+      },
+      "wall_time": 6700.529274702072
+    },
+    {
+      "step": 1100,
+      "train_loss": 0.4474140619300306,
+      "val_loss": 0.4337447310984135,
+      "contrastive_loss": -0.006819535396061838,
+      "spectral_loss": 6.955434173505636e-07,
+      "fiedler_mean": 0.00027502349307776747,
+      "fiedler_std": 0.0002948811155555554,
+      "co_cross_ratio": 5272.357999281449,
+      "spectral_gap": 0.0008087099595197474,
+      "deviation_mean": 0.3445991367159047,
+      "deviation_std": 0.01772361308789106,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.038742048900000006,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 1.828687723994848e-05,
+      "co_cross_trend": 330.41140721927985,
+      "deviation_trend": 0.025211698588017535,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=5272.358), contrastive -0.0043",
+        "stability": "STABLE (trend=0.02521)"
+      },
+      "wall_time": 7352.383864402771
+    },
+    {
+      "step": 1200,
+      "train_loss": 0.43202680178917946,
+      "val_loss": 0.433696046769619,
+      "contrastive_loss": -0.006582087394781411,
+      "spectral_loss": 3.8679990268519757e-07,
+      "fiedler_mean": 0.00032747057737573854,
+      "fiedler_std": 0.00030725683840657274,
+      "co_cross_ratio": 5205.545546098189,
+      "spectral_gap": 0.0009022492361562311,
+      "deviation_mean": 0.36621814916557743,
+      "deviation_std": 0.01812617665858008,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.03486784401,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.6265783123616532e-05,
+      "co_cross_trend": 280.19880599975596,
+      "deviation_trend": 0.02375383820291509,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=5205.546), contrastive -0.0039",
+        "stability": "STABLE (trend=0.02375)"
+      },
+      "wall_time": 8003.879977941513
+    },
+    {
+      "step": 1300,
+      "train_loss": 0.42006055839825424,
+      "val_loss": 0.4329658105969429,
+      "contrastive_loss": -0.006300314613617956,
+      "spectral_loss": 2.1080895820091428e-07,
+      "fiedler_mean": 0.00036899960998621904,
+      "fiedler_std": 0.0003346475599235771,
+      "co_cross_ratio": 4900.880803194913,
+      "spectral_gap": 0.000958741474851289,
+      "deviation_mean": 0.3867903662163736,
+      "deviation_std": 0.018674115000696573,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.031381059609000006,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.2210527451084685e-05,
+      "co_cross_trend": 127.01972710002556,
+      "deviation_trend": 0.022416459534483447,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=4900.881), contrastive -0.0035",
+        "stability": "STABLE (trend=0.02242)"
+      },
+      "wall_time": 8655.731980800629
+    },
+    {
+      "step": 1400,
+      "train_loss": 0.4381028813868761,
+      "val_loss": 0.4317723076045513,
+      "contrastive_loss": -0.00598863439168781,
+      "spectral_loss": 1.3447031037117084e-07,
+      "fiedler_mean": 0.0003786607558335646,
+      "fiedler_std": 0.00035123215502612447,
+      "co_cross_ratio": 5219.109927784313,
+      "spectral_gap": 0.0009354893571671386,
+      "deviation_mean": 0.40615613924079824,
+      "deviation_std": 0.019178987731824613,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.028242953648100005,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.1094147825519747e-05,
+      "co_cross_trend": 90.81366667314015,
+      "deviation_trend": 0.021144569470428393,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=5219.110), contrastive -0.0031",
+        "stability": "STABLE (trend=0.02114)"
+      },
+      "wall_time": 9307.88045501709
+    },
+    {
+      "step": 1500,
+      "train_loss": 0.4369402123522013,
+      "val_loss": 0.4306182436645031,
+      "contrastive_loss": -0.005658911815844476,
+      "spectral_loss": 1.2389545894109234e-07,
+      "fiedler_mean": 0.0004117410074089452,
+      "fiedler_std": 0.0003845531131158726,
+      "co_cross_ratio": 5547.531055103649,
+      "spectral_gap": 0.0009700610488065743,
+      "deviation_mean": 0.4242395785797121,
+      "deviation_std": 0.01960894319293506,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025418658283290006,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.246252071201814e-05,
+      "co_cross_trend": 56.391049333052344,
+      "deviation_trend": 0.019921887380283564,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=5547.531), contrastive -0.0028",
+        "stability": "STABLE (trend=0.01992)"
+      },
+      "wall_time": 9960.998221158981
+    },
+    {
+      "step": 1600,
+      "train_loss": 0.4388095588469878,
+      "val_loss": 0.42946423932909966,
+      "contrastive_loss": -0.005320069044828415,
+      "spectral_loss": 1.0552040180300537e-07,
+      "fiedler_mean": 0.0005516063587206944,
+      "fiedler_std": 0.0005101377018810195,
+      "co_cross_ratio": 4729.111871199174,
+      "spectral_gap": 0.001248284323072619,
+      "deviation_mean": 0.4412751807107727,
+      "deviation_std": 0.020020455116505957,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 4.910129601126378e-05,
+      "co_cross_trend": -30.621709788929458,
+      "deviation_trend": 0.01875632754537291,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00005)",
+        "directionality": "STRONG (ratio=4729.112), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01876)"
+      },
+      "wall_time": 10613.038598775864
+    },
+    {
+      "step": 1700,
+      "train_loss": 0.43461383354850114,
+      "val_loss": 0.42845429033041,
+      "contrastive_loss": -0.005449850144796074,
+      "spectral_loss": 9.694605047627647e-08,
+      "fiedler_mean": 0.0005574930460170276,
+      "fiedler_std": 0.0004924541875728964,
+      "co_cross_ratio": 4850.757005171342,
+      "spectral_gap": 0.0012137201918614629,
+      "deviation_mean": 0.4586522125370431,
+      "deviation_std": 0.020431956004469315,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 5.499324749487469e-05,
+      "co_cross_trend": -59.024565263228126,
+      "deviation_trend": 0.017884273411131347,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00005)",
+        "directionality": "STRONG (ratio=4850.757), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01788)"
+      },
+      "wall_time": 11265.187927246094
+    },
+    {
+      "step": 1800,
+      "train_loss": 0.4227255596779287,
+      "val_loss": 0.4279125361144543,
+      "contrastive_loss": -0.005673367115668952,
+      "spectral_loss": 9.468184536842727e-08,
+      "fiedler_mean": 0.0005811017429167031,
+      "fiedler_std": 0.0004680599589948123,
+      "co_cross_ratio": 4794.888338955966,
+      "spectral_gap": 0.0012161690107798308,
+      "deviation_mean": 0.47649615521263217,
+      "deviation_std": 0.02090485882468898,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 5.506340127743594e-05,
+      "co_cross_trend": -154.52172275890015,
+      "deviation_trend": 0.01750926659009988,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00006)",
+        "directionality": "STRONG (ratio=4794.888), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01751)"
+      },
+      "wall_time": 11917.46438407898
+    },
+    {
+      "step": 1900,
+      "train_loss": 0.43714859296102077,
+      "val_loss": 0.4267312736809254,
+      "contrastive_loss": -0.005904970285482705,
+      "spectral_loss": 7.80197698091456e-08,
+      "fiedler_mean": 0.0005354378534433934,
+      "fiedler_std": 0.0004284450458537157,
+      "co_cross_ratio": 4966.0885675603695,
+      "spectral_gap": 0.0010775615774361155,
+      "deviation_mean": 0.4951333807523124,
+      "deviation_std": 0.02119624676834213,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.768890762649051e-05,
+      "co_cross_trend": -109.71085073297672,
+      "deviation_trend": 0.017700857884706,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=4966.089), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01770)"
+      },
+      "wall_time": 12570.040819883347
+    },
+    {
+      "step": 2000,
+      "train_loss": 0.4285932475700974,
+      "val_loss": 0.4260283510386944,
+      "contrastive_loss": -0.006144947819411755,
+      "spectral_loss": 8.856178453697793e-08,
+      "fiedler_mean": 0.0005881839244726137,
+      "fiedler_std": 0.0005033642098411395,
+      "co_cross_ratio": 4684.8923031200065,
+      "spectral_gap": 0.0011409677458769244,
+      "deviation_mean": 0.5143433093961675,
+      "deviation_std": 0.021639760100992597,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 5.109993893020451e-06,
+      "co_cross_trend": 2.6892426230692763,
+      "deviation_trend": 0.01826174255860588,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00001)",
+        "directionality": "STRONG (ratio=4684.892), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01826)"
+      },
+      "wall_time": 13222.195800304413
+    },
+    {
+      "step": 2100,
+      "train_loss": 0.42203470926731823,
+      "val_loss": 0.42545472413301466,
+      "contrastive_loss": -0.006392142754048109,
+      "spectral_loss": 9.036365781867062e-08,
+      "fiedler_mean": 0.0006395548018619209,
+      "fiedler_std": 0.0005053673243895629,
+      "co_cross_ratio": 4718.385171370072,
+      "spectral_gap": 0.001190369604088421,
+      "deviation_mean": 0.5340957692432957,
+      "deviation_std": 0.02209855370582483,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 1.712056932456973e-05,
+      "co_cross_trend": -37.47397034384985,
+      "deviation_trend": 0.018873426759604055,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=4718.385), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01887)"
+      },
+      "wall_time": 13874.453305006027
+    },
+    {
+      "step": 2200,
+      "train_loss": 0.4239136131526902,
+      "val_loss": 0.4254682353138924,
+      "contrastive_loss": -0.006646216646768153,
+      "spectral_loss": 1.1385417622022942e-07,
+      "fiedler_mean": 0.0006514429099415125,
+      "fiedler_std": 0.0005757363755348856,
+      "co_cross_ratio": 4958.427937941117,
+      "spectral_gap": 0.0011689971052627408,
+      "deviation_mean": 0.55436739693625,
+      "deviation_std": 0.022597695849069958,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.447992824681463e-05,
+      "co_cross_trend": 7.9375801780005535,
+      "deviation_trend": 0.019470487193821905,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=4958.428), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01947)"
+      },
+      "wall_time": 14526.341679573059
+    },
+    {
+      "step": 2300,
+      "train_loss": 0.4273814514093101,
+      "val_loss": 0.42456811040639875,
+      "contrastive_loss": -0.006907254136167467,
+      "spectral_loss": 1.1333638077815067e-07,
+      "fiedler_mean": 0.0006746414636494125,
+      "fiedler_std": 0.0005524686264943886,
+      "co_cross_ratio": 4854.434736078436,
+      "spectral_gap": 0.0011662735650879803,
+      "deviation_mean": 0.5752023714210289,
+      "deviation_std": 0.023013138524409234,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.41666205880937e-05,
+      "co_cross_trend": 5.022797185724357,
+      "deviation_trend": 0.020016206887751565,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=4854.435), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02002)"
+      },
+      "wall_time": 15177.80075597763
+    },
+    {
+      "step": 2400,
+      "train_loss": 0.42263098848983643,
+      "val_loss": 0.42460269972681997,
+      "contrastive_loss": -0.007173867807723582,
+      "spectral_loss": 9.784542470470115e-08,
+      "fiedler_mean": 0.0007824942325418194,
+      "fiedler_std": 0.0006485306433339086,
+      "co_cross_ratio": 4745.4508125998755,
+      "spectral_gap": 0.0013058096509669602,
+      "deviation_mean": 0.59656303547747,
+      "deviation_std": 0.023621958091019992,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 4.237072779259028e-05,
+      "co_cross_trend": 25.716658366810133,
+      "deviation_trend": 0.020554605434033833,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00004)",
+        "directionality": "STRONG (ratio=4745.451), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02055)"
+      },
+      "wall_time": 15830.784152269363
+    },
+    {
+      "step": 2500,
+      "train_loss": 0.4397235513245687,
+      "val_loss": 0.42388501778244975,
+      "contrastive_loss": -0.007445618701167405,
+      "spectral_loss": 1.1222722520187745e-07,
+      "fiedler_mean": 0.0006973563927716021,
+      "fiedler_std": 0.0005499460704455336,
+      "co_cross_ratio": 4818.69697154652,
+      "spectral_gap": 0.0011224076198426776,
+      "deviation_mean": 0.6182745968340212,
+      "deviation_std": 0.024121279179052543,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.4665450441966934e-05,
+      "co_cross_trend": -1.235352498834618,
+      "deviation_trend": 0.021055329372267097,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=4818.697), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02106)"
+      },
+      "wall_time": 16483.78370642662
+    },
+    {
+      "step": 2600,
+      "train_loss": 0.4379573521856219,
+      "val_loss": 0.4230336053669453,
+      "contrastive_loss": -0.007722379881888628,
+      "spectral_loss": 1.052438530280142e-07,
+      "fiedler_mean": 0.0007539644592950219,
+      "fiedler_std": 0.0005742442904553347,
+      "co_cross_ratio": 4768.439846385609,
+      "spectral_gap": 0.0011719984497814814,
+      "deviation_mean": 0.6403570372723588,
+      "deviation_std": 0.024824525326016735,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.2775802782920856e-05,
+      "co_cross_trend": -41.57139476429329,
+      "deviation_trend": 0.021505150608520984,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=4768.440), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02151)"
+      },
+      "wall_time": 17135.185107707977
+    },
+    {
+      "step": 2700,
+      "train_loss": 0.4255411790218204,
+      "val_loss": 0.4228058172762394,
+      "contrastive_loss": -0.008003981867805123,
+      "spectral_loss": 1.1755886497155644e-07,
+      "fiedler_mean": 0.0007018560248151696,
+      "fiedler_std": 0.0005942672638300597,
+      "co_cross_ratio": 5395.138869545676,
+      "spectral_gap": 0.0010530332824824251,
+      "deviation_mean": 0.6627898596528357,
+      "deviation_std": 0.025207102626210186,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.589934908471677e-06,
+      "co_cross_trend": 110.43973007202139,
+      "deviation_trend": 0.021896897825850227,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00000)",
+        "directionality": "STRONG (ratio=5395.139), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02190)"
+      },
+      "wall_time": 17793.585478782654
+    },
+    {
+      "step": 2800,
+      "train_loss": 0.4264847048651427,
+      "val_loss": 0.42200771510601043,
+      "contrastive_loss": -0.00828903597779572,
+      "spectral_loss": 1.0978066725897407e-07,
+      "fiedler_mean": 0.0007872950551283549,
+      "fiedler_std": 0.0006625039356864337,
+      "co_cross_ratio": 5009.130937749689,
+      "spectral_gap": 0.0011434238953222315,
+      "deviation_mean": 0.6853798501915612,
+      "deviation_std": 0.025867951397810417,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 1.410127721663862e-06,
+      "co_cross_trend": 110.38021482987833,
+      "deviation_trend": 0.022214889224699684,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00000)",
+        "directionality": "STRONG (ratio=5009.131), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02221)"
+      },
+      "wall_time": 18478.09183073044
+    }
+  ],
+  "feedback_log": [
+    {
+      "step": 0,
+      "fiedler_mean": 0.0,
+      "fiedler_std": 0.0,
+      "co_cross_ratio": null,
+      "spectral_gap_mean": 0.0,
+      "deviation_mean": 0.0,
+      "deviation_std": 0.0,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          0.0,
+          8
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.1,
+      "spectral_weight": 0.05,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 0.0,
+      "co_cross_trend": 0.0,
+      "deviation_trend": 0.0,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00000)",
+        "stability": "STABLE (trend=0.00000)"
+      }
+    },
+    {
+      "step": 100,
+      "fiedler_mean": 0.007245093531003235,
+      "fiedler_std": 0.006246484246361576,
+      "co_cross_ratio": 13.12486605481668,
+      "spectral_gap_mean": 0.28060099870137983,
+      "deviation_mean": 0.023994982652282806,
+      "deviation_std": 0.002710927152166284,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -5.078309934646803e-20,
+          1
+        ],
+        [
+          0.0030804029681961607,
+          1
+        ],
+        [
+          0.0038952501569157654,
+          1
+        ],
+        [
+          0.006811764588896751,
+          1
+        ],
+        [
+          0.016902200703415866,
+          1
+        ],
+        [
+          0.017757573335992604,
+          1
+        ],
+        [
+          0.017852221233510275,
+          1
+        ],
+        [
+          0.019697078809395054,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.1,
+      "spectral_weight": 0.045,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 0.007245093531003235,
+      "co_cross_trend": 0.0,
+      "deviation_trend": 0.023994982652282806,
+      "control_signals": {
+        "connectivity": "IMPROVING (trend=0.00725), spec_reg -0.0050",
+        "stability": "STABLE (trend=0.02399)"
+      }
+    },
+    {
+      "step": 200,
+      "fiedler_mean": 0.001445590070358755,
+      "fiedler_std": 0.003281956938725387,
+      "co_cross_ratio": 347.95574166558004,
+      "spectral_gap_mean": 0.025553688193513915,
+      "deviation_mean": 0.05990886758164793,
+      "deviation_std": 0.009246975630455866,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          5.31751626424949e-19,
+          1
+        ],
+        [
+          0.0001859238666892575,
+          1
+        ],
+        [
+          0.0001983796562974135,
+          1
+        ],
+        [
+          0.0002870907858531879,
+          1
+        ],
+        [
+          0.05046541502717934,
+          1
+        ],
+        [
+          0.050629760142833505,
+          1
+        ],
+        [
+          0.051616566160059676,
+          1
+        ],
+        [
+          0.05172064348200589,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.1,
+      "spectral_weight": 0.045,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 0.0007227950351793775,
+      "co_cross_trend": 334.8308756107633,
+      "deviation_trend": 0.029954433790823964,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00072)",
+        "stability": "STABLE (trend=0.02995)"
+      }
+    },
+    {
+      "step": 300,
+      "fiedler_mean": 0.0004522466096986269,
+      "fiedler_std": 0.000724028131249269,
+      "co_cross_ratio": 1016.5019762732766,
+      "spectral_gap_mean": 0.004772728538591043,
+      "deviation_mean": 0.10629808963317772,
+      "deviation_std": 0.01391540435348319,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          2.219903948092944e-17,
+          1
+        ],
+        [
+          0.00013166802099771836,
+          1
+        ],
+        [
+          0.00019295292880275937,
+          1
+        ],
+        [
+          0.00022882967491311422,
+          1
+        ],
+        [
+          0.09305535281065692,
+          1
+        ],
+        [
+          0.09485267994151493,
+          1
+        ],
+        [
+          0.09619027058405602,
+          1
+        ],
+        [
+          0.09634794713461994,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.09000000000000001,
+      "spectral_weight": 0.045,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.00044427636315485977,
+      "co_cross_trend": 501.68855510923,
+      "deviation_trend": 0.03548081538288983,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00044)",
+        "directionality": "STRONG (ratio=1016.502), contrastive -0.0100",
+        "stability": "STABLE (trend=0.03548)"
+      }
+    },
+    {
+      "step": 400,
+      "fiedler_mean": 0.0002577056561737066,
+      "fiedler_std": 0.0003282482859686736,
+      "co_cross_ratio": 1888.368283922022,
+      "spectral_gap_mean": 0.0019309590753426016,
+      "deviation_mean": 0.14673026394396996,
+      "deviation_std": 0.015939488804228453,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -1.2549640146882918e-17,
+          1
+        ],
+        [
+          0.00019291456724752494,
+          1
+        ],
+        [
+          0.0002021204637215592,
+          1
+        ],
+        [
+          0.00022629936114994365,
+          1
+        ],
+        [
+          0.12998888799393574,
+          1
+        ],
+        [
+          0.1345436317991997,
+          1
+        ],
+        [
+          0.13592355683898105,
+          1
+        ],
+        [
+          0.13618302063258306,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.08100000000000002,
+      "spectral_weight": 0.045,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.0006277435608957195,
+      "co_cross_trend": 629.4276488209313,
+      "deviation_trend": 0.03757636348688348,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00063)",
+        "directionality": "STRONG (ratio=1888.368), contrastive -0.0090",
+        "stability": "STABLE (trend=0.03758)"
+      }
+    },
+    {
+      "step": 500,
+      "fiedler_mean": 0.00021945314998300972,
+      "fiedler_std": 0.00026273584215247416,
+      "co_cross_ratio": 2688.845874266191,
+      "spectral_gap_mean": 0.0013002625064467638,
+      "deviation_mean": 0.18204604022364013,
+      "deviation_std": 0.016424927297478326,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -7.372574772901446e-18,
+          1
+        ],
+        [
+          0.00010910775822844223,
+          1
+        ],
+        [
+          0.00012865120187877398,
+          1
+        ],
+        [
+          0.00019096517867416344,
+          1
+        ],
+        [
+          0.16374597425063708,
+          1
+        ],
+        [
+          0.17073554998542043,
+          1
+        ],
+        [
+          0.17220260591590214,
+          1
+        ],
+        [
+          0.17257884285404887,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.07290000000000002,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.0015239165176225498,
+      "co_cross_trend": 689.185455867919,
+      "deviation_trend": 0.04029235115050367,
+      "control_signals": {
+        "connectivity": "DECLINING (trend=-0.00152), spec_reg +0.0152",
+        "directionality": "STRONG (ratio=2688.846), contrastive -0.0081",
+        "stability": "STABLE (trend=0.04029)"
+      }
+    },
+    {
+      "step": 600,
+      "fiedler_mean": 0.00021018352839794992,
+      "fiedler_std": 0.00023986193002784392,
+      "co_cross_ratio": 3256.83162316409,
+      "spectral_gap_mean": 0.0010446171059983083,
+      "deviation_mean": 0.21414505237900305,
+      "deviation_std": 0.01611932003507543,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -3.699839913606784e-17,
+          1
+        ],
+        [
+          9.808801401007663e-05,
+          1
+        ],
+        [
+          0.00014474837186805888,
+          1
+        ],
+        [
+          0.0001941071753753405,
+          1
+        ],
+        [
+          0.19531120678357947,
+          1
+        ],
+        [
+          0.20439082036982686,
+          1
+        ],
+        [
+          0.20596373734588105,
+          1
+        ],
+        [
+          0.20637062259715497,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.06561000000000002,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.0002703606543637227,
+      "co_cross_trend": 749.0095660989934,
+      "deviation_trend": 0.038422032018517266,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00027)",
+        "directionality": "STRONG (ratio=3256.832), contrastive -0.0073",
+        "stability": "STABLE (trend=0.03842)"
+      }
+    },
+    {
+      "step": 700,
+      "fiedler_mean": 0.00021099974626949335,
+      "fiedler_std": 0.000261088122235463,
+      "co_cross_ratio": 3834.313064141707,
+      "spectral_gap_mean": 0.0009073674380766794,
+      "deviation_mean": 0.24369400629261015,
+      "deviation_std": 0.016112057515866984,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -3.062871137491975e-18,
+          1
+        ],
+        [
+          0.00012739270169944032,
+          1
+        ],
+        [
+          0.0001355162802055618,
+          1
+        ],
+        [
+          0.00018296350413615973,
+          1
+        ],
+        [
+          0.22499695558111052,
+          1
+        ],
+        [
+          0.23579736307787752,
+          1
+        ],
+        [
+          0.23737850723080925,
+          1
+        ],
+        [
+          0.2378671598837915,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.05904900000000001,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -5.300158546340237e-05,
+      "co_cross_trend": 700.408551497893,
+      "deviation_trend": 0.03422066217538979,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00005)",
+        "directionality": "STRONG (ratio=3834.313), contrastive -0.0066",
+        "stability": "STABLE (trend=0.03422)"
+      }
+    },
+    {
+      "step": 800,
+      "fiedler_mean": 0.0002153567963772551,
+      "fiedler_std": 0.0002570745616157684,
+      "co_cross_ratio": 4151.27879446203,
+      "spectral_gap_mean": 0.0008236655722872865,
+      "deviation_mean": 0.2712221816053045,
+      "deviation_std": 0.016313386747420482,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          2.87178050437098e-17,
+          1
+        ],
+        [
+          9.226382595083166e-05,
+          1
+        ],
+        [
+          0.0001814391592531492,
+          1
+        ],
+        [
+          0.00022037067413710663,
+          1
+        ],
+        [
+          0.25297574040113074,
+          1
+        ],
+        [
+          0.2652182703069367,
+          1
+        ],
+        [
+          0.2667457373715078,
+          1
+        ],
+        [
+          0.26739876721287104,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.053144100000000014,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -9.315112330641945e-06,
+      "co_cross_trend": 567.1288210955532,
+      "deviation_trend": 0.031063180139163905,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00001)",
+        "directionality": "STRONG (ratio=4151.279), contrastive -0.0059",
+        "stability": "STABLE (trend=0.03106)"
+      }
+    },
+    {
+      "step": 900,
+      "fiedler_mean": 0.00023659322383856908,
+      "fiedler_std": 0.00028485459506382744,
+      "co_cross_ratio": 4578.903442556208,
+      "spectral_gap_mean": 0.0008183873021070843,
+      "deviation_mean": 0.2970526898072997,
+      "deviation_std": 0.016576491020810494,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          1.100465205072787e-17,
+          1
+        ],
+        [
+          8.754215540470111e-05,
+          1
+        ],
+        [
+          0.00013526548752432142,
+          1
+        ],
+        [
+          0.00015998285464793386,
+          1
+        ],
+        [
+          0.2792532910753132,
+          1
+        ],
+        [
+          0.2927620725159423,
+          1
+        ],
+        [
+          0.29438922892835817,
+          1
+        ],
+        [
+          0.2949723645994091,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.04782969000000001,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.945341569042387e-06,
+      "co_cross_trend": 467.4562307877974,
+      "deviation_trend": 0.02870904283936206,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00000)",
+        "directionality": "STRONG (ratio=4578.903), contrastive -0.0053",
+        "stability": "STABLE (trend=0.02871)"
+      }
+    },
+    {
+      "step": 1000,
+      "fiedler_mean": 0.00027017807516019164,
+      "fiedler_std": 0.00031644896897776444,
+      "co_cross_ratio": 4579.302996375344,
+      "spectral_gap_mean": 0.0008560743301285878,
+      "deviation_mean": 0.3215289066388907,
+      "deviation_std": 0.01708730997948228,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -2.042365842419569e-17,
+          1
+        ],
+        [
+          5.723514377787836e-05,
+          1
+        ],
+        [
+          0.00010048661926859905,
+          1
+        ],
+        [
+          0.00011885621351152339,
+          1
+        ],
+        [
+          0.3040262390426021,
+          1
+        ],
+        [
+          0.31862087905356495,
+          1
+        ],
+        [
+          0.3202181792211879,
+          1
+        ],
+        [
+          0.3209478577017584,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.04304672100000001,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 1.4558257109355916e-05,
+      "co_cross_trend": 338.95331248370087,
+      "deviation_trend": 0.026812639203446488,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00001)",
+        "directionality": "STRONG (ratio=4579.303), contrastive -0.0048",
+        "stability": "STABLE (trend=0.02681)"
+      }
+    },
+    {
+      "step": 1100,
+      "fiedler_mean": 0.00027502349307776747,
+      "fiedler_std": 0.0002948811155555554,
+      "co_cross_ratio": 5272.357999281449,
+      "spectral_gap_mean": 0.0008087099595197474,
+      "deviation_mean": 0.3445991367159047,
+      "deviation_std": 0.01772361308789106,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          2.141299290636476e-17,
+          1
+        ],
+        [
+          8.308230604567059e-05,
+          1
+        ],
+        [
+          9.110416309821137e-05,
+          1
+        ],
+        [
+          0.00016258085881514146,
+          1
+        ],
+        [
+          0.32737168062579386,
+          1
+        ],
+        [
+          0.342986162304684,
+          1
+        ],
+        [
+          0.34456404269450025,
+          1
+        ],
+        [
+          0.3453078855871331,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.038742048900000006,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 1.828687723994848e-05,
+      "co_cross_trend": 330.41140721927985,
+      "deviation_trend": 0.025211698588017535,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=5272.358), contrastive -0.0043",
+        "stability": "STABLE (trend=0.02521)"
+      }
+    },
+    {
+      "step": 1200,
+      "fiedler_mean": 0.00032747057737573854,
+      "fiedler_std": 0.00030725683840657274,
+      "co_cross_ratio": 5205.545546098189,
+      "spectral_gap_mean": 0.0009022492361562311,
+      "deviation_mean": 0.36621814916557743,
+      "deviation_std": 0.01812617665858008,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          3.8624702394796095e-18,
+          1
+        ],
+        [
+          0.00010701406036353923,
+          1
+        ],
+        [
+          0.0001463078643510901,
+          1
+        ],
+        [
+          0.00016655690026393588,
+          1
+        ],
+        [
+          0.3493469324528756,
+          1
+        ],
+        [
+          0.36584420642746496,
+          1
+        ],
+        [
+          0.36745320397919323,
+          1
+        ],
+        [
+          0.36824390676710256,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.03486784401,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.6265783123616532e-05,
+      "co_cross_trend": 280.19880599975596,
+      "deviation_trend": 0.02375383820291509,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=5205.546), contrastive -0.0039",
+        "stability": "STABLE (trend=0.02375)"
+      }
+    },
+    {
+      "step": 1300,
+      "fiedler_mean": 0.00036899960998621904,
+      "fiedler_std": 0.0003346475599235771,
+      "co_cross_ratio": 4900.880803194913,
+      "spectral_gap_mean": 0.000958741474851289,
+      "deviation_mean": 0.3867903662163736,
+      "deviation_std": 0.018674115000696573,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          2.3852447794681098e-18,
+          1
+        ],
+        [
+          0.00010421462977984662,
+          1
+        ],
+        [
+          0.00016132601395208446,
+          1
+        ],
+        [
+          0.00019143713637164857,
+          1
+        ],
+        [
+          0.3700147714756129,
+          1
+        ],
+        [
+          0.3873523796462201,
+          1
+        ],
+        [
+          0.38893988363074616,
+          1
+        ],
+        [
+          0.3898075849373888,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.031381059609000006,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.2210527451084685e-05,
+      "co_cross_trend": 127.01972710002556,
+      "deviation_trend": 0.022416459534483447,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=4900.881), contrastive -0.0035",
+        "stability": "STABLE (trend=0.02242)"
+      }
+    },
+    {
+      "step": 1400,
+      "fiedler_mean": 0.0003786607558335646,
+      "fiedler_std": 0.00035123215502612447,
+      "co_cross_ratio": 5219.109927784313,
+      "spectral_gap_mean": 0.0009354893571671386,
+      "deviation_mean": 0.40615613924079824,
+      "deviation_std": 0.019178987731824613,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          1.1655173354219173e-18,
+          1
+        ],
+        [
+          8.249271484473505e-05,
+          1
+        ],
+        [
+          8.903514994534572e-05,
+          1
+        ],
+        [
+          0.00010795433169535219,
+          1
+        ],
+        [
+          0.3895272434930185,
+          1
+        ],
+        [
+          0.4074840091087039,
+          1
+        ],
+        [
+          0.40912821389048143,
+          1
+        ],
+        [
+          0.40997703539391134,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.028242953648100005,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.1094147825519747e-05,
+      "co_cross_trend": 90.81366667314015,
+      "deviation_trend": 0.021144569470428393,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=5219.110), contrastive -0.0031",
+        "stability": "STABLE (trend=0.02114)"
+      }
+    },
+    {
+      "step": 1500,
+      "fiedler_mean": 0.0004117410074089452,
+      "fiedler_std": 0.0003845531131158726,
+      "co_cross_ratio": 5547.531055103649,
+      "spectral_gap_mean": 0.0009700610488065743,
+      "deviation_mean": 0.4242395785797121,
+      "deviation_std": 0.01960894319293506,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          3.9668246985813393e-17,
+          1
+        ],
+        [
+          6.429722144184817e-05,
+          1
+        ],
+        [
+          8.98938628416322e-05,
+          1
+        ],
+        [
+          0.00011811926849992547,
+          1
+        ],
+        [
+          0.4078305412336452,
+          1
+        ],
+        [
+          0.42641241595428236,
+          1
+        ],
+        [
+          0.42810890176210836,
+          1
+        ],
+        [
+          0.42895773725562114,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025418658283290006,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.246252071201814e-05,
+      "co_cross_trend": 56.391049333052344,
+      "deviation_trend": 0.019921887380283564,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=5547.531), contrastive -0.0028",
+        "stability": "STABLE (trend=0.01992)"
+      }
+    },
+    {
+      "step": 1600,
+      "fiedler_mean": 0.0005516063587206944,
+      "fiedler_std": 0.0005101377018810195,
+      "co_cross_ratio": 4729.111871199174,
+      "spectral_gap_mean": 0.001248284323072619,
+      "deviation_mean": 0.4412751807107727,
+      "deviation_std": 0.020020455116505957,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -9.395712967418327e-18,
+          1
+        ],
+        [
+          6.730479573767453e-05,
+          1
+        ],
+        [
+          9.584141691381672e-05,
+          1
+        ],
+        [
+          0.00019112393700533917,
+          1
+        ],
+        [
+          0.4250337874980379,
+          1
+        ],
+        [
+          0.4442044237608369,
+          1
+        ],
+        [
+          0.44592700880144237,
+          1
+        ],
+        [
+          0.4467971569826744,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 4.910129601126378e-05,
+      "co_cross_trend": -30.621709788929458,
+      "deviation_trend": 0.01875632754537291,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00005)",
+        "directionality": "STRONG (ratio=4729.112), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01876)"
+      }
+    },
+    {
+      "step": 1700,
+      "fiedler_mean": 0.0005574930460170276,
+      "fiedler_std": 0.0004924541875728964,
+      "co_cross_ratio": 4850.757005171342,
+      "spectral_gap_mean": 0.0012137201918614629,
+      "deviation_mean": 0.4586522125370431,
+      "deviation_std": 0.020431956004469315,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -3.3081718787967504e-17,
+          1
+        ],
+        [
+          7.156898178073617e-05,
+          1
+        ],
+        [
+          9.234666751791848e-05,
+          1
+        ],
+        [
+          0.00011154406395948574,
+          1
+        ],
+        [
+          0.4424836324420558,
+          1
+        ],
+        [
+          0.4624158833742054,
+          1
+        ],
+        [
+          0.46398797642305206,
+          1
+        ],
+        [
+          0.4649446041483172,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 5.499324749487469e-05,
+      "co_cross_trend": -59.024565263228126,
+      "deviation_trend": 0.017884273411131347,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00005)",
+        "directionality": "STRONG (ratio=4850.757), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01788)"
+      }
+    },
+    {
+      "step": 1800,
+      "fiedler_mean": 0.0005811017429167031,
+      "fiedler_std": 0.0004680599589948123,
+      "co_cross_ratio": 4794.888338955966,
+      "spectral_gap_mean": 0.0012161690107798308,
+      "deviation_mean": 0.47649615521263217,
+      "deviation_std": 0.02090485882468898,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -1.4501204056993622e-17,
+          1
+        ],
+        [
+          7.288919523357505e-05,
+          1
+        ],
+        [
+          8.327593698361154e-05,
+          1
+        ],
+        [
+          0.00015195810172669328,
+          1
+        ],
+        [
+          0.460659248805288,
+          1
+        ],
+        [
+          0.48113646825474654,
+          1
+        ],
+        [
+          0.48267960049654823,
+          1
+        ],
+        [
+          0.4837240256402927,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 5.506340127743594e-05,
+      "co_cross_trend": -154.52172275890015,
+      "deviation_trend": 0.01750926659009988,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00006)",
+        "directionality": "STRONG (ratio=4794.888), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01751)"
+      }
+    },
+    {
+      "step": 1900,
+      "fiedler_mean": 0.0005354378534433934,
+      "fiedler_std": 0.0004284450458537157,
+      "co_cross_ratio": 4966.0885675603695,
+      "spectral_gap_mean": 0.0010775615774361155,
+      "deviation_mean": 0.4951333807523124,
+      "deviation_std": 0.02119624676834213,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          5.3396956994911075e-17,
+          1
+        ],
+        [
+          7.652425658754861e-05,
+          1
+        ],
+        [
+          9.232606694470023e-05,
+          1
+        ],
+        [
+          0.00011193838904074181,
+          1
+        ],
+        [
+          0.47952409829728176,
+          1
+        ],
+        [
+          0.5006631688535175,
+          1
+        ],
+        [
+          0.5021850772925746,
+          1
+        ],
+        [
+          0.5032351889007197,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.768890762649051e-05,
+      "co_cross_trend": -109.71085073297672,
+      "deviation_trend": 0.017700857884706,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=4966.089), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01770)"
+      }
+    },
+    {
+      "step": 2000,
+      "fiedler_mean": 0.0005881839244726137,
+      "fiedler_std": 0.0005033642098411395,
+      "co_cross_ratio": 4684.8923031200065,
+      "spectral_gap_mean": 0.0011409677458769244,
+      "deviation_mean": 0.5143433093961675,
+      "deviation_std": 0.021639760100992597,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -6.369687763352346e-17,
+          1
+        ],
+        [
+          8.288318681146355e-05,
+          1
+        ],
+        [
+          0.0001470856011200006,
+          1
+        ],
+        [
+          0.0001572401812991681,
+          1
+        ],
+        [
+          0.4990916753724451,
+          1
+        ],
+        [
+          0.5207670232774861,
+          1
+        ],
+        [
+          0.5224307619279499,
+          1
+        ],
+        [
+          0.523423135479314,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 5.109993893020451e-06,
+      "co_cross_trend": 2.6892426230692763,
+      "deviation_trend": 0.01826174255860588,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00001)",
+        "directionality": "STRONG (ratio=4684.892), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01826)"
+      }
+    },
+    {
+      "step": 2100,
+      "fiedler_mean": 0.0006395548018619209,
+      "fiedler_std": 0.0005053673243895629,
+      "co_cross_ratio": 4718.385171370072,
+      "spectral_gap_mean": 0.001190369604088421,
+      "deviation_mean": 0.5340957692432957,
+      "deviation_std": 0.02209855370582483,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          1.3660947373317356e-17,
+          1
+        ],
+        [
+          9.416061618501402e-05,
+          1
+        ],
+        [
+          0.00011665258555499336,
+          1
+        ],
+        [
+          0.0001372442449110387,
+          1
+        ],
+        [
+          0.5192826871816996,
+          1
+        ],
+        [
+          0.5414955288213615,
+          1
+        ],
+        [
+          0.5430937235634804,
+          1
+        ],
+        [
+          0.5441919972909486,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 1.712056932456973e-05,
+      "co_cross_trend": -37.47397034384985,
+      "deviation_trend": 0.018873426759604055,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=4718.385), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01887)"
+      }
+    },
+    {
+      "step": 2200,
+      "fiedler_mean": 0.0006514429099415125,
+      "fiedler_std": 0.0005757363755348856,
+      "co_cross_ratio": 4958.427937941117,
+      "spectral_gap_mean": 0.0011689971052627408,
+      "deviation_mean": 0.55436739693625,
+      "deviation_std": 0.022597695849069958,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -3.6415640468356966e-17,
+          1
+        ],
+        [
+          8.35868063202238e-05,
+          1
+        ],
+        [
+          0.0001395210415208628,
+          1
+        ],
+        [
+          0.00014589616993648406,
+          1
+        ],
+        [
+          0.5399748088103834,
+          1
+        ],
+        [
+          0.5627945434584761,
+          1
+        ],
+        [
+          0.5642898611305569,
+          1
+        ],
+        [
+          0.5655374847280985,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.447992824681463e-05,
+      "co_cross_trend": 7.9375801780005535,
+      "deviation_trend": 0.019470487193821905,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=4958.428), contrastive -0.0025",
+        "stability": "STABLE (trend=0.01947)"
+      }
+    },
+    {
+      "step": 2300,
+      "fiedler_mean": 0.0006746414636494125,
+      "fiedler_std": 0.0005524686264943886,
+      "co_cross_ratio": 4854.434736078436,
+      "spectral_gap_mean": 0.0011662735650879803,
+      "deviation_mean": 0.5752023714210289,
+      "deviation_std": 0.023013138524409234,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          5.255670031123483e-17,
+          1
+        ],
+        [
+          9.770196602795474e-05,
+          1
+        ],
+        [
+          0.00011065836671239229,
+          1
+        ],
+        [
+          0.00014822176770392357,
+          1
+        ],
+        [
+          0.5612042958080067,
+          1
+        ],
+        [
+          0.5846088108176954,
+          1
+        ],
+        [
+          0.5861551710981634,
+          1
+        ],
+        [
+          0.5874129957602958,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 3.41666205880937e-05,
+      "co_cross_trend": 5.022797185724357,
+      "deviation_trend": 0.020016206887751565,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00003)",
+        "directionality": "STRONG (ratio=4854.435), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02002)"
+      }
+    },
+    {
+      "step": 2400,
+      "fiedler_mean": 0.0007824942325418194,
+      "fiedler_std": 0.0006485306433339086,
+      "co_cross_ratio": 4745.4508125998755,
+      "spectral_gap_mean": 0.0013058096509669602,
+      "deviation_mean": 0.59656303547747,
+      "deviation_std": 0.023621958091019992,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -4.3151246464923076e-17,
+          1
+        ],
+        [
+          0.00011928582910807613,
+          1
+        ],
+        [
+          0.00013197806245404182,
+          1
+        ],
+        [
+          0.000161093612465379,
+          1
+        ],
+        [
+          0.5830518630802389,
+          1
+        ],
+        [
+          0.6070426552066415,
+          1
+        ],
+        [
+          0.6085456928889542,
+          1
+        ],
+        [
+          0.6099041741001302,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 4.237072779259028e-05,
+      "co_cross_trend": 25.716658366810133,
+      "deviation_trend": 0.020554605434033833,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00004)",
+        "directionality": "STRONG (ratio=4745.451), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02055)"
+      }
+    },
+    {
+      "step": 2500,
+      "fiedler_mean": 0.0006973563927716021,
+      "fiedler_std": 0.0005499460704455336,
+      "co_cross_ratio": 4818.69697154652,
+      "spectral_gap_mean": 0.0011224076198426776,
+      "deviation_mean": 0.6182745968340212,
+      "deviation_std": 0.024121279179052543,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -1.428436362249652e-17,
+          1
+        ],
+        [
+          8.183702700287832e-05,
+          1
+        ],
+        [
+          9.557466191612628e-05,
+          1
+        ],
+        [
+          0.00015043248278467052,
+          1
+        ],
+        [
+          0.6052485895366332,
+          1
+        ],
+        [
+          0.629920440231708,
+          1
+        ],
+        [
+          0.631467524691919,
+          1
+        ],
+        [
+          0.6327618905430801,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.4665450441966934e-05,
+      "co_cross_trend": -1.235352498834618,
+      "deviation_trend": 0.021055329372267097,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=4818.697), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02106)"
+      }
+    },
+    {
+      "step": 2600,
+      "fiedler_mean": 0.0007539644592950219,
+      "fiedler_std": 0.0005742442904553347,
+      "co_cross_ratio": 4768.439846385609,
+      "spectral_gap_mean": 0.0011719984497814814,
+      "deviation_mean": 0.6403570372723588,
+      "deviation_std": 0.024824525326016735,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -8.638380809278257e-17,
+          1
+        ],
+        [
+          0.00011001891784226007,
+          1
+        ],
+        [
+          0.00015558678997777616,
+          1
+        ],
+        [
+          0.00017978894806066145,
+          1
+        ],
+        [
+          0.6279823681830151,
+          1
+        ],
+        [
+          0.6533275421552198,
+          1
+        ],
+        [
+          0.6548162558194601,
+          1
+        ],
+        [
+          0.6560952631812995,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.2775802782920856e-05,
+      "co_cross_trend": -41.57139476429329,
+      "deviation_trend": 0.021505150608520984,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00002)",
+        "directionality": "STRONG (ratio=4768.440), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02151)"
+      }
+    },
+    {
+      "step": 2700,
+      "fiedler_mean": 0.0007018560248151696,
+      "fiedler_std": 0.0005942672638300597,
+      "co_cross_ratio": 5395.138869545676,
+      "spectral_gap_mean": 0.0010530332824824251,
+      "deviation_mean": 0.6627898596528357,
+      "deviation_std": 0.025207102626210186,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          2.8189256484623115e-18,
+          1
+        ],
+        [
+          0.0001177803997516156,
+          1
+        ],
+        [
+          0.00015280625651667873,
+          1
+        ],
+        [
+          0.00018298364456477672,
+          1
+        ],
+        [
+          0.6509830281612677,
+          1
+        ],
+        [
+          0.6769535271950481,
+          1
+        ],
+        [
+          0.6785696685375064,
+          1
+        ],
+        [
+          0.6798122292672278,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 2.589934908471677e-06,
+      "co_cross_trend": 110.43973007202139,
+      "deviation_trend": 0.021896897825850227,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00000)",
+        "directionality": "STRONG (ratio=5395.139), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02190)"
+      }
+    },
+    {
+      "step": 2800,
+      "fiedler_mean": 0.0007872950551283549,
+      "fiedler_std": 0.0006625039356864337,
+      "co_cross_ratio": 5009.130937749689,
+      "spectral_gap_mean": 0.0011434238953222315,
+      "deviation_mean": 0.6853798501915612,
+      "deviation_std": 0.025867951397810417,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -7.45931094670027e-17,
+          1
+        ],
+        [
+          0.00010579278541516138,
+          1
+        ],
+        [
+          0.00011663862460612401,
+          1
+        ],
+        [
+          0.0001399132830510117,
+          1
+        ],
+        [
+          0.6744170220578146,
+          1
+        ],
+        [
+          0.7008017990751261,
+          1
+        ],
+        [
+          0.7023269112348898,
+          1
+        ],
+        [
+          0.7037284848696514,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.025,
+      "spectral_weight": 0.0602391651762255,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 1.410127721663862e-06,
+      "co_cross_trend": 110.38021482987833,
+      "deviation_trend": 0.022214889224699684,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00000)",
+        "directionality": "STRONG (ratio=5009.131), contrastive -0.0025",
+        "stability": "STABLE (trend=0.02221)"
+      }
+    }
+  ],
+  "trainable_params": 6764032,
+  "total_params": 1106812416,
+  "bridge_params": 5632
+}

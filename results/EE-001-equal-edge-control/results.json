@@ -1,0 +1,752 @@
+{
+  "protocol": "EE-001",
+  "sizes": [
+    {
+      "fcc_m": 4,
+      "fcc": {
+        "name": "FCC m=4",
+        "N": 256,
+        "E": 1176,
+        "fiedler": 0.5292859359247117,
+        "mean_path": 4.488970588235294,
+        "diameter": 10,
+        "path_exact": true,
+        "measure_seconds": 0.06
+      },
+      "cubic": {
+        "name": "Cubic n=6",
+        "N": 216,
+        "E": 540,
+        "fiedler": 0.2679491924311228,
+        "mean_path": 5.8604651162790695,
+        "diameter": 15,
+        "path_exact": true,
+        "measure_seconds": 0.03
+      },
+      "controls": {
+        "fcc_rewire": {
+          "d_regular": null,
+          "runs": [
+            {
+              "name": "fcc_rewire m=4 seed=42",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 2.2645186878438452,
+              "mean_path": 2.7392463235294118,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.07,
+              "seed": 42,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=4 seed=43",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 2.287046037818531,
+              "mean_path": 2.738878676470588,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.07,
+              "seed": 43,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=4 seed=44",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 2.093756319554013,
+              "mean_path": 2.733578431372549,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.05,
+              "seed": 44,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=4 seed=45",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 2.453085995283696,
+              "mean_path": 2.734987745098039,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.08,
+              "seed": 45,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=4 seed=46",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 2.136811117768214,
+              "mean_path": 2.738878676470588,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.05,
+              "seed": 46,
+              "disconnected_resamples": 0
+            }
+          ],
+          "fiedler_mean": 2.2470436316536597,
+          "fiedler_std": 0.1264968243603934,
+          "mean_path_mean": 2.737113970588235,
+          "mean_path_std": 0.0023578030091159926,
+          "diameter_mean": 5.0,
+          "diameter_std": 0.0,
+          "E_mean": 1176.0
+        },
+        "random_regular": {
+          "d_regular": 9,
+          "runs": [
+            {
+              "name": "random_regular m=4 seed=42",
+              "N": 256,
+              "E": 1152,
+              "fiedler": 3.5268629296548877,
+              "mean_path": 2.753186274509804,
+              "diameter": 4,
+              "path_exact": true,
+              "measure_seconds": 0.09,
+              "seed": 42,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=4 seed=43",
+              "N": 256,
+              "E": 1152,
+              "fiedler": 3.420814945899298,
+              "mean_path": 2.75327818627451,
+              "diameter": 4,
+              "path_exact": true,
+              "measure_seconds": 0.07,
+              "seed": 43,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=4 seed=44",
+              "N": 256,
+              "E": 1152,
+              "fiedler": 3.5309827211497895,
+              "mean_path": 2.7526654411764704,
+              "diameter": 4,
+              "path_exact": true,
+              "measure_seconds": 0.09,
+              "seed": 44,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=4 seed=45",
+              "N": 256,
+              "E": 1152,
+              "fiedler": 3.471378480786469,
+              "mean_path": 2.752083333333333,
+              "diameter": 4,
+              "path_exact": true,
+              "measure_seconds": 0.08,
+              "seed": 45,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=4 seed=46",
+              "N": 256,
+              "E": 1152,
+              "fiedler": 3.628355655310942,
+              "mean_path": 2.7432904411764705,
+              "diameter": 4,
+              "path_exact": true,
+              "measure_seconds": 0.12,
+              "seed": 46,
+              "disconnected_resamples": 0
+            }
+          ],
+          "fiedler_mean": 3.515678946560277,
+          "fiedler_std": 0.06930661956640488,
+          "mean_path_mean": 2.7509007352941177,
+          "mean_path_std": 0.00382897542957045,
+          "diameter_mean": 4.0,
+          "diameter_std": 0.0,
+          "E_mean": 1152.0
+        },
+        "erdos_renyi": {
+          "d_regular": null,
+          "runs": [
+            {
+              "name": "erdos_renyi m=4 seed=42",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 2.2692036096294244,
+              "mean_path": 2.7285539215686274,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.06,
+              "seed": 42,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=4 seed=43",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 1.9490476287980667,
+              "mean_path": 2.7224877450980394,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.05,
+              "seed": 43,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=4 seed=44",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 0.8630565040597595,
+              "mean_path": 2.741942401960784,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.05,
+              "seed": 44,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=4 seed=45",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 1.6734397978173152,
+              "mean_path": 2.733792892156863,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.05,
+              "seed": 45,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=4 seed=46",
+              "N": 256,
+              "E": 1176,
+              "fiedler": 2.2335347167792103,
+              "mean_path": 2.7356924019607844,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.09,
+              "seed": 46,
+              "disconnected_resamples": 0
+            }
+          ],
+          "fiedler_mean": 1.7976564514167552,
+          "fiedler_std": 0.5146207753003893,
+          "mean_path_mean": 2.73249387254902,
+          "mean_path_std": 0.006585416473961508,
+          "diameter_mean": 5.0,
+          "diameter_std": 0.0,
+          "E_mean": 1176.0
+        }
+      }
+    },
+    {
+      "fcc_m": 6,
+      "fcc": {
+        "name": "FCC m=6",
+        "N": 864,
+        "E": 4356,
+        "fiedler": 0.24915515952880227,
+        "mean_path": 6.782734646581692,
+        "diameter": 16,
+        "path_exact": true,
+        "measure_seconds": 0.56
+      },
+      "cubic": {
+        "name": "Cubic n=10",
+        "N": 1000,
+        "E": 2700,
+        "fiedler": 0.0978869674096929,
+        "mean_path": 9.90990990990991,
+        "diameter": 27,
+        "path_exact": true,
+        "measure_seconds": 0.6
+      },
+      "controls": {
+        "fcc_rewire": {
+          "d_regular": null,
+          "runs": [
+            {
+              "name": "fcc_rewire m=6 seed=42",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 2.3090384826945565,
+              "mean_path": 3.1912015578730526,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.52,
+              "seed": 42,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=6 seed=43",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 2.205211754073802,
+              "mean_path": 3.1923951761726963,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.5,
+              "seed": 43,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=6 seed=44",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 2.5088502967571205,
+              "mean_path": 3.190767027166216,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.56,
+              "seed": 44,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=6 seed=45",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 2.1442340935395188,
+              "mean_path": 3.193387622848805,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.51,
+              "seed": 45,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=6 seed=46",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 2.395817959981333,
+              "mean_path": 3.1906355950388394,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.54,
+              "seed": 46,
+              "disconnected_resamples": 0
+            }
+          ],
+          "fiedler_mean": 2.312630517409266,
+          "fiedler_std": 0.13063797412011055,
+          "mean_path_mean": 3.191677395819922,
+          "mean_path_std": 0.001056468345947583,
+          "diameter_mean": 5.0,
+          "diameter_std": 0.0,
+          "E_mean": 4356.0
+        },
+        "random_regular": {
+          "d_regular": 10,
+          "runs": [
+            {
+              "name": "random_regular m=6 seed=42",
+              "N": 864,
+              "E": 4320,
+              "fiedler": 4.091140382490848,
+              "mean_path": 3.2215677438736536,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.9,
+              "seed": 42,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=6 seed=43",
+              "N": 864,
+              "E": 4320,
+              "fiedler": 4.005346345214857,
+              "mean_path": 3.22084620831724,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.8,
+              "seed": 43,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=6 seed=44",
+              "N": 864,
+              "E": 4320,
+              "fiedler": 4.039022027232608,
+              "mean_path": 3.219692824342303,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.73,
+              "seed": 44,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=6 seed=45",
+              "N": 864,
+              "E": 4320,
+              "fiedler": 4.101622677846741,
+              "mean_path": 3.219258293635466,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.77,
+              "seed": 45,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=6 seed=46",
+              "N": 864,
+              "E": 4320,
+              "fiedler": 4.091692744631874,
+              "mean_path": 3.220921312390026,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.71,
+              "seed": 46,
+              "disconnected_resamples": 0
+            }
+          ],
+          "fiedler_mean": 4.065764835483386,
+          "fiedler_std": 0.037329697231993676,
+          "mean_path_mean": 3.2204572765117376,
+          "mean_path_std": 0.0008510795573265984,
+          "diameter_mean": 5.0,
+          "diameter_std": 0.0,
+          "E_mean": 4320.0
+        },
+        "erdos_renyi": {
+          "d_regular": null,
+          "runs": [
+            {
+              "name": "erdos_renyi m=6 seed=42",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 0.8614320102288084,
+              "mean_path": 3.178152225226385,
+              "diameter": 6,
+              "path_exact": true,
+              "measure_seconds": 0.43,
+              "seed": 42,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=6 seed=43",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 0.844288496889199,
+              "mean_path": 3.178412407192824,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.47,
+              "seed": 43,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=6 seed=44",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 0.8967461444767413,
+              "mean_path": 3.183428286339642,
+              "diameter": 6,
+              "path_exact": true,
+              "measure_seconds": 0.46,
+              "seed": 44,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=6 seed=45",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 0.8452586920489441,
+              "mean_path": 3.177181236856787,
+              "diameter": 6,
+              "path_exact": true,
+              "measure_seconds": 0.43,
+              "seed": 45,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=6 seed=46",
+              "N": 864,
+              "E": 4356,
+              "fiedler": 1.7370837416055578,
+              "mean_path": 3.1771758722801597,
+              "diameter": 5,
+              "path_exact": true,
+              "measure_seconds": 0.43,
+              "seed": 46,
+              "disconnected_resamples": 0
+            }
+          ],
+          "fiedler_mean": 1.0369618170498502,
+          "fiedler_std": 0.3505752283314357,
+          "mean_path_mean": 3.1788700055791597,
+          "mean_path_std": 0.0023334333434590826,
+          "diameter_mean": 5.6,
+          "diameter_std": 0.4898979485566356,
+          "E_mean": 4356.0
+        }
+      }
+    },
+    {
+      "fcc_m": 8,
+      "fcc": {
+        "name": "FCC m=8",
+        "N": 2048,
+        "E": 10800,
+        "fiedler": 0.1438778343856814,
+        "mean_path": 9.092660371885687,
+        "diameter": 22,
+        "path_exact": false,
+        "measure_seconds": 0.93
+      },
+      "cubic": {
+        "name": "Cubic n=13",
+        "N": 2197,
+        "E": 6084,
+        "fiedler": 0.05811636514789596,
+        "mean_path": 12.882215711805555,
+        "diameter": 36,
+        "path_exact": false,
+        "measure_seconds": 0.74
+      },
+      "controls": {
+        "fcc_rewire": {
+          "d_regular": null,
+          "runs": [
+            {
+              "name": "fcc_rewire m=8 seed=42",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 2.430393361415499,
+              "mean_path": 3.530547752808989,
+              "diameter": 5,
+              "path_exact": false,
+              "measure_seconds": 1.18,
+              "seed": 42,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=8 seed=43",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 2.423551346679327,
+              "mean_path": 3.5250547676477773,
+              "diameter": 5,
+              "path_exact": false,
+              "measure_seconds": 1.21,
+              "seed": 43,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=8 seed=44",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 2.2027794124554974,
+              "mean_path": 3.5228363916707375,
+              "diameter": 6,
+              "path_exact": false,
+              "measure_seconds": 1.12,
+              "seed": 44,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=8 seed=45",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 2.5142073519096027,
+              "mean_path": 3.525716940950171,
+              "diameter": 5,
+              "path_exact": false,
+              "measure_seconds": 1.19,
+              "seed": 45,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "fcc_rewire m=8 seed=46",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 2.462485154441997,
+              "mean_path": 3.5286652341841718,
+              "diameter": 6,
+              "path_exact": false,
+              "measure_seconds": 1.5,
+              "seed": 46,
+              "disconnected_resamples": 0
+            }
+          ],
+          "fiedler_mean": 2.406683325380384,
+          "fiedler_std": 0.10686324163629454,
+          "mean_path_mean": 3.526564217452369,
+          "mean_path_std": 0.0027267499513784015,
+          "diameter_mean": 5.4,
+          "diameter_std": 0.4898979485566356,
+          "E_mean": 10800.0
+        },
+        "random_regular": {
+          "d_regular": 11,
+          "runs": [
+            {
+              "name": "random_regular m=8 seed=42",
+              "N": 2048,
+              "E": 11264,
+              "fiedler": 4.695964867617157,
+              "mean_path": 3.486976940339521,
+              "diameter": 5,
+              "path_exact": false,
+              "measure_seconds": 5.62,
+              "seed": 42,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=8 seed=43",
+              "N": 2048,
+              "E": 11264,
+              "fiedler": 4.70779541996029,
+              "mean_path": 3.4879568423302394,
+              "diameter": 5,
+              "path_exact": false,
+              "measure_seconds": 5.57,
+              "seed": 43,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=8 seed=44",
+              "N": 2048,
+              "E": 11264,
+              "fiedler": 4.698855990477331,
+              "mean_path": 3.4867870664386906,
+              "diameter": 5,
+              "path_exact": false,
+              "measure_seconds": 6.87,
+              "seed": 44,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=8 seed=45",
+              "N": 2048,
+              "E": 11264,
+              "fiedler": 4.727226621534422,
+              "mean_path": 3.4869559492550075,
+              "diameter": 5,
+              "path_exact": false,
+              "measure_seconds": 6.06,
+              "seed": 45,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "random_regular m=8 seed=46",
+              "N": 2048,
+              "E": 11264,
+              "fiedler": 4.708794285922832,
+              "mean_path": 3.4867155059233026,
+              "diameter": 5,
+              "path_exact": false,
+              "measure_seconds": 6.46,
+              "seed": 46,
+              "disconnected_resamples": 0
+            }
+          ],
+          "fiedler_mean": 4.707727437102407,
+          "fiedler_std": 0.0109400327943316,
+          "mean_path_mean": 3.487078460857352,
+          "mean_path_std": 0.00045022583478500594,
+          "diameter_mean": 5.0,
+          "diameter_std": 0.0,
+          "E_mean": 11264.0
+        },
+        "erdos_renyi": {
+          "d_regular": null,
+          "runs": [
+            {
+              "name": "erdos_renyi m=8 seed=42",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 1.7387917027879238,
+              "mean_path": 3.5044482016365412,
+              "diameter": 6,
+              "path_exact": false,
+              "measure_seconds": 1.07,
+              "seed": 42,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=8 seed=43",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 0.9123524481301322,
+              "mean_path": 3.4962025219833905,
+              "diameter": 6,
+              "path_exact": false,
+              "measure_seconds": 0.94,
+              "seed": 43,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=8 seed=44",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 1.5625575694829852,
+              "mean_path": 3.5075472490229602,
+              "diameter": 6,
+              "path_exact": false,
+              "measure_seconds": 0.94,
+              "seed": 44,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=8 seed=45",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 1.650222590461288,
+              "mean_path": 3.503542722581827,
+              "diameter": 5,
+              "path_exact": false,
+              "measure_seconds": 0.96,
+              "seed": 45,
+              "disconnected_resamples": 0
+            },
+            {
+              "name": "erdos_renyi m=8 seed=46",
+              "N": 2048,
+              "E": 10800,
+              "fiedler": 1.7278156689993167,
+              "mean_path": 3.5073277967757694,
+              "diameter": 6,
+              "path_exact": false,
+              "measure_seconds": 1.0,
+              "seed": 46,
+              "disconnected_resamples": 0
+            }
+          ],
+          "fiedler_mean": 1.5183479959723294,
+          "fiedler_std": 0.30953130148149044,
+          "mean_path_mean": 3.503813698400098,
+          "mean_path_std": 0.004115685030338445,
+          "diameter_mean": 5.8,
+          "diameter_std": 0.39999999999999997,
+          "E_mean": 10800.0
+        }
+      }
+    }
+  ],
+  "disconnected_resample_counts": {
+    "fcc_rewire": 0,
+    "random_regular": 0,
+    "erdos_renyi": 0
+  },
+  "total_seconds": 60.1,
+  "config": {
+    "fcc_sizes": [
+      4,
+      6,
+      8
+    ],
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "exact_bfs_limit": 1100,
+    "sample_sources": 512,
+    "rewire_swap_factor": 5,
+    "fiedler_method": "nx.algebraic_connectivity raw Laplacian, tracemin_lu"
+  }
+}

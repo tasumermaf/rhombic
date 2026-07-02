@@ -18,7 +18,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 
-from rhombic.nn.topology import bridge_init as _bridge_init
+from rhombic.nn.topology import bridge_init as _bridge_init, rd_adjacency_mask
 from rhombic.spectral import fiedler_value
 
 
@@ -96,6 +96,13 @@ class RhombiLoRALinear(nn.Module):
         effective bridge becomes: master_bridge * 2 * sigmoid(layer_proj).
         layer_proj is initialized to zeros so sigmoid(0)=0.5, and 2*0.5=1.0
         gives identity-preserving initialization.
+
+    Notes
+    -----
+    When bridge_mode='rd_graph', the bridge uses RD graph convolution:
+    a FIXED adjacency mask (from RD face-sharing geometry) multiplied by
+    LEARNABLE edge weights. Topology is structural by construction — no
+    auxiliary losses needed. The effective bridge = rd_mask * edge_weights.
     """
 
     def __init__(
@@ -126,13 +133,14 @@ class RhombiLoRALinear(nn.Module):
         self.scaling = alpha / rank
         self.dynamic_bridge = dynamic_bridge
         self.emanation = master_bridge is not None
+        self.rd_graph = (bridge_mode == 'rd_graph') and (master_bridge is None)
         self._external_bridge_fn: callable | None = None
 
         # LoRA matrices — standard initialization
         self.lora_A = nn.Parameter(torch.empty(rank, in_features))
         self.lora_B = nn.Parameter(torch.zeros(out_features, rank))
 
-        # Bridge: either local (standard) or emanation (shared master + local projection)
+        # Bridge: rd_graph, emanation, or standard (dense)
         if master_bridge is not None:
             # Emanation mode: shared master bridge + per-layer sigmoid projection
             self.master_bridge = master_bridge  # shared, not owned
@@ -141,8 +149,21 @@ class RhombiLoRALinear(nn.Module):
             )
             # Register bridge as a read-only property for diagnostics
             # (no local bridge parameter created)
+        elif self.rd_graph:
+            # RD graph convolution: fixed topology mask × learnable edge weights
+            # Topology is STRUCTURAL — baked into the mask, not optimized toward
+            mask_np = rd_adjacency_mask(n_channels)
+            self.register_buffer(
+                'rd_mask', torch.from_numpy(mask_np).float()
+            )
+            # Edge weights initialized to identity-preserving values:
+            # diagonal=1.0, off-diagonal scaled by mask strength
+            init_np = _bridge_init(n_channels, mode='rd_graph')
+            self.edge_weights = nn.Parameter(
+                torch.from_numpy(init_np).float()
+            )
         else:
-            # Standard mode: local bridge parameter
+            # Standard mode: local bridge parameter (dense)
             bridge_np = _bridge_init(n_channels, mode=bridge_mode)
             self.bridge = nn.Parameter(
                 torch.from_numpy(bridge_np).float()
@@ -178,13 +199,16 @@ class RhombiLoRALinear(nn.Module):
 
         In external bridge mode (EmanationBridge), returns the result of the
         external bridge function. In emanation mode (master_bridge + sigmoid),
-        returns master_bridge * 2 * sigmoid(layer_proj). In standard mode,
-        returns self.bridge directly.
+        returns master_bridge * 2 * sigmoid(layer_proj). In rd_graph mode,
+        returns rd_mask * edge_weights (fixed topology × learnable weights).
+        In standard mode, returns self.bridge directly.
         """
         if self._external_bridge_fn is not None:
             return self._external_bridge_fn()
         if self.emanation:
             return self.master_bridge * (2.0 * torch.sigmoid(self.layer_proj))
+        if self.rd_graph:
+            return self.rd_mask * self.edge_weights
         return self.bridge
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -231,6 +255,8 @@ class RhombiLoRALinear(nn.Module):
         """
         if self.emanation:
             self.layer_proj.requires_grad_(False)
+        elif self.rd_graph:
+            self.edge_weights.requires_grad_(False)
         else:
             self.bridge.requires_grad_(False)
 
@@ -241,6 +267,8 @@ class RhombiLoRALinear(nn.Module):
         """
         if self.emanation:
             self.layer_proj.requires_grad_(True)
+        elif self.rd_graph:
+            self.edge_weights.requires_grad_(True)
         else:
             self.bridge.requires_grad_(True)
 
@@ -284,12 +312,29 @@ class RhombiLoRALinear(nn.Module):
             gate = torch.sigmoid(logits / self._gate_temperature)
             return float((gate < 0.1).float().mean().item())
 
+    @property
+    def bridge_param(self) -> nn.Parameter:
+        """Return the trainable bridge parameter regardless of mode.
+
+        For rd_graph: returns edge_weights.
+        For emanation: returns layer_proj.
+        For standard: returns bridge.
+        Used by training loops that need to build optimizer param groups.
+        """
+        if self.rd_graph:
+            return self.edge_weights
+        if self.emanation:
+            return self.layer_proj
+        return self.bridge
+
     def extra_repr(self) -> str:
         s = (
             f"in={self.in_features}, out={self.out_features}, "
             f"rank={self.rank}, channels={self.n_channels}, "
             f"scaling={self.scaling:.4f}"
         )
+        if self.rd_graph:
+            s += ", rd_graph=True"
         if self.emanation:
             s += ", emanation=True"
         if self.dynamic_bridge:

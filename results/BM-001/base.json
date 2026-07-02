@@ -1,0 +1,32 @@
+{
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "adapter": null,
+  "tasks": {
+    "mmlu": {
+      "acc,none": 0.7417034610454352,
+      "acc_stderr,none": 0.0035233606891866957,
+      "alias": "mmlu"
+    },
+    "arc_challenge": {
+      "alias": "arc_challenge",
+      "acc,none": 0.6305460750853242,
+      "acc_stderr,none": 0.014104578366491887,
+      "acc_norm,none": 0.6638225255972696,
+      "acc_norm_stderr,none": 0.013804855026205758
+    },
+    "hellaswag": {
+      "alias": "hellaswag",
+      "acc,none": 0.6235809599681338,
+      "acc_stderr,none": 0.004834969412883656,
+      "acc_norm,none": 0.8106950806612229,
+      "acc_norm_stderr,none": 0.0039095001598848335
+    },
+    "winogrande": {
+      "alias": "winogrande",
+      "acc,none": 0.7505919494869772,
+      "acc_stderr,none": 0.012160189196930685
+    }
+  },
+  "num_fewshot": 5,
+  "wall_time_seconds": 2723.1789968013763
+}
