@@ -112,7 +112,7 @@ def draw_roadmap():
     # Key metrics callout
     metrics = [
         ('4.6×', 'cross-channel\ncoupling'),
-        ('84.5%', 'fingerprint\naccuracy'),
+        ('72.3%', 'fingerprint\naccuracy'),
         ('36', 'parameters\nper layer'),
     ]
     for i, (num, label) in enumerate(metrics):

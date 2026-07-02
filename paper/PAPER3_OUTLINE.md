@@ -151,7 +151,7 @@ bridge parameters.
 ### 7.3 Practical Implications
 - n=3 for efficiency, n=6 for interpretability
 - Cybernetic training as a general approach to discovering minimal structure
-- Bridge as a structural fingerprint (prior work: 84.5% task classification)
+- Bridge as a structural fingerprint (prior work: 72.3% three-way task classification, linear SVM over 336 individual 6×6 bridges; chance 33.3%)
 
 ### 7.4 Limitations
 - Single task family (instruction-following)

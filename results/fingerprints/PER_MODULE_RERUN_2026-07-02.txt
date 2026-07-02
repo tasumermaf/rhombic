@@ -1,0 +1,14 @@
+Loaded 112 bridges for task 'alpaca'
+Loaded 112 bridges for task 'code'
+Loaded 112 bridges for task 'math'
+
+Analyzing 3 task types...
+
+=== Per-Module LOO SVM Classification ===
+  q_proj: 69.0% (84 samples, 36 params)
+  k_proj: 58.3% (84 samples, 36 params)
+  v_proj: 51.2% (84 samples, 36 params)
+  o_proj: 60.7% (84 samples, 36 params)
+==========================================
+
+Report written to results\fingerprints\TASK_FINGERPRINT_REPORT.md

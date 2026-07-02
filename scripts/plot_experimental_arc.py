@@ -46,7 +46,7 @@ experiments = [
     {
         'id': 'Exp 2.6',
         'title': 'Task\nFingerprinting',
-        'metric': '84.5% accuracy',
+        'metric': '72.3% accuracy',
         'status': 'complete',
         'pos': (6.0, 2.0),
     },

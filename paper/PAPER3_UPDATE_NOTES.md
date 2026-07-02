@@ -168,6 +168,8 @@ overwritten. By step 1000 both converge.
 
 **Current abstract claims:**
 1. Bridge encodes task identity (82.1% → 84.5%) ✓
+
+> CORRECTION (2026-07-02): the 84.5% figure was retracted Apr 6, 2026 (never backed by reproducible computation). Verified value: 72.3% all-modules LOO SVM. See docs/EXPERIMENT_TRACKER.md.
 2. FCC learns 4.6× more coupling than cubic ✓
 3. Bridge interpolation preserves eigenspectrum ✓
 4. Contrastive pre-training installs persistent direction (2,600× → 16×)

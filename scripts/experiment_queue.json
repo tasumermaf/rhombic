@@ -1,0 +1,119 @@
+{
+  "description": "Experiment queue for rhombic GPU training. Watchdog picks the next 'queued' experiment, runs it, marks 'running', then 'done' on completion.",
+  "experiments": [
+    {
+      "id": "FC-001-resume",
+      "status": "failed",
+      "priority": 1,
+      "gpu": "local",
+      "description": "Resume FC-001 from step 1800 (was killed mid-training). Fixed c_w=0.02, n=6, Qwen 1.5B.",
+      "command": "cd /c/falco/rhombic && python scripts/train_cybernetic.py --model Qwen/Qwen2.5-1.5B-Instruct --n-channels 6 --max-steps 10000 --batch-size 4 --gradient-accumulation 4 --warmup-steps 200 --checkpoint-steps 100 --seed 42 --output results/fc-001-resumed --resume results/fc-001",
+      "expected_hours": 6,
+      "notes": "Stopped at 1800/10K with co/cross 7456:1. Resumes from step 1800 into fc-001-resumed dir. Optimizer restarts (no state saved).",
+      "completed_at": "2026-03-24T15:51:19.416575",
+      "exit_code": 141
+    },
+    {
+      "id": "FC-001-fresh",
+      "status": "failed",
+      "priority": 0,
+      "gpu": "local",
+      "description": "Fresh FC-001: Fixed c_w=0.02, n=6, Qwen 1.5B. Clean run (no resume).",
+      "command": "cd /c/falco/rhombic && python scripts/train_cybernetic.py --model Qwen/Qwen2.5-1.5B-Instruct --n-channels 6 --max-steps 10000 --batch-size 4 --gradient-accumulation 4 --warmup-steps 200 --checkpoint-steps 100 --seed 42 --fixed-contrastive 0.02 --output results/fc-001-fresh",
+      "expected_hours": 10,
+      "notes": "Launched Mar 25 ~21:00. Reached step 2300 with co/cross 7,990:1, Fiedler 0.00035 before SIGPIPE kill (stdout piped to head -30). Resumed into fc-001-resumed2.",
+      "started_at": "2026-03-25T21:00:00",
+      "completed_at": "2026-03-26T02:15:00",
+      "exit_code": 141
+    },
+    {
+      "id": "FC-001-resumed2",
+      "status": "done",
+      "priority": 0,
+      "gpu": "local",
+      "description": "Resume FC-001 from step 2300. Fixed c_w=0.02, n=6, Qwen 1.5B.",
+      "command": "cd /c/falco/rhombic && python scripts/train_cybernetic.py --model Qwen/Qwen2.5-1.5B-Instruct --n-channels 6 --max-steps 10000 --batch-size 4 --gradient-accumulation 4 --warmup-steps 200 --checkpoint-steps 100 --seed 42 --fixed-contrastive 0.02 --resume results/fc-001-fresh --output results/fc-001-resumed2",
+      "expected_hours": 7,
+      "notes": "Completed 10K steps. Final: val 0.3129, co/cross 67,501:1, Fiedler 0.000086. Fixed c_w comparable to H-ch6 adaptive (70,404:1). Confirms fixed contrastive weight is viable at n=6.",
+      "started_at": "2026-03-26T02:29:00",
+      "completed_at": "2026-03-26T09:30:00",
+      "exit_code": 0
+    },
+    {
+      "id": "FC-002",
+      "status": "done",
+      "priority": 2,
+      "gpu": "local",
+      "description": "Fixed c_w=0.02, n=12 (RD faces). Qwen 1.5B. Compare channel count effect vs FC-001 (n=6).",
+      "command": "cd /c/falco/rhombic && python scripts/train_cybernetic.py --model Qwen/Qwen2.5-1.5B-Instruct --n-channels 12 --max-steps 10000 --batch-size 4 --gradient-accumulation 4 --warmup-steps 200 --checkpoint-steps 100 --seed 42 --output results/fc-002",
+      "expected_hours": 10,
+      "notes": "Crashed at step 7900 (Unicode arrow in cp1252). Fixed, resumed into fc-002-resumed. Completed 10000 steps. Final: loss 0.3549, val 0.3158, Fiedler 0.10359, co/cross None. Significant negative result: n=12 produces spectral attractor but NO directional coherence.",
+      "started_at": "2026-03-25T07:15:00",
+      "completed_at": "2026-03-25T18:30:00",
+      "exit_code": 0
+    },
+    {
+      "id": "WANLANTIS-STD",
+      "status": "done",
+      "priority": 3,
+      "gpu": "runpod",
+      "description": "Standard LoRA control for Wanlantis A/B test. RunPod A100.",
+      "command": "see scripts/wanlantis_runpod_setup.sh",
+      "expected_hours": 1.5,
+      "notes": "Completed 6000 steps. Downloaded to C:/ComfyUI/models/loras/wanlantis_standard_ab.safetensors (385 MB)",
+      "completed_at": "2026-03-25T06:30:00",
+      "exit_code": 0
+    },
+    {
+      "id": "WANLANTIS-TELORA",
+      "status": "done",
+      "priority": 4,
+      "gpu": "runpod",
+      "description": "TeLoRA experiment for Wanlantis A/B test. RunPod A100.",
+      "command": "see scripts/wanlantis_runpod_setup.sh",
+      "expected_hours": 5.5,
+      "notes": "Completed 6000 steps. Bridge injected (6 channels, identity mode). Downloaded to C:/ComfyUI/models/loras/wanlantis_telora_ab.safetensors (385 MB). Pod terminated.",
+      "completed_at": "2026-03-25T13:09:00",
+      "exit_code": 0
+    },
+    {
+      "id": "WANLANTIS-RENDER",
+      "status": "done",
+      "priority": 5,
+      "gpu": "local",
+      "description": "A/B render comparison: Standard LoRA vs TeLoRA on Wan2.1-T2V-14B via ComfyUI. 2 prompts x 2 LoRAs = 4 videos. Seed=42, 832x480, 81 frames, 30 steps.",
+      "command": "cd /c/falco/rhombic && python scripts/wanlantis_ab_render.py --prompts 2",
+      "expected_hours": 1.5,
+      "notes": "All 4 renders complete. ~21 min/video. File sizes: std_p0=2.8MB, telora_p0=1.9MB (-33%), std_p1=1.2MB, telora_p1=0.85MB (-27%). TeLoRA consistently smaller (less high-freq detail or better temporal coherence). Visual: Standard=ornate/illustrative/wide; TeLoRA=cinematic/photorealistic/intimate. Videos at results/wanlantis-ab/.",
+      "started_at": "2026-03-25T14:18:00",
+      "completed_at": "2026-03-25T15:42:00",
+      "exit_code": 0
+    },
+    {
+      "id": "FO-001",
+      "status": "done",
+      "priority": 1,
+      "gpu": "hermes",
+      "description": "Fixed c_w=0.02, n=4 (octahedron). TinyLlama 1.1B. Compare with O-001 (adaptive, 473,622:1).",
+      "command": "cd ~/rhombic && python scripts/train_cybernetic.py --model TinyLlama/TinyLlama-1.1B-Chat-v1.0 --n-channels 4 --max-steps 10000 --batch-size 2 --gradient-accumulation 4 --warmup-steps 200 --checkpoint-steps 100 --seed 42 --fixed-contrastive 0.02 --output results/FO-001",
+      "expected_hours": 8,
+      "notes": "Completed 10K steps. Final: val 0.4113, co/cross 262,920:1, Fiedler 0.000032. Fixed c_w=0.02 at n=4 produces 262,920:1 vs O-001 adaptive 473,622:1 (56% of adaptive). Confirms fixed slightly undershoots adaptive at n=4 but still produces extreme directionality.",
+      "started_at": "2026-03-26T02:40:00",
+      "completed_at": "2026-03-26T10:00:00",
+      "exit_code": 0
+    },
+    {
+      "id": "LORAXS-CORPUS",
+      "status": "done",
+      "priority": 0,
+      "gpu": "local",
+      "description": "LoRA-XS pivot: frozen A/B from SVD, train only R (24x24). 5 conditions: corpus+optimized, corpus+random, structure-only, LoRA-XS baseline, standard LoRA.",
+      "command": "cd /c/falco/rhombic && python scripts/train_loraxs_corpus.py --config all --output results/loraxs-corpus",
+      "expected_hours": 7,
+      "notes": "NEGATIVE RESULT. All 5 conditions complete. D (LoRA-XS baseline, R≈0) = 0.4124 BEATS all corpus-initialized variants: A (corpus+optimized) = 0.4262, B (corpus+random) = 0.4268, C (structure-only) = 0.4257. Near-identity R init (corpus values on diagonal ≈ I) hurts by +3.2% vs near-zero R init. Published LoRA-XS approach correct. E (standard LoRA, 101x params) = 0.3729 wins on quality. Corpus values provide zero benefit for R initialization — near-identity perturbation reconstructs top-24 SVD components, making optimization harder than starting from scratch.",
+      "started_at": "2026-03-26T08:00:00",
+      "completed_at": "2026-03-26T13:58:00",
+      "exit_code": 0
+    }
+  ]
+}

@@ -429,40 +429,43 @@ Pair & Mean & Std & Min & Max \\
 \end{table}
 
 \paragraph{Classification accuracy.}
-Leave-one-out SVM classification on the 336 bridge vectors achieves 72.9\%
-three-way accuracy (chance: 33.3\%). Performance is not uniform: alpaca
-(93.8\%) and code (94.6\%) are well-classified, while math (50.0--66.1\%)
-is frequently confused with code, consistent with their low between-task
-distance.
+A linear SVM over the 336 individual bridge matrices (112 per task
+across three tasks, each a 36-parameter $6 \times 6$ bridge) achieves
+72.3\% three-way leave-one-out accuracy (chance: 33.3\%). The
+code--math pair is the closest in bridge distance
+(Table~\ref{tab:fingerprint-distances}) and correspondingly the
+hardest to separate.
 
-\paragraph{Feature selection: Q-proj dominance.}
-Restricting the classifier to Q-projection bridges only (28 per task, 1,008
-parameters) \emph{improves} accuracy to 82.1\% (Table~\ref{tab:subset-class}).
-Adding O-projection bridges (56 total, 2,016 parameters) achieves the best
-overall accuracy of 83.3\%, primarily by improving math classification
-from 50.0\% to 66.1\%. K-projection and V-projection bridges are
-uninformative: their inclusion degrades the SVM's decision boundary.
-The headline finding is that \textbf{1,008 bridge parameters (28 Q-proj
-bridges) outperform the full 4,032-parameter bridge set} for task
-identification. Q-projection bridges are the most task-discriminative
-component of the attention head, consistent with their highest coupling
-strength (\S\ref{sec:exp-anatomy-7b}).
+\paragraph{Per-module discriminability.}
+Training separate classifiers on each module's bridges (84 samples per
+module, 36 parameters each) ranks the modules: q\_proj 69.0\%, o\_proj
+60.7\%, k\_proj 58.3\%, v\_proj 51.2\%
+(Table~\ref{tab:subset-class}). The query projection is the most
+task-discriminative single module, consistent with its highest mean
+between-task distance (0.16076) and highest coupling strength
+(\S\ref{sec:exp-anatomy-7b}). No single module, however, outperforms
+the pooled classifier: all-module fingerprints achieve 72.3\%,
+exceeding the best single module by 3.3 percentage points. Task
+identity is distributed across the attention head's bridges rather
+than concentrated in any sparse subset.
 
 \begin{table}[t]
 \centering
-\caption{Subset classification accuracy (LOO SVM, 3-way). Removing
-uninformative K/V bridges improves accuracy by up to 10.4\,pp. Q-proj
-bridges alone classify at 82.1\% with 1,008 parameters.}
+\caption{Per-module classification accuracy (LOO SVM, 3-way; each
+sample is a single 36-parameter $6 \times 6$ bridge). No single module
+outperforms the pooled all-module classifier; the query projection is
+the most discriminative single module.}
 \label{tab:subset-class}
 \small
 \begin{tabular}{@{}lrrr@{}}
 \toprule
-Subset & Positions & Parameters & LOO Accuracy \\
+Fingerprint set & Samples & Params/bridge & LOO Accuracy \\
 \midrule
-Full (Q+K+V+O) & 112 & 4,032 & 72.9\% \\
-Q-proj only     &  28 & 1,008 & 82.1\% \\
-O-proj only     &  28 & 1,008 & 76.2\% \\
-Q+O combined    &  56 & 2,016 & \textbf{83.3\%} \\
+All modules (Q+K+V+O) & 336 & 36 & \textbf{72.3\%} \\
+q\_proj only & 84 & 36 & 69.0\% \\
+o\_proj only & 84 & 36 & 60.7\% \\
+k\_proj only & 84 & 36 & 58.3\% \\
+v\_proj only & 84 & 36 & 51.2\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -492,8 +495,9 @@ Task fingerprints emerge entirely from training. At step~0, all bridges
 are identical (identity initialization), and all between-task distances
 are exactly 0.000. Divergence is monotonic: at step~1000 the binary
 code--math classifier achieves 87.5\%, rising to 92.9\% at step~1500
-and still climbing. The three-way Q-proj classifier reaches 84.5\% at
-the final checkpoint. This trajectory rules out any initialization
+and still climbing. At the final checkpoint, pooled all-module
+fingerprints classify three-way task type at 72.3\% (q\_proj alone:
+69.0\%). This trajectory rules out any initialization
 confound and demonstrates that bridge structure is a faithful record
 of training-induced specialization.
 

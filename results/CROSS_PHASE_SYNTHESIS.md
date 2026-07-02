@@ -124,7 +124,7 @@ LOO SVM accuracy using different bridge subsets, consistent pipeline:
 | Top 5 layers, Q+O | 10 | 360 | 76.7%* | +3.8pp |
 
 *Top-5-layer values from step-1500 analysis; qualitative ranking unchanged.
-**NOTE (Apr 6, 2026):** Q-proj-only 82.1% and Q+O 83.3% were not independently reproduced from the report files on disk. The verified all-module accuracy is 72.3% (TASK_FINGERPRINT_REPORT.md) / 73.5% (2-way). Q-proj-only SVM re-run pending.
+**NOTE (Apr 6, 2026; updated 2026-07-02):** Q-proj-only 82.1% and Q+O 83.3% were not independently reproduced from the report files on disk. The verified all-module accuracy is 72.3% (TASK_FINGERPRINT_REPORT.md). Q-proj-only SVM re-run completed Apr 6, 2026 (q_proj=69.0%; o_proj=60.7%, k_proj=58.3%, v_proj=51.2%; 84 samples each) and persisted 2026-07-02 to results/fingerprints/PER_MODULE_RERUN_2026-07-02.txt. Q-proj-only is BELOW the pooled all-module set — the subset-beats-full-set claim in this section is falsified.
 
 **Key finding:** Removing K-proj and V-proj bridges IMPROVES classification
 by up to 10.4 percentage points. The uninformative modules add noise that

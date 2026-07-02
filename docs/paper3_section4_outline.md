@@ -5,6 +5,9 @@
 >
 > **Status:** Outline from available results (Mar 8, 2026). Pending: Phase 3A
 > overfit diagnostic, generative evaluation of bridge merging.
+>
+> NOTE (2026-07-02): fingerprinting numbers corrected after the Apr 6, 2026
+> retraction — verified value is 72.3% (all modules). See docs/EXPERIMENT_TRACKER.md.
 
 ---
 
@@ -44,12 +47,13 @@ within the attention head. This motivates Phase 1A.
 
 **Table 3:** Between-task and within-task distances (from TASK_FINGERPRINT_REPORT)
 
-**Figure 3:** Confusion matrices — Full set (74.1%) vs Q-proj only (84.5%)
-- Side by side, showing alpaca/code going to 100% while math stays confused
+**Figure 3:** Confusion matrices — Full pooled set (72.3%) vs Q-proj only (69.0%)
+- Side by side, showing alpaca/code strongly separated (105/112, 106/112)
+  while math stays confused (72/112)
 
-**Table 4:** Per-module discrimination and subset classification accuracy
-- Q-proj: 84.5%, O-proj: 77.4%, Q+O: 83.3%, Full: 74.1%
-- Headline: "1,008 parameters outperform 4,032 for task identification"
+**Table 4:** Per-module discrimination and per-module classification accuracy
+- q_proj: 69.0%, o_proj: 60.7%, k_proj: 58.3%, v_proj: 51.2%; Full pooled: 72.3%
+- Headline: "Pooled all-module bridges outperform any single module"
 
 **Figure 4:** Per-layer task discrimination (heatmap, 28 layers × 4 modules)
 - Color = mean between-task Frobenius distance
@@ -60,7 +64,9 @@ within the attention head. This motivates Phase 1A.
 - Monotonic divergence through training
 - No initialization confound — cleanest possible control
 
-**Key finding:** 28 Q-proj bridges (1,008 params) classify task type at 84.5%.
+**Key finding:** Pooled all-module bridges (336 samples, 36 params each)
+classify task type at 72.3%; q_proj is the best single module (69.0%) but
+below the pooled set.
 Tasks change bridge coupling MAGNITUDE, not STRUCTURE (eigenspectrum cosine ≈ 1.0).
 Fingerprints emerge entirely from training (zero at step 0, monotonically diverging).
 

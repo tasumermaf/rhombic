@@ -477,11 +477,16 @@ The geometry is the argument. The numbers are the evidence.*
 # ── Tab 4: Weighted Extensions ─────────────────────────────────────
 
 # Demonstration values for the weighted extensions tab.
-# These are synthetic values that illustrate the same structural properties
-# as the research corpus without exposing proprietary data.
+# Synthetic weights sampled from a lognormal fit to the research corpus's
+# distributional character (high variance, heavy right tail), generated with
+# rejection sampling so that no value approximates any proprietary corpus
+# value and the ordering carries no correspondence to the corpus
+# (seed 20260702; positional correlation 0.06). The demo illustrates how
+# heterogeneous weights interact with lattice topology; the specific numbers
+# are deliberately uninformative.
 CORPUS_VALUES = [
-    1200, 210, 400, 460, 90, 60, 450, 770, 340, 150, 430, 140,
-    390, 70, 50, 30, 80, 130, 20, 310, 240, 350, 130, 250,
+    270, 530, 145, 123, 187, 37, 47, 1080, 472, 503, 857, 1190,
+    108, 397, 286, 692, 172, 214, 227, 643, 1035, 737, 364, 944,
 ]
 
 WEIGHTED_HEADER = """
@@ -810,12 +815,12 @@ Init: M = I     (recovers standard LoRA exactly)
 |--------|-------|-------|
 | Exp 1-2.5 | 1.5B, 7B | Anatomy, null on direction, positive on connectivity |
 | Exp 3 series | 7B | Cybernetic bridge (Steersman), 82,854:1 co/cross |
-| Holly Battery | 14B (Wan 2.1) | Scale invariance, 3.8% better loss, 50% smaller checkpoints |
 | Channel ablation | 1.1B | n=3,4,6,8 — only n=6 contrastive produces BD |
+| BM-001 | 7B | Benchmark parity: TeLoRA matches standard LoRA (Δ +0.0012, four lm-eval tasks) |
 
-**7-round adversarial audit complete.** 232 findings across 7 rounds, 87
-fixed, zero CRITICAL or MAJOR findings remaining. Both Papers 2 and 3 are
-submission-ready.
+**7-round internal adversarial audit.** 232 findings across 7 rounds, 87
+fixed. Papers 2-4 are working drafts (not published, not submitted);
+Paper 1 is complete. Nulls and retractions are tracked openly in the repo.
 
 [Paper](https://github.com/tasumermaf/rhombic/blob/main/paper/rhombic-paper3.tex) |
 [All results](https://github.com/tasumermaf/rhombic/tree/main/results) |

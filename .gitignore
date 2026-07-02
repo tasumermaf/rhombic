@@ -127,3 +127,7 @@ scripts/train_loraxs_corpus.py
 results/corpus-baselines/
 results/loraxs-corpus/
 results/fig_corpus_*
+docs/THE_24_CELL_THESIS.md
+scripts/DEFINITIVE_HACKATHON_DELIVERABLE.md
+scripts/fi_001_corpus_internal.py
+scripts/fi_002_corpus_pairs.py

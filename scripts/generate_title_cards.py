@@ -48,7 +48,7 @@ def title_card():
 
     draw_centered(draw, "rhombic-agent", 340, title_font, FCC)
     draw_centered(draw, "Keep Your Cube, Add Six Bridges.", 440, sub_font, TEXT)
-    draw_centered(draw, "9 tools  \u00b7  3 papers  \u00b7  256 tests  \u00b7  0 competitors", 520, tag_font, DIM)
+    draw_centered(draw, "9 tools  \u00b7  3 papers  \u00b7  357 tests  \u00b7  nulls published", 520, tag_font, DIM)
 
     # Gold accent line
     draw.line([(W//2 - 200, 500), (W//2 + 200, 500)], fill=GOLD, width=2)
@@ -77,7 +77,7 @@ def closing_card():
     draw_centered(draw, "huggingface.co/spaces/timotheospaul/rhombic", 490, link_font, DIM)
 
     # Tagline
-    draw_centered(draw, "256 tests. 3 papers. 0 competitors.", 580, big_font, GOLD)
+    draw_centered(draw, "357 tests. Nulls published. Reproducible by default.", 580, big_font, GOLD)
 
     # Attribution
     draw_centered(draw, "Built by TASUMER MAF  \u00b7  @NousResearch #HermesAgentHackathon", 700, tag_font, DIM)

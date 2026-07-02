@@ -13,13 +13,21 @@ A benchmarking library that compares cubic (6-connected) and FCC/rhombic
 dodecahedral (12-connected) lattice topologies across graph theory,
 spatial operations, and signal processing.
 
+> **Research status (July 2026):** Paper 1, *The Shape of the Cell*, is the
+> program's one completed paper; it has not yet been published or submitted.
+> Papers 2–4 are working drafts under active revision. Corrections and
+> retractions are tracked openly — see the Retracted table in
+> [results/EXPERIMENT_TRACKER.md](results/EXPERIMENT_TRACKER.md) and the
+> equal-edge control in
+> [results/EE-001-equal-edge-control/](results/EE-001-equal-edge-control/RESULTS.md).
+
 ## The Numbers
 
 | Metric | FCC vs Cubic | Scale |
 |--------|-------------|-------|
 | Average shortest path | **30% shorter** | 125 – 8,000 nodes |
 | Graph diameter | **40% smaller** | 125 – 8,000 nodes |
-| Algebraic connectivity | **2.4× higher** | 125 – 8,000 nodes |
+| Algebraic connectivity | **2.3–2.5× higher** | 125 – 8,000 nodes |
 | Flood fill reach | **55% more nodes** | 125 – 8,000 nodes |
 | NN query speed | **17% faster** | 125 – 8,000 nodes |
 | Signal reconstruction | **4-10× lower MSE** | 216 – 1,000 samples |
@@ -31,6 +39,23 @@ spatial operations, and signal processing.
 These ratios are stable across all tested scales. They hold at every size
 tested, consistent with derivation from Voronoi cell geometry rather than
 sample size.
+
+### Scope: what the comparison does and does not show (EE-001)
+
+The table above compares two **spatially-embeddable lattices**. It does not
+make FCC a near-optimal graph in the abstract: the equal-edge-count control
+([EE-001](results/EE-001-equal-edge-control/RESULTS.md), pre-registered)
+shows that a degree-preserving random rewire of the FCC's own edges beats it
+4–17× on algebraic connectivity and halves path lengths. Random expanders
+win at a fixed edge budget — but they require mean wire lengths 3.5–7.2×
+the FCC's nearest-neighbor edges, growing without bound (~N^⅓), and so
+cannot be physically embedded with local wiring. **The honest claim:
+among spatially-embeddable lattice topologies at matched node count, FCC
+dominates cubic — and spatial embeddability is exactly the constraint that
+physical domains (routing fabrics, meshes, neighbor lists, spatial data
+structures) impose.** Where a task has no spatial metric, this library's
+own null results say the geometry does not help
+([LEARNINGS.md](docs/LEARNINGS.md): L-001, Exp 2.5).
 
 ![Graph theory dashboard](results/rung-1/dashboard.png)
 ![Spatial operations dashboard](results/rung-2/dashboard.png)
@@ -186,18 +211,34 @@ is universal across 24-edge polytopes, not RD-specific.
 - [Raw data and tables](results/paper2/RESULTS.md)
 - [What the numbers mean](results/paper2/INTERPRETATION.md)
 
-### Paper 3: The Learnable Bridge (13 experiments, 312 tests)
+### Paper 3: The Learnable Bridge (13 experiments, 357 tests) — working draft
 
 Thirteen experiments across four model families (1.1B–14B parameters),
-demonstrating that a cybernetic feedback mechanism discovers rhombic
-dodecahedral geometry in multi-channel LoRA bridge matrices.
+demonstrating that a cybernetic feedback mechanism (the Steersman)
+**programs** a specified coupling topology into multi-channel LoRA bridge
+matrices. The rhombic dodecahedron is the canonical target, not a discovery:
+the geometry does not emerge from data (Exp 2.5 null: co/cross = 1.002,
+p = 0.474), and the same controller imprints octahedral, tesseract, and
+24-cell targets just as cleanly (see Paper 4). The topology is chosen;
+the mechanism is what's demonstrated.
 
 **Key finding:** When the Steersman (contrastive + spectral feedback) is
-active at channel count n=6, 100% of bridge matrices develop block-diagonal
-structure aligned to the three coordinate planes of the rhombic dodecahedron.
-Without the Steersman: 0%. The co-planar/cross-planar coupling ratio peaks
-at 82,854:1. Structure locks in by step 200, survives adversarial initialization,
-and costs 0.17% validation loss.
+active at channel count n=6 with RD face-pair supervision, 100% of bridge
+matrices develop block-diagonal structure aligned to the three coordinate
+planes of the rhombic dodecahedron. Without the Steersman: 0%. The
+co-planar/cross-planar coupling ratio peaks at 82,854:1. Structure locks in
+by step 200, survives adversarial initialization, and costs 0.17%
+validation loss.
+
+**What the bridge is for:** interpretable diagnostics, at benchmark parity.
+Bridge fingerprints classify task type at 72.3% leave-one-out accuracy
+(linear SVM over 336 individual 36-parameter bridge matrices; chance 33.3%),
+bridge deviation tracks the generalization gap at r = 0.888, and a
+benchmark head-to-head (BM-001) shows TeLoRA matching standard LoRA on
+MMLU/ARC-C/HellaSwag/WinoGrande (aggregate Δ +0.0012). The structure comes
+at zero benchmark cost. (An earlier 84.5% fingerprinting figure was
+retracted 2026-04-06 — never backed by reproducible computation; see the
+Retracted table in [results/EXPERIMENT_TRACKER.md](results/EXPERIMENT_TRACKER.md).)
 
 | Finding | Value |
 |---------|-------|
@@ -210,12 +251,28 @@ and costs 0.17% validation loss.
 | Val loss cost of topology | **0.17% max** |
 | Scale invariance | **1.1B, 7B, 14B** (Fiedler converges ~0.10) |
 
-**7-round adversarial audit complete.** 232 findings across 7 rounds, 87
-fixed, zero CRITICAL or MAJOR findings remaining. Both Papers 2 and 3 are
-submission-ready.
+**7-round adversarial audit.** 232 findings across 7 rounds, 87 fixed.
+The audit covers Papers 1–3 and predates the April 2026 fingerprinting
+correction; Papers 2 and 3 remain **working drafts** — internally audited,
+not published, not submitted.
 
 - [Audit trail](paper/audit/) — full findings, hub validations, rewrite log
 - [Cross-phase synthesis](results/CROSS_PHASE_SYNTHESIS.md)
+
+### Paper 4: The Topology Programmer — working draft
+
+The Steersman is a general-purpose topology programmer, not an RD-specific
+mechanism. Four polytopes confirmed: octahedron (473,622:1 co/cross,
+per-bridge mean), rhombic dodecahedron (70,404:1), tesseract (41,564:1,
+replication r = 1.0000), 24-cell (35,808:1). Four training regimes mapped:
+Block-Diagonal, Spectral Attractor (universal band, Fiedler ≈ 0.09),
+Hierarchical Coherence, Collapse. Negative controls sharpen the claim:
+wrong-label pairs and prime-derived pairs both collapse — geometric
+coherence in the pair specification is required. Removing the controller
+dissolves the topology within ~100 steps: the Steersman is homeostatic
+maintenance, not one-time crystallization.
+
+- [Outline and results](paper/PAPER4_OUTLINE.md) · [Draft](paper/paper4/)
 
 ### Synthesis
 
@@ -254,21 +311,31 @@ between the A and B projections in LoRA, adding n² parameters per layer.
 When the bridge is the identity matrix, the architecture reduces exactly
 to standard LoRA.
 
-The bridge does not improve fine-tuning loss. It provides something LoRA
-cannot: a compact, interpretable diagnostic of adapter behavior — an
-n²-parameter summary of what training discovered, readable without
-inference or evaluation. At n=6, a cybernetic feedback mechanism
-(the Steersman) discovers rhombic dodecahedral geometry in the bridge.
+The bridge does not improve fine-tuning loss, and it does not hurt it
+(BM-001: benchmark parity with standard LoRA across four lm-eval tasks).
+It provides something LoRA cannot: a compact, interpretable diagnostic of
+adapter behavior — an n²-parameter summary of what training did, readable
+without inference or evaluation. A cybernetic feedback mechanism (the
+Steersman) can program a chosen topology into the bridge; the rhombic
+dodecahedron is the canonical instance, and the mechanism is
+topology-agnostic (Paper 4). A structural variant (`rd_graph` mode) builds
+the topology in by construction — a fixed adjacency mask with learnable
+edge weights, no controller — and is the current experimental frontier
+(BM-003).
 
-- Architecture: [`rhombic.nn`](rhombic/nn/) — `RhombiLoRALinear`, topology, bridge init
+- Architecture: [`rhombic.nn`](rhombic/nn/) — `RhombiLoRALinear`, topology, bridge init, exact absorption to standard LoRA
 - Training: [`scripts/train_cybernetic.py`](scripts/train_cybernetic.py) — full Steersman pipeline
-- 20 experimental learnings: [LEARNINGS.md](docs/LEARNINGS.md)
+- 28 experimental learnings, nulls and retractions included: [LEARNINGS.md](docs/LEARNINGS.md)
 
 ### Papers
 
-- [Paper 1: The Shape of the Cell](paper/rhombic.tex) — four-domain topology comparison (arXiv cs.DS)
-- [Paper 2: Structured Edge Weights Amplify FCC Lattice Topology](paper/rhombic-paper2.tex) — bottleneck resilience under heterogeneous weights
-- [Paper 3: The Learnable Bridge](paper/rhombic-paper3.tex) — cybernetic feedback discovers rhombic dodecahedral geometry in multi-channel LoRA (13 experiments, 4 model families, 7-round audit)
+Status: Paper 1 is **complete** (not yet published). Papers 2–4 are
+**working drafts** — internally audited, under revision, not submitted.
+
+- [Paper 1: The Shape of the Cell](paper/rhombic.tex) — four-domain topology comparison. Complete.
+- [Paper 2: Structured Edge Weights Amplify FCC Lattice Topology](paper/rhombic-paper2.tex) — bottleneck resilience under heterogeneous weights. Draft.
+- [Paper 3: The Learnable Bridge](paper/rhombic-paper3.tex) — cybernetic feedback programs coupling topology in multi-channel LoRA; interpretable adapter diagnostics (13 experiments, 4 model families). Draft.
+- [Paper 4: The Topology Programmer](paper/paper4/paper4-main.tex) — the Steersman as a general topology programmer across four polytopes; four-regime taxonomy. Draft.
 
 ## Contributing
 

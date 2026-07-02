@@ -80,7 +80,7 @@ Five papers. One thesis per paper. Each builds on the last.
 | §5 Channel ablation | n={3,4,6,8}: contrastive = mechanism | H-ch3, H-ch4, H-ch6, H-ch8 |
 | §5.2 Spectral attractor | Fiedler → 0.09 across n=3,4,8 (3.5% band) | Channel ablation series |
 | §5.3 Parameter efficiency | n=3 = n=6 performance, 4× fewer params | H-ch3 vs H-ch6 |
-| §6 Scale invariance | BD at 1.1B + 7B; Holly 14B null | exp3, exp3_tiny, Holly |
+| §6 Scale invariance | BD at 1.1B + 7B; Holly 14B null (⚠ Holly runs retracted 2026-03-13 — treat 14B point as unverified) | exp3, exp3_tiny, Holly |
 | §7 Discussion | Why BD, what it means, practical implications | — |
 | §8 Conclusion | Structure ≠ performance, cybernetic training reveals | — |
 
