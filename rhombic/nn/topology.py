@@ -68,6 +68,44 @@ def direction_pair_coupling() -> np.ndarray:
     return coupling
 
 
+def rd_adjacency_mask(n_channels: int = 6) -> np.ndarray:
+    """Return the RD-derived adjacency mask for graph convolution bridge.
+
+    For n=6 (FCC direction pairs), the coupling structure is:
+      - Diagonal: 1.0 (self-connection)
+      - Co-planar pairs (coupling=4): 1.0 (strong RD-adjacent)
+      - Cross-planar pairs (coupling=2): 0.5 (weak RD-adjacent)
+
+    The mask is FIXED (non-learnable). Learnable edge weights multiply it.
+    Topology is structural by construction, not an optimization target.
+
+    Parameters
+    ----------
+    n_channels : int
+        Must be 6 for geometric meaning. Other values get a fully-connected
+        mask (identity + uniform off-diagonal) as a fallback.
+
+    Returns
+    -------
+    mask : (n_channels, n_channels) ndarray
+        Fixed topology mask. Values in {0.5, 1.0}.
+    """
+    if n_channels != 6:
+        # Fallback: fully connected with uniform off-diagonal
+        mask = np.ones((n_channels, n_channels), dtype=np.float64)
+        return mask
+
+    coupling = direction_pair_coupling()
+    mask = np.eye(n_channels, dtype=np.float64)
+    for i in range(n_channels):
+        for j in range(n_channels):
+            if i == j:
+                continue
+            # Co-planar (coupling=4) → 1.0, Cross-planar (coupling=2) → 0.5
+            mask[i, j] = coupling[i, j] / 4.0
+    return mask
+
+
 def bridge_init(n_channels: int = 6, mode: str = 'identity') -> np.ndarray:
     """Create a bridge initialization matrix.
 
@@ -94,6 +132,14 @@ def bridge_init(n_channels: int = 6, mode: str = 'identity') -> np.ndarray:
     """
     if mode == 'identity':
         return np.eye(n_channels, dtype=np.float64)
+    elif mode == 'rd_graph':
+        # RD graph convolution: topology-weighted initialization.
+        # Diagonal=1.0, co-planar=0.1, cross-planar=0.05.
+        # The rd_adjacency_mask provides the fixed topology;
+        # these are the INITIAL edge weights that multiply it.
+        return np.eye(n_channels, dtype=np.float64) + 0.1 * (
+            rd_adjacency_mask(n_channels) - np.eye(n_channels, dtype=np.float64)
+        )
     elif mode == 'geometric':
         if n_channels != 6:
             raise ValueError("'geometric' mode requires n_channels=6")

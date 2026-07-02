@@ -1,0 +1,32 @@
+{
+  "model": "results/BM-001-telora/merged_model",
+  "adapter": null,
+  "tasks": {
+    "mmlu": {
+      "acc,none": 0.7258937473294402,
+      "acc_stderr,none": 0.0035746953576912682,
+      "alias": "mmlu"
+    },
+    "arc_challenge": {
+      "alias": "arc_challenge",
+      "acc,none": 0.5827645051194539,
+      "acc_stderr,none": 0.014409825518403085,
+      "acc_norm,none": 0.6237201365187713,
+      "acc_norm_stderr,none": 0.014157022555407156
+    },
+    "hellaswag": {
+      "alias": "hellaswag",
+      "acc,none": 0.6078470424218283,
+      "acc_stderr,none": 0.004872326888655522,
+      "acc_norm,none": 0.795857398924517,
+      "acc_norm_stderr,none": 0.0040224992107607245
+    },
+    "winogrande": {
+      "alias": "winogrande",
+      "acc,none": 0.7474348855564326,
+      "acc_stderr,none": 0.012211148449394105
+    }
+  },
+  "num_fewshot": 5,
+  "wall_time_seconds": 2665.36016869545
+}

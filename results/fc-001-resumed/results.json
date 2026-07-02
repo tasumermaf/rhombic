@@ -1,0 +1,161 @@
+{
+  "config": {
+    "name": "exp3_cybernetic_identity",
+    "rank": 24,
+    "n_channels": 6,
+    "bridge_mode": "identity",
+    "bridge_trainable": true,
+    "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+    "dataset_name": "yahma/alpaca-cleaned",
+    "max_seq_len": 512,
+    "batch_size": 4,
+    "gradient_accumulation": 4,
+    "lr": 0.0002,
+    "num_epochs": 4,
+    "warmup_steps": 200,
+    "checkpoint_steps": 100,
+    "max_steps": 10000,
+    "seed": 42,
+    "gradient_checkpointing": true,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "dynamic_bridge": false,
+    "gate_temperature_start": 5.0,
+    "gate_temperature_end": 0.1
+  },
+  "experiment": "3.0",
+  "description": "Cybernetic bridge training \u2014 the lattice IS the steersman",
+  "checkpoints": [
+    {
+      "step": 1900,
+      "train_loss": 0.3763382034562528,
+      "val_loss": 0.3326843944191933,
+      "contrastive_loss": -0.02847679914906621,
+      "spectral_loss": 3.5971043857330185e-07,
+      "fiedler_mean": 0.00013245606016625412,
+      "fiedler_std": 4.4813809667921975e-05,
+      "co_cross_ratio": 11723.011944362095,
+      "spectral_gap": 0.00021597860949909675,
+      "deviation_mean": 0.5209174738274355,
+      "deviation_std": 0.08468288704362407,
+      "grad_eff_rank": 0.0,
+      "contrastive_weight": 0.1,
+      "spectral_weight": 0.05,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.00028283481271952735,
+      "co_cross_trend": 4267.433079787663,
+      "deviation_trend": 0.03136042194540567,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00028)",
+        "stability": "STABLE (trend=0.03136)"
+      },
+      "wall_time": 349.254198551178
+    }
+  ],
+  "feedback_log": [
+    {
+      "step": 1800,
+      "fiedler_mean": 0.00041529087288578147,
+      "fiedler_std": 0.0013487618813327563,
+      "co_cross_ratio": 7455.578864574432,
+      "spectral_gap_mean": 0.0011197118508603024,
+      "deviation_mean": 0.4895570518820298,
+      "deviation_std": 0.08421011789047242,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          2.3897128782648762e-17,
+          1
+        ],
+        [
+          8.633076658936982e-05,
+          1
+        ],
+        [
+          0.00026768853419684055,
+          1
+        ],
+        [
+          0.5774262797755496,
+          1
+        ],
+        [
+          0.626130880581604,
+          1
+        ],
+        [
+          0.646279617197603,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.1,
+      "spectral_weight": 0.05,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": 0.0,
+      "co_cross_trend": 0.0,
+      "deviation_trend": 0.0,
+      "control_signals": {
+        "connectivity": "STABLE (trend=0.00000)",
+        "stability": "STABLE (trend=0.00000)"
+      }
+    },
+    {
+      "step": 1900,
+      "fiedler_mean": 0.00013245606016625412,
+      "fiedler_std": 4.4813809667921975e-05,
+      "co_cross_ratio": 11723.011944362095,
+      "spectral_gap_mean": 0.00021597860949909675,
+      "deviation_mean": 0.5209174738274355,
+      "deviation_std": 0.08468288704362407,
+      "grad_eff_rank": 0.0,
+      "eigenvalue_pattern": [
+        [
+          -1.7753843471886888e-17,
+          1
+        ],
+        [
+          0.00012624218769121976,
+          1
+        ],
+        [
+          0.00017039775458904498,
+          1
+        ],
+        [
+          0.6146185829239952,
+          1
+        ],
+        [
+          0.6632549737597481,
+          1
+        ],
+        [
+          0.6832609338870961,
+          1
+        ]
+      ],
+      "lr_scale": 1.0,
+      "contrastive_weight": 0.1,
+      "spectral_weight": 0.05,
+      "spectral_target": 0.1,
+      "bridge_lr_scale": 1.0,
+      "fiedler_trend": -0.00028283481271952735,
+      "co_cross_trend": 4267.433079787663,
+      "deviation_trend": 0.03136042194540567,
+      "control_signals": {
+        "connectivity": "STABLE (trend=-0.00028)",
+        "stability": "STABLE (trend=0.03136)"
+      }
+    }
+  ],
+  "trainable_params": 6541248,
+  "total_params": 1550255552,
+  "bridge_params": 4032
+}

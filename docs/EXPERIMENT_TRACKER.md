@@ -18,7 +18,7 @@
 | **3.0** | **Qwen 7B** | **12,900** | **COMPLETE — BREAKTHROUGH** | **22,477:1 axis alignment** |
 | 3.0-TL | TinyLlama 1.1B | 10K | COMPLETE | 47,145:1 alignment (scale-invariant) |
 | Phase 0 | Qwen 7B | — | COMPLETE | Q-proj 40% more coupling (p=0.0008) |
-| Phase 1A | Qwen 7B | — | COMPLETE | 84.5% LOO SVM task fingerprinting |
+| Phase 1A | Qwen 7B | — | COMPLETE | 72.3% LOO SVM (all modules); Q-proj-only claim retracted pending re-run |
 | Phase 2A | Qwen 7B | — | COMPLETE | Eigenspectrum cos > 0.999 under merging |
 | **Phase 3A** | **Qwen 7B** | **10K** | **COMPLETE** | **r=0.888 deviation~gap, phase transition step 400** |
 | **Holly** | **Wan 2.1 14B** | **full** | **COMPLETE (WandB)** | **3.8% better loss, 9.15 GB less VRAM** |
@@ -229,8 +229,9 @@ not just the hyperparameters.
 
 ### Phase 1A: Task Fingerprints (STRONG SIGNAL)
 - **Results:** `results/fingerprints/`
-- **Key findings:** 84.5% LOO SVM (Q-proj only, 1,008 params). Code most
+- **Key findings:** 72.3% LOO SVM (all modules, 336 adapters) / 73.5% (2-way). Code most
   distinctive (97.3%). Mann-Whitney p = 0.000000.
+  **CORRECTION (Apr 6, 2026):** Q-proj-only SVM re-run produces **69.0%** (84 samples, 36 params). Previously reported as 84.5% — that number was never backed by reproducible computation. Q-proj is the best single module but WORSE than all-modules-combined. Per-module breakdown: q_proj=69.0%, o_proj=60.7%, k_proj=58.3%, v_proj=51.2%.
 
 ### Phase 2A: Bridge-Level Merging (MIXED)
 - **Results:** `results/bridge_merge/`
@@ -622,7 +623,7 @@ emanation/E-001/       — COMPLETE
 |-------|-------|--------|
 | FCC > cubic Fiedler (1.5B) | 4.6× | Exp 1 |
 | FCC > cubic Fiedler (7B) | 1.73× | Exp 2 |
-| Task fingerprint LOO SVM | 84.5% (Q-proj) | Phase 1A |
+| Task fingerprint LOO SVM | 72.3% (all modules) / 73.5% (2-way) | Phase 1A |
 | Bridge merge eigenspectrum | cos > 0.999 | Phase 2A |
 | Deviation ~ overfit gap | r = 0.888, p = 7.3e-35 | Phase 3A |
 | Fiedler ~ overfit gap | r = 0.825, p = 5.6e-26 | Phase 3A |

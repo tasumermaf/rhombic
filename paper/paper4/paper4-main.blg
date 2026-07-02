@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99e
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: paper4-main.aux
+Reallocating 'name_of_file' (item size: 1) to 9 items.
+The style file: plainnat.bst
+Reallocating 'name_of_file' (item size: 1) to 7 items.
+Database file #1: paper4.bib
+Warning--empty journal in alpaca
+You've used 16 entries,
+            2773 wiz_defined-function locations,
+            674 strings with 7662 characters,
+and the built_in function-call counts, 7393 in all, are:
+= -- 620
+> -- 569
+< -- 7
++ -- 195
+- -- 177
+* -- 628
+:= -- 1220
+add.period$ -- 50
+call.type$ -- 16
+change.case$ -- 107
+chr.to.int$ -- 14
+cite$ -- 33
+duplicate$ -- 299
+empty$ -- 497
+format.name$ -- 197
+if$ -- 1473
+int.to.chr$ -- 3
+int.to.str$ -- 1
+missing$ -- 13
+newline$ -- 90
+num.names$ -- 64
+pop$ -- 194
+preamble$ -- 1
+purify$ -- 91
+quote$ -- 0
+skip$ -- 247
+stack$ -- 0
+substring$ -- 132
+swap$ -- 15
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 176
+warning$ -- 1
+while$ -- 56
+width$ -- 0
+write$ -- 207
+(There was 1 warning)

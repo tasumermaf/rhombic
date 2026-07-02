@@ -1,0 +1,300 @@
+% ===================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{The Bridge as Programmable Substrate}
+
+Paper~3 framed the result as \emph{discovery}: the Steersman
+discovers rhombic dodecahedral geometry in the bridge matrix. The
+present paper reframes this as \emph{programming}: the Steersman
+programs whatever geometry it is told, provided the pair
+specification corresponds to a coherent spatial structure.
+
+The evidence supports the reframing. The tesseract result
+(Section~\ref{sec:tesseract}) demonstrates that the Steersman
+programs 4D geometry with the same fidelity as 3D: four independent
+$2 \times 2$ blocks, clean eigenvalue split, coupling ratio
+exceeding 41{,}000:1. The octahedral result (O-001) demonstrates
+programming at minimum dimensionality, achieving the programme's
+strongest block-diagonal signal (473{,}622:1 per-bridge mean). The
+spectral attractor (Section~\ref{sec:attractor}) shows that the
+bridge has a natural unprogrammed state---connected, isotropic,
+Fiedler~$\approx 0.09$---and that contrastive loss adds direction
+to this connectivity.
+
+The four-regime taxonomy (Section~\ref{sec:programmability}) sharpens
+the framing further. The bridge is a programmable substrate, but the
+programming language is \emph{spatial}. The Steersman compiles
+polytope-derived pair specifications into block-diagonal structure.
+It rejects non-spatial specifications---random partitions and
+number-theoretic relationships---by driving the bridge into
+connectivity collapse. The selectivity is a feature: it confirms
+that successful topology programming encodes genuine geometric
+information, not an artifact of the loss formulation.
+
+\subsection{The Selective Geometric Compiler}
+
+The central thesis upgrade from Paper~3 is precise. The Steersman
+is not a universal topology enforcer---it does not program arbitrary
+pair specifications into block structure. It is a \emph{selective
+geometric compiler}: it accepts pair specifications derived from
+the co-axial face or vertex structure of polytopes and rejects
+all others.
+
+This selectivity is demonstrated by the four-way contrast at $n = 6$:
+
+\begin{itemize}
+  \item \textbf{RD pairs (H-ch6):} 70{,}404:1. Spatial
+    specification. Block-diagonal.
+  \item \textbf{Emanation (E-001):} 1.12:1. Same spatial pairs,
+    indirect application through master bridge. Weak coherence but
+    no block-diagonal.
+  \item \textbf{Wrong-labels (WL-001):} $8.7 \times 10^{-6}$:1.
+    Random pairs. Connectivity collapse.
+  \item \textbf{Resonance (R-001):} $8.9 \times 10^{-6}$:1.
+    Number-theoretic pairs. Connectivity collapse.
+\end{itemize}
+
+The selectivity has two dimensions. The first is geometric: the pair
+specification must encode a coherent spatial decomposition (Regimes~1
+vs.~4). The second is architectural: the contrastive signal must reach
+individual bridge matrices directly, not through hierarchical
+indirection (Regimes~1 vs.~2).
+
+\subsection{Number-Theoretic Structure Is Insufficient}
+
+The functional equivalence of WL-001 and R-001 (maximum divergence
+${<}\,10\%$ across 10{,}000 steps) has a clear implication:
+\emph{mathematical structure without spatial embedding carries no
+information that the contrastive loss can use}. The Sophie Germain
+relationship ($2(11) + 1 = 23$), the twin prime pair $(29, 31)$, and
+the residue class partition are genuine algebraic structures. They
+produce the same outcome as random noise.
+
+This result constrains the class of viable topology specifications.
+The pair specification must encode a property of the bridge's
+gradient landscape, not merely a mathematical relationship among
+channel indices. Polytope co-axial structure encodes such a
+property: it identifies axis-aligned subspaces of the bridge matrix
+that can be independently optimized. Number-theoretic relationships
+do not identify such subspaces.
+
+\subsection{Spectral-Contrastive Decomposition}
+
+The decomposition of the Steersman into spectral (connectivity) and
+contrastive (topology) components has a precise analogue in graph
+theory. The Fiedler eigenvalue measures algebraic
+connectivity~\cite{fiedler1973}---how well-connected the graph is.
+The contrastive loss specifies edge weights---which connections are
+strengthened. Spectral regularization without contrastive
+specification produces an Erd\H{o}s--R\'enyi-like coupling
+pattern (all edges approximately equal); adding contrastive
+specification produces a stochastic block model~\cite{holland1983}
+with known community structure.
+
+The four regimes map onto this decomposition:
+
+\begin{itemize}
+  \item \textbf{Spectral attractor:} Spectral loss alone. Connectivity
+    without topology. The bridge graph is an approximately regular graph.
+  \item \textbf{Block-diagonal:} Spectral + coherent contrastive. The
+    bridge graph is a disjoint union of cliques (the blocks).
+  \item \textbf{Hierarchical coherence:} Spectral + indirectly applied
+    contrastive. The bridge graph is weakly modular---slight clustering
+    without full community separation.
+  \item \textbf{Collapse:} Spectral + incoherent contrastive.
+    Destructive interference between the two losses drives the graph
+    toward the empty graph.
+\end{itemize}
+
+This decomposition suggests that the two loss components are
+independently tunable but interact non-linearly. When they are
+aligned (coherent contrastive + spectral), they produce strong
+structure. When they conflict (incoherent contrastive + spectral),
+the contrastive loss dominates and suppresses connectivity below the
+spectral target. Understanding this interaction is a prerequisite
+for designing more sophisticated topology specifications.
+
+\subsection{The Inverse-$n$ Relationship}
+
+The coupling ratio hierarchy---O-001 ($n = 4$, ${\sim}474$K:1) $>$
+H-ch6 ($n = 6$, ${\sim}70$K:1) $>$ T-001r2 ($n = 8$,
+${\sim}42$K:1)---follows a clear inverse relationship with channel
+count (Figure~\ref{fig:inverse_n}). The mechanism is straightforward:
+at higher~$n$, the bridge
+has more cross-axial entries to suppress, diluting the contrastive
+signal per entry. At $n = 4$, only 4~cross-axial pairs compete
+with 2~co-axial pairs; at $n = 8$, 24~cross-axial pairs compete
+with 4~co-axial pairs. The co-axial/cross-axial pair count ratio
+($|\mathcal{C}|/|\mathcal{X}|$) is $2/4 = 0.50$ for octahedral,
+$3/12 = 0.25$ for RD, and $4/24 = 0.167$ for tesseract.
+
+This suggests a practical guideline: \emph{use the minimum channel
+count that admits the desired topology}. Higher channel counts
+provide more topological expressiveness (more independent axes) but
+weaker per-axis signal. The practitioner's choice of~$n$ trades off
+topological resolution against coupling strength.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.7\textwidth]{figures/fig_inverse_n.pdf}
+  \caption{Inverse-$n$ relationship between channel count and
+    co-axial/cross-axial coupling ratio. Octahedral ($n = 4$):
+    473{,}622:1. RD ($n = 6$): 70{,}404:1. Tesseract ($n = 8$):
+    41{,}564:1. Fewer channels concentrate the co-axial signal into
+    fewer entries, producing stronger per-pair coupling.}
+  \label{fig:inverse_n}
+\end{figure}
+
+\subsection{Implications for Adapter Design}
+
+If the bridge is a programmable topology substrate, adapter design
+acquires a new degree of freedom. Current practice treats the rank
+dimension as homogeneous. Multi-channel extensions introduce
+structure but leave it to the optimizer to discover whatever
+coupling pattern the task prefers. The Steersman enables
+\emph{prescribed} coupling: the practitioner specifies which
+channels should interact, and the feedback mechanism enforces the
+specification during training.
+
+\begin{itemize}
+  \item \textbf{Topology as hyperparameter.} The pair specification
+    is now a hyperparameter alongside rank, learning rate, and target
+    modules. Different polytope geometries may suit different task
+    families.
+  \item \textbf{Compositional adapters.} Adapters with known
+    block-diagonal structure compose more predictably than dense
+    adapters: blocks can be independently swapped, scaled, or merged.
+    The $2 \times 2$ block is the natural unit of composition.
+  \item \textbf{Multi-modal bridges.} When adapting models across
+    modalities (text, image, audio), the pair specification could
+    encode known cross-modal relationships in the bridge structure.
+  \item \textbf{Diagnostic topology.} Train with $n = 6$ or $n = 8$
+    and cybernetic feedback to discover the bridge's preferred
+    topology, then deploy with lower~$n$ for parameter efficiency.
+    Paper~3 showed that $n = 3$ matches $n = 6$ task performance
+    with $4\times$ fewer bridge parameters.
+\end{itemize}
+
+\subsection{Zero-Cost Bridge: The P0 Proof}
+
+A practical question precedes all topology programming results: does
+the learnable bridge degrade task performance? If the $n^2$ bridge
+parameters and Steersman feedback impose a cost on the underlying
+fine-tuning objective, topology programming would face a performance
+tax before its benefits could be assessed.
+
+We test this directly. On Qwen~2.5-1.5B-Instruct---a different model
+family and scale from the TinyLlama experiments above---we train two
+configurations with identical hyperparameters (rank~24, seed~42,
+alpaca-cleaned, cosine LR schedule): standard LoRA and TeLoRA with a
+learnable bridge ($n = 6$, identity initialization, no contrastive
+loss).
+
+\begin{table}[H]
+\centering
+\caption{P0 head-to-head: standard LoRA vs.\ TeLoRA with learnable
+  bridge (no contrastive loss). Qwen~2.5-1.5B-Instruct, $r = 24$,
+  seed~42, 3{,}235~steps.}
+\label{tab:p0}
+\small
+\begin{tabular}{lcccc}
+\toprule
+Configuration & Final Loss & Trainable Params & Bridge Params & Time \\
+\midrule
+Standard LoRA ($r = 24$) & 0.1763 & 3{,}268{,}608 & --- & 42.8 min \\
+TeLoRA ($r = 24$, $n = 6$) & 0.1762 & 3{,}270{,}624 & 2{,}016 (0.06\%) & 58.3 min \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Loss is identical to four significant figures (0.01\% difference,
+within noise). The bridge adds 2{,}016~parameters---36~per bridge
+matrix across 56~target projections---representing 0.06\% of the
+trainable parameter budget. The 36.2\% training time overhead
+reflects the Steersman's per-step Fiedler eigenvalue computation
+and control law evaluation.
+
+Without contrastive loss, the bridges settle near the spectral
+attractor: mean Fiedler~$= 0.038$ (somewhat below the
+TinyLlama attractor at~$0.09$, consistent with model-dependent
+variation), co-axial/cross-axial ratio~$\approx 1$:1 (isotropic,
+no directional preference), and mean deviation from identity~$= 0.07$
+(Figure~\ref{fig:p0_proof}). The bridge evolves under spectral
+pressure alone but maintains the unprogrammed baseline---exactly
+the attractor behavior documented in Section~\ref{sec:attractor}.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_p0_proof.pdf}
+  \caption{P0 head-to-head comparison on Qwen~2.5-1.5B-Instruct.
+    Top left: loss curves overlap exactly.
+    Top right: training time comparison (36.2\% overhead from
+    Steersman computation). Middle: bridge matrix evolution at
+    steps~500, 2{,}000, and~3{,}235---identity-like structure with
+    slight evolution but no block-diagonal emergence (no contrastive
+    loss applied). Bottom: Fiedler connectivity, co/cross ratio, and
+    deviation from identity over training.}
+  \label{fig:p0_proof}
+\end{figure}
+
+The P0 result establishes that the learnable bridge is a zero-cost
+container. It adds negligible parameters, preserves task performance,
+and defaults to the spectral attractor when no topology is specified.
+Topology programming via the Steersman adds structure to this
+container at no additional parameter cost beyond the 36~entries per
+bridge.
+
+\subsection{Limitations}
+
+Several limitations qualify the present results.
+
+\textbf{Single task family.} All experiments use instruction-following
+fine-tuning on alpaca-cleaned. Whether the four-regime taxonomy,
+spectral attractor, and topology programming transfer to other task
+types (classification, summarization, code generation) remains
+untested.
+
+\textbf{Pair-based specifications only.} The current pair
+specification interface partitions channels into pairs. More complex
+topologies---cliques of size~${>}\,2$, hierarchical nesting, cyclic
+structures---would require extending the contrastive loss
+formulation.
+
+\textbf{No formal optimality proof.} We demonstrate that the Steersman
+programs a given topology, but we do not prove that any particular
+topology is optimal for any downstream task. The topology is a
+hyperparameter; its relationship to task performance remains to be
+characterized.
+
+\textbf{No theoretical account of the attractor.} The spectral
+attractor ($\text{Fiedler} \approx 0.09$) is empirically consistent
+across channel counts, but we provide no theoretical derivation
+of the equilibrium value. A theoretical account, possibly through
+random matrix theory or mean-field analysis of the spectral loss
+dynamics, is future work.
+
+\textbf{No theoretical account of geometric selectivity.} We observe
+that only polytope-derived pair specifications produce block-diagonal
+structure, but we do not provide a formal characterization of which
+pair specifications constitute ``valid geometric programs.''
+Understanding why the contrastive loss landscape has minima at
+polytope-aligned configurations and not at algebraically structured
+but spatially unembedded configurations is an open question.
+
+\textbf{Single seed for most experiments.} All experiments use random
+seed~42 except Seed-43 and Seed-44 (which use seeds~43 and~44
+respectively). While the binary regime classification is robust given
+the magnitude of the effects, specific numerical quantities---coupling
+ratios, Fiedler values, deviation---are point estimates.
+
+\textbf{Emanation architecture incompletely explored.} E-001 tests one
+hierarchical design (master bridge + $1/\sqrt{l}$-scaled offsets). The
+space of hierarchical bridge architectures is large; other designs may
+produce different outcomes. The third regime (hierarchical coherence)
+is characterized by a single experiment.
+
+\textbf{Scale.} All topology experiments use TinyLlama-1.1B. Paper~3
+established scale consistency for RD contrastive at 1.1B and 7B;
+the generalization of 4D programming, geometric selectivity, and the
+four-regime taxonomy to larger models is untested.

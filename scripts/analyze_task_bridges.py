@@ -167,6 +167,61 @@ def classify_bridges(task_bridges: dict[str, dict[str, np.ndarray]]) -> dict:
     }
 
 
+def classify_bridges_per_module(task_bridges: dict[str, dict[str, np.ndarray]]) -> dict:
+    """Train per-module-type LOO SVM classifiers.
+
+    Runs separate classification for q_proj, k_proj, v_proj, o_proj.
+    This produces the verified per-module accuracy numbers.
+    """
+    try:
+        from sklearn.svm import LinearSVC
+        from sklearn.model_selection import LeaveOneOut
+        from sklearn.preprocessing import StandardScaler
+    except ImportError:
+        return {"error": "sklearn not available"}
+
+    task_names = list(task_bridges.keys())
+    modules = ["q_proj", "k_proj", "v_proj", "o_proj"]
+    results = {}
+
+    for mod in modules:
+        X, y = [], []
+        for task_idx, t in enumerate(task_names):
+            for key, bridge in sorted(task_bridges[t].items()):
+                if mod in key:
+                    X.append(bridge.flatten())
+                    y.append(task_idx)
+
+        if len(X) < 3:
+            results[mod] = {"accuracy": None, "n_samples": 0}
+            continue
+
+        X = np.array(X)
+        y = np.array(y)
+
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+
+        loo = LeaveOneOut()
+        correct = 0
+        total = 0
+        for train_idx, test_idx in loo.split(X_scaled):
+            clf = LinearSVC(max_iter=5000, random_state=42)
+            clf.fit(X_scaled[train_idx], y[train_idx])
+            pred = clf.predict(X_scaled[test_idx])
+            correct += (pred == y[test_idx]).sum()
+            total += len(test_idx)
+
+        results[mod] = {
+            "accuracy": float(correct / total),
+            "n_samples": total,
+            "n_per_task": total // len(task_names),
+            "n_params": X.shape[1],
+        }
+
+    return results
+
+
 def per_module_analysis(task_bridges: dict[str, dict[str, np.ndarray]]) -> dict:
     """Analyze task discrimination per module type (q/k/v/o_proj)."""
     task_names = list(task_bridges.keys())
@@ -400,6 +455,16 @@ def main():
     distances = compute_distance_matrix(task_bridges)
     classification = classify_bridges(task_bridges)
     module_analysis = per_module_analysis(task_bridges)
+    per_module_svm = classify_bridges_per_module(task_bridges)
+
+    # Print per-module SVM results to console
+    print("\n=== Per-Module LOO SVM Classification ===")
+    for mod, info in per_module_svm.items():
+        if info.get("accuracy") is not None:
+            print(f"  {mod}: {info['accuracy']:.1%} ({info['n_samples']} samples, {info['n_params']} params)")
+        else:
+            print(f"  {mod}: N/A")
+    print("==========================================\n")
 
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     write_report(distances, classification, module_analysis, task_bridges, Path(args.output))

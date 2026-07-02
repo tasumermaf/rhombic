@@ -1,0 +1,32 @@
+{
+  "model": "results/BM-001-standard-lora/merged_model",
+  "adapter": null,
+  "tasks": {
+    "mmlu": {
+      "acc,none": 0.7304515026349523,
+      "acc_stderr,none": 0.0035582485904494905,
+      "alias": "mmlu"
+    },
+    "arc_challenge": {
+      "alias": "arc_challenge",
+      "acc,none": 0.5853242320819113,
+      "acc_stderr,none": 0.014397070564409174,
+      "acc_norm,none": 0.6228668941979523,
+      "acc_norm_stderr,none": 0.014163366896192593
+    },
+    "hellaswag": {
+      "alias": "hellaswag",
+      "acc,none": 0.6065524795857399,
+      "acc_stderr,none": 0.004875162699121672,
+      "acc_norm,none": 0.7952599083847839,
+      "acc_norm_stderr,none": 0.004026869054871508
+    },
+    "winogrande": {
+      "alias": "winogrande",
+      "acc,none": 0.739542225730071,
+      "acc_stderr,none": 0.012334833671998302
+    }
+  },
+  "num_fewshot": 5,
+  "wall_time_seconds": 2663.635213136673
+}

@@ -1,0 +1,59 @@
+\begin{thebibliography}{8}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bielec(2026{\natexlab{a}})]{bielec2026bridge}
+Timothy~Paul Bielec.
+\newblock The learnable bridge: Cybernetic feedback discovers rhombic
+  dodecahedral geometry in multi-channel lora.
+\newblock \emph{arXiv preprint}, 2026{\natexlab{a}}.
+
+\bibitem[Bielec(2026{\natexlab{b}})]{bielec2026weights}
+Timothy~Paul Bielec.
+\newblock Weighted lattice topology: Multi-scale analysis of cubic and fcc
+  networks.
+\newblock \emph{arXiv preprint}, 2026{\natexlab{b}}.
+
+\bibitem[Bronstein et~al.(2021)Bronstein, Bruna, Cohen, and
+  Veli{\v{c}}kovi{\'c}]{bronstein2021geometric}
+Michael~M Bronstein, Joan Bruna, Taco Cohen, and Petar Veli{\v{c}}kovi{\'c}.
+\newblock Geometric deep learning: Grids, groups, graphs, geodesics, and
+  gauges.
+\newblock In \emph{arXiv preprint arXiv:2104.13478}, 2021.
+
+\bibitem[Chen et~al.(2023)Chen, Liu, Wang, Zhu, and Chen]{chen2023adamix}
+Yaqing Chen, Shuming Liu, Shuai Wang, Weikang Zhu, and Tao Chen.
+\newblock Adamix: Mixture-of-adaptations for parameter-efficient model tuning.
+\newblock \emph{arXiv preprint arXiv:2205.12410}, 2023.
+
+\bibitem[Ha et~al.(2017)Ha, Dai, and Le]{ha2017hypernetworks}
+David Ha, Andrew Dai, and Quoc~V Le.
+\newblock Hypernetworks.
+\newblock \emph{arXiv preprint arXiv:1609.09106}, 2017.
+
+\bibitem[Hu et~al.(2022)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and
+  Chen]{hu2022lora}
+Edward~J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean
+  Wang, Lu~Wang, and Weizhu Chen.
+\newblock Lora: Low-rank adaptation of large language models.
+\newblock \emph{arXiv preprint arXiv:2106.09685}, 2022.
+
+\bibitem[Valipour et~al.(2023)Valipour, Rezagholizadeh, Kobyzev, and
+  Ghodsi]{valipour2023dylora}
+Mojtaba Valipour, Mehdi Rezagholizadeh, Ivan Kobyzev, and Ali Ghodsi.
+\newblock Dylora: Parameter-efficient tuning of pre-trained models using
+  dynamic search-free low-rank adaptation.
+\newblock \emph{arXiv preprint arXiv:2210.07558}, 2023.
+
+\bibitem[Zadouri et~al.(2023)Zadouri, Ust{\"u}n, Ahmadian, Ermis, Locatelli,
+  and Hooker]{zadouri2023pushing}
+Ted Zadouri, Ahmet Ust{\"u}n, Arash Ahmadian, Beyza Ermis, Acyr Locatelli, and
+  Sara Hooker.
+\newblock Pushing mixture of experts to the limit: Extremely parameter
+  efficient moe for instruction tuning.
+\newblock \emph{arXiv preprint arXiv:2309.05444}, 2023.
+
+\end{thebibliography}

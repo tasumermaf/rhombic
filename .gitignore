@@ -93,3 +93,37 @@ desktop.ini
 *~
 .vscode/
 .idea/
+
+# Model weights and checkpoints (never commit to public repo)
+results/**/merged_model/
+*.safetensors
+*.pt
+results/**/checkpoint-*/
+
+# Heavy media / working assets
+assets/video/segments_ep2/
+assets/video/frames_ep2/
+output/
+wandb/
+figures/
+
+# Internal / Stream B documents (proprietary — TASUMER MAF)
+docs/FALCO_INTELLIGENCE_ROADMAP.md
+docs/EXPERIMENT_PROPOSALS.md
+docs/NEXT_BATTERY.md
+docs/SPRINT_BRIEFING_*.md
+docs/PAPER_5_EXPERIMENT_DESIGN.md
+docs/CONTEXT_TESSITURA_THESIS.md
+orvad-research-*.md
+paper/orvad-research-*.md
+scripts/run_runpod_corpus.sh
+docs/NEMOTRON_*.md
+docs/SUBMISSION_DRAFT.md
+docs/DEMO_SCRIPT.md
+docs/posts/
+
+# Corpus-coupled experiment artifacts (Stream B — proprietary; values must never enter public repo)
+scripts/train_loraxs_corpus.py
+results/corpus-baselines/
+results/loraxs-corpus/
+results/fig_corpus_*

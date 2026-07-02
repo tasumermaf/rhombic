@@ -1,0 +1,112 @@
+\begin{thebibliography}{16}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Andrychowicz et~al.(2016)Andrychowicz, Denil, Gomez, Hoffman, Pfau,
+  Schaul, Shillingford, and de~Freitas]{andrychowicz2016}
+Marcin Andrychowicz, Misha Denil, Sergio Gomez, Matthew~W. Hoffman, David Pfau,
+  Tom Schaul, Brendan Shillingford, and Nando de~Freitas.
+\newblock Learning to learn by gradient descent by gradient descent.
+\newblock \emph{Advances in Neural Information Processing Systems}, 29, 2016.
+
+\bibitem[Bielec(2026{\natexlab{a}})]{bielec2026bridge}
+Timothy~Paul Bielec.
+\newblock The learnable bridge: Cybernetic feedback discovers rhombic
+  dodecahedral geometry in multi-channel {LoRA}.
+\newblock TASUMER MAF / Promptcrafted LLC. Available at
+  \url{https://github.com/tasumermaf/rhombic}, 2026{\natexlab{a}}.
+
+\bibitem[Bielec(2026{\natexlab{b}})]{bielec2026shape}
+Timothy~Paul Bielec.
+\newblock The shape of the cell: Empirical comparison of cubic and {FCC}
+  lattice topologies across graph theory, spatial operations, signal
+  processing, and embedding retrieval.
+\newblock TASUMER MAF / Promptcrafted LLC. Available at
+  \url{https://github.com/tasumermaf/rhombic}, 2026{\natexlab{b}}.
+
+\bibitem[Bielec(2026{\natexlab{c}})]{bielec2026weights}
+Timothy~Paul Bielec.
+\newblock Structured edge weights amplify {FCC} lattice topology advantages via
+  bottleneck resilience.
+\newblock TASUMER MAF / Promptcrafted LLC. Available at
+  \url{https://github.com/tasumermaf/rhombic}, 2026{\natexlab{c}}.
+
+\bibitem[Bronstein et~al.(2021)Bronstein, Bruna, Cohen, and
+  Veli{\v{c}}kovi{\'c}]{bronstein2021}
+Michael~M Bronstein, Joan Bruna, Taco Cohen, and Petar Veli{\v{c}}kovi{\'c}.
+\newblock Geometric deep learning: Grids, groups, graphs, geodesics, and
+  gauges.
+\newblock \emph{arXiv preprint arXiv:2104.13478}, 2021.
+
+\bibitem[Fiedler(1973)]{fiedler1973}
+Miroslav Fiedler.
+\newblock Algebraic connectivity of graphs.
+\newblock \emph{Czechoslovak Mathematical Journal}, 23\penalty0 (2):\penalty0
+  298--305, 1973.
+\newblock \doi{10.21136/CMJ.1973.101168}.
+
+\bibitem[Ha et~al.(2017)Ha, Dai, and Le]{ha2017}
+David Ha, Andrew Dai, and Quoc~V Le.
+\newblock {HyperNetworks}.
+\newblock \emph{arXiv preprint arXiv:1609.09106}, 2017.
+
+\bibitem[Holland et~al.(1983)Holland, Laskey, and Leinhardt]{holland1983}
+Paul~W Holland, Kathryn~Blackmond Laskey, and Samuel Leinhardt.
+\newblock Stochastic blockmodels: First steps.
+\newblock \emph{Social Networks}, 5\penalty0 (2):\penalty0 109--137, 1983.
+
+\bibitem[Hu et~al.(2022)Hu, Shen, Wallis, Allen-Zhu, Li, Wang, Wang, and
+  Chen]{hu2022lora}
+Edward~J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean
+  Wang, Lu~Wang, and Weizhu Chen.
+\newblock {LoRA}: Low-rank adaptation of large language models.
+\newblock \emph{arXiv preprint arXiv:2106.09685}, 2022.
+
+\bibitem[Kipf and Welling(2017)]{kipf2017}
+Thomas~N Kipf and Max Welling.
+\newblock Semi-supervised classification with graph convolutional networks.
+\newblock \emph{arXiv preprint arXiv:1609.02907}, 2017.
+
+\bibitem[LeCun et~al.(1998)LeCun, Bottou, Bengio, and Haffner]{lecun1998}
+Yann LeCun, L{\'e}on Bottou, Yoshua Bengio, and Patrick Haffner.
+\newblock Gradient-based learning applied to document recognition.
+\newblock \emph{Proceedings of the IEEE}, 86\penalty0 (11):\penalty0
+  2278--2324, 1998.
+
+\bibitem[Nickel and Kiela(2017)]{nickel2017}
+Maximillian Nickel and Douwe Kiela.
+\newblock Poincar{\'e} embeddings for learning hierarchical representations.
+\newblock \emph{NeurIPS}, 2017.
+
+\bibitem[Parcollet et~al.(2019)Parcollet, Ravanelli, Morchid, Linar{\`e}s,
+  Trabelsi, De~Mori, and Bengio]{parcollet2019}
+Titouan Parcollet, Mirco Ravanelli, Mohamed Morchid, Georges Linar{\`e}s,
+  Chiheb Trabelsi, Renato De~Mori, and Yoshua Bengio.
+\newblock Quaternion recurrent neural networks.
+\newblock \emph{arXiv preprint arXiv:1806.04418}, 2019.
+
+\bibitem[Scarselli et~al.(2009)Scarselli, Gori, Tsoi, Hagenbuchner, and
+  Monfardini]{scarselli2009}
+Franco Scarselli, Marco Gori, Ah~Chung Tsoi, Markus Hagenbuchner, and Gabriele
+  Monfardini.
+\newblock The graph neural network model.
+\newblock \emph{IEEE Transactions on Neural Networks}, 20\penalty0
+  (1):\penalty0 61--80, 2009.
+
+\bibitem[Taori et~al.(2023)Taori, Gulrajani, Zhang, Dubois, Li, Guestrin,
+  Liang, and Hashimoto]{alpaca}
+Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos
+  Guestrin, Percy Liang, and Tatsunori~B. Hashimoto.
+\newblock Stanford {Alpaca}: An instruction-following {LLaMA} model.
+\newblock 2023.
+\newblock URL \url{https://github.com/tatsu-lab/stanford_alpaca}.
+
+\bibitem[Watanabe(2009)]{watanabe2009}
+Sumio Watanabe.
+\newblock Algebraic geometry and statistical learning theory.
+\newblock \emph{Cambridge University Press}, 2009.
+
+\end{thebibliography}

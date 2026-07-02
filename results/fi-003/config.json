@@ -1,0 +1,33 @@
+{
+  "name": "fi_003_sign_persistence",
+  "rank": 24,
+  "n_channels": 6,
+  "bridge_mode": "corpus_coupled",
+  "bridge_trainable": true,
+  "model_name": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "dataset_name": "yahma/alpaca-cleaned",
+  "max_seq_len": 512,
+  "batch_size": 2,
+  "gradient_accumulation": 8,
+  "lr": 0.0002,
+  "num_epochs": 4,
+  "warmup_steps": 200,
+  "checkpoint_steps": 100,
+  "max_steps": 3000,
+  "seed": 42,
+  "gradient_checkpointing": true,
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ],
+  "dynamic_bridge": false,
+  "gate_temperature_start": 5.0,
+  "gate_temperature_end": 0.1,
+  "experiment": "FI-003",
+  "source_adapter": "results\\fi-002\\P-000\\adapter_state.pt",
+  "steersman_enabled": false,
+  "contrastive_weight": 0.0,
+  "spectral_weight": 0.0
+}

@@ -1,0 +1,162 @@
+% ===================================================================
+\section{Method: Generalized Pair Specification}
+\label{sec:method}
+
+The Steersman's contrastive loss, as defined in
+Paper~3~\cite{bielec2026bridge}, encodes the rhombic dodecahedron's
+face-pair geometry through a fixed partition of channel indices into
+co-planar and cross-planar sets. We generalize this mechanism by
+replacing the hard-coded RD partition with a configurable pair
+specification interface. Five experimental topologies test the
+boundaries of this generalization.
+
+\subsection{The Pair Specification Interface}
+\label{sec:pairs}
+
+The pair specification is a function
+$\texttt{pairs}(n) \to \{(i_1, j_1), \ldots, (i_k, j_k)\}$ that
+returns a set of \emph{co-axial} channel index pairs for a given
+channel count~$n$. All remaining pairs of distinct indices are
+classified as \emph{cross-axial}. The contrastive loss operates on
+this partition identically to Paper~3: it rewards co-axial coupling
+and penalizes cross-axial coupling. The Steersman's three control
+laws (connectivity trending, directionality stagnation, stability
+monitoring) operate without modification.
+
+For $n = 6$, the RD specification is:
+\begin{equation}
+  \texttt{pairs}_{\text{RD}}(6) = \{(0,5),\; (1,4),\; (2,3)\}
+  \label{eq:rd_pairs}
+\end{equation}
+These are the three face-pair axes of the rhombic dodecahedron. Each
+pair shares a vanishing coordinate in the face-normal vectors,
+producing three independent $2 \times 2$ blocks in the bridge.
+
+For $n = 8$, the tesseract specification is:
+\begin{equation}
+  \texttt{pairs}_{\text{tess}}(8) = \{(0,1),\; (2,3),\; (4,5),\;
+    (6,7)\}
+  \label{eq:tess_pairs}
+\end{equation}
+These are the four co-axial vertex pairs of the tesseract, aligned
+with the four coordinate axes of $\mathbb{R}^4$.
+
+For $n = 4$, the octahedral specification is:
+\begin{equation}
+  \texttt{pairs}_{\text{oct}}(4) = \{(0,1),\; (2,3)\}
+  \label{eq:oct_pairs}
+\end{equation}
+These are two of the octahedron's three vertex-opposition axes,
+selected to match the channel count. The octahedron is the simplest
+regular polytope admitting a pair decomposition and provides the
+minimum-channel-count test of the geometric coherence hypothesis.
+
+The interface imposes no constraint on which indices are paired.
+Any partition of $n$~channels into $\lfloor n/2 \rfloor$ pairs
+constitutes a valid specification. This generality enables the
+non-geometric controls described below.
+
+\subsection{Tesseract Topology ($n = 8$)}
+\label{sec:tesseract_method}
+
+The tesseract (4-cube, $\gamma_4$) has 16~vertices decomposing
+into 4~co-axial pairs along the four coordinate axes of
+$\mathbb{R}^4$. The pair specification
+$\texttt{pairs}_{\text{tess}}(8)$ assigns one channel pair per
+tesseract axis. If the Steersman generalizes beyond 3D, this
+specification should produce four independent $2 \times 2$
+blocks---a $4{+}4$ eigenvalue split.
+
+\subsection{Octahedral Topology ($n = 4$)}
+\label{sec:octahedral_method}
+
+The octahedron has 6~vertices forming 3~co-axial pairs. At $n = 4$
+channels, two of these axes are specified:
+$\texttt{pairs}_{\text{oct}}(4) = \{(0,3),\; (1,2)\}$.
+This represents the minimum geometry: only 2~co-axial pairs and
+4~cross-axial pairs. The cross-axial/co-axial pair count ratio
+($4/2 = 2$) is smaller than for the tesseract ($24/4 = 6$) or the
+RD ($12/3 = 4$), providing the strongest co-axial signal per
+channel pair.
+
+\subsection{Wrong-Labels Topology ($n = 6$)}
+\label{sec:wrong_labels_method}
+
+To test whether the Steersman programs whatever topology it is told
+or whether geometrically correct pair specifications are required,
+we define a \emph{wrong-labels} specification: $n = 6$ channels
+partitioned into three pairs by random assignment rather than RD
+face-pair geometry. The Steersman's contrastive loss treats these
+random pairs as co-axial and all other pairs as cross-axial. If the
+Steersman is a general topology programmer accepting arbitrary
+partitions, it should produce block-diagonal structure aligned with
+the random pairs. If geometric coherence is required, the random
+partition should fail.
+
+\subsection{Circular Resonance Topology ($n = 6$)}
+\label{sec:resonance_method}
+
+The resonance topology derives pair specifications from
+number-theoretic relationships among the tracked prime threads of the
+companion research programme~\cite{bielec2026shape}. For $n = 6$, the
+pairs are assigned by algebraic relationships: Sophie Germain pairing
+($2(11) + 1 = 23 \to$ channels $(0, 2)$), consecutive-prime pairing
+($29, 31 \to$ channels $(3, 4)$), and residue pairing (same residue
+$\bmod\,6 \to$ channels $(1, 5)$). This specification tests whether
+algebraic structure---without spatial embedding---can serve as a
+topology specification.
+
+\subsection{Emanation Architecture ($n = 6$)}
+\label{sec:emanation_method}
+
+The emanation architecture introduces hierarchical bridge structure.
+Rather than independent bridge matrices per adapter (as in all prior
+experiments), the emanation design maintains a single \emph{master
+bridge} shared across all layers, with per-layer \emph{offset
+matrices} that capture local variation:
+\begin{equation}
+  \mathbf{M}^{(l)} = \mathbf{M}_{\text{master}} +
+    \boldsymbol{\Delta}^{(l)}
+  \label{eq:emanation}
+\end{equation}
+where $l$ indexes the transformer layer and offsets are scaled by
+$1/\sqrt{l}$. The Steersman monitors a \emph{coherence} metric---the
+mean Frobenius norm of the offsets relative to the master---and
+applies regularization pressure when individual layers fragment
+excessively. The same RD-derived co-axial pairs are specified, but
+the contrastive loss operates through the master matrix rather than
+per-layer bridges directly.
+
+\subsection{Training Setup}
+
+All experiments use TinyLlama-1.1B-Chat with the same hyperparameters
+as Paper~3: learning rate $2 \times 10^{-4}$, batch size~2, gradient
+accumulation~8 (effective batch size~16), LoRA rank~24, identity
+initialization, random seed~42, maximum sequence length~512,
+alpaca-cleaned dataset, 10{,}000 training steps. The channel size
+$s = r/n$ varies with~$n$: $s = 8$ ($n = 3$), $s = 6$ ($n = 4$),
+$s = 4$ ($n = 6$), $s = 3$ ($n = 8$).
+
+Table~\ref{tab:topology_specs} summarizes all pair specifications.
+
+\begin{table}[H]
+\centering
+\caption{Pair specifications for all experimental topologies. Co-axial
+  pairs receive positive contrastive gradient; all remaining
+  off-diagonal index pairs are cross-axial and receive negative
+  gradient. $|\mathcal{C}|$ = co-axial pair count,
+  $|\mathcal{X}|$ = cross-axial pair count.}
+\label{tab:topology_specs}
+\small
+\begin{tabular}{llclcc}
+\toprule
+Topology & $n$ & Co-axial pairs & Source & $|\mathcal{C}|$ & $|\mathcal{X}|$ \\
+\midrule
+RD (3D) & 6 & $(0,5), (1,4), (2,3)$ & Face opposition & 3 & 12 \\
+Tesseract (4D) & 8 & $(0,1), (2,3), (4,5), (6,7)$ & Vertex opposition & 4 & 24 \\
+Octahedral (3D) & 4 & $(0,1), (2,3)$ & Vertex opposition & 2 & 4 \\
+Wrong-labels & 6 & Random partition & None (control) & 3 & 12 \\
+Resonance & 6 & $(0,2), (3,4), (1,5)$ & Number-theoretic & 3 & 12 \\
+\bottomrule
+\end{tabular}
+\end{table}

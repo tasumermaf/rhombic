@@ -1,0 +1,898 @@
+{
+  "experiment": "FI-004",
+  "config": {
+    "name": "fi_004_steersman_annealing",
+    "rank": 24,
+    "n_channels": 6,
+    "bridge_mode": "corpus_coupled",
+    "bridge_trainable": true,
+    "model_name": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+    "dataset_name": "yahma/alpaca-cleaned",
+    "max_seq_len": 512,
+    "batch_size": 2,
+    "gradient_accumulation": 8,
+    "lr": 0.0002,
+    "num_epochs": 4,
+    "warmup_steps": 200,
+    "checkpoint_steps": 100,
+    "max_steps": 3000,
+    "seed": 42,
+    "gradient_checkpointing": true,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj"
+    ],
+    "dynamic_bridge": false,
+    "gate_temperature_start": 5.0,
+    "gate_temperature_end": 0.1,
+    "experiment": "FI-004",
+    "source_adapter": "results\\fi-002\\P-000\\adapter_state.pt",
+    "steersman_enabled": true,
+    "anneal_mode": "linear_to_zero",
+    "initial_contrastive": 0.1,
+    "initial_spectral": 0.05,
+    "final_contrastive": 0.0,
+    "final_spectral": 0.0
+  },
+  "initial_state": {
+    "bd_metrics": {
+      "fiedler_mean": 0.10003762844611298,
+      "fiedler_std": 0.00023558904463906046,
+      "co_cross_ratio": 12586.01171875,
+      "eigenvalue_pattern": [
+        -0.010497604496777058,
+        0.10003728419542313,
+        0.1032525971531868,
+        0.22594167292118073,
+        0.27137959003448486,
+        0.2813461124897003
+      ]
+    },
+    "magnitudes": {
+      "mean_magnitude": 0.027538347989320755,
+      "std_magnitude": 0.0012708422727882862,
+      "min_magnitude": 0.021054012700915337,
+      "max_magnitude": 0.030643608421087265
+    }
+  },
+  "final_state": {
+    "bd_metrics": {
+      "fiedler_mean": 0.4656450988894159,
+      "fiedler_std": 0.006031915332641939,
+      "co_cross_ratio": 2941.666259765625,
+      "eigenvalue_pattern": [
+        -0.10858498513698578,
+        0.46365293860435486,
+        0.46391910314559937,
+        0.5393431186676025,
+        0.6878972053527832,
+        0.7253791093826294
+      ]
+    },
+    "magnitudes": {
+      "mean_magnitude": 0.07709936797618866,
+      "std_magnitude": 0.001963607268407941,
+      "min_magnitude": 0.06973659247159958,
+      "max_magnitude": 0.08154609799385071
+    },
+    "sign_stability": 0.540719696969697
+  },
+  "checkpoints": [
+    {
+      "step": 100,
+      "wall_time": 2004.8196165561676,
+      "train_loss": 0.4749507091846317,
+      "val_loss": 0.4986200627684593,
+      "fiedler_mean": 0.12537325690077109,
+      "co_cross_ratio": 40.12397766113281,
+      "eigenvalue_pattern": [
+        -0.005817238241434097,
+        0.12246939539909363,
+        0.12265852838754654,
+        0.23632077872753143,
+        0.28338053822517395,
+        0.29001885652542114
+      ],
+      "sign_stability": 0.6448863636363636,
+      "positions_changed": "375",
+      "total_positions": 1056,
+      "mean_magnitude": 0.02955671399831772,
+      "contrastive_weight": 0.09666666666666668,
+      "spectral_weight": 0.04833333333333334
+    },
+    {
+      "step": 200,
+      "wall_time": 2511.4293377399445,
+      "train_loss": 0.5584614644758403,
+      "val_loss": 0.5899823389947414,
+      "fiedler_mean": 0.18536800383166832,
+      "co_cross_ratio": 12.289151191711426,
+      "eigenvalue_pattern": [
+        -0.0010896180756390095,
+        0.17986327409744263,
+        0.1800428330898285,
+        0.26538175344467163,
+        0.3185134530067444,
+        0.33536121249198914
+      ],
+      "sign_stability": 0.6647727272727273,
+      "positions_changed": "354",
+      "total_positions": 1056,
+      "mean_magnitude": 0.03552624583244324,
+      "contrastive_weight": 0.09333333333333334,
+      "spectral_weight": 0.04666666666666667
+    },
+    {
+      "step": 300,
+      "wall_time": 3019.0483202934265,
+      "train_loss": 0.6517788905650377,
+      "val_loss": 0.6087583035230637,
+      "fiedler_mean": 0.24504949965260245,
+      "co_cross_ratio": 8.186010360717773,
+      "eigenvalue_pattern": [
+        -0.005129910074174404,
+        0.24051766097545624,
+        0.24064584076404572,
+        0.2953888475894928,
+        0.3609004318714142,
+        0.40368738770484924
+      ],
+      "sign_stability": 0.6600378787878788,
+      "positions_changed": "359",
+      "total_positions": 1056,
+      "mean_magnitude": 0.042249646037817,
+      "contrastive_weight": 0.09000000000000001,
+      "spectral_weight": 0.045000000000000005
+    },
+    {
+      "step": 400,
+      "wall_time": 3524.9763000011444,
+      "train_loss": 0.6599862328823656,
+      "val_loss": 0.6020048941671848,
+      "fiedler_mean": 0.2914785204285925,
+      "co_cross_ratio": 7.317142963409424,
+      "eigenvalue_pattern": [
+        -0.01188485138118267,
+        0.2882910966873169,
+        0.2884339690208435,
+        0.3195212483406067,
+        0.4029085040092468,
+        0.4528455436229706
+      ],
+      "sign_stability": 0.6638257575757576,
+      "positions_changed": "355",
+      "total_positions": 1056,
+      "mean_magnitude": 0.047937940806150436,
+      "contrastive_weight": 0.08666666666666667,
+      "spectral_weight": 0.043333333333333335
+    },
+    {
+      "step": 500,
+      "wall_time": 4032.7871618270874,
+      "train_loss": 0.6501499766949564,
+      "val_loss": 0.5679321044683456,
+      "fiedler_mean": 0.32647608118978416,
+      "co_cross_ratio": 7.465961933135986,
+      "eigenvalue_pattern": [
+        -0.023290470242500305,
+        0.32235264778137207,
+        0.3225521147251129,
+        0.3451720178127289,
+        0.4414360523223877,
+        0.48981672525405884
+      ],
+      "sign_stability": 0.6600378787878788,
+      "positions_changed": "359",
+      "total_positions": 1056,
+      "mean_magnitude": 0.052556611597537994,
+      "contrastive_weight": 0.08333333333333334,
+      "spectral_weight": 0.04166666666666667
+    },
+    {
+      "step": 600,
+      "wall_time": 4540.558565378189,
+      "train_loss": 0.6363509008195252,
+      "val_loss": 0.5629288701713085,
+      "fiedler_mean": 0.3526736697690053,
+      "co_cross_ratio": 8.25540542602539,
+      "eigenvalue_pattern": [
+        -0.036457665264606476,
+        0.347609281539917,
+        0.3476245701313019,
+        0.37154361605644226,
+        0.47327688336372375,
+        0.5238834619522095
+      ],
+      "sign_stability": 0.6590909090909091,
+      "positions_changed": "360",
+      "total_positions": 1056,
+      "mean_magnitude": 0.05627235397696495,
+      "contrastive_weight": 0.08000000000000002,
+      "spectral_weight": 0.04000000000000001
+    },
+    {
+      "step": 700,
+      "wall_time": 5051.369346141815,
+      "train_loss": 0.6344832295272499,
+      "val_loss": 0.5710761444270611,
+      "fiedler_mean": 0.37285134196281433,
+      "co_cross_ratio": 9.598126411437988,
+      "eigenvalue_pattern": [
+        -0.04804370552301407,
+        0.36722323298454285,
+        0.3674878776073456,
+        0.38794955611228943,
+        0.5022820234298706,
+        0.5540198683738708
+      ],
+      "sign_stability": 0.6268939393939394,
+      "positions_changed": "394",
+      "total_positions": 1056,
+      "mean_magnitude": 0.05934257432818413,
+      "contrastive_weight": 0.07666666666666666,
+      "spectral_weight": 0.03833333333333333
+    },
+    {
+      "step": 800,
+      "wall_time": 5564.006033658981,
+      "train_loss": 0.6546353889256715,
+      "val_loss": 0.5544402745366096,
+      "fiedler_mean": 0.38881787352941255,
+      "co_cross_ratio": 11.690629005432129,
+      "eigenvalue_pattern": [
+        -0.05707473307847977,
+        0.3838288486003876,
+        0.38387787342071533,
+        0.4057343602180481,
+        0.5276862978935242,
+        0.5772857666015625
+      ],
+      "sign_stability": 0.6429924242424242,
+      "positions_changed": "377",
+      "total_positions": 1056,
+      "mean_magnitude": 0.06194432079792023,
+      "contrastive_weight": 0.07333333333333335,
+      "spectral_weight": 0.036666666666666674
+    },
+    {
+      "step": 900,
+      "wall_time": 6075.36462020874,
+      "train_loss": 0.6499310827022419,
+      "val_loss": 0.5468346488475799,
+      "fiedler_mean": 0.4015149362385273,
+      "co_cross_ratio": 15.220864295959473,
+      "eigenvalue_pattern": [
+        -0.06605442613363266,
+        0.39547982811927795,
+        0.395797997713089,
+        0.4217199981212616,
+        0.5488301515579224,
+        0.5959658622741699
+      ],
+      "sign_stability": 0.6193181818181818,
+      "positions_changed": "402",
+      "total_positions": 1056,
+      "mean_magnitude": 0.06415510922670364,
+      "contrastive_weight": 0.06999999999999999,
+      "spectral_weight": 0.034999999999999996
+    },
+    {
+      "step": 1000,
+      "wall_time": 6588.370523452759,
+      "train_loss": 0.6484964726073668,
+      "val_loss": 0.5321990124881267,
+      "fiedler_mean": 0.412014573473822,
+      "co_cross_ratio": 38.91885757446289,
+      "eigenvalue_pattern": [
+        -0.07512770593166351,
+        0.40416526794433594,
+        0.4042436182498932,
+        0.43982380628585815,
+        0.5701653361320496,
+        0.6128413081169128
+      ],
+      "sign_stability": 0.6117424242424242,
+      "positions_changed": "410",
+      "total_positions": 1056,
+      "mean_magnitude": 0.06608579307794571,
+      "contrastive_weight": 0.06666666666666668,
+      "spectral_weight": 0.03333333333333334
+    },
+    {
+      "step": 1100,
+      "wall_time": 7094.397917747498,
+      "train_loss": 0.6456250536162407,
+      "val_loss": 0.5152851936221122,
+      "fiedler_mean": 0.42146533964709804,
+      "co_cross_ratio": 83.62265014648438,
+      "eigenvalue_pattern": [
+        -0.08305324614048004,
+        0.4137363135814667,
+        0.4137771725654602,
+        0.4546782672405243,
+        0.5895884037017822,
+        0.632037341594696
+      ],
+      "sign_stability": 0.5785984848484849,
+      "positions_changed": "445",
+      "total_positions": 1056,
+      "mean_magnitude": 0.06783077865839005,
+      "contrastive_weight": 0.06333333333333334,
+      "spectral_weight": 0.03166666666666667
+    },
+    {
+      "step": 1200,
+      "wall_time": 7598.497746229172,
+      "train_loss": 0.6062072296068073,
+      "val_loss": 0.5069984170794487,
+      "fiedler_mean": 0.42980349910530175,
+      "co_cross_ratio": 74.69646453857422,
+      "eigenvalue_pattern": [
+        -0.08649589866399765,
+        0.4248591959476471,
+        0.42498961091041565,
+        0.4699377715587616,
+        0.6028420329093933,
+        0.64576655626297
+      ],
+      "sign_stability": 0.5587121212121212,
+      "positions_changed": "466",
+      "total_positions": 1056,
+      "mean_magnitude": 0.06938663125038147,
+      "contrastive_weight": 0.06,
+      "spectral_weight": 0.03
+    },
+    {
+      "step": 1300,
+      "wall_time": 8105.712497711182,
+      "train_loss": 0.5873410938307643,
+      "val_loss": 0.5037084487080574,
+      "fiedler_mean": 0.43708608197894966,
+      "co_cross_ratio": 279.0869445800781,
+      "eigenvalue_pattern": [
+        -0.09020471572875977,
+        0.4334959387779236,
+        0.43356573581695557,
+        0.4815567433834076,
+        0.6178736686706543,
+        0.6607406735420227
+      ],
+      "sign_stability": 0.5397727272727273,
+      "positions_changed": "486",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07077283412218094,
+      "contrastive_weight": 0.05666666666666667,
+      "spectral_weight": 0.028333333333333335
+    },
+    {
+      "step": 1400,
+      "wall_time": 8612.483875274658,
+      "train_loss": 0.6044272934552282,
+      "val_loss": 0.4849116888642311,
+      "fiedler_mean": 0.44311136955564673,
+      "co_cross_ratio": 228.3900909423828,
+      "eigenvalue_pattern": [
+        -0.0934223011136055,
+        0.4405970275402069,
+        0.44073009490966797,
+        0.49366146326065063,
+        0.630510151386261,
+        0.6728566884994507
+      ],
+      "sign_stability": 0.5464015151515151,
+      "positions_changed": "479",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07197029888629913,
+      "contrastive_weight": 0.05333333333333334,
+      "spectral_weight": 0.02666666666666667
+    },
+    {
+      "step": 1500,
+      "wall_time": 9120.67449593544,
+      "train_loss": 0.5889157830085605,
+      "val_loss": 0.4679884798824787,
+      "fiedler_mean": 0.4480124759403142,
+      "co_cross_ratio": 625.2714233398438,
+      "eigenvalue_pattern": [
+        -0.09633596986532211,
+        0.4462684094905853,
+        0.44636964797973633,
+        0.5023300051689148,
+        0.64194256067276,
+        0.6836546063423157
+      ],
+      "sign_stability": 0.5568181818181818,
+      "positions_changed": "468",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07299335300922394,
+      "contrastive_weight": 0.05,
+      "spectral_weight": 0.025
+    },
+    {
+      "step": 1600,
+      "wall_time": 9628.027591705322,
+      "train_loss": 0.5872650218009948,
+      "val_loss": 0.440325995311141,
+      "fiedler_mean": 0.45197089829228143,
+      "co_cross_ratio": 684.5197143554688,
+      "eigenvalue_pattern": [
+        -0.0987287387251854,
+        0.45031484961509705,
+        0.45045119524002075,
+        0.5099234580993652,
+        0.6511980891227722,
+        0.6925215125083923
+      ],
+      "sign_stability": 0.5378787878787878,
+      "positions_changed": "488",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07385901361703873,
+      "contrastive_weight": 0.04666666666666667,
+      "spectral_weight": 0.023333333333333334
+    },
+    {
+      "step": 1700,
+      "wall_time": 10127.288913488388,
+      "train_loss": 0.5706707821041346,
+      "val_loss": 0.4220075826346874,
+      "fiedler_mean": 0.4551719223911112,
+      "co_cross_ratio": 1399.615478515625,
+      "eigenvalue_pattern": [
+        -0.10035153478384018,
+        0.45327630639076233,
+        0.45341774821281433,
+        0.5159931778907776,
+        0.6582473516464233,
+        0.6982266902923584
+      ],
+      "sign_stability": 0.5473484848484849,
+      "positions_changed": "478",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07457288354635239,
+      "contrastive_weight": 0.043333333333333335,
+      "spectral_weight": 0.021666666666666667
+    },
+    {
+      "step": 1800,
+      "wall_time": 10629.496398448944,
+      "train_loss": 0.5517856039106845,
+      "val_loss": 0.4145606982707977,
+      "fiedler_mean": 0.4577196213332089,
+      "co_cross_ratio": 2325.615478515625,
+      "eigenvalue_pattern": [
+        -0.10252758860588074,
+        0.4561207592487335,
+        0.45618346333503723,
+        0.5231978893280029,
+        0.666155993938446,
+        0.7053772807121277
+      ],
+      "sign_stability": 0.5123106060606061,
+      "positions_changed": "515",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07516063004732132,
+      "contrastive_weight": 0.04000000000000001,
+      "spectral_weight": 0.020000000000000004
+    },
+    {
+      "step": 1900,
+      "wall_time": 11133.230769395828,
+      "train_loss": 0.5595985826756805,
+      "val_loss": 0.39122507371008397,
+      "fiedler_mean": 0.4597585739737207,
+      "co_cross_ratio": 3768.74365234375,
+      "eigenvalue_pattern": [
+        -0.10386195033788681,
+        0.4581546187400818,
+        0.45843300223350525,
+        0.5268040299415588,
+        0.6700040102005005,
+        0.7100173234939575
+      ],
+      "sign_stability": 0.5549242424242424,
+      "positions_changed": "470",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07563860714435577,
+      "contrastive_weight": 0.036666666666666674,
+      "spectral_weight": 0.018333333333333337
+    },
+    {
+      "step": 2000,
+      "wall_time": 11636.980550527573,
+      "train_loss": 0.5384008426079526,
+      "val_loss": 0.37689267195761206,
+      "fiedler_mean": 0.46140423349358817,
+      "co_cross_ratio": 4610.9755859375,
+      "eigenvalue_pattern": [
+        -0.10511007905006409,
+        0.45988738536834717,
+        0.45995134115219116,
+        0.5305309295654297,
+        0.6749178171157837,
+        0.7142025232315063
+      ],
+      "sign_stability": 0.5359848484848485,
+      "positions_changed": "490",
+      "total_positions": 1056,
+      "mean_magnitude": 0.0760258212685585,
+      "contrastive_weight": 0.03333333333333334,
+      "spectral_weight": 0.01666666666666667
+    },
+    {
+      "step": 2100,
+      "wall_time": 12141.855044603348,
+      "train_loss": 0.5225132177351043,
+      "val_loss": 0.3632391335815191,
+      "fiedler_mean": 0.46261224895715714,
+      "co_cross_ratio": 6307.03271484375,
+      "eigenvalue_pattern": [
+        -0.10633036494255066,
+        0.4611563980579376,
+        0.46119213104248047,
+        0.5333673357963562,
+        0.6788911819458008,
+        0.7180049419403076
+      ],
+      "sign_stability": 0.5198863636363636,
+      "positions_changed": "507",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07632815092802048,
+      "contrastive_weight": 0.030000000000000006,
+      "spectral_weight": 0.015000000000000003
+    },
+    {
+      "step": 2200,
+      "wall_time": 12646.402643442154,
+      "train_loss": 0.5208643992245198,
+      "val_loss": 0.35461148135364057,
+      "fiedler_mean": 0.4635370502417738,
+      "co_cross_ratio": 7379.771484375,
+      "eigenvalue_pattern": [
+        -0.10684560239315033,
+        0.46188002824783325,
+        0.461933970451355,
+        0.5353312492370605,
+        0.6807174682617188,
+        0.7198473811149597
+      ],
+      "sign_stability": 0.5293560606060606,
+      "positions_changed": "497",
+      "total_positions": 1056,
+      "mean_magnitude": 0.0765562579035759,
+      "contrastive_weight": 0.026666666666666672,
+      "spectral_weight": 0.013333333333333336
+    },
+    {
+      "step": 2300,
+      "wall_time": 13151.45147895813,
+      "train_loss": 0.5185236703790724,
+      "val_loss": 0.3466138517856598,
+      "fiedler_mean": 0.46418915722857823,
+      "co_cross_ratio": 10824.6201171875,
+      "eigenvalue_pattern": [
+        -0.10731732845306396,
+        0.4624803960323334,
+        0.46260443329811096,
+        0.5365220308303833,
+        0.682476282119751,
+        0.7214642763137817
+      ],
+      "sign_stability": 0.5227272727272727,
+      "positions_changed": "504",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07672033458948135,
+      "contrastive_weight": 0.02333333333333333,
+      "spectral_weight": 0.011666666666666665
+    },
+    {
+      "step": 2400,
+      "wall_time": 13658.215177297592,
+      "train_loss": 0.5048232227936387,
+      "val_loss": 0.34014011308550834,
+      "fiedler_mean": 0.46464147520336235,
+      "co_cross_ratio": 16768.048828125,
+      "eigenvalue_pattern": [
+        -0.10784002393484116,
+        0.4630185067653656,
+        0.46307373046875,
+        0.5377366542816162,
+        0.6846965551376343,
+        0.7228484749794006
+      ],
+      "sign_stability": 0.5284090909090909,
+      "positions_changed": "498",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07683057337999344,
+      "contrastive_weight": 0.019999999999999997,
+      "spectral_weight": 0.009999999999999998
+    },
+    {
+      "step": 2500,
+      "wall_time": 14172.606236219406,
+      "train_loss": 0.5190817862050607,
+      "val_loss": 0.3335883589833975,
+      "fiedler_mean": 0.4649492803622376,
+      "co_cross_ratio": 18670.478515625,
+      "eigenvalue_pattern": [
+        -0.10807322710752487,
+        0.46332085132598877,
+        0.46332913637161255,
+        0.5381806492805481,
+        0.6858950853347778,
+        0.7236471176147461
+      ],
+      "sign_stability": 0.5426136363636364,
+      "positions_changed": "483",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07690902054309845,
+      "contrastive_weight": 0.016666666666666663,
+      "spectral_weight": 0.008333333333333331
+    },
+    {
+      "step": 2600,
+      "wall_time": 14686.904509782791,
+      "train_loss": 0.5204735638666897,
+      "val_loss": 0.3277328062057495,
+      "fiedler_mean": 0.4652016010474075,
+      "co_cross_ratio": 17059.494140625,
+      "eigenvalue_pattern": [
+        -0.10826120525598526,
+        0.46344316005706787,
+        0.4636024832725525,
+        0.5386863946914673,
+        0.6864617466926575,
+        0.7241719365119934
+      ],
+      "sign_stability": 0.5132575757575758,
+      "positions_changed": "514",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07697091996669769,
+      "contrastive_weight": 0.01333333333333333,
+      "spectral_weight": 0.006666666666666665
+    },
+    {
+      "step": 2700,
+      "wall_time": 15204.872394800186,
+      "train_loss": 0.4986518464330584,
+      "val_loss": 0.3263395015150309,
+      "fiedler_mean": 0.4654072556983341,
+      "co_cross_ratio": 15737.30078125,
+      "eigenvalue_pattern": [
+        -0.10837759077548981,
+        0.4634416699409485,
+        0.46369698643684387,
+        0.5388765335083008,
+        0.6865299940109253,
+        0.7245712280273438
+      ],
+      "sign_stability": 0.5142045454545454,
+      "positions_changed": "513",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07702436298131943,
+      "contrastive_weight": 0.009999999999999998,
+      "spectral_weight": 0.004999999999999999
+    },
+    {
+      "step": 2800,
+      "wall_time": 15733.699844360352,
+      "train_loss": 0.49958188202232123,
+      "val_loss": 0.32061181373894215,
+      "fiedler_mean": 0.4655572399497032,
+      "co_cross_ratio": 14740.79296875,
+      "eigenvalue_pattern": [
+        -0.10848481208086014,
+        0.46362701058387756,
+        0.4639936089515686,
+        0.5393778085708618,
+        0.6873025298118591,
+        0.7249505519866943
+      ],
+      "sign_stability": 0.5208333333333334,
+      "positions_changed": "506",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07706424593925476,
+      "contrastive_weight": 0.006666666666666665,
+      "spectral_weight": 0.0033333333333333327
+    },
+    {
+      "step": 2900,
+      "wall_time": 16261.870979070663,
+      "train_loss": 0.4910752306692302,
+      "val_loss": 0.315622249096632,
+      "fiedler_mean": 0.4656368771737272,
+      "co_cross_ratio": 12466.916015625,
+      "eigenvalue_pattern": [
+        -0.10850044339895248,
+        0.46362972259521484,
+        0.4640257656574249,
+        0.5392354130744934,
+        0.6873839497566223,
+        0.7251088619232178
+      ],
+      "sign_stability": 0.5511363636363636,
+      "positions_changed": "474",
+      "total_positions": 1056,
+      "mean_magnitude": 0.0770893394947052,
+      "contrastive_weight": 0.0033333333333333327,
+      "spectral_weight": 0.0016666666666666663
+    },
+    {
+      "step": 3000,
+      "wall_time": 16791.54457974434,
+      "train_loss": 0.5093458432424813,
+      "val_loss": 0.3154757523536682,
+      "fiedler_mean": 0.4656450988894159,
+      "co_cross_ratio": 2941.666259765625,
+      "eigenvalue_pattern": [
+        -0.10858498513698578,
+        0.46365293860435486,
+        0.46391910314559937,
+        0.5393431186676025,
+        0.6878972053527832,
+        0.7253791093826294
+      ],
+      "sign_stability": 0.540719696969697,
+      "positions_changed": "485",
+      "total_positions": 1056,
+      "mean_magnitude": 0.07709936797618866,
+      "contrastive_weight": 0.0,
+      "spectral_weight": 0.0
+    }
+  ],
+  "sign_evolution": [
+    {
+      "step": 100,
+      "aggregate_stability": 0.6448863636363636,
+      "contrastive_weight": 0.09666666666666668
+    },
+    {
+      "step": 200,
+      "aggregate_stability": 0.6647727272727273,
+      "contrastive_weight": 0.09333333333333334
+    },
+    {
+      "step": 300,
+      "aggregate_stability": 0.6600378787878788,
+      "contrastive_weight": 0.09000000000000001
+    },
+    {
+      "step": 400,
+      "aggregate_stability": 0.6638257575757576,
+      "contrastive_weight": 0.08666666666666667
+    },
+    {
+      "step": 500,
+      "aggregate_stability": 0.6600378787878788,
+      "contrastive_weight": 0.08333333333333334
+    },
+    {
+      "step": 600,
+      "aggregate_stability": 0.6590909090909091,
+      "contrastive_weight": 0.08000000000000002
+    },
+    {
+      "step": 700,
+      "aggregate_stability": 0.6268939393939394,
+      "contrastive_weight": 0.07666666666666666
+    },
+    {
+      "step": 800,
+      "aggregate_stability": 0.6429924242424242,
+      "contrastive_weight": 0.07333333333333335
+    },
+    {
+      "step": 900,
+      "aggregate_stability": 0.6193181818181818,
+      "contrastive_weight": 0.06999999999999999
+    },
+    {
+      "step": 1000,
+      "aggregate_stability": 0.6117424242424242,
+      "contrastive_weight": 0.06666666666666668
+    },
+    {
+      "step": 1100,
+      "aggregate_stability": 0.5785984848484849,
+      "contrastive_weight": 0.06333333333333334
+    },
+    {
+      "step": 1200,
+      "aggregate_stability": 0.5587121212121212,
+      "contrastive_weight": 0.06
+    },
+    {
+      "step": 1300,
+      "aggregate_stability": 0.5397727272727273,
+      "contrastive_weight": 0.05666666666666667
+    },
+    {
+      "step": 1400,
+      "aggregate_stability": 0.5464015151515151,
+      "contrastive_weight": 0.05333333333333334
+    },
+    {
+      "step": 1500,
+      "aggregate_stability": 0.5568181818181818,
+      "contrastive_weight": 0.05
+    },
+    {
+      "step": 1600,
+      "aggregate_stability": 0.5378787878787878,
+      "contrastive_weight": 0.04666666666666667
+    },
+    {
+      "step": 1700,
+      "aggregate_stability": 0.5473484848484849,
+      "contrastive_weight": 0.043333333333333335
+    },
+    {
+      "step": 1800,
+      "aggregate_stability": 0.5123106060606061,
+      "contrastive_weight": 0.04000000000000001
+    },
+    {
+      "step": 1900,
+      "aggregate_stability": 0.5549242424242424,
+      "contrastive_weight": 0.036666666666666674
+    },
+    {
+      "step": 2000,
+      "aggregate_stability": 0.5359848484848485,
+      "contrastive_weight": 0.03333333333333334
+    },
+    {
+      "step": 2100,
+      "aggregate_stability": 0.5198863636363636,
+      "contrastive_weight": 0.030000000000000006
+    },
+    {
+      "step": 2200,
+      "aggregate_stability": 0.5293560606060606,
+      "contrastive_weight": 0.026666666666666672
+    },
+    {
+      "step": 2300,
+      "aggregate_stability": 0.5227272727272727,
+      "contrastive_weight": 0.02333333333333333
+    },
+    {
+      "step": 2400,
+      "aggregate_stability": 0.5284090909090909,
+      "contrastive_weight": 0.019999999999999997
+    },
+    {
+      "step": 2500,
+      "aggregate_stability": 0.5426136363636364,
+      "contrastive_weight": 0.016666666666666663
+    },
+    {
+      "step": 2600,
+      "aggregate_stability": 0.5132575757575758,
+      "contrastive_weight": 0.01333333333333333
+    },
+    {
+      "step": 2700,
+      "aggregate_stability": 0.5142045454545454,
+      "contrastive_weight": 0.009999999999999998
+    },
+    {
+      "step": 2800,
+      "aggregate_stability": 0.5208333333333334,
+      "contrastive_weight": 0.006666666666666665
+    },
+    {
+      "step": 2900,
+      "aggregate_stability": 0.5511363636363636,
+      "contrastive_weight": 0.0033333333333333327
+    },
+    {
+      "step": 3000,
+      "aggregate_stability": 0.540719696969697,
+      "contrastive_weight": 0.0
+    }
+  ],
+  "critical_step": 100,
+  "wall_time": 16798.436316728592
+}

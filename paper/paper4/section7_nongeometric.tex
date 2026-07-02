@@ -1,0 +1,241 @@
+% ===================================================================
+\section{Non-Geometric Topologies}
+\label{sec:nongeometric}
+
+Section~\ref{sec:programmability} established that the Steersman
+requires geometric coherence for block-diagonal structure to emerge.
+This section examines the two non-geometric experiments in detail:
+circular resonance (R-001, number-theoretic pairs) and the emanation
+architecture (E-001, hierarchical bridge structure). Together with
+WL-001 (wrong-labels), they define the boundary between successful
+and unsuccessful topology programming.
+
+\subsection{Circular Resonance: The Strongest Negative (R-001)}
+
+The resonance topology derives co-axial pair assignments from
+number-theoretic relationships: Sophie Germain pairing
+($2(11) + 1 = 23 \to$ channels $(0, 2)$), consecutive-prime pairing
+($29, 31 \to$ channels $(3, 4)$), and residue pairing
+($11 \equiv 17 \equiv 5 \pmod{6} \to$ channels $(1, 5)$). Unlike
+the RD pairs, which correspond to opposite faces of a Voronoi cell,
+the resonance pairs have algebraic but not spatial motivation.
+
+\begin{table}[H]
+\centering
+\caption{Resonance control (R-001) vs.\ wrong-labels (WL-001) vs.\
+  RD contrastive (H-ch6). All three use $n = 6$ with identical
+  hyperparameters; only the pair specification differs.}
+\label{tab:resonance}
+\small
+\begin{tabular}{lcccccc}
+\toprule
+Experiment & Pair Source & Steps & $\rho$ & Fiedler & Deviation & BD \\
+\midrule
+H-ch6 (RD) & Spatial & 10{,}000 & 70{,}404:1 & $9 \times 10^{-5}$ & --- & Yes \\
+WL-001 (random) & Random & 10{,}000 & $8.7 \times 10^{-6}$ & $1.3 \times 10^{-5}$ & 2.12 & No \\
+R-001 (primes) & Algebraic & 10{,}000 & $8.9 \times 10^{-6}$ & $1.2 \times 10^{-5}$ & 2.12 & No \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+R-001 is the strongest negative control in the programme. The
+co-axial/cross-axial coupling ratio decayed monotonically from
+$0.257$ at step~100 to $6.5 \times 10^{-4}$ at step~1{,}000 and
+$8.9 \times 10^{-6}$ at step~10{,}000. Fiedler follows the same
+trajectory: $1.7 \times 10^{-4}$ at step~1{,}000, $1.2 \times 10^{-5}$
+at step~10{,}000. Deviation from identity grows throughout training
+to~2.12, indicating that the bridge matrix departs substantially
+from identity without developing any directional structure---an
+extreme, unorganized coupling pattern.
+
+Validation loss converges normally ($0.4008$ at step~10{,}000),
+confirming that the resonance topology does not impede language
+modelling. The adapter learns the task while the bridge fails to
+organize.
+
+\subsection{WL-001 and R-001: Functional Equivalence}
+
+A key finding emerges from comparing the two negative controls:
+WL-001 (random partition) and R-001 (number-theoretic pairs) produce
+\emph{nearly identical trajectories} (Figure~\ref{fig:wl_r001_identity}).
+Table~\ref{tab:wl_r_compare} shows matched checkpoints.
+
+\begin{table}[H]
+\centering
+\caption{Trajectory comparison: WL-001 (random partition) vs.\
+  R-001 (number-theoretic pairs). Maximum divergence ${<}\,10\%$
+  at all checkpoints.}
+\label{tab:wl_r_compare}
+\small
+\begin{tabular}{ccccc}
+\toprule
+Step & WL-001 $\rho$ & R-001 $\rho$ & WL-001 Fiedler & R-001 Fiedler \\
+\midrule
+1{,}000 & $6.5 \times 10^{-4}$ & $7.1 \times 10^{-4}$ & $1.6 \times 10^{-4}$ & $1.7 \times 10^{-4}$ \\
+5{,}000 & $5.0 \times 10^{-5}$ & $5.1 \times 10^{-5}$ & $6.0 \times 10^{-5}$ & $6.4 \times 10^{-5}$ \\
+10{,}000 & $8.7 \times 10^{-6}$ & $8.9 \times 10^{-6}$ & $1.3 \times 10^{-5}$ & $1.2 \times 10^{-5}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The maximum divergence between WL-001 and R-001 is less than 10\%
+at all checkpoints. From the Steersman's perspective,
+number-theoretic structure without spatial embedding is
+\emph{functionally equivalent to random noise}. The algebraic
+relationships (Sophie Germain, twin primes, residue classes) carry
+no information that the contrastive loss can use to produce
+directional coupling.
+
+This equivalence has a precise meaning. The contrastive loss
+operates on the absolute magnitudes of bridge entries at the
+indices specified by the pair partition. For the contrastive gradient
+to produce block-diagonal structure, the specified co-axial entries
+must be amenable to selective strengthening relative to the
+cross-axial entries. When the pair specification reflects the
+geometry of a polytope (RD, tesseract, octahedron), the bridge's
+gradient landscape has a clear minimum corresponding to the
+block-diagonal attractor. When the pair specification is algebraic
+(resonance) or random (wrong-labels), no such minimum exists---the
+gradient landscape is flat with respect to the co-axial/cross-axial
+distinction, and the contrastive pressure distributes uniformly,
+driving total collapse.
+
+Both experiments converge to Regime~4 (connectivity collapse):
+Fiedler $\approx 10^{-5}$, co/cross $\approx 10^{-5}$, deviation
+$\approx 2.1$. The bridge develops extreme but undirected coupling
+and then decouples. This is distinct from the spectral attractor
+(Regime~3), where the bridge maintains stable connectivity at
+Fiedler~$\approx 0.09$. The contrastive loss, given incoherent
+pairs, overwhelms the spectral loss's connectivity target and
+suppresses all coupling---a destructive interaction between the
+two loss components.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_wl_r001_identity.pdf}
+  \caption{Functional equivalence of wrong-labels (WL-001, random
+    partition) and resonance (R-001, number-theoretic pairs). Both
+    collapse trajectories are indistinguishable ($<10\%$ divergence
+    across 10{,}000 steps), demonstrating that algebraic structure
+    without spatial embedding carries no information the contrastive
+    loss can use.}
+  \label{fig:wl_r001_identity}
+\end{figure}
+
+\subsection{Emanation Architecture: The Third Regime (E-001)}
+\label{sec:emanation_results}
+
+The emanation architecture introduces a qualitatively different
+outcome. Using a master bridge matrix with per-layer offsets scaled
+by $1/\sqrt{l}$ (Eq.~\ref{eq:emanation}), the same RD-derived
+co-axial pairs are specified, but the contrastive loss operates
+through the master matrix rather than per-layer bridges directly.
+
+\begin{table}[H]
+\centering
+\caption{Emanation results (E-001) at 10{,}000 steps vs.\ standard
+  RD contrastive (H-ch6) and spectral attractor (H-ch3).}
+\label{tab:emanation}
+\small
+\begin{tabular}{lcccccl}
+\toprule
+Experiment & Architecture & $\rho$ & Fiedler & Deviation & Val Loss & Regime \\
+\midrule
+H-ch6 (RD) & Independent & 70{,}404:1 & $9 \times 10^{-5}$ & --- & 0.4015 & BD \\
+E-001 (emanation) & Hierarchical & 1.12:1 & 0.084 & 0.35 & 0.4009 & Hierarchical \\
+H-ch3 (spectral) & Independent & N/A & 0.095 & --- & 0.4020 & Attractor \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+E-001 occupies a regime distinct from both block-diagonal emergence
+and the spectral attractor. Its final metrics at 10{,}000 steps:
+
+\begin{itemize}
+  \item \textbf{Fiedler: 0.084.} Near but below the spectral attractor
+    ($0.09$--$0.10$). The bridge maintains substantial connectivity.
+  \item \textbf{Co/cross: 1.12:1.} Slight directional preference---the
+    bridge favors the RD co-axial pairs by 12\% on average. This is
+    above unity but far below the 70{,}000:1 achieved by the standard
+    architecture with the same pair specification.
+  \item \textbf{Deviation: 0.35.} The per-layer offsets have grown
+    substantially from their initialized values, indicating that
+    individual layers differentiate from the master bridge. This
+    deviation is roughly one-sixth the deviation observed in the
+    collapse regime (2.12 for WL-001/R-001).
+  \item \textbf{Val loss: 0.4009.} Marginally better than both the
+    standard contrastive (0.4015) and spectral-only (0.4020)
+    experiments, though the difference is within noise.
+\end{itemize}
+
+\paragraph{Interpretation.}
+The emanation architecture creates a tension between global coherence
+and local adaptation. The master bridge receives the contrastive
+gradient directly, developing slight co-axial preference. But the
+per-layer offsets dilute this preference: each layer adapts its bridge
+to local gradient signals, and these local adaptations do not
+consistently reinforce the global topology. The master bridge carries
+a weak geometric signal (12\% co-axial preference); the offsets
+fragment it.
+
+The result is a bridge that is \emph{coherent but not structured}:
+it maintains connectivity (Fiedler near the attractor), develops weak
+directional preference (co/cross slightly above unity), and allows
+per-layer differentiation (growing deviation)---without achieving the
+dramatic block-diagonal separation that requires per-bridge
+contrastive specificity.
+
+This hierarchical coherence regime suggests that topology
+programming requires direct contrastive feedback to individual
+bridge matrices. Indirection through a shared master bridge preserves
+connectivity but loses the topological specificity needed for
+block-diagonal emergence. The emanation architecture may have value
+for other purposes---regularization, transfer, compositional
+adapters---but it does not serve as a topology programmer.
+
+\subsection{Topology Taxonomy: Four Regimes}
+
+The complete experimental programme produces four distinct dynamical
+regimes, cleanly separated with no intermediate or overlapping
+outcomes.
+
+\begin{enumerate}
+  \item \textbf{Block-diagonal} (geometric contrastive).
+    Polytope-derived pair specifications with per-bridge contrastive
+    loss. Co/cross: $42{,}000$--$474{,}000$:1. Fiedler: $10^{-5}$--$10^{-4}$.
+    Experiments: O-001, H-ch6, Seed-43, T-001r2.
+
+  \item \textbf{Spectral attractor} (no contrastive).
+    Spectral regularization alone, no pair specification.
+    Co/cross: ${\sim}1$:1. Fiedler: $0.084$--$0.102$.
+    Experiments: H-ch3, H-ch4, H-ch8, H-ch12.
+
+  \item \textbf{Hierarchical coherence} (emanation architecture).
+    Contrastive loss on shared master bridge with per-layer offsets.
+    Co/cross: $1.12$:1. Fiedler: $0.084$.
+    Experiment: E-001.
+
+  \item \textbf{Connectivity collapse} (incoherent contrastive).
+    Non-spatial pair specifications (random or algebraic).
+    Co/cross: ${\sim}10^{-5}$:1. Fiedler: ${\sim}10^{-5}$.
+    Deviation: ${\sim}2.1$.
+    Experiments: WL-001, R-001.
+\end{enumerate}
+
+Two features of this taxonomy are notable. First, the collapse regime
+(Regime~4) is distinct from the spectral attractor (Regime~3). The
+spectral attractor represents a stable equilibrium at Fiedler
+$\approx 0.09$; the collapse regime represents a destructive
+interaction where the contrastive loss overwhelms the spectral loss
+and drives connectivity to zero. The spectral attractor is the
+bridge's resting state; the collapse regime is the bridge's failure
+mode under incoherent programming.
+
+Second, Regimes~2 and~3 are structurally similar (both near
+Fiedler~$\approx 0.09$, both with co/cross near unity) but
+mechanistically different. The spectral attractor achieves
+connectivity through spectral loss alone. Hierarchical coherence
+achieves similar connectivity through a different pathway---master
+bridge with contrastive loss---and develops weak directionality
+that the spectral attractor does not. The regimes are adjacent in
+metric space but distinct in mechanism.
