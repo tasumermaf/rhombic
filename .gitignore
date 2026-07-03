@@ -131,3 +131,6 @@ docs/THE_24_CELL_THESIS.md
 scripts/DEFINITIVE_HACKATHON_DELIVERABLE.md
 scripts/fi_001_corpus_internal.py
 scripts/fi_002_corpus_pairs.py
+
+# Research suite: full-text PDFs are materialized locally by research/tools/fetch_papers.py
+research/pdf/

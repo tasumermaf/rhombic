@@ -64,6 +64,21 @@ under identical LM-only training. (It was run once at 1.5B/2k steps in Exp 1
 internal initialization-variant arm (results not published); E is the revived
 BM-002 seeded-transfer question.
 
+**Positioning (added July 3, 2026, from the fourth-expansion sweep,
+`docs/LITERATURE_WATCH_2026-07-03.md`):** Config F is architecturally the
+**MoSLoRA** configuration (arXiv:2406.11909 — learnable dense mixer between
+learnable A/B) and will be cited as such. Config B's nearest prior art is
+**SVFT** (arXiv:2405.19597 — fixed sparsity patterns × learnable values,
+but between *frozen* SVD factors and with non-semantic patterns);
+**SVFT-Random-style matched-parameter random masks** are the required
+additional ablation before publication (a shuffled-adjacency arm at equal
+edge count). No found work anticipates the full BM-003 combination —
+learnable A/B + semantically chosen graph-adjacency mask + LM loss only.
+For BM-004, arXiv:2606.01090 (May 31, 2026) is concurrent evidence outside
+PEFT that misaligned symmetry priors are actively harmful and aligned ones
+pay; cite as concurrent, differentiate on setting (adapters over a
+pretrained LM) and prior type (graph adjacency vs. group equivariance).
+
 Pre-registered decision bands (from the BM-003 protocol): B ≥ A on benchmark
 mean → the prior is free or better; within −1% → proceed; −1% to −3% →
 investigate; worse than −5% → the topology constrains too much.
