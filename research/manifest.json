@@ -1,0 +1,1727 @@
+[
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "fiedler-regularization-learning-neural-networks-with-graph-s"
+ },
+ {
+  "arxiv_id": "2106.09685",
+  "doi": "10.48550/arXiv.2106.09685",
+  "slug": "arxiv-2106-09685"
+ },
+ {
+  "arxiv_id": "2303.10512",
+  "doi": null,
+  "slug": "arxiv-2303-10512"
+ },
+ {
+  "arxiv_id": "2402.09353",
+  "doi": null,
+  "slug": "arxiv-2402-09353"
+ },
+ {
+  "arxiv_id": "2405.17604",
+  "doi": "10.48550/arXiv.2405.17604",
+  "slug": "arxiv-2405-17604"
+ },
+ {
+  "arxiv_id": "2307.13269",
+  "doi": null,
+  "slug": "arxiv-2307-13269"
+ },
+ {
+  "arxiv_id": "2211.03831",
+  "doi": null,
+  "slug": "arxiv-2211-03831"
+ },
+ {
+  "arxiv_id": "2404.13628",
+  "doi": null,
+  "slug": "arxiv-2404-13628"
+ },
+ {
+  "arxiv_id": "2402.17263",
+  "doi": null,
+  "slug": "arxiv-2402-17263"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "cybernetics-or-control-and-communication-in-the-animal-and-t"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "an-introduction-to-cybernetics"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "brain-of-the-firm"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "learning-to-learn-by-gradient-descent-by-gradient-descent"
+ },
+ {
+  "arxiv_id": "1506.01186",
+  "doi": null,
+  "slug": "arxiv-1506-01186"
+ },
+ {
+  "arxiv_id": "2012.13255",
+  "doi": null,
+  "slug": "arxiv-2012-13255"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "visualizing-the-loss-landscape-of-neural-nets"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "the-evolutionary-origins-of-modularity"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "a-review-of-modularization-techniques-in-artificial-neural-n"
+ },
+ {
+  "arxiv_id": "1803.03635",
+  "doi": null,
+  "slug": "arxiv-1803-03635"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "switch-transformers-scaling-to-trillion-parameter-models-wit"
+ },
+ {
+  "arxiv_id": "2006.16668",
+  "doi": null,
+  "slug": "arxiv-2006-16668"
+ },
+ {
+  "arxiv_id": "1611.01578",
+  "doi": null,
+  "slug": "arxiv-1611-01578"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "sphere-packings-lattices-and-groups-3rd-edition"
+ },
+ {
+  "arxiv_id": null,
+  "doi": "10.21136/CMJ.1973.101168",
+  "slug": "algebraic-connectivity-of-graphs"
+ },
+ {
+  "arxiv_id": "2305.14314",
+  "doi": null,
+  "slug": "arxiv-2305-14314"
+ },
+ {
+  "arxiv_id": "1609.09106",
+  "doi": null,
+  "slug": "arxiv-1609-09106"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "gradient-based-learning-applied-to-document-recognition"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "the-graph-neural-network-model"
+ },
+ {
+  "arxiv_id": "1609.02907",
+  "doi": null,
+  "slug": "arxiv-1609-02907"
+ },
+ {
+  "arxiv_id": "2104.13478",
+  "doi": "10.48550/arXiv.2104.13478",
+  "slug": "arxiv-2104-13478"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "poincare-embeddings-for-learning-hierarchical-representation"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "algebraic-geometry-and-statistical-learning-theory"
+ },
+ {
+  "arxiv_id": "1806.04418",
+  "doi": null,
+  "slug": "arxiv-1806-04418"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "stochastic-blockmodels-first-steps"
+ },
+ {
+  "arxiv_id": "2403.03507",
+  "doi": null,
+  "slug": "arxiv-2403-03507"
+ },
+ {
+  "arxiv_id": "2311.11501",
+  "doi": null,
+  "slug": "arxiv-2311-11501"
+ },
+ {
+  "arxiv_id": "2309.12307",
+  "doi": null,
+  "slug": "arxiv-2309-12307"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "learning-structured-sparsity-in-deep-neural-networks"
+ },
+ {
+  "arxiv_id": "1811.05249",
+  "doi": null,
+  "slug": "arxiv-1811-05249"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "curriculum-learning"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "learning-to-reweight-examples-for-robust-deep-learning"
+ },
+ {
+  "arxiv_id": "1511.05641",
+  "doi": null,
+  "slug": "arxiv-1511-05641"
+ },
+ {
+  "arxiv_id": "2212.04089",
+  "doi": "10.48550/arXiv.2212.04089",
+  "slug": "arxiv-2212-04089"
+ },
+ {
+  "arxiv_id": "2306.01708",
+  "doi": "10.48550/arXiv.2306.01708",
+  "slug": "arxiv-2306-01708"
+ },
+ {
+  "arxiv_id": "2311.03099",
+  "doi": "10.48550/arXiv.2311.03099",
+  "slug": "arxiv-2311-03099"
+ },
+ {
+  "arxiv_id": "2310.02575",
+  "doi": null,
+  "slug": "arxiv-2310-02575"
+ },
+ {
+  "arxiv_id": "2405.09673",
+  "doi": null,
+  "slug": "arxiv-2405-09673"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "delving-deep-into-rectifiers-surpassing-human-level-performa"
+ },
+ {
+  "arxiv_id": "2402.09366",
+  "doi": null,
+  "slug": "arxiv-2402-09366"
+ },
+ {
+  "arxiv_id": "1804.08838",
+  "doi": null,
+  "slug": "arxiv-1804-08838"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "spherical-cnns"
+ },
+ {
+  "arxiv_id": "2210.07558",
+  "doi": null,
+  "slug": "arxiv-2210-07558"
+ },
+ {
+  "arxiv_id": "2309.05444",
+  "doi": null,
+  "slug": "arxiv-2309-05444"
+ },
+ {
+  "arxiv_id": "2205.12410",
+  "doi": null,
+  "slug": "arxiv-2205-12410"
+ },
+ {
+  "arxiv_id": "2506.03230",
+  "doi": null,
+  "slug": "arxiv-2506-03230"
+ },
+ {
+  "arxiv_id": "2505.20355",
+  "doi": null,
+  "slug": "arxiv-2505-20355"
+ },
+ {
+  "arxiv_id": "2402.16842",
+  "doi": null,
+  "slug": "arxiv-2402-16842"
+ },
+ {
+  "arxiv_id": "2506.00236",
+  "doi": null,
+  "slug": "arxiv-2506-00236"
+ },
+ {
+  "arxiv_id": "2603.03995",
+  "doi": null,
+  "slug": "arxiv-2603-03995"
+ },
+ {
+  "arxiv_id": null,
+  "doi": "10.1038/s42256-023-00626-4",
+  "slug": "parameter-efficient-fine-tuning-of-large-scale-pre-trained-l"
+ },
+ {
+  "arxiv_id": "2606.10617",
+  "doi": "10.48550/arXiv.2606.10617",
+  "slug": "arxiv-2606-10617"
+ },
+ {
+  "arxiv_id": "2605.28495",
+  "doi": "10.48550/arXiv.2605.28495",
+  "slug": "arxiv-2605-28495"
+ },
+ {
+  "arxiv_id": "2405.07987",
+  "doi": "10.48550/arXiv.2405.07987",
+  "slug": "arxiv-2405-07987"
+ },
+ {
+  "arxiv_id": "2505.12540",
+  "doi": "10.48550/arXiv.2505.12540",
+  "slug": "arxiv-2505-12540"
+ },
+ {
+  "arxiv_id": "2604.18572",
+  "doi": "10.48550/arXiv.2604.18572",
+  "slug": "arxiv-2604-18572"
+ },
+ {
+  "arxiv_id": "2602.19367",
+  "doi": "10.48550/arXiv.2602.19367",
+  "slug": "arxiv-2602-19367"
+ },
+ {
+  "arxiv_id": "2605.20496",
+  "doi": "10.48550/arXiv.2605.20496",
+  "slug": "arxiv-2605-20496"
+ },
+ {
+  "arxiv_id": null,
+  "doi": "10.1109/TNNLS.2024.3416701",
+  "slug": "semi-supervised-multimodal-representation-learning-through-a"
+ },
+ {
+  "arxiv_id": null,
+  "doi": "10.1038/s41467-022-29939-5",
+  "slug": "e-3-equivariant-graph-neural-networks-for-data-efficient-and"
+ },
+ {
+  "arxiv_id": null,
+  "doi": "10.1038/s41467-023-36329-y",
+  "slug": "learning-local-equivariant-representations-for-large-scale-a"
+ },
+ {
+  "arxiv_id": null,
+  "doi": "10.1109/tpami.2021.3136921",
+  "slug": "hyperbolic-deep-neural-networks-a-survey"
+ },
+ {
+  "arxiv_id": null,
+  "doi": "10.1109/cvpr52729.2023.02155",
+  "slug": "dreambooth-fine-tuning-text-to-image-diffusion-models-for-su"
+ },
+ {
+  "arxiv_id": "2605.01929",
+  "doi": "10.48550/arXiv.2605.01929",
+  "slug": "arxiv-2605-01929"
+ },
+ {
+  "arxiv_id": "2606.13971",
+  "doi": "10.48550/arXiv.2606.13971",
+  "slug": "arxiv-2606-13971"
+ },
+ {
+  "arxiv_id": "2606.00133",
+  "doi": "10.48550/arXiv.2606.00133",
+  "slug": "arxiv-2606-00133"
+ },
+ {
+  "arxiv_id": "2605.00658",
+  "doi": "10.48550/arXiv.2605.00658",
+  "slug": "arxiv-2605-00658"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "qlora-efficient-finetuning-of-quantized-llms"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "bitfit-simple-parameter-efficient-fine-tuning-for-transforme"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "t2i-adapter"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "mamba-linear-time-sequence-modeling-with-selective-state-spa"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "highly-accurate-protein-structure-prediction-with-alphafold"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "kepler-conjecture-hales-proof-sphere-packing-and-kissing-num"
+ },
+ {
+  "arxiv_id": "2411.15804",
+  "doi": null,
+  "slug": "arxiv-2411-15804"
+ },
+ {
+  "arxiv_id": "2509.21870",
+  "doi": null,
+  "slug": "arxiv-2509-21870"
+ },
+ {
+  "arxiv_id": "2310.11454",
+  "doi": null,
+  "slug": "arxiv-2310-11454"
+ },
+ {
+  "arxiv_id": "2405.12130",
+  "doi": null,
+  "slug": "arxiv-2405-12130"
+ },
+ {
+  "arxiv_id": "2506.07621",
+  "doi": null,
+  "slug": "arxiv-2506-07621"
+ },
+ {
+  "arxiv_id": "2501.08727",
+  "doi": null,
+  "slug": "arxiv-2501-08727"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "task-arithmetic"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "ties-merging"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "adamerging"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "dare"
+ },
+ {
+  "arxiv_id": "2508.03999",
+  "doi": null,
+  "slug": "arxiv-2508-03999"
+ },
+ {
+  "arxiv_id": "2410.04207",
+  "doi": null,
+  "slug": "arxiv-2410-04207"
+ },
+ {
+  "arxiv_id": "2602.15195",
+  "doi": null,
+  "slug": "arxiv-2602-15195"
+ },
+ {
+  "arxiv_id": "2505.23099",
+  "doi": null,
+  "slug": "arxiv-2505-23099"
+ },
+ {
+  "arxiv_id": "2601.21795",
+  "doi": null,
+  "slug": "arxiv-2601-21795"
+ },
+ {
+  "arxiv_id": "2507.05964",
+  "doi": null,
+  "slug": "arxiv-2507-05964"
+ },
+ {
+  "arxiv_id": "2404.09610",
+  "doi": null,
+  "slug": "arxiv-2404-09610"
+ },
+ {
+  "arxiv_id": "2402.07148",
+  "doi": null,
+  "slug": "arxiv-2402-07148"
+ },
+ {
+  "arxiv_id": "2510.17898",
+  "doi": null,
+  "slug": "arxiv-2510-17898"
+ },
+ {
+  "arxiv_id": "2507.00029",
+  "doi": null,
+  "slug": "arxiv-2507-00029"
+ },
+ {
+  "arxiv_id": "2510.04295",
+  "doi": null,
+  "slug": "arxiv-2510-04295"
+ },
+ {
+  "arxiv_id": "2502.00987",
+  "doi": null,
+  "slug": "arxiv-2502-00987"
+ },
+ {
+  "arxiv_id": "2406.13175",
+  "doi": null,
+  "slug": "arxiv-2406-13175"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "adalora"
+ },
+ {
+  "arxiv_id": "2512.19941",
+  "doi": null,
+  "slug": "arxiv-2512-19941"
+ },
+ {
+  "arxiv_id": "2410.21228",
+  "doi": null,
+  "slug": "arxiv-2410-21228"
+ },
+ {
+  "arxiv_id": "2601.22905",
+  "doi": null,
+  "slug": "arxiv-2601-22905"
+ },
+ {
+  "arxiv_id": "2602.22911",
+  "doi": null,
+  "slug": "arxiv-2602-22911"
+ },
+ {
+  "arxiv_id": "2304.03096",
+  "doi": null,
+  "slug": "arxiv-2304-03096"
+ },
+ {
+  "arxiv_id": "2407.20199",
+  "doi": null,
+  "slug": "arxiv-2407-20199"
+ },
+ {
+  "arxiv_id": "2510.01938",
+  "doi": null,
+  "slug": "arxiv-2510-01938"
+ },
+ {
+  "arxiv_id": "2601.09185",
+  "doi": null,
+  "slug": "arxiv-2601-09185"
+ },
+ {
+  "arxiv_id": "2507.12709",
+  "doi": null,
+  "slug": "arxiv-2507-12709"
+ },
+ {
+  "arxiv_id": "2512.20848",
+  "doi": null,
+  "slug": "arxiv-2512-20848"
+ },
+ {
+  "arxiv_id": "2504.16891",
+  "doi": null,
+  "slug": "arxiv-2504-16891"
+ },
+ {
+  "arxiv_id": "2401.13586",
+  "doi": null,
+  "slug": "arxiv-2401-13586"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "fast-math-r1-aimo-2-28th-29th-place-sft-grpo-pipeline"
+ },
+ {
+  "arxiv_id": "2402.03300",
+  "doi": null,
+  "slug": "arxiv-2402-03300"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "dapo"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "open-reasoner-zero"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "understanding-r1-zero"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "jamba-mamba-transformer-hybrid-rmsnorm-stabilization-precede"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "deepseek-r1"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "neftune-noisy-embedding-instruction-fine-tuning-referenced-a"
+ },
+ {
+  "arxiv_id": "2501.12067",
+  "doi": null,
+  "slug": "arxiv-2501-12067"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "vera"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "nora-efficient-fine-tuning-of-large-models-via-nested-low-ra"
+ },
+ {
+  "arxiv_id": "2510.23346",
+  "doi": null,
+  "slug": "arxiv-2510-23346"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "selora-spectral-encoding-lora"
+ },
+ {
+  "arxiv_id": "2504.19583",
+  "doi": null,
+  "slug": "arxiv-2504-19583"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "bslora-bi-share-lora"
+ },
+ {
+  "arxiv_id": "2601.07507",
+  "doi": null,
+  "slug": "arxiv-2601-07507"
+ },
+ {
+  "arxiv_id": "2603.14228",
+  "doi": null,
+  "slug": "arxiv-2603-14228"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "clora-controlled-lora"
+ },
+ {
+  "arxiv_id": "2410.21262",
+  "doi": null,
+  "slug": "arxiv-2410-21262"
+ },
+ {
+  "arxiv_id": "2003.00992",
+  "doi": null,
+  "slug": "arxiv-2003-00992"
+ },
+ {
+  "arxiv_id": "2103.15632",
+  "doi": null,
+  "slug": "arxiv-2103-15632"
+ },
+ {
+  "arxiv_id": "2508.01961",
+  "doi": null,
+  "slug": "arxiv-2508-01961"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "clora-contrastive-lora-composition"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "cold"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "graphlora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": "10.1007/s11704-024-40663-9",
+  "slug": "a-survey-on-lora-of-large-language-models"
+ },
+ {
+  "arxiv_id": "2601.22708",
+  "doi": null,
+  "slug": "arxiv-2601-22708"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "dora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "mora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "lorma"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "tlora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "loracoe"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "melora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "loran"
+ },
+ {
+  "arxiv_id": "2406.11909",
+  "doi": null,
+  "slug": "arxiv-2406-11909"
+ },
+ {
+  "arxiv_id": "2508.06953",
+  "doi": null,
+  "slug": "arxiv-2508-06953"
+ },
+ {
+  "arxiv_id": "2606.00382",
+  "doi": null,
+  "slug": "arxiv-2606-00382"
+ },
+ {
+  "arxiv_id": "2602.00722",
+  "doi": null,
+  "slug": "arxiv-2602-00722"
+ },
+ {
+  "arxiv_id": "2604.17751",
+  "doi": null,
+  "slug": "arxiv-2604-17751"
+ },
+ {
+  "arxiv_id": "2604.08844",
+  "doi": null,
+  "slug": "arxiv-2604-08844"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "localized-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "kron-lora"
+ },
+ {
+  "arxiv_id": "2509.18629",
+  "doi": null,
+  "slug": "arxiv-2509-18629"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "diablo"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "bd-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "block-recurrent-vit"
+ },
+ {
+  "arxiv_id": "2603.15990",
+  "doi": null,
+  "slug": "arxiv-2603-15990"
+ },
+ {
+  "arxiv_id": "2606.19549",
+  "doi": null,
+  "slug": "arxiv-2606-19549"
+ },
+ {
+  "arxiv_id": "2407.09946",
+  "doi": null,
+  "slug": "arxiv-2407-09946"
+ },
+ {
+  "arxiv_id": "2606.07526",
+  "doi": null,
+  "slug": "arxiv-2606-07526"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "id-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "lora-xs"
+ },
+ {
+  "arxiv_id": "2405.19597",
+  "doi": null,
+  "slug": "arxiv-2405-19597"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "boft"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "surm"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "c3a"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "more-monarch"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "fourierft"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "eeg-graphadapter"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "ga-net"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "radix-net"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "ramanujan-expander-lineage-reference"
+ },
+ {
+  "arxiv_id": "2605.30179",
+  "doi": null,
+  "slug": "arxiv-2605-30179"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "grasp"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "sparselora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "mlae"
+ },
+ {
+  "arxiv_id": "2606.01090",
+  "doi": null,
+  "slug": "arxiv-2606-01090"
+ },
+ {
+  "arxiv_id": "2605.13744",
+  "doi": null,
+  "slug": "arxiv-2605-13744"
+ },
+ {
+  "arxiv_id": "2410.23179",
+  "doi": null,
+  "slug": "arxiv-2410-23179"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "elora"
+ },
+ {
+  "arxiv_id": "2310.01647",
+  "doi": null,
+  "slug": "arxiv-2310-01647"
+ },
+ {
+  "arxiv_id": "2602.14486",
+  "doi": null,
+  "slug": "arxiv-2602-14486"
+ },
+ {
+  "arxiv_id": "2604.27155",
+  "doi": null,
+  "slug": "arxiv-2604-27155"
+ },
+ {
+  "arxiv_id": "2603.26299",
+  "doi": null,
+  "slug": "arxiv-2603-26299"
+ },
+ {
+  "arxiv_id": "2605.23315",
+  "doi": null,
+  "slug": "arxiv-2605-23315"
+ },
+ {
+  "arxiv_id": "2508.05232",
+  "doi": null,
+  "slug": "arxiv-2508-05232"
+ },
+ {
+  "arxiv_id": "2510.02348",
+  "doi": null,
+  "slug": "arxiv-2510-02348"
+ },
+ {
+  "arxiv_id": "2606.00357",
+  "doi": null,
+  "slug": "arxiv-2606-00357"
+ },
+ {
+  "arxiv_id": "2512.05117",
+  "doi": null,
+  "slug": "arxiv-2512-05117"
+ },
+ {
+  "arxiv_id": "2604.16826",
+  "doi": null,
+  "slug": "arxiv-2604-16826"
+ },
+ {
+  "arxiv_id": "2602.06043",
+  "doi": null,
+  "slug": "arxiv-2602-06043"
+ },
+ {
+  "arxiv_id": "2606.23885",
+  "doi": null,
+  "slug": "arxiv-2606-23885"
+ },
+ {
+  "arxiv_id": "2606.11033",
+  "doi": null,
+  "slug": "arxiv-2606-11033"
+ },
+ {
+  "arxiv_id": "2602.07026",
+  "doi": null,
+  "slug": "arxiv-2602-07026"
+ },
+ {
+  "arxiv_id": "2605.28896",
+  "doi": null,
+  "slug": "arxiv-2605-28896"
+ },
+ {
+  "arxiv_id": "2406.09413",
+  "doi": null,
+  "slug": "arxiv-2406-09413"
+ },
+ {
+  "arxiv_id": "2410.13569",
+  "doi": null,
+  "slug": "arxiv-2410-13569"
+ },
+ {
+  "arxiv_id": "2603.10090",
+  "doi": null,
+  "slug": "arxiv-2603-10090"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "flagship-peft-survey"
+ },
+ {
+  "arxiv_id": "2506.16787",
+  "doi": null,
+  "slug": "arxiv-2506-16787"
+ },
+ {
+  "arxiv_id": "2409.16670",
+  "doi": "10.1145/3690624.3709186",
+  "slug": "arxiv-2409-16670"
+ },
+ {
+  "arxiv_id": "2402.02347",
+  "doi": null,
+  "slug": "arxiv-2402-02347"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "loragen-structure-aware-weight-space-lora-parameter-generati"
+ },
+ {
+  "arxiv_id": "2603.13792",
+  "doi": null,
+  "slug": "arxiv-2603-13792"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "defining-neural-network-architecture-through-polytope-struct"
+ },
+ {
+  "arxiv_id": "2603.19278",
+  "doi": null,
+  "slug": "arxiv-2603-19278"
+ },
+ {
+  "arxiv_id": "2603.05204",
+  "doi": null,
+  "slug": "arxiv-2603-05204"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "gelora"
+ },
+ {
+  "arxiv_id": "2510.04331",
+  "doi": null,
+  "slug": "arxiv-2510-04331"
+ },
+ {
+  "arxiv_id": "2603.24044",
+  "doi": null,
+  "slug": "arxiv-2603-24044"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "bio-regnet"
+ },
+ {
+  "arxiv_id": "2501.16720",
+  "doi": null,
+  "slug": "arxiv-2501-16720"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "lora-sb-r-x-r-trainable-bridge-between-frozen-svd"
+ },
+ {
+  "arxiv_id": "2504.18735",
+  "doi": null,
+  "slug": "arxiv-2504-18735"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "fesser-weber-2025-fiedler-singular-value-over-squashing-in-g"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "mslora-cr-contrastive-regularization-over-modality-specific-"
+ },
+ {
+  "arxiv_id": "2510.12700",
+  "doi": null,
+  "slug": "arxiv-2510-12700"
+ },
+ {
+  "arxiv_id": "2602.15029",
+  "doi": null,
+  "slug": "arxiv-2602-15029"
+ },
+ {
+  "arxiv_id": "2502.12171",
+  "doi": null,
+  "slug": "arxiv-2502-12171"
+ },
+ {
+  "arxiv_id": "2603.22379",
+  "doi": null,
+  "slug": "arxiv-2603-22379"
+ },
+ {
+  "arxiv_id": "2603.09684",
+  "doi": null,
+  "slug": "arxiv-2603-09684"
+ },
+ {
+  "arxiv_id": "2602.10993",
+  "doi": null,
+  "slug": "arxiv-2602-10993"
+ },
+ {
+  "arxiv_id": "2602.07479",
+  "doi": null,
+  "slug": "arxiv-2602-07479"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "bora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "loran-sinter"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "cross-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "r-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "mola"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "vb-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "cat"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "voronoi-cnn"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "neat"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "topological-nn-over-air"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "stiefel-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "lora-survey-springer-2025"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "corda"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "pissa"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "miss"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "oft-orthogonal-finetuning"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "shira"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "wong-et-al-2009-spherical-projection-face-indexed-rd-coordin"
+ },
+ {
+  "arxiv_id": "2503.19859",
+  "doi": null,
+  "slug": "arxiv-2503-19859"
+ },
+ {
+  "arxiv_id": "2602.04998",
+  "doi": null,
+  "slug": "arxiv-2602-04998"
+ },
+ {
+  "arxiv_id": "2512.03402",
+  "doi": null,
+  "slug": "arxiv-2512-03402"
+ },
+ {
+  "arxiv_id": "2603.15965",
+  "doi": null,
+  "slug": "arxiv-2603-15965"
+ },
+ {
+  "arxiv_id": "2402.02407",
+  "doi": null,
+  "slug": "arxiv-2402-02407"
+ },
+ {
+  "arxiv_id": "2502.15455",
+  "doi": null,
+  "slug": "arxiv-2502-15455"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "loragen-structure-aware-weight-space-learning-for-lora-gener"
+ },
+ {
+  "arxiv_id": "2502.20580",
+  "doi": null,
+  "slug": "arxiv-2502-20580"
+ },
+ {
+  "arxiv_id": "2601.06758",
+  "doi": null,
+  "slug": "arxiv-2601-06758"
+ },
+ {
+  "arxiv_id": "2602.13261",
+  "doi": null,
+  "slug": "arxiv-2602-13261"
+ },
+ {
+  "arxiv_id": "2505.21251",
+  "doi": null,
+  "slug": "arxiv-2505-21251"
+ },
+ {
+  "arxiv_id": "2312.05840",
+  "doi": null,
+  "slug": "arxiv-2312-05840"
+ },
+ {
+  "arxiv_id": "2511.08694",
+  "doi": null,
+  "slug": "arxiv-2511-08694"
+ },
+ {
+  "arxiv_id": "2507.20999",
+  "doi": null,
+  "slug": "arxiv-2507-20999"
+ },
+ {
+  "arxiv_id": "2508.11673",
+  "doi": null,
+  "slug": "arxiv-2508-11673"
+ },
+ {
+  "arxiv_id": "2512.22192",
+  "doi": null,
+  "slug": "arxiv-2512-22192"
+ },
+ {
+  "arxiv_id": "2601.00791",
+  "doi": null,
+  "slug": "arxiv-2601-00791"
+ },
+ {
+  "arxiv_id": null,
+  "doi": "10.64898/2026.03.12.711455",
+  "slug": "evolutionarily-optimized-network-topology-as-structural-prio"
+ },
+ {
+  "arxiv_id": "2501.08790",
+  "doi": null,
+  "slug": "arxiv-2501-08790"
+ },
+ {
+  "arxiv_id": "2602.06385",
+  "doi": null,
+  "slug": "arxiv-2602-06385"
+ },
+ {
+  "arxiv_id": "2603.12577",
+  "doi": null,
+  "slug": "arxiv-2603-12577"
+ },
+ {
+  "arxiv_id": "2603.17079",
+  "doi": null,
+  "slug": "arxiv-2603-17079"
+ },
+ {
+  "arxiv_id": "2603.12378",
+  "doi": null,
+  "slug": "arxiv-2603-12378"
+ },
+ {
+  "arxiv_id": "2603.17558",
+  "doi": null,
+  "slug": "arxiv-2603-17558"
+ },
+ {
+  "arxiv_id": "2503.03202",
+  "doi": null,
+  "slug": "arxiv-2503-03202"
+ },
+ {
+  "arxiv_id": "2603.01792",
+  "doi": null,
+  "slug": "arxiv-2603-01792"
+ },
+ {
+  "arxiv_id": "2602.07263",
+  "doi": null,
+  "slug": "arxiv-2602-07263"
+ },
+ {
+  "arxiv_id": "2603.02281",
+  "doi": null,
+  "slug": "arxiv-2603-02281"
+ },
+ {
+  "arxiv_id": "2603.02973",
+  "doi": null,
+  "slug": "arxiv-2603-02973"
+ },
+ {
+  "arxiv_id": "2602.06208",
+  "doi": null,
+  "slug": "arxiv-2602-06208"
+ },
+ {
+  "arxiv_id": "2601.09684",
+  "doi": null,
+  "slug": "arxiv-2601-09684"
+ },
+ {
+  "arxiv_id": "2410.09692",
+  "doi": null,
+  "slug": "arxiv-2410-09692"
+ },
+ {
+  "arxiv_id": "2603.15678",
+  "doi": null,
+  "slug": "arxiv-2603-15678"
+ },
+ {
+  "arxiv_id": "2602.06204",
+  "doi": null,
+  "slug": "arxiv-2602-06204"
+ },
+ {
+  "arxiv_id": "2507.06558",
+  "doi": null,
+  "slug": "arxiv-2507-06558"
+ },
+ {
+  "arxiv_id": "2603.10160",
+  "doi": null,
+  "slug": "arxiv-2603-10160"
+ },
+ {
+  "arxiv_id": "2602.24012",
+  "doi": null,
+  "slug": "arxiv-2602-24012"
+ },
+ {
+  "arxiv_id": "2603.06922",
+  "doi": null,
+  "slug": "arxiv-2603-06922"
+ },
+ {
+  "arxiv_id": "2602.16456",
+  "doi": null,
+  "slug": "arxiv-2602-16456"
+ },
+ {
+  "arxiv_id": "2602.22345",
+  "doi": null,
+  "slug": "arxiv-2602-22345"
+ },
+ {
+  "arxiv_id": "2502.16894",
+  "doi": null,
+  "slug": "arxiv-2502-16894"
+ },
+ {
+  "arxiv_id": "2603.00720",
+  "doi": null,
+  "slug": "arxiv-2603-00720"
+ },
+ {
+  "arxiv_id": "2601.17483",
+  "doi": null,
+  "slug": "arxiv-2601-17483"
+ },
+ {
+  "arxiv_id": "2601.02273",
+  "doi": null,
+  "slug": "arxiv-2601-02273"
+ },
+ {
+  "arxiv_id": "2602.03217",
+  "doi": null,
+  "slug": "arxiv-2602-03217"
+ },
+ {
+  "arxiv_id": "2510.04682",
+  "doi": null,
+  "slug": "arxiv-2510-04682"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "task-driven-subspace-decomposition-for-knowledge-sharing-and"
+ },
+ {
+  "arxiv_id": "2603.00573",
+  "doi": null,
+  "slug": "arxiv-2603-00573"
+ },
+ {
+  "arxiv_id": "2512.21743",
+  "doi": null,
+  "slug": "arxiv-2512-21743"
+ },
+ {
+  "arxiv_id": "2408.11804",
+  "doi": null,
+  "slug": "arxiv-2408-11804"
+ },
+ {
+  "arxiv_id": "2509.21519",
+  "doi": null,
+  "slug": "arxiv-2509-21519"
+ },
+ {
+  "arxiv_id": "2310.08513",
+  "doi": null,
+  "slug": "arxiv-2310-08513"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "topological-regularization-via-persistent-homology"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "dora-weight-decomposed-low-rank-adaptation"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "doran-dora-variant"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "loran-multi-rank-sine-activation"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "melora-mini-ensemble-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "galore-gradient-low-rank-projection"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "galore-2"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "gum"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "gora-gradient-driven-adaptive-rank"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "rslora-rank-stabilized-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "pissa-principal-singular-values-adaptation"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "lora-differential-learning-rates"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "adalora-adaptive-rank-allocation"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "flora-federated-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "sdflora-federated-lora-successor"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "plora-federated-lora-successor"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "interactive-training-zhang-et-al"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "tiki-taka"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "deepweightflow"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "compressible-dynamics-deep-linear-network-result"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "polyhedronnet"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "polytopes-and-machine-learning"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "lorafusion"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "aflora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "lora-done-rite"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "singlora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "lorauter"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "cat-contrastive-adapter-training-for-image-generation"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "vasguidenet"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "keeplora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "c-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "coso"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "cold-contrastive-decoding-for-lora-knowledge"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "ce-lora-computation-efficiency"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "weight-space-backdoor-detection"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "flat-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "predicting-gcn-performance-via-fiedler-value"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "lorsum"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "eigenlorax"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "dylora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "wireless-federated-lora"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "adafuse"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "structure-aware-contrastive-learning-for-diagrams"
+ },
+ {
+  "arxiv_id": null,
+  "doi": null,
+  "slug": "riemannlora"
+ }
+]

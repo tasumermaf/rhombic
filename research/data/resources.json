@@ -1,0 +1,782 @@
+[
+ {
+  "name": "Stanford Alpaca: An Instruction-following LLaMA Model (Taori, Rohan; Gulrajani, Ishaan; Zhang, Tianyi; Dubois, Yann; Li, Xuechen; Guestrin, Carlos; Liang, Percy; Hashimoto, Tatsunori B., 2023)",
+  "url": "https://github.com/tatsu-lab/stanford_alpaca",
+  "type": "github-repo / dataset",
+  "assessment_verbatim": null,
+  "source_doc": [
+   "C:\\falco\\rhombic\\paper\\rhombic-paper3.bib",
+   "C:\\falco\\rhombic\\paper\\refs-paper3.bib",
+   "C:\\falco\\rhombic\\paper\\paper4\\paper4.bib"
+  ],
+  "_from": "bibs"
+ },
+ {
+  "name": "TASUMER MAF GitHub organization",
+  "url": "https://github.com/tasumermaf",
+  "type": "github-organization",
+  "assessment_verbatim": "The six repos form one stack: rhombic (the centerpiece — pip library, the TeLoRA/RhombiLoRA architecture, the cybernetic \"Steersman\" training loop, three LaTeX papers, 250+ tests, 15+ runs from 1.1B–14B), the-adversary (your seven-round self-audit framework — 232 findings, 87 fixed), LIOTHIL (the research-environment scaffold), meridian (the Astrolabium, 567 tests), and the two public-face repos.",
+  "source_doc": "C:\\Users\\Timothy Paul Bielec\\Downloads\\I'll start by reading the onboarding profile to pin down the exact….md",
+  "_from": "director"
+ },
+ {
+  "name": "timothybielec.com (personal website)",
+  "url": "http://www.timothybielec.com/",
+  "type": "personal-website",
+  "assessment_verbatim": "The website adds the decisive context: this sits next to a real production LoRA practice (Asteria, Microsoft, an Oscar-qualifying short, Bad Bunny, Cuco, across SDXL/Flux/Wan 2.1/Marey). The research and the commercial work are the same competency aimed at two targets.\n---\nThe website grounds the whole picture: real production LoRA work for major studios (Asteria, Microsoft, an Oscar-qualifying short, Bad Bunny, Cuco) across SDXL/Flux/Wan 2.1/Marey 1.5, alongside the rhombic and Falco/isopsephy research.",
+  "source_doc": "C:\\Users\\Timothy Paul Bielec\\Downloads\\I'll start by reading the onboarding profile to pin down the exact….md",
+  "_from": "director"
+ },
+ {
+  "name": "timotheospaul Substack",
+  "url": "https://timotheospaul.substack.com/",
+  "type": "blog",
+  "assessment_verbatim": "Now let me pull the full body text of the most relevant Substack posts (the Cybernetica series and Shape of the Cell are the conceptual core) and the website text.",
+  "source_doc": "C:\\Users\\Timothy Paul Bielec\\Downloads\\I'll start by reading the onboarding profile to pin down the exact….md",
+  "_from": "director"
+ },
+ {
+  "name": "TRL Issue #4147 — Prompt-completion label bug (assistant_masks override)",
+  "url": "https://github.com/huggingface/trl/issues/4147",
+  "type": "github-issue",
+  "assessment_verbatim": "[TRL Issue #4147](https://github.com/huggingface/trl/issues/4147) documents\na bug where `assistant_masks` from `apply_chat_template` can override the\n`completion_mask` with all-zeros, causing **all tokens to be masked** (loss = 0\neverywhere, model learns nothing).\n\nThis was fixed in TRL PR #4201, but only for specific TRL versions. If we're\non an older TRL, this bug could cause our entire training to produce no\ngradient updates.\n\n**Check:** Verify TRL version. The fix landed after v0.17.0.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "TRL Issue #5213 — Tokenization mismatch (prompt vs prompt+completion)",
+  "url": "https://github.com/huggingface/trl/issues/5213",
+  "type": "github-issue",
+  "assessment_verbatim": "This is a **known TRL bug** documented in:\n\n- [TRL Issue #5213](https://github.com/huggingface/trl/issues/5213) — Qwen3.5\n  tokenization mismatch between prompt and prompt+completion\n\nWhen the token counts don't align, the `completion_mask` is **wrong** — it\nmasks too many or too few tokens, potentially masking the actual answer or\nleaving prompt tokens unmasked.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "TRL Issue #1184 — Instruction template masking failure",
+  "url": "https://github.com/huggingface/trl/issues/1184",
+  "type": "github-issue",
+  "assessment_verbatim": "- [TRL Issue #1184](https://github.com/huggingface/trl/issues/1184) — First\n  occurrence of instruction template tokenized differently from subsequent ones",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "TRL Issue #3927 — assistant_only_loss silent failure with Liger kernel",
+  "url": "https://github.com/huggingface/trl/issues/3927",
+  "type": "github-issue",
+  "assessment_verbatim": "[TRL Issue #3927: assistant_only_loss silent failure](https://github.com/huggingface/trl/issues/3927)\n---\n**TRL completion_only_loss + Liger kernel bug.** `assistant_only_loss=True` is silently ignored when `use_liger_kernel=True`. Don't combine them.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md; C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "TRL Issue #1507 — SFTTrainer without DataCollatorForCompletionOnlyLM",
+  "url": "https://github.com/huggingface/trl/issues/1507",
+  "type": "github-issue",
+  "assessment_verbatim": "[TRL Issue #1507: SFTTrainer without DataCollatorForCompletionOnlyLM](https://github.com/huggingface/trl/issues/1507)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Unsloth Discussion #3810 — Trouble fine-tuning Nemotron 3 Nano",
+  "url": "https://github.com/unslothai/unsloth/discussions/3810",
+  "type": "github-discussion",
+  "assessment_verbatim": "**Unsloth + Nemotron 3 Nano:** Users report merge failures with `\"do not match!\"`\nerrors involving `up_proj.SCB` and `down_proj.SCB` parameters across expert layers.\nMarked \"Unanswered\" on GitHub.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md; C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "llama.cpp Issue #20570 — Nemotron Mamba assertion failure",
+  "url": "https://github.com/ggml-org/llama.cpp/issues/20570",
+  "type": "github-issue",
+  "assessment_verbatim": "**llama.cpp Mamba assertion:** `GGML_ASSERT(d_inner % (n_group*n_embd) == 0)` fails\nat `mamba-base.cpp:173`.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NeMo Issue #14856 — LoRA recipe request for Nemotron",
+  "url": "https://github.com/NVIDIA-NeMo/NeMo/issues/14856",
+  "type": "github-issue",
+  "assessment_verbatim": "[LoRA recipe request (NeMo Issue)](https://github.com/NVIDIA-NeMo/NeMo/issues/14856)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "transformers Issue #38966 — Nemotron-H HF Transformers support",
+  "url": "https://github.com/huggingface/transformers/issues/38966",
+  "type": "github-issue",
+  "assessment_verbatim": "[Nemotron-H HF Transformers Support](https://github.com/huggingface/transformers/issues/38966)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "SGLang rms_norm_eps AttributeError (issue referenced without link)",
+  "url": null,
+  "type": "github-issue",
+  "assessment_verbatim": "**SGLang rms_norm_eps:** AttributeError on `rms_norm_eps` — the Nemotron config\nuses a different attribute name than standard models.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "TRL GRPOTrainer documentation",
+  "url": "https://huggingface.co/docs/trl/main/en/grpo_trainer",
+  "type": "documentation",
+  "assessment_verbatim": "### Model Support Warning\n\n**Tested models (per TRL docs):** Qwen3, Qwen3.5 for agent training. General\ncompatibility \"not guaranteed.\" **No mention of Mamba, SSM, or hybrid architectures.**\n\nThe `GRPOTrainer` checks model forward signatures dynamically via\n`\"logits_to_keep\" in self.model_kwarg_keys` but has **no explicit Mamba/SSM handling.**\n---\nThis is a **known problem** in GRPO with vLLM. TRL documents it extensively:\n\n> \"Inference engines aim to maximize sampling throughput... Training frameworks instead\n> focus on numerical stability and precision for gradient computation... These differing\n> priorities introduce an inevitable mismatch.\"",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md; C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "TRL GRPOConfig source (grpo_config.py)",
+  "url": "https://github.com/huggingface/trl/blob/main/trl/trainer/grpo_config.py",
+  "type": "github-source",
+  "assessment_verbatim": "[TRL GRPOConfig Source](https://github.com/huggingface/trl/blob/main/trl/trainer/grpo_config.py)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "TRL GRPOTrainer source (grpo_trainer.py)",
+  "url": "https://github.com/huggingface/trl/blob/main/trl/trainer/grpo_trainer.py",
+  "type": "github-source",
+  "assessment_verbatim": "[TRL GRPOTrainer Source](https://github.com/huggingface/trl/blob/main/trl/trainer/grpo_trainer.py)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "TRL SFTTrainer source (sft_trainer.py)",
+  "url": "https://github.com/huggingface/trl/blob/main/trl/trainer/sft_trainer.py",
+  "type": "github-source",
+  "assessment_verbatim": "**TRL then tokenizes prompt and prompt+completion SEPARATELY to build\nthe completion_mask:**\n\n```python\n# TRL SFTTrainer._tokenize flow (sft_trainer.py)\nprompt_ids = tokenize(example[\"prompt\"])[\"input_ids\"]\nprompt_completion_ids = tokenize(example[\"prompt\"] + example[\"completion\"])[\"input_ids\"]\ncompletion_mask = [0] * len(prompt_ids) + [1] * (len(prompt_completion_ids) - len(prompt_ids))\n```\n\n**The problem:** BPE tokenizers are context-sensitive. Tokenizing \"prompt\"\nalone can produce different tokens at the boundary than tokenizing\n\"prompt+completion\" together.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "TRL DataCollatorForCompletionOnlyLM source (utils.py)",
+  "url": "https://github.com/huggingface/trl/blob/15ff54790b42297d2cf569fba6d7dd44c1c269e3/trl/trainer/utils.py",
+  "type": "github-source",
+  "assessment_verbatim": "**Warning:** `DataCollatorForCompletionOnlyLM` is deprecated in TRL ≥0.20.\nIf using a newer version, this won't work.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "mamba_ssm rmsnorm_fn source (state-spaces/mamba layernorm_gated.py)",
+  "url": "https://github.com/state-spaces/mamba/blob/main/mamba_ssm/ops/triton/layernorm_gated.py",
+  "type": "github-source",
+  "assessment_verbatim": "**The original function signature** (from `mamba_ssm.ops.triton.layernorm_gated`):\n\n```python\ndef rmsnorm_fn(x, weight, bias, z=None, eps=1e-6, group_size=None, norm_before_gate=True):\n    return LayerNormFn.apply(x, weight, bias, z, eps, group_size, norm_before_gate, True)\n```\n---\n**mamba_ssm version issues:** `mamba_ssm==2.2.2` causes\n`ModuleNotFoundError: No module named 'mamba_ssm.ops.triton.layernorm'`. Version\n`2.2.5` (as used by Unsloth reporters) has different issues.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md; C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NVIDIA Nemotron-3-Nano-30B modeling code (modeling_nemotron_h.py)",
+  "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16/blob/main/modeling_nemotron_h.py",
+  "type": "model-source",
+  "assessment_verbatim": "**The model's actual call site** (from NVIDIA's `modeling_nemotron_h.py`):\n\n```python\nclass MambaRMSNormGated(torch.nn.Module):\n    def forward(self, hidden_states, gate=None):\n        return rmsnorm_fn(\n            x=hidden_states,       # ← KEYWORD argument\n            weight=self.weight,\n            bias=None,\n            z=gate,\n            eps=self.variance_epsilon,\n            group_size=self.group_size,\n            norm_before_gate=False\n        )\n```",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Nemotron-3-Nano-30B HuggingFace model card",
+  "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-BF16",
+  "type": "model-card",
+  "assessment_verbatim": "**52 total layers:**\n- 23 Mamba-2 layers (state space model, linear-time sequence processing)\n- 23 MoE layers (128 routed experts + 1 shared, 6 active per token)\n- 6 GQA attention layers (grouped query attention, 2 groups)\n\n**Total params:** 30B. **Active params per token:** 3.5B.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md; C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Nemotron 3 Nano HuggingFace blog post",
+  "url": "https://huggingface.co/blog/nvidia/nemotron-3-nano-efficient-open-intelligent-models",
+  "type": "blog-post",
+  "assessment_verbatim": "[Nemotron 3 Nano HuggingFace Blog](https://huggingface.co/blog/nvidia/nemotron-3-nano-efficient-open-intelligent-models)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Megatron Bridge — Nemotron 3 Nano documentation",
+  "url": "https://docs.nvidia.com/nemo/megatron-bridge/latest/models/llm/nemotron3.html",
+  "type": "documentation",
+  "assessment_verbatim": "**NVIDIA official LoRA target modules (Megatron Bridge):**\n`[\"linear_qkv\", \"linear_proj\", \"linear_fc1\", \"linear_fc2\", \"in_proj\", \"out_proj\"]`",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NVIDIA blog — Train a Reasoning LLM in One Weekend with NeMo",
+  "url": "https://developer.nvidia.com/blog/train-a-reasoning-capable-llm-in-one-weekend-with-nvidia-nemo/",
+  "type": "blog-post",
+  "assessment_verbatim": "### Data Filtering Recommendations (from NVIDIA blog)\n\n1. **Filter for quality:** Remove refusal samples (empty `<think></think>` tags)\n2. **Enforce format:** LaTeX `\\boxed{}` for math answers\n3. **Restrict token length:** 8K-16K tokens post-chat-template for SFT; competition puzzles are much shorter (~284 mean, 510 max tokens)\n4. **Curriculum learning:** Sort by completion token count (ascending difficulty). NVIDIA observed sudden loss drop at epoch boundaries due to this.\n5. **Mix reasoning on/off:** Unsloth recommends 75% reasoning + 25% direct answer to preserve model capabilities.\n---\nThe NVIDIA blog recommends 500K+ samples and 2000+ steps for convergence, but that's for general reasoning — our puzzle domain is narrow enough that 2-10K might suffice.\n---\n**Alpha/rank ratio matters.** The Aman recipe uses alpha=rank (1:1). NVIDIA blog uses alpha=2*rank (2:1). Both work; the 1:1 ratio is simpler.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NeMo Gym — Nemotron 3 Nano GRPO recipe",
+  "url": "https://docs.nvidia.com/nemo/gym/latest/model-recipes/nemotron-3-nano.html",
+  "type": "documentation",
+  "assessment_verbatim": "NVIDIA provides an official recipe for Nemotron 3 Nano GRPO:\n\n```bash\nuv run examples/nemo_gym/run_grpo_nemo_gym.py \\\n    --config grpo_nanov3.yaml \\\n    policy.model_name=${MODEL_CHECKPOINT} \\\n    data.train_jsonl_fpath=${DATA_DIR}/train-split.jsonl\n```\n\n**Requires:** 2 nodes x 8 GPUs minimum (16 GPUs). Not feasible on a single A100.\nCould work on a multi-GPU RunPod setup.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md; C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NVIDIA NeMo RL (GitHub repository)",
+  "url": "https://github.com/NVIDIA-NeMo/RL",
+  "type": "github-repo",
+  "assessment_verbatim": "If we have access to a 2+ GPU setup, NeMo RL is the **correct** framework for\nthis model. NVIDIA built and tested it specifically for Nemotron.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NeMo RL GRPO guide",
+  "url": "https://docs.nvidia.com/nemo/rl/latest/guides/grpo.html",
+  "type": "documentation",
+  "assessment_verbatim": "[NeMo RL GRPO Guide](https://docs.nvidia.com/nemo/rl/latest/guides/grpo.html)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NeMo RL grpo_math_1B.yaml example config",
+  "url": "https://github.com/NVIDIA-NeMo/RL/blob/main/examples/configs/grpo_math_1B.yaml",
+  "type": "github-source",
+  "assessment_verbatim": "### NeMo RL Default Config (grpo_math_1B.yaml)\n\n```yaml\ngrpo:\n  num_prompts_per_step: 32\n  num_generations_per_prompt: 16\n  max_num_steps: 1000000\n  normalize_rewards: true\n  use_leave_one_out_baseline: true\n  seed: 42\n\nloss_fn:\n  reference_policy_kl_penalty: 0.01\n  kl_input_clamp_value: 20.0\n  kl_output_clamp_value: 10.0\n  ratio_clip_min: 0.2\n  ratio_clip_max: 0.2\n\npolicy:\n  model_name: \"Qwen/Qwen2.5-1.5B\"\n  train_global_batch_size: 512\n  train_micro_batch_size: 4\n  generation_batch_size: 32\n  max_total_sequence_length: 512\n  precision: \"bfloat16\"\n  optimizer:\n    name: \"torch.optim.AdamW\"\n    kwargs:\n      lr: 5.0e-6\n      weight_decay: 0.01\n      betas: [0.9, 0.999]\n  scheduler:\n    - name: LinearLR  # warmup\n      kwargs: {start_factor: 0.1, end_factor: 1.0, total_iters: 50}\n    - name: ConstantLR  # then constant\n  generation:\n    backend: \"vllm\"\n    temperature: 1.0\n    top_p: 1.0\n```",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Nemotron 3 Super RL stage documentation",
+  "url": "https://docs.nvidia.com/nemotron/nightly/nemotron/super3/rl/index.html",
+  "type": "documentation",
+  "assessment_verbatim": "### Nemotron 3 Super RL Configuration (Larger Model, More Detail Available)\n\n| Parameter | RLVR Stages 1.1-1.3 | SWE Stage 1 | RLHF Stage 3 |\n|-----------|---------------------|-------------|--------------|\n| Nodes | 109 | 64 | 72 |\n| Prompts/step | 256 | 64 | 128 |\n| Generations/prompt | 16 | 16 | 16 |\n| Batch size | 4,096 | 1,024 | 2,048 |\n| Max sequence length | 65K | 131K | 49K |\n| Learning rate | 3e-6 | 1e-6 | 1e-6 |\n| KL penalty | 0 | 0 | 1e-4 |\n\n**Critical insight:** The RLVR (math/code) stages use **KL=0** and **lr=3e-6**. Only\nthe RLHF stage (conversational quality) uses KL penalty.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NVIDIA-NeMo/Nemotron GRPO-DAPO training cookbook",
+  "url": "https://github.com/NVIDIA-NeMo/Nemotron/tree/main/usage-cookbook/Nemotron-3-Super/grpo-dapo",
+  "type": "github-repo",
+  "assessment_verbatim": "[GRPO/DAPO Training Cookbook (GitHub)](https://github.com/NVIDIA-NeMo/Nemotron/tree/main/usage-cookbook/Nemotron-3-Super/grpo-dapo)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md; C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NVIDIA NeMo RL DeepScaleR reproduction blog post",
+  "url": "https://developer.nvidia.com/blog/reinforcement-learning-with-nvidia-nemo-rl-reproducing-a-deepscaler-recipe-using-grpo/",
+  "type": "blog-post",
+  "assessment_verbatim": "[NVIDIA NeMo RL DeepScaleR Blog Post](https://developer.nvidia.com/blog/reinforcement-learning-with-nvidia-nemo-rl-reproducing-a-deepscaler-recipe-using-grpo/)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Fast-Math-R1 repository (analokmaus/kaggle-aimo2-fast-math-r1)",
+  "url": "https://github.com/analokmaus/kaggle-aimo2-fast-math-r1",
+  "type": "github-repo",
+  "assessment_verbatim": "[Fast-Math-R1 GitHub (AIMO-2 28th Place)](https://github.com/analokmaus/kaggle-aimo2-fast-math-r1)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Cameron Wolfe — Group Relative Policy Optimization (GRPO) deep dive",
+  "url": "https://cameronrwolfe.substack.com/p/grpo",
+  "type": "blog-post",
+  "assessment_verbatim": "[Cameron Wolfe: Group Relative Policy Optimization (GRPO)](https://cameronrwolfe.substack.com/p/grpo)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Sebastian Raschka — The State of RL for LLM Reasoning",
+  "url": "https://magazine.sebastianraschka.com/p/the-state-of-llm-reasoning-model-training",
+  "type": "blog-post",
+  "assessment_verbatim": "[Sebastian Raschka: State of RL for LLM Reasoning](https://magazine.sebastianraschka.com/p/the-state-of-llm-reasoning-model-training)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "HuggingFace Cookbook — TRL GRPO advanced reward design",
+  "url": "https://huggingface.co/learn/cookbook/en/trl_grpo_reasoning_advanced_reward",
+  "type": "documentation",
+  "assessment_verbatim": "### HuggingFace Cookbook: Advanced Multi-Reward\n\n```python\n# Format reward (strict)\ndef match_format_exactly(completions, **kwargs):\n    pattern = r\"^[\\s]*<reasoning>.+?</reasoning>.*?<solution>(.+?)</solution>[\\s]*$\"\n    return [3.0 if re.search(pattern, c[0][\"content\"], re.DOTALL) else 0.0\n            for c in completions]\n```\n(Cookbook provides graduated format and answer-correctness rewards plus a GRPOConfig with learning_rate=5e-6, effective batch = 16, max_grad_norm=0.1 aggressive clipping.)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Unsloth — Nemotron 3 fine-tuning guide",
+  "url": "https://unsloth.ai/docs/models/nemotron-3",
+  "type": "documentation",
+  "assessment_verbatim": "MoE gates use `nn.Parameter` with `F.linear()` (not `nn.Linear`). PEFT's \"all-linear\" does NOT target them. **Routers are automatically frozen.** Unsloth also disables router fine-tuning by default with good reason.\n---\n**Mix reasoning on/off:** Unsloth recommends 75% reasoning + 25% direct answer to preserve model capabilities.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md; C:\\falco\\rhombic\\competition\\RESEARCH_TRL_BUGS.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Unsloth reinforcement learning guide",
+  "url": "https://unsloth.ai/docs/get-started/reinforcement-learning-rl-guide",
+  "type": "documentation",
+  "assessment_verbatim": "[Unsloth RL Guide](https://unsloth.ai/docs/get-started/reinforcement-learning-rl-guide)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Unsloth RL Environments blog post",
+  "url": "https://unsloth.ai/blog/rl-environments",
+  "type": "blog-post",
+  "assessment_verbatim": "[RL Environments Blog (Unsloth)](https://unsloth.ai/blog/rl-environments)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "nvidia/Nemotron-Post-Training-Dataset-v2",
+  "url": "https://huggingface.co/datasets/nvidia/Nemotron-Post-Training-Dataset-v2",
+  "type": "dataset",
+  "assessment_verbatim": "| **Nemotron-Post-Training-Dataset-v2** | 239K math + 355K STEM | Reasoning traces, \\boxed{} format | NVIDIA/HF |\n---\n`nvidia/Nemotron-Post-Training-Dataset-v2` math split (239K samples)\n  - Filter for `reasoning=\"on\"`, `\\boxed{}` format\n  - Pre-generated by DeepSeek-R1-0528 and Qwen models",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "nvidia/Nemotron-Post-Training-Dataset-v1",
+  "url": "https://huggingface.co/datasets/nvidia/Nemotron-Post-Training-Dataset-v1",
+  "type": "dataset",
+  "assessment_verbatim": "| **Nemotron-Post-Training-Dataset-v1** | 2M math + 20M STEM | Larger, older | NVIDIA/HF |",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "nvidia/Nemotron-3-Nano-RL-Training-Blend",
+  "url": "https://huggingface.co/datasets/nvidia/Nemotron-3-Nano-RL-Training-Blend",
+  "type": "dataset",
+  "assessment_verbatim": "| **Nemotron-3-Nano-RL-Training-Blend** | ~900K+ tasks | 8 environments, pass_rate scored | NVIDIA/HF |\n---\n`nvidia/Nemotron-3-Nano-RL-Training-Blend` (for GRPO stage)\n  - Contains pass_rate and reward_profiles per example\n  - 8 environments: math, coding, QA, instruction following, tool use, etc.",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "nvidia/OpenMathReasoning",
+  "url": null,
+  "type": "dataset",
+  "assessment_verbatim": "| **OpenMathReasoning** | Millions | Math with code execution traces | NVIDIA/HF |\n---\n`nvidia/OpenMathReasoning` (massive math corpus with code execution)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "nvidia/Llama-Nemotron-Post-Training-Dataset",
+  "url": null,
+  "type": "dataset",
+  "assessment_verbatim": "| **Llama-Nemotron-Post-Training-Dataset** | 32M+ | Math, code, STEM, chat | NVIDIA/HF |",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "trl-lib/DeepMath-103K",
+  "url": null,
+  "type": "dataset",
+  "assessment_verbatim": "| **trl-lib/DeepMath-103K** | 103K | Math reasoning prompts | HF |\n---\n`trl-lib/DeepMath-103K` (ready-to-use GRPO prompts)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "Light-R1-SFT dataset",
+  "url": null,
+  "type": "dataset",
+  "assessment_verbatim": "### Stage 1: Extended SFT\n- Base: Qwen2.5-14B\n- Data: Light-R1-SFT (multi-stage)\n- Train until accuracy plateaus\n---\n- Data: Light-R1-SFT second-stage data",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_GRPO.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "nvidia/OpenMath-Nemotron-14B-Kaggle",
+  "url": "https://huggingface.co/nvidia/OpenMath-Nemotron-14B-Kaggle",
+  "type": "model-card",
+  "assessment_verbatim": "[OpenMath-Nemotron-14B-Kaggle](https://huggingface.co/nvidia/OpenMath-Nemotron-14B-Kaggle)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "AIMO-2 1st place solution writeup (NemoSkills, Kaggle)",
+  "url": "https://www.kaggle.com/competitions/ai-mathematical-olympiad-progress-prize-2/writeups/nemoskills-1st-place-solution-nemoskills",
+  "type": "competition-writeup",
+  "assessment_verbatim": "### AIMO-2 (1st place — NemoSkills / NVIDIA)\n\n- **Base:** Qwen2.5-14B-Base (NOT instruct)\n- **Data:** Millions of synthetic solutions from DeepSeek-R1 and QwQ-32B (knowledge distillation)\n- **Training:** SFT on OpenMathReasoning subset\n- **Inference:** Multiple long-thinking responses in parallel, majority voting\n- **Speed tricks:** FP8 quantization + ReDrafter speculative decoding\n- **Key insight:** Data quality and synthetic data from strong teachers > architecture tricks",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "ARC Prize 2025 1st place (NVARC / NVIDIA) — referenced without link",
+  "url": null,
+  "type": "competition-writeup",
+  "assessment_verbatim": "### ARC Prize 2025 (1st place — NVARC / NVIDIA)\n\n- **Approach:** Synthetic data generation + test-time training + disciplined engineering\n- **Key insight:** Smaller models adapting quickly at test time > heavyweight reasoning\n- **Generalization:** Strong on unseen final dataset, minimal overfitting",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "NVIDIA corporate blog — Math Reasoning Kaggle Win",
+  "url": "https://blogs.nvidia.com/blog/reasoning-ai-math-olympiad/",
+  "type": "blog-post",
+  "assessment_verbatim": "[NVIDIA Blog — Math Reasoning Kaggle Win](https://blogs.nvidia.com/blog/reasoning-ai-math-olympiad/)",
+  "source_doc": "C:\\falco\\rhombic\\competition\\RESEARCH_INTEL.md",
+  "_from": "nemotron"
+ },
+ {
+  "name": "WeightWatcher-PEFT",
+  "url": null,
+  "type": "tool/blog",
+  "assessment_verbatim": "**Overfit detection from adapter internals: still unclaimed** (cite WeightWatcher-PEFT as prior art in kind).\n---\nCite as prior art in kind: LoL/GL-equivariant processing (2410.04207), weights2weights (2406.09413), Tree Experts (2410.13569), WeightWatcher-PEFT (blog/tool), backdoor forensics (2602.15195); survey: 2603.10090.",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "CoLorAI @ ICML 2026",
+  "url": null,
+  "type": "workshop",
+  "assessment_verbatim": "**CoLorAI @ ICML 2026** (first workshop on low-rank representations, Seoul) — both the likeliest surface for claim-1/4-adjacent work and a natural Stream A submission target. Re-sweep after camera-readies.\n---\nAdd all sweep papers to the research suite (`research/`); next sweep after CoLorAI camera-readies (≈ August 2026).",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "MERGE-PEFT",
+  "url": null,
+  "type": "benchmark",
+  "assessment_verbatim": "**Merge-conflict prediction:** reframe as weight-only, post-hoc, no-training-access (2606.19549 owns the training-time form; MERGE-PEFT is a usable benchmark).",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "NLPCC 2025",
+  "url": null,
+  "type": "venue",
+  "assessment_verbatim": "NLPCC 2025 (all four dblp volumes): zero structured-LoRA methods papers.",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "CCL 2025",
+  "url": null,
+  "type": "venue",
+  "assessment_verbatim": "CCL 2025: LoRA as tool only.",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "Chinese ML media (机器之心 / 量子位 / PaperWeekly)",
+  "url": null,
+  "type": "media",
+  "assessment_verbatim": "Chinese ML media (机器之心/量子位/PaperWeekly): secondary coverage of English arXiv work only.",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "Chinese corporate labs (ByteDance Seed, DeepSeek, Zhipu, Moonshot, DAMO/Qwen, Noah's Ark)",
+  "url": null,
+  "type": "corporate-lab-sweep",
+  "assessment_verbatim": "Corporate labs (ByteDance Seed public papers, DeepSeek, Zhipu, Moonshot, DAMO/Qwen, Noah's Ark): nothing structural on adapters.",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "kexue.fm",
+  "url": null,
+  "type": "blocked-source",
+  "assessment_verbatim": "Residual gaps: kexue.fm and one Zhihu roundup 403-blocked (known content orthogonal); 《计算机学报》/《软件学报》 not individually swept.",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "Zhihu roundup (unspecified)",
+  "url": null,
+  "type": "blocked-source",
+  "assessment_verbatim": "Residual gaps: kexue.fm and one Zhihu roundup 403-blocked (known content orthogonal); 《计算机学报》/《软件学报》 not individually swept.",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "《计算机学报》 / 《软件学报》",
+  "url": null,
+  "type": "venue-not-swept",
+  "assessment_verbatim": "Residual gaps: kexue.fm and one Zhihu roundup 403-blocked (known content orthogonal); 《计算机学报》/《软件学报》 not individually swept.",
+  "source_doc": "docs/LITERATURE_WATCH_2026-07-03.md",
+  "_from": "sweep-2026-07"
+ },
+ {
+  "name": "HuggingFace PEFT library",
+  "url": "https://huggingface.co/docs/peft",
+  "type": "software-library",
+  "assessment_verbatim": "**HuggingFace PEFT library** has no topology-aware LoRA implementations. AdaLoRA, CorDA, PiSSA, MiSS are the structured variants. TeLoRA would be first geometry-based entry.\n---\n**No topology-aware, geometry-driven, or spectrally-programmed method exists in PEFT.** TeLoRA would be the first.\n---\nNo new structured adapter libraries or multi-channel LoRA implementations found. PEFT library unchanged. No new model cards referencing topology-aware or polytope-constrained adapters.",
+  "source_doc": "C:\\falco\\rhombic\\orvad-research-telora-competitive-intel.md; C:\\falco\\rhombic\\orvad-research-telora-competitive-intel-update3.md; C:\\falco\\rhombic\\results\\research-scout-2026-03-27.md",
+  "_from": "telora-intel"
+ },
+ {
+  "name": "HuggingFace PEFT — GraLoRA package reference page",
+  "url": "https://huggingface.co/docs/peft/package_reference/gralora",
+  "type": "documentation",
+  "assessment_verbatim": "**PEFT integration:** GraLoRA has its own package reference page in the HuggingFace PEFT docs. This is significant — it means block-diagonal LoRA is now a first-class citizen in the mainstream PEFT ecosystem.",
+  "source_doc": "C:\\falco\\rhombic\\orvad-research-telora-competitive-intel-update3.md",
+  "_from": "telora-intel"
+ },
+ {
+  "name": "Semantic Scholar API (LoRA-XS citation watch)",
+  "url": null,
+  "type": "api-service",
+  "assessment_verbatim": "Semantic Scholar API returned ~60 citing papers. Scanned for 2026 entries. Notable new citers (all from Feb 2026, not overnight) [...] No new March 26-27 papers citing LoRA-XS detected.",
+  "source_doc": "C:\\falco\\rhombic\\results\\research-scout-2026-03-27.md",
+  "_from": "telora-intel"
+ },
+ {
+  "name": "TLoRA GitHub repository",
+  "url": null,
+  "type": "github-repo",
+  "assessment_verbatim": "**TLoRA full paper** not readable via web fetch (PDF encoding). Method details from abstract + GitHub description. Confidence: MEDIUM.",
+  "source_doc": "C:\\falco\\rhombic\\results\\research-scout-2026-03-26.md",
+  "_from": "telora-intel"
+ },
+ {
+  "name": "ResearchGate summary of Zhang et al. (arXiv 2504.19583)",
+  "url": null,
+  "type": "summary-page",
+  "assessment_verbatim": "**Confidence:** MEDIUM (full paper PDF not readable; relied on abstract + ResearchGate summary)",
+  "source_doc": "C:\\falco\\rhombic\\orvad-research-telora-competitive-intel.md",
+  "_from": "telora-intel"
+ },
+ {
+  "name": "emergentmind topic pages",
+  "url": null,
+  "type": "topic-pages",
+  "assessment_verbatim": "Background (surveys, topic pages) | LoRA survey (Springer 2025), emergentmind topic pages, Stack Overflow LoRA variants | 7",
+  "source_doc": "C:\\falco\\rhombic\\results\\research-scout-2026-03-26.md",
+  "_from": "telora-intel"
+ },
+ {
+  "name": "Stack Overflow LoRA variants discussions",
+  "url": null,
+  "type": "forum",
+  "assessment_verbatim": "Background (surveys, topic pages) | LoRA survey (Springer 2025), emergentmind topic pages, Stack Overflow LoRA variants | 7",
+  "source_doc": "C:\\falco\\rhombic\\results\\research-scout-2026-03-26.md",
+  "_from": "telora-intel"
+ },
+ {
+  "name": "dkarkada/symmetry-stats-repgeom",
+  "url": "https://github.com/dkarkada/symmetry-stats-repgeom",
+  "type": "repo",
+  "assessment_verbatim": "**Repo:** github.com/dkarkada/symmetry-stats-repgeom\n---\n4. **Lattice embeddings.** Their `lattice.ipynb` constructs a 2D square lattice\n   (31×31 nodes), builds a distance-based co-occurrence matrix\n   M = exp(-d/WIDTH), eigendecomposes it, and shows the resulting embeddings\n   reproduce the lattice geometry in representation space. PCA axes 1-2 recover\n   the 2D grid structure. Higher modes show the Fourier basis of the lattice.\n---\n**Do NOT attempt to integrate their code.** Their repo requires Python 3.13+\n  and CUDA. Our hackathon demo runs on the Hermes server's existing\n  infrastructure.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\KARKADA_EVALUATION.md",
+  "_from": "theory"
+ },
+ {
+  "name": "selimbat/r_dodeca_vox_builder",
+  "url": "https://github.com/selimbat/r_dodeca_vox_builder",
+  "type": "repo",
+  "assessment_verbatim": "## 1. RD Signed Distance Function — GPU-Portable Rendering Kernel\n\n**Source:** `selimbat/r_dodeca_vox_builder` (Processing + GLSL, MIT-equivalent)\n**Use case:** Real-time RD visualization on RTX 6000 Ada. Ray-marched honeycombs\nwith Phong shading for papers, GitHub, HF Space, website banners, video content.\n\n### The Formula\n\nExploits octahedral symmetry to reduce 12 face constraints to 5.\n---\n**Note:** Approximate near vertices (not exact Euclidean distance there), exact for\nface distances. Adequate for ray marching, rendering, and containment testing.\n---\n### Asset Generation Applications\n\n- **Paper figures:** Ray-march a honeycomb of RDs with the library's own topology\n  coloring (8-law weave palette). The SDF renders at arbitrary resolution.\n- **Website hero:** Animated ray-marched RD on `rhombic.vision`, replacing or\n  complementing the Three.js wireframe.\n- **Video content:** Real-time RD honeycomb flythrough on RTX 6000 Ada.\n  Drop the SDF into a CUDA compute shader or use it with `warp` / `taichi`.\n- **HF Space:** Could power an interactive RD explorer (ray-march in WebGL).\n---\n## 2. FCC Lattice Basis Vectors — Integer Cell Addressing\n\n**Source:** `selimbat/r_dodeca_vox_builder` + `grischa/rhombic-dodecahedron` (independent confirmation)\n**Use case:** Addressing individual RD cells in a tessellation by integer triple (i,j,k).",
+  "source_doc": "C:\\falco\\rhombic\\docs\\EXTERNAL_REFERENCE_IMPLEMENTATIONS.md",
+  "_from": "theory"
+ },
+ {
+  "name": "grischa/rhombic-dodecahedron",
+  "url": "https://github.com/grischa/rhombic-dodecahedron",
+  "type": "repo",
+  "assessment_verbatim": "## 2. FCC Lattice Basis Vectors — Integer Cell Addressing\n\n**Source:** `selimbat/r_dodeca_vox_builder` + `grischa/rhombic-dodecahedron` (independent confirmation)\n**Use case:** Addressing individual RD cells in a tessellation by integer triple (i,j,k).\n---\n**Alternative formulation (grischa — periodic boundary):**\n# Cell basis vectors for periodic RD tiling (D = R * sqrt(2))\n---\n### 12-Inequality Half-Space (explicit, after 45-degree z-rotation)\n\n**Source:** `grischa/rhombic-dodecahedron`\n\n\"RD containment via 6 absolute-value conditions (=12 half-spaces).\"",
+  "source_doc": "C:\\falco\\rhombic\\docs\\EXTERNAL_REFERENCE_IMPLEMENTATIONS.md",
+  "_from": "theory"
+ },
+ {
+  "name": "Uspectacle/MineCraft-Rhombic-Dodecahedron",
+  "url": "https://github.com/Uspectacle/MineCraft-Rhombic-Dodecahedron",
+  "type": "repo",
+  "assessment_verbatim": "### L1-Norm Pairs (compact, branch-free)\n\n**Source:** `Uspectacle/MineCraft-Rhombic-Dodecahedron`\n\n\"RD containment via three L1-norm pair constraints.\"\n---\n## 4. FCC Stagger Function — Cubic-to-FCC Grid Conversion\n\n**Source:** `Uspectacle/MineCraft-Rhombic-Dodecahedron`\n\n\"Convert cubic grid position to staggered FCC lattice.\n\nEven-parity cells (x+z even) and odd-parity cells (x+z odd)\ninterleave at alternating y-levels.\"\n---\n| **Integer** | (1,1,1), (1,1,3), ... centered at (2,2,2) | (0,2,2), (4,2,2), ... | Uspectacle |",
+  "source_doc": "C:\\falco\\rhombic\\docs\\EXTERNAL_REFERENCE_IMPLEMENTATIONS.md",
+  "_from": "theory"
+ },
+ {
+  "name": "Reispfannenfresser/marching-rhombic-dodecahedrons",
+  "url": "https://github.com/Reispfannenfresser/marching-rhombic-dodecahedrons",
+  "type": "repo",
+  "assessment_verbatim": "## 5. Marching-RD Algorithm — Isosurface Extraction on RD Grids\n\n**Source:** `Reispfannenfresser/marching-rhombic-dodecahedrons` (C#/Unity, **GPL-3.0**)\n**Use case:** Isosurface visualization inside RD grids. Paper 4 figures. Future\nRD-native generative pipeline outputs.\n\n### Architecture\n\nEach RD cell decomposes into the **octet truss** (tetrahedral-octahedral honeycomb):\n- 2 tetrahedra + 1 octahedron per cell\n\nThe marching algorithm runs three sub-shapes per cell:\n\n| Sub-shape | Sample points | Configurations | Mesh templates | Offset |\n|-----------|--------------|----------------|---------------|--------|\n| Tetrahedron 1 | 4 (origin + FR, DF, DR) | 16 (2^4) | 4 | (0.5, -0.5, 0.5) |\n| Tetrahedron 2 | 4 (origin + LF, DL, DF) | 16 (2^4) | 4 | (-0.5, -0.5, 0.5) |\n| Octahedron | 6 (origin + DB, DL, DF, DR + corner D) | 64 (2^6) | 10 | (0, -1, 0) |\n\nEach configuration maps to a `(rotation_matrix, mesh_template_index)` pair.\nTotal: 96 lookup entries (16 + 16 + 64).\n---\n**LICENSE NOTE:** The marching-RD repo is GPL-3.0. The coordinate system and\nadjacency tables are mathematical facts (not copyrightable). The specific\n96-entry lookup tables with rotation matrices and mesh templates are the\nauthor's creative work under GPL-3.0. If we need the lookup tables, either:\n(a) clean-room derive them from the tetrahedral/octahedral decomposition, or\n(b) use under GPL-3.0 terms.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\EXTERNAL_REFERENCE_IMPLEMENTATIONS.md",
+  "_from": "theory"
+ },
+ {
+  "name": "apiotrow/Rhombic-Dodecahedral-Honeycomb",
+  "url": "https://github.com/apiotrow/Rhombic-Dodecahedral-Honeycomb",
+  "type": "repo",
+  "assessment_verbatim": "## 6. Hidden-Face Culling — O(n) Tessellation Rendering\n\n**Source:** `apiotrow/Rhombic-Dodecahedral-Honeycomb` (C#/Unity)\n**Use case:** Clean honeycomb renders showing only exterior faces. Cross-section\ndiagrams for papers. Animated honeycomb builds for video.\n---\n\"Mark interior faces for removal via centroid hashing.\n\nFor each triangle on each cell, compute the centroid (average of 3 vertices\n+ cell offset). If two triangles from different cells share the same centroid,\nthey are coplanar interior faces — both are flagged for removal.\n\nO(n) via hash set. Exploits exact arithmetic of the FCC lattice.\"\n---\n| **Dual-cube** | (+-0.5, +-0.5, +-0.5) | (0,+-1,0), (+-1,0,0), (0,0,+-1) | apiotrow, HomelikeBrick42 |",
+  "source_doc": "C:\\falco\\rhombic\\docs\\EXTERNAL_REFERENCE_IMPLEMENTATIONS.md",
+  "_from": "theory"
+ },
+ {
+  "name": "HomelikeBrick42 (GitHub user; repository name not given in source)",
+  "url": null,
+  "type": "repo",
+  "assessment_verbatim": "Three independent coordinate systems confirmed across repos:\n\n| **Dual-cube** | (+-0.5, +-0.5, +-0.5) | (0,+-1,0), (+-1,0,0), (0,0,+-1) | apiotrow, HomelikeBrick42 |\n---\nThe dual-cube formulation maps most naturally to the face-indexed coordinate\nsystem needed for spherical projection (Wong et al. 2009).",
+  "source_doc": "C:\\falco\\rhombic\\docs\\EXTERNAL_REFERENCE_IMPLEMENTATIONS.md",
+  "_from": "theory"
+ },
+ {
+  "name": "NateBerglund (GitHub user; repository name not given in source)",
+  "url": null,
+  "type": "repo",
+  "assessment_verbatim": "Three independent coordinate systems confirmed across repos:\n\n| **sqrt(2)/sqrt(3)/sqrt(6)** | via sqrt(2)/2, sqrt(3)/6, sqrt(6)/6 | via sqrt(3)/2, sqrt(6)/3 | NateBerglund, MaltWhiskey |",
+  "source_doc": "C:\\falco\\rhombic\\docs\\EXTERNAL_REFERENCE_IMPLEMENTATIONS.md",
+  "_from": "theory"
+ },
+ {
+  "name": "MaltWhiskey (GitHub user; repository name not given in source)",
+  "url": null,
+  "type": "repo",
+  "assessment_verbatim": "Three independent coordinate systems confirmed across repos:\n\n| **sqrt(2)/sqrt(3)/sqrt(6)** | via sqrt(2)/2, sqrt(3)/6, sqrt(6)/6 | via sqrt(3)/2, sqrt(6)/3 | NateBerglund, MaltWhiskey |",
+  "source_doc": "C:\\falco\\rhombic\\docs\\EXTERNAL_REFERENCE_IMPLEMENTATIONS.md",
+  "_from": "theory"
+ },
+ {
+  "name": "Survey aggregate — 7 additional surveyed repos not named individually in source (zero extractable value)",
+  "url": null,
+  "type": "repo-survey-aggregate",
+  "assessment_verbatim": "> **Purpose:** Extractable algorithms from 15 GitHub repos surveyed March 9, 2026.\n> These are independent implementations that confirm our math and provide GPU-portable\n> formulations for asset generation. None are Python; all port trivially.\n>\n> **Context:** Our `rhombic` library (v0.3.0+, 255 tests) is ahead of every public\n> RD implementation on GitHub. These references fill specific gaps: real-time rendering\n> (SDF), isosurface extraction (marching-RD), and efficient tessellation rendering\n> (hidden-face culling).\n---\n**Date:** March 9, 2026\n**Repos surveyed:** 15\n**Repos with extractable value:** 4\n**Repos with zero value:** 11 (LED sculptures, STL files, empty repos, CAD exports)\n**Python code found:** 0 (all extracted formulas ported from C#, GLSL, Tcl, MATLAB)\n**Spherical projection implementations found:** 0\n**Wong et al. (2009) references found:** 0\n\n**Conclusion:** The polyhedral multimodal bridge (Rungs 3-5 of the TASUMER MAF\nproduct ladder) has zero prior art in open source. The `rhombic` library is the\nonly Python implementation of RD lattice topology with spectral analysis. These\nreference implementations supplement it with GPU-portable rendering formulas.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\EXTERNAL_REFERENCE_IMPLEMENTATIONS.md",
+  "_from": "theory"
+ },
+ {
+  "name": "Negative search: \"24-cell\" OR \"D4 lattice\" AND \"machine learning\"",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"24-cell\" OR \"D4 lattice\" AND \"machine learning\":** Zero results. Paper 4 claim on 4D lattice topology in ML remains without prior art.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: \"topology programming\" AND neural",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"topology programming\" AND neural:** Only general TDA surveys. No one uses \"topology programming\" for adapter structure control.\n---\n**\"topology programming\" + \"neural\"**: No relevant results. The phrase appears to be our coinage in the adapter context.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: \"cybernetic feedback\" + \"LoRA\" or \"adapter\"",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"cybernetic feedback\" + \"LoRA\" or \"adapter\":** Zero results. No one has framed adapter training as a cybernetic feedback system.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: \"polytope\" + \"adapter\" or \"LoRA\"",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"polytope\" + \"adapter\" or \"LoRA\":** Zero results beyond Lee et al. (polytope/NN architecture). No one applies polytope geometry to adapter design.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: \"Fiedler value\" + \"adapter\" or \"LoRA\"",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"Fiedler value\" + \"adapter\" or \"LoRA\":** Zero results. Nobody has applied algebraic connectivity to LoRA weight analysis.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: \"contrastive loss\" + \"block diagonal\" + \"adapter\"",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"contrastive loss\" + \"block diagonal\" + \"adapter\":** Zero results. No one uses contrastive loss to induce BD structure in adapters.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: \"multi-channel LoRA\" + \"coupling\"",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"multi-channel LoRA\" + \"coupling\":** Zero results matching our multi-channel coupled architecture. The term \"multi-channel\" in LoRA literature refers to serving multiple adapters, not our meaning of multiple rank channels within a single adapter.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: Anthropic/DeepMind/OpenAI LoRA papers (March 2026)",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**Anthropic/DeepMind/OpenAI LoRA papers (March 2026):** No new LoRA or adapter papers.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: \"loss coefficient\" + \"structural formation\"",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"loss coefficient\" + \"structural formation\"** — zero results. Gap claim #7 reconfirmed",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: \"lattice topology\" + neural network",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"lattice topology\" + \"neural network\"**: All results about lattice physics (spin systems) or word lattices. No overlap with adapter topology.\n---\n\"lattice topology\" + neural network — zero ML results. All spin systems, word lattices, mechanical lattice topology optimization. No overlap with adapter weight topology.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: \"phase transition\" + \"training dynamics\" + LoRA",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"phase transition\" + \"training dynamics\" + LoRA** — no new papers combining all three terms",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: LoRA \"graph Laplacian\" / \"Fiedler\" / \"bridge matrix\" + adapter coupling",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "LoRA \"graph Laplacian\" / \"Fiedler\" / \"bridge matrix\" + adapter coupling — zero results. Nobody combines graph Laplacian eigenvalues with LoRA adapter analysis.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: CW-001 \"speed not destination\" prior-art check (contrastive coefficient as formation-rate control)",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**Finding: No prior art.** No paper describes a contrastive loss coefficient that controls the rate of structural formation while leaving the converged structure invariant.\n---\n**The \"speed not destination\" finding has no parallel in the literature.** This strengthens the Paper 3 narrative: the Steersman doesn't build the topology — it accelerates the topology's self-organization. The bridge \"wants\" to go block-diagonal; c_w determines how fast it gets there.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search: HuggingFace Hub — geometric/topological/block-diagonal LoRA repos, models, spaces (Scans 6-16)",
+  "url": "https://huggingface.co",
+  "type": "negative-search-result",
+  "assessment_verbatim": "**No relevant HuggingFace repos, models, or spaces found.** The geometric/topological LoRA space remains empty on HF.\n---\nFour search rounds executed:\n- \"LoRA topology structured adapter block diagonal\" (repos + spaces) — **zero results**\n- \"spectral LoRA eigenvalue geometric adapter\" (repos + spaces) — **zero results**\n- \"block diagonal LoRA structured topology geometric\" (repos + datasets + spaces) — **zero results**\n- Natural language hub query for March 2026 structured/topology/block-diagonal LoRA repos — **zero results**\n---\n**Result: Zero repos, models, or spaces found.** The geometric/topological LoRA space on HuggingFace remains completely empty and uncontested.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "GitHub: skydancerosel/mini_gpt (Spectral Edge Dynamics code)",
+  "url": "https://github.com/skydancerosel/mini_gpt",
+  "type": "github-repo",
+  "assessment_verbatim": "**Code available:** https://github.com/skydancerosel/mini_gpt",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "GitHub: ronantakizawa/lorashare (Share implementation library)",
+  "url": "https://github.com/ronantakizawa/lorashare",
+  "type": "github-repo",
+  "assessment_verbatim": "lorashare Python library exists on GitHub (ronantakizawa/lorashare) for running Share.\n---\nKaushik/Chellappa/Yuille group — no new publications beyond Share (Feb 2026) and Universal Weight Subspace (Dec 2025). lorashare GitHub repo exists (ronantakizawa/lorashare, ankit-vaidya19/Share). No March 2026 activity.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "GitHub: ankit-vaidya19/Share (Share official implementation)",
+  "url": "https://github.com/ankit-vaidya19/Share",
+  "type": "github-repo",
+  "assessment_verbatim": "lorashare GitHub repo exists (ronantakizawa/lorashare, ankit-vaidya19/Share). No March 2026 activity.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search (snapshot): \"24-cell\" OR \"D4 lattice\" AND \"machine learning\"",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"24-cell\" OR \"D4 lattice\" AND \"machine learning\":** Zero results. Our Paper 4 claim on 4D lattice topology in ML remains without prior art. The frontier is clear.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH_2026_03_19.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search (snapshot): \"topology programming\" AND neural",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**\"topology programming\" AND neural:** Only general topological deep learning surveys. No one is using the phrase \"topology programming\" for adapter structure control. Our Paper 4 title claim is novel.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH_2026_03_19.md",
+  "_from": "watch"
+ },
+ {
+  "name": "Negative search (snapshot): Anthropic/DeepMind LoRA papers (March 2026)",
+  "url": null,
+  "type": "negative-search-result",
+  "assessment_verbatim": "**Anthropic/DeepMind LoRA papers (March 2026):** No new LoRA or adapter papers from Anthropic or DeepMind in this window. Google and Meta have older MoE/LoRA work but nothing in the March 5–19 window that intersects our program.",
+  "source_doc": "C:\\falco\\rhombic\\docs\\LITERATURE_WATCH_2026_03_19.md",
+  "_from": "watch"
+ }
+]
