@@ -264,7 +264,19 @@ not published, not submitted.
 The Steersman is a general-purpose topology programmer, not an RD-specific
 mechanism. Four polytopes confirmed: octahedron (473,622:1 co/cross,
 per-bridge mean), rhombic dodecahedron (70,404:1), tesseract (41,564:1,
-replication r = 1.0000), 24-cell (35,808:1). Four training regimes mapped:
+replication r = 1.0000), 24-cell (35,808:1).
+
+> ⚠ **Provisional (frozen 2026-07-03):** these ratios were measured in runs
+> governed by the adaptive controller, whose stability detector has a known
+> defect (declares STABLE while its metric is still moving — see
+> [BM_BATTERY_PLAN.md](docs/BM_BATTERY_PLAN.md), Known Issues). They are
+> held out of any publication until the detector is fixed and the runs
+> re-measured; the `rd_graph` structural-mask results (BM-003, no
+> controller) are unaffected. Fixed-weight runs (FC-001, FO-001) are less
+> implicated; the pending Paper 4 audit will classify each number by
+> controller exposure.
+
+Four training regimes mapped:
 Block-Diagonal, Spectral Attractor (universal band, Fiedler ≈ 0.09),
 Hierarchical Coherence, Collapse. Negative controls sharpen the claim:
 wrong-label pairs and prime-derived pairs both collapse — geometric
