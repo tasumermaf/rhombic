@@ -41,8 +41,12 @@ No topology metric in this program currently has a chance baseline. Before
 any further claims: empirical distributions of co/cross ratio, bridge Fiedler
 value, block-diagonal score, and asymmetry ratio over (a) random Gaussian
 bridges, (b) random-mask sparse bridges matched to `rd_graph` sparsity,
-(c) bridges from standard-LoRA-equivalent training (frozen-identity runs).
-Every metric reported anywhere gets a percentile against these nulls.
+(c) bridges from standard-LoRA-equivalent training (frozen-identity runs),
+and (d) **degree-preserving rewires** — EE-001's control, adopted July 3 as
+the battery's canonical null family per the Director's review: every
+structured-vs-unstructured comparison reports against the rewire, not only
+against the cube. Every metric reported anywhere gets a percentile against
+these nulls.
 *Deliverable:* `results/BM-000/` with distributions + a reusable
 `scripts/bm000_null_model.py`.
 
@@ -100,6 +104,25 @@ question.** If the prior helps only on matched data, the governing principle
 is confirmed in weight space. If the interaction is null, the original
 form-first conjecture for adapter weight space is closed — honestly, by the
 right experiment rather than a proxy.
+
+**Three hard requirements on the data arm (adopted July 3 from the
+Director's review — without them a matched-arm null is unfalsifiable in the
+other direction):**
+1. **Operational pre-specification.** Before any run, state formally what
+   symmetry/invariance the `rd_graph` mask encodes (the RD face-pair
+   coupling structure) and the checkable criterion that makes a dataset
+   invariant under it. "Not matched enough" must not be available as a
+   post-hoc escape.
+2. **Positive-control manipulation check.** Build a synthetic task
+   *provably* invariant under the mask's structure and demonstrate the
+   prior helps there before any natural-data arm runs. If the prior cannot
+   beat baseline on data constructed to be invariant under it, the
+   mechanism is broken and no natural-data result is interpretable.
+3. **Wrong-symmetry arm.** A permuted-mask (wrong-topology) prior as the
+   mandatory negative control — arXiv:2606.01090's finding that misaligned
+   priors are *actively harmful* is the methodology for this arm, not
+   merely concurrent work; it measures the same interaction term outside
+   PEFT.
 
 ### BM-002-E — Seeded-bridge transfer (revived)
 
