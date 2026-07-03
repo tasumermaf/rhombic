@@ -1,0 +1,24 @@
+{
+  "records": [
+    {
+      "step": 0,
+      "train_loss": null,
+      "val_loss": 4.571851673126221,
+      "lr": 0.0,
+      "wall_time_s": 81.9
+    },
+    {
+      "step": 50,
+      "train_loss": 2.97319709578529,
+      "val_loss": 0.4410519735813141,
+      "lr": 0.0001,
+      "wall_time_s": 256.4
+    }
+  ],
+  "final": {
+    "step": 50,
+    "train_loss": 2.97319709578529,
+    "val_loss": 0.4410519735813141
+  },
+  "wall_time_seconds": 256.5
+}
