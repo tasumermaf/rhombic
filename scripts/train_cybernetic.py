@@ -580,6 +580,8 @@ def train_cybernetic(
     config_dict["emanation"] = emanation
     config_dict["fixed_contrastive"] = fixed_contrastive
     config_dict["resumed_from"] = resume
+    config_dict["dataset_name"] = dataset_name
+    config_dict["seed_bridges"] = seed_bridges
     with open(output_dir / "config.json", "w") as f:
         json.dump(config_dict, f, indent=2)
 
