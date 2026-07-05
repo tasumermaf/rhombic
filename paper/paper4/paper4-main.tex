@@ -15,7 +15,21 @@
 %      not the 0.0918 final; "34 matching checkpoints" (L185) vs "6 matching
 %      steps" (§4.3) for r=1.0000; spectral-attractor Fiedler ~0.09 is at BM-000
 %      null percentile 17 (near-init noise) — reframe, do not cite as structure.
-%   Numbers otherwise frozen pending the C6b controller-stability fix.
+% (added 2026-07-05 from the-adversary verification pass, docs/PAPER4_VERIFICATION_PASS.md)
+%   4. OCTAHEDRAL HOLE: O-001 473,622:1 and its FO-001 262,920:1 bracket are
+%      Hermes-ONLY — the n=4 endpoint of the "inverse-n" ordering (474K>70K>42K)
+%      and the Regime-1 span have ZERO local evidence. Re-fetch from Hermes or
+%      re-run FO-001 locally before the octahedral headline can be trusted.
+%   5. TESSERACT SPECIFICS wrong vs disk: r=1.0000 holds (recomputed 0.99995),
+%      but max-deviation is 5.69% NOT 3.5%, and the overlap is 72 steps (neither
+%      34 nor 6). Correct the specifics; the reproducibility claim itself stands.
+%   6. BM-001 aggregate "Mean" cells (Std 0.6970 / TeLoRA 0.6982) are
+%      NON-REPRODUCIBLE — true 4-metric means are 0.7221 / 0.7232. The headline
+%      Delta +0.0012 survives ONLY because the ~0.025 error cancels. Fix the
+%      Mean cells (per-benchmark table is exact; independent of the C6b freeze).
+%   VERIFIED-AND-SAFE spine (re-derived from disk, >>BM-000 nulls): tesseract
+%   (T-001r2 41,564 / r), RD via FC-001 67,501 + Seed-43 73,308, P0 parity,
+%   WL-001 collapse, BM-000. Adaptive-governed numbers frozen pending C6b fix.
 % ============================================================================
 %
 % Compile: pdflatex paper4-main && bibtex paper4-main && pdflatex paper4-main && pdflatex paper4-main
