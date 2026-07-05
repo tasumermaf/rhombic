@@ -1,7 +1,7 @@
 # Phase 1A: Task-Specific Bridge Fingerprints
 
 > **Source tasks:** alpaca, code, math
-> **Adapters per task:** 112
+> **Bridge matrices per task:** 112 (per-layer/module bridges from a SINGLE training run per task — NOT independent adapters; task and run identity are confounded in this pilot. Corrected 2026-07-04; superseded by the Asset-1 D1 bank, N=40 independent trainings per family × task.)
 
 ## Between-Task Bridge Distances
 
