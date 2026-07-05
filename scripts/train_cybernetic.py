@@ -148,6 +148,50 @@ def spectral_reg_loss(
 
 # ── The Steersman (kybernetes) ───────────────────────────────────────
 
+# ── C6b stability-detector version + "settled" (genuine-convergence) constants ─
+#
+# C6b DEFECT (see docs/C6B_FIX_NOTE.md, docs/PAPER4_EXPOSURE_CLASSIFICATION.md §2):
+# Control Law 1 (CONNECTIVITY) and Control Law 3 (STABILITY) declared "STABLE"
+# on a short-window trend *deadband alone*. Because the deadband bounds the
+# per-sample slope, a slow *monotonic* drift whose slope stays just inside the
+# band is declared STABLE indefinitely while the governed metric moves the full
+# width of its attractor. Empirically (WL-001, results/channel-ablation/WL-001):
+# deviation climbed 0.00 -> 2.11 over a 10K-step run with deviation_trend never
+# exceeding 0.04841 (< the 0.05 FAST-GROWTH threshold), so bridge_lr_scale stayed
+# pinned at 1.0 and STABLE was declared 101/101 samples — the metric was still
+# materially moving at every "STABLE" call.
+#
+# ROOT CAUSE: STABLE was keyed to "trend small" without ALSO requiring "the level
+# has actually settled". A small instantaneous slope is *necessary but not
+# sufficient* for convergence: sustained below-threshold slope integrates to
+# large net displacement. The fix (detector v2) additionally requires the metric
+# to be settled over a longer window before STABLE is declared.
+#
+# Bump this tag whenever the STABLE-declaration logic changes so every run's
+# config.json self-documents which detector governed it. PAST runs used v1
+# (defective); any FUTURE run records v2.
+STEERSMAN_DETECTOR_VERSION = "v2-2026-07-05"
+
+# The longer window (in feedback samples) over which "settled" is judged. Must be
+# >= window_size (the short trend window). At a 100-step feedback interval this is
+# ~1500 steps — long enough that a below-deadband slope integrates to a
+# detectable net displacement.
+SETTLE_WINDOW = 15
+# Max |net drift| / level over SETTLE_WINDOW for the metric to count as settled.
+# Net drift = OLS slope over the settle window x (window-1) = the net linear
+# displacement. This is the term that catches slow monotonic creep.
+SETTLE_REL_DRIFT = 0.10
+# Max std / level over SETTLE_WINDOW for the metric to count as settled. Catches
+# noisy, non-monotonic non-stationarity that the drift term alone would miss.
+SETTLE_REL_SPREAD = 0.10
+# Genuine-convergence HARD CAP: a peak-to-peak band this tight is settled
+# regardless of the relative ratios. Guards near-zero metrics (e.g. a collapsed
+# Fiedler ~1e-5) whose negligible absolute wiggle would otherwise blow up the
+# relative spread and prevent STABLE from ever being declared (Task 4 guard).
+SETTLE_ABS_BAND = 1e-3
+# Scale floor to avoid division by zero when the level is ~0.
+SETTLE_ABS_EPS = 1e-6
+
 
 @dataclass
 class SteersmanState:
@@ -206,8 +250,16 @@ class Steersman:
         deviation_rate_threshold: float = 0.05,
         # Spectral target adaptation
         spectral_target_tracking_rate: float = 0.1,
-        # Window size for trend estimation
+        # Window size for trend estimation (short window — slope deadband)
         window_size: int = 5,
+        # C6b detector v2: genuine-convergence ("settled") parameters. STABLE is
+        # declared only when the short-window trend is inside its deadband AND the
+        # metric is settled over these longer-window criteria.
+        settle_window: int = SETTLE_WINDOW,
+        settle_rel_drift: float = SETTLE_REL_DRIFT,
+        settle_rel_spread: float = SETTLE_REL_SPREAD,
+        settle_abs_band: float = SETTLE_ABS_BAND,
+        settle_abs_eps: float = SETTLE_ABS_EPS,
         # Fixed contrastive weight (bypasses Control Law 2)
         fixed_contrastive_weight: Optional[float] = None,
     ):
@@ -226,6 +278,13 @@ class Steersman:
         self.target_tracking_rate = spectral_target_tracking_rate
 
         self.window_size = window_size
+        # C6b detector v2 settling parameters (see module-level constants).
+        self.settle_window = max(int(settle_window), window_size)
+        self.settle_rel_drift = settle_rel_drift
+        self.settle_rel_spread = settle_rel_spread
+        self.settle_abs_band = settle_abs_band
+        self.settle_abs_eps = settle_abs_eps
+        self.detector_version = STEERSMAN_DETECTOR_VERSION
         self.fixed_contrastive = fixed_contrastive_weight
         self.history: list[SteersmanState] = []
 
@@ -256,6 +315,222 @@ class Steersman:
             return 0.0
         slope = ((x - x_mean) * (y - y_mean)).sum() / denom
         return float(slope) if np.isfinite(slope) else 0.0
+
+    def _is_settled(self, series: list[float]) -> tuple[bool, float, bool]:
+        """Genuine-convergence ("settled") test — the C6b detector-v2 gate.
+
+        Trend-flatness over the short window is necessary but NOT sufficient for
+        convergence. A slow monotonic creep keeps the per-sample slope inside the
+        STABLE deadband while the *level* moves materially across the run (the
+        C6b defect: WL-001 deviation climbed 0.00 -> 2.11 with every sample's
+        slope inside the deadband, declared STABLE 101/101 times). A metric is
+        "settled" only when, over the longer ``settle_window``, it neither DRIFTS
+        (small net displacement relative to its level) nor SPREADS (low relative
+        std). The drift term is what catches the slow monotonic creep the short
+        deadband misses.
+
+        Returns
+        -------
+        (settled, net_drift, confident)
+            settled   : True only when genuinely converged over the settle window.
+            net_drift : signed net linear displacement over the window
+                        (> 0 rising, < 0 falling). Direction lets the caller
+                        respond to a residual drift instead of sitting idle.
+            confident : False when there is not yet enough history to judge — the
+                        caller must then neither declare STABLE nor actuate on a
+                        drift it cannot yet confirm.
+        """
+        clean = [v for v in series if v is not None and np.isfinite(v)]
+        if len(clean) < self.settle_window:
+            # Not enough samples to distinguish "settled" from "creeping slowly".
+            return False, 0.0, False
+
+        w = np.asarray(clean[-self.settle_window:], dtype=np.float64)
+        n = len(w)
+        x = np.arange(n, dtype=np.float64)
+        x_mean = x.mean()
+        denom = ((x - x_mean) ** 2).sum()
+        slope = (
+            ((x - x_mean) * (w - w.mean())).sum() / denom
+            if denom > 1e-12 else 0.0
+        )
+        net_drift = float(slope * (n - 1))          # net linear displacement
+        level = float(w.mean())
+        band = float(w.max() - w.min())             # peak-to-peak movement
+        std = float(w.std())
+        scale = max(abs(level), self.settle_abs_eps)
+
+        # Genuine-convergence HARD CAP (Task 4 regression guard): negligible
+        # absolute movement is settled regardless of the relative ratios. Without
+        # this a near-zero metric (collapsed Fiedler ~1e-5) whose tiny wiggle is
+        # large *relative* to its level would never be declared STABLE.
+        if band <= self.settle_abs_band:
+            return True, net_drift, True
+
+        rel_drift = abs(net_drift) / scale
+        rel_spread = std / scale
+        settled = (
+            rel_drift <= self.settle_rel_drift
+            and rel_spread <= self.settle_rel_spread
+        )
+        return bool(settled), net_drift, True
+
+    def _connectivity_law(self, fiedler_series: list[float]) -> tuple[str, float]:
+        """Control Law 1 (CONNECTIVITY) decision. Mutates ``self._spectral_weight``.
+
+        Governs the spectral-regularization weight from the Fiedler trend. STABLE
+        (detector v2) requires BOTH a small short-window trend AND a genuinely
+        settled level; a below-deadband monotonic drift is no longer mislabelled
+        STABLE — it is answered with the SAME proportional gains as the DECLINING
+        / IMPROVING branches, so the controller stops sitting idle while
+        connectivity creeps across its attractor.
+
+        Returns ``(signal_string, fiedler_trend)``.
+        """
+        fiedler_trend = self._trend(fiedler_series)
+
+        # If Fiedler is declining, boost spectral regularization.
+        if fiedler_trend < self.fiedler_decline_thresh:
+            boost = min(
+                abs(fiedler_trend) * 10.0,  # proportional gain
+                self.max_spectral - self._spectral_weight,
+            )
+            self._spectral_weight = min(
+                self._spectral_weight + boost,
+                self.max_spectral,
+            )
+            return (
+                f"DECLINING (trend={fiedler_trend:.5f}), spec_reg +{boost:.4f}",
+                fiedler_trend,
+            )
+        elif fiedler_trend > 0.001:
+            # Fiedler growing — ease off spectral pressure to let it find its way.
+            decay = min(0.01, self._spectral_weight * 0.1)
+            self._spectral_weight = max(
+                self._spectral_weight - decay,
+                self.base_spectral * 0.5,
+            )
+            return (
+                f"IMPROVING (trend={fiedler_trend:.5f}), spec_reg -{decay:.4f}",
+                fiedler_trend,
+            )
+
+        # Short-window trend is inside the deadband. C6b v2: only STABLE if the
+        # Fiedler level is GENUINELY settled over the longer window.
+        settled, net_drift, confident = self._is_settled(fiedler_series)
+        if settled:
+            return f"STABLE (trend={fiedler_trend:.5f}, settled)", fiedler_trend
+        if not confident:
+            # Not enough history to confirm convergence; hold and keep collecting
+            # (same actuator behaviour as the pre-fix idle branch, honest label).
+            return (
+                f"SETTLING (trend={fiedler_trend:.5f}, collecting)",
+                fiedler_trend,
+            )
+        # Confirmed slow drift the deadband missed — respond in the drift
+        # direction with the SAME gain as the branches above (long-window slope).
+        drift_slope = net_drift / (self.settle_window - 1)
+        if net_drift < 0.0:
+            boost = min(
+                abs(drift_slope) * 10.0,
+                self.max_spectral - self._spectral_weight,
+            )
+            self._spectral_weight = min(
+                self._spectral_weight + boost,
+                self.max_spectral,
+            )
+            return (
+                f"DRIFTING-DOWN (trend={fiedler_trend:.5f}, "
+                f"net={net_drift:.5f}), spec_reg +{boost:.4f}",
+                fiedler_trend,
+            )
+        decay = min(0.01, self._spectral_weight * 0.1)
+        self._spectral_weight = max(
+            self._spectral_weight - decay,
+            self.base_spectral * 0.5,
+        )
+        return (
+            f"DRIFTING-UP (trend={fiedler_trend:.5f}, "
+            f"net={net_drift:.5f}), spec_reg -{decay:.4f}",
+            fiedler_trend,
+        )
+
+    def _stability_law(self, deviation_series: list[float]) -> tuple[str, float]:
+        """Control Law 3 (STABILITY) decision. Mutates ``self._bridge_lr_scale``.
+
+        Governs the bridge-LR scale from the deviation trend. STABLE (detector v2)
+        requires BOTH a small short-window trend AND a genuinely settled level. A
+        below-deadband monotonic climb — the exact WL-001 defect (deviation ->
+        2.11 with bridge_lr_scale pinned at 1.0) — is no longer mislabelled
+        STABLE; it is dampened with the SAME gain as the FAST-GROWTH branch.
+
+        Returns ``(signal_string, deviation_trend)``.
+        """
+        deviation_trend = self._trend(deviation_series)
+
+        # If deviation growing too fast, dampen bridge learning.
+        if deviation_trend > self.deviation_rate_thresh:
+            dampen = max(0.8, 1.0 - deviation_trend)
+            self._bridge_lr_scale = max(
+                self._bridge_lr_scale * dampen,
+                self.min_bridge_lr,
+            )
+            return (
+                f"FAST GROWTH (trend={deviation_trend:.5f}), "
+                f"bridge_lr x{dampen:.3f} -> {self._bridge_lr_scale:.3f}",
+                deviation_trend,
+            )
+        elif deviation_trend < -0.01:
+            # Bridge converging back — can restore LR.
+            recover = min(1.1, 1.0 + abs(deviation_trend))
+            self._bridge_lr_scale = min(
+                self._bridge_lr_scale * recover,
+                self.max_bridge_lr,
+            )
+            return (
+                f"CONVERGING (trend={deviation_trend:.5f}), "
+                f"bridge_lr x{recover:.3f} -> {self._bridge_lr_scale:.3f}",
+                deviation_trend,
+            )
+
+        # Short-window trend is inside the deadband. C6b v2: only STABLE if
+        # deviation is GENUINELY settled over the longer window.
+        settled, net_drift, confident = self._is_settled(deviation_series)
+        if settled:
+            return f"STABLE (trend={deviation_trend:.5f}, settled)", deviation_trend
+        if not confident:
+            # Not enough history to confirm convergence; hold and keep collecting.
+            return (
+                f"SETTLING (trend={deviation_trend:.5f}, collecting)",
+                deviation_trend,
+            )
+        # Confirmed slow creep the deadband missed — answer with the SAME gain as
+        # the FAST-GROWTH / CONVERGING branches (long-window slope), in the
+        # drift's direction, instead of pinning the bridge LR while it moves.
+        drift_slope = net_drift / (self.settle_window - 1)
+        if net_drift > 0.0:
+            dampen = max(0.8, 1.0 - drift_slope)
+            self._bridge_lr_scale = max(
+                self._bridge_lr_scale * dampen,
+                self.min_bridge_lr,
+            )
+            return (
+                f"DRIFTING-UP (trend={deviation_trend:.5f}, "
+                f"net={net_drift:.5f}), bridge_lr x{dampen:.3f} "
+                f"-> {self._bridge_lr_scale:.3f}",
+                deviation_trend,
+            )
+        recover = min(1.1, 1.0 + abs(drift_slope))
+        self._bridge_lr_scale = min(
+            self._bridge_lr_scale * recover,
+            self.max_bridge_lr,
+        )
+        return (
+            f"DRIFTING-DOWN (trend={deviation_trend:.5f}, "
+            f"net={net_drift:.5f}), bridge_lr x{recover:.3f} "
+            f"-> {self._bridge_lr_scale:.3f}",
+            deviation_trend,
+        )
 
     def observe_and_decide(
         self,
@@ -324,36 +599,20 @@ class Steersman:
         ]
         deviation_history = [s.deviation_mean for s in self.history]
 
-        fiedler_trend = self._trend(fiedler_history + [f_mean])
+        fiedler_series = fiedler_history + [f_mean]
+        deviation_series = deviation_history + [d_mean]
         co_cross_trend = self._trend(
             co_cross_history + ([co_cross] if co_cross is not None else [])
         )
-        deviation_trend = self._trend(deviation_history + [d_mean])
 
         signals = {}
 
-        # Control Law 1: CONNECTIVITY
-        # If Fiedler is declining, boost spectral regularization
-        if fiedler_trend < self.fiedler_decline_thresh:
-            boost = min(
-                abs(fiedler_trend) * 10.0,  # proportional gain
-                self.max_spectral - self._spectral_weight,
-            )
-            self._spectral_weight = min(
-                self._spectral_weight + boost,
-                self.max_spectral,
-            )
-            signals["connectivity"] = f"DECLINING (trend={fiedler_trend:.5f}), spec_reg +{boost:.4f}"
-        elif fiedler_trend > 0.001:
-            # Fiedler growing — ease off spectral pressure to let it find its own way
-            decay = min(0.01, self._spectral_weight * 0.1)
-            self._spectral_weight = max(
-                self._spectral_weight - decay,
-                self.base_spectral * 0.5,
-            )
-            signals["connectivity"] = f"IMPROVING (trend={fiedler_trend:.5f}), spec_reg -{decay:.4f}"
-        else:
-            signals["connectivity"] = f"STABLE (trend={fiedler_trend:.5f})"
+        # Control Law 1: CONNECTIVITY (see Steersman._connectivity_law).
+        # Mutates self._spectral_weight; STABLE now requires a genuinely settled
+        # Fiedler level, not merely a small short-window trend (C6b v2).
+        signals["connectivity"], fiedler_trend = self._connectivity_law(
+            fiedler_series
+        )
 
         # Adapt spectral target: track upward but slowly
         if f_mean > self.spectral_target:
@@ -397,31 +656,13 @@ class Steersman:
                     f"MOVING (ratio={co_cross:.3f}, trend={co_cross_trend:.5f})"
                 )
 
-        # Control Law 3: STABILITY
-        # If deviation growing too fast, dampen bridge learning
-        if deviation_trend > self.deviation_rate_thresh:
-            dampen = max(0.8, 1.0 - deviation_trend)
-            self._bridge_lr_scale = max(
-                self._bridge_lr_scale * dampen,
-                self.min_bridge_lr,
-            )
-            signals["stability"] = (
-                f"FAST GROWTH (trend={deviation_trend:.5f}), "
-                f"bridge_lr x{dampen:.3f} -> {self._bridge_lr_scale:.3f}"
-            )
-        elif deviation_trend < -0.01:
-            # Bridge converging back — can restore LR
-            recover = min(1.1, 1.0 + abs(deviation_trend))
-            self._bridge_lr_scale = min(
-                self._bridge_lr_scale * recover,
-                self.max_bridge_lr,
-            )
-            signals["stability"] = (
-                f"CONVERGING (trend={deviation_trend:.5f}), "
-                f"bridge_lr x{recover:.3f} -> {self._bridge_lr_scale:.3f}"
-            )
-        else:
-            signals["stability"] = f"STABLE (trend={deviation_trend:.5f})"
+        # Control Law 3: STABILITY (see Steersman._stability_law).
+        # Mutates self._bridge_lr_scale; STABLE now requires a genuinely settled
+        # deviation level, not merely a small short-window trend (C6b v2). This
+        # is the law whose defect is documented in WL-001.
+        signals["stability"], deviation_trend = self._stability_law(
+            deviation_series
+        )
 
         # Build state snapshot
         state = SteersmanState(
@@ -582,6 +823,11 @@ def train_cybernetic(
     config_dict["resumed_from"] = resume
     config_dict["dataset_name"] = dataset_name
     config_dict["seed_bridges"] = seed_bridges
+    # C6b: self-document which Steersman STABLE-detector governed this run so
+    # future audits can tell v2-governed runs (corrected) from v1 runs (the
+    # defective detector that could declare STABLE while the metric still moved).
+    # PAST runs' stored config.json lack this field == detector v1 by definition.
+    config_dict["steersman_detector_version"] = STEERSMAN_DETECTOR_VERSION
     with open(output_dir / "config.json", "w") as f:
         json.dump(config_dict, f, indent=2)
 
