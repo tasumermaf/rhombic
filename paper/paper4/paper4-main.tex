@@ -1,6 +1,23 @@
 % paper4-main.tex — The Topology Programmer
 % TASUMER MAF Paper 4: Cybernetic feedback as general-purpose geometric prior
 %
+% ============================================================================
+% ⚠ AUDIT BLOCKERS — DO NOT SUBMIT / COMPILE-FOR-RELEASE UNTIL RESOLVED
+% (added 2026-07-04 from the controller-exposure classification;
+%  full worklist: docs/PAPER4_EXPOSURE_CLASSIFICATION.md §9)
+%   1. RETRACTED DATA: line ~218 cites "Wan 2.1 14B" as a model scale — that is
+%      the Holly Battery run, retracted 2026-03-13 (dataset provenance / L-026).
+%      The 14B scale claim must be dropped or replaced with a clean run.
+%   2. FALSE ATTRIBUTION: section8_discussion.tex ~L214-216 attributes the 36.2%
+%      P0 overhead to "control law evaluation"; the P0 run (train_comparison.py)
+%      has NO Steersman. The 36.2% number is clean; the causal sentence is false.
+%   3. NUMBER/CONSISTENCY: tab:attractor H-ch4 = 0.0836 is a step-1100 PARTIAL,
+%      not the 0.0918 final; "34 matching checkpoints" (L185) vs "6 matching
+%      steps" (§4.3) for r=1.0000; spectral-attractor Fiedler ~0.09 is at BM-000
+%      null percentile 17 (near-init noise) — reframe, do not cite as structure.
+%   Numbers otherwise frozen pending the C6b controller-stability fix.
+% ============================================================================
+%
 % Compile: pdflatex paper4-main && bibtex paper4-main && pdflatex paper4-main && pdflatex paper4-main
 
 \documentclass[11pt]{article}
