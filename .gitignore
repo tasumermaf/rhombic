@@ -134,3 +134,7 @@ scripts/fi_002_corpus_pairs.py
 
 # Research suite: full-text PDFs are materialized locally by research/tools/fetch_papers.py
 research/pdf/
+
+# Live Asset-1 campaign output (analyzed then summarized; not committed raw)
+results/asset1-bank/
+results/asset1-smoke/*/

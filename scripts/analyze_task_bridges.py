@@ -273,7 +273,11 @@ def write_report(
         "# Phase 1A: Task-Specific Bridge Fingerprints",
         "",
         "> **Source tasks:** " + ", ".join(task_bridges.keys()),
-        f"> **Adapters per task:** {distances['n_adapters']}",
+        f"> **Bridge matrices per task:** {distances['n_adapters']} "
+        "(per-layer/module bridges from a SINGLE training run per task — "
+        "NOT independent adapters; task and run identity are confounded "
+        "in this pilot. Superseded by the Asset-1 D1 bank, N=40 "
+        "independent trainings per family x task.)",
         "",
     ]
 
