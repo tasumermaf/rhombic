@@ -114,6 +114,10 @@ def test_plan_differs_with_seed(bank):
 
 def test_plan_eval_counts(bank):
     root, info = bank
+    # Decomposition is now ON BY DEFAULT per the Director override
+    # (DIRECTOR_DECISIONS_2026-07-06.md): the magnitude/topology guard cells
+    # run unconditionally, so the default plan carries them. (Old default was
+    # OFF; this assertion was updated to the new pinned default.)
     p = d2.generate_plan(root, seed=3, pairs_per_cell=K)
     T = len(info["tasks"])
     n_fam = 2
@@ -124,21 +128,34 @@ def test_plan_eval_counts(bank):
     assert counts[d2.KIND_PERMUTED_DEV] == n_fam * T * K
     assert counts[d2.KIND_CROSS_SEED] == n_fam * T * K
     assert counts[d2.KIND_CROSS_TASK] == n_fam * T * (T - 1) * K
-    assert counts["total"] == len(p["evals"]) == n_fam * (5 * T + T * (T - 1)) * K
-    assert d2.KIND_MAGNITUDE not in counts        # decomposition off
+    assert counts[d2.KIND_MAGNITUDE] == n_fam * T * (T - 1) * K
+    assert counts[d2.KIND_TOPOLOGY] == n_fam * T * (T - 1) * K
+    assert counts["total"] == len(p["evals"]) == \
+        n_fam * (5 * T + 3 * T * (T - 1)) * K
+    assert p["decomposition"] is True
+    # the opt-out path (--no-decomposition) still drops the guard cells
+    p_off = d2.generate_plan(root, seed=3, pairs_per_cell=K,
+                             decomposition=False)
+    assert d2.KIND_MAGNITUDE not in p_off["eval_counts"]
+    assert p_off["decomposition"] is False
 
 
-def test_plan_carries_h3_reference_signoff_flag(bank):
-    """The plan must flag that the H3 structure-destroyed reference is
-    unpinned between 'permuted' and 'permuted_deviation' until Director
-    sign-off (round-1 review fix — pre-registration hygiene)."""
+def test_plan_h3_reference_approved(bank):
+    """The H3 structure-destroyed reference is now DECIDED: the plan pins
+    'permuted_deviation' as primary and the full-entry permutation as the
+    identity-backbone contrast, with status APPROVED
+    (DIRECTOR_DECISIONS_2026-07-06.md). (This test previously asserted the
+    PENDING DIRECTOR SIGN-OFF status; updated to the signed-off decision.)"""
     root, _ = bank
     p = d2.generate_plan(root, seed=3, pairs_per_cell=K)
     ref = p["h3_structure_reference"]
     assert set(ref["candidates"]) == {d2.KIND_PERMUTED,
                                       d2.KIND_PERMUTED_DEV}
+    assert ref["primary"] == d2.KIND_PERMUTED_DEV
+    assert ref["contrast"] == d2.KIND_PERMUTED
     assert ref["recommended"] == d2.KIND_PERMUTED_DEV
-    assert "DIRECTOR SIGN-OFF" in ref["status"].upper()
+    assert ref["status"].startswith("APPROVED")
+    assert "permuted_deviation" in ref["status"]
     assert "identity" in ref["rationale"]
 
 

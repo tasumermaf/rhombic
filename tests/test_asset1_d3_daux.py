@@ -343,15 +343,23 @@ def test_merge_roundtrip_through_production_loader(tmp_path):
 
 # ── Labels + harness ────────────────────────────────────────────────
 
+# load_labels now canonicalizes the optional per-endpoint metric fields
+# (Director override D3) — absent values come back as None.
+_METRIC_NONE = {k: None for k in d3._LABEL_OPTIONAL_METRICS}
 _LABEL_ROWS = [
     {"family_short": "famX", "task_a": "t0", "run_index_a": 0,
-     "task_b": "t1", "run_index_b": 3, "degradation": 0.4, "degraded": None},
+     "task_b": "t1", "run_index_b": 3, "degradation": 0.4, "degraded": None,
+     **_METRIC_NONE},
     {"family_short": "famX", "task_a": "t0", "run_index_a": 1,
-     "task_b": "t0", "run_index_b": 2, "degradation": 0.1, "degraded": None},
+     "task_b": "t0", "run_index_b": 2, "degradation": 0.1, "degraded": None,
+     **_METRIC_NONE},
 ]
 
 
 def test_labels_json_csv_roundtrip(tmp_path):
+    # The canonical rows now carry the optional per-endpoint metric fields
+    # (None when absent) per the extended D3 labels schema; the round-trip
+    # still drops None fields in JSON and re-hydrates them on load.
     jpath = tmp_path / "labels.json"
     jpath.write_text(json.dumps(
         {"pairs": [{k: v for k, v in r.items() if v is not None}
@@ -385,6 +393,90 @@ def test_binarize_labels():
     assert y3.tolist() == [1, 0, 1, 0]
     with pytest.raises(ValueError, match="not all"):
         d3.binarize_labels([rows[0], rows_dc[1]], "median")
+
+
+# ── Primary relative-degradation binarization (Director override D3) ──
+
+
+def _ppl_row(rel_a, rel_b, base=10.0, degradation=0.0):
+    """A labels row carrying per-endpoint perplexity metrics (up = worse)."""
+    return {"family_short": "famX", "task_a": "t0", "run_index_a": 0,
+            "task_b": "t1", "run_index_b": 1, "degradation": degradation,
+            "degraded": None,
+            "merged_ppl_a": base * (1.0 + rel_a), "native_ppl_a": base,
+            "merged_ppl_b": base * (1.0 + rel_b), "native_ppl_b": base}
+
+
+def test_d3_relative_constants_recorded():
+    """The pinned constants (Director override D3) are exactly 5% / 10%."""
+    assert d3.THRESHOLD_REL == 0.05
+    assert d3.DEGENERATE_MIN_FRAC == 0.10
+
+
+def test_binarize_primary_relative_rule():
+    """PRIMARY rule: a pair degrading EITHER endpoint by >= 5% relative is
+    positive; below 5% on both endpoints is negative; the boundary at
+    exactly 5% is positive (>=)."""
+    rows = ([_ppl_row(0.06, 0.0) for _ in range(4)]      # a up 6% -> conflict
+            + [_ppl_row(0.0, 0.05)]                       # b exactly 5% -> pos
+            + [_ppl_row(0.049, 0.0) for _ in range(5)])   # 4.9% -> negative
+    y, meta = d3.binarize_primary(rows)
+    assert y.tolist() == [1, 1, 1, 1, 1, 0, 0, 0, 0, 0]
+    assert meta["rule_used"] == "relative_degradation"
+    assert meta["threshold_rel"] == d3.THRESHOLD_REL
+    assert meta["degenerate_min_frac"] == d3.DEGENERATE_MIN_FRAC
+    assert meta["degenerate"] is False
+    assert meta["frac_positive_relative"] == pytest.approx(0.5)
+    assert meta["threshold"] is None
+
+
+def test_binarize_primary_score_form():
+    """Task-metric DOWN >= 5% relative is also a conflict (score form)."""
+    def srow(drop):
+        return {"family_short": "f", "task_a": "t0", "run_index_a": 0,
+                "task_b": "t1", "run_index_b": 1, "degradation": 0.0,
+                "degraded": None,
+                "merged_score_a": 1.0 - drop, "native_score_a": 1.0,
+                "merged_score_b": 1.0, "native_score_b": 1.0}
+    rows = [srow(0.06), srow(0.06), srow(0.06), srow(0.0), srow(0.0),
+            srow(0.0)]
+    y, meta = d3.binarize_primary(rows)
+    assert y.tolist() == [1, 1, 1, 0, 0, 0]
+    assert meta["rule_used"] == "relative_degradation"
+
+
+def test_binarize_primary_degenerate_fallback():
+    """When the fixed 5% rule yields < 10% positives the imbalance is
+    reported as a finding and the headline falls back to the pre-declared
+    median split (Director override D3)."""
+    rows = [_ppl_row(0.06, 0.0, degradation=100.0)]           # lone positive
+    rows += [_ppl_row(0.0, 0.0, degradation=float(i))         # 19 negatives
+             for i in range(19)]
+    y, meta = d3.binarize_primary(rows)
+    assert meta["degenerate"] is True
+    assert meta["frac_positive_relative"] == pytest.approx(1 / 20)
+    assert meta["rule_used"] == "median_fallback"
+    assert "degenerate_finding" in meta and meta["degenerate_finding"]
+    deg = np.array([r["degradation"] for r in rows])
+    assert meta["threshold"] == pytest.approx(float(np.median(deg)))
+    assert y.tolist() == (deg > meta["threshold"]).astype(int).tolist()
+
+
+def test_binarize_primary_no_metrics_defers_to_secondary():
+    """Without per-endpoint metrics, binarize_primary defers: an explicit
+    'degraded' column is used directly (threshold None), else the median
+    split (secondary/descriptive under the override)."""
+    dc_rows = [dict(r, degraded=1) for r in _LABEL_ROWS]
+    y, meta = d3.binarize_primary(dc_rows)
+    assert meta["rule_used"] == "degraded_column"
+    assert meta["threshold"] is None
+    assert y.tolist() == [1, 1]
+    med_rows = [dict(r, degradation=d, degraded=None)
+                for r, d in zip(_LABEL_ROWS * 2, [0.1, 0.2, 0.3, 0.4])]
+    y2, meta2 = d3.binarize_primary(med_rows)
+    assert meta2["rule_used"] == "median"
+    assert meta2["threshold"] == pytest.approx(0.25)
+    assert y2.tolist() == [0, 0, 1, 1]
 
 
 def test_harness_separable_toy():
@@ -866,6 +958,48 @@ def test_d3_cli_labels_disjoint_pairs_group_aware_headline(
     # pooled summary built from group-aware scores only
     assert report["pooled_oof"]["basis"] == \
         "group-aware out-of-fold scores only"
+
+
+def test_d3_cli_labels_relative_rule_headline(daux_effect_bank, tmp_path):
+    """PRIMARY binarization via the fixed 5% relative-degradation rule,
+    end-to-end (Director override D3). A vertex-disjoint pair design carries
+    per-endpoint PERPLEXITY columns and NO 'degraded' column: cross-task
+    pairs degrade an endpoint by 10% (>= 5% -> positive), within-task pairs
+    do not (negative). The report records rule_used='relative_degradation',
+    threshold None, and a group-aware headline."""
+    root, _ = daux_effect_bank
+    by_task: dict = {}
+    for r in aio.iter_runs(root):
+        by_task.setdefault(r["task"], []).append(r)
+    t0, t1 = (by_task[t] for t in sorted(by_task))
+    pair_specs = [(t0[0], t0[1], 0), (t0[2], t0[3], 0),
+                  (t1[0], t1[1], 0), (t1[2], t1[3], 0),
+                  (t0[4], t1[4], 1), (t0[5], t1[5], 1),
+                  (t0[6], t1[6], 1), (t0[7], t1[7], 1)]
+    lines = ["family_short,task_a,run_index_a,task_b,run_index_b,"
+             "degradation,merged_ppl_a,native_ppl_a,merged_ppl_b,"
+             "native_ppl_b"]
+    for a, b, lab in pair_specs:
+        mpa = 11.0 if lab == 1 else 10.0      # +10% ppl on endpoint a if lab 1
+        lines.append(f"{a['family_short']},{a['task']},{a['run_index']},"
+                     f"{b['task']},{b['run_index']},0.0,{mpa},10.0,10.0,10.0")
+    labels = tmp_path / "labels.csv"
+    labels.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    out = tmp_path / "d3-rel-out"
+    d3.main(["--bank-root", str(root), "--out-dir", str(out),
+             "--labels", str(labels), "--allow-partial-bank",
+             "--n-boot", "25", "--seed", "1"])
+    report = json.loads((out / "d3_report.json").read_text())
+    bm = report["binarization"]
+    assert bm["rule_used"] == "relative_degradation"
+    assert bm["threshold_rel"] == 0.05
+    assert bm["degenerate_min_frac"] == 0.10
+    assert bm["degenerate"] is False
+    assert bm["frac_positive_relative"] == pytest.approx(0.5)
+    assert report["threshold"] is None
+    assert report["threshold_mode"] == "relative_degradation"
+    fam = report["per_family"]["synthfam0"]
+    assert fam["headline_basis"] == "group_aware"
 
 
 def test_d3_selftest_cli_writes_report(tmp_path):

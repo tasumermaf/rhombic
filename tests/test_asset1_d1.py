@@ -373,6 +373,120 @@ def test_h2_transfer_output_shape():
                 assert c["n_test"] == 12
 
 
+def test_h2_transfer_includes_within_family_and_decision():
+    """h2_transfer now carries within-family accuracy per variant and a
+    per-representation H2 decision (the pinned rule) with role labels —
+    spectrum PRIMARY, probe corroborating; the decision runs on the
+    shift-controlled (family_standardized) variant."""
+    rng = np.random.default_rng(0)
+    fams = ["famA", "famB"]
+    features = {f: {"spectrum": rng.standard_normal((12, 8)),
+                    "probe": rng.standard_normal((12, 20))}
+                for f in fams}
+    labels = {f: np.repeat(np.arange(3), 4) for f in fams}
+    out = d1.h2_transfer(features, labels, fams, chance=1 / 3, seed=0)
+    assert out["spectrum"]["role"] == "PRIMARY"
+    assert out["probe"]["role"] == "corroborating"
+    for rep in ("spectrum", "probe"):
+        wfa = out[rep]["within_family_accuracy"]
+        assert set(wfa) == {"raw", "family_standardized"}
+        for variant in wfa.values():
+            assert set(variant) == set(fams)
+            for f in fams:
+                assert 0.0 <= variant[f]["accuracy"] <= 1.0
+        dec = out[rep]["decision"]
+        assert dec["variant"] == "family_standardized"
+        assert dec["alpha"] == d1.H2_ALPHA
+        assert dec["margin_pp_threshold"] == d1.H2_MARGIN_PP
+        assert set(dec["directions"]) == {"famA->famB", "famB->famA"}
+        assert isinstance(dec["supported"], bool)
+
+
+# ── H2 decision rule (h2_supported — DIRECTOR_DECISIONS_2026-07-06.md) ──
+
+
+def test_h2_supported_both_conditions_pass():
+    """Both directions: cross NOT significant (p >= alpha) AND within − cross
+    margin >= 15pp -> H2 supported. alpha/margin constants recorded."""
+    directions = {
+        "A->B": {"cross_accuracy": 0.34, "cross_binom_p": 0.5,
+                 "within_accuracy": 0.90},
+        "B->A": {"cross_accuracy": 0.33, "cross_binom_p": 0.7,
+                 "within_accuracy": 0.88},
+    }
+    out = d1.h2_supported(directions)
+    assert out["supported"] is True
+    assert out["alpha"] == d1.H2_ALPHA == 0.01
+    assert out["margin_pp_threshold"] == d1.H2_MARGIN_PP == 15.0
+    for d in out["directions"].values():
+        assert d["not_above_chance_at_alpha"] is True
+        assert d["margin_ge_threshold"] is True
+        assert d["direction_supported"] is True
+
+
+def test_h2_supported_fails_on_significant_cross():
+    """Condition (i) fails in one direction: cross-family accuracy
+    significantly above chance (p < alpha) -> overall not supported."""
+    directions = {
+        "A->B": {"cross_accuracy": 0.34, "cross_binom_p": 0.005,   # < 0.01
+                 "within_accuracy": 0.90},
+        "B->A": {"cross_accuracy": 0.33, "cross_binom_p": 0.7,
+                 "within_accuracy": 0.88},
+    }
+    out = d1.h2_supported(directions)
+    assert out["supported"] is False
+    assert out["directions"]["A->B"]["not_above_chance_at_alpha"] is False
+    assert out["directions"]["A->B"]["direction_supported"] is False
+    assert out["directions"]["B->A"]["direction_supported"] is True
+
+
+def test_h2_supported_fails_on_small_margin():
+    """Condition (ii) fails: within − cross < 15pp -> not supported."""
+    directions = {
+        "A->B": {"cross_accuracy": 0.80, "cross_binom_p": 0.5,
+                 "within_accuracy": 0.90},   # margin 10pp < 15
+        "B->A": {"cross_accuracy": 0.30, "cross_binom_p": 0.5,
+                 "within_accuracy": 0.90},
+    }
+    out = d1.h2_supported(directions)
+    assert out["supported"] is False
+    assert out["directions"]["A->B"]["margin_ge_threshold"] is False
+    assert out["directions"]["A->B"]["margin_pp"] == pytest.approx(10.0)
+
+
+def test_h2_supported_requires_both_directions():
+    """One direction supported, the other not -> overall not supported;
+    an empty direction set is not supported."""
+    directions = {
+        "A->B": {"cross_accuracy": 0.30, "cross_binom_p": 0.5,
+                 "within_accuracy": 0.90},   # supported
+        "B->A": {"cross_accuracy": 0.85, "cross_binom_p": 0.5,
+                 "within_accuracy": 0.90},   # margin 5pp -> fails
+    }
+    out = d1.h2_supported(directions)
+    assert out["directions"]["A->B"]["direction_supported"] is True
+    assert out["directions"]["B->A"]["direction_supported"] is False
+    assert out["supported"] is False
+    assert d1.h2_supported({})["supported"] is False
+
+
+def test_h2_supported_alpha_and_margin_boundaries_honored():
+    """Boundary: p == alpha counts as NOT significant (>= alpha) and a margin
+    of exactly 15pp passes; custom alpha/margin constants are honored."""
+    directions = {
+        "A->B": {"cross_accuracy": 0.30, "cross_binom_p": d1.H2_ALPHA,
+                 "within_accuracy": 0.45},   # margin exactly 15pp
+        "B->A": {"cross_accuracy": 0.30, "cross_binom_p": d1.H2_ALPHA,
+                 "within_accuracy": 0.45},
+    }
+    assert d1.h2_supported(directions)["supported"] is True
+    # tighten alpha so p is now "significant", and raise the margin bar
+    out2 = d1.h2_supported(directions, alpha=0.5, margin_pp=20.0)
+    assert out2["supported"] is False
+    assert out2["alpha"] == 0.5
+    assert out2["margin_pp_threshold"] == 20.0
+
+
 def test_familywise_standardize_math():
     """Exact per-family per-feature z-scoring, zero-variance columns pass
     through centered, inputs unmodified."""
@@ -491,6 +605,15 @@ def test_cli_allow_partial_bank_warns_and_runs(effect_bank, tmp_path,
     import json
     res = json.loads((out / "d1_results.json").read_text(encoding="utf-8"))
     assert res["exploratory_only"] is True
+    # A2 ADOPTED (DIRECTOR_DECISIONS_2026-07-06.md): --representation now
+    # defaults to 'both' (was 'raw'), so each family reports raw AND
+    # W2T-canonical H1 results, and the pinned decisions self-document.
+    assert res["parameters"]["representation"] == "both"
+    assert set(next(iter(res["families"].values()))["representations"]) == \
+        {"raw", "canonical"}
+    assert res["pinned_decisions"]["h2_alpha"] == d1.H2_ALPHA
+    assert res["pinned_decisions"]["h2_margin_pp"] == d1.H2_MARGIN_PP
+    assert res["pinned_decisions"]["h2_primary_representation"] == "spectrum"
     report = (out / "D1_REPORT.md").read_text(encoding="utf-8")
     assert "EXPLORATORY ONLY" in report
 
