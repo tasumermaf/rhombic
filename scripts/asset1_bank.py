@@ -107,8 +107,9 @@ N_CHANNELS = 6
 LORA_ALPHA = 16.0          # RhombiLoRALinear default — recorded explicitly
 BRIDGE_MODE = "identity"
 TARGET_MODULES = ["q_proj", "k_proj", "v_proj", "o_proj"]
-BATCH_SIZE = 2
-GRAD_ACCUM = 8
+BATCH_SIZE = 4          # A1 (Director-adopted 2026-07-06): 2->4, effective batch
+GRAD_ACCUM = 4          # unchanged at 16. Bit-equivalent to 2x8 (equal-token padding
+                        # + accum-boundary clip + optimizer-step-counted schedule).
 LR = 2e-4
 WEIGHT_DECAY = 0.01
 GRAD_CLIP = 1.0
@@ -648,6 +649,15 @@ def run_single(spec: CampaignSpec, run: RunSpec) -> int:
             "batch_size": BATCH_SIZE,
             "gradient_accumulation": GRAD_ACCUM,
             "effective_batch": BATCH_SIZE * GRAD_ACCUM,
+            "batch_geometry": f"bs{BATCH_SIZE}xga{GRAD_ACCUM}",  # A1 cohort tag
+            "batch_geometry_note": (
+                "A1 amendment adopted 2026-07-06: bs4xga4 replaces bs2xga8 "
+                "(effective batch 16 unchanged; bit-equivalent up to float "
+                "summation order under the equal-token padding convention). "
+                "The bs2xga8 cohort (runs 0-54) is archived at "
+                "results/asset1-bank-bs2x8-archive/ and re-run here for "
+                "provenance uniformity. Never mix cohorts by this tag."
+            ),
             "max_len": MAX_LEN,
             "eval_interval": EVAL_INTERVAL,
             "eval_batch_size": EVAL_BATCH_SIZE,
