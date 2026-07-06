@@ -1,6 +1,12 @@
 # Asset-1 Analysis Pipeline — Operator Documentation
 
-**Status:** BUILT, TESTED, WAITING FOR THE BANK. 156 tests passing (2026-07-06).
+**Status:** BUILT, TESTED, WAITING FOR THE BANK. 168 tests passing (2026-07-06).
+The pre-registration sign-offs are now **DECIDED** — see
+`docs/DIRECTOR_DECISIONS_2026-07-06.md` and §4 below. The D1/D2/D3 tools were
+updated to match: D1 runs BOTH representations by default, H2 has a pinned
+decision rule, D2 runs the decomposition unconditionally with
+`permuted_deviation` as THE H3 reference, and D3's primary label rule is a
+fixed 5% relative-degradation threshold.
 **Spec:** the locked experiment card `asset1_experiment_card_2026-07-03.md`
 (Director → Meridian, hypotheses LOCKED; currently held outside the repo at
 `C:\Users\Timothy Paul Bielec\Downloads\Telegram Desktop\`).
@@ -45,9 +51,11 @@ Shared upstream (built earlier, reused not modified):
 Run everything from `C:\falco\rhombic` in the `falco` conda env
 (`C:\miniconda3\envs\falco\python.exe`). Every real-bank command below gates
 itself on the interlock (§3) and refuses until the manifest shows 480/480
-COMPLETE. Prerequisite: the §4 sign-offs are resolved — several defaults
-(H2 representation, D2 H3 reference, D3 pair policy and label definition)
-must be pinned before, not after, the numbers exist.
+COMPLETE. Prerequisite: the §4 sign-offs are **DECIDED**
+(`docs/DIRECTOR_DECISIONS_2026-07-06.md`) — the previously-open defaults
+(A2 representation, H2 representation + decision rule, D2 H3 reference +
+decomposition, D3 label definition) are now pinned in the tools, so the
+analysis fires with those choices baked in and recorded in every output.
 
 **Step 0 — re-verify tooling (CPU, safe any time, touches no real data):**
 
@@ -67,15 +75,18 @@ python scripts/asset1_daux_gap.py --selftest --out-dir results/asset1-daux-selft
 python scripts/asset1_d1_identifiability.py --out-dir results/asset1-d1
 ```
 
-Defaults: `--bank-root results/asset1-bank`, `--representation raw`
-(canonical pending A2 approval — if approved, run `--representation both`),
+Defaults: `--bank-root results/asset1-bank`, `--representation both`
+(A2 ADOPTED — raw AND W2T-canonical within each family, both reportable),
 `--n-permutations 1000`, `--seed 0`, `--chunk-rows 8` (peak RAM ~0.9 GB at
 d≈6.5M). Writes `d1_results.json` + `D1_REPORT.md` under `--out-dir`, plus a
-`scratch/` memmap directory that is cleaned per family. H1 per family, H2
-both directions under both representations with the family-identity probe
-and shift-controlled variant. Cosmetic note: a refused invocation still
-leaves an empty `--out-dir` behind (mkdir precedes the interlock in this one
-tool); ignore or delete.
+`scratch/` memmap directory that is cleaned per family. H1 per family (both
+representations), H2 both directions under both representations with the
+family-identity probe and shift-controlled variant, and the pinned H2
+decision (`h2_verdict`): PRIMARY = spectrum, corroborating = probe, headline
+= the shift-controlled variant, supported iff BOTH directions clear α=0.01
+(exact binomial) AND a ≥15pp within-minus-cross accuracy margin. Cosmetic
+note: a refused invocation still leaves an empty `--out-dir` behind (mkdir
+precedes the interlock in this one tool); ignore or delete.
 
 **Step 2 — D-aux (CPU only; fast — rides along):**
 
@@ -93,13 +104,17 @@ within-task Simpson's-guard cells, step-0 identity control).
 python scripts/asset1_d2_swap.py --bank-root results/asset1-bank --out-dir results/asset1-d2
 ```
 
-Add `--decomposition` only if the Director pre-authorized burning the
-contradiction-guard cells unconditionally (§4). Do **not** use `--plan-only`
+The magnitude/topology decomposition cells now run **UNCONDITIONALLY** by
+default (Director OVERRIDE — `docs/DIRECTOR_DECISIONS_2026-07-06.md`); pass
+`--no-decomposition` only for exploratory work. Do **not** use `--plan-only`
 for the real run: a plan with null `assembled_sha256` silently disables
 Stage B's bank-integrity SHA check — full assembly records the digests that
-Stage B re-verifies. Writes `d2_swap_plan.json` (180 evals/family at the
-default K=3; 360 with `--decomposition`). `--write-states` persists assembled
-`.pt` states under `results/asset1-d2/states/` — optional, ~26 MB each.
+Stage B re-verifies. Writes `d2_swap_plan.json` (**360 evals/family** at the
+default K=3 with decomposition on; 180 with `--no-decomposition`). The plan
+records `decomposition_policy` (unconditional) and
+`h3_structure_reference.status` = APPROVED. `--write-states` persists
+assembled `.pt` states under `results/asset1-d2/states/` — optional,
+~26 MB each.
 
 **Step 4 — D2 Stage B: evaluation (GPU — the first GPU-burning step; one
 command per family):**
@@ -116,8 +131,10 @@ planning), installs, and computes val_loss on the recipient task's fixed
 `asset1_bank.evaluate_val_loss`). Results checkpoint to
 `d2_results_<family>.json` after every eval, but an interrupted run
 **restarts that family from eval 1** (the results file is rewritten fresh) —
-plan GPU windows accordingly. Requires the H3 structure-reference sign-off
-first: the plan carries `h3_structure_reference` = PENDING DIRECTOR SIGN-OFF.
+plan GPU windows accordingly. The H3 structure-reference is DECIDED: the plan
+carries `h3_structure_reference.status` = APPROVED 2026-07-06 with
+`permuted_deviation` as THE primary reference and the full-entry `permuted`
+cell retained as the identity-backbone contrast.
 
 **Step 5 — D3 pair generation + merge emission (CPU):**
 
@@ -132,10 +149,16 @@ merges. Writes `d3_pairs.json` + merged adapter states under
 `results/asset1-d3/merges/`.
 
 **Step 6 — D3 label generation (GPU, external to this pipeline):** evaluate
-each merged adapter under `merges/` on the relevant val split(s) and produce
-a labels file in the documented schema (JSON `{"pairs": [...]}` or CSV —
-see the `asset1_d3_merge.py` module docstring). The degradation definition
-is a Director sign-off item; the harness is deliberately agnostic.
+each merged adapter under `merges/` on BOTH endpoint tasks' val splits and
+produce a labels file in the documented schema (JSON `{"pairs": [...]}` or
+CSV — see the `asset1_d3_merge.py` module docstring). To exercise the
+**primary** binarization, carry the per-endpoint metric fields
+(`merged_ppl_a`/`native_ppl_a`/`merged_ppl_b`/`native_ppl_b`, and/or the
+`*_score_*` task-metric form). Primary label rule is DECIDED: a pair is a
+"conflict" if the merge degrades EITHER endpoint by ≥5% relative to that
+endpoint's native adapter (perplexity up, or task-metric down); median-split
+is secondary/descriptive. The continuous `degradation` field is still
+required (feeds the median fallback and the ridge model).
 
 **Step 7 — D3 prediction harness (CPU):**
 
@@ -143,10 +166,14 @@ is a Director sign-off item; the harness is deliberately agnostic.
 python scripts/asset1_d3_merge.py --bank-root results/asset1-bank --out-dir results/asset1-d3 --labels <labels-file>
 ```
 
-Writes `d3_report.json`. Group-aware CV numbers (StratifiedGroupKFold over
-run-overlap components, cluster bootstrap) are the per-family headline; naive
-pair-level CV is reported as an explicitly anti-conservative secondary block.
-If the pair graph is one giant component, no headline is emitted at all.
+Writes `d3_report.json`. Labels are binarized by the PRIMARY rule (fixed 5%
+relative-degradation threshold, `--label-threshold-rel`, degenerate floor
+`--degenerate-min-frac` 0.10); the `binarization` block records the rule
+actually used and any degenerate-fallback finding. Group-aware CV numbers
+(StratifiedGroupKFold over run-overlap components, cluster bootstrap) are the
+per-family headline; naive pair-level CV is reported as an explicitly
+anti-conservative secondary block. If the pair graph is one giant component,
+no headline is emitted at all.
 
 Ordering rationale: Steps 1–3 are CPU-only and can run immediately and in
 parallel with each other; Step 4 is the first GPU commitment; Steps 5–7
@@ -182,78 +209,99 @@ component; D2's Stage B additionally requires the explicit
 `--i-have-gpu-and-bank-is-complete` acknowledgement and refuses before any
 lazy transformers/datasets import.
 
-## 4. DIRECTOR SIGN-OFF SECTION
+## 4. DIRECTOR SIGN-OFF SECTION — DECIDED 2026-07-06
 
-Every pre-registration ambiguity the card leaves open, with the implemented
-default. Items marked **[BEFORE BANK LANDS]** must be pinned before the
-480th run completes; the rest before their tool's numbers are unblinded or
-enter a write-up.
+Every pre-registration ambiguity the card left open, now **DECIDED** per
+`docs/DIRECTOR_DECISIONS_2026-07-06.md` and baked into the tools (each choice
+is recorded in the tool's output JSON so runs self-document). The headline
+decisions:
+
+- **A2 — representation:** `--representation` default = **both** (raw AND
+  W2T-canonical within each family; both reportable).
+- **D1 regime-contrast spine:** the distinguishing axis is **label
+  granularity / task structure** (W2T's 10k+ fine-grained attribute classes
+  vs the 6 coarse tasks here), NOT hub-scale-vs-family — W2T's own
+  collections are same-base/same-rank families (W2T Table 6).
+- **H2 representation:** PRIMARY = depth-binned SV spectra (`spectrum`);
+  probe-projection = corroborating; disagreement is reported.
+- **H2 decision rule:** supported iff BOTH directions clear one-sided
+  exact-binomial **α = 0.01** AND a **≥ 15 pp** within-minus-cross accuracy
+  margin, in the **shift-controlled** representation (raw = descriptive).
+- **D2 decomposition:** runs **UNCONDITIONALLY** (+180 evals/family).
+- **D2 H3 structure reference:** **`permuted_deviation`** (primary);
+  full-entry `permuted` retained as the identity-backbone contrast.
+- **D3 label rule:** PRIMARY = **fixed 5% relative-degradation threshold**
+  per endpoint; median-split is secondary with a degenerate-balance
+  (< 10%) fallback that is reported.
+
+The remaining items below are APPROVED as-is. Their statuses are updated in
+place.
 
 ### Global
 
 - **G1 — Interlock strictness.** No quiet path for a deliberately reduced
   bank; any non-480 analysis is `--allow-partial-bank` + loud warning.
   Confirm this matches intent.
-- **G2 — A2 raw-vs-canonical gating.** `--representation` defaults to `raw`
-  pending Director A2 approval of canonical mode. Canonical is fixed to
+- **G2 — A2 raw-vs-canonical gating. DECIDED (A2 ADOPTED).**
+  `--representation` defaults to **both**: raw AND W2T-canonical within each
+  family, both reportable. Canonical is fixed to
   `asset1_canonicalize.feature_vector` variant `'full'` with
-  `--proj-dim 16` / `--proj-seed 0`; confirm those if canonical becomes
-  reportable.
+  `--proj-dim 16` / `--proj-seed 0`.
 
-### D1 / H1
+### D1 / H1 — DEFAULTS APPROVED as-is
 
-- **D1a — SVM C.** Card locks "linear SVM" but not C. Default 1.0 (sklearn
-  default) via `--svm-c`, recorded in every output. Confirm or pin.
-- **D1b — 95% CI type.** Card says "95% CI" without a type; Wilson score
-  interval implemented, always carrying the caveat that LOO folds are not
-  independent — the permutation p is the calibrated inference. Confirm
-  Wilson is acceptable.
-- **D1c — Heterogeneity-guard metric.** Euclidean distance in the exact
-  feature space the classifier saw (computed from the Gram); trigger at the
-  pilot's 3.7× ratio. Confirm.
-- **D1d — Per-module breakdown has no permutation null.** Read as
-  completeness-only per card D1 item 4 (per-module nulls = 112+ unregistered
-  tests needing multiplicity control). Confirm this reading.
+- **D1a — SVM C. APPROVED.** Default 1.0 (sklearn default) via `--svm-c`,
+  recorded in every output.
+- **D1b — 95% CI type. APPROVED.** Wilson score interval, always carrying
+  the caveat that LOO folds are not independent — the permutation p is the
+  calibrated inference.
+- **D1c — Heterogeneity-guard metric. APPROVED.** Euclidean distance in the
+  exact feature space the classifier saw (computed from the Gram); trigger
+  at the pilot's 3.7× ratio.
+- **D1d — Per-module breakdown has no permutation null. APPROVED.**
+  Completeness-only per card D1 item 4 (per-module nulls = 112+ unregistered
+  tests needing multiplicity control).
 
-### D1 / H2 — **[BEFORE BANK LANDS — highest priority]**
+### D1 / H2 — **DECIDED (DIRECTOR_DECISIONS_2026-07-06.md, §6/H2)**
 
-- **H2a — Representation choice.** Raw flattened parameters are dimensionally
-  incomparable across families, so two dimension-agnostic representations are
-  implemented and both reported: (a) depth-binned singular-value spectra of
-  the effective update, (b) the canonicalize probe-projection route. The
-  Director must pin which carries the H2 claim before the bank completes.
-- **H2b — Aggregation hyperparameters.** `--n-depth-bins 4`, sigma_slots =
-  rank (24), bucket = (projection type q/k/v/o, depth bin), mean aggregation,
-  empty buckets contribute zeros, depth fraction (L + 0.5)/n_layers. Pin
-  pre-unblinding.
-- **H2c — Decision rule.** The card says transfer "does not exceed chance"
-  with no test statistic. Implemented: accuracy per direction + one-sided
-  exact binomial p vs chance, labeled descriptive. Pin the pass/fail
-  criterion (e.g. accuracy ≤ 1.5× chance in both directions, or binomial
-  p ≥ α) before unblinding.
-- **H2d — Triviality-control protocol (round-1 review fix, pinned pre-bank).**
-  Both representations carry a family-identity scale signature that would
-  make "transfer fails" trivially achievable and hence unfalsifiable. Two
-  controls ship as part of the pinned protocol: a family-identity probe
-  (linear-SVM CV classifying FAMILY from the H2 representation, with
-  per-family mean feature norms) and a shift-controlled transfer variant
-  (per-family per-feature z-scoring, unsupervised). Transfer is reported
-  under both raw and family-standardized variants; the regime-contrast
-  finding is claimable only if transfer stays at chance under the
-  shift-controlled variant too. Confirm the protocol.
+- **H2a — Representation choice. DECIDED.** Both dimension-agnostic
+  representations are computed; the depth-binned singular-value spectra of
+  the effective update (`spectrum`) is the **PRIMARY** representation
+  carrying the H2 claim, and the canonicalize probe-projection route
+  (`probe`) is **corroborating**. Disagreement between the two is reported,
+  not hidden (`h2_verdict.agreement`).
+- **H2b — Aggregation hyperparameters. APPROVED.** `--n-depth-bins 4`,
+  sigma_slots = rank (24), bucket = (projection type q/k/v/o, depth bin),
+  mean aggregation, empty buckets contribute zeros, depth fraction
+  (L + 0.5)/n_layers.
+- **H2c — Decision rule. DECIDED (`h2_supported`).** H2 (transfer FAILS) is
+  supported iff, for BOTH directions (A→B and B→A) in the shift-controlled
+  representation: (i) cross-family accuracy is NOT significantly above chance
+  at one-sided exact-binomial **α = 0.01**, AND (ii) within-family accuracy
+  minus cross-family accuracy **≥ 15 percentage points**. Each direction's
+  accuracy, binomial p, and margin are reported alongside the overall
+  verdict. Constants `H2_ALPHA = 0.01` / `H2_MARGIN_PP = 15.0` are recorded
+  in output. The shift-controlled variant is the headline; raw is
+  descriptive.
+- **H2d — Triviality-control protocol (round-1 review fix). APPROVED.** The
+  family-identity probe and the shift-controlled (family-standardized)
+  transfer variant are part of the pinned protocol; transfer is reported
+  under both raw and family-standardized variants and the decision runs on
+  the shift-controlled variant.
 
 ### D2 — **[required before Stage B GPU evals]**
 
 - **D2a — K.** `--pairs-per-cell` default 3 → 180 evals/family (360 with
   `--decomposition`). The card does not specify K; sign off on 3 or set
   another value before the post-bank run.
-- **D2b — H3 structure-destroyed reference.** Two cells ship: `permuted`
-  (derangement of all C² = 36 entries — penalty dominated by destroying the
-  untrained identity backbone; round-1 finding) and `permuted_deviation`
-  (I + permute(B − I) — preserves the identity backbone and the
-  trained-deviation multiset; recommended). Both share the same derangement
+- **D2b — H3 structure-destroyed reference. DECIDED: `permuted_deviation`.**
+  `permuted_deviation` (I + permute(B − I) — preserves the identity backbone
+  and the trained-deviation multiset) is THE primary H3 structure reference;
+  the full-entry `permuted` cell (derangement of all C² = 36 entries) is
+  retained as the identity-backbone contrast. Both share the same derangement
   per (family, task, slot) so their contrast isolates the backbone effect.
-  The plan JSON carries `h3_structure_reference: PENDING DIRECTOR SIGN-OFF`.
+  The plan JSON carries `h3_structure_reference.status` = "APPROVED
+  2026-07-06: permuted_deviation" with `primary`/`contrast` fields.
 - **D2c — Permuted-baseline reading.** Implemented as permuting the
   RECIPIENT'S OWN bridge (per-task row control). The card's "random/permuted
   bridge" could instead mean permuting each cross-task donor's bridge per
@@ -272,10 +320,12 @@ enter a write-up.
 - **D2g — Recipient reuse.** The same K recipients serve every cell of a task
   row (amortized natives, within-row comparability, at the cost of full cell
   independence). Confirm.
-- **D2h — `--decomposition` default OFF.** The card's contradiction guard is
-  conditional on a D1/D2 conflict. Decide pre-run whether to burn the extra
-  180 evals/family unconditionally or only if the conflict materializes
-  (deterministic either way under the same plan seed).
+- **D2h — decomposition default. DECIDED: UNCONDITIONAL.** The
+  magnitude/topology guard cells run ALWAYS (+180 evals/family), not gated on
+  whether a D1/D2 conflict materializes — data-dependent gating is a post-hoc
+  forking point. `generate_plan(decomposition=True)` is the default; the CLI
+  opt-out is `--no-decomposition` (exploratory only). The plan records
+  `decomposition_policy` = unconditional.
 
 ### D3 — **[required before labels are generated]**
 
@@ -285,12 +335,18 @@ enter a write-up.
   (task_i, task_j) cells, inclusion of same-task pairs as the cross-seed
   reference — is not fixed by the card and must be pre-declared before labels
   exist.
-- **D3b — Degradation label definition + binarization.** What "degradation"
-  is (merged val loss minus mean of the two native val losses? which eval
-  set? which alpha?) is fixed at GPU-eval time and needs sign-off. The
-  binarization default is a median split (deterministic but data-dependent);
-  if a fixed absolute threshold or an explicit `degraded` column is wanted,
-  declare it before labels exist.
+- **D3b — Degradation label definition + binarization. DECIDED (OVERRIDE).**
+  Primary binarization = **fixed relative-degradation threshold**: a pair is
+  a "conflict" (positive) iff the merge degrades EITHER endpoint task by
+  **≥ 5% relative** vs that endpoint's native adapter (perplexity up, or
+  task-metric down). The labels schema carries, per pair, the merged metric
+  and BOTH natives' metrics per endpoint (`merged_ppl_*` / `native_ppl_*`
+  and/or `*_score_*`). Median-split is **secondary/descriptive** only.
+  Degenerate fallback: if the 5% rule yields < 10% positives (or < 10%
+  negatives), that is reported as a finding and the headline falls back to
+  the pre-declared median split — the rule actually used is recorded.
+  Constants `THRESHOLD_REL = 0.05` / `DEGENERATE_MIN_FRAC = 0.10`
+  (`--label-threshold-rel` / `--degenerate-min-frac`).
 - **D3c — Headline AUC pooling.** Fits are per family; a pooled out-of-fold
   AUC is reported as a descriptive summary. Pre-declare which is THE number.
   (Within each family, group-aware CV is the headline basis; naive numbers
@@ -320,7 +376,7 @@ enter a write-up.
 
 ## 5. Synthetic validation summary
 
-**156 tests, all passing** (44s):
+**168 tests, all passing** (~50s):
 
 ```
 python -m pytest tests/test_asset1_analysis_io.py tests/test_asset1_d1.py tests/test_asset1_d2.py tests/test_asset1_d3_daux.py -q
@@ -345,23 +401,29 @@ structure switched by `task_effect`. What the suites and selftests prove:
   probe fires (>0.9) on families sharing a generative process and differing
   only in dims — the exact triviality scenario from review — and the
   shift-control variant rescues genuinely transferable structure that raw
-  transfer misses.
+  transfer misses; the pinned H2 decision rule (`h2_supported`) passes/fails
+  each of the two conditions and the both-directions requirement with the
+  α = 0.01 / ≥ 15 pp constants honored; `--representation` defaults to
+  `both`.
 - **D2** (`tests/test_asset1_d2.py`): plan determinism and SHA stability;
   bit-exact recipient A/B preservation with donor bridge installed;
   derangement properties; `permuted_deviation` provably isolates trained
   structure (distance ≤ 2‖D‖_F while the full-entry permutation is O(1)
-  backbone-dominated); decomposition exact round-trip; Stage B import safety
-  (transformers blocked → Stage A unaffected; `--evaluate` refused at the
-  gate before any lazy import).
+  backbone-dominated); decomposition exact round-trip and now ON by default
+  (unconditional per the Director override); `h3_structure_reference` status
+  APPROVED; Stage B import safety (transformers blocked → Stage A unaffected;
+  `--evaluate` refused at the gate before any lazy import).
 - **D3/D-aux** (`tests/test_asset1_d3_daux.py`, `--selftest` in both tools):
   principal-angle GL(r) gauge invariance to 1e-10; planted-angle selftest
   (full-feature AUC ≥ distance-only + 0.15 and ≥ 0.85); the dependence
   control — naive CV exploits pure run-identity leakage (AUC inflated) while
   group-aware CV sits near chance (≥ +0.15 separation required, group ≤
   0.70); cluster-bootstrap CIs wider than pair-iid under planted dependence;
-  D-aux recovers the planted deviation↔gap correlation (r > 0.9 pooled AND
-  within-task) and honestly reports "correlation undefined" on the
-  zero-deviation bank.
+  the PRIMARY fixed 5% relative-degradation binarization (a pair degrading
+  one endpoint ≥ 5% is positive, < 5% negative) with the degenerate-balance
+  (< 10%) fallback to median split reported end-to-end; D-aux recovers the
+  planted deviation↔gap correlation (r > 0.9 pooled AND within-task) and
+  honestly reports "correlation undefined" on the zero-deviation bank.
 
 Canonicalizer invariance (~1e-13) was verified separately in
 `tests/test_canonicalize.py`; bank trainer coverage lives in
@@ -372,14 +434,17 @@ Canonicalizer invariance (~1e-13) was verified separately in
 - **Every real-bank number.** The interlock refuses all D1/D2/D3/D-aux
   real-bank invocations until 480/480 COMPLETE. Nothing exploratory under
   `--allow-partial-bank` is reportable.
-- **D2 Stage B.** GPU val-loss evaluation needs the complete bank, the two
-  base models (HF download), and the H3 reference sign-off (D2b).
+- **D2 Stage B.** GPU val-loss evaluation needs the complete bank and the two
+  base models (HF download). The H3 reference (D2b) is DECIDED
+  (`permuted_deviation`) and the decomposition is unconditional (D2h).
 - **D3 labels.** Post-merge degradation labels do not exist until the merged
-  adapters emitted in Step 5 are GPU-evaluated under a signed-off degradation
-  definition (D3b). The prediction harness (Step 7) is fully built and idle
-  until then.
-- **H2 unblinding.** The analysis runs on completion day, but the H2 claim
-  cannot be stated until the representation (H2a) and decision rule (H2c)
-  are pinned — which must happen before, not after, the results exist.
+  adapters emitted in Step 5 are GPU-evaluated. The degradation definition
+  and binarization (D3b) are DECIDED (fixed 5% relative-degradation, per
+  endpoint) — the GPU evals must emit the per-endpoint metric fields. The
+  prediction harness (Step 7) is fully built and idle until then.
+- **H2 unblinding.** The analysis runs on completion day. The representation
+  (H2a, primary=spectrum) and decision rule (H2c, α=0.01 / ≥15pp, both
+  directions) are DECIDED, so the H2 verdict is emitted directly from the
+  results — nothing about the rule is chosen after seeing the numbers.
 - **The card's result tables.** The card's instruction stands: hypotheses are
   locked; fill result tables only.

@@ -65,17 +65,34 @@ measures.
 
 Labels schema (produced by the post-bank GPU evals; consumed here)
 ------------------------------------------------------------------
-JSON: {"pairs": [{"family_short": str, "task_a": str, "run_index_a": int,
-                  "task_b": str, "run_index_b": int,
-                  "degradation": float, "degraded": 0|1 (optional)}, ...]}
-CSV : header family_short,task_a,run_index_a,task_b,run_index_b,degradation
-      with an optional trailing "degraded" column.
+Required fields (JSON keys / CSV columns):
+    family_short, task_a, run_index_a, task_b, run_index_b, degradation
+Optional fields:
+    degraded              0|1 explicit binary label
+    merged_ppl_a / native_ppl_a / merged_ppl_b / native_ppl_b
+                          per-endpoint perplexity (up = degradation)
+    merged_score_a / native_score_a / merged_score_b / native_score_b
+                          per-endpoint task-metric (down = degradation)
+
 "degradation" is the continuous post-merge metric (definition fixed at eval
-time — requires Director sign-off; the harness is agnostic). If "degraded"
-is present it is used directly as the binary label; otherwise labels are
-binarized as degradation > threshold, where --label-threshold is either an
-explicit float or "median" (deterministic median split, the documented
-default).
+time; the harness is agnostic). The per-endpoint metric fields carry the
+merged metric and BOTH natives' metrics per endpoint so the PRIMARY
+binarization can be applied.
+
+Binarization precedence (DIRECTOR_DECISIONS_2026-07-06.md, D3 OVERRIDE):
+1. PRIMARY — fixed relative-degradation threshold. If the per-endpoint
+   metric fields are present, a pair is a "conflict" (positive=1) iff the
+   merge degrades EITHER endpoint by >= THRESHOLD_REL (=5%) relative vs that
+   endpoint's native adapter: perplexity up >= 5% OR task-metric down >= 5%.
+   Degenerate fallback: if this yields < DEGENERATE_MIN_FRAC (=10%) positives
+   (or < 10% negatives), the imbalance is REPORTED as a finding and the
+   headline falls back to the pre-declared median split. The rule actually
+   used is recorded in the output.
+2. If the per-endpoint metrics are absent but a "degraded" column is present
+   on every row, it is used directly (backward-compatible; threshold None).
+3. Otherwise labels are binarized as degradation > threshold, where
+   --label-threshold is an explicit float or "median" (deterministic median
+   split). Median-split is SECONDARY / descriptive under the override.
 
 Dyadic dependence (round-1 review fix — this is NOT an iid sample)
 ------------------------------------------------------------------
@@ -192,6 +209,19 @@ FEATURE_SETS = ("distance", "full")
 _MERGE_TENSOR_FIELDS = ("lora_A", "lora_B")      # always merged
 _MERGE_META_FIELDS = ("scaling", "n_channels", "rank")
 DEFAULT_MAX_RUN_USES = 1     # vertex-disjoint pairs (dyadic-dependence fix)
+
+# ── Primary label rule (DIRECTOR_DECISIONS_2026-07-06.md, D3 OVERRIDE) ──
+# The PRIMARY binarization is a FIXED RELATIVE-DEGRADATION THRESHOLD declared
+# now: a pair is a "conflict" (positive) iff the merge degrades EITHER
+# endpoint task by >= THRESHOLD_REL relative vs that task's native adapter
+# (perplexity up >= 5%, OR task-metric down >= 5%). Median-split is SECONDARY
+# / descriptive only. Degenerate fallback: if the fixed rule yields
+# < DEGENERATE_MIN_FRAC positives (or < DEGENERATE_MIN_FRAC negatives), that
+# is reported as a finding and the headline falls back to the pre-declared
+# median split; the rule actually used is recorded.
+THRESHOLD_REL = 0.05
+DEGENERATE_MIN_FRAC = 0.10
+DIRECTOR_DECISIONS_DOC = "docs/DIRECTOR_DECISIONS_2026-07-06.md"
 
 DEPENDENCE_NOTE = (
     "DYADIC DEPENDENCE (round-1 review fix): pairs sharing an endpoint "
@@ -475,12 +505,18 @@ def merge_adapters(adapter_a: dict, adapter_b: dict,
 
 _LABEL_REQUIRED = ("family_short", "task_a", "run_index_a",
                    "task_b", "run_index_b", "degradation")
+# Optional per-endpoint metric fields (Director override D3): merged + both
+# natives per endpoint, so the fixed relative-degradation rule can be applied.
+_LABEL_OPTIONAL_METRICS = ("merged_ppl_a", "native_ppl_a",
+                           "merged_ppl_b", "native_ppl_b",
+                           "merged_score_a", "native_score_a",
+                           "merged_score_b", "native_score_b")
 
 
 def load_labels(path: str | Path) -> list[dict]:
     """Parse the labels file (schema in the module docstring). JSON or CSV
     by extension. Returns canonical rows with coerced types; 'degraded' is
-    int or None."""
+    int or None; the optional per-endpoint metric fields are float or None."""
     path = Path(path)
     if path.suffix.lower() == ".json":
         raw = json.loads(path.read_text(encoding="utf-8"))
@@ -506,7 +542,7 @@ def load_labels(path: str | Path) -> list[dict]:
             degraded = int(degraded)
             if degraded not in (0, 1):
                 raise ValueError(f"labels row {i}: degraded must be 0/1")
-        rows.append({
+        canonical = {
             "family_short": str(r["family_short"]),
             "task_a": str(r["task_a"]),
             "run_index_a": int(r["run_index_a"]),
@@ -514,7 +550,11 @@ def load_labels(path: str | Path) -> list[dict]:
             "run_index_b": int(r["run_index_b"]),
             "degradation": float(r["degradation"]),
             "degraded": degraded,
-        })
+        }
+        for field in _LABEL_OPTIONAL_METRICS:
+            val = r.get(field)
+            canonical[field] = None if val in (None, "") else float(val)
+        rows.append(canonical)
     if not rows:
         raise ValueError(f"{path}: no label rows")
     return rows
@@ -536,6 +576,99 @@ def binarize_labels(rows: list[dict],
     deg = np.array([r["degradation"] for r in rows], dtype=np.float64)
     thr = float(np.median(deg)) if threshold == "median" else float(threshold)
     return (deg > thr).astype(int), thr
+
+
+def _relative_degraded_per_row(row: dict, threshold_rel: float
+                               ) -> tuple[bool | None, list]:
+    """Fixed relative-degradation rule for one row (Director override D3).
+
+    A row is degraded (positive) iff the merge degrades EITHER endpoint by
+    >= threshold_rel relative vs that endpoint's native adapter:
+      - perplexity form  (merged_ppl / native_ppl):   up   >= threshold_rel
+      - task-metric form (merged_score / native_score): down >= threshold_rel
+    Returns (degraded_bool, detail) or (None, reason) when the row lacks any
+    per-endpoint metric field (so the caller can fall through to the
+    median/degraded-column path). Endpoints with a non-positive native
+    denominator are skipped (their relative change is undefined).
+    """
+    detail: list = []
+    degraded = False
+    for ep in ("a", "b"):
+        mp, npp = row.get(f"merged_ppl_{ep}"), row.get(f"native_ppl_{ep}")
+        ms, ns = row.get(f"merged_score_{ep}"), row.get(f"native_score_{ep}")
+        if mp is not None and npp is not None and npp > 0.0:
+            rel = (mp - npp) / npp                # perplexity up = worse
+            detail.append({"endpoint": ep, "metric": "ppl", "rel": rel})
+            if rel >= threshold_rel:
+                degraded = True
+        elif ms is not None and ns is not None and ns > 0.0:
+            rel = (ns - ms) / ns                  # task-metric down = worse
+            detail.append({"endpoint": ep, "metric": "score", "rel": rel})
+            if rel >= threshold_rel:
+                degraded = True
+    if not detail:
+        return None, "no per-endpoint metric fields"
+    return degraded, detail
+
+
+def binarize_primary(rows: list[dict], *,
+                     threshold_rel: float = THRESHOLD_REL,
+                     degenerate_min_frac: float = DEGENERATE_MIN_FRAC,
+                     median_threshold: str | float = "median"
+                     ) -> tuple[np.ndarray, dict]:
+    """PRIMARY binarization (DIRECTOR_DECISIONS_2026-07-06.md, D3 OVERRIDE).
+
+    Fixed relative-degradation threshold when the per-endpoint metric fields
+    are present, with a degenerate-balance fallback to the pre-declared
+    median split. When those fields are absent, defers to binarize_labels
+    (explicit 'degraded' column, else median/explicit split). Returns
+    (y, meta); ``meta`` records the constants, the rule actually used, the
+    positive fraction, and any degenerate finding — so runs self-document.
+    """
+    meta: dict = {
+        "threshold_rel": threshold_rel,
+        "degenerate_min_frac": degenerate_min_frac,
+        "source": DIRECTOR_DECISIONS_DOC,
+    }
+    per_row = [_relative_degraded_per_row(r, threshold_rel) for r in rows]
+    have_metrics = all(d is not None for d, _ in per_row)
+
+    if have_metrics:
+        y = np.array([int(d) for d, _ in per_row], dtype=int)
+        frac_pos = float(y.mean()) if y.size else 0.0
+        frac_neg = 1.0 - frac_pos
+        degenerate = bool(frac_pos < degenerate_min_frac
+                          or frac_neg < degenerate_min_frac)
+        meta["rule_available"] = "relative_degradation"
+        meta["frac_positive_relative"] = frac_pos
+        meta["degenerate"] = degenerate
+        if not degenerate:
+            meta["rule_used"] = "relative_degradation"
+            meta["threshold"] = None
+            return y, meta
+        # Degenerate balance: report the finding, fall back to median split.
+        y_fb, thr = binarize_labels(rows, median_threshold)
+        meta["rule_used"] = "median_fallback"
+        meta["threshold"] = thr
+        meta["degenerate_finding"] = (
+            f"the fixed {threshold_rel:.0%} relative-degradation rule "
+            f"yielded {frac_pos:.1%} positives — below the "
+            f"{degenerate_min_frac:.0%} degenerate floor on one side; the "
+            f"headline falls back to the pre-declared median split "
+            f"({DIRECTOR_DECISIONS_DOC}).")
+        return y_fb, meta
+
+    # No per-endpoint metrics: defer to the secondary/descriptive path.
+    y, thr = binarize_labels(rows, median_threshold)
+    meta["rule_available"] = "none (per-endpoint metrics absent)"
+    if thr is None:
+        meta["rule_used"] = "degraded_column"
+    elif median_threshold == "median":
+        meta["rule_used"] = "median"
+    else:
+        meta["rule_used"] = "explicit"
+    meta["threshold"] = thr
+    return y, meta
 
 
 # ── Prediction harness ──────────────────────────────────────────────
@@ -996,8 +1129,16 @@ def make_pairs_command(bank_root: Path, out_dir: Path, n_per_family: int,
 
 def fit_from_labels(bank_root: Path, labels_path: Path,
                     threshold: str | float, model: str, n_splits: int,
-                    n_boot: int, seed: int) -> dict:
+                    n_boot: int, seed: int,
+                    threshold_rel: float = THRESHOLD_REL,
+                    degenerate_min_frac: float = DEGENERATE_MIN_FRAC) -> dict:
     """--labels: join labels to bank adapters, fit per family, report AUCs.
+
+    Labels are binarized by the PRIMARY rule (binarize_primary — fixed
+    relative-degradation threshold per DIRECTOR_DECISIONS_2026-07-06.md, with
+    a degenerate-balance fallback to the median split); the rule actually
+    used is recorded in the returned ``binarization`` block. Median-split is
+    secondary/descriptive under the override.
 
     The harness is fit PER FAMILY (module-vector features are
     family-specific). Per family the HEADLINE numbers (mirrored at the
@@ -1014,7 +1155,9 @@ def fit_from_labels(bank_root: Path, labels_path: Path,
     headline number requires Director sign-off.
     """
     rows = load_labels(labels_path)
-    y_all, thr = binarize_labels(rows, threshold)
+    y_all, bin_meta = binarize_primary(
+        rows, threshold_rel=threshold_rel,
+        degenerate_min_frac=degenerate_min_frac, median_threshold=threshold)
     index = build_run_index(bank_root)
 
     per_family: dict[str, dict] = {}
@@ -1110,9 +1253,11 @@ def fit_from_labels(bank_root: Path, labels_path: Path,
 
     return {
         "labels_file": str(labels_path),
-        "threshold": thr,
-        "threshold_mode": ("degraded-column" if thr is None else
-                           ("median" if threshold == "median" else "explicit")),
+        "binarization": bin_meta,
+        "threshold": bin_meta["threshold"],
+        "threshold_mode": bin_meta["rule_used"],
+        "threshold_rel": threshold_rel,
+        "degenerate_min_frac": degenerate_min_frac,
         "model": model,
         "seed": seed,
         "n_splits": n_splits,
@@ -1148,8 +1293,26 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--labels", type=Path, default=None,
                         help="labels file (schema in module docstring)")
     parser.add_argument("--label-threshold", default="median",
-                        help="'median' or a float; ignored when the labels "
-                             "carry a 'degraded' column (default: median)")
+                        help="SECONDARY/descriptive median-split fallback: "
+                             "'median' or a float. Used only when the "
+                             "per-endpoint metric fields are absent (or the "
+                             "primary rule is degenerate); ignored when a "
+                             "'degraded' column is present (default: median)")
+    parser.add_argument("--label-threshold-rel", type=float,
+                        default=THRESHOLD_REL,
+                        help=f"PRIMARY fixed relative-degradation threshold "
+                             f"(Director override "
+                             f"DIRECTOR_DECISIONS_2026-07-06.md): a merge is "
+                             f"a conflict if it degrades EITHER endpoint by "
+                             f">= this fraction relative to native "
+                             f"(default {THRESHOLD_REL})")
+    parser.add_argument("--degenerate-min-frac", type=float,
+                        default=DEGENERATE_MIN_FRAC,
+                        help=f"degenerate-balance floor: if the fixed rule "
+                             f"yields fewer than this fraction of positives "
+                             f"(or negatives), report the finding and fall "
+                             f"back to the median split "
+                             f"(default {DEGENERATE_MIN_FRAC})")
     parser.add_argument("--model", choices=("logistic", "ridge"),
                         default="logistic")
     parser.add_argument("--n-splits", type=int, default=5)
@@ -1210,9 +1373,17 @@ def main(argv: list[str] | None = None) -> None:
     if args.labels is not None:
         report = fit_from_labels(args.bank_root, args.labels,
                                  args.label_threshold, args.model,
-                                 args.n_splits, args.n_boot, args.seed)
+                                 args.n_splits, args.n_boot, args.seed,
+                                 threshold_rel=args.label_threshold_rel,
+                                 degenerate_min_frac=args.degenerate_min_frac)
         (out_dir / "d3_report.json").write_text(
             json.dumps(_jsonable(report), indent=2), encoding="utf-8")
+        _bm = report["binarization"]
+        print(f"[asset1-d3] binarization rule: {_bm['rule_used']} "
+              f"(primary threshold_rel={_bm['threshold_rel']}, "
+              f"degenerate_min_frac={_bm['degenerate_min_frac']})")
+        if _bm.get("degenerate_finding"):
+            print(f"[asset1-d3] FINDING: {_bm['degenerate_finding']}")
         for fam, rep in report["per_family"].items():
             if "auc_full" in rep:
                 print(f"[asset1-d3] {fam}: AUC full={rep['auc_full']:.3f} "

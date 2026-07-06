@@ -58,10 +58,12 @@ per cell (default 3):
                   derangement sigma as the 'permuted' cell of its
                   (family, task, slot), so the pairwise contrast between
                   the two cells isolates exactly the identity-backbone
-                  effect. WHICH of the two cells is the pre-registered H3
-                  structure-destroyed reference REQUIRES DIRECTOR SIGN-OFF
-                  BEFORE STAGE B ('permuted_deviation' recommended); the
-                  plan JSON carries this flag ('h3_structure_reference').
+                  effect. APPROVED 2026-07-06 (DIRECTOR_DECISIONS_2026-07-06
+                  .md): 'permuted_deviation' is THE pre-registered H3
+                  structure-destroyed reference (primary); the full-entry
+                  'permuted' cell is retained as the identity-backbone
+                  contrast. The plan JSON records this in
+                  'h3_structure_reference' (status APPROVED).
                   (Design decision: permuting the recipient's own bridge
                   rather than a cross-task donor's keeps this a per-task
                   row control; flagged to the Director.)
@@ -69,11 +71,12 @@ per cell (default 3):
                   deviation-from-identity IS the signal being swapped;
                   this cell measures the total contribution of bridge
                   training to the native loss.
-    cross_task_magnitude / cross_task_topology (--decomposition only):
-                  the contradiction-guard cells — transplant ONLY the
-                  donor's magnitude profile or ONLY its normalized pattern
-                  (see decomposition below), on the same (recipient, donor)
-                  pairs as the cross_task cells.
+    cross_task_magnitude / cross_task_topology (UNCONDITIONAL — Director
+                  override DIRECTOR_DECISIONS_2026-07-06.md; opt out with
+                  --no-decomposition): the contradiction-guard cells —
+                  transplant ONLY the donor's magnitude profile or ONLY its
+                  normalized pattern (see decomposition below), on the same
+                  (recipient, donor) pairs as the cross_task cells.
 
 Recipient reuse (design decision): for each task i the SAME K recipient
 runs are used for every donor task j and every baseline kind. This
@@ -82,8 +85,10 @@ cells of a matrix row directly comparable on identical recipients.
 
 Evaluation count per family: native/identity/permuted/permuted_deviation/
 cross_seed = 5*T*K, cross_task = T*(T-1)*K, decomposition adds
-2*T*(T-1)*K. Real bank (T=6, K=3): 180 evals per family (360 with
---decomposition); both families: 360 (720). The plan prints these totals.
+2*T*(T-1)*K. Decomposition is UNCONDITIONAL by default (Director override),
+so the real bank (T=6, K=3) is 360 evals per family (720 both families);
+--no-decomposition drops the guard cells to 180 (360 both). The plan prints
+these totals.
 
 Permuted-bridge definitions (exact)
 -----------------------------------
@@ -411,7 +416,7 @@ def _eval_entry(family_short: str, kind: str, task_i: str, slot: int,
 def generate_plan(bank_root: str | Path, *, seed: int = 0,
                   pairs_per_cell: int = DEFAULT_PAIRS_PER_CELL,
                   families: list[str] | None = None,
-                  decomposition: bool = False) -> dict:
+                  decomposition: bool = True) -> dict:
     """Build the deterministic D2 swap plan (no adapter files are read).
 
     Enumeration is manifest-driven (COMPLETE runs only). All pairing
@@ -425,6 +430,13 @@ def generate_plan(bank_root: str | Path, *, seed: int = 0,
     families). Every cell requires at least ``pairs_per_cell`` COMPLETE
     runs (and >= 2 for the cross-seed baseline); a clear error names the
     deficient cell otherwise.
+
+    ``decomposition`` defaults to True: per the Director OVERRIDE
+    (DIRECTOR_DECISIONS_2026-07-06.md) the magnitude/topology decomposition
+    cells run UNCONDITIONALLY (+2*T*(T-1)*K evals/family), not gated on
+    whether a D1/D2 contradiction materializes — data-dependent gating is a
+    post-hoc forking point. Pass decomposition=False (CLI --no-decomposition)
+    only for exploratory work.
     """
     if seed < 0:
         raise ValueError("seed must be a non-negative integer")
@@ -547,27 +559,35 @@ def generate_plan(bank_root: str | Path, *, seed: int = 0,
         "plan_version": 2,
         "h3_structure_reference": {
             "candidates": [KIND_PERMUTED, KIND_PERMUTED_DEV],
-            "recommended": KIND_PERMUTED_DEV,
-            "status": "PENDING DIRECTOR SIGN-OFF — required before "
-                      "Stage B",
+            "primary": KIND_PERMUTED_DEV,
+            "contrast": KIND_PERMUTED,
+            "recommended": KIND_PERMUTED_DEV,   # retained for compatibility
+            "status": "APPROVED 2026-07-06: permuted_deviation",
+            "decided_by": "DIRECTOR_DECISIONS_2026-07-06.md",
             "rationale": (
-                "Trained bridges are I + small deviation "
-                "(bridge_mode='identity' init). The full-entry "
-                "'permuted' cell scatters the untrained identity "
-                "diagonal, so its penalty conflates init-structure "
-                "destruction with trained-structure destruction and "
-                "biases the H3 reference scale upward (round-1 review "
-                "finding). 'permuted_deviation' permutes only "
-                "D = B - I, preserving the identity backbone and the "
-                "trained-deviation entry multiset. Both cells share "
-                "one sigma per slot; both are evaluated; the Director "
-                "must pin the H3 reference before any Stage B "
-                "evaluation is run."),
+                "APPROVED 2026-07-06: 'permuted_deviation' "
+                "[I + permute(B - I)] is THE H3 structure-destroyed "
+                "reference (primary); the full-entry 'permuted' cell is "
+                "retained as the identity-backbone contrast. Trained "
+                "bridges are I + small deviation (bridge_mode='identity' "
+                "init), so the full-entry permutation scatters the "
+                "untrained identity diagonal and its penalty conflates "
+                "init-structure destruction with trained-structure "
+                "destruction (round-1 review finding). "
+                "'permuted_deviation' permutes only D = B - I, preserving "
+                "the identity backbone and the trained-deviation entry "
+                "multiset. Both cells share one sigma per slot so their "
+                "pairwise contrast isolates the identity-backbone effect."),
         },
         "bank_root": str(bank_root),
         "seed": int(seed),
         "pairs_per_cell": K,
         "decomposition": bool(decomposition),
+        "decomposition_policy": (
+            "UNCONDITIONAL per Director OVERRIDE "
+            "(DIRECTOR_DECISIONS_2026-07-06.md): magnitude/topology "
+            "decomposition cells run always (+2*T*(T-1)*K evals/family); "
+            "not gated on a D1/D2 contradiction materializing."),
         "families": selected,
         "families_full": [f for f in fam_entries if f["short"] in selected],
         "tasks": tasks,
@@ -985,10 +1005,15 @@ def main(argv: list[str] | None = None) -> None:
                              f"(default {DEFAULT_PAIRS_PER_CELL}; real bank "
                              f"at K=3 -> 180 evals/family, 360 with "
                              f"--decomposition)")
-    parser.add_argument("--decomposition", action="store_true",
-                        help="add the magnitude-only / topology-only "
-                             "contradiction-guard cells (2x T*(T-1)*K more "
-                             "evals per family)")
+    parser.add_argument("--no-decomposition", action="store_false",
+                        dest="decomposition",
+                        help="OPT OUT of the magnitude-only / topology-only "
+                             "contradiction-guard cells. Per Director "
+                             "override (DIRECTOR_DECISIONS_2026-07-06.md) "
+                             "the decomposition runs UNCONDITIONALLY by "
+                             "default (+2x T*(T-1)*K evals/family); this "
+                             "flag is exploratory-only.")
+    parser.set_defaults(decomposition=True)
     parser.add_argument("--plan-only", action="store_true",
                         help="write the plan without loading any adapter "
                              "(assembled_sha256 stays null)")

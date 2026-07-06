@@ -55,11 +55,16 @@ Design decisions
     names the most-confused class (lowest LOO recall) with its dominant
     confusion target.
 
-6.  H2 REPRESENTATIONS (NOT PINNED BY THE CARD — Director must confirm).
+6.  H2 REPRESENTATIONS (PINNED — DIRECTOR_DECISIONS_2026-07-06.md, H2a).
     Raw flattened parameters are dimensionally incomparable across
     families (Qwen 28 layers/1536 dims vs Llama 16 layers/2048 dims), so
     H2 is run on BOTH of two dimension-agnostic representations and both
-    are reported:
+    are reported. The depth-binned SV spectra ('spectrum') is the PRIMARY
+    representation carrying the H2 claim; the probe-projection ('probe') is
+    CORROBORATING; disagreement between them is reported, not hidden. The
+    H2 verdict (h2_supported) applies to BOTH directions in the
+    shift-controlled representation at alpha=0.01 with a >=15pp
+    within-minus-cross accuracy margin (H2b). The two representations:
       (a) 'spectrum'  — per module, singular values of the effective
           update DW = scaling * B @ E @ A (via asset1_canonicalize
           effective_factors + canonicalize_module); log1p(sigma) vectors,
@@ -109,7 +114,8 @@ Design decisions
     shift-controlled variant too.
 
 7.  REPRESENTATION FLAG. --representation {raw,canonical,both}, default
-    raw pending Director A2 approval. canonical mode reuses
+    both (A2 ADOPTED — DIRECTOR_DECISIONS_2026-07-06.md: run raw AND
+    W2T-canonical within each family, both reportable). canonical mode reuses
     asset1_canonicalize.canonicalize_adapter + feature_vector('full') —
     comparable within a family (identical module/shape sets). Per-module
     breakdown is produced for raw mode only (canonical features do not
@@ -130,7 +136,8 @@ Design decisions
 
 10. SVM C. The card locks "linear SVM" but not the regularization
     constant; C defaults to 1.0 (sklearn default) via --svm-c and is
-    recorded in the output. Flagged for Director confirmation.
+    recorded in the output. APPROVED as-is
+    (DIRECTOR_DECISIONS_2026-07-06.md).
 
 11. --synthetic-selftest builds miniature synthetic banks via
     asset1_synth.make_synthetic_bank (task_effect = 1.0 and 0.0), runs
@@ -180,6 +187,16 @@ H1_ACCURACY_MULTIPLIER = 1.5     # accuracy must exceed 1.5 x chance
 H1_P_THRESHOLD = 0.01            # permutation-calibrated p < 0.01
 HETEROGENEITY_TRIGGER = 3.7      # pilot heterogeneity ratio (card D1.3)
 CARD_NAME = "asset1_experiment_card_2026-07-03.md"
+DIRECTOR_DECISIONS_DOC = "docs/DIRECTOR_DECISIONS_2026-07-06.md"
+
+# ── H2 rulings — PINNED (DIRECTOR_DECISIONS_2026-07-06.md, §6/H2) ────
+# These are the locked pre-registration decisions the §6 sign-offs left
+# open. They are recorded in every output JSON so runs self-document.
+H2_ALPHA = 0.01                  # one-sided exact-binomial significance (H2b)
+H2_MARGIN_PP = 15.0              # within − cross accuracy margin (pct points)
+H2_PRIMARY_REPRESENTATION = "spectrum"        # depth-binned SV spectra (H2a)
+H2_CORROBORATING_REPRESENTATION = "probe"     # probe-projection = corroborating
+H2_HEADLINE_VARIANT = "family_standardized"   # shift-controlled headline (H2c)
 
 WILSON_CAVEAT = (
     "Wilson interval treats the LOO predictions as independent Bernoulli "
@@ -187,32 +204,58 @@ WILSON_CAVEAT = (
     "this CI is descriptive only. The permutation p-value is the "
     "calibrated inference (card D1, analysis item 2).")
 
+# D1 regime-contrast spine (A2 — DIRECTOR_DECISIONS_2026-07-06.md). The
+# distinguishing variable was corrected from the drafted hub-scale-vs-family
+# axis to label granularity / task structure.
+REGIME_AXIS_NOTE = (
+    "D1 REGIME-CONTRAST AXIS (pinned — DIRECTOR_DECISIONS_2026-07-06.md, "
+    "A2): the honest distinguishing variable between W2T's cross-collection "
+    "identifiability results and this study's within-family task "
+    "separability is LABEL GRANULARITY / TASK STRUCTURE — W2T's 10k+ "
+    "fine-grained attribute classes versus the 6 coarse tasks here — NOT "
+    "hub-scale-vs-family. W2T's own collections are same-base/same-rank "
+    "families (W2T Table 6), so a 'canonicalization is necessary at hub "
+    "scale but unnecessary within a controlled family' framing "
+    "mis-attributes the split to the wrong variable and is retired. Every "
+    "D1 regime sentence is keyed to the label-granularity axis.")
+
 H2_REP_FLAG = (
-    "H2 REPRESENTATION NOT PINNED BY THE CARD: raw flattened parameters "
-    "are dimensionally incomparable across families, so two "
-    "dimension-agnostic representations ('spectrum' and 'probe') are both "
-    "computed and reported. The Director must confirm the H2 "
-    "representation choice BEFORE the bank completes; pinning it after "
-    "seeing results would break pre-registration.")
+    "H2 REPRESENTATION (PINNED — DIRECTOR_DECISIONS_2026-07-06.md, H2a): "
+    "raw flattened parameters are dimensionally incomparable across "
+    "families, so two dimension-agnostic representations are computed. The "
+    "depth-binned singular-value spectra of the effective update "
+    "('spectrum') is the PRIMARY representation carrying the H2 claim; the "
+    "canonicalize probe-projection route ('probe') is CORROBORATING. "
+    "Disagreement between the two is itself reportable and is reported, not "
+    "hidden.")
 
 H2_SHIFT_CONTROL_NOTE = (
-    "H2 TRIVIALITY CONTROL (pinned pre-bank, round-1 review fix): both "
-    "dimension-agnostic representations carry a family-identity SCALE "
-    "signature (families differ in depth/width, shifting spectra and "
-    "probe magnitudes), so a transfer-at-chance result could be produced "
-    "trivially by covariate shift rather than by genuinely family-bound "
-    "task structure — making the pre-registered H2 finding "
-    "unfalsifiable if uncontrolled. Two controls are therefore part of "
-    "the H2 protocol: (a) a family-identity probe (CV accuracy of a "
+    "H2 TRIVIALITY CONTROL (pinned — DIRECTOR_DECISIONS_2026-07-06.md, H2c; "
+    "round-1 review fix): both dimension-agnostic representations carry a "
+    "family-identity SCALE signature (families differ in depth/width, "
+    "shifting spectra and probe magnitudes), so a transfer-at-chance result "
+    "could be produced trivially by covariate shift rather than by "
+    "genuinely family-bound task structure — making the pre-registered H2 "
+    "finding unfalsifiable if uncontrolled. Two controls are therefore part "
+    "of the H2 protocol: (a) a family-identity probe (CV accuracy of a "
     "linear SVM classifying FAMILY from the H2 representation — high "
     "accuracy diagnoses a representation-level family signature) and "
     "(b) a shift-controlled transfer variant (per-family per-feature "
     "z-scoring, unsupervised, applied before the cross-family "
     "classifier). Transfer is reported under BOTH 'raw' and "
-    "'family_standardized' variants; 'transfer does not exceed chance' "
-    "is claimable as the regime finding only if it holds under the "
-    "shift-controlled variant too. Director sign-off requested BEFORE "
-    "the bank completes.")
+    "'family_standardized' variants; the SHIFT-CONTROLLED variant is the "
+    "headline and raw is descriptive.")
+
+H2_DECISION_NOTE = (
+    "H2 DECISION RULE (pinned — DIRECTOR_DECISIONS_2026-07-06.md, H2b): "
+    "H2 (cross-family task transfer FAILS — the regime contrast) is "
+    "SUPPORTED iff, for BOTH directions (A->B and B->A) in the "
+    "shift-controlled PRIMARY (spectrum) representation: (i) cross-family "
+    f"accuracy is NOT significantly above chance at one-sided "
+    f"exact-binomial alpha={H2_ALPHA}, AND (ii) within-family accuracy "
+    f"minus cross-family accuracy >= {H2_MARGIN_PP} percentage points. The "
+    "probe-projection representation is corroborating; primary/corroborating "
+    "disagreement is reported.")
 
 _LAYER_RE = re.compile(r"layers[._](\d+)")
 _PROJ_RE = re.compile(r"([qkvo])_proj$")
@@ -646,6 +689,76 @@ def family_identity_probe(X_by_family: dict[str, np.ndarray],
     return result
 
 
+def within_family_accuracy(X: np.ndarray, y: np.ndarray, seed: int = 0,
+                           C: float = 1.0) -> tuple[float | None, int]:
+    """CV accuracy of a linear SVM classifying TASK within one family, on
+    the given (shift-controlled) H2 representation.
+
+    This is the within-family ceiling the H2 decision rule compares against
+    (DIRECTOR_DECISIONS_2026-07-06.md, H2b: within − cross accuracy margin).
+    StratifiedKFold, k = min(5, smallest task count), shuffled with ``seed``.
+    Returns (accuracy, n); accuracy is None when a family is too small to
+    form 2 folds.
+    """
+    X = np.asarray(X, dtype=np.float64)
+    y = np.asarray(y)
+    n = int(y.size)
+    _, counts = np.unique(y, return_counts=True)
+    n_splits = int(min(5, counts.min())) if counts.size else 0
+    if n_splits < 2:
+        return None, n
+    skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+    correct = 0
+    for tr, te in skf.split(X, y):
+        clf = SVC(kernel="linear", C=C).fit(X[tr], y[tr])
+        correct += int(np.sum(clf.predict(X[te]) == y[te]))
+    return correct / n, n
+
+
+def h2_supported(directions: dict, *, alpha: float = H2_ALPHA,
+                 margin_pp: float = H2_MARGIN_PP) -> dict:
+    """The pinned H2 decision rule (DIRECTOR_DECISIONS_2026-07-06.md, H2b).
+
+    ``directions`` maps a direction label (e.g. 'famA->famB') to a dict with
+    ``cross_accuracy`` (train-on-A/test-on-B accuracy in the shift-controlled
+    representation), ``cross_binom_p`` (one-sided exact-binomial p vs chance
+    for that cell), and ``within_accuracy`` (the test family's within-family
+    ceiling). H2 is SUPPORTED iff, for BOTH directions:
+        (i)  cross-family accuracy is NOT significantly above chance at
+             one-sided exact-binomial alpha (cross_binom_p >= alpha), AND
+        (ii) within_accuracy − cross_accuracy >= margin_pp percentage points.
+    Directions that disagree are reported, never hidden; an empty direction
+    set is NOT supported. alpha and margin_pp are recorded in the output.
+    """
+    per_dir: dict = {}
+    all_supported = True
+    for label, d in directions.items():
+        p = float(d["cross_binom_p"])
+        cross = float(d["cross_accuracy"])
+        within = float(d["within_accuracy"])
+        not_above_chance = bool(p >= alpha)
+        margin = (within - cross) * 100.0
+        margin_ok = bool(margin >= margin_pp)
+        supported = bool(not_above_chance and margin_ok)
+        all_supported = all_supported and supported
+        per_dir[label] = {
+            "cross_accuracy": cross,
+            "cross_binom_p": p,
+            "within_accuracy": within,
+            "not_above_chance_at_alpha": not_above_chance,
+            "margin_pp": margin,
+            "margin_ge_threshold": margin_ok,
+            "direction_supported": supported,
+        }
+    return {
+        "alpha": alpha,
+        "margin_pp_threshold": margin_pp,
+        "n_directions": len(directions),
+        "directions": per_dir,
+        "supported": bool(all_supported and len(directions) > 0),
+    }
+
+
 def _transfer_cell(X_train: np.ndarray, y_train: np.ndarray,
                    X_test: np.ndarray, y_test: np.ndarray,
                    chance: float, C: float) -> dict:
@@ -686,11 +799,19 @@ def h2_transfer(features: dict[str, dict[str, np.ndarray]],
     for rep in ("spectrum", "probe"):
         rep_out: dict = {
             "dim": int(next(iter(features.values()))[rep].shape[1]),
-            "family_probe": {}, "pairs": {},
+            "role": ("PRIMARY" if rep == H2_PRIMARY_REPRESENTATION
+                     else "corroborating"),
+            "family_probe": {}, "within_family_accuracy": {}, "pairs": {},
         }
         for vname, feats in variants.items():
             rep_out["family_probe"][vname] = family_identity_probe(
                 {f: feats[f][rep] for f in families}, seed=seed, C=C)
+            rep_out["within_family_accuracy"][vname] = {}
+            for f in families:
+                acc, n = within_family_accuracy(feats[f][rep], labels[f],
+                                                seed=seed, C=C)
+                rep_out["within_family_accuracy"][vname][f] = {
+                    "accuracy": acc, "n": n}
         for a in families:
             for b in families:
                 if a == b:
@@ -700,8 +821,40 @@ def h2_transfer(features: dict[str, dict[str, np.ndarray]],
                                           feats[b][rep], labels[b],
                                           chance, C)
                     for vname, feats in variants.items()}
+        rep_out["decision"] = _h2_rep_decision(rep_out, chance)
         out[rep] = rep_out
     return out
+
+
+def _h2_rep_decision(rep_out: dict, chance: float) -> dict:
+    """Apply h2_supported to one representation on the SHIFT-CONTROLLED
+    (headline) variant. For direction A->B the within-family ceiling is the
+    TEST family (B) — 'these tasks ARE separable in B; transfer from A cannot
+    reach them'. Directions whose within-family accuracy is undefined (family
+    too small for CV) are skipped and noted."""
+    variant = H2_HEADLINE_VARIANT
+    within = rep_out["within_family_accuracy"].get(variant, {})
+    directions: dict = {}
+    skipped: list[str] = []
+    for pair, cell in rep_out["pairs"].items():
+        _a, b = pair.split("->")
+        w = within.get(b, {}).get("accuracy")
+        if w is None:
+            skipped.append(pair)
+            continue
+        c = cell[variant]
+        directions[pair] = {
+            "cross_accuracy": c["accuracy"],
+            "cross_binom_p": c["binom_p_greater_than_chance"],
+            "within_accuracy": w,
+        }
+    decision = h2_supported(directions)
+    decision["variant"] = variant
+    decision["chance"] = chance
+    decision["representation_role"] = rep_out["role"]
+    if skipped:
+        decision["skipped_directions"] = skipped
+    return decision
 
 
 # ── Per-family H1 analysis ──────────────────────────────────────────
@@ -819,7 +972,7 @@ def _guard_out_dir(out_dir: Path) -> None:
 
 def analyze_bank(bank_root: Path, out_dir: Path, *,
                  n_permutations: int = 1000, seed: int = 0,
-                 representation: str = "raw",
+                 representation: str = "both",
                  expected_total: int = aio.EXPECTED_TOTAL_RUNS,
                  allow_partial: bool = False, chunk_rows: int = 8,
                  svm_c: float = 1.0, n_depth_bins: int = 4,
@@ -889,13 +1042,38 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
         },
         "tasks": task_names,
         "chance": chance,
+        "pinned_decisions": {
+            "source": DIRECTOR_DECISIONS_DOC,
+            "representation": (
+                "both — A2 ADOPTED: raw AND W2T-canonical within each "
+                "family, both reportable"),
+            "svm_c": "1.0 (sklearn default) — APPROVED as-is",
+            "ci_type": (
+                "Wilson 95% — APPROVED (permutation p is the calibrated "
+                "inference)"),
+            "heterogeneity_distance": (
+                "Euclidean in feature space — APPROVED"),
+            "per_module_null": "none (completeness-only) — APPROVED",
+            "regime_axis": (
+                "label granularity / task structure (NOT "
+                "hub-scale-vs-family)"),
+            "h2_primary_representation": H2_PRIMARY_REPRESENTATION,
+            "h2_corroborating_representation":
+                H2_CORROBORATING_REPRESENTATION,
+            "h2_headline_variant": H2_HEADLINE_VARIANT,
+            "h2_alpha": H2_ALPHA,
+            "h2_margin_pp": H2_MARGIN_PP,
+        },
         "families": {},
-        "flags": [H2_REP_FLAG,
+        "flags": [REGIME_AXIS_NOTE,
+                  H2_REP_FLAG,
                   H2_SHIFT_CONTROL_NOTE,
-                  "SVM C not pinned by the card; C=1.0 (sklearn default) "
-                  "used and recorded.",
-                  "--representation default 'raw' pending Director A2 "
-                  "approval of the canonical mode."],
+                  H2_DECISION_NOTE,
+                  "SVM C=1.0 (sklearn default) — APPROVED as-is "
+                  f"({DIRECTOR_DECISIONS_DOC}); recorded per run.",
+                  "--representation default 'both' — A2 ADOPTED "
+                  f"({DIRECTOR_DECISIONS_DOC}): raw AND W2T-canonical "
+                  "within each family."],
     }
 
     scratch_dir = out_dir / "scratch"
@@ -946,10 +1124,41 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
         results["h2_cross_family"] = {
             "note": H2_REP_FLAG,
             "shift_control_note": H2_SHIFT_CONTROL_NOTE,
+            "decision_rule": H2_DECISION_NOTE,
+            "regime_axis": REGIME_AXIS_NOTE,
+            "primary_representation": H2_PRIMARY_REPRESENTATION,
+            "corroborating_representation": H2_CORROBORATING_REPRESENTATION,
+            "headline_variant": H2_HEADLINE_VARIANT,
+            "alpha": H2_ALPHA,
+            "margin_pp": H2_MARGIN_PP,
             "sigma_slots": sigma_slots,
             "n_depth_bins": n_depth_bins,
             **h2_transfer(h2_feats, h2_labels, families, chance, C=svm_c,
                           seed=seed),
+        }
+        # Combined verdict: PRIMARY (spectrum) carries the claim; the
+        # corroborating (probe) representation is compared, and disagreement
+        # is reported — never hidden (DIRECTOR_DECISIONS_2026-07-06.md, H2a).
+        h2c = results["h2_cross_family"]
+        prim = h2c[H2_PRIMARY_REPRESENTATION]["decision"]
+        corr = h2c[H2_CORROBORATING_REPRESENTATION]["decision"]
+        agree = bool(prim["supported"] == corr["supported"])
+        h2c["h2_verdict"] = {
+            "primary_representation": H2_PRIMARY_REPRESENTATION,
+            "corroborating_representation": H2_CORROBORATING_REPRESENTATION,
+            "headline_variant": H2_HEADLINE_VARIANT,
+            "alpha": H2_ALPHA,
+            "margin_pp": H2_MARGIN_PP,
+            "primary_supported": bool(prim["supported"]),
+            "corroborating_supported": bool(corr["supported"]),
+            "agreement": agree,
+            "headline_supported": bool(prim["supported"]),
+            "note": (
+                "PRIMARY (spectrum) and corroborating (probe) agree."
+                if agree else
+                "DISAGREEMENT: primary (spectrum) and corroborating (probe) "
+                "representations reach different H2 verdicts — reported, "
+                "not hidden. The PRIMARY (spectrum) verdict is the headline."),
         }
 
     json_path = out_dir / f"d1_results{tag}.json"
@@ -1110,6 +1319,39 @@ def render_report(results: dict) -> str:
                         f"{c['binom_p_greater_than_chance']:.4g} |")
         lines.append("")
 
+        if "h2_verdict" in h2:
+            v = h2["h2_verdict"]
+            lines += [
+                "### H2 decision (pinned rule — alpha "
+                f"{v['alpha']}, margin {v['margin_pp']}pp, "
+                "shift-controlled, both directions)",
+                "",
+                f"> {h2['decision_rule']}",
+                "",
+                f"- PRIMARY ({v['primary_representation']}) H2 supported: "
+                f"**{v['primary_supported']}**",
+                f"- corroborating ({v['corroborating_representation']}) H2 "
+                f"supported: {v['corroborating_supported']}",
+                f"- agreement: {v['agreement']} — {v['note']}",
+                f"- **HEADLINE (H2 regime contrast) supported: "
+                f"{v['headline_supported']}**",
+                "",
+                "| representation | direction | cross acc | binom p | "
+                "within acc | margin pp | supported |",
+                "|---|---|---|---|---|---|---|",
+            ]
+            for rep in (h2["primary_representation"],
+                        h2["corroborating_representation"]):
+                dec = h2[rep]["decision"]
+                for label, d in dec["directions"].items():
+                    lines.append(
+                        f"| {rep} | {label} | {d['cross_accuracy']:.4f} | "
+                        f"{d['cross_binom_p']:.4g} | "
+                        f"{d['within_accuracy']:.4f} | "
+                        f"{d['margin_pp']:.2f} | "
+                        f"{'YES' if d['direction_supported'] else 'no'} |")
+            lines.append("")
+
     lines += ["## Flags", ""]
     for f in results["flags"]:
         lines.append(f"- {f}")
@@ -1249,9 +1491,10 @@ def main(argv: list[str] | None = None) -> None:
                              "a loud PRE-REGISTRATION WARNING; results are "
                              "exploratory only and must never be reported")
     parser.add_argument("--representation",
-                        choices=("raw", "canonical", "both"), default="raw",
-                        help="H1 feature representation (default raw — "
-                             "canonical pending Director A2 approval)")
+                        choices=("raw", "canonical", "both"), default="both",
+                        help="H1 feature representation (default both — A2 "
+                             "ADOPTED per DIRECTOR_DECISIONS_2026-07-06.md: "
+                             "raw AND W2T-canonical within each family)")
     parser.add_argument("--chunk-rows", type=int, default=8,
                         help="Memmap row-chunk size for Gram accumulation "
                              "(peak RAM ~ 2*chunk_rows*d*8 bytes; "

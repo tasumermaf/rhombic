@@ -5,9 +5,13 @@
 % ⚠ AUDIT BLOCKERS — DO NOT SUBMIT / COMPILE-FOR-RELEASE UNTIL RESOLVED
 % (added 2026-07-04 from the controller-exposure classification;
 %  full worklist: docs/PAPER4_EXPOSURE_CLASSIFICATION.md §9)
-%   1. RETRACTED DATA: line ~218 cites "Wan 2.1 14B" as a model scale — that is
-%      the Holly Battery run, retracted 2026-03-13 (dataset provenance / L-026).
-%      The 14B scale claim must be dropped or replaced with a clean run.
+%   1. [RESOLVED 2026-07-06] RETRACTED DATA: the "Wan 2.1 14B" model scale
+%      (Holly Battery, retracted 2026-03-13, provenance/L-026) is STRIPPED from
+%      the BD-reproduction sentence. Also removed the unanchored "82,154:1 across
+%      60,000+ bridges" aggregate — it had NO repo anchor and exceeded every real
+%      per-scale number. Replaced with anchored numbers: TinyLlama H-ch6 70,404:1,
+%      Qwen 7B Exp 3.0 22,477:1. (60,000+ breadth claim can return once recounted
+%      from the two clean scales only.)
 %   2. FALSE ATTRIBUTION: section8_discussion.tex ~L214-216 attributes the 36.2%
 %      P0 overhead to "control law evaluation"; the P0 run (train_comparison.py)
 %      has NO Steersman. The 36.2% number is clean; the causal sentence is false.
@@ -16,10 +20,13 @@
 %      steps" (§4.3) for r=1.0000; spectral-attractor Fiedler ~0.09 is at BM-000
 %      null percentile 17 (near-init noise) — reframe, do not cite as structure.
 % (added 2026-07-05 from the-adversary verification pass, docs/PAPER4_VERIFICATION_PASS.md)
-%   4. OCTAHEDRAL HOLE: O-001 473,622:1 and its FO-001 262,920:1 bracket are
-%      Hermes-ONLY — the n=4 endpoint of the "inverse-n" ordering (474K>70K>42K)
-%      and the Regime-1 span have ZERO local evidence. Re-fetch from Hermes or
-%      re-run FO-001 locally before the octahedral headline can be trusted.
+%   4. [PARTIAL 2026-07-06] OCTAHEDRAL HOLE: FO-001 262,920:1 is now anchored
+%      locally (results/octahedral-hermes-anchor/FO-001/, ratio confirmed in the
+%      training log at step 10000). O-001 473,622:1 STILL unanchored — its Hermes
+%      results.json carries a NULL co_cross_ratio throughout (the 473,622 came from
+%      a post-hoc block analysis, not the training log); must be recomputed from the
+%      O-001 adapter before the n=4 endpoint of the inverse-n ordering (474K>70K>42K)
+%      can be trusted.
 %   5. TESSERACT SPECIFICS wrong vs disk: r=1.0000 holds (recomputed 0.99995),
 %      but max-deviation is 5.69% NOT 3.5%, and the overlap is 72 steps (neither
 %      34 nor 6). Correct the specifics; the reproducibility claim itself stands.
@@ -245,8 +252,8 @@ contrastive and spectral pressure to multi-channel LoRA bridge
 matrices---produces 100\% block-diagonal structure at $n = 6$
 channels, with three independent $2 \times 2$ blocks aligned to the
 rhombic dodecahedron's three coordinate axes. The co-planar/cross-planar
-coupling ratio exceeded 82{,}154:1 across 60{,}000+ bridges and three
-model scales (TinyLlama~1.1B, Qwen~7B, Wan~2.1~14B), while all
+coupling ratio reaches 70{,}404:1 at $n = 6$ (TinyLlama~1.1B; H-ch6)
+and reproduces across scale at Qwen~7B (22{,}477:1; Exp~3.0), while all
 non-cybernetic controls produced 0\% block-diagonal structure.
 
 Second, the block-diagonal attractor is initialization-independent:
