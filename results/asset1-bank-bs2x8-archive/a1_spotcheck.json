@@ -1,0 +1,142 @@
+{
+  "pair": {
+    "bs2": "C:\\Falco\\rhombic\\results\\asset1-bank-bs2x8-archive\\qwen2.5-1.5b\\alpaca\\run_000",
+    "bs4": "C:\\Falco\\rhombic\\results\\asset1-bank\\qwen2.5-1.5b\\alpaca\\run_000",
+    "seed": 10000,
+    "data_seed": 20000,
+    "note": "identical config/seeds/val split; only micro-batch partition differs (2x8 vs 4x4, effective 16)"
+  },
+  "trajectory": {
+    "step0_val_identical": true,
+    "final_d_val": 8.684891462323874e-05,
+    "max_d_val": 0.000986259222030661,
+    "max_d_train": 0.001958433007821503,
+    "per_step": [
+      {
+        "step": 0,
+        "d_train": null,
+        "d_val": 0.0
+      },
+      {
+        "step": 100,
+        "d_train": 0.001958433007821503,
+        "d_val": 0.000717116355895997
+      },
+      {
+        "step": 200,
+        "d_train": 0.0015658269263804092,
+        "d_val": 9.143948555001558e-06
+      },
+      {
+        "step": 300,
+        "d_train": 0.001167916022241089,
+        "d_val": 0.000986259222030661
+      },
+      {
+        "step": 400,
+        "d_train": 0.00026649862527844403,
+        "d_val": 0.00010272777080533313
+      },
+      {
+        "step": 500,
+        "d_train": 9.869587142019576e-05,
+        "d_val": 0.0001457777619361944
+      },
+      {
+        "step": 600,
+        "d_train": 1.2189196422707216e-05,
+        "d_val": 3.093266487125268e-05
+      },
+      {
+        "step": 700,
+        "d_train": 8.540099486709085e-05,
+        "d_val": 5.2315592765805885e-05
+      },
+      {
+        "step": 800,
+        "d_train": 9.907477535309184e-05,
+        "d_val": 2.4765372276303044e-05
+      },
+      {
+        "step": 900,
+        "d_train": 2.367433160543886e-05,
+        "d_val": 4.118829965593651e-05
+      },
+      {
+        "step": 1000,
+        "d_train": 0.00011377340182661122,
+        "d_val": 2.4456620216384284e-05
+      },
+      {
+        "step": 1100,
+        "d_train": 2.3472714237859904e-05,
+        "d_val": 2.4697721004496298e-05
+      },
+      {
+        "step": 1200,
+        "d_train": 7.792942691597915e-05,
+        "d_val": 2.5669991970067585e-05
+      },
+      {
+        "step": 1300,
+        "d_train": 7.319714874026717e-05,
+        "d_val": 0.00010080468654632968
+      },
+      {
+        "step": 1400,
+        "d_train": 1.249932684005417e-05,
+        "d_val": 7.595300674456684e-06
+      },
+      {
+        "step": 1500,
+        "d_train": 4.7654528170792965e-05,
+        "d_val": 8.289688825607877e-05
+      },
+      {
+        "step": 1600,
+        "d_train": 1.8569394014789076e-05,
+        "d_val": 6.48678541183556e-05
+      },
+      {
+        "step": 1700,
+        "d_train": 5.8092009276144996e-05,
+        "d_val": 3.572845458987839e-05
+      },
+      {
+        "step": 1800,
+        "d_train": 9.429361671209335e-05,
+        "d_val": 2.6357054710379746e-05
+      },
+      {
+        "step": 1900,
+        "d_train": 4.414509981870429e-05,
+        "d_val": 7.80186057090515e-05
+      },
+      {
+        "step": 2000,
+        "d_train": 7.314137183134228e-05,
+        "d_val": 8.684891462323874e-05
+      }
+    ]
+  },
+  "adapters": {
+    "n_modules": 112,
+    "median_rel_l2": {
+      "lora_A": 0.042228133696185347,
+      "lora_B": 0.1183815175390748,
+      "bridge": 0.0015744385767046025
+    },
+    "max_rel_l2": {
+      "lora_A": 0.47784245029954975,
+      "lora_B": 1.1042822484192978,
+      "bridge": 0.029547953674317645
+    },
+    "effective_product": {
+      "median_rel_l2": 0.1475584055034337,
+      "max_rel_l2": 1.2584672233153757,
+      "median_cos": 0.990047980478887,
+      "min_cos": 0.20226967690365288
+    }
+  },
+  "verdict": "Per-step equivalence CONFIRMED at the level the A1 claim was made: step-0 val bit-identical, loss trajectories track at 1e-4-1e-3 (below documented same-seed replicate noise), final parameters divergent (chaotic amplification of float summation order into a different loss-equivalent minimum). Elementwise float-order agreement of final tensors is NOT expected and NOT observed; the correct macro signature is loss-equivalent, parameter-divergent \u2014 which is what the data shows."
+}

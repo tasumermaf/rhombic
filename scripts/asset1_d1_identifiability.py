@@ -750,6 +750,11 @@ def h2_supported(directions: dict, *, alpha: float = H2_ALPHA,
             "margin_ge_threshold": margin_ok,
             "direction_supported": supported,
         }
+        if "within_accuracy_source" in d:
+            # descriptive only (Director 2026-07-07): the SOURCE family's
+            # within-accuracy — a low value marks the direction uninformative,
+            # it does not enter the supported/not decision.
+            per_dir[label]["within_accuracy_source"] = d["within_accuracy_source"]
     return {
         "alpha": alpha,
         "margin_pp_threshold": margin_pp,
@@ -837,7 +842,7 @@ def _h2_rep_decision(rep_out: dict, chance: float) -> dict:
     directions: dict = {}
     skipped: list[str] = []
     for pair, cell in rep_out["pairs"].items():
-        _a, b = pair.split("->")
+        a, b = pair.split("->")
         w = within.get(b, {}).get("accuracy")
         if w is None:
             skipped.append(pair)
@@ -847,6 +852,12 @@ def _h2_rep_decision(rep_out: dict, chance: float) -> dict:
             "cross_accuracy": c["accuracy"],
             "cross_binom_p": c["binom_p_greater_than_chance"],
             "within_accuracy": w,
+            # Director ruling 2026-07-07 (pinning-1 addition): surface the
+            # SOURCE family's within-accuracy descriptively — if A's own
+            # tasks are not separable, the A->B direction is uninformative
+            # (nothing was learnable to transfer). Decision still keys on
+            # the TEST family's ceiling above.
+            "within_accuracy_source": within.get(a, {}).get("accuracy"),
         }
     decision = h2_supported(directions)
     decision["variant"] = variant
@@ -1337,17 +1348,20 @@ def render_report(results: dict) -> str:
                 f"{v['headline_supported']}**",
                 "",
                 "| representation | direction | cross acc | binom p | "
-                "within acc | margin pp | supported |",
-                "|---|---|---|---|---|---|---|",
+                "within acc (test) | within acc (source, descr.) | "
+                "margin pp | supported |",
+                "|---|---|---|---|---|---|---|---|",
             ]
             for rep in (h2["primary_representation"],
                         h2["corroborating_representation"]):
                 dec = h2[rep]["decision"]
                 for label, d in dec["directions"].items():
+                    wsrc = d.get("within_accuracy_source")
+                    wsrc_s = f"{wsrc:.4f}" if wsrc is not None else "n/a"
                     lines.append(
                         f"| {rep} | {label} | {d['cross_accuracy']:.4f} | "
                         f"{d['cross_binom_p']:.4g} | "
-                        f"{d['within_accuracy']:.4f} | "
+                        f"{d['within_accuracy']:.4f} | {wsrc_s} | "
                         f"{d['margin_pp']:.2f} | "
                         f"{'YES' if d['direction_supported'] else 'no'} |")
             lines.append("")
