@@ -138,3 +138,7 @@ research/pdf/
 # Live Asset-1 campaign output (analyzed then summarized; not committed raw)
 results/asset1-bank/
 results/asset1-smoke/*/
+
+# compiled paper PDFs stay local while under audit (stale binaries bake in pre-purge text)
+paper/paper4/paper4-main.pdf
+paper/rhombic-paper3.pdf
