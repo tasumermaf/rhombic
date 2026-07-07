@@ -29,7 +29,15 @@ Y = B' @ (A' @ X).
        ZERO-PAD IS AN APPROXIMATION (k/v outputs live in head space and
        reach the logits only through attention, which this cheap level
        ignores; the true propagation is Level B, asset1_jacobian_lens
-       .py). PINNED DEFAULT, FLAGGED FOR DIRECTOR SIGN-OFF.
+       .py). DIRECTOR-APPROVED 2026-07-07 WITH CONDITION
+       (docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md): the
+       approximation is surfaced in every output artifact — the layout
+       block names the zero-padded modules — and the D1 arm reports
+       BOTH kv_mode variants (zero_pad primary, exclude secondary) so
+       an outcome-(c) deficit cannot be silently attributed to output-
+       null structure when it might be the approximation. Level B (the
+       true J-lens) is the arbiter; any outcome-(c) reading is
+       PROVISIONAL pending it.
     4. NORM HANDLING.  The frozen model's final RMSNorm is linearized as
        its elementwise gain only: y -> g * y with g = model.norm.weight.
        The input-dependent 1/rms(h) scalar is DROPPED (linearization at
@@ -131,13 +139,18 @@ is refused; the acceptance path is --synthetic-selftest on
 asset1_synth.make_synthetic_bank fixtures with a stub readout. Nothing
 here reads results/asset1-bank while the campaign is live.
 
-D1 integration (desired edit — NOT made here; existing files untouched)
+D1 integration (LANDED 2026-07-07 — authorized by the Director's A3
+ruling, docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md)
 -----------------------------------------------------------------------
-asset1_d1_identifiability.py should gain 'vocab_signature' in its
+asset1_d1_identifiability.py carries 'vocab_signature' in its
 --representation choices; its _feat dispatch calls
 ``vocab_signature_feature(run_dir, readout, ...)`` with a per-family
 readout built once in analyze_bank. Analysis machinery (Gram, LOO,
 permutation null, H1 lock) is IDENTICAL to the raw/canonical arms.
+Per the ruling's condition, the D1 arm runs the signature under BOTH
+kv_mode variants: 'vocab_signature' (zero_pad, the pinned primary) and
+'vocab_signature_kv_exclude' (secondary, disambiguation-only — not a
+separate H1 headline claim).
 
 Usage
 -----
@@ -194,7 +207,12 @@ PINNED_DEFAULTS = {
         "residual coordinates before the norm-gain + W_U readout. "
         "APPROXIMATION (true k/v->logit propagation goes through "
         "attention; that is Level B, asset1_jacobian_lens.py). "
-        "DIRECTOR SIGN-OFF REQUIRED (alternative: 'exclude')."),
+        "DIRECTOR APPROVED 2026-07-07 WITH CONDITION "
+        "(docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md): surfaced in "
+        "every output (layout.modules_zero_padded); the D1 arm reports "
+        "BOTH variants — zero_pad (primary) and exclude (secondary, "
+        "disambiguation-only); Level B is the arbiter and an "
+        "outcome-(c) reading is PROVISIONAL pending it."),
     "norm_handling": (
         "final RMSNorm linearized as elementwise gain g only; the "
         "input-dependent 1/rms scalar is dropped (keeps the map linear "
@@ -515,6 +533,7 @@ def signature_for_modules(modules: dict[str, dict[str, torch.Tensor]],
     d_model = readout.d_model
     kept: list[str] = []
     excluded: list[str] = []
+    zero_padded: list[str] = []
     sketch_blocks: list[np.ndarray] = []
     means: list[np.ndarray] = []
     for name in sorted(modules):
@@ -532,6 +551,7 @@ def signature_for_modules(modules: dict[str, dict[str, torch.Tensor]],
                 continue
             Yr = np.zeros((d_model, n_probes), dtype=np.float64)
             Yr[:d_out] = Y
+            zero_padded.append(name)
         else:
             raise ValueError(
                 f"module {name!r}: d_out {d_out} > d_model {d_model} — "
@@ -553,6 +573,13 @@ def signature_for_modules(modules: dict[str, dict[str, torch.Tensor]],
     layout = {
         "n_modules_kept": len(kept),
         "modules_excluded": excluded,
+        "modules_zero_padded": zero_padded,
+        "kv_handling_note": (
+            "zero_pad is a pinned APPROXIMATION (k/v head-space responses "
+            "reach the logits only through attention, ignored at this "
+            "level); Director condition 2026-07-07: surfaced here, both "
+            "kv_mode variants reported in the D1 arm, Level B "
+            "(asset1_jacobian_lens.py) is the arbiter."),
         "per_module_dim": readout.sketch_dim * n_probes + max(topk, 0),
         "sketch_block_dim": readout.sketch_dim * n_probes,
         "topk_block_dim": max(topk, 0),
@@ -579,9 +606,9 @@ def signature_for_adapter(adapter_state_path: str | Path,
 def vocab_signature_feature(run_dir: str | Path, readout: VocabReadout,
                             **cfg) -> np.ndarray:
     """D1 feature hook — mirrors asset1_d1_identifiability._raw_feature /
-    _canonical_feature so arm #3 plugs into build_feature_memmap with a
-    one-line dispatch edit (see module docstring: desired edit, not made
-    here)."""
+    _canonical_feature; arm #3's dispatch in build_feature_memmap calls
+    this (LANDED 2026-07-07 per the Director's A3 ruling — see module
+    docstring, 'D1 integration')."""
     sig, _ = signature_for_adapter(Path(run_dir) / "adapter_state.pt",
                                    readout, **cfg)
     return sig
@@ -653,8 +680,11 @@ def compute_bank_signatures(bank_root: Path, out_dir: Path, *,
         "families": {},
         "flags": [
             "kv_mode zero_pad is a pinned approximation — DIRECTOR "
-            "SIGN-OFF REQUIRED (Level B, asset1_jacobian_lens.py, is the "
-            "exact propagation).",
+            "APPROVED 2026-07-07 WITH CONDITION "
+            "(docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md): surfaced "
+            "in output (layout.modules_zero_padded); D1 reports BOTH "
+            "kv_mode variants; Level B (asset1_jacobian_lens.py) is the "
+            "arbiter — outcome-(c) readings are PROVISIONAL pending it.",
             "top-k block: signed values only, mean-probe response, ties "
             "by ascending vocab index — pinned defaults.",
             "within-family scope; cross-family mapping is DESIGN ONLY "

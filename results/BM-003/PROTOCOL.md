@@ -5,6 +5,11 @@
 > auxiliary losses (Steersman removed).
 > **Date:** April 7, 2026
 > **Status:** READY — awaiting deployment
+> **Amended:** July 7, 2026 — hub-motif mask arms (Configs G/H) +
+> dissociation eval endpoint. Dated edit per L-006, Director-approved
+> 2026-07-07 (`docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md`, A4).
+> See the Amendment section at the end of this document. The original
+> April text above is unmodified.
 
 ## The Architectural Pivot
 
@@ -139,3 +144,99 @@ bandwidth on the task while getting the topology for free. If the topology
 helps the task, the edge weights will amplify it. If it doesn't, the edge
 weights will attenuate it. Either way, the task decides — not an auxiliary
 loss function.
+
+---
+
+## Amendment 2026-07-07 — Hub-Motif Mask Arms + Dissociation Eval Endpoint
+
+> **Dated edit per L-006** (not a silent revision; the April text above is
+> unmodified). Submitted 2026-07-07; **Director-approved 2026-07-07**
+> (`docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md`, A4 — the Director
+> re-derived the BM-000b null-calibration numbers from `nulls.json` before
+> ruling). Approval governs pre-registered status only; no GPU work before
+> bank completion (~Jul 20). Also referenced from `docs/BM_BATTERY_PLAN.md`.
+
+### Motivation
+
+The workspace paper shows unconstrained computation organizes around hubs
+(~100× connectivity); the anticipated referee attack on the BD/RD results is
+"any hub-ish topology would do." **BM-000b closes this at the null level**
+(`results/BM-000b-hub-motifs/nulls.json`, seed 20260707, N=10,000 × 15
+ensembles): no untrained star / expander / degree-matched-regular /
+shuffled-RD mask ensemble reproduces any trained structure-bearing headline
+(H-ch6 co/cross 7.04e4 vs motif null maxima ≤ 9.48; H-ch6 Fiedler 8.93e-5
+below every motif minimum; AR-001 n=8 headlines vs maxima ≤ 6.61). Honest
+negative, reported: single untrained mask draws are not topology-classifiable
+at all (0/48 under the pre-stated rule; the polytope partition shifts the
+co/cross median only 2.04–2.20×; ref_rd6 biases the top-3 co-planar criterion
+to 23.24% vs star 0.21% / expander 1.01% — real but nowhere near the trained
+100% BD). The trained-mask question therefore CANNOT be answered by nulls
+alone; the arms below answer it, read against BM-000b's calibrated bands.
+All invented defaults are recorded in
+`results/BM-000b-hub-motifs/nulls.json["invented_defaults"]`.
+
+### Config G — Shuffled-Adjacency (trained arm)
+
+All parameters identical to Config B except the fixed mask. The
+SVFT-Random-style arm the July-3 literature watch mandated, now
+theory-motivated. Strong set pinned to **{(0,3), (1,2), (4,5)}**, drawn
+deterministically by `random_perfect_matching(default_rng(20260707), 6)`.
+
+**Disclosure (required in the paper, not just this protocol — Director
+condition, 2026-07-07):** this draw shares one strong pair, (4,5), with the
+RD co-planar set. The seed is the date, not selected; the overlap is
+disclosed rather than re-rolled (re-rolling would be post-hoc selection).
+
+### Config H — Expander (trained arm)
+
+All parameters identical to Config B except the fixed mask. Strong set
+pinned to **K3,3 with parts {0,1,2} / {3,4,5}** — the unique
+maximal-Fiedler 3-regular graph on 6 vertices (the deterministic limit of
+BM-000b's expander generator).
+
+Both G and H use the BM-000 mask convention (diag 1.0, strong 1.0, weak
+0.5) and Config B's edge-weight init (I + 0.1·(mask − I)). Est. ~2–3
+GPU-days per arm, post-bank.
+
+### Pre-registered reading — topology-specificity band (±0.5%)
+
+Benchmark mean (the existing primary endpoint) compared pairwise B-vs-G and
+B-vs-H:
+
+| Outcome | Reading |
+|---------|---------|
+| \|B−G\| and \|B−H\| < 0.5% | Any benchmark effect is **not topology-specific**; the structural-prior claim narrows to the structure-metric level |
+| B exceeds both G and H by ≥ 0.5% | **Topology-specificity supported** |
+| G or H exceeds B by ≥ 0.5% | **The hub attack is CONFIRMED at the trained level** and will be reported as such |
+
+All three outcomes are pre-stated and publishable; no threshold re-rolling.
+
+### Dissociation eval endpoint (eval-only; hours, post-bank)
+
+`eval_language_benchmarks.py` gains GSM8K (5-shot, direct, exact match) and
+SST-2 (zero-shot), reported alongside the unchanged 4-benchmark primary
+endpoint.
+
+**TASK-CLASS ASSIGNMENT — FROZEN. Freeze timestamp: 2026-07-07** (this
+dated edit; the same-day git commit of this file provides the
+tamper-evident record — Director condition A4, 2026-07-07: the freeze
+precedes any dissociation data on the record):
+
+- **Workspace-dependent class = {GSM8K-direct}**
+- **Automatic class = {SST-2, MMLU, ARC-Challenge, HellaSwag, WinoGrande}**
+
+No post-hoc task reclassification under any outcome.
+
+**Bridge-ablation sub-endpoint:** each trained arm (A, B, F, G, H) evaluated
+against a bridge-ablated variant (trained bridge → identity at merge; A/B
+factors untouched). Pre-registered reading: IF the rd_graph bridge carries
+workspace-like routing, ablation selectively degrades the
+workspace-dependent class — pinned criterion: **GSM8K-direct delta more
+negative than the automatic-class mean delta by > 2pp**, automatic class
+within its own eval noise. **Honest null (pre-stated):** uniform, absent,
+or automatic-concentrated degradation disconfirms H-dissociation for
+rd_graph and is reported as such — no post-hoc task reclassification, no
+threshold re-rolling.
+
+*This amendment adds arms and endpoints only; it modifies no existing
+config, band, or claim.*

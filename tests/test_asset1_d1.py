@@ -595,9 +595,18 @@ def test_cli_allow_partial_bank_warns_and_runs(effect_bank, tmp_path,
                                                capsys):
     root, _ = effect_bank
     out = tmp_path / "out"
+    # A2 ADOPTED 'both' (DIRECTOR_DECISIONS_2026-07-06.md); A3 ADOPTED
+    # 2026-07-07 (DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md) moved the
+    # CLI default to 'all' (vocab_signature arm #3). This test pins
+    # --representation both EXPLICITLY: the vocab arm's 'hf' readout
+    # partial-loads a real model snapshot, which synthetic fixtures do
+    # not have (the stub readout is selftest-internal, never a CLI
+    # knob). The A3 default is locked by test_representation_flag_a3;
+    # the vocab arm end-to-end by the synthetic selftest. Dated edit
+    # 2026-07-07.
     d1.main(["--bank-root", str(root), "--out-dir", str(out),
              "--allow-partial-bank", "--n-permutations", "20",
-             "--proj-dim", "4"])
+             "--proj-dim", "4", "--representation", "both"])
     err = capsys.readouterr().err
     assert "PRE-REGISTRATION WARNING" in err
     assert (out / "d1_results.json").exists()
@@ -605,9 +614,6 @@ def test_cli_allow_partial_bank_warns_and_runs(effect_bank, tmp_path,
     import json
     res = json.loads((out / "d1_results.json").read_text(encoding="utf-8"))
     assert res["exploratory_only"] is True
-    # A2 ADOPTED (DIRECTOR_DECISIONS_2026-07-06.md): --representation now
-    # defaults to 'both' (was 'raw'), so each family reports raw AND
-    # W2T-canonical H1 results, and the pinned decisions self-document.
     assert res["parameters"]["representation"] == "both"
     assert set(next(iter(res["families"].values()))["representations"]) == \
         {"raw", "canonical"}
@@ -616,6 +622,38 @@ def test_cli_allow_partial_bank_warns_and_runs(effect_bank, tmp_path,
     assert res["pinned_decisions"]["h2_primary_representation"] == "spectrum"
     report = (out / "D1_REPORT.md").read_text(encoding="utf-8")
     assert "EXPLORATORY ONLY" in report
+
+
+def test_representation_flag_a3(effect_bank, tmp_path):
+    """A3 (Director ruling 2026-07-07): CLI default 'all'; the vocab arm
+    expands into BOTH kv_mode variants with fixed permutation-stream
+    indices (composition invariance); scope + condition self-documented.
+    """
+    import inspect
+    src = inspect.getsource(d1.main)
+    assert 'default="all"' in src, "A3: CLI default must be 'all'"
+    assert '"vocab_signature"' in src, "A3: vocab_signature CLI choice"
+    assert d1._REP_STREAM_INDEX == {
+        "raw": 0, "canonical": 1, "vocab_signature": 2,
+        "vocab_signature_kv_exclude": 3}
+    # analyze_bank on the stub readout: both kv variants, roles marked.
+    root, _ = effect_bank
+    res = d1.analyze_bank(
+        root, tmp_path / "out_vs", n_permutations=20, seed=0,
+        representation="vocab_signature", expected_total=24,
+        chunk_rows=4, vocabsig_readout_mode="stub", tag="_a3")
+    fam_out = next(iter(res["families"].values()))
+    assert set(fam_out["representations"]) == {
+        "vocab_signature", "vocab_signature_kv_exclude"}
+    assert fam_out["representations"]["vocab_signature"]["kv_mode"] == \
+        "zero_pad"
+    excl = fam_out["representations"]["vocab_signature_kv_exclude"]
+    assert excl["kv_mode"] == "exclude"
+    assert "disambiguation" in excl["role"]
+    assert res["parameters"]["vocabsig"]["kv_modes_reported"] == \
+        ["zero_pad", "exclude"]
+    assert "a3_kv_mode_condition" in res["pinned_decisions"]
+    assert "a3_scope" in res["pinned_decisions"]
 
 
 def test_out_dir_guard_refuses_bank_tree(tmp_path):

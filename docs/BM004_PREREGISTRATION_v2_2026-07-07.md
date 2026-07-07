@@ -6,6 +6,12 @@
 > dated pre-registration amendment, and (c) the positive-control gate (F2)
 > passes. Amendments after approval are dated edits, not silent revisions
 > (LEARNINGS L-006).
+> **Status update (dated annotation, 2026-07-07):** APPROVED as
+> pre-registered the same day —
+> `docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md` (A5), with two
+> conditions, both encoded (revision log, end of document). Gates (a) and
+> (c) above remain in force; the original Status line is preserved
+> unmodified per L-006.
 > **Supersedes:** the BM-004 section of `docs/BM_BATTERY_PLAN.md` (2026-07-03),
 > which remains the design-intent record; its three hard fixes are carried
 > forward verbatim as §8.
@@ -205,6 +211,46 @@ defaults** — scaled down from 88/5 to respect the scale gap the mapping doc
 figures, is the imported prediction). A relation that passes E1 but fails E3
 is declared LEARNED-AS-LOOKUP, not reusable.
 
+**Threshold justification against our own chance and control distribution
+(Director condition A5-1, dated edit 2026-07-07 —
+`docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md`).** The workspace paper's
+88%-vs-5% arises in an open-vocabulary next-token regime where the chance
+rate of emitting the specific transported target is ≈ 0. Our two functions
+are 12-way closed-form decisions (pinned default #15: chance = 1/12 ≈
+8.33%), so both bounds are re-derived against that floor rather than
+inherited:
+
+- **Control ceiling ≤ 15% is a null-consistency band.** Under the null
+  (the patch carries no directional relation content) a control's success
+  count over the pinned ≥ 192 trials is Binomial(192, 1/12): mean 16
+  counts (8.33%), SD 3.83 counts (2.0pp). 15% = 29/192 counts = chance
+  + 3.4σ, which a chance-level control exceeds with one-sided exact
+  binomial p ≈ 1.3 × 10⁻³; the chance-null's 99th percentile is 25/192 =
+  13.0%. The ceiling is therefore the tightest round bound that a genuinely
+  chance-level control passes with high probability — and a control that
+  EXCEEDS it is itself evidence of patch leakage: that outcome invalidates
+  the E3 trial set for that run and is reported as a control failure (no
+  threshold re-rolling, no criterion rescue).
+- **Transport floor ≥ 70% is placed for dissociation magnitude, not
+  statistical detectability.** 70% = 8.40× the 1/12 chance and 4.67× the
+  control ceiling; an observed rate ≥ 70% is significant beyond any α
+  against either reference (exact binomial p = 4.9 × 10⁻⁹⁹ vs chance,
+  2.0 × 10⁻⁶⁶ vs a control sitting exactly at the 15% ceiling). The bar's
+  content is substantive: the swap must move the model's answer to the
+  transported target in a large majority of trials in BOTH functions —
+  which is the reusable-mechanism claim itself, not a proxy for it.
+- **Why not import 88% directly:** the paper's figure comes from mature
+  circuits in a fully trained LM; demanding it of a rank-24 adapter
+  relation trained 4,000 steps from scratch would confound "not trained to
+  saturation" with "not reusable." Because E3's failure is a *declared
+  negative* (LEARNED-AS-LOOKUP, H3), an inflated bar would manufacture
+  negatives; 70/15 preserves the imported prediction's structure
+  (transport ≫ control, control ≈ chance) at our chance floor while
+  keeping failure interpretable.
+
+All justification figures are exact binomial computations at the pinned
+n = 192, p₀ = 1/12 (scipy.stats.binom; reproducible one-liners).
+
 ## 5. Articulation-if-interrupted arm (E4)
 
 **Data.** The `articulation` corpus kind: walks interrupted at a uniformly
@@ -345,6 +391,18 @@ structure (F1), so **if the prior cannot help here, the mechanism is broken
 and no other result is interpretable** — halt and debug before spending the
 budget. Gate outcome is recorded either way.
 
+*Wired as a hard interlock (Director condition A5-2, dated edit
+2026-07-07):* `scripts/bm004_runner.py` is the single authorized launch
+path for every BM-004 arm; `require_f2_gate()` runs as a PRECONDITION of
+every launch (first statement on the launch path, before any command is
+built or any process started), refusing with SystemExit unless
+`results/BM-004/F2-gate/gate_result.json` records a PASS under the pinned
+criteria (rd_graph held-out E1 loss ≤ identity; ≤ 1,000 steps;
+TinyLlama-1.1B; transit corpus only). No bypass flag exists. A FAIL is
+recorded and launching stays blocked — halt and debug, per the paragraph
+above. Run 6b additionally requires an explicit dated-amendment path
+(pre-registered conditional, §6).
+
 **F3 — Wrong-symmetry arm.** Run 6a (shuffled mask × matched data) is
 mandatory and unconditional. Methodology per arXiv:2606.01090 (Symmetry–Data
 Exchange Rate): misaligned priors are *actively harmful*, so the
@@ -379,7 +437,7 @@ adapters over a pretrained LM, graph-adjacency prior vs group equivariance
 | 7 | Shuffled twin construction | per-cell face→offset scramble | global permutation is gauge-equivalent (builder D2) |
 | 8 | Text grammar | bm004-v2 (builder D3) | exact grammar pinned before runs |
 | 9 | Walk policy | uniform faces, backtracking allowed | any shaping = unregistered forking point (builder D4) |
-| 10 | E3 thresholds | ≥ 70% transport / ≤ 15% controls; ≥ 192 trials × 2 functions | scaled-down analog of WS-1/WS-2 dissociation |
+| 10 | E3 thresholds | ≥ 70% transport / ≤ 15% controls; ≥ 192 trials × 2 functions | justified against our 1/12 chance + control null in §4 (Director condition A5-1, 2026-07-07) |
 | 11 | E3 probe protocol | linear probe, middle-third layers, α=1 patch (α=2 secondary) | WS import at our scale |
 | 12 | E4 ablation | top-k ≤ 4 probe directions; ≥ 50% reversion vs < 20% random | WS-4 reversal check |
 | 13 | E5 threshold | recruitment ratio ≥ 5 | order-of-magnitude selectivity |
@@ -410,6 +468,25 @@ PROPOSED):**
    operational check. `label_permutation_is_geometric` is unchanged and
    remains the test for which π qualify.
 4. Property-test count 22 → 29.
+
+**2026-07-07 (Director conditions, post-approval — APPROVED as
+pre-registered per `docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md`, A5):**
+1. **§4 E3 threshold justification added** (condition A5-1): the imported
+   ≥70%/≤15% bar is now derived against our own chance level (1/12) and
+   control null (Binomial(192, 1/12)) with exact binomial figures — no
+   longer merely inherited from the workspace paper's regime.
+2. **§8 F2 wired as a hard interlock** (condition A5-2):
+   `scripts/bm004_runner.py` is the single authorized launch path for
+   BM-004 arms; its launch path calls `require_f2_gate()` BEFORE any
+   full-scale arm and refuses to proceed unless a PASSED gate artifact
+   (`results/BM-004/F2-gate/gate_result.json`) exists and matches the
+   pinned gate criteria. There is NO bypass flag. The gate outcome is
+   recorded either way (a FAIL is written and launching stays blocked).
+   Enforced by `tests/test_bm004_runner.py`.
+3. Disclosure: the first draft of this dated entry inadvertently
+   replaced the document's original closing attestation; it is restored
+   below, unmodified (caught by the fresh-context verification pass,
+   2026-07-07).
 
 ---
 

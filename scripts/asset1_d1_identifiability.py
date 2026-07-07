@@ -113,13 +113,26 @@ Design decisions
     finding is claimable only if transfer stays at chance under the
     shift-controlled variant too.
 
-7.  REPRESENTATION FLAG. --representation {raw,canonical,both}, default
-    both (A2 ADOPTED — DIRECTOR_DECISIONS_2026-07-06.md: run raw AND
-    W2T-canonical within each family, both reportable). canonical mode reuses
+7.  REPRESENTATION FLAG. --representation {raw,canonical,
+    vocab_signature,both,all}, default all. A2 ADOPTED
+    (DIRECTOR_DECISIONS_2026-07-06.md): run raw AND W2T-canonical
+    within each family, both reportable. A3 ADOPTED 2026-07-07
+    (docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md): vocab_signature
+    is D1 representation arm #3 — the output-referenced canonicalization
+    from asset1_vocab_signature.py, WITHIN-FAMILY ONLY (the
+    cross-family shared-token-string mapping stays DESIGN ONLY; it is a
+    separate H2 decision the ruling explicitly did not approve).
+    Per the ruling's condition the vocab arm is analyzed under BOTH
+    kv_mode variants: 'vocab_signature' (zero_pad — the pinned primary,
+    carries the arm's H1 reading) and 'vocab_signature_kv_exclude'
+    (secondary, disambiguation-only: it pre-answers whether an
+    outcome-(c) deficit is the zero_pad approximation rather than
+    genuine output-null structure; NOT an additional headline
+    hypothesis). canonical mode reuses
     asset1_canonicalize.canonicalize_adapter + feature_vector('full') —
     comparable within a family (identical module/shape sets). Per-module
-    breakdown is produced for raw mode only (canonical features do not
-    preserve the raw per-module parameter slices).
+    breakdown is produced for raw mode only (canonical/vocab features do
+    not preserve the raw per-module parameter slices).
 
 8.  THE INTERLOCK. Every real-bank invocation calls
     asset1_analysis_io.require_complete_bank(); --allow-partial-bank maps
@@ -130,9 +143,23 @@ Design decisions
 9.  DETERMINISM. All stochastic steps take explicit seeds with documented
     defaults (--seed, default 0). Permutation streams are
     default_rng([seed, family_index, representation_index]) so families /
-    representations get distinct but reproducible nulls. H2 probes use
-    --proj-seed (default 0). The synthetic self-test banks use fixed
-    generator seeds (7). No wall-clock or entropy seeding anywhere.
+    representations get distinct but reproducible nulls. The
+    representation index is a FIXED map (raw=0, canonical=1,
+    vocab_signature=2, vocab_signature_kv_exclude=3), not the position
+    in the requested subset, so a representation's null stream is
+    invariant to which other arms run alongside it (composition
+    invariance). DISCLOSED behavior change (dated edit 2026-07-07,
+    landed with A3): under the historical enumerate() indexing, a
+    canonical-ALONE run drew its null at index 0; it now draws at its
+    fixed index 1. raw-alone and 'both' are stream-identical to the
+    historical behavior; no reportable run ever used canonical-alone
+    (bank incomplete, pre-registered default 'both'/'all'), so no
+    archived number is affected. H2 probes use --proj-seed
+    (default 0). The vocab-signature probes/sketch use the arm's OWN
+    pinned seed (asset1_vocab_signature.DEFAULT_SEED = 0, recorded in
+    output), decoupled from the permutation --seed. The synthetic
+    self-test banks use fixed generator seeds (7). No wall-clock or
+    entropy seeding anywhere.
 
 10. SVM C. The card locks "linear SVM" but not the regularization
     constant; C defaults to 1.0 (sklearn default) via --svm-c and is
@@ -177,6 +204,7 @@ for _p in (str(SCRIPTS_DIR), str(REPO_ROOT)):
         sys.path.insert(0, _p)
 
 import asset1_analysis_io as aio  # noqa: E402
+import asset1_vocab_signature as vs  # noqa: E402  (A3 arm #3, 2026-07-07)
 from asset1_canonicalize import (  # noqa: E402
     _probe, canonicalize_adapter, canonicalize_module, effective_factors,
     feature_vector)
@@ -188,6 +216,16 @@ H1_P_THRESHOLD = 0.01            # permutation-calibrated p < 0.01
 HETEROGENEITY_TRIGGER = 3.7      # pilot heterogeneity ratio (card D1.3)
 CARD_NAME = "asset1_experiment_card_2026-07-03.md"
 DIRECTOR_DECISIONS_DOC = "docs/DIRECTOR_DECISIONS_2026-07-06.md"
+DIRECTOR_RULING_A3A5_DOC = "docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md"
+
+# Fixed permutation-stream index per representation run (docstring item
+# 9): composition-invariant null streams. Matches the historical
+# enumerate() indices for raw-alone and 'both'; canonical-ALONE
+# historically drew index 0 and now draws its fixed index 1 — a
+# disclosed, dated (2026-07-07) change; no reportable run used
+# canonical-alone (see docstring item 9).
+_REP_STREAM_INDEX = {"raw": 0, "canonical": 1, "vocab_signature": 2,
+                     "vocab_signature_kv_exclude": 3}
 
 # ── H2 rulings — PINNED (DIRECTOR_DECISIONS_2026-07-06.md, §6/H2) ────
 # These are the locked pre-registration decisions the §6 sign-offs left
@@ -260,6 +298,23 @@ WITHIN_CLASS_VARIANCE_FLOOR_NOTE = (
     "within-class baseline, which makes a positive result stronger. "
     "Diagnose the most-confused class per the guard; do not hide it in "
     "the macro number.")
+
+A3_VOCABSIG_NOTE = (
+    f"A3 VOCAB_SIGNATURE ARM (Director ruling 2026-07-07 — "
+    f"{DIRECTOR_RULING_A3A5_DOC}): the output-referenced canonicalization "
+    "(asset1_vocab_signature.py) is D1 representation arm #3, "
+    "WITHIN-FAMILY ONLY — the cross-family shared-token-string mapping "
+    "stays DESIGN ONLY (separate H2 decision, not approved). Ruling "
+    "condition encoded here: the arm is analyzed under BOTH kv_mode "
+    "variants — 'vocab_signature' (zero_pad, the pinned primary carrying "
+    "the arm's H1 reading) and 'vocab_signature_kv_exclude' (secondary, "
+    "disambiguation-only: pre-answers whether an outcome-(c) deficit is "
+    "the zero_pad approximation rather than genuine output-null "
+    "structure; NOT an additional headline hypothesis — no multiplicity "
+    "expansion is claimed from it). Level B (asset1_jacobian_lens.py, "
+    "the true J-lens) is the arbiter: any outcome-(c) reading "
+    "(vocab_signature substantially below raw/canonical) is PROVISIONAL "
+    "pending Level B.")
 
 H2_DECISION_NOTE = (
     "H2 DECISION RULE (pinned — DIRECTOR_DECISIONS_2026-07-06.md, H2b): "
@@ -336,14 +391,22 @@ def _module_groups_from_layout(layout) -> dict[str, slice]:
 
 
 def build_feature_memmap(records: list[dict], scratch_path: Path,
-                         representation: str, proj_dim: int, proj_seed: int
+                         representation: str, proj_dim: int, proj_seed: int,
+                         vocab_readout=None, kv_mode: str = vs.KV_MODE
                          ) -> tuple[int, int, dict[str, slice] | None]:
     """Stream one feature row per run into a float32 memmap (single pass;
     each adapter loaded exactly once). Returns (n, d, module_groups) —
-    module_groups only for representation='raw' (None for 'canonical').
+    module_groups only for representation='raw' (None otherwise).
+    representation='vocab_signature' (A3 arm #3) requires a per-family
+    ``vocab_readout`` (asset1_vocab_signature.VocabReadout) and honors
+    ``kv_mode`` ('zero_pad' primary / 'exclude' secondary per the
+    Director's 2026-07-07 condition).
     """
-    if representation not in ("raw", "canonical"):
+    if representation not in ("raw", "canonical", "vocab_signature"):
         raise ValueError(f"unknown representation {representation!r}")
+    if representation == "vocab_signature" and vocab_readout is None:
+        raise ValueError("vocab_signature representation requires a "
+                         "per-family vocab_readout")
     n = len(records)
     if n == 0:
         raise ValueError("no runs to featurize")
@@ -351,7 +414,11 @@ def build_feature_memmap(records: list[dict], scratch_path: Path,
     def _feat(rec):
         if representation == "raw":
             return _raw_feature(rec["run_dir"])
-        return _canonical_feature(rec["run_dir"], proj_dim, proj_seed)
+        if representation == "canonical":
+            return _canonical_feature(rec["run_dir"], proj_dim, proj_seed)
+        return vs.vocab_signature_feature(
+            rec["run_dir"], vocab_readout, n_probes=vs.N_PROBES,
+            topk=vs.TOPK, seed=vs.DEFAULT_SEED, kv_mode=kv_mode)
 
     first = _feat(records[0])
     d = int(first.size)
@@ -891,10 +958,12 @@ def analyze_family(records: list[dict], y: np.ndarray, classes: np.ndarray,
                    scratch_path: Path, *, n_permutations: int, seed: int,
                    family_index: int, rep_index: int, chunk_rows: int,
                    svm_c: float, proj_dim: int, proj_seed: int,
-                   label: str) -> dict:
+                   label: str, vocab_readout=None,
+                   kv_mode: str = vs.KV_MODE) -> dict:
     """Full pre-registered H1 pipeline for one (family, representation)."""
     n, d, module_groups = build_feature_memmap(
-        records, scratch_path, representation, proj_dim, proj_seed)
+        records, scratch_path, representation, proj_dim, proj_seed,
+        vocab_readout=vocab_readout, kv_mode=kv_mode)
     try:
         if module_groups:
             grams = grams_from_memmap(scratch_path, n, d, module_groups,
@@ -998,23 +1067,29 @@ def _guard_out_dir(out_dir: Path) -> None:
 
 def analyze_bank(bank_root: Path, out_dir: Path, *,
                  n_permutations: int = 1000, seed: int = 0,
-                 representation: str = "both",
+                 representation: str = "all",
                  expected_total: int = aio.EXPECTED_TOTAL_RUNS,
                  allow_partial: bool = False, chunk_rows: int = 8,
                  svm_c: float = 1.0, n_depth_bins: int = 4,
                  proj_dim: int = 16, proj_seed: int = 0,
+                 vocabsig_readout_mode: str = "hf",
+                 vocabsig_stub_vocab: int = vs.STUB_VOCAB_SIZE,
                  tag: str = "") -> dict:
     """Run the full pre-registered D1 analysis and write JSON + markdown.
 
     ``expected_total`` may be overridden ONLY for synthetic fixtures
     (the CLI never exposes it; real-bank invocations use the locked 480).
+    ``vocabsig_readout_mode`` is 'hf' (partial-load the real W_U from the
+    hub cache — the only mode valid on the real bank) or 'stub' (seeded
+    stand-in, synthetic fixtures/selftest ONLY; never a CLI knob).
     """
     bank_root = Path(bank_root)
     out_dir = Path(out_dir)
     _guard_out_dir(out_dir)
 
-    aio.require_complete_bank(bank_root, allow_partial=allow_partial,
-                              expected_total=expected_total)
+    manifest = aio.require_complete_bank(bank_root,
+                                         allow_partial=allow_partial,
+                                         expected_total=expected_total)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     records = list(aio.iter_runs(bank_root))
@@ -1048,9 +1123,17 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
         print(f"WARNING (partial bank): {msg}", file=sys.stderr)
 
     reps = {"raw": ["raw"], "canonical": ["canonical"],
-            "both": ["raw", "canonical"]}.get(representation)
+            "vocab_signature": ["vocab_signature"],
+            "both": ["raw", "canonical"],
+            "all": ["raw", "canonical", "vocab_signature"]
+            }.get(representation)
     if reps is None:
         raise ValueError(f"unknown representation {representation!r}")
+    if vocabsig_readout_mode not in ("hf", "stub"):
+        raise ValueError(f"vocabsig_readout_mode must be hf|stub, got "
+                         f"{vocabsig_readout_mode!r}")
+    fam_model_map = {f["short"]: f["model"]
+                     for f in manifest["campaign"]["families"]}
 
     results: dict = {
         "analysis": "D1 cross-family task identifiability",
@@ -1065,14 +1148,39 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
             "representation": representation, "chunk_rows": chunk_rows,
             "svm_c": svm_c, "n_depth_bins": n_depth_bins,
             "proj_dim": proj_dim, "proj_seed": proj_seed,
+            "vocabsig": {
+                "readout_mode": vocabsig_readout_mode,
+                "stub_vocab_size": (vocabsig_stub_vocab
+                                    if vocabsig_readout_mode == "stub"
+                                    else None),
+                "n_probes": vs.N_PROBES, "sketch_dim": vs.SKETCH_DIM,
+                "topk": vs.TOPK, "seed": vs.DEFAULT_SEED,
+                "vocab_chunk": vs.VOCAB_CHUNK,
+                "kv_modes_reported": ["zero_pad", "exclude"],
+            } if "vocab_signature" in reps else None,
         },
         "tasks": task_names,
         "chance": chance,
         "pinned_decisions": {
             "source": DIRECTOR_DECISIONS_DOC,
             "representation": (
-                "both — A2 ADOPTED: raw AND W2T-canonical within each "
-                "family, both reportable"),
+                f"{representation} — A2 ADOPTED (raw AND W2T-canonical "
+                "within each family, both reportable) + A3 ADOPTED "
+                f"2026-07-07 ({DIRECTOR_RULING_A3A5_DOC}): "
+                "vocab_signature is D1 arm #3, within-family only, "
+                "reported under BOTH kv_mode variants per the ruling's "
+                "condition"),
+            "a3_kv_mode_condition": (
+                "Director condition 2026-07-07: the kv_mode='zero_pad' "
+                "approximation is surfaced in output and the exclude "
+                "variant is co-reported (vocab_signature_kv_exclude — "
+                "disambiguation-only, not a headline hypothesis); Level "
+                "B (asset1_jacobian_lens.py) is the arbiter and "
+                "outcome-(c) readings are PROVISIONAL pending it"),
+            "a3_scope": (
+                "within-family ONLY — the cross-family shared-token-"
+                "string mapping stays DESIGN ONLY (separate H2 "
+                "decision, not approved by the 2026-07-07 ruling)"),
             "svm_c": "1.0 (sklearn default) — APPROVED as-is",
             "ci_type": (
                 "Wilson 95% — APPROVED (permutation p is the calibrated "
@@ -1096,11 +1204,13 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
                   H2_SHIFT_CONTROL_NOTE,
                   H2_DECISION_NOTE,
                   WITHIN_CLASS_VARIANCE_FLOOR_NOTE,
+                  A3_VOCABSIG_NOTE,
                   "SVM C=1.0 (sklearn default) — APPROVED as-is "
                   f"({DIRECTOR_DECISIONS_DOC}); recorded per run.",
-                  "--representation default 'both' — A2 ADOPTED "
-                  f"({DIRECTOR_DECISIONS_DOC}): raw AND W2T-canonical "
-                  "within each family."],
+                  "--representation default 'all' — A2 ADOPTED "
+                  f"({DIRECTOR_DECISIONS_DOC}: raw AND W2T-canonical) + "
+                  f"A3 ADOPTED 2026-07-07 ({DIRECTOR_RULING_A3A5_DOC}: "
+                  "vocab_signature arm #3)."],
     }
 
     scratch_dir = out_dir / "scratch"
@@ -1108,15 +1218,67 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
         fam_records = [r for r in records if r["family_short"] == fam]
         y = np.array([task_to_int[r["task"]] for r in fam_records])
         fam_out: dict = {"n_runs": len(fam_records), "representations": {}}
-        for ri, rep in enumerate(reps):
-            label = f"{fam}/{rep}" + (f" [{tag.lstrip('_')}]" if tag
+
+        # A3 arm #3: one output readout per family (W_U + final-norm gain
+        # loaded once; every adapter of the family is read through it).
+        vocab_readout = None
+        if "vocab_signature" in reps:
+            if vocabsig_readout_mode == "hf":
+                info = vs.load_unembedding(fam_model_map[fam])
+                vocab_readout = vs.VocabReadout(
+                    info["W_U"], info["norm_g"], sketch_dim=vs.SKETCH_DIM,
+                    sketch_seed=vs.DEFAULT_SEED, vocab_chunk=vs.VOCAB_CHUNK)
+                fam_out["vocabsig_readout"] = {
+                    k: info[k] for k in
+                    ("vocab_size", "d_model", "loaded_keys",
+                     "files_opened", "tied_embeddings_fallback",
+                     "snapshot")}
+            else:  # 'stub' — synthetic fixtures/selftest ONLY
+                d_model = vs._infer_d_model(fam_records[0]["run_dir"])
+                vocab_readout = vs.make_stub_readout(
+                    d_model, vocabsig_stub_vocab, vs.DEFAULT_SEED)
+                fam_out["vocabsig_readout"] = {
+                    "vocab_size": vocab_readout.vocab_size,
+                    "d_model": vocab_readout.d_model, "stub": True}
+
+        # Expand the vocab arm into its two kv_mode variants (Director
+        # condition 2026-07-07): zero_pad = pinned primary, exclude =
+        # secondary/disambiguation-only. Other arms run singly.
+        rep_runs: list[tuple[str, str, str | None]] = []
+        for rep in reps:
+            if rep == "vocab_signature":
+                rep_runs.append(("vocab_signature", rep, "zero_pad"))
+                rep_runs.append(("vocab_signature_kv_exclude", rep,
+                                 "exclude"))
+            else:
+                rep_runs.append((rep, rep, None))
+
+        for key, rep, kv in rep_runs:
+            label = f"{fam}/{key}" + (f" [{tag.lstrip('_')}]" if tag
                                       else "")
-            scratch = scratch_dir / f"features_{tag}{fam}_{rep}.dat"
-            fam_out["representations"][rep] = analyze_family(
+            scratch = scratch_dir / f"features_{tag}{fam}_{key}.dat"
+            rep_out = analyze_family(
                 fam_records, y, classes, task_names, rep, scratch,
                 n_permutations=n_permutations, seed=seed, family_index=fi,
-                rep_index=ri, chunk_rows=chunk_rows, svm_c=svm_c,
-                proj_dim=proj_dim, proj_seed=proj_seed, label=label)
+                rep_index=_REP_STREAM_INDEX[key], chunk_rows=chunk_rows,
+                svm_c=svm_c, proj_dim=proj_dim, proj_seed=proj_seed,
+                label=label, vocab_readout=vocab_readout,
+                kv_mode=kv or vs.KV_MODE)
+            if key == "vocab_signature":
+                rep_out["kv_mode"] = "zero_pad"
+                rep_out["role"] = (
+                    "A3 arm #3 PRIMARY (pinned kv_mode=zero_pad) — "
+                    "carries the arm's H1 reading; outcome-(c) readings "
+                    "PROVISIONAL pending Level B")
+            elif key == "vocab_signature_kv_exclude":
+                rep_out["kv_mode"] = "exclude"
+                rep_out["role"] = (
+                    "A3 kv_mode robustness variant (Director condition "
+                    "2026-07-07) — disambiguation-only; NOT a separate "
+                    "H1 headline claim; pre-answers whether a zero_pad "
+                    "deficit is the approximation rather than genuine "
+                    "output-null structure")
+            fam_out["representations"][key] = rep_out
         results["families"][fam] = fam_out
 
     # ── H2 cross-family transfer (both dimension-agnostic reps) ──
@@ -1239,6 +1401,14 @@ def render_report(results: dict) -> str:
             lines += [
                 f"## H1 — {fam} ({rep} representation)",
                 "",
+            ]
+            if r.get("role"):
+                # A3 vocab arms: the role (primary vs disambiguation-only
+                # secondary) must sit NEXT TO the lock verdict, not only in
+                # the flags footer (Director condition 2026-07-07).
+                lines += [f"> **Role:** {r['role']} "
+                          f"(kv_mode={r.get('kv_mode')})", ""]
+            lines += [
                 f"- runs: {r['n_runs']}, feature dim: {r['feature_dim']}",
                 f"- **LOO accuracy: {r['loo_accuracy']:.4f}** "
                 f"(threshold {lock['accuracy_threshold_1p5x_chance']:.4f} "
@@ -1429,9 +1599,9 @@ def run_synthetic_selftest(out_dir: Path, n_permutations: int = 200,
 
     res_eff = analyze_bank(
         base / "bank_effect", base / "out_effect",
-        n_permutations=n_permutations, seed=seed, representation="both",
+        n_permutations=n_permutations, seed=seed, representation="all",
         expected_total=eff["n_runs"], chunk_rows=chunk_rows,
-        tag="_selftest_effect")
+        vocabsig_readout_mode="stub", tag="_selftest_effect")
     res_nul = analyze_bank(
         base / "bank_null", base / "out_null",
         n_permutations=n_permutations, seed=seed, representation="raw",
@@ -1441,8 +1611,15 @@ def run_synthetic_selftest(out_dir: Path, n_permutations: int = 200,
     chance = res_eff["chance"]
     threshold = H1_ACCURACY_MULTIPLIER * chance
 
-    # 1. Planted signal detected: every family, every representation.
+    # 1. Planted signal detected: every family, every representation —
+    #    including the A3 vocab arm under BOTH kv_mode variants (the
+    #    stub readout; the plant is a linear image of Delta, so it must
+    #    survive the output-referenced readout).
     for fam, fam_out in res_eff["families"].items():
+        reps_seen = set(fam_out["representations"])
+        assert reps_seen == {"raw", "canonical", "vocab_signature",
+                             "vocab_signature_kv_exclude"}, \
+            f"effect bank {fam}: unexpected representation set {reps_seen}"
         for rep, r in fam_out["representations"].items():
             acc, p = r["loo_accuracy"], r["permutation"]["p_value"]
             assert acc > threshold, \
@@ -1453,6 +1630,13 @@ def run_synthetic_selftest(out_dir: Path, n_permutations: int = 200,
         raw = fam_out["representations"]["raw"]
         assert raw.get("per_module_loo_accuracy"), \
             "per-module breakdown missing in raw mode"
+        for key in ("vocab_signature", "vocab_signature_kv_exclude"):
+            v = fam_out["representations"][key]
+            assert v.get("kv_mode") and v.get("role"), \
+                f"effect bank {fam}/{key}: kv_mode/role fields missing " \
+                f"(Director condition 2026-07-07 not surfaced)"
+        assert fam_out.get("vocabsig_readout", {}).get("stub"), \
+            f"effect bank {fam}: vocabsig readout metadata missing"
 
     # 2. Cross-family transfer at chance (planted task directions are
     #    family-specific by construction — the synthetic H2 regime),
@@ -1521,10 +1705,16 @@ def main(argv: list[str] | None = None) -> None:
                              "a loud PRE-REGISTRATION WARNING; results are "
                              "exploratory only and must never be reported")
     parser.add_argument("--representation",
-                        choices=("raw", "canonical", "both"), default="both",
-                        help="H1 feature representation (default both — A2 "
+                        choices=("raw", "canonical", "vocab_signature",
+                                 "both", "all"),
+                        default="all",
+                        help="H1 feature representation (default all — A2 "
                              "ADOPTED per DIRECTOR_DECISIONS_2026-07-06.md: "
-                             "raw AND W2T-canonical within each family)")
+                             "raw AND W2T-canonical; A3 ADOPTED per "
+                             "DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md: "
+                             "vocab_signature arm #3, within-family only, "
+                             "analyzed under BOTH kv_mode variants; 'both' "
+                             "= the pre-A3 two-arm set)")
     parser.add_argument("--chunk-rows", type=int, default=8,
                         help="Memmap row-chunk size for Gram accumulation "
                              "(peak RAM ~ 2*chunk_rows*d*8 bytes; "
