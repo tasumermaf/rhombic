@@ -88,6 +88,11 @@ def main() -> None:
     common = [s for s in sorted(set(orig) & set(restart) & set(r2))
               if s > 0 and restart[s]["co_cross_ratio"] is not None
               and r2[s]["co_cross_ratio"] is not None]
+    # Full-overlap restart x r2 pair (steps 100-7,100) — the paper's third
+    # tab:reproducibility row traces to THIS block, not the 15-step version.
+    full_overlap = [s for s in sorted(set(restart) & set(r2))
+                    if s > 0 and restart[s]["co_cross_ratio"] is not None
+                    and r2[s]["co_cross_ratio"] is not None]
     out = {
         "description": __doc__.strip().splitlines()[0],
         "original_run_recovered_from_log": {
@@ -114,6 +119,10 @@ def main() -> None:
             "original_vs_restart": pair_stats(orig, restart, common),
             "original_vs_r2": pair_stats(orig, r2, common),
             "restart_vs_r2": pair_stats(restart, r2, common),
+        },
+        "restart_vs_r2_full_overlap": {
+            "steps_range": [full_overlap[0], full_overlap[-1]],
+            **pair_stats(restart, r2, full_overlap),
         },
         "hermes_checked": "2026-07-07 — no tesseract/T-001 artifacts on Hermes",
         "verdict": (
