@@ -246,6 +246,21 @@ H2_SHIFT_CONTROL_NOTE = (
     "'family_standardized' variants; the SHIFT-CONTROLLED variant is the "
     "headline and raw is descriptive.")
 
+WITHIN_CLASS_VARIANCE_FLOOR_NOTE = (
+    "WITHIN-CLASS VARIANCE FLOOR (Director carry-forward, 2026-07-07 — "
+    "load-bearing for the variance-heterogeneity guard, not a footnote): "
+    "same task + same seed + near-identical training already produces "
+    "~15% median relative divergence in the effective update B'A' "
+    "(A1 spot-check, results/asset1-bank-bs2x8-archive/a1_spotcheck.json; "
+    "corroborated by the three-way same-seed T-001 record, "
+    "results/t001-provenance/recovery.json — co/cross max rel dev 5-10% "
+    "at matched steps). Different-seed replicates (this bank) sit HIGHER. "
+    "Large within-class distances are therefore EXPECTED, not a "
+    "data-quality problem; H1 separability must clear a genuinely noisy "
+    "within-class baseline, which makes a positive result stronger. "
+    "Diagnose the most-confused class per the guard; do not hide it in "
+    "the macro number.")
+
 H2_DECISION_NOTE = (
     "H2 DECISION RULE (pinned — DIRECTOR_DECISIONS_2026-07-06.md, H2b): "
     "H2 (cross-family task transfer FAILS — the regime contrast) is "
@@ -1080,6 +1095,7 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
                   H2_REP_FLAG,
                   H2_SHIFT_CONTROL_NOTE,
                   H2_DECISION_NOTE,
+                  WITHIN_CLASS_VARIANCE_FLOOR_NOTE,
                   "SVM C=1.0 (sklearn default) — APPROVED as-is "
                   f"({DIRECTOR_DECISIONS_DOC}); recorded per run.",
                   "--representation default 'both' — A2 ADOPTED "
