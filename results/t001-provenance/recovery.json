@@ -1,0 +1,145 @@
+{
+  "description": "T-001 provenance recovery \u2014 extract the destroyed original run from its log.",
+  "original_run_recovered_from_log": {
+    "source": "C:\\Falco\\rhombic\\results\\T-001-full.log",
+    "n_points": 16,
+    "steps": [
+      0,
+      200,
+      300,
+      400,
+      500,
+      600,
+      700,
+      800,
+      900,
+      1000,
+      1100,
+      1200,
+      1300,
+      1400,
+      1500,
+      1600
+    ],
+    "trajectory": {
+      "0": {
+        "fiedler_mean": 0.0,
+        "co_cross_ratio": 13.125
+      },
+      "200": {
+        "fiedler_mean": 0.00145,
+        "co_cross_ratio": 347.956
+      },
+      "300": {
+        "fiedler_mean": 0.00045,
+        "co_cross_ratio": 1016.502
+      },
+      "400": {
+        "fiedler_mean": 0.00026,
+        "co_cross_ratio": 1888.368
+      },
+      "500": {
+        "fiedler_mean": 0.00022,
+        "co_cross_ratio": 2688.846
+      },
+      "600": {
+        "fiedler_mean": 0.00021,
+        "co_cross_ratio": 3256.832
+      },
+      "700": {
+        "fiedler_mean": 0.00021,
+        "co_cross_ratio": 3834.313
+      },
+      "800": {
+        "fiedler_mean": 0.00022,
+        "co_cross_ratio": 4151.279
+      },
+      "900": {
+        "fiedler_mean": 0.00024,
+        "co_cross_ratio": 4578.903
+      },
+      "1000": {
+        "fiedler_mean": 0.00027,
+        "co_cross_ratio": 4579.303
+      },
+      "1100": {
+        "fiedler_mean": 0.00028,
+        "co_cross_ratio": 5272.358
+      },
+      "1200": {
+        "fiedler_mean": 0.00033,
+        "co_cross_ratio": 5205.546
+      },
+      "1300": {
+        "fiedler_mean": 0.00037,
+        "co_cross_ratio": 4900.881
+      },
+      "1400": {
+        "fiedler_mean": 0.00038,
+        "co_cross_ratio": 5219.11
+      },
+      "1500": {
+        "fiedler_mean": 0.00041,
+        "co_cross_ratio": 5547.531
+      },
+      "1600": {
+        "fiedler_mean": 0.00055,
+        "co_cross_ratio": 4729.112
+      }
+    },
+    "endpoint_quotes_secondary_sources": {
+      "co_cross_at_2700": 5395.0,
+      "fiedler_at_2700": 0.0007,
+      "quoted_in": [
+        "docs/LEARNINGS.md",
+        "docs/paper3_channel_ablation_section.md"
+      ]
+    }
+  },
+  "restart_is_not_resume_proof": {
+    "step_1700_original_from_log": {
+      "fiedler_mean": 0.00055,
+      "co_cross_ratio": 4729.112
+    },
+    "note": "restart values at steps <=1600 differ from the log's originals (e.g. 1600: orig 4729.1-region vs restart 4610.2) \u2014 fresh same-seed relaunch, results.json overwritten 2026-03-16 21:54."
+  },
+  "three_way_same_seed_agreement": {
+    "common_steps": [
+      200,
+      300,
+      400,
+      500,
+      600,
+      700,
+      800,
+      900,
+      1000,
+      1100,
+      1200,
+      1300,
+      1400,
+      1500,
+      1600
+    ],
+    "original_vs_restart": {
+      "n_steps": 15,
+      "co_cross_pearson_r": 0.9952216964384375,
+      "co_cross_max_rel_dev": 0.10437968418154231,
+      "fiedler_pearson_r": 0.9994456613713856
+    },
+    "original_vs_r2": {
+      "n_steps": 15,
+      "co_cross_pearson_r": 0.9974550659082403,
+      "co_cross_max_rel_dev": 0.051589392534740645,
+      "fiedler_pearson_r": 0.9995903437235603
+    },
+    "restart_vs_r2": {
+      "n_steps": 15,
+      "co_cross_pearson_r": 0.9964145959636265,
+      "co_cross_max_rel_dev": 0.07238464271772362,
+      "fiedler_pearson_r": 0.9997092607354573
+    }
+  },
+  "hermes_checked": "2026-07-07 \u2014 no tesseract/T-001 artifacts on Hermes",
+  "verdict": "Original T-001r1 results.json destroyed by the Mar-16 fresh relaunch; partially recovered from the frozen log (16 points, steps 0-1600). All three same-seed runs mutually consistent (co/cross r 0.995-0.997, Fiedler r >= 0.9994) \u2014 the reproducibility claim survives, strengthened to three runs, but the paper's specific numbers (r=1.0000, 3.5%, 5,395:1 @2700, 34 checkpoints) reference the destroyed artifact and must be rewritten around the surviving evidence."
+}
