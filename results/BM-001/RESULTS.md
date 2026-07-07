@@ -19,9 +19,18 @@
 | Model | Mean | Δ from Base |
 |-------|------|-------------|
 | Base | 0.7417 | — |
-| Std LoRA | 0.6970 | −0.0447 |
-| TeLoRA | 0.6982 | −0.0435 |
+| Std LoRA | 0.7221 | −0.0196 |
+| TeLoRA | 0.7232 | −0.0185 |
 | **Δ(TeLoRA − Std)** | **+0.0012** | |
+
+> **Correction (2026-07-06).** The Std/TeLoRA Mean cells read 0.6970/0.6982 in the
+> Apr-6 draft — a ~0.025 offset error; those figures are not the mean of the four
+> primary-metric cells in the table above. Recomputed from those cells: Std =
+> 0.72205, TeLoRA = 0.723225 (Base = 0.7417 reproduces). The headline
+> Δ(TeLoRA − Std) = +0.00118 → **+0.0012 is unchanged** — the identical offset
+> cancelled in the difference, so the PROCEED verdict never depended on it. Every
+> per-benchmark cell is exact. Independently confirmed by the Director's
+> verification pass (2026-07-06).
 
 ## Observations
 

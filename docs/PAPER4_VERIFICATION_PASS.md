@@ -40,9 +40,9 @@ no training. Python: `C:\miniconda3\envs\falco\python.exe` (numpy 2.2.6).
 | **5** | **WL-001 negative control collapse** | co/cross 8.7e-6; Fiedler 1.26e-5; deviation 2.12 | **8.709e-6 / 1.255e-5 / 2.1125** (feedback_log step 10000) | `results/channel-ablation/WL-001/results.json` | co/cross <min & Fiedler <min → collapse floor (direction holds) | **VERIFIED** |
 | 5a | WL-001 CL3 non-intervention (live defect instance) | bridge_lr=1.0 as dev→2.12 | `bridge_lr_scale`=1.0 throughout; `contrastive_weight` ramped to 0.5 cap | same | — | **VERIFIED** |
 | 5b | R-001 resonance collapse | 8.9e-6 / 1.2e-5 | — no local resonance/R-001 directory | Hermes-only (twin of WL-001) | (collapse floor) | **UNVERIFIABLE-LOCALLY** (direction corroborated by WL-001 twin on disk) |
-| **6** | **Tesseract reproducibility r** | r = 1.0000 | Pearson r(Fiedler, 72 common steps) = **0.99995**; co/cross r = 0.9984 | `results/T-001-full/results.json` (r1, to 7100) vs `results/T-001-full-r2/results.json` (r2, to 10000); metric per `compare_t001_runs.py` | — | **VERIFIED** (r=1.0000 holds) |
-| 6a | "34 matching checkpoints" vs "6 matching steps" | 34 / 6 | actual overlap = **72 common feedback steps** (71 non-null co/cross) | same | — | **DISCREPANT** (neither 34 nor 6; both stale) |
-| 6b | Max deviation across matching steps | 3.5% | **5.69%** (recomputed max abs rel dev on Fiedler) | same | — | **DISCREPANT** (claimed 3.5%, disk gives 5.69% — likely computed on an earlier shorter r1) |
+| **6** | **T-001 reproducibility — run-pairing PROVENANCE** | paper: r=1.0000, 3.5% dev, T-001r1(2700) vs r2 | **The paper's T-001r1 (2,700 steps, 5,395:1 @2700, Fiedler .00070) is NOT on local disk.** The only local candidate, `T-001-full` (7,100 steps), is a DIFFERENT run — co/cross 5,018 @2700 (~7% off) — and its deviation-table steps match neither the r1 nor r2 column. `T-001-full-r2` matches the paper's T-001r2 (41,564 @10K exact; trajectory ~0.5–1.4% off). | `results/T-001-full/`, `results/T-001-full-r2/` | — | **OPEN — NEEDS PI** (paper's reproducibility numbers are unbacked on local disk; canonical r1(2700) artifact missing — a second unbacked-headline, in kind with O-001) |
+| 6a | "34 matching checkpoints" / "6 matching steps" | 34 / 6 | stale regardless of pairing — neither matches any on-disk overlap | same | — | **DISCREPANT** |
+| 6b | My 2026-07-06 "correction" (co/cross 0.99836 / Fiedler 0.99995; 7.24%/5.69%) | — | **WITHDRAWN + reverted.** Those numbers are correct for the `T-001-full` vs `T-001-full-r2` pair (the Director and I agree on that pair), but that pair is NOT the paper's T-001r1(2700)-vs-r2 comparison. Substituting them would have put wrong-pair numbers into the paper — the exact failure mode the audit guards against. Caught when `T-001-full` @2700 (5,018) ≠ paper r1 (5,395). | same | — | **COURSE-CORRECTED** (metric question was real but secondary to the missing-artifact question) |
 | 6c | T-001r2 co/cross / Fiedler / val @10K | 41,564:1 / 0.000191 / 0.4016 | **41,563.66 / 1.9115e-4 / 0.40163** | `results/T-001-full-r2/results.json` | co/cross >gauss8 max (3.25) → OUTSIDE null | **VERIFIED** (adaptive-governed, but reproduces) |
 | **7** | **Spectral attractor reframe — Fiedler 0.09 = null pctile ~17** | pct 17 (near-init noise) | 0.09 brackets between identity+eps0.05 p10 (0.0803) and p25 (0.0987); normal-approx pct = **17.1**; matches RESULTS.md pct 17.14 | `results/BM-000/nulls.json`, `RESULTS.md` | INSIDE identity+eps0.05 null band (but >max of gauss6 trained-moment null) | **VERIFIED** |
 | — | **BM-001 benchmark parity — per-benchmark table** | 6 rows | every Base/Std/TeLoRA cell exact to raw JSON; Δ column within ±0.0001 display-rounding (e.g. ARC-C acc Δ −0.0025 vs printed −0.0026) | `results/BM-001/{base,standard-lora,telora}.json` `tasks` | — | **VERIFIED** |
@@ -93,18 +93,31 @@ What reproduces from raw disk artifacts, end to end:
   local. Only the *prose attribution* of the 36.2% to "control-law evaluation"
   is false; the number is real.
 
-The one hole: **the octahedral (n=4) polytope has no local evidence at all.**
-Both its adaptive headline (O-001, 473,622:1) and its fixed-weight bracket
-(FO-001, 262,920:1) live only on Hermes. Paper 4's "inverse-n" ordering
-(474K > 70K > 42K) and its Regime-1 span (42K–474K) therefore rest, at the
-n=4 endpoint, on numbers this machine cannot reproduce.
+~~The one hole: the octahedral (n=4) polytope has no local evidence at all.~~
+**[RESOLVED 2026-07-06]** Both octahedral numbers now re-derive on local disk
+from saved bridge tensors (`results/octahedral-hermes-anchor/`, via
+`scripts/rederive_octahedral_cocross.py`, replicating the exact train-time
+metric + aggregation): FO-001 = **262,920.298** (bit-exact to its logged value —
+validates the method) and O-001 = **473,621.655** (≈ 473,622; its live
+results.json logged null only because the n=4 handler post-dates O-001's
+2026-03-18 run). Paper 4's inverse-n ordering (474K > 70K > 42K) now rests on
+reproducible n=4 evidence at both endpoints of the octahedral bracket.
 
 Two integrity defects surfaced that are independent of the C6b controller
 freeze and should be fixed in the draft regardless:
-1. **T-001 reproducibility specifics are stale:** "34 checkpoints" and "6
-   steps" both contradict the on-disk overlap (72 common steps), and the "3.5%
-   max deviation" recomputes to **5.69%**. The r=1.0000 headline survives; the
-   supporting specifics do not.
+1. **T-001 reproducibility is UNBACKED on local disk [finding sharpened 2026-07-06]:**
+   the paper's r=1.0000 / 3.5%-dev reproducibility compares T-001r1 (2,700 steps)
+   vs T-001r2, but the **T-001r1 (2,700) artifact is NOT in the repo.** The only
+   local candidate (T-001-full, 7,100 steps) is a different run — co/cross 5,018
+   vs the paper's 5,395 @2,700 (~7% off), deviation-table steps matching neither
+   column. T-001-full-r2 matches r2 (41,564 @10K exact). The Director's and my
+   recompute of co/cross r=0.99836 / Fiedler r=0.99995 was on the **T-001-full vs
+   T-001-full-r2** pair — a DIFFERENT comparison; it must NOT be substituted for
+   the paper's numbers. A premature 2026-07-06 edit doing exactly that was caught
+   (5,018 ≠ 5,395) and reverted. The "34/6 matching checkpoints" specifics are
+   stale regardless. **ACTION: PI to locate the canonical r1(2,700) + r2 artifacts
+   (Hermes / renamed / re-run)** before the T-001 numbers can be verified. This is
+   a second unbacked-headline, in kind with O-001 but not yet re-derivable.
 2. **BM-001 aggregate Mean cells are non-reproducible:** the printed Std 0.6970
    / TeLoRA 0.6982 are not the means of the four primary metrics (which are
    0.7221 / 0.7232; Base 0.7417 is correct). The headline Δ +0.0012 survives
@@ -116,11 +129,13 @@ freeze and should be fixed in the draft regardless:
 
 ## Headlines that rest ONLY on Hermes/summary — require re-fetch or re-run
 
-1. **O-001 octahedral 473,622:1** (+ pooled 369,365 / median 401,851 / range
-   126,782–1,577,518 over 88 bridges) and **Fiedler 1.1e-5** — Hermes-only; no
-   local octahedral run. *No local anchor of any kind for n=4.*
-2. **FO-001 262,920:1** (n=4 fixed-weight bracket) — Hermes-only. Would be the
-   octahedral local anchor if pulled; currently absent.
+1. ~~**O-001 octahedral 473,622:1** — Hermes-only; no local anchor.~~
+   **[ANCHORED 2026-07-06]** Re-derived to **473,621.655** from saved bridge
+   tensors on local disk (`scripts/rederive_octahedral_cocross.py`; per-module
+   mean aggregation, 88 finite modules, median ≈ 404,534, range 126,782–1,577,519).
+2. ~~**FO-001 262,920:1** (n=4 fixed-weight bracket) — Hermes-only.~~
+   **[ANCHORED 2026-07-06]** Re-derives bit-exact (262,920.298) locally — the
+   method-validation twin that proves the O-001 re-derivation uses the true metric.
 3. **H-ch6 RD headline 70,404:1 / Fiedler 8.93e-5 / val 0.4015** — carried
    locally only by `metrics_hermes.csv` (a Hermes-produced metrics file); the
    raw n=6 `bridge_final_*.npy` tensors are not on local disk, so no
