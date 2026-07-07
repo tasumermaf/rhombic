@@ -24,7 +24,7 @@ complete results in Table~\ref{tab:attractor}.
 ID & $n$ & Contrastive & Steps & Fiedler & $\rho$ & BD \\
 \midrule
 H-ch3  & 3  & No  & 10{,}000 & 0.0951  & N/A       & No \\
-H-ch4  & 4  & No  & 10{,}000 & 0.0836  & ${\sim}1$:1 & No \\
+H-ch4  & 4  & No  & 10{,}000 & 0.0918  & ${\sim}1$:1 & No \\
 H-ch8  & 8  & No  & 10{,}000 & 0.0944  & ${\sim}1$:1 & No \\
 H-ch12 & 12 & No  & 10{,}000 & 0.1019  & ${\sim}1$:1 & No \\
 \midrule
@@ -33,14 +33,23 @@ H3 (H-ch6) & 6 & \textbf{Yes} & 10{,}000 & \textbf{0.00009} & \textbf{70{,}404:1
 \end{tabular}
 \end{table}
 
-The spectral-only experiments converge to a Fiedler band of
-$0.0836$--$0.1019$ (Figure~\ref{fig:spectral_attractor})---a 10.4\%
+The spectral-only experiments settle into a narrow Fiedler band of
+$0.0918$--$0.1019$ (Figure~\ref{fig:spectral_attractor})---a 3.9\%
 coefficient of variation across a $4\times$ span of channel counts
-($n = 3$ to $n = 12$). The
-attractor value clusters near the spectral loss target of
-$\lambda_2^* = 0.1$ described in Paper~3. This convergence is
-\emph{channel-count-independent}: the bridge reaches the same
-connectivity equilibrium whether it has 3, 4, 8, or 12~channels.
+($n = 3$ to $n = 12$), near the spectral loss target of
+$\lambda_2^* = 0.1$ described in Paper~3. This band must be read against
+a null. A null-model calibration (BM-000)---bridge Fiedler sampled from
+the identity initialization perturbed by Gaussian noise of scale
+$\epsilon = 0.05$, matched to these runs' initialization---places the
+band \emph{inside} that near-initialization ensemble: Fiedler
+${\approx}\,0.09$ sits at roughly its 17th percentile, and the whole band
+($0.0918$--$0.1019$) falls within its lower quartiles. The spectral-only bridge is therefore not
+statistically distinguishable from a bridge left near its identity
+initialization: the ``attractor'' is a near-initialization resting
+state, not evidence of a distinct structured equilibrium. Its
+channel-count-independence is consistent with precisely that reading---the
+identity initialization is common to every $n$, so a bridge that barely
+departs from it lands in the same band regardless of channel count.
 
 At the attractor, bridge structure is \emph{connected but
 undirected}. Co-planar/cross-planar ratios are ${\sim}1$:1 (where
@@ -51,12 +60,11 @@ to favor any particular pair over another.
 
 H-ch12 ($n = 12$) is the most demanding case. With
 $\binom{12}{2} = 66$ off-diagonal pairs sharing a fixed connectivity
-budget, convergence is slower but the bridge reaches Fiedler $0.1019$
-at step~10{,}000---confirming the attractor holds at $4\times$ the
-minimum channel count. The slight upward trend (0.1019 vs.\
-$0.0836$--$0.0951$ for smaller~$n$) suggests a weak positive
-relationship between channel count and final Fiedler, but the effect
-is small relative to the attractor's stability across the full range.
+budget, it reaches Fiedler $0.1019$ at step~10{,}000---the band's upper
+edge, still within the near-initialization null. The slight upward
+trend (0.1019 vs.\ $0.0918$--$0.0951$ for smaller~$n$) is a weak
+positive relationship between channel count and final Fiedler, small
+relative to the band's width.
 
 \subsection{Interpretation}
 
@@ -81,12 +89,13 @@ concentrates).
 \begin{figure}[t]
   \centering
   \includegraphics[width=\textwidth]{figures/fig_spectral_attractor.pdf}
-  \caption{Spectral attractor universality across channel counts.
-    Fiedler eigenvalue converges to ${\approx}\,0.09$--$0.10$ under
-    spectral-only training for $n \in \{3, 4, 8, 12\}$---a 10.4\%
-    band across a $4\times$ range of channel counts. The attractor is
-    the bridge's natural connectivity equilibrium in the absence of
-    contrastive topology specification.}
+  \caption{Spectral-only Fiedler across channel counts. Under
+    spectral-only training for $n \in \{3, 4, 8, 12\}$ the Fiedler
+    eigenvalue stays in a narrow band around ${\approx}\,0.09$--$0.10$
+    (a 3.9\% band), which the BM-000 null places inside the
+    near-initialization ensemble---the bridge's resting state in the
+    absence of contrastive topology specification, not a distinct
+    structured equilibrium.}
   \label{fig:spectral_attractor}
 \end{figure}
 
@@ -113,6 +122,14 @@ The bifurcation is extreme at both confirmed dimensionalities:
     at all channel counts) $\to$ 100\% (contrastive active at
     $n = 6$ and $n = 8$).
 \end{itemize}
+
+Where the spectral-only band sits inside the near-initialization null,
+the contrastive Fiedler values do not: $0.00009$ ($n = 6$) and
+$0.000191$ ($n = 8$) fall roughly two orders of magnitude below the
+maximum of every BM-000 null ensemble (gauss6 max $0.0136$). The
+bifurcation is therefore a move from a near-initialization resting state
+to a genuinely anomalous, structured one---and it is the contrastive
+step, not the spectral one, that produces the departure.
 
 This bifurcation decomposes the Steersman's effect into two
 orthogonal control channels:

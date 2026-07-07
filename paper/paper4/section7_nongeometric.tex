@@ -207,7 +207,7 @@ outcomes.
 
   \item \textbf{Spectral attractor} (no contrastive).
     Spectral regularization alone, no pair specification.
-    Co/cross: ${\sim}1$:1. Fiedler: $0.084$--$0.102$.
+    Co/cross: ${\sim}1$:1. Fiedler: $0.092$--$0.102$.
     Experiments: H-ch3, H-ch4, H-ch8, H-ch12.
 
   \item \textbf{Hierarchical coherence} (emanation architecture).
@@ -224,18 +224,19 @@ outcomes.
 
 Two features of this taxonomy are notable. First, the collapse regime
 (Regime~4) is distinct from the spectral attractor (Regime~3). The
-spectral attractor represents a stable equilibrium at Fiedler
-$\approx 0.09$; the collapse regime represents a destructive
-interaction where the contrastive loss overwhelms the spectral loss
-and drives connectivity to zero. The spectral attractor is the
-bridge's resting state; the collapse regime is the bridge's failure
-mode under incoherent programming.
+spectral attractor is a near-initialization resting state at Fiedler
+$\approx 0.09$---inside the BM-000 identity-plus-noise null, not a
+distinct structured equilibrium; the collapse regime represents a
+destructive interaction where the contrastive loss overwhelms the
+spectral loss and drives connectivity to zero. The spectral attractor
+is the bridge's resting state; the collapse regime is the bridge's
+failure mode under incoherent programming.
 
 Second, Regimes~2 and~3 are structurally similar (both near
 Fiedler~$\approx 0.09$, both with co/cross near unity) but
-mechanistically different. The spectral attractor achieves
-connectivity through spectral loss alone. Hierarchical coherence
-achieves similar connectivity through a different pathway---master
-bridge with contrastive loss---and develops weak directionality
-that the spectral attractor does not. The regimes are adjacent in
+mechanistically different. The spectral attractor sits at
+near-initialization connectivity under spectral loss alone.
+Hierarchical coherence reaches a similar Fiedler through a different
+pathway---master bridge with contrastive loss---and develops weak
+directionality that the spectral attractor does not. The regimes are adjacent in
 metric space but distinct in mechanism.

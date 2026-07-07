@@ -12,13 +12,28 @@
 %      per-scale number. Replaced with anchored numbers: TinyLlama H-ch6 70,404:1,
 %      Qwen 7B Exp 3.0 22,477:1. (60,000+ breadth claim can return once recounted
 %      from the two clean scales only.)
-%   2. FALSE ATTRIBUTION: section8_discussion.tex ~L214-216 attributes the 36.2%
-%      P0 overhead to "control law evaluation"; the P0 run (train_comparison.py)
-%      has NO Steersman. The 36.2% number is clean; the causal sentence is false.
-%   3. NUMBER/CONSISTENCY: tab:attractor H-ch4 = 0.0836 is a step-1100 PARTIAL,
-%      not the 0.0918 final; "34 matching checkpoints" (L185) vs "6 matching
-%      steps" (§4.3) for r=1.0000; spectral-attractor Fiedler ~0.09 is at BM-000
-%      null percentile 17 (near-init noise) — reframe, do not cite as structure.
+%   2. [RESOLVED 2026-07-06] FALSE ATTRIBUTION: the 36.2% P0 overhead was
+%      attributed to Steersman "control law evaluation", but train_comparison.py is
+%      PURE LM loss (loss=outputs.loss; zero spectral/contrastive/Steersman code).
+%      Fixed in section8: overhead reattributed to the bridge computation + Fiedler
+%      diagnostics; the adjacent "evolves under spectral pressure / spectral
+%      attractor" claim (also false — no spectral loss) recast as near-init baseline.
+%   3. [RESOLVED 2026-07-06] SPECTRAL-ATTRACTOR REFRAME + H-ch4 number.
+%      (a) tab:attractor H-ch4 0.0836 (a 1,100-step PARTIAL — local run stops at
+%      1100) -> 0.0918 (the 10,000-step final; anchored with H-ch8 0.0944 from
+%      Hermes at results/attractor-hermes-anchor/, since neither was cleanly local).
+%      Band 0.0836-0.1019 -> 0.0918-0.1019, CoV 10.4% -> 3.9%; also fixed the
+%      duplicate in section6. (b) Reframe: spectral-attractor Fiedler ~0.09 sits at
+%      BM-000 null pct ~17-26 of identity+eps0.05 (near-init) — recast across §5,
+%      intro, discussion, §8 as a near-initialization resting state, NOT cited as
+%      structure; the bifurcation (contrastive Fiedler far below every null) is the
+%      null-validated result. NOTE: the "34/6 matching checkpoints" clause was T-001,
+%      now tracked under blocker #5 (OPEN — NEEDS PI). Reframe adversarially
+%      re-verified (2 rounds); H-ch4 0.0918 / H-ch8 0.0944 anchored from Hermes.
+%      FOLLOW-UPS for the-adversary rewrite (pre-existing, out of audit scope):
+%      (i) dual regime-numbering — abstract/intro/§7-enumerate use Regime 2=spectral,
+%      but §6 tab + §7 prose L107/L226 use Regime 3=spectral; unify. (ii) BM-000 is
+%      described inline in §5 but has no tab:experiments row / methods paragraph.
 % (added 2026-07-05 from the-adversary verification pass, docs/PAPER4_VERIFICATION_PASS.md)
 %   4. [RESOLVED 2026-07-06] OCTAHEDRAL HOLE: both n=4 numbers now re-derive on
 %      local disk from saved bridge tensors (scripts/rederive_octahedral_cocross.py;
@@ -113,8 +128,9 @@ coupling ratio \textbf{41{,}564:1}, Fiedler eigenvalue 0.000191, clean
 $4{+}4$ eigenvalue split) and octahedral geometry into 4-channel bridges
 (two $2 \times 2$ blocks, \textbf{473{,}622:1}---the programme's
 strongest signal). Four negative controls sharpen the claim:
-spectral-only training produces a universal attractor at Fiedler
-${\approx}\,0.09$ across $n \in \{3, 4, 8, 12\}$; wrong-labels
+spectral-only training leaves the bridge in a narrow Fiedler band near
+${\approx}\,0.09$ across $n \in \{3, 4, 8, 12\}$---a near-initialization
+resting state, not a structured attractor; wrong-labels
 (random pair partition) and resonance (number-theoretic pairs) both
 collapse to co/cross ${\sim}\,10^{-5}$:1, functionally
 indistinguishable from each other ($<10\%$ divergence across 10{,}000
@@ -182,10 +198,11 @@ per-bridge mean \textbf{473{,}622:1}---the programme's strongest
 signal).
 
 Four negative controls define the boundaries. Spectral-only training
-across $n \in \{3, 4, 8, 12\}$ reveals a universal spectral attractor
-at Fiedler ${\approx}\,0.09$---the bridge's natural connectivity
-equilibrium when the Steersman provides spectral pressure but no
-topological direction. Wrong-labels (WL-001, random pair partition)
+across $n \in \{3, 4, 8, 12\}$ leaves the bridge in a narrow Fiedler
+band around ${\approx}\,0.09$---statistically inside the
+near-initialization null (BM-000): the bridge's resting state when the
+Steersman provides spectral pressure but no topological direction,
+not a distinct structured attractor. Wrong-labels (WL-001, random pair partition)
 and resonance (R-001, number-theoretic pairs) both collapse to
 co/cross ${\sim}\,10^{-5}$:1 with functionally identical trajectories
 ($<10\%$ divergence), demonstrating that algebraic structure without
@@ -214,10 +231,12 @@ We make the following contributions:
   \item \textbf{Minimum-geometry programming.} Octahedral contrastive
     ($n = 4$, two co-axial pairs) produces the programme's strongest
     signal: 473{,}622:1 per-bridge mean coupling ratio.
-  \item \textbf{Spectral attractor universality.} Spectral-only
-    training converges to Fiedler ${\approx}\,0.09$--$0.10$ across
-    $n \in \{3, 4, 8, 12\}$---a 10.4\% band across a $4\times$ range
-    of channel counts.
+  \item \textbf{The spectral resting state.} Spectral-only training
+    leaves the bridge in a narrow Fiedler band around
+    ${\approx}\,0.09$--$0.10$ across $n \in \{3, 4, 8, 12\}$ (a 3.9\%
+    band) that the null model (BM-000) places inside the
+    near-initialization ensemble---the baseline from which contrastive
+    programming departs, not a distinct structured attractor.
   \item \textbf{The selective geometric compiler.} The Steersman
     compiles polytope-derived pair specifications into block-diagonal
     structure and rejects non-spatial specifications (random partitions,
@@ -405,10 +424,12 @@ counts:
 \end{itemize}
 
 Three findings sharpen the understanding of this mechanism.
-\emph{First}, the spectral attractor at Fiedler ${\approx}\,0.09$
-is universal across channel counts ($n \in \{3, 4, 8, 12\}$, 10.4\%
-band), providing the natural connectivity equilibrium from which
-contrastive programming departs. \emph{Second}, the Steersman is a
+\emph{First}, spectral-only training leaves the bridge at Fiedler
+${\approx}\,0.09$ across channel counts ($n \in \{3, 4, 8, 12\}$, a
+3.9\% band), a value the null model (BM-000) places inside the
+near-initialization ensemble---the baseline from which contrastive
+programming departs, rather than a structured equilibrium in its own
+right. \emph{Second}, the Steersman is a
 selective geometric compiler: it accepts spatial pair specifications
 and rejects algebraic ones, as demonstrated by the functional
 equivalence of wrong-label and resonance controls ($<10\%$ trajectory
