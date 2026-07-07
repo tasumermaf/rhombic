@@ -1,0 +1,32 @@
+{
+  "description": "Post-hoc re-derivation of octahedral (n=4) co/cross from saved bridge_final tensors, using the exact train-time metric (train_exp2_scale.coplanar_crossplanar_ratio) and aggregation (train_cybernetic.py:581-589, mean of finite per-module ratios).",
+  "generated_by": "scripts/rederive_octahedral_cocross.py",
+  "runs": {
+    "FO-001": {
+      "rederived_co_cross": 262920.29800692474,
+      "expected_value": 262920.298,
+      "expected_source": "FO-001 results.json feedback_log final (step 10000) \u2014 VALIDATION",
+      "relative_error": 2.6337763348463738e-11,
+      "matches": true,
+      "modules_total": 88,
+      "modules_finite": 88,
+      "per_module_ratio_min": 20278.697265625,
+      "per_module_ratio_median": 169478.34375,
+      "per_module_ratio_max": 3456425.5
+    },
+    "O-001": {
+      "rederived_co_cross": 473621.65465198865,
+      "expected_value": 473622.0,
+      "expected_source": "PAPER4_OUTLINE.md (was unbacked on disk; this script is the anchor)",
+      "relative_error": 7.291637874783122e-07,
+      "matches": true,
+      "modules_total": 88,
+      "modules_finite": 88,
+      "per_module_ratio_min": 126781.6875,
+      "per_module_ratio_median": 404533.96875,
+      "per_module_ratio_max": 1577518.5
+    }
+  },
+  "all_match": true,
+  "verdict": "FO-001 validates the method (exact); O-001 473,622 is vindicated \u2014 re-derived from tensors on disk, resolving the 'unbacked headline' blocker."
+}
