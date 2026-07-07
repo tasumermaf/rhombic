@@ -59,3 +59,7 @@ Hermes back online. **FO-001 262,920:1 now anchored locally** (`results/octahedr
 ---
 
 *Recorded by Meridian, 2026-07-06. The Director still owes the Paper 4 ratio / BM-001 verification pass against current `main`. Next Director action after the bank lands: D1 analysis.*
+
+---
+
+**2026-07-07 addendum:** the Paper 4 / BM-001 verification pass was delivered and closed the same day (see `docs/PAPER4_VERIFICATION_PASS.md` and STATUS). Amendments **A3 (vocab_signature D1 arm #3), A4 (BM-003 Configs G/H + dissociation endpoint), A5 (BM-004 v2)** were all **APPROVED as pre-registered, with conditions**, in the Director's ruling of 2026-07-07 — recorded verbatim at `docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md`. Conditions encoded the same day: kv_mode surfaced + both variants in the D1 arm (`asset1_vocab_signature.py`, `asset1_d1_identifiability.py`); task-class freeze timestamped in `results/BM-003/PROTOCOL.md`; E3 thresholds justified against our own chance/control in `BM004_PREREGISTRATION_v2_2026-07-07.md` §4; F2 wired as a hard interlock in `scripts/bm004_runner.py` (no bypass). D1 now has three representation arms; D1 remains the Director's on bank delivery.

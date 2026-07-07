@@ -61,6 +61,20 @@ alpaca-cleaned, 10k steps, rank 24, n=6, seed 42, LM loss only.
 | B | `rd_graph`: fixed RD adjacency mask × learnable edge weights | The structural prior |
 | C | `rd_graph` on CodeAlpaca, edge weights seeded from B | Topology transfer across tasks |
 | F | **Free dense 6×6 bridge, LM loss only** (added Jul 2026) | Any-learnable-bridge effect, no prior, no controller |
+| G | **Shuffled-adjacency mask** (amendment 2026-07-07) | Hub attack, trained level — the SVFT-Random-style arm below, now theory-motivated |
+| H | **Expander mask (K3,3)** (amendment 2026-07-07) | Hub attack, trained level — maximal-Fiedler motif |
+
+**Amendment 2026-07-07 (dated edit per L-006; Director-approved
+2026-07-07, `docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md` A4):**
+Configs G/H (exact masks, ±0.5% topology-specificity band with all three
+outcomes pre-stated, Config G's disclosed (4,5) overlap with the RD
+co-planar set) plus a dissociation eval endpoint with the task-class
+assignment **frozen and timestamped 2026-07-07** (workspace-dependent =
+{GSM8K-direct}; automatic = {SST-2, MMLU, ARC-C, HellaSwag, WinoGrande})
+and a >2pp bridge-ablation criterion with a pre-stated honest null. Full
+text: `results/BM-003/PROTOCOL.md` (Amendment section). Null calibration
+already run: `results/BM-000b-hub-motifs/` (BM-000b — no untrained motif
+ensemble reproduces any trained headline; honest negative 0/48 recorded).
 
 Config F completes the design: {no bridge, free bridge, structured bridge}
 under identical LM-only training. (It was run once at 1.5B/2k steps in Exp 1

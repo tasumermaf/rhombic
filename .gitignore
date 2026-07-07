@@ -138,6 +138,11 @@ research/pdf/
 # Live Asset-1 campaign output (analyzed then summarized; not committed raw)
 results/asset1-bank/
 results/asset1-smoke/*/
+# Archived bs2x8 cohort payload (~1.26 GB of .pt/.npy): preserved on disk
+# for the A1 equivalence record, never in git history (the tracked
+# a1_spotcheck.json predates this rule and stays tracked). Added
+# 2026-07-07 after the A3-A5 hygiene verification flagged the sweep risk.
+results/asset1-bank-bs2x8-archive/
 
 # compiled paper PDFs stay local while under audit (stale binaries bake in pre-purge text)
 paper/paper4/paper4-main.pdf
