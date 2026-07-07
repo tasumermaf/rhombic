@@ -208,29 +208,37 @@ TeLoRA ($r = 24$, $n = 6$) & 0.1762 & 3{,}270{,}624 & 2{,}016 (0.06\%) & 58.3 mi
 \end{tabular}
 \end{table}
 
-Loss is identical to four significant figures (0.01\% difference,
+Loss is identical to three significant figures ($\sim$0.06\% difference,
 within noise). The bridge adds 2{,}016~parameters---36~per bridge
 matrix across 56~target projections---representing 0.06\% of the
-trainable parameter budget. The 36.2\% training time overhead
-reflects the Steersman's per-step Fiedler eigenvalue computation
-and control law evaluation.
+trainable parameter budget. The 36.2\% training time overhead is the
+cost of training the learnable multi-channel bridge---the only
+configuration difference from the standard-LoRA baseline, which carries
+the same bridge frozen at identity. This P0 comparison runs no
+Steersman, so none of the overhead is control-law evaluation; the
+Fiedler eigenvalue is logged only at checkpoint intervals and
+contributes negligibly.
 
-Without contrastive loss, the bridges settle near the spectral
-attractor: mean Fiedler~$= 0.038$ (somewhat below the
-TinyLlama attractor at~$0.09$, consistent with model-dependent
-variation), co-axial/cross-axial ratio~$\approx 1$:1 (isotropic,
-no directional preference), and mean deviation from identity~$= 0.07$
-(Figure~\ref{fig:p0_proof}). The bridge evolves under spectral
-pressure alone but maintains the unprogrammed baseline---exactly
-the attractor behavior documented in Section~\ref{sec:attractor}.
+Trained under language-model loss alone---no Steersman, and neither
+spectral nor contrastive pressure---the bridge stays close to its
+identity initialization: mean Fiedler~$= 0.038$, co-axial/cross-axial
+ratio~$\approx 1$:1 (isotropic, no directional preference), and mean
+deviation from identity~$= 0.07$ (Figure~\ref{fig:p0_proof}). Without
+contrastive specification the bridge acquires no block structure---the
+unprogrammed baseline. At Fiedler 0.038 it stays even nearer identity
+than the spectral-only runs of Section~\ref{sec:attractor} (which apply
+a spectral pressure this pure-LM run does not), both within the
+near-initialization regime.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\textwidth]{figures/fig_p0_proof.pdf}
   \caption{P0 head-to-head comparison on Qwen~2.5-1.5B-Instruct.
     Top left: loss curves overlap exactly.
-    Top right: training time comparison (36.2\% overhead from
-    Steersman computation). Middle: bridge matrix evolution at
+    Top right: training time comparison (36.2\% overhead from training
+    the learnable bridge---the only difference from the frozen-bridge
+    baseline; this comparison runs no Steersman). Middle: bridge matrix
+    evolution at
     steps~500, 2{,}000, and~3{,}235---identity-like structure with
     slight evolution but no block-diagonal emergence (no contrastive
     loss applied). Bottom: Fiedler connectivity, co/cross ratio, and
@@ -240,7 +248,7 @@ the attractor behavior documented in Section~\ref{sec:attractor}.
 
 The P0 result establishes that the learnable bridge is a zero-cost
 container. It adds negligible parameters, preserves task performance,
-and defaults to the spectral attractor when no topology is specified.
+and defaults to a near-initialization resting state when no topology is specified.
 Topology programming via the Steersman adds structure to this
 container at no additional parameter cost beyond the 36~entries per
 bridge.
