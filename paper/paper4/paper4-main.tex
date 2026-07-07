@@ -5,13 +5,20 @@
 % ⚠ AUDIT BLOCKERS — DO NOT SUBMIT / COMPILE-FOR-RELEASE UNTIL RESOLVED
 % (added 2026-07-04 from the controller-exposure classification;
 %  full worklist: docs/PAPER4_EXPOSURE_CLASSIFICATION.md §9)
-%   1. [RESOLVED 2026-07-06] RETRACTED DATA: the "Wan 2.1 14B" model scale
-%      (Holly Battery, retracted 2026-03-13, provenance/L-026) is STRIPPED from
-%      the BD-reproduction sentence. Also removed the unanchored "82,154:1 across
-%      60,000+ bridges" aggregate — it had NO repo anchor and exceeded every real
-%      per-scale number. Replaced with anchored numbers: TinyLlama H-ch6 70,404:1,
-%      Qwen 7B Exp 3.0 22,477:1. (60,000+ breadth claim can return once recounted
-%      from the two clean scales only.)
+%   1. [RESOLVED 2026-07-07 — scope-corrected after Director residual pass]
+%      RETRACTED HOLLY DATA. Jul-6 fix stripped the Wan-14B scale + unanchored
+%      82,154:1 aggregate from THIS file only; the Jul-6 "RESOLVED" mark was
+%      premature — the Director's residual pass found the retracted Holly
+%      PERFORMANCE numbers (3.8% loss / 9.15 GB / 6% faster) still live in the
+%      PAPER 3 body at 4 sites (+2 more found on sweep: PAPER3_DRAFT_COMBINED,
+%      and 1.552/1.493 val-loss cells in three Holly TABLE rows). ALL purged
+%      2026-07-07 per his surgical fix: performance clauses struck, null-topology
+%      control (0% BD, rho=1.07:1) KEPT (the tracker's do-not-cite is scoped to
+%      the three performance numbers). Working docs (5) + VIDEO_CREATIVE_BRIEF
+%      carry RETRACTED markers; LITERATURE_WATCH already self-annotated; stale
+%      compiled paper4-main.pdf UNTRACKED from git (pre-purge text baked in);
+%      body grep for 3.8/9.15/6%-faster now returns ZERO across paper3+paper4.
+%      84.5% adjacent debt checked: already absent from paper3 body.
 %   2. [RESOLVED 2026-07-06] FALSE ATTRIBUTION: the 36.2% P0 overhead was
 %      attributed to Steersman "control law evaluation", but train_comparison.py is
 %      PURE LM loss (loss=outputs.loss; zero spectral/contrastive/Steersman code).

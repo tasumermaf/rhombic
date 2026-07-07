@@ -288,7 +288,7 @@ Table 1 presents the complete experimental record. Across 15 experiments spannin
 
 Six cybernetic experiments at $n = 6$ contribute 42,500+ bridge matrices to the analysis. Each matrix is classified as block-diagonal if $\rho > 10$ and all cross-planar entries fall below $10^{-3}$ in absolute value. The classification rate is 100.0% in every experiment, at every checkpoint from step 200 onward. There are no exceptions, no near-misses, and no late-onset failures. The attractor is absolute.
 
-Six non-cybernetic experiments contribute 570 final-state bridges across three model scales. None exhibits block-diagonal structure. Co-planar/cross-planar ratios range from 0.99:1 to 1.07:1 — statistically indistinguishable from the null hypothesis of uniform coupling. The Holly Battery experiment (Wan 2.1 14B, 10 training epochs, Prodigy optimizer, no Steersman) achieves 3.8% lower loss than the non-TeLoRA baseline while using 9.15 GB less VRAM and producing 6% faster inference, but its bridge matrices remain near-identity with $\rho = 1.07$:1. Performance benefits from multi-channel parameterization do not require — and do not induce — topological structure.
+Six non-cybernetic experiments contribute 570 final-state bridges across three model scales. None exhibits block-diagonal structure. Co-planar/cross-planar ratios range from 0.99:1 to 1.07:1 — statistically indistinguishable from the null hypothesis of uniform coupling. The Holly Battery experiment (Wan 2.1 14B, 10 training epochs, Prodigy optimizer, no Steersman) leaves its bridge matrices near-identity with $\rho = 1.07$:1. Multi-channel parameterization alone does not induce topological structure.
 
 **Table 1: Complete Experiment Summary**
 
@@ -306,7 +306,7 @@ Six non-cybernetic experiments contribute 570 final-state bridges across three m
 | H1 | TinyLlama | 3 | identity | Yes | 10K | 0.4020 | N/A | N/A |
 | H2 | TinyLlama | 4 | identity | Yes | 10K | 0.4022 | $\sim$1:1 | 0% |
 | H4 | TinyLlama | 8 | identity | Yes | 10K | — | $\sim$1:1 | 0% |
-| Holly | Wan 2.1 14B | 6 | identity | No | 10 ep | 1.493 | 1.07:1 | 0% |
+| Holly | Wan 2.1 14B | 6 | identity | No | 10 ep | — | 1.07:1 | 0% |
 
 
 ## 4.2 Lock-in Dynamics
@@ -446,9 +446,9 @@ The Correlation Fiedler converges to ${\sim}0.10$ across all three model scales:
 
 ## 6.3 The Holly Battery Null Result
 
-The Holly Battery experiment provides the non-cybernetic control at 14B scale. Wan 2.1, a 14B-parameter video diffusion backbone, is fine-tuned with 6-channel TeLoRA but without the Steersman (no contrastive loss, no spectral loss, no feedback controller). The adapter achieves 3.8% lower loss than the standard LoRA baseline, requires 9.15 GB less VRAM (gradient checkpointing benefits from the factored bridge), and produces 6% faster inference.
+The Holly Battery experiment provides the non-cybernetic control at 14B scale. Wan 2.1, a 14B-parameter video diffusion backbone, is fine-tuned with 6-channel TeLoRA but without the Steersman (no contrastive loss, no spectral loss, no feedback controller).
 
-Despite these performance benefits, the Holly Battery bridge matrices are near-identity: mean off-diagonal magnitude 0.010, co-planar/cross-planar ratio 1.07:1, Bridge Fiedler $\sim$0.10 (well-connected, no block structure). The bridge learns small perturbations from identity that improve task performance, but these perturbations are uniformly distributed across all off-diagonal entries with no preferential topology.
+The Holly Battery bridge matrices are near-identity: mean off-diagonal magnitude 0.010, co-planar/cross-planar ratio 1.07:1, Bridge Fiedler $\sim$0.10 (well-connected, no block structure). The bridge learns small perturbations from identity, uniformly distributed across all off-diagonal entries with no preferential topology.
 
 The Holly result rules out model scale, dataset, and optimizer as confounders. The 14B model has substantially greater representational capacity than TinyLlama (1.1B). The video generation task is fundamentally different from instruction-following. The optimizer (Prodigy, with adaptive learning rate) is more sophisticated than the AdamW used in all other experiments. None of these factors produces block-diagonal structure. The Steersman is the causal factor.
 # 7. Discussion

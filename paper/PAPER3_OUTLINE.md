@@ -133,6 +133,7 @@ bridge parameters.
 - **Figure 8:** Bridge heatmap comparison (BD vs non-BD)
 
 ### 6.3 Holly Null Result
+> **[RETRACTED 2026-03-13 — do not cite]** The Holly Battery performance numbers on the line(s) below (3.8% loss / 9.15 GB VRAM / 6% faster) were retracted (dataset provenance unclear, L-026 contamination; see docs/EXPERIMENT_TRACKER.md). Kept here as a historical note only; purged from all paper body files 2026-07-07.
 - 14B video diffusion, 3.8% better loss, 50% smaller checkpoint
 - 0% BD without Steersman → Steersman is causal, not scale/architecture
 

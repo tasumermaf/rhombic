@@ -642,7 +642,7 @@ H1 & TinyLlama & 3 & identity & Yes & 10K & 0.4020 & N/A & N/A \\
 H2 & TinyLlama & 4 & identity & Yes & 10K & 0.4022 & ${\sim}1$:1 & 0\% \\
 H4 & TinyLlama & 8 & identity & Yes & 10K & 0.4024 & ${\sim}1$:1 & 0\% \\
 \midrule
-Holly & Wan 2.1 14B & 6 & identity & No & 50 ep & 1.552 & 1.07:1 & 0\% \\
+Holly & Wan 2.1 14B & 6 & identity & No & 50 ep & --- & 1.07:1 & 0\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -661,11 +661,9 @@ Six non-cybernetic experiments contribute 570 final-state bridges.
 None exhibits block-diagonal structure. Co-planar/cross-planar ratios
 range from 0.99:1 to 1.07:1---statistically indistinguishable from
 uniform coupling. The Holly Battery experiment (Wan~2.1~14B, Prodigy
-optimizer, no Steersman) achieves 3.8\% lower loss than the standard LoRA baseline while using 9.15\,GB less VRAM and
-6\% faster training, but its bridge matrices remain near-identity
-with $\rho = 1.07$:1. Performance benefits from multi-channel
-parameterization do not require---and do not induce---topological
-structure.
+optimizer, no Steersman) leaves its bridge matrices near-identity
+with $\rho = 1.07$:1. Multi-channel parameterization alone does not
+induce topological structure.
 
 \subsection{Lock-in Dynamics}
 
@@ -1034,15 +1032,13 @@ minimal bridge perturbations are trivially correlated.
 
 The Holly Battery experiment provides the non-cybernetic control at
 14B~scale. Wan~2.1 is fine-tuned with 6-channel TeLoRA but
-without the Steersman. The adapter achieves 3.8\% lower loss than the
-standard LoRA baseline, requires 9.15\,GB less VRAM, and trains
-6\% faster.
+without the Steersman.
 
-Despite these performance benefits, the Holly Battery bridge matrices
+The Holly Battery bridge matrices
 are near-identity: mean off-diagonal magnitude~0.010,
 $\rho = 1.07$:1, Bridge Fiedler~${\sim}0.10$. The bridge learns small
-perturbations from identity that improve task performance, but these
-perturbations are uniformly distributed with no preferential topology.
+perturbations from identity, uniformly
+distributed with no preferential topology.
 
 The Holly result provides additional evidence consistent with the
 Steersman as the causal factor, complementing the more controlled

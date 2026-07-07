@@ -49,6 +49,7 @@ keep lora_A/B, swap bridge. Measure perplexity on held-out validation.
 
 ## Priority 4: Multi-Seed Holly Validation
 
+> **[RETRACTED 2026-03-13 — do not cite]** The Holly Battery performance numbers on the line(s) below (3.8% loss / 9.15 GB VRAM / 6% faster) were retracted (dataset provenance unclear, L-026 contamination; see docs/EXPERIMENT_TRACKER.md). Kept here as a historical note only; purged from all paper body files 2026-07-07.
 **Goal:** Statistical confidence on the 3.8% Holly improvement.
 
 **Design:** 3 seeds TeLoRA (43, 44, 45) + 2 seeds standard LoRA (43, 44).

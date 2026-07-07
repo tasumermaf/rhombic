@@ -113,6 +113,7 @@ contrasted with the cybernetic values:
 May belong in a separate paper or in this one as a section on scale.
 
 **Key numbers:**
+> **[RETRACTED 2026-03-13 — do not cite]** The Holly Battery performance numbers on the line(s) below (3.8% loss / 9.15 GB VRAM / 6% faster) were retracted (dataset provenance unclear, L-026 contamination; see docs/EXPERIMENT_TRACKER.md). Kept here as a historical note only; purged from all paper body files 2026-07-07.
 - 3.8% better final loss (1.6137 → 1.5517 val loss EMA, per WandB verified data)
 - 9.15 GB less VRAM (37.59 GB → 28.44 GB)
 - 6% faster training (3.12 → 2.94 s/step)

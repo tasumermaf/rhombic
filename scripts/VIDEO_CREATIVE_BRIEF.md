@@ -1,3 +1,11 @@
+> ## ⚠ RETRACTED DATA — DO NOT PRODUCE FROM THIS BRIEF AS-IS
+> This brief cites the Holly Battery performance numbers (3.8% loss / 9.15 GB
+> VRAM / faster training) at four points (~L169, L210, L460-461). Those numbers
+> were **RETRACTED 2026-03-13** (dataset provenance unclear, L-026 contamination;
+> see docs/EXPERIMENT_TRACKER.md) and were purged from all paper body files
+> 2026-07-07. Any video produced from this brief must drop the Holly performance
+> claims; the Holly null-topology control (0% BD, 1.07:1) remains citable.
+
 # VIDEO CREATIVE BRIEF
 ## rhombic-agent — Nous Research Hermes Agent Hackathon
 ### Deadline: EOD Sunday, March 16, 2026
