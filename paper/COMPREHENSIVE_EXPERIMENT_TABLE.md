@@ -19,7 +19,9 @@
 | **H3** | TinyLlama | 1.1B | **6** | identity | **Yes** | 10K | **0.4015** @10K | **70,404:1** | **100%** | **Done** |
 | **H4** | TinyLlama | 1.1B | **8** | identity | **Yes** | 10K | 0.4227 @2.9K | **~1:1** | **0%** | Running |
 | H5 | TinyLlama | 1.1B | **12** | identity | **Yes** | 10K | — | — | — | Queued |
-| Holly | Wan 2.1 | 14B | 6 | identity | No | 10 ep | 1.552 | **1.07:1** | **0%** | Done |
+| Holly | Wan 2.1 | 14B | 6 | identity | No | 10 ep | 1.552 † | **1.07:1** | **0%** | Done |
+
+> † **[RETRACTED 2026-03-13 — do not cite]** Holly's val-loss (and every Holly *performance* number: the derived 3.8% / 9.15 GB / 6% claims) is retracted — dataset provenance unclear, L-026 contamination; see `docs/EXPERIMENT_TRACKER.md`. The raw cell is kept here for the historical record only. The **topology columns remain citable** (ρ = 1.07:1, 0% BD — the non-cybernetic control); purged from all paper body files 2026-07-07.
 
 ## Evidence Summary
 
