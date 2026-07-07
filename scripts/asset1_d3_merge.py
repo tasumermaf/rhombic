@@ -641,6 +641,27 @@ def binarize_primary(rows: list[dict], *,
                           or frac_neg < degenerate_min_frac)
         meta["rule_available"] = "relative_degradation"
         meta["frac_positive_relative"] = frac_pos
+        # Director ruling 2026-07-07 (pinning-3 addition): the OR-over-two-
+        # endpoints rule makes this a PAIR-LEVEL ANY-ENDPOINT conflict rate
+        # (~2x a single side's rate in the benign regime) — label it as such
+        # and report the per-endpoint marginals beside it so it cannot be
+        # read as a per-task-side rate.
+        meta["positive_rate_definition"] = (
+            "pair-level any-endpoint conflict rate (EITHER endpoint degraded "
+            ">= threshold_rel vs its native adapter) — NOT a per-task-side "
+            "rate; see per-endpoint marginals")
+        for ep in ("a", "b"):
+            hits = n_ep = 0
+            for _, detail in per_row:
+                cells = [c for c in detail
+                         if isinstance(c, dict) and c.get("endpoint") == ep]
+                if cells:
+                    n_ep += 1
+                    if any(c["rel"] >= threshold_rel for c in cells):
+                        hits += 1
+            meta[f"frac_positive_endpoint_{ep}"] = (
+                hits / n_ep if n_ep else None)
+            meta[f"n_rows_with_endpoint_{ep}"] = n_ep
         meta["degenerate"] = degenerate
         if not degenerate:
             meta["rule_used"] = "relative_degradation"

@@ -1018,3 +1018,21 @@ def test_out_dir_guard_refuses_bank_tree(tmp_path):
         daux.run_selftest(bad)
     ok = d3.guard_out_dir(tmp_path / "fine")
     assert ok.name == "fine"
+
+
+def test_binarize_primary_reports_endpoint_marginals():
+    """Director ruling 2026-07-07 (pinning-3 addition): the OR-rule positive
+    fraction is labelled a pair-level any-endpoint rate and the per-endpoint
+    marginal rates are reported beside it."""
+    rows = ([_ppl_row(0.06, 0.0) for _ in range(4)]      # a-side conflicts
+            + [_ppl_row(0.0, 0.05)]                       # b-side conflict
+            + [_ppl_row(0.049, 0.0) for _ in range(5)])   # negatives
+    _, meta = d3.binarize_primary(rows)
+    assert "pair-level any-endpoint" in meta["positive_rate_definition"]
+    assert meta["frac_positive_endpoint_a"] == pytest.approx(0.4)
+    assert meta["frac_positive_endpoint_b"] == pytest.approx(0.1)
+    assert meta["n_rows_with_endpoint_a"] == 10
+    assert meta["n_rows_with_endpoint_b"] == 10
+    # OR-rule pair rate exceeds each marginal (the inflation the ruling
+    # requires us to disclose)
+    assert meta["frac_positive_relative"] >= meta["frac_positive_endpoint_a"]

@@ -655,3 +655,23 @@ def test_synthetic_selftest_end_to_end(tmp_path):
         encoding="utf-8")
     assert "H1 lock: PASS" in md
     assert "H2" in md
+
+
+def test_h2_supported_passes_through_source_within_accuracy():
+    """Director ruling 2026-07-07 (pinning-1 addition): the source family's
+    within-accuracy is carried through h2_supported descriptively — present
+    when provided, absent when not, and never part of the decision."""
+    directions = {
+        "A->B": {"cross_accuracy": 0.17, "cross_binom_p": 0.5,
+                 "within_accuracy": 0.80, "within_accuracy_source": 0.75},
+        "B->A": {"cross_accuracy": 0.17, "cross_binom_p": 0.5,
+                 "within_accuracy": 0.80},
+    }
+    out = d1.h2_supported(directions)
+    assert out["directions"]["A->B"]["within_accuracy_source"] == 0.75
+    assert "within_accuracy_source" not in out["directions"]["B->A"]
+    # decision identical with/without the descriptive field
+    stripped = {k: {kk: vv for kk, vv in v.items()
+                    if kk != "within_accuracy_source"}
+                for k, v in directions.items()}
+    assert d1.h2_supported(stripped)["supported"] == out["supported"]
