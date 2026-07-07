@@ -22,8 +22,12 @@ specification $\texttt{pairs}_{\text{tess}}(8)$
 \end{itemize}
 
 Training uses TinyLlama-1.1B with identity initialization and
-channel size $s = 3$ ($24 / 8$). Two independent runs are conducted:
-T-001r1 (2{,}700~steps, partial) and T-001r2 (10{,}000~steps, full).
+channel size $s = 3$ ($24 / 8$). Three same-seed runs were conducted
+(Section~\ref{sec:reproducibility}): T-001r1 (original; crashed at
+${\sim}$step~2{,}700 during a March-2026 machine failure, with its
+first 1{,}600~steps recovered from its training log), T-001r1b (a
+fresh same-seed relaunch, 7{,}100~steps), and T-001r2 (complete,
+10{,}000~steps).
 
 \subsection{Results: Prediction A Confirmed}
 
@@ -41,26 +45,34 @@ Table~\ref{tab:tesseract} reports the primary metrics.
 \toprule
 Run & Steps & Fiedler & $\rho$ & Val Loss & Eigenvalue Split & BD \\
 \midrule
-T-001r1 & 2{,}700 & 0.00070 & 5{,}395:1 & --- & $4{+}4$ & Yes \\
+T-001r1$^{\dagger}$ & 1{,}600 & 0.00055 & 4{,}729:1 & --- & --- & --- \\
+T-001r1b & 7{,}100 & 0.000362 & 20{,}944:1 & 0.4049 & $4{+}4$ & Yes \\
 T-001r2 & \textbf{10{,}000} & \textbf{0.000191} & \textbf{41{,}564:1} & \textbf{0.4016} & $4{+}4$ & \textbf{Yes} \\
 \bottomrule
 \end{tabular}
+
+\smallskip
+\raggedright\footnotesize $^{\dagger}$~T-001r1's results file was
+overwritten by the T-001r1b relaunch (Section~\ref{sec:reproducibility});
+values shown are the last recovered from its training log (step~1{,}600).
+Its contemporaneously recorded endpoint (5{,}395:1 at step~2{,}700) has
+no surviving artifact and is not tabulated.
 \end{table}
 
-Both runs produce four independent $2 \times 2$ blocks. The
+Both completed runs produce four independent $2 \times 2$ blocks. The
 eigenvalue spectrum exhibits a clean $4{+}4$ split: four eigenvalues
-suppressed to $\mathcal{O}(10^{-4})$ (the cross-axial connections)
-and four elevated to ${\sim}0.34$ (the co-axial connections within
+suppressed to $\mathcal{O}(10^{-5})$ (the cross-axial connections)
+and four elevated to ${\sim}1.5$--$1.6$ (the co-axial connections within
 each block). This is the structural signature of 4D block-diagonal
 geometry: each tesseract axis operates as an independent channel
 pair, coupled internally and decoupled from the other three axes.
 
-The coupling ratio trajectory rises monotonically: 1{,}921:1 at
-step~400, 5{,}009:1 at step~2{,}800, and \textbf{41{,}564:1} at
-step~10{,}000. Bridge Fiedler at 0.000191 confirms the topological
+The coupling ratio trajectory rises by three orders of magnitude:
+1{,}931:1 at step~400, 5{,}079:1 at step~2{,}800, and \textbf{41{,}564:1}
+at step~10{,}000 (T-001r2). Bridge Fiedler at 0.000191 confirms the topological
 bifurcation: the spectral attractor at ${\sim}0.09$
 (Section~\ref{sec:attractor}) has been broken by the 4D contrastive
-specification, collapsing Fiedler by approximately $470\times$
+specification, collapsing Fiedler by approximately $494\times$
 (from $0.0944$ at $n = 8$ spectral-only to $0.000191$). This
 collapse is of the same order as the $1{,}020\times$ bifurcation
 at $n = 6$ ($0.0918 \to 0.00009$).
@@ -68,8 +80,10 @@ at $n = 6$ ($0.0918 \to 0.00009$).
 Validation loss at 0.4016 is within 0.17\% of the baseline,
 consistent with Paper~3's finding that topology programming does not
 degrade task performance. The lm-eval benchmark suite confirms this
-at the downstream level: the T-001r1 adapter merged into the base
-model shows a mean delta of $-0.75\%$ across six 0-shot tasks
+at the downstream level: the original T-001r1 adapter (2{,}700~steps,
+merged and evaluated on 2026-03-16, before the relaunch overwrote its
+source artifact; the evaluation outputs survive) shows a mean delta of
+$-0.75\%$ across six 0-shot tasks
 (HellaSwag, ARC-Easy, PIQA, WinoGrande, OpenBookQA, BoolQ), with
 mixed-direction changes (three tasks slightly down, two slightly up,
 one negligible). Bridge topology is orthogonal to task capability.
@@ -77,51 +91,58 @@ one negligible). Bridge topology is orthogonal to task capability.
 Prediction~A is confirmed: 4D programming works. The Steersman
 programs the dimensionality it is told to program.
 
-\subsection{Reproducibility: T-001r1 vs.\ T-001r2}
+\subsection{Reproducibility: Three Same-Seed Runs}
 \label{sec:reproducibility}
 
-Two independent runs of the $n = 8$ tesseract contrastive
-experiment were conducted with identical hyperparameters and random
-seed. T-001r1 was a partial run (2{,}700~steps); T-001r2 ran to
-completion (10{,}000~steps). At the training steps where both runs
-report metrics (steps 100--2{,}700), the co-axial/cross-axial ratio
-trajectories are indistinguishable: Pearson $r = 1.0000$ with
-maximum deviation 3.5\%.
+Three runs of the $n = 8$ tesseract contrastive experiment were
+conducted with identical hyperparameters and random seed. The
+provenance is disclosed in full. T-001r1, the original run, crashed
+at ${\sim}$step~2{,}700 during a March-2026 machine failure; when the
+experiment was relaunched fresh under the same seed (T-001r1b,
+reaching 7{,}100~steps), the relaunch overwrote T-001r1's results
+file. T-001r1's first 1{,}600~steps were subsequently recovered from
+its surviving training log. T-001r2 ran to completion
+(10{,}000~steps). The three trajectories therefore constitute
+independent same-seed replicates, one of them partially recovered.
 
 \begin{table}[H]
 \centering
-\caption{Reproducibility of tesseract contrastive training. $\rho$
-  values at selected matching checkpoints across two independent runs.}
+\caption{Reproducibility of tesseract contrastive training: pairwise
+  trajectory agreement between three same-seed runs at matched
+  feedback steps. T-001r1 pairs span its recovered range
+  (steps 200--1{,}600); the T-001r1b~$\times$~T-001r2 pair spans
+  their full overlap.}
 \label{tab:reproducibility}
 \small
-\begin{tabular}{cccr}
+\begin{tabular}{lcccc}
 \toprule
-Step & T-001r1 $\rho$ & T-001r2 $\rho$ & Deviation \\
+Pair & $\rho$ Pearson $r$ & $\rho$ max dev & Fiedler $r$ & Steps \\
 \midrule
-400   & 1{,}921 & 1{,}873 & 2.5\% \\
-800   & 3{,}612 & 3{,}527 & 2.4\% \\
-1{,}200  & 4{,}118 & 4{,}002 & 2.8\% \\
-1{,}600  & 4{,}523 & 4{,}401 & 2.7\% \\
-2{,}000  & 4{,}890 & 4{,}755 & 2.8\% \\
-2{,}400  & 5{,}201 & 5{,}009 & 3.5\% \\
+T-001r1 $\times$ T-001r1b & 0.9952 & 10.4\% & 0.9994 & 15 \\
+T-001r1 $\times$ T-001r2  & 0.9975 & 5.2\%  & 0.9996 & 15 \\
+T-001r1b $\times$ T-001r2 & 0.9984 & 7.2\%  & 0.9999 & 71 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The Pearson correlation of $r = 1.0000$ (to four decimal places)
-indicates that the topology programming dynamics are deterministic
-given the same initialization. This level of reproducibility is
-notable for stochastic gradient descent with auxiliary losses: the
-Steersman's feedback dynamics do not introduce chaotic sensitivity
-to initial conditions or gradient noise. The systematic positive
-deviation of T-001r1 (consistently slightly higher than T-001r2)
-lies within the expected range of floating-point non-associativity
-in GPU operations.
+Table~\ref{tab:reproducibility} reports the pairwise agreement. All
+three pairings track at co-axial/cross-axial ratio correlation
+$r \geq 0.995$ and Fiedler correlation $r \geq 0.9994$, with maximum
+relative deviations of up to ${\sim}10\%$ at matched steps. The
+deviations are the expected signature of floating-point
+non-associativity amplified over thousands of optimizer steps; the
+correlations show that the topology-programming
+\emph{dynamics}---the trajectory shape, the three-order-of-magnitude
+ratio growth, the Fiedler collapse---are reproducible across
+independent executions. Notably, the run pair that never coexisted
+(the recovered T-001r1 and its replacement T-001r1b) agrees nearly as
+closely as the pairs that did, confirming that the recovered log
+fragment is a faithful record of a genuine same-seed replicate.
 
-T-001r2 continues beyond T-001r1's termination point, reaching
-$\rho = 41{,}564$:1 at step~10{,}000---an $8\times$ increase from
-the 5{,}395:1 at the r1 termination point, demonstrating continued
-monotonic growth through the full training run.
+T-001r2 continues beyond both earlier runs' termination points,
+reaching $\rho = 41{,}564$:1 at step~10{,}000---double T-001r1b's
+20{,}944:1 at step~7{,}100---demonstrating continued growth in trend
+through the full training run.
 
 \subsection{Comparison: RD vs.\ Tesseract}
 

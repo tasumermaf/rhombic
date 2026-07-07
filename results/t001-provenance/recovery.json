@@ -140,6 +140,16 @@
       "fiedler_pearson_r": 0.9997092607354573
     }
   },
+  "restart_vs_r2_full_overlap": {
+    "steps_range": [
+      100,
+      7100
+    ],
+    "n_steps": 71,
+    "co_cross_pearson_r": 0.9983607204568283,
+    "co_cross_max_rel_dev": 0.07238464271772362,
+    "fiedler_pearson_r": 0.9999493638964426
+  },
   "hermes_checked": "2026-07-07 \u2014 no tesseract/T-001 artifacts on Hermes",
   "verdict": "Original T-001r1 results.json destroyed by the Mar-16 fresh relaunch; partially recovered from the frozen log (16 points, steps 0-1600). All three same-seed runs mutually consistent (co/cross r 0.995-0.997, Fiedler r >= 0.9994) \u2014 the reproducibility claim survives, strengthened to three runs, but the paper's specific numbers (r=1.0000, 3.5%, 5,395:1 @2700, 34 checkpoints) reference the destroyed artifact and must be rewritten around the surviving evidence."
 }
