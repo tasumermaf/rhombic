@@ -1,0 +1,131 @@
+{
+  "experiment": "BM-000c Config-D persistence null",
+  "internal_only": true,
+  "publication_status": "Config D is an internal initialization-variant arm; results not published (docs/BM_BATTERY_PLAN.md:81)",
+  "extends": "results/BM-000 (scripts/bm000_null_model.py), results/BM-000b-hub-motifs (scripts/bm_hub_motif_nulls.py)",
+  "motivation": "docs/GLOBAL_WORKSPACE_MAPPING_2026-07-07.md section 2.2 line 58 / section 3 item 2 line 92",
+  "prediction": "the corpus init pattern drifts into BM-000's rewire-null percentile band by end of training, with no performance delta (FI-002 + structure/content split)",
+  "seed": 20260708,
+  "n_samples": 10000,
+  "invented_defaults": {
+    "seed": 20260708,
+    "n_samples_per_null": 10000,
+    "n_channels": 6,
+    "persistence_metric": "Pearson r between a bridge's 30 off-diagonal directed entries (row-major over i != j) and the Config-D template's 30 off-diagonal directed entries; diagonal EXCLUDED (template diagonal is constant identity, no corpus signal); degenerate (zero-variance) -> NaN",
+    "template_source": "rhombic.corpus.corpus_coupled_matrix(rhombic.corpus.edge_values()) == bridge_init(mode='corpus_coupled'); loaded at RUNTIME; raw values are proprietary Stream-B IP and are recorded only as a SHA-256",
+    "template_mode_choice": "'corpus_coupled' (L-026-corrected corpus EDGE-WEIGHT init, weights on off-diagonal). The pre-L-026 'corpus' mode (diagonal scaling) is NOT used; flagged as an open question for the reviewer",
+    "primary_null": "rewire = bm.gen_rdmask (BM-000 N-B, degree-preserving RD-mask rewire x moment-matched Gaussian) \u2014 the family the memo's prediction names ('BM-000's rewire-null percentile band')",
+    "secondary_null": "matched_moments = bm.gen_gauss (BM-000 N-A/N-D, moment-matched Gaussian) \u2014 cross-check",
+    "null_scoring": "each null bridge's off-diagonal directed entries correlated against the FIXED template's; bridges vary, template held fixed",
+    "band_rule": "init-does-not-persist = trained r INSIDE [p2.5, p97.5]; init-persisted/falsified = trained r ABOVE p99 (one-sided upper); intermediate reported with exact percentile, no threshold re-rolling",
+    "percentile_grid": "BM-000 PCT_GRID augmented with 2.5 and 97.5 for the two-sided band",
+    "moments_source_policy": "primary: trained smoke bank via bm000_null_model.load_smoke_bank (results/asset1-smoke); fallback: results/BM-000/nulls.json matched_moments; the live asset1-bank is never read",
+    "scale_invariance": "Pearson r is invariant to positive affine transforms of the bridge, so the bands are essentially independent of the trained-bridge moment values; valid before real Config-D trained moments exist",
+    "moments_source_used": "results/asset1-smoke via bm000_null_model.load_smoke_bank"
+  },
+  "template_identity": {
+    "source": "rhombic.corpus.corpus_coupled_matrix(rhombic.corpus.edge_values())",
+    "bridge_init_mode": "corpus_coupled",
+    "shape": [
+      6,
+      6
+    ],
+    "sha256": "cf763f54bcd3212f119e327f23e114037722a903aaf3ef97cc2ceb1f4e5f7aaa",
+    "note": "Config-D corpus-modulated edge-weight init template; raw values are proprietary Stream-B IP and are NOT recorded \u2014 only this content hash for identity"
+  },
+  "matched_moments": {
+    "diag_mean": 1.0024516582489014,
+    "diag_std": 0.0004387370136100799,
+    "offdiag_mean": -3.093888949479151e-07,
+    "offdiag_std": 0.0022446447983384132,
+    "n_matrices": 352
+  },
+  "percentile_grid": [
+    0.1,
+    1,
+    2.5,
+    5,
+    10,
+    25,
+    50,
+    75,
+    90,
+    95,
+    97.5,
+    99,
+    99.5,
+    99.9,
+    100
+  ],
+  "primary_null": "rewire",
+  "nulls": {
+    "rewire": {
+      "n": 10000,
+      "n_nonfinite": 0,
+      "mean": -0.0010838800840989023,
+      "std": 0.18376334934497562,
+      "min": -0.6974182195503676,
+      "max": 0.6368221128416475,
+      "percentiles": {
+        "0.1": -0.5335757612507567,
+        "1": -0.41900577063682404,
+        "5": -0.3042376644289057,
+        "10": -0.23902378540200658,
+        "25": -0.12914336026584664,
+        "50": -0.0007860833974737947,
+        "75": 0.12491352831857726,
+        "90": 0.23582277058330844,
+        "95": 0.3015816233439305,
+        "99": 0.4188676153062659,
+        "99.5": 0.4584017803916257,
+        "99.9": 0.5313349349461935,
+        "100": 0.6368221128416475,
+        "2.5": -0.35426198515865814,
+        "97.5": 0.3596800920022604
+      },
+      "band": {
+        "p2.5": -0.35426198515865814,
+        "p97.5": 0.3596800920022604,
+        "p99": 0.4188676153062659
+      }
+    },
+    "matched_moments": {
+      "n": 10000,
+      "n_nonfinite": 0,
+      "mean": -0.0015527908096463427,
+      "std": 0.18781864991160804,
+      "min": -0.6125812225374294,
+      "max": 0.6601292992902379,
+      "percentiles": {
+        "0.1": -0.5352329787036559,
+        "1": -0.4173557897255898,
+        "5": -0.31489470074589987,
+        "10": -0.24455230018459753,
+        "25": -0.12943440104586862,
+        "50": -0.002020745222326168,
+        "75": 0.1274200431111305,
+        "90": 0.24350440824219835,
+        "95": 0.30944931686368243,
+        "99": 0.4287006531314525,
+        "99.5": 0.4646013733221338,
+        "99.9": 0.5519333230220357,
+        "100": 0.6601292992902379,
+        "2.5": -0.3664351745286777,
+        "97.5": 0.36776980095305367
+      },
+      "band": {
+        "p2.5": -0.3664351745286777,
+        "p97.5": 0.36776980095305367,
+        "p99": 0.4287006531314525
+      }
+    }
+  },
+  "reading": {
+    "primary_band_p2.5": -0.35426198515865814,
+    "primary_band_p97.5": 0.3596800920022604,
+    "falsification_threshold_p99": 0.4188676153062659,
+    "confirmed": "end-of-training r INSIDE [p2.5, p97.5] -> init does not persist; prediction CONFIRMED",
+    "falsified": "end-of-training r ABOVE p99 -> init persisted; prediction falsified",
+    "ambiguous": "intermediate -> reported with exact percentile; no threshold re-rolling"
+  }
+}
