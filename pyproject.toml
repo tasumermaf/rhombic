@@ -48,7 +48,11 @@ dependencies = [
 viz = ["matplotlib>=3.5"]
 dev = ["pytest>=7.0"]
 nn = ["torch>=2.0"]
-all = ["rhombic[viz]", "rhombic[dev]", "rhombic[nn]"]
+# Asset-1 / BM-battery analysis lanes (D1/D2/D3 classifiers, safetensors
+# partial loads). CI installs [all]; without these the research tests
+# failed at collection — the red badge of Jul 2026.
+research = ["rhombic[nn]", "scikit-learn>=1.3", "safetensors>=0.4"]
+all = ["rhombic[viz]", "rhombic[dev]", "rhombic[nn]", "rhombic[research]"]
 
 [project.urls]
 Homepage = "https://github.com/tasumermaf/rhombic"
