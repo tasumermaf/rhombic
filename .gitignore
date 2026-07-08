@@ -147,3 +147,7 @@ results/asset1-bank-bs2x8-archive/
 # compiled paper PDFs stay local while under audit (stale binaries bake in pre-purge text)
 paper/paper4/paper4-main.pdf
 paper/rhombic-paper3.pdf
+
+# T-001r3 local checkpoint payload (8,979 files; config+results ARE tracked, r2 convention)
+results/T-001-full-r3/
+results/T-001-full-r3.log
