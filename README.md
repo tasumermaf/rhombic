@@ -20,6 +20,19 @@ spatial operations, and signal processing.
 > [results/EXPERIMENT_TRACKER.md](results/EXPERIMENT_TRACKER.md) and the
 > equal-edge control in
 > [results/EE-001-equal-edge-control/](results/EE-001-equal-edge-control/RESULTS.md).
+>
+> **Pre-registration discipline (July 2026):** the program's next evidence
+> base is a 480-run adapter bank (two model families × six tasks × forty
+> seeds), currently training. Every analysis of it (D1/D2/D3/D-aux) was
+> pre-registered before the bank completes, and the analysis tools refuse
+> to run on a partial bank — a completeness interlock in code, not a
+> convention. Null-model calibration runs before trained arms (BM-000,
+> BM-000b hub-motif nulls), and the BM-004 runner refuses to launch any
+> arm until its positive-control gate passes. Designs are reviewed by an
+> independent referee whose rulings are recorded verbatim
+> ([docs/DIRECTOR_DECISIONS_2026-07-06.md](docs/DIRECTOR_DECISIONS_2026-07-06.md),
+> [docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md](docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md));
+> deviations are dated amendments, never silent revisions.
 
 ## The Numbers
 
@@ -211,7 +224,7 @@ is universal across 24-edge polytopes, not RD-specific.
 - [Raw data and tables](results/paper2/RESULTS.md)
 - [What the numbers mean](results/paper2/INTERPRETATION.md)
 
-### Paper 3: The Learnable Bridge (13 experiments, 357 tests) — working draft
+### Paper 3: The Learnable Bridge (13 experiments) — working draft
 
 Thirteen experiments across four model families (1.1B–14B parameters),
 demonstrating that a cybernetic feedback mechanism (the Steersman)
@@ -263,8 +276,11 @@ not published, not submitted.
 
 The Steersman is a general-purpose topology programmer, not an RD-specific
 mechanism. Four polytopes confirmed: octahedron (473,622:1 co/cross,
-per-bridge mean), rhombic dodecahedron (70,404:1), tesseract (41,564:1,
-replication r = 1.0000), 24-cell (35,808:1).
+per-bridge mean), rhombic dodecahedron (70,404:1), tesseract (41,564:1;
+three same-seed runs mutually consistent at co/cross r ≥ 0.995 — see the
+[provenance record](results/t001-provenance/), which documents that the
+original run's results file was destroyed by a same-seed relaunch and
+recovered from its frozen log), 24-cell (35,808:1).
 
 > ⚠ **Provisional (frozen 2026-07-03):** these ratios were measured in runs
 > governed by the adaptive controller, whose stability detector has a known
@@ -273,8 +289,11 @@ replication r = 1.0000), 24-cell (35,808:1).
 > held out of any publication until the detector is fixed and the runs
 > re-measured; the `rd_graph` structural-mask results (BM-003, no
 > controller) are unaffected. Fixed-weight runs (FC-001, FO-001) are less
-> implicated; the pending Paper 4 audit will classify each number by
-> controller exposure.
+> implicated. *(Update 2026-07-07: the Paper 4 audit is complete — all six
+> blockers resolved; per-number controller-exposure classification in
+> [PAPER4_EXPOSURE_CLASSIFICATION.md](docs/PAPER4_EXPOSURE_CLASSIFICATION.md).
+> Re-measurement under the fixed detector remains queued for the post-bank
+> GPU window.)*
 
 Four training regimes mapped:
 Block-Diagonal, Spectral Attractor (universal band, Fiedler ≈ 0.09),
