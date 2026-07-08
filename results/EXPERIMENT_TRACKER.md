@@ -1,5 +1,38 @@
 # Rhombic Experiment Tracker
 > Last updated: 2026-03-17 ~14:30 UTC
+> **Dated update 2026-07-08:** see the "2026-07 Sprint Update" section
+> immediately below. The March body beneath it is preserved as the
+> historical record (bracketed annotations mark superseded claims).
+
+## 2026-07 Sprint Update (dated edit, 2026-07-08)
+
+The July 2–7 relaunch put the program under external referee review (the
+Director) with pre-registration discipline. State as of this edit:
+
+| Item | Status | Record |
+|------|--------|--------|
+| **Asset-1 adapter bank** | **LIVE** — 39/480 COMPLETE, 0 failures (Jul 8); 2 families (Qwen2.5-1.5B, Llama-3.2-1B) × 6 tasks × 40 seeds; bs4×ga4 per ruling A1 (bit-equivalence verified; ~1.9× throughput); ETA ~Jul 20–21 | `results/asset1-bank/bank_manifest.json`; bs2×ga8 cohort archived (`results/asset1-bank-bs2x8-archive/`, spot-check committed) |
+| **D1/D2/D3/D-aux analyses** | PRE-REGISTERED, tools built + interlock-gated (refuse partial bank); D1 has three representation arms (raw, W2T-canonical, vocab_signature — the third Director-approved 2026-07-07, reported under both kv_mode variants) | `docs/ASSET1_ANALYSIS_PIPELINE.md`, `docs/DIRECTOR_DECISIONS_2026-07-06.md`, `docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md` |
+| **T-001r3** | RUNNING on Hermes (like-for-like r2 replicate, March-era code, seed 42, n=8); ETA ~Jul 8 | `~/rhombic/results/T-001-full-r3/` (fetch on completion) |
+| **BM-000b hub-motif nulls** | COMPLETE (CPU; seed 20260707, N=10,000 × 15 ensembles): no untrained star/expander/degree-matched/shuffled-RD ensemble reproduces any trained headline — H-ch6 co/cross 70,404 vs motif maxima ≤ 9.48. Honest negative recorded: single untrained draws not topology-classifiable (0/48) | `results/BM-000b-hub-motifs/nulls.json` |
+| **BM-003 Configs G/H + dissociation endpoint** | PRE-REGISTERED (Director-approved 2026-07-07); task-class freeze timestamped 2026-07-07; GPU post-bank | `results/BM-003/PROTOCOL.md` (Amendment section) |
+| **BM-004 v2** | PRE-REGISTERED (Director-approved 2026-07-07); data builder complete; launches gated on the F2 positive-control interlock — the runner refuses any arm without a passed gate, no bypass exists | `docs/BM004_PREREGISTRATION_v2_2026-07-07.md`, `scripts/bm004_runner.py` |
+| **Paper 4 audit** | ALL SIX BLOCKERS RESOLVED (Jul 6–7): Holly residual claims purged repo-wide; P0 reattributed; spectral-attractor reframed; O-001 re-derived from tensors; T-001 rewritten to three-run evidence; BM-001 means fixed | commits `578e7b1`…`2046576`; `docs/PAPER4_EXPOSURE_CLASSIFICATION.md` |
+| **Test suite** | 689 passed (was 357 at the March header above) | `pytest -v` |
+
+**T-001 provenance correction (supersedes the r1 footnote and Key Finding
+4 below).** Forensics (Jul 7) established that the original T-001r1
+`results.json` was destroyed on 2026-03-16 by a same-seed relaunch that
+overwrote it — the "partial run terminated at step 2,700" framing and the
+March "r=1.0000 at 6 matching steps" comparison referenced the
+destroyed/overwritten artifact. The original was recovered from its frozen
+log (16 points, steps 0–1600). All three same-seed runs are mutually
+consistent: co/cross Pearson r = 0.9952 (original vs restart), 0.9975
+(original vs r2), 0.9964 (restart vs r2); Fiedler r ≥ 0.9994; restart vs
+r2 over the full 71-step overlap r = 0.9984, max relative deviation 7.24%.
+The reproducibility claim survives, strengthened to three runs; the paper
+was rewritten around the surviving evidence (commit `2046576`). Full
+record: `results/t001-provenance/recovery.json`.
 
 ## Active Experiments
 
@@ -56,7 +89,7 @@ Seed-44 auto-launched after Seed-43 completion + lm-eval. Chain watcher PID 4343
 | WL-001 | Hermes | 6 | wrong-labels | 10K | 0.0000126 | ~0:1 | **No** | **4** | channel-ablation/WL-001/ |
 | R-001 | Hermes | 6 | resonance (no contrastive) | 10K | 0.000012 | 0.0:1 | **No** | **4** | channel-ablation/R-001/ |
 
-*T-001r1 was a partial run (terminated at step 2,700). T-001r2 is the full 10K replication.
+*T-001r1 was a partial run (terminated at step 2,700). T-001r2 is the full 10K replication. **[2026-07-08: superseded — see the T-001 provenance correction in the sprint update above; the r1 artifact was destroyed by a same-seed relaunch and recovered from its log.]**
 
 ### Paper 2 — Weighted Extensions
 
@@ -80,13 +113,15 @@ Seed-44 auto-launched after Seed-43 completion + lm-eval. Chain watcher PID 4343
 | L-026 | Corpus weights misapplied (diagonal not off-diagonal) | 2026-03-13 |
 | Holly Battery | Dataset provenance unclear, L-026 contamination | 2026-03-13 |
 | Phase 1A 84.5% Q-proj fingerprinting | Never backed by reproducible computation; verified value 72.3% all-modules | 2026-04-06 |
+| Holly "Wan 2.1 14B" scale claim (residuals) + "82,154:1 across 60,000+ bridges" aggregate | Retracted-source scale claim and unanchored aggregate stripped repo-wide (purge-on-sight per Director ruling; replaced with anchored per-scale numbers) — commits `35c220e`, `8a4e440` | 2026-07-06 |
+| T-001 r1-vs-r2 "r=1.0000 / 3.5% / 5,395:1 @2700" | Referenced the destroyed r1 artifact (same-seed relaunch overwrote results.json 2026-03-16); superseded by the three-run provenance record, `results/t001-provenance/recovery.json` | 2026-07-07 |
 
 ## Key Findings
 
 1. **Spectral attractor CONFIRMED**: Fiedler → 0.0918–0.1019 across n=3,4,8,12 (10.4% band). H-ch12 COMPLETE: final Fiedler 0.1019 at step 10K. [Paper 4]
 2. **Contrastive topology IS the structure signal**: Only RD/tesseract pairs develop BD. WL-001 wrong-labels co/cross ~0 (10K). **R-001 resonance COMPLETE**: co/cross **0.0**, Fiedler **1.2e-05**, val loss **0.4008** at 10K — **definitive null**, spectral loss alone produces NO topology. [Paper 3+4]
 3. **4D programming works**: T-001r2 COMPLETE at step 10K, co/cross **41,564:1**, Fiedler 0.000191. Clean 4+4 eigenvalue split. [Paper 4]
-4. **T-001r2 reproduces r1**: r=1.0000 at 6 matching steps, max deviation 3.5%. r2 converged to 41,564:1 (r1 partial: 5,395:1 at step 2700). [Paper 4]
+4. **T-001r2 reproduces r1**: r=1.0000 at 6 matching steps, max deviation 3.5%. r2 converged to 41,564:1 (r1 partial: 5,395:1 at step 2700). [Paper 4] **[2026-07-08: the r=1.0000/3.5%/5,395:1 figures referenced the destroyed r1 artifact — superseded by the three-run provenance record (co/cross r 0.9952–0.9975); see the sprint update above.]**
 8. **Multi-seed replication**: **Seed-43 COMPLETE** — co/cross **73,309:1**, val loss **0.3997**, lm-eval **-0.36%** mean delta. Third independent seed in the 64K–73K band. Seed-44 running. [Paper 3]
 9. **Emanation architecture**: E-001 at step 2500 shows intermediate behavior (Fiedler=0.070, co/cross=1.05) — Fiedler rising toward spectral attractor (~0.09) but not there yet. Neither BD nor null. Third regime. [Paper 4]
 5. **Init is cosmetic**: 3 strategies converge to 64K–71K:1 band, 0.12% val loss delta. [Paper 3]
@@ -101,6 +136,12 @@ Seed-44 auto-launched after Seed-43 completion + lm-eval. Chain watcher PID 4343
 | **3** | exp3, exp3_tiny, C-001/2/3, H-ch3/4/6/8, Holly, exp1-2.7 | ALL COMPLETE |
 | **4** | T-001r1/r2, H-ch12, WL-001, R-001, E-001, O-001, Seed-43/44, H-ch3/4/8 (shared) | 6 complete, 2 running, 2 queued |
 | **5** | D-001, D-002, bridge-swap, transit, Hum | NOT STARTED |
+
+**[2026-07-08 note:** the map above is the March snapshot. Current: Paper
+4's audit blockers are emptied (adaptive-run re-measures pending
+post-bank); the "transit" idea matured into the pre-registered BM-004 v2;
+the program's active evidence base is the Asset-1 bank + D-pipeline + BM
+battery — see the sprint update at the top of this file.**]**
 
 ## Infrastructure
 

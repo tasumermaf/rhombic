@@ -4,6 +4,14 @@
 > success criteria, decision gates, and dependencies.
 > **Last updated:** 2026-03-31 (FC-001 COMPLETE 67,501:1, FO-001 COMPLETE 262,920:1, LORAXS-CORPUS COMPLETE negative result)
 > **Notion mirror:** https://www.notion.so/31d6930d2e1181bab622d6b3a9720b24
+>
+> **Dated update 2026-07-08:** the body below is the March 31 snapshot.
+> For the July sprint state — Asset-1 bank campaign (LIVE), pre-registered
+> D1/D2/D3/D-aux pipeline, BM-000b hub-motif nulls, BM-003 G/H + BM-004 v2
+> pre-registrations, T-001 provenance correction, Paper 4 audit closure —
+> see the "2026-07 Sprint Update" in `results/EXPERIMENT_TRACKER.md` and
+> the Director rulings in `docs/DIRECTOR_DECISIONS_2026-07-06.md` +
+> `docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md`.
 
 ---
 
