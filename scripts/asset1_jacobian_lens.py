@@ -166,8 +166,11 @@ PINNED_DEFAULTS = {
         "bank data)."),
     "position": (
         "last token; perturbation site == readout position "
-        "(within-position lens; cross-position terms dropped). PINNED "
-        "— DIRECTOR SIGN-OFF."),
+        "(within-position lens; cross-position terms dropped). "
+        "DIRECTOR APPROVED 2026-07-09 "
+        "(docs/DIRECTOR_RULING_JLENS_STAGEB_2026-07-09.md) — accepted "
+        "as conservative-for-arbiter; see stageb_ruling in this "
+        "artifact for the two disclosure conditions."),
     "sketch": (
         f"vocab sketch shared with asset1_vocab_signature (stream tag "
         f"72), sketch_dim={SKETCH_DIM}; only S^T J_m stored per module."),
@@ -182,6 +185,32 @@ PINNED_DEFAULTS = {
         f"input probes shared with asset1_vocab_signature (stream tag "
         f"71), n_probes={N_PROBES} — the two output-referenced levels "
         "differ ONLY in the readout map."),
+}
+
+
+# Director's Stage-B ruling (2026-07-09), encoded into EVERY output
+# artifact (plan, lens, signature) per the ruling's disclosure
+# conditions — a reader of any result must see the bias direction and
+# the reporting gate without opening this file.
+STAGEB_RULING = {
+    "status": ("Stage-B defaults 1-4 APPROVED for reportable use — "
+               "docs/DIRECTOR_RULING_JLENS_STAGEB_2026-07-09.md"),
+    "conservative_disclosure": (
+        "Cross-position terms are DROPPED (within-position lens): Level "
+        "B UNDERESTIMATES propagation rather than fabricating it — the "
+        "conservative direction for the arbiter role. A null Level-B "
+        "reading is therefore protected by construction (Director "
+        "condition 2(i), 2026-07-09)."),
+    "lower_bound_framing": (
+        "Any Level-B CONFIRMATION of propagation structure is a LOWER "
+        "BOUND: the true cross-position propagation is at least this "
+        "strong (Director condition 2(ii), 2026-07-09)."),
+    "positive_control_gate": (
+        "HARD CONDITION: no Level-B signature is REPORTED as an arbiter "
+        "verdict until the synthetic positive control passes — planted "
+        "propagation recovered above a matched null AND a planted "
+        "output-null update reading as null, Level-A-selftest class. "
+        "Lens construction/estimation are unaffected (null-class)."),
 }
 
 
@@ -211,6 +240,7 @@ def build_plan(*, contexts: list[str] | None = None,
         "target_module_re": TARGET_MODULE_RE,
         "model_dtype": MODEL_DTYPE,
         "pinned_defaults": PINNED_DEFAULTS,
+        "stageb_ruling": STAGEB_RULING,
         "gate": (f"Stage B requires {GATE_FLAG}; runs on Hermes after "
                  f"~Jul 8 or locally post-bank ONLY."),
     }
@@ -330,6 +360,7 @@ def estimate_lenses(model_id: str, plan: dict, out_dir: Path,
         "vocab_size": int(vocab_size),
         "n_modules": len(lenses),
         "pinned_defaults": PINNED_DEFAULTS,
+        "stageb_ruling": STAGEB_RULING,
         "npz": str(npz_path),
     }
     (out_dir / f"jlens_{family_short}.json").write_text(
@@ -446,6 +477,7 @@ def sign_bank(bank_root: Path, out_dir: Path, family_short: str, *,
         "layout": layout,
         "lenses_npz": str(npz_path),
         "pinned_defaults": PINNED_DEFAULTS,
+        "stageb_ruling": STAGEB_RULING,
         "npz": str(sig_path),
         "exploratory_only": bool(allow_partial),
     }
