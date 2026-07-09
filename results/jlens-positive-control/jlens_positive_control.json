@@ -1,0 +1,145 @@
+{
+  "tool": "scripts/asset1_jacobian_lens.py",
+  "stage": "PC (synthetic positive control)",
+  "created_at": "2026-07-09T18:23:17.224889+00:00",
+  "seed": 20260709,
+  "PASS": true,
+  "purpose": "Director hard condition (docs/DIRECTOR_RULING_JLENS_STAGEB_2026-07-09.md): validate the Level-B lens->signature pathway recovers planted mid-network propagation above a matched null and reads a genuinely output-null planted update as null \u2014 Level-A-selftest class, so a null Stage-C result is interpretable as 'no structure' rather than 'lens too weak'.",
+  "design": {
+    "toy_frozen_map": "per module J_toy in R^{V_toy x d_out}, V_toy < d_out so null(J_toy) has dim d_out - V_toy; production lens = S^T J_toy (exact Stage-B shape); raw readout = identity lens (Delta @ X, no propagation).",
+    "planted_update": "Delta = g (J_pinv u_k) w^T [visible, carried by J_toy to output dir u_k] + PC_VIS_NOISE (J_pinv E) [visible spread] + PC_CONF_SCALE (N Z) [OUTPUT-NULL confound: annihilated by the correct lens, swamps a wrong lens \u2014 the non-tautology mechanism].",
+    "output_null_update": "Delta = g (N c_k) w^T + PC_ONULL_NOISE (N Z): column space entirely in null(J_toy); lens output numerically 0, raw update still carries c_k.",
+    "matched_null": "identical construction, per-run RANDOM plant (no task->direction association).",
+    "statistic": "loo_nearest_centroid_accuracy on L2-normalized signatures \u2014 Level A's own selftest metric (imported, not re-implemented).",
+    "shared_probes_sketch": "probe_inputs (stream 71) via jlens_signature_for_modules; vocab_sketch (stream 72) builds every lens \u2014 condition (d) of the ruling, import-shared with Level A."
+  },
+  "pinned": {
+    "control_seed": 20260709,
+    "d_model": 16,
+    "d_in": 16,
+    "V_toy": 8,
+    "n_tasks": 4,
+    "n_reps": 6,
+    "n_runs_per_bank": 24,
+    "chance": 0.25,
+    "modules": [
+      "model.layers.0.self_attn.q_proj",
+      "model.layers.0.self_attn.o_proj",
+      "model.layers.1.self_attn.q_proj",
+      "model.layers.1.self_attn.o_proj"
+    ],
+    "conf_scale": 8.0,
+    "vis_noise": 0.03,
+    "onull_noise": 0.05,
+    "gain_lo": 0.5,
+    "n_perm": 500,
+    "sketch_dim": 8,
+    "n_probes": 16,
+    "sabotage_seed": 20283877,
+    "stream_tags": {
+      "J": 80,
+      "u": 81,
+      "w": 82,
+      "gain": 83,
+      "conf": 84,
+      "vis_noise": 85,
+      "c_null": 86,
+      "onull_noise": 87,
+      "rand_u": 88,
+      "perm": 89,
+      "probe": 71,
+      "sketch": 72
+    },
+    "thresholds": {
+      "planted_loo_required": 1.0,
+      "residual_ratio_max": 1e-06,
+      "onull_maxabs_max": 1e-08,
+      "null_band_hi": 0.6,
+      "onull_raw_loo_required": 1.0
+    }
+  },
+  "toy_map_geometry": [
+    {
+      "module": "model.layers.0.self_attn.q_proj",
+      "d_out": 16,
+      "d_in": 16,
+      "V_toy": 8,
+      "null_dim": 8,
+      "J_row_rank": 8,
+      "J_pinv_identity_maxerr": 4.440892098500626e-16,
+      "J_nullbasis_maxabs": 8.181332075608878e-16
+    },
+    {
+      "module": "model.layers.0.self_attn.o_proj",
+      "d_out": 16,
+      "d_in": 16,
+      "V_toy": 8,
+      "null_dim": 8,
+      "J_row_rank": 8,
+      "J_pinv_identity_maxerr": 6.661338147750939e-16,
+      "J_nullbasis_maxabs": 1.2225355934670235e-15
+    },
+    {
+      "module": "model.layers.1.self_attn.q_proj",
+      "d_out": 16,
+      "d_in": 16,
+      "V_toy": 8,
+      "null_dim": 8,
+      "J_row_rank": 8,
+      "J_pinv_identity_maxerr": 7.296177632223001e-16,
+      "J_nullbasis_maxabs": 9.19170237954539e-16
+    },
+    {
+      "module": "model.layers.1.self_attn.o_proj",
+      "d_out": 16,
+      "d_in": 16,
+      "V_toy": 8,
+      "null_dim": 8,
+      "J_row_rank": 8,
+      "J_pinv_identity_maxerr": 2.902735452007393e-16,
+      "J_nullbasis_maxabs": 8.368541975103076e-16
+    }
+  ],
+  "results": {
+    "planted": {
+      "loo": 1.0,
+      "signature_dim": 512,
+      "mean_signature_norm": 2.455510040522725
+    },
+    "matched_null": {
+      "loo": 0.16666666666666666
+    },
+    "permutation_null": {
+      "n_perm": 500,
+      "mean": 0.24658333333333332,
+      "min": 0.0,
+      "max": 0.625,
+      "p95": 0.5,
+      "p99": 0.5833333333333334
+    },
+    "output_null": {
+      "lensed_loo": 1.0,
+      "lensed_loo_note": "computed on numerically-zero vectors (maxabs 1.64e-15); not operationally meaningful \u2014 'reads null' is evidenced by the norm, not this LOO.",
+      "raw_loo": 1.0,
+      "mean_lensed_norm": 2.7604026011525786e-15,
+      "residual_ratio": 1.1241666927026486e-15,
+      "lensed_maxabs": 1.6352737611561533e-15
+    },
+    "sabotage": {
+      "wrong_lens_loo": 0.08333333333333333,
+      "note": "planted bank signed with a DIFFERENT toy map's lens; recovery must collapse toward chance \u2014 proof the control is not a tautology."
+    },
+    "chance": 0.25
+  },
+  "checks": {
+    "planted_recovered": true,
+    "output_null_reads_null": true,
+    "sabotage_detected": true
+  },
+  "stageb_ruling": {
+    "status": "Stage-B defaults 1-4 APPROVED for reportable use \u2014 docs/DIRECTOR_RULING_JLENS_STAGEB_2026-07-09.md",
+    "conservative_disclosure": "Cross-position terms are DROPPED (within-position lens): Level B UNDERESTIMATES propagation rather than fabricating it \u2014 the conservative direction for the arbiter role. A null Level-B reading is therefore protected by construction (Director condition 2(i), 2026-07-09).",
+    "lower_bound_framing": "Any Level-B CONFIRMATION of propagation structure is a LOWER BOUND: the true cross-position propagation is at least this strong (Director condition 2(ii), 2026-07-09).",
+    "positive_control_gate": "HARD CONDITION: no Level-B signature is REPORTED as an arbiter verdict until the synthetic positive control passes \u2014 planted propagation recovered above a matched null AND a planted output-null update reading as null, Level-A-selftest class. Lens construction/estimation are unaffected (null-class)."
+  }
+}
