@@ -112,7 +112,8 @@ import asset1_analysis_io as aio  # noqa: E402  (torch-only)
 from asset1_canonicalize import (  # noqa: E402
     effective_factors, load_adapter_modules)
 from asset1_vocab_signature import (  # noqa: E402  (shared probes/sketch)
-    DEFAULT_SEED, N_PROBES, SKETCH_DIM, probe_inputs, vocab_sketch)
+    DEFAULT_SEED, N_PROBES, SKETCH_DIM, loo_nearest_centroid_accuracy,
+    probe_inputs, vocab_sketch)
 
 # ── Pinned defaults ─────────────────────────────────────────────────
 
@@ -488,6 +489,431 @@ def sign_bank(bank_root: Path, out_dir: Path, family_short: str, *,
     return meta
 
 
+# ── STAGE PC — synthetic positive control (Director condition) ──────
+#
+# The one HARD condition of docs/DIRECTOR_RULING_JLENS_STAGEB_2026-07-09.md:
+# before any Level-B signature is reported as an arbiter verdict, a
+# synthetic positive control (Level-A-selftest class) must show the lens
+#   (a) RECOVERS a planted propagation structure above a matched null, and
+#   (b) reads a genuinely OUTPUT-NULL planted update as null.
+#
+# What is validated is the LENS -> SIGNATURE pathway itself: that
+# (S^T J) @ Delta @ X — the exact production code path
+# (jlens_signature_for_modules, with the import-shared stream-71 probes
+# and stream-72 sketch) — recovers task identity that a TOY FROZEN MAP
+# J_toy carries to the output, and only when the lens matches J_toy. No
+# bank contact, no transformers, no GPU, CPU/seconds. The toy map stands
+# in for a Stage-B estimated lens; the arithmetic exercised is identical.
+#
+# Design in three sentences: a toy frozen map is a set of seeded linear
+# Jacobians J_toy[m] (V_toy x d_out, V_toy < d_out so each has a real
+# null space), whose production lens is S^T J_toy[m]; the PLANTED bank
+# writes, per task, an effective update whose column space J_toy carries
+# to a fixed output direction (recoverable through the lens) plus a large
+# OUTPUT-NULL confound that the correct lens annihilates but a wrong lens
+# cannot — this is what makes recovery lens-specific rather than a
+# tautology. The MATCHED-NULL bank runs the identical construction with a
+# per-run random plant (no task->direction association), and the
+# OUTPUT-NULL bank writes each task's identity entirely inside null(J_toy)
+# so the lens output is numerically zero while the raw update still
+# carries the task (proven by reading it through an identity lens). The
+# acceptance statistic is Level A's own loo_nearest_centroid_accuracy on
+# L2-normalized signatures.
+
+CONTROL_SEED = 20260709          # PINNED — never date/entropy-based
+PC_D_MODEL = 16                  # toy module output / residual width (d_out)
+PC_D_IN = 16                     # toy module input width (d_in)
+PC_V_TOY = 8                     # toy output ("logit") dim; < d_out => null
+PC_N_TASKS = 4                   # planted tasks K (chance = 1/K = 0.25)
+PC_N_REPS = 6                    # replicates R per task (K*R = 24 runs/bank)
+PC_MODULES: tuple[str, ...] = (  # dotted lens keys (production naming)
+    "model.layers.0.self_attn.q_proj",
+    "model.layers.0.self_attn.o_proj",
+    "model.layers.1.self_attn.q_proj",
+    "model.layers.1.self_attn.o_proj",
+)
+PC_CONF_SCALE = 8.0              # output-null confound magnitude — invisible
+                                 # to the correct lens, defeats a wrong lens
+PC_VIS_NOISE = 0.03              # within-task spread in the output-VISIBLE
+                                 # subspace (seen by the correct lens)
+PC_ONULL_NOISE = 0.05            # within-task spread INSIDE null(J_toy)
+PC_GAIN_LO = 0.5                 # radial per-run gain in [LO, LO+1) (Level A
+                                 # dev_mag analog; removed by L2-normalization)
+PC_N_PERM = 500                  # permutation-null replicates
+PC_SABOTAGE_SEED_OFFSET = 0x5A80  # wrong-map seed = CONTROL_SEED + this
+
+# Pinned PASS thresholds (every gate a named constant, recorded in JSON).
+PC_RESIDUAL_RATIO_MAX = 1e-6     # ||lensed output-null|| / ||planted||
+PC_ONULL_MAXABS_MAX = 1e-8       # absolute "reads nothing" ceiling
+PC_NULL_BAND_HI = 0.60           # matched/sabotage LOO must sit at/below this
+                                 # (chance 0.25; 0.60 is a wide safety band)
+
+# rng stream tags — house convention (default_rng([seed, tag, *idx])),
+# disjoint from the shared 71/72/73 and from each other.
+_PC_STREAM_J = 80                # toy Jacobian per module
+_PC_STREAM_U = 81                # visible task directions u_k
+_PC_STREAM_W = 82                # per-module input direction w_m
+_PC_STREAM_GAIN = 83             # per-run radial gain
+_PC_STREAM_CONF = 84             # per-run/module output-null confound
+_PC_STREAM_VISN = 85             # per-run/module visible within-task noise
+_PC_STREAM_CNULL = 86            # output-null task directions c_k
+_PC_STREAM_ONULLN = 87           # output-null within-task null noise
+_PC_STREAM_RANDU = 88            # matched-null per-run random plant
+_PC_STREAM_PERM = 89            # permutation-null shuffles
+
+
+def _pc_guard_out_dir(out_dir: Path) -> None:
+    """Refuse an --out-dir inside the live campaign tree (same discipline
+    as sign_bank / vocab_signature)."""
+    if "asset1-bank" in Path(out_dir).resolve().parts:
+        raise SystemExit(
+            f"[jlens] REFUSING --out-dir {out_dir}: inside the live "
+            f"campaign tree (results/asset1-bank is write-protected).")
+
+
+def build_toy_frozen_map(seed: int = CONTROL_SEED) -> dict:
+    """The TOY FROZEN MAP: a seeded linear Jacobian per module and the
+    production lens S^T J_toy built from it.
+
+    For each module J_toy[m] in R^{V_toy x d_out} (V_toy < d_out, so a
+    real null space of dimension d_out - V_toy exists), with:
+      * J_pinv[m] = right inverse (J J^T)^{-1} folded — J @ J_pinv = I;
+      * null_basis[m] = orthonormal basis of null(J_toy[m]) (J @ N = 0);
+      * lenses[m]     = S^T @ J_toy[m] in R^{sketch_dim x d_out} — the
+                        EXACT shape/role of a real Stage-B lens;
+      * raw_lenses[m] = I_{d_out} — reads the raw update Delta @ X through
+                        the identical code path (no propagation map).
+    S is the import-shared vocab_sketch (stream 72). Returns the maps plus
+    per-module geometry diagnostics (rank, ||J N||, ||J J_pinv - I||).
+    """
+    S = vocab_sketch(PC_V_TOY, SKETCH_DIM, seed)          # (V_toy, s)
+    J_toy, J_pinv, null_basis, lenses, raw_lenses = {}, {}, {}, {}, {}
+    geometry = []
+    for mi, name in enumerate(PC_MODULES):
+        d_out = PC_D_MODEL
+        rng = np.random.default_rng([seed, _PC_STREAM_J, mi])
+        J = rng.standard_normal((PC_V_TOY, d_out))
+        rank = int(np.linalg.matrix_rank(J))
+        if rank < PC_V_TOY:                                # generically never
+            raise RuntimeError(f"toy J for {name} is rank-deficient "
+                               f"({rank} < {PC_V_TOY})")
+        Jp = J.T @ np.linalg.inv(J @ J.T)                 # (d_out, V_toy)
+        _, _, Vh = np.linalg.svd(J, full_matrices=True)   # Vh: (d_out, d_out)
+        N = Vh[PC_V_TOY:].T                               # (d_out, null_dim)
+        J_toy[name] = J
+        J_pinv[name] = Jp
+        null_basis[name] = N
+        lenses[name] = S.T @ J                            # (s, d_out)
+        raw_lenses[name] = np.eye(d_out)
+        geometry.append({
+            "module": name,
+            "d_out": d_out, "d_in": PC_D_IN, "V_toy": PC_V_TOY,
+            "null_dim": int(N.shape[1]),
+            "J_row_rank": rank,
+            "J_pinv_identity_maxerr": float(
+                np.abs(J @ Jp - np.eye(PC_V_TOY)).max()),
+            "J_nullbasis_maxabs": float(np.abs(J @ N).max()),
+        })
+    return {"seed": int(seed), "S": S, "module_names": list(PC_MODULES),
+            "J_toy": J_toy, "J_pinv": J_pinv, "null_basis": null_basis,
+            "lenses": lenses, "raw_lenses": raw_lenses, "geometry": geometry}
+
+
+def _pc_task_dirs(seed: int) -> tuple[np.ndarray, np.ndarray]:
+    """Orthonormal task directions: u_k in R^{V_toy} (output-VISIBLE) and
+    c_k in R^{null_dim} (null coordinates). Shared across all modules and
+    banks for a given seed."""
+    u, _ = np.linalg.qr(np.random.default_rng(
+        [seed, _PC_STREAM_U]).standard_normal((PC_V_TOY, PC_N_TASKS)))
+    null_dim = PC_D_MODEL - PC_V_TOY
+    c, _ = np.linalg.qr(np.random.default_rng(
+        [seed, _PC_STREAM_CNULL]).standard_normal((null_dim, PC_N_TASKS)))
+    return u[:, :PC_N_TASKS], c[:, :PC_N_TASKS]
+
+
+def _pc_input_dir(seed: int, mi: int) -> np.ndarray:
+    w = np.random.default_rng([seed, _PC_STREAM_W, mi]).standard_normal(PC_D_IN)
+    return w / np.linalg.norm(w)
+
+
+def _pc_gain(seed: int, run_index: int) -> float:
+    return PC_GAIN_LO + float(
+        np.random.default_rng([seed, _PC_STREAM_GAIN, run_index]).uniform())
+
+
+def _pc_module(delta: np.ndarray) -> dict[str, torch.Tensor]:
+    """Wrap an effective update Delta (d_out x d_in) as a plain-LoRA module
+    dict so effective_factors returns exactly (Delta, I): lora_B = Delta,
+    lora_A = I. The production signature path then computes Delta @ X."""
+    return {"lora_A": torch.eye(delta.shape[1], dtype=torch.float64),
+            "lora_B": torch.from_numpy(np.ascontiguousarray(delta))}
+
+
+def build_planted_bank(toy: dict, seed: int = CONTROL_SEED, *,
+                       randomize_task: bool = False
+                       ) -> tuple[list[dict], np.ndarray]:
+    """The PLANTED (or, with randomize_task, the MATCHED-NULL) bank.
+
+    Per run (task k, replicate j) and module m the effective update is
+        Delta = g * (J_pinv[m] u_k) w_m^T           # visible, task-carrying
+              + PC_VIS_NOISE * (J_pinv[m] E)         # visible within-task noise
+              + PC_CONF_SCALE * (N_m Z)              # OUTPUT-NULL confound
+    with g a per-run radial gain, E/Z per-run/module Gaussians. Under the
+    correct lens the confound vanishes (J_toy N = 0) so the signature is
+    g (S^T u_k)(w_m^T X) + small visible noise — the planted task
+    direction. randomize_task=True draws u per RUN instead of per task:
+    identical machinery, no task->direction plant => the matched null."""
+    u, _ = _pc_task_dirs(seed)
+    banks: list[dict] = []
+    labels: list[str] = []
+    run_index = 0
+    for k in range(PC_N_TASKS):
+        for _j in range(PC_N_REPS):
+            g = _pc_gain(seed, run_index)
+            modules: dict = {}
+            for mi, name in enumerate(toy["module_names"]):
+                Jp = toy["J_pinv"][name]
+                N = toy["null_basis"][name]
+                w = _pc_input_dir(seed, mi)
+                if randomize_task:
+                    uk = np.random.default_rng(
+                        [seed, _PC_STREAM_RANDU, run_index, mi]
+                    ).standard_normal(PC_V_TOY)
+                    uk = uk / np.linalg.norm(uk)
+                else:
+                    uk = u[:, k]
+                delta = g * np.outer(Jp @ uk, w)
+                E = np.random.default_rng(
+                    [seed, _PC_STREAM_VISN, run_index, mi]
+                ).standard_normal((PC_V_TOY, PC_D_IN))
+                delta = delta + PC_VIS_NOISE * (Jp @ E)
+                Z = np.random.default_rng(
+                    [seed, _PC_STREAM_CONF, run_index, mi]
+                ).standard_normal((N.shape[1], PC_D_IN))
+                delta = delta + PC_CONF_SCALE * (N @ Z)
+                modules[name.replace(".", "_")] = _pc_module(delta)
+            banks.append(modules)
+            labels.append(f"task{k}")
+            run_index += 1
+    return banks, np.array(labels)
+
+
+def build_output_null_bank(toy: dict, seed: int = CONTROL_SEED
+                           ) -> tuple[list[dict], np.ndarray]:
+    """The OUTPUT-NULL bank: each task's identity lives ENTIRELY inside
+    null(J_toy). Per run/module
+        Delta = g * (N_m c_k) w_m^T + PC_ONULL_NOISE * (N_m Z),
+    so the whole column space is in null(J_toy): the lens output
+    (S^T J_toy) Delta X is numerically zero, yet the RAW update Delta @ X
+    still carries c_k (recoverable through an identity lens) — a genuinely
+    planted update that the lens correctly reads as nothing."""
+    _, c = _pc_task_dirs(seed)
+    banks: list[dict] = []
+    labels: list[str] = []
+    run_index = 0
+    for k in range(PC_N_TASKS):
+        for _j in range(PC_N_REPS):
+            g = _pc_gain(seed, run_index)
+            modules: dict = {}
+            for mi, name in enumerate(toy["module_names"]):
+                N = toy["null_basis"][name]
+                w = _pc_input_dir(seed, mi)
+                delta = g * np.outer(N @ c[:, k], w)
+                Z = np.random.default_rng(
+                    [seed, _PC_STREAM_ONULLN, run_index, mi]
+                ).standard_normal((N.shape[1], PC_D_IN))
+                delta = delta + PC_ONULL_NOISE * (N @ Z)
+                modules[name.replace(".", "_")] = _pc_module(delta)
+            banks.append(modules)
+            labels.append(f"task{k}")
+            run_index += 1
+    return banks, np.array(labels)
+
+
+def control_signatures(banks: list[dict], lenses: dict[str, np.ndarray], *,
+                       seed: int = CONTROL_SEED,
+                       n_probes: int = N_PROBES) -> np.ndarray:
+    """Sign every run of a control bank through the PRODUCTION code path
+    (jlens_signature_for_modules — same probes, same sketch). Returns
+    (n_runs x dim) float64."""
+    rows = [jlens_signature_for_modules(m, lenses, n_probes=n_probes,
+                                        seed=seed)[0].astype(np.float64)
+            for m in banks]
+    return np.stack(rows)
+
+
+def _pc_permutation_null(X: np.ndarray, labels: np.ndarray, seed: int,
+                         n_perm: int = PC_N_PERM) -> dict:
+    """Label-permutation null band of the LOO statistic on the planted
+    signatures — the chance distribution for this exact geometry."""
+    rng = np.random.default_rng([seed, _PC_STREAM_PERM])
+    accs = np.array([loo_nearest_centroid_accuracy(X, labels[rng.permutation(
+        len(labels))]) for _ in range(n_perm)])
+    return {"n_perm": int(n_perm), "mean": float(accs.mean()),
+            "min": float(accs.min()), "max": float(accs.max()),
+            "p95": float(np.percentile(accs, 95)),
+            "p99": float(np.percentile(accs, 99))}
+
+
+def run_positive_control(out_dir: Path, seed: int = CONTROL_SEED) -> dict:
+    """Synthetic positive control for the Level-B J-lens (Director's hard
+    condition, 2026-07-09). CPU-only, seconds, no bank/transformers/GPU.
+    Writes jlens_positive_control.json and returns the report dict."""
+    out_dir = Path(out_dir)
+    _pc_guard_out_dir(out_dir)
+    chance = 1.0 / PC_N_TASKS
+    toy = build_toy_frozen_map(seed)
+
+    # (a) PLANTED PROPAGATION — correct lens must recover the tasks.
+    planted_banks, planted_labels = build_planted_bank(toy, seed)
+    Xp = control_signatures(planted_banks, toy["lenses"], seed=seed)
+    planted_loo = loo_nearest_centroid_accuracy(Xp, planted_labels)
+
+    # (b) MATCHED NULL — identical machinery, random per-run plant.
+    mnull_banks, mnull_labels = build_planted_bank(
+        toy, seed, randomize_task=True)
+    Xn = control_signatures(mnull_banks, toy["lenses"], seed=seed)
+    matched_null_loo = loo_nearest_centroid_accuracy(Xn, mnull_labels)
+    perm = _pc_permutation_null(Xp, planted_labels, seed)
+
+    # (c) OUTPUT-NULL planted update — lens must read numerically nothing,
+    #     while the RAW update (identity lens) still carries the task.
+    onull_banks, onull_labels = build_output_null_bank(toy, seed)
+    Xo = control_signatures(onull_banks, toy["lenses"], seed=seed)
+    Xo_raw = control_signatures(onull_banks, toy["raw_lenses"], seed=seed)
+    onull_lensed_loo = loo_nearest_centroid_accuracy(Xo, onull_labels)
+    onull_raw_loo = loo_nearest_centroid_accuracy(Xo_raw, onull_labels)
+    planted_norm = float(np.linalg.norm(Xp, axis=1).mean())
+    onull_norm = float(np.linalg.norm(Xo, axis=1).mean())
+    residual_ratio = onull_norm / planted_norm
+    onull_maxabs = float(np.abs(Xo).max())
+
+    # NON-TAUTOLOGY — a WRONG frozen map's lens must FAIL to recover the
+    # very same planted bank (the confound it cannot null swamps it).
+    toy_wrong = build_toy_frozen_map(seed + PC_SABOTAGE_SEED_OFFSET)
+    Xsab = control_signatures(planted_banks, toy_wrong["lenses"], seed=seed)
+    sabotage_loo = loo_nearest_centroid_accuracy(Xsab, planted_labels)
+
+    planted_recovered = bool(
+        planted_loo == 1.0
+        and planted_loo > matched_null_loo
+        and planted_loo > perm["max"]
+        and matched_null_loo <= PC_NULL_BAND_HI)
+    output_null_reads_null = bool(
+        residual_ratio < PC_RESIDUAL_RATIO_MAX
+        and onull_maxabs < PC_ONULL_MAXABS_MAX
+        and onull_raw_loo == 1.0)
+    sabotage_detected = bool(
+        sabotage_loo < planted_loo and sabotage_loo <= PC_NULL_BAND_HI)
+    passed = bool(planted_recovered and output_null_reads_null
+                  and sabotage_detected)
+
+    report = {
+        "tool": "scripts/asset1_jacobian_lens.py",
+        "stage": "PC (synthetic positive control)",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "seed": int(seed),
+        "PASS": passed,
+        "purpose": (
+            "Director hard condition (docs/DIRECTOR_RULING_JLENS_STAGEB_"
+            "2026-07-09.md): validate the Level-B lens->signature pathway "
+            "recovers planted mid-network propagation above a matched null "
+            "and reads a genuinely output-null planted update as null — "
+            "Level-A-selftest class, so a null Stage-C result is "
+            "interpretable as 'no structure' rather than 'lens too weak'."),
+        "design": {
+            "toy_frozen_map": (
+                "per module J_toy in R^{V_toy x d_out}, V_toy < d_out so "
+                "null(J_toy) has dim d_out - V_toy; production lens = "
+                "S^T J_toy (exact Stage-B shape); raw readout = identity "
+                "lens (Delta @ X, no propagation)."),
+            "planted_update": (
+                "Delta = g (J_pinv u_k) w^T [visible, carried by J_toy to "
+                "output dir u_k] + PC_VIS_NOISE (J_pinv E) [visible spread] "
+                "+ PC_CONF_SCALE (N Z) [OUTPUT-NULL confound: annihilated "
+                "by the correct lens, swamps a wrong lens — the "
+                "non-tautology mechanism]."),
+            "output_null_update": (
+                "Delta = g (N c_k) w^T + PC_ONULL_NOISE (N Z): column space "
+                "entirely in null(J_toy); lens output numerically 0, raw "
+                "update still carries c_k."),
+            "matched_null": ("identical construction, per-run RANDOM plant "
+                             "(no task->direction association)."),
+            "statistic": ("loo_nearest_centroid_accuracy on L2-normalized "
+                          "signatures — Level A's own selftest metric "
+                          "(imported, not re-implemented)."),
+            "shared_probes_sketch": (
+                "probe_inputs (stream 71) via jlens_signature_for_modules; "
+                "vocab_sketch (stream 72) builds every lens — condition (d) "
+                "of the ruling, import-shared with Level A."),
+        },
+        "pinned": {
+            "control_seed": int(seed), "d_model": PC_D_MODEL,
+            "d_in": PC_D_IN, "V_toy": PC_V_TOY, "n_tasks": PC_N_TASKS,
+            "n_reps": PC_N_REPS, "n_runs_per_bank": PC_N_TASKS * PC_N_REPS,
+            "chance": chance, "modules": list(PC_MODULES),
+            "conf_scale": PC_CONF_SCALE, "vis_noise": PC_VIS_NOISE,
+            "onull_noise": PC_ONULL_NOISE, "gain_lo": PC_GAIN_LO,
+            "n_perm": PC_N_PERM, "sketch_dim": SKETCH_DIM,
+            "n_probes": N_PROBES,
+            "sabotage_seed": int(seed + PC_SABOTAGE_SEED_OFFSET),
+            "stream_tags": {
+                "J": _PC_STREAM_J, "u": _PC_STREAM_U, "w": _PC_STREAM_W,
+                "gain": _PC_STREAM_GAIN, "conf": _PC_STREAM_CONF,
+                "vis_noise": _PC_STREAM_VISN, "c_null": _PC_STREAM_CNULL,
+                "onull_noise": _PC_STREAM_ONULLN, "rand_u": _PC_STREAM_RANDU,
+                "perm": _PC_STREAM_PERM, "probe": 71, "sketch": 72},
+            "thresholds": {
+                "planted_loo_required": 1.0,
+                "residual_ratio_max": PC_RESIDUAL_RATIO_MAX,
+                "onull_maxabs_max": PC_ONULL_MAXABS_MAX,
+                "null_band_hi": PC_NULL_BAND_HI,
+                "onull_raw_loo_required": 1.0},
+        },
+        "toy_map_geometry": toy["geometry"],
+        "results": {
+            "planted": {
+                "loo": planted_loo, "signature_dim": int(Xp.shape[1]),
+                "mean_signature_norm": planted_norm},
+            "matched_null": {"loo": matched_null_loo},
+            "permutation_null": perm,
+            "output_null": {
+                "lensed_loo": onull_lensed_loo,
+                "lensed_loo_note": (
+                    "computed on numerically-zero vectors (maxabs "
+                    f"{onull_maxabs:.2e}); not operationally meaningful — "
+                    "'reads null' is evidenced by the norm, not this LOO."),
+                "raw_loo": onull_raw_loo,
+                "mean_lensed_norm": onull_norm,
+                "residual_ratio": residual_ratio,
+                "lensed_maxabs": onull_maxabs},
+            "sabotage": {
+                "wrong_lens_loo": sabotage_loo,
+                "note": ("planted bank signed with a DIFFERENT toy map's "
+                         "lens; recovery must collapse toward chance — "
+                         "proof the control is not a tautology.")},
+            "chance": chance,
+        },
+        "checks": {
+            "planted_recovered": planted_recovered,
+            "output_null_reads_null": output_null_reads_null,
+            "sabotage_detected": sabotage_detected,
+        },
+        "stageb_ruling": STAGEB_RULING,
+    }
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / "jlens_positive_control.json"
+    path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    verdict = "PASS" if passed else "FAIL"
+    print(f"[jlens] positive control {verdict}: planted_loo={planted_loo} "
+          f"(chance {chance}, matched_null {matched_null_loo}, perm_max "
+          f"{perm['max']}); output-null residual_ratio={residual_ratio:.2e} "
+          f"maxabs={onull_maxabs:.2e} raw_loo={onull_raw_loo}; "
+          f"sabotage_loo={sabotage_loo}", flush=True)
+    print(f"[jlens] positive control written: {path}", flush=True)
+    return report
+
+
 # ── CLI ─────────────────────────────────────────────────────────────
 
 
@@ -506,6 +932,14 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--sign", action="store_true",
                         help="Stage C: adapter signatures from saved "
                              "lenses (CPU, bank-gated)")
+    parser.add_argument("--positive-control", action="store_true",
+                        help="Stage PC: synthetic lens positive control "
+                             "(CPU/seconds, no bank/GPU/transformers) — "
+                             "the Director's hard condition for arbiter "
+                             "use; writes jlens_positive_control.json")
+    parser.add_argument("--control-seed", type=int, default=CONTROL_SEED,
+                        help=f"pinned seed for --positive-control "
+                             f"(default {CONTROL_SEED})")
     parser.add_argument("--family", type=str, default=None,
                         help="family_short (required for --estimate / "
                              "--sign; one command per family)")
@@ -534,6 +968,10 @@ def main(argv: list[str] | None = None) -> None:
     if args.contexts_file is not None:
         contexts = [ln for ln in args.contexts_file.read_text(
             encoding="utf-8").splitlines() if ln.strip()]
+
+    if args.positive_control:
+        run_positive_control(args.out_dir, seed=args.control_seed)
+        return
 
     if args.plan_only:
         plan = build_plan(contexts=contexts, sketch_dim=args.sketch_dim,
@@ -582,7 +1020,8 @@ def main(argv: list[str] | None = None) -> None:
                   allow_partial=args.allow_partial_bank)
         return
 
-    parser.error("choose one of --plan-only / --estimate / --sign")
+    parser.error("choose one of --plan-only / --estimate / --sign / "
+                 "--positive-control")
 
 
 if __name__ == "__main__":
