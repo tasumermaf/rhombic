@@ -562,10 +562,13 @@ def run(tasks_path, models, regimes, outdir, *, base_url,
                               len(episodes))
     # An outdir whose manifest was created with a different episode count
     # (e.g. an --episodes-limit smoke) must not host the full run — the
-    # completeness accounting would be silently wrong.
-    if manifest.get("n_episodes") != len(episodes):
+    # completeness accounting would be silently wrong. Manifests that never
+    # recorded n_episodes (hand-seeded/legacy) are tolerated, mirroring the
+    # tasks_sha256 backward path.
+    if ("n_episodes" in manifest
+            and manifest["n_episodes"] != len(episodes)):
         raise SystemExit(
-            f"manifest n_episodes={manifest.get('n_episodes')} != this run's "
+            f"manifest n_episodes={manifest['n_episodes']} != this run's "
             f"{len(episodes)} (--episodes-limit mismatch?); use a fresh "
             "outdir for smoke runs")
     ok = failed = 0
