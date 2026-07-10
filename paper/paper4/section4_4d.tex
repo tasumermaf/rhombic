@@ -22,12 +22,16 @@ specification $\texttt{pairs}_{\text{tess}}(8)$
 \end{itemize}
 
 Training uses TinyLlama-1.1B with identity initialization and
-channel size $s = 3$ ($24 / 8$). Three same-seed runs were conducted
+channel size $s = 3$ ($24 / 8$). Four same-seed runs were conducted
 (Section~\ref{sec:reproducibility}): T-001r1 (original; crashed at
 ${\sim}$step~2{,}700 during a March-2026 machine failure, with its
 first 1{,}600~steps recovered from its training log), T-001r1b (a
-fresh same-seed relaunch, 7{,}100~steps), and T-001r2 (complete,
-10{,}000~steps).
+fresh same-seed relaunch, 7{,}100~steps), T-001r2 (complete,
+10{,}000~steps), and T-001r3 (a fourth complete run, 10{,}000~steps,
+executed on separate hardware).
+% Dated edit 2026-07-10: T-001r3 (fourth run) added as the fourth same-seed
+% replicate. Source: results/T-001-full-r3/results.json + EXPERIMENT_TRACKER
+% 2026-07 sprint update (L-006 dated addition).
 
 \subsection{Results: Prediction A Confirmed}
 
@@ -48,6 +52,9 @@ Run & Steps & Fiedler & $\rho$ & Val Loss & Eigenvalue Split & BD \\
 T-001r1$^{\dagger}$ & 1{,}600 & 0.00055 & 4{,}729:1 & --- & --- & --- \\
 T-001r1b & 7{,}100 & 0.000362 & 20{,}944:1 & 0.4049 & $4{+}4$ & Yes \\
 T-001r2 & \textbf{10{,}000} & \textbf{0.000191} & \textbf{41{,}564:1} & \textbf{0.4016} & $4{+}4$ & \textbf{Yes} \\
+% Dated edit 2026-07-10: T-001r3 fourth run (Hermes RTX 4090); endpoint from
+% results/T-001-full-r3/results.json checkpoints[-1] (step 10000).
+T-001r3 & 10{,}000 & 0.000193 & 41{,}812:1 & 0.4017 & $4{+}4$ & Yes \\
 \bottomrule
 \end{tabular}
 
@@ -91,10 +98,13 @@ one negligible). Bridge topology is orthogonal to task capability.
 Prediction~A is confirmed: 4D programming works. The Steersman
 programs the dimensionality it is told to program.
 
-\subsection{Reproducibility: Three Same-Seed Runs}
+\subsection{Reproducibility: Four Same-Seed Runs}
 \label{sec:reproducibility}
 
-Three runs of the $n = 8$ tesseract contrastive experiment were
+% Dated edit 2026-07-10: run count three -> four; T-001r3 endpoint paragraph
+% added below. Sources: results/T-001-full-r3/results.json checkpoints[-1];
+% rel dev vs r2's 41,564 per results/EXPERIMENT_TRACKER.md 2026-07 sprint update.
+Four runs of the $n = 8$ tesseract contrastive experiment were
 conducted with identical hyperparameters and random seed. The
 provenance is disclosed in full. T-001r1, the original run, crashed
 at ${\sim}$step~2{,}700 during a March-2026 machine failure; when the
@@ -102,13 +112,20 @@ experiment was relaunched fresh under the same seed (T-001r1b,
 reaching 7{,}100~steps), the relaunch overwrote T-001r1's results
 file. T-001r1's first 1{,}600~steps were subsequently recovered from
 its surviving training log. T-001r2 ran to completion
-(10{,}000~steps). The three trajectories therefore constitute
-independent same-seed replicates, one of them partially recovered.
+(10{,}000~steps). A fourth run, T-001r3, was executed later on
+separate hardware (Appendix~\ref{app:details}), also running to
+completion (10{,}000~steps) and written to a fresh output directory so
+that no existing artifact was overwritten. The first three
+trajectories, which carry recoverable per-step feedback logs,
+constitute independent same-seed replicates (one partially recovered)
+and are cross-correlated below; T-001r3 provides an independent
+endpoint confirmation.
 
 \begin{table}[H]
 \centering
 \caption{Reproducibility of tesseract contrastive training: pairwise
-  trajectory agreement between three same-seed runs at matched
+  trajectory agreement between the three same-seed runs with
+  recoverable per-step feedback logs, at matched
   feedback steps. T-001r1 pairs span its recovered range
   (steps 200--1{,}600); the T-001r1b~$\times$~T-001r2 pair spans
   their full overlap.}
@@ -143,6 +160,24 @@ T-001r2 continues beyond both earlier runs' termination points,
 reaching $\rho = 41{,}564$:1 at step~10{,}000---double T-001r1b's
 20{,}944:1 at step~7{,}100---demonstrating continued growth in trend
 through the full training run.
+
+% Dated edit 2026-07-10: fourth same-seed run T-001r3 endpoint confirmation.
+% Endpoint from results/T-001-full-r3/results.json checkpoints[-1] (co/cross
+% 41811.71, Fiedler 1.9347e-4, val 0.4017); rel dev vs r2's 41,564 = 0.596%
+% per results/EXPERIMENT_TRACKER.md 2026-07 sprint update.
+A fourth same-seed run, T-001r3, was completed on 2026-07-08 on
+separate hardware---the Hermes RTX~4090, whereas T-001r2 ran on the
+local RTX~6000 Ada (Appendix~\ref{app:details}). Run to the full
+10{,}000~steps in a fresh output directory, it reaches
+$\rho = 41{,}812$:1 with Bridge Fiedler $1.93 \times 10^{-4}$ at the
+final step, reproducing T-001r2's step-10{,}000 endpoint
+(41{,}564:1) to within $0.596\%$ relative deviation. That two
+independent same-seed executions on \emph{different} GPUs converge on
+the coupling ratio to better than one part in 150 is a stronger
+reproducibility statement than same-hardware agreement alone: the
+programmed 4D block-diagonal endpoint is a property of the pair
+specification and the optimizer, not of a particular device's
+floating-point environment.
 
 \subsection{Comparison: RD vs.\ Tesseract}
 

@@ -58,7 +58,17 @@
 %      record; lm-eval merge claim relabeled to the original adapter with its
 %      pre-overwrite eval timestamp. All numbers trace to results/T-001-full*/
 %      + results/t001-provenance/recovery.json. Optional 10K re-run (T-001r3)
-%      approved by PI — queued on Hermes. Original finding below for the record:
+%      approved by PI — queued on Hermes.
+%      [2026-07-10: T-001r3 COMPLETE (Hermes RTX 4090, 10,000 steps, seed 42).
+%       Endpoint (results/T-001-full-r3/results.json checkpoints[-1], step 10000):
+%       co/cross 41,812:1, Fiedler 1.93e-4, val 0.4017. 0.596% rel dev vs r2's
+%       41,564 at step 10K — CROSS-HARDWARE (r2 ran local RTX 6000 Ada). Added as
+%       the fourth same-seed run: tab:tesseract row + sec:reproducibility endpoint
+%       paragraph; counts three->four in abstract/intro/conclusion + Hardware
+%       appendix. Endpoint-only confirmation — no new pairwise trajectory r
+%       computed for r3, so tab:reproducibility (3-run pairwise) is unchanged.
+%       Dated addition per L-006.]
+%      Original finding below for the record:
 %      [was 2026-07-07 — ROOT CAUSE FOUND, RESOLUTION PROPOSED:]
 %      T-001 REPRODUCIBILITY: the original T-001r1 (2,700 steps; 5,395:1 @2700) was
 %      DESTROYED on 2026-03-16 21:54 when T-001-full was relaunched fresh (same seed
@@ -164,8 +174,8 @@ block-diagonal ($\rho > 40{,}000$:1), spectral attractor
 ($\rho \approx 10^{-5}$:1). The requirement is spatial coherence:
 number-theoretic structure without geometric embedding is functionally
 equivalent to random noise. Tesseract training is reproducible
-(three same-seed runs; pairwise trajectory correlation
-$r \geq 0.995$). The bridge is a programmable
+(four same-seed runs, including a cross-hardware endpoint replication;
+pairwise trajectory correlation $r \geq 0.995$). The bridge is a programmable
 topology substrate; the pair specification is the program; the
 Steersman compiles valid geometric programs and rejects incoherent ones.
 \end{abstract}
@@ -272,10 +282,12 @@ We make the following contributions:
     programme produces four cleanly separated dynamical regimes
     with no intermediate outcomes.
   \item \textbf{Reproducibility.} $n = 8$ tesseract contrastive
-    replicates across three same-seed runs: pairwise Fiedler
-    trajectory correlation $r \geq 0.9994$ (coupling-ratio
-    $r \geq 0.995$) at all matched steps, one run recovered from its
-    training log after a crash-era overwrite (disclosed in
+    replicates across four same-seed runs: three with overlapping
+    feedback logs track at pairwise Fiedler trajectory correlation
+    $r \geq 0.9994$ (coupling-ratio $r \geq 0.995$) at all matched
+    steps---one recovered from its training log after a crash-era
+    overwrite---and a fourth, on different hardware, reproduces the
+    step-10{,}000 endpoint to $0.6\%$ (disclosed in
     Section~\ref{sec:reproducibility}).
 \end{enumerate}
 
@@ -446,8 +458,9 @@ counts:
     result, reproduced across seeds (Seed-43: 73{,}309:1).
   \item \textbf{Tesseract} ($n = 8$, 4D): four $2 \times 2$ blocks,
     coupling ratio \textbf{41{,}564:1}. Clean $4{+}4$ eigenvalue
-    split. Reproducible across three same-seed runs (Fiedler
-    $r \geq 0.9994$).
+    split. Reproducible across four same-seed runs (Fiedler
+    $r \geq 0.9994$ across the three with overlapping logs; a fourth
+    reproduces the endpoint to $0.6\%$ on different hardware).
 \end{itemize}
 
 Three findings sharpen the understanding of this mechanism.
@@ -627,7 +640,11 @@ Experiments were conducted on two machines:
   \item \textbf{Hermes:} NVIDIA RTX 4090 (16\,GB VRAM). Used for
     spectral-only ablation (H-ch3, H-ch4, H-ch8, H-ch12),
     wrong-labels (WL-001), resonance (R-001), emanation (E-001),
-    octahedral (O-001), and seed replication (Seed-43, Seed-44).
+    octahedral (O-001), seed replication (Seed-43, Seed-44), and the
+    % Dated edit 2026-07-10: T-001r3 added (cross-hardware fourth run).
+    fourth tesseract replicate (T-001r3), whose cross-hardware
+    endpoint agreement with the local T-001r2 is reported in
+    Section~\ref{sec:reproducibility}.
 \end{itemize}
 
 The P0 head-to-head experiment (Section~\ref{sec:discussion}) uses
