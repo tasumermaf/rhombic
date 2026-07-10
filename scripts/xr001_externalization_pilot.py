@@ -560,6 +560,14 @@ def run(tasks_path, models, regimes, outdir, *, base_url,
     manifest_path = outdir / "manifest.json"
     manifest = _load_manifest(manifest_path, tasks_path, models, regimes,
                               len(episodes))
+    # An outdir whose manifest was created with a different episode count
+    # (e.g. an --episodes-limit smoke) must not host the full run — the
+    # completeness accounting would be silently wrong.
+    if manifest.get("n_episodes") != len(episodes):
+        raise SystemExit(
+            f"manifest n_episodes={manifest.get('n_episodes')} != this run's "
+            f"{len(episodes)} (--episodes-limit mismatch?); use a fresh "
+            "outdir for smoke runs")
     ok = failed = 0
     for model in models:
         think = False if model == THINK_DISABLED_MODEL else None
