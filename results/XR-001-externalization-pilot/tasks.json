@@ -1,0 +1,3868 @@
+{
+  "protocol": "results/XR-001-externalization-pilot/PROTOCOL.md",
+  "generator_version": "1",
+  "base_seed": 77001,
+  "n_episodes": 15,
+  "n_segments": 4,
+  "value_range": [
+    101,
+    987
+  ],
+  "episodes": [
+    {
+      "episode": 0,
+      "seed": 77001,
+      "segments": [
+        {
+          "index": 1,
+          "text": "The session moved into a fresh block of readings. TOPOVO carries a calibration value of 645. The reference standard was left untouched between readings. For NEKOMU the calibration value came in at 873. TOPOVO and NEKOMU combine to a stated total of 1518. A brief pause was taken to re-seat the calibration jig. GIBEZA is pinned one above TOPOVO, giving 646. GANAMO was logged at a calibration value of 685. Separately, MEZUTI held a calibration value of 586. The bench technician initialled the margin of the page. The reference standard was left untouched between readings. A brief pause was taken to re-seat the calibration jig. The analyst cross-checked the entry against the previous pass. Each figure was read back once for the record.",
+          "entities": {
+            "base": {
+              "name": "TOPOVO",
+              "value": 645,
+              "role": "base"
+            },
+            "partner": {
+              "name": "NEKOMU",
+              "value": 873,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "GIBEZA",
+              "value": 646,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "GANAMO",
+                "value": 685
+              },
+              {
+                "name": "MEZUTI",
+                "value": 586
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "TOPOVO",
+              "NEKOMU"
+            ],
+            "value": 1518
+          }
+        },
+        {
+          "index": 2,
+          "text": "The analysts began the next block of the working session. We recorded KOROFI at a calibration value of 438. Notes were transcribed directly into the shared ledger. For NODUBI the calibration value came in at 364. KOROFI and NODUBI combine to a stated total of 802. Instrument drift stayed within the accepted tolerance for the run. KIFOGE is pinned one above KOROFI, giving 439. PULOPO was logged at a calibration value of 972. Separately, LAMAPU held a calibration value of 148. The analyst cross-checked the entry against the previous pass. Instrument drift stayed within the accepted tolerance for the run. No anomalies were flagged during this stretch of the work. Each figure was read back once for the record. The running tally was mirrored to the backup ledger as usual.",
+          "entities": {
+            "base": {
+              "name": "KOROFI",
+              "value": 438,
+              "role": "base"
+            },
+            "partner": {
+              "name": "NODUBI",
+              "value": 364,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "KIFOGE",
+              "value": 439,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "PULOPO",
+                "value": 972
+              },
+              {
+                "name": "LAMAPU",
+                "value": 148
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "KOROFI",
+              "NODUBI"
+            ],
+            "value": 802
+          }
+        },
+        {
+          "index": 3,
+          "text": "Recording resumed after a short handover between operators. NOMODU carries a calibration value of 947. A brief pause was taken to re-seat the calibration jig. ZEMIRU was measured at a calibration value of 404. The combined value of NOMODU and ZEMIRU is 1351. The bench technician initialled the margin of the page. KOSAVA's value sits exactly one above NOMODU, at 948. Separately, FEDEVE held a calibration value of 501. SITIMO was logged at a calibration value of 549. Ambient conditions in the lab held steady throughout. The reference standard was left untouched between readings. The panel lights remained nominal for the duration. The analyst cross-checked the entry against the previous pass. The operator confirmed each reading aloud before moving on.",
+          "entities": {
+            "base": {
+              "name": "NOMODU",
+              "value": 947,
+              "role": "base"
+            },
+            "partner": {
+              "name": "ZEMIRU",
+              "value": 404,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "KOSAVA",
+              "value": 948,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "FEDEVE",
+                "value": 501
+              },
+              {
+                "name": "SITIMO",
+                "value": 549
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "NOMODU",
+              "ZEMIRU"
+            ],
+            "value": 1351
+          }
+        },
+        {
+          "index": 4,
+          "text": "The analysts began the next block of the working session. The calibration value of BUGORE is 667. The running tally was mirrored to the backup ledger as usual. The calibration value of SOTEGA is 695. BUGORE and SOTEGA combine to a stated total of 1362. Notes were transcribed directly into the shared ledger. ZIVUZA's value sits exactly one above BUGORE, at 668. Separately, BEPEME held a calibration value of 266. Separately, LANOFI held a calibration value of 747. The running tally was mirrored to the backup ledger as usual. The analyst cross-checked the entry against the previous pass. Instrument drift stayed within the accepted tolerance for the run. Each figure was read back once for the record. No anomalies were flagged during this stretch of the work.",
+          "entities": {
+            "base": {
+              "name": "BUGORE",
+              "value": 667,
+              "role": "base"
+            },
+            "partner": {
+              "name": "SOTEGA",
+              "value": 695,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "ZIVUZA",
+              "value": 668,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "BEPEME",
+                "value": 266
+              },
+              {
+                "name": "LANOFI",
+                "value": 747
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "BUGORE",
+              "SOTEGA"
+            ],
+            "value": 1362
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "TOPOVO",
+          "prompt": "What is the calibration value of TOPOVO?",
+          "truth": 645
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "NODUBI",
+          "prompt": "What is the calibration value of NODUBI?",
+          "truth": 364
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "NOMODU",
+          "prompt": "What is the calibration value of NOMODU?",
+          "truth": 947
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "GIBEZA",
+          "prompt": "What is the calibration value of GIBEZA?",
+          "truth": 646
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "ZIVUZA",
+          "prompt": "What is the calibration value of ZIVUZA?",
+          "truth": 668
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "TOPOVO",
+            "NEKOMU"
+          ],
+          "prompt": "What is the combined value of TOPOVO and NEKOMU?",
+          "truth": 1518
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "KOROFI",
+            "BUGORE"
+          ],
+          "prompt": "What is the sum of the calibration values of KOROFI and BUGORE?",
+          "truth": 1105
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "NEKOMU",
+            "NOMODU"
+          ],
+          "prompt": "What is the sum of the calibration values of NEKOMU and NOMODU?",
+          "truth": 1820
+        }
+      ],
+      "conflation_set": [
+        148,
+        266,
+        364,
+        404,
+        438,
+        439,
+        501,
+        549,
+        586,
+        645,
+        646,
+        667,
+        668,
+        685,
+        695,
+        747,
+        802,
+        873,
+        947,
+        948,
+        972,
+        1351,
+        1362,
+        1518
+      ]
+    },
+    {
+      "episode": 1,
+      "seed": 77002,
+      "segments": [
+        {
+          "index": 1,
+          "text": "Another round of measurements was opened in the log. The calibration value of GAFONA is 284. The bench technician initialled the margin of the page. PATEZI was measured at a calibration value of 764. The combined value of GAFONA and PATEZI is 1048. Instrument drift stayed within the accepted tolerance for the run. TUTURO is pinned one above GAFONA, giving 285. The calibration value of MOZAGI is 231. The calibration value of FIRUTI is 842. Ambient conditions in the lab held steady throughout. The analyst cross-checked the entry against the previous pass. The operator confirmed each reading aloud before moving on. The panel lights remained nominal for the duration. Notes were transcribed directly into the shared ledger. The running tally was mirrored to the backup ledger as usual.",
+          "entities": {
+            "base": {
+              "name": "GAFONA",
+              "value": 284,
+              "role": "base"
+            },
+            "partner": {
+              "name": "PATEZI",
+              "value": 764,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "TUTURO",
+              "value": 285,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "MOZAGI",
+                "value": 231
+              },
+              {
+                "name": "FIRUTI",
+                "value": 842
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "GAFONA",
+              "PATEZI"
+            ],
+            "value": 1048
+          }
+        },
+        {
+          "index": 2,
+          "text": "The analysts began the next block of the working session. The calibration value of BIBUKA is 182. The bench technician initialled the margin of the page. MASUGE was measured at a calibration value of 734. BIBUKA and MASUGE combine to a stated total of 916. The reference standard was left untouched between readings. VUMISI is pinned one above BIBUKA, giving 183. The calibration value of DIZEFO is 875. Separately, DEVIBO held a calibration value of 579. Ambient conditions in the lab held steady throughout. No anomalies were flagged during this stretch of the work. The bench technician initialled the margin of the page. Instrument drift stayed within the accepted tolerance for the run. Ambient conditions in the lab held steady throughout.",
+          "entities": {
+            "base": {
+              "name": "BIBUKA",
+              "value": 182,
+              "role": "base"
+            },
+            "partner": {
+              "name": "MASUGE",
+              "value": 734,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "VUMISI",
+              "value": 183,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "DIZEFO",
+                "value": 875
+              },
+              {
+                "name": "DEVIBO",
+                "value": 579
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "BIBUKA",
+              "MASUGE"
+            ],
+            "value": 916
+          }
+        },
+        {
+          "index": 3,
+          "text": "Another round of measurements was opened in the log. The calibration value of FOKIDI is 608. Each figure was read back once for the record. KEFEZE was measured at a calibration value of 887. FOKIDI and KEFEZE combine to a stated total of 1495. The bench technician initialled the margin of the page. GAZIZE is pinned one above FOKIDI, giving 609. The calibration value of RAFULI is 336. The calibration value of FAZIKU is 454. Notes were transcribed directly into the shared ledger. Ambient conditions in the lab held steady throughout. The reference standard was left untouched between readings. Instrument drift stayed within the accepted tolerance for the run. The analyst cross-checked the entry against the previous pass. The operator confirmed each reading aloud before moving on.",
+          "entities": {
+            "base": {
+              "name": "FOKIDI",
+              "value": 608,
+              "role": "base"
+            },
+            "partner": {
+              "name": "KEFEZE",
+              "value": 887,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "GAZIZE",
+              "value": 609,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "RAFULI",
+                "value": 336
+              },
+              {
+                "name": "FAZIKU",
+                "value": 454
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "FOKIDI",
+              "KEFEZE"
+            ],
+            "value": 1495
+          }
+        },
+        {
+          "index": 4,
+          "text": "The session moved into a fresh block of readings. RUDEGO carries a calibration value of 429. Ambient conditions in the lab held steady throughout. The calibration value of TOVIFO is 104. The combined value of RUDEGO and TOVIFO is 533. The analyst cross-checked the entry against the previous pass. FADIVI is pinned one above RUDEGO, giving 430. Separately, MOSADE held a calibration value of 639. The calibration value of TADIGI is 112. Ambient conditions in the lab held steady throughout. Notes were transcribed directly into the shared ledger. A brief pause was taken to re-seat the calibration jig. The analyst cross-checked the entry against the previous pass. Each figure was read back once for the record. Ambient conditions in the lab held steady throughout.",
+          "entities": {
+            "base": {
+              "name": "RUDEGO",
+              "value": 429,
+              "role": "base"
+            },
+            "partner": {
+              "name": "TOVIFO",
+              "value": 104,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "FADIVI",
+              "value": 430,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "MOSADE",
+                "value": 639
+              },
+              {
+                "name": "TADIGI",
+                "value": 112
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "RUDEGO",
+              "TOVIFO"
+            ],
+            "value": 533
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "GAFONA",
+          "prompt": "What is the calibration value of GAFONA?",
+          "truth": 284
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "MASUGE",
+          "prompt": "What is the calibration value of MASUGE?",
+          "truth": 734
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "FOKIDI",
+          "prompt": "What is the calibration value of FOKIDI?",
+          "truth": 608
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "TUTURO",
+          "prompt": "What is the calibration value of TUTURO?",
+          "truth": 285
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "FADIVI",
+          "prompt": "What is the calibration value of FADIVI?",
+          "truth": 430
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "GAFONA",
+            "PATEZI"
+          ],
+          "prompt": "What is the combined value of GAFONA and PATEZI?",
+          "truth": 1048
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "BIBUKA",
+            "RUDEGO"
+          ],
+          "prompt": "What is the sum of the calibration values of BIBUKA and RUDEGO?",
+          "truth": 611
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "PATEZI",
+            "FOKIDI"
+          ],
+          "prompt": "What is the sum of the calibration values of PATEZI and FOKIDI?",
+          "truth": 1372
+        }
+      ],
+      "conflation_set": [
+        104,
+        112,
+        182,
+        183,
+        231,
+        284,
+        285,
+        336,
+        429,
+        430,
+        454,
+        533,
+        579,
+        608,
+        609,
+        639,
+        734,
+        764,
+        842,
+        875,
+        887,
+        916,
+        1048,
+        1495
+      ]
+    },
+    {
+      "episode": 2,
+      "seed": 77003,
+      "segments": [
+        {
+          "index": 1,
+          "text": "Another round of measurements was opened in the log. The calibration value of SODEMU is 561. The panel lights remained nominal for the duration. The calibration value of KIKOVI is 441. The combined value of SODEMU and KIKOVI is 1002. The analyst cross-checked the entry against the previous pass. ZOMEGE is pinned one above SODEMU, giving 562. LULULU was logged at a calibration value of 230. Separately, RASUPU held a calibration value of 520. Instrument drift stayed within the accepted tolerance for the run. The operator confirmed each reading aloud before moving on. The panel lights remained nominal for the duration. No anomalies were flagged during this stretch of the work. The bench technician initialled the margin of the page.",
+          "entities": {
+            "base": {
+              "name": "SODEMU",
+              "value": 561,
+              "role": "base"
+            },
+            "partner": {
+              "name": "KIKOVI",
+              "value": 441,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "ZOMEGE",
+              "value": 562,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "LULULU",
+                "value": 230
+              },
+              {
+                "name": "RASUPU",
+                "value": 520
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "SODEMU",
+              "KIKOVI"
+            ],
+            "value": 1002
+          }
+        },
+        {
+          "index": 2,
+          "text": "The session moved into a fresh block of readings. RIPAGA carries a calibration value of 104. The panel lights remained nominal for the duration. The calibration value of FEMAMA is 169. Taken together, RIPAGA and FEMAMA give a combined value of 273. Ambient conditions in the lab held steady throughout. GUSEZI is pinned one above RIPAGA, giving 105. Separately, MAKAKO held a calibration value of 347. The calibration value of GATOTO is 979. The bench technician initialled the margin of the page. Instrument drift stayed within the accepted tolerance for the run. The bench technician initialled the margin of the page. No anomalies were flagged during this stretch of the work. The analyst cross-checked the entry against the previous pass.",
+          "entities": {
+            "base": {
+              "name": "RIPAGA",
+              "value": 104,
+              "role": "base"
+            },
+            "partner": {
+              "name": "FEMAMA",
+              "value": 169,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "GUSEZI",
+              "value": 105,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "MAKAKO",
+                "value": 347
+              },
+              {
+                "name": "GATOTO",
+                "value": 979
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "RIPAGA",
+              "FEMAMA"
+            ],
+            "value": 273
+          }
+        },
+        {
+          "index": 3,
+          "text": "Another round of measurements was opened in the log. We recorded TEPONU at a calibration value of 338. Ambient conditions in the lab held steady throughout. The calibration value of ZOBIRO is 621. The combined value of TEPONU and ZOBIRO is 959. No anomalies were flagged during this stretch of the work. SOGALU's value sits exactly one above TEPONU, at 339. Separately, GOFULI held a calibration value of 792. MANIPE was logged at a calibration value of 195. The bench technician initialled the margin of the page. The reference standard was left untouched between readings. Instrument drift stayed within the accepted tolerance for the run. The panel lights remained nominal for the duration. A brief pause was taken to re-seat the calibration jig.",
+          "entities": {
+            "base": {
+              "name": "TEPONU",
+              "value": 338,
+              "role": "base"
+            },
+            "partner": {
+              "name": "ZOBIRO",
+              "value": 621,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "SOGALU",
+              "value": 339,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "GOFULI",
+                "value": 792
+              },
+              {
+                "name": "MANIPE",
+                "value": 195
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "TEPONU",
+              "ZOBIRO"
+            ],
+            "value": 959
+          }
+        },
+        {
+          "index": 4,
+          "text": "The analysts began the next block of the working session. TIGUFA carries a calibration value of 754. Notes were transcribed directly into the shared ledger. The calibration value of GAMOVU is 692. Taken together, TIGUFA and GAMOVU give a combined value of 1446. The panel lights remained nominal for the duration. RANIGA is pinned one above TIGUFA, giving 755. Separately, VINASI held a calibration value of 398. The calibration value of MALOTA is 845. Notes were transcribed directly into the shared ledger. A brief pause was taken to re-seat the calibration jig. The bench technician initialled the margin of the page. A brief pause was taken to re-seat the calibration jig. No anomalies were flagged during this stretch of the work.",
+          "entities": {
+            "base": {
+              "name": "TIGUFA",
+              "value": 754,
+              "role": "base"
+            },
+            "partner": {
+              "name": "GAMOVU",
+              "value": 692,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "RANIGA",
+              "value": 755,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "VINASI",
+                "value": 398
+              },
+              {
+                "name": "MALOTA",
+                "value": 845
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "TIGUFA",
+              "GAMOVU"
+            ],
+            "value": 1446
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "SODEMU",
+          "prompt": "What is the calibration value of SODEMU?",
+          "truth": 561
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "FEMAMA",
+          "prompt": "What is the calibration value of FEMAMA?",
+          "truth": 169
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "TEPONU",
+          "prompt": "What is the calibration value of TEPONU?",
+          "truth": 338
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "ZOMEGE",
+          "prompt": "What is the calibration value of ZOMEGE?",
+          "truth": 562
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "RANIGA",
+          "prompt": "What is the calibration value of RANIGA?",
+          "truth": 755
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "SODEMU",
+            "KIKOVI"
+          ],
+          "prompt": "What is the combined value of SODEMU and KIKOVI?",
+          "truth": 1002
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "RIPAGA",
+            "TIGUFA"
+          ],
+          "prompt": "What is the sum of the calibration values of RIPAGA and TIGUFA?",
+          "truth": 858
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "KIKOVI",
+            "TEPONU"
+          ],
+          "prompt": "What is the sum of the calibration values of KIKOVI and TEPONU?",
+          "truth": 779
+        }
+      ],
+      "conflation_set": [
+        104,
+        105,
+        169,
+        195,
+        230,
+        273,
+        338,
+        339,
+        347,
+        398,
+        441,
+        520,
+        561,
+        562,
+        621,
+        692,
+        754,
+        755,
+        792,
+        845,
+        959,
+        979,
+        1002,
+        1446
+      ]
+    },
+    {
+      "episode": 3,
+      "seed": 77004,
+      "segments": [
+        {
+          "index": 1,
+          "text": "The session moved into a fresh block of readings. We recorded KEMOGU at a calibration value of 107. The running tally was mirrored to the backup ledger as usual. FOKESO was measured at a calibration value of 894. The combined value of KEMOGU and FOKESO is 1001. The operator confirmed each reading aloud before moving on. PAMONI is pinned one above KEMOGU, giving 108. The calibration value of KIVAFO is 261. BODOPU was logged at a calibration value of 296. A brief pause was taken to re-seat the calibration jig. Notes were transcribed directly into the shared ledger. Ambient conditions in the lab held steady throughout. The bench technician initialled the margin of the page. Notes were transcribed directly into the shared ledger.",
+          "entities": {
+            "base": {
+              "name": "KEMOGU",
+              "value": 107,
+              "role": "base"
+            },
+            "partner": {
+              "name": "FOKESO",
+              "value": 894,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "PAMONI",
+              "value": 108,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "KIVAFO",
+                "value": 261
+              },
+              {
+                "name": "BODOPU",
+                "value": 296
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "KEMOGU",
+              "FOKESO"
+            ],
+            "value": 1001
+          }
+        },
+        {
+          "index": 2,
+          "text": "The analysts began the next block of the working session. MERIGO carries a calibration value of 838. The running tally was mirrored to the backup ledger as usual. The calibration value of SOMIGO is 334. MERIGO and SOMIGO combine to a stated total of 1172. The operator confirmed each reading aloud before moving on. FATALU is pinned one above MERIGO, giving 839. BUZENU was logged at a calibration value of 465. Separately, RANONU held a calibration value of 955. The reference standard was left untouched between readings. The operator confirmed each reading aloud before moving on. A brief pause was taken to re-seat the calibration jig. The analyst cross-checked the entry against the previous pass. The reference standard was left untouched between readings.",
+          "entities": {
+            "base": {
+              "name": "MERIGO",
+              "value": 838,
+              "role": "base"
+            },
+            "partner": {
+              "name": "SOMIGO",
+              "value": 334,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "FATALU",
+              "value": 839,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "BUZENU",
+                "value": 465
+              },
+              {
+                "name": "RANONU",
+                "value": 955
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "MERIGO",
+              "SOMIGO"
+            ],
+            "value": 1172
+          }
+        },
+        {
+          "index": 3,
+          "text": "Another round of measurements was opened in the log. We recorded ZUDIME at a calibration value of 208. The panel lights remained nominal for the duration. KUDOTE was measured at a calibration value of 565. The combined value of ZUDIME and KUDOTE is 773. The reference standard was left untouched between readings. ZEPAGA is pinned one above ZUDIME, giving 209. Separately, RIVERI held a calibration value of 286. The calibration value of DAZISI is 234. A brief pause was taken to re-seat the calibration jig. No anomalies were flagged during this stretch of the work. The reference standard was left untouched between readings. The bench technician initialled the margin of the page. The reference standard was left untouched between readings.",
+          "entities": {
+            "base": {
+              "name": "ZUDIME",
+              "value": 208,
+              "role": "base"
+            },
+            "partner": {
+              "name": "KUDOTE",
+              "value": 565,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "ZEPAGA",
+              "value": 209,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "RIVERI",
+                "value": 286
+              },
+              {
+                "name": "DAZISI",
+                "value": 234
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "ZUDIME",
+              "KUDOTE"
+            ],
+            "value": 773
+          }
+        },
+        {
+          "index": 4,
+          "text": "Another round of measurements was opened in the log. We recorded LEDEBA at a calibration value of 727. The panel lights remained nominal for the duration. ZUMITI was measured at a calibration value of 526. Taken together, LEDEBA and ZUMITI give a combined value of 1253. Ambient conditions in the lab held steady throughout. FEDADA's value sits exactly one above LEDEBA, at 728. The calibration value of LEFEPE is 568. FIRUKA was logged at a calibration value of 574. The reference standard was left untouched between readings. The analyst cross-checked the entry against the previous pass. The bench technician initialled the margin of the page. The panel lights remained nominal for the duration. No anomalies were flagged during this stretch of the work.",
+          "entities": {
+            "base": {
+              "name": "LEDEBA",
+              "value": 727,
+              "role": "base"
+            },
+            "partner": {
+              "name": "ZUMITI",
+              "value": 526,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "FEDADA",
+              "value": 728,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "LEFEPE",
+                "value": 568
+              },
+              {
+                "name": "FIRUKA",
+                "value": 574
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "LEDEBA",
+              "ZUMITI"
+            ],
+            "value": 1253
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "KEMOGU",
+          "prompt": "What is the calibration value of KEMOGU?",
+          "truth": 107
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "SOMIGO",
+          "prompt": "What is the calibration value of SOMIGO?",
+          "truth": 334
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "ZUDIME",
+          "prompt": "What is the calibration value of ZUDIME?",
+          "truth": 208
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "PAMONI",
+          "prompt": "What is the calibration value of PAMONI?",
+          "truth": 108
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "FEDADA",
+          "prompt": "What is the calibration value of FEDADA?",
+          "truth": 728
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "KEMOGU",
+            "FOKESO"
+          ],
+          "prompt": "What is the combined value of KEMOGU and FOKESO?",
+          "truth": 1001
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "MERIGO",
+            "LEDEBA"
+          ],
+          "prompt": "What is the sum of the calibration values of MERIGO and LEDEBA?",
+          "truth": 1565
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "FOKESO",
+            "ZUDIME"
+          ],
+          "prompt": "What is the sum of the calibration values of FOKESO and ZUDIME?",
+          "truth": 1102
+        }
+      ],
+      "conflation_set": [
+        107,
+        108,
+        208,
+        209,
+        234,
+        261,
+        286,
+        296,
+        334,
+        465,
+        526,
+        565,
+        568,
+        574,
+        727,
+        728,
+        773,
+        838,
+        839,
+        894,
+        955,
+        1001,
+        1172,
+        1253
+      ]
+    },
+    {
+      "episode": 4,
+      "seed": 77005,
+      "segments": [
+        {
+          "index": 1,
+          "text": "Another round of measurements was opened in the log. We recorded VISESO at a calibration value of 592. Instrument drift stayed within the accepted tolerance for the run. BUNAVI was measured at a calibration value of 295. The combined value of VISESO and BUNAVI is 887. The reference standard was left untouched between readings. KIPABI's value sits exactly one above VISESO, at 593. Separately, LIDEDI held a calibration value of 570. Separately, SIPIFE held a calibration value of 776. The operator confirmed each reading aloud before moving on. Instrument drift stayed within the accepted tolerance for the run. No anomalies were flagged during this stretch of the work. The running tally was mirrored to the backup ledger as usual. The reference standard was left untouched between readings.",
+          "entities": {
+            "base": {
+              "name": "VISESO",
+              "value": 592,
+              "role": "base"
+            },
+            "partner": {
+              "name": "BUNAVI",
+              "value": 295,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "KIPABI",
+              "value": 593,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "LIDEDI",
+                "value": 570
+              },
+              {
+                "name": "SIPIFE",
+                "value": 776
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "VISESO",
+              "BUNAVI"
+            ],
+            "value": 887
+          }
+        },
+        {
+          "index": 2,
+          "text": "The session moved into a fresh block of readings. The calibration value of GIRUPO is 139. The reference standard was left untouched between readings. For MINULA the calibration value came in at 720. The combined value of GIRUPO and MINULA is 859. No anomalies were flagged during this stretch of the work. VIGUKA is pinned one above GIRUPO, giving 140. RUSOLA was logged at a calibration value of 379. The calibration value of PISANA is 197. A brief pause was taken to re-seat the calibration jig. The analyst cross-checked the entry against the previous pass. The bench technician initialled the margin of the page. No anomalies were flagged during this stretch of the work. Each figure was read back once for the record.",
+          "entities": {
+            "base": {
+              "name": "GIRUPO",
+              "value": 139,
+              "role": "base"
+            },
+            "partner": {
+              "name": "MINULA",
+              "value": 720,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "VIGUKA",
+              "value": 140,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "RUSOLA",
+                "value": 379
+              },
+              {
+                "name": "PISANA",
+                "value": 197
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "GIRUPO",
+              "MINULA"
+            ],
+            "value": 859
+          }
+        },
+        {
+          "index": 3,
+          "text": "The session moved into a fresh block of readings. SITUKI carries a calibration value of 251. Ambient conditions in the lab held steady throughout. For LUKIRI the calibration value came in at 730. Taken together, SITUKI and LUKIRI give a combined value of 981. The analyst cross-checked the entry against the previous pass. SEBEMA's value sits exactly one above SITUKI, at 252. NUVERI was logged at a calibration value of 614. MUKUVA was logged at a calibration value of 644. Instrument drift stayed within the accepted tolerance for the run. No anomalies were flagged during this stretch of the work. The reference standard was left untouched between readings. No anomalies were flagged during this stretch of the work. Notes were transcribed directly into the shared ledger.",
+          "entities": {
+            "base": {
+              "name": "SITUKI",
+              "value": 251,
+              "role": "base"
+            },
+            "partner": {
+              "name": "LUKIRI",
+              "value": 730,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "SEBEMA",
+              "value": 252,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "NUVERI",
+                "value": 614
+              },
+              {
+                "name": "MUKUVA",
+                "value": 644
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "SITUKI",
+              "LUKIRI"
+            ],
+            "value": 981
+          }
+        },
+        {
+          "index": 4,
+          "text": "The analysts began the next block of the working session. The calibration value of DOBETU is 457. The bench technician initialled the margin of the page. KOBOZO was measured at a calibration value of 519. Taken together, DOBETU and KOBOZO give a combined value of 976. Notes were transcribed directly into the shared ledger. PUBELI is pinned one above DOBETU, giving 458. ZILUZI was logged at a calibration value of 764. POSUNI was logged at a calibration value of 226. The bench technician initialled the margin of the page. Ambient conditions in the lab held steady throughout. Each figure was read back once for the record. The bench technician initialled the margin of the page. Each figure was read back once for the record.",
+          "entities": {
+            "base": {
+              "name": "DOBETU",
+              "value": 457,
+              "role": "base"
+            },
+            "partner": {
+              "name": "KOBOZO",
+              "value": 519,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "PUBELI",
+              "value": 458,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "ZILUZI",
+                "value": 764
+              },
+              {
+                "name": "POSUNI",
+                "value": 226
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "DOBETU",
+              "KOBOZO"
+            ],
+            "value": 976
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "VISESO",
+          "prompt": "What is the calibration value of VISESO?",
+          "truth": 592
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "MINULA",
+          "prompt": "What is the calibration value of MINULA?",
+          "truth": 720
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "SITUKI",
+          "prompt": "What is the calibration value of SITUKI?",
+          "truth": 251
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "KIPABI",
+          "prompt": "What is the calibration value of KIPABI?",
+          "truth": 593
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "PUBELI",
+          "prompt": "What is the calibration value of PUBELI?",
+          "truth": 458
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "VISESO",
+            "BUNAVI"
+          ],
+          "prompt": "What is the combined value of VISESO and BUNAVI?",
+          "truth": 887
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "GIRUPO",
+            "DOBETU"
+          ],
+          "prompt": "What is the sum of the calibration values of GIRUPO and DOBETU?",
+          "truth": 596
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "BUNAVI",
+            "SITUKI"
+          ],
+          "prompt": "What is the sum of the calibration values of BUNAVI and SITUKI?",
+          "truth": 546
+        }
+      ],
+      "conflation_set": [
+        139,
+        140,
+        197,
+        226,
+        251,
+        252,
+        295,
+        379,
+        457,
+        458,
+        519,
+        570,
+        592,
+        593,
+        614,
+        644,
+        720,
+        730,
+        764,
+        776,
+        859,
+        887,
+        976,
+        981
+      ]
+    },
+    {
+      "episode": 5,
+      "seed": 77006,
+      "segments": [
+        {
+          "index": 1,
+          "text": "Another round of measurements was opened in the log. We recorded TIROBE at a calibration value of 694. A brief pause was taken to re-seat the calibration jig. For VOVIFU the calibration value came in at 481. The combined value of TIROBE and VOVIFU is 1175. Instrument drift stayed within the accepted tolerance for the run. DOKABU's value sits exactly one above TIROBE, at 695. Separately, KIVITI held a calibration value of 718. FUFUNE was logged at a calibration value of 894. The reference standard was left untouched between readings. The panel lights remained nominal for the duration. The reference standard was left untouched between readings. The analyst cross-checked the entry against the previous pass. The bench technician initialled the margin of the page.",
+          "entities": {
+            "base": {
+              "name": "TIROBE",
+              "value": 694,
+              "role": "base"
+            },
+            "partner": {
+              "name": "VOVIFU",
+              "value": 481,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "DOKABU",
+              "value": 695,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "KIVITI",
+                "value": 718
+              },
+              {
+                "name": "FUFUNE",
+                "value": 894
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "TIROBE",
+              "VOVIFU"
+            ],
+            "value": 1175
+          }
+        },
+        {
+          "index": 2,
+          "text": "The session moved into a fresh block of readings. We recorded LOFUZO at a calibration value of 222. The bench technician initialled the margin of the page. For NUMEZO the calibration value came in at 145. The combined value of LOFUZO and NUMEZO is 367. Ambient conditions in the lab held steady throughout. NUFIZA lands one unit above LOFUZO, at 223. The calibration value of PASENU is 834. RUFUSU was logged at a calibration value of 627. The operator confirmed each reading aloud before moving on. Notes were transcribed directly into the shared ledger. The panel lights remained nominal for the duration. A brief pause was taken to re-seat the calibration jig. Instrument drift stayed within the accepted tolerance for the run.",
+          "entities": {
+            "base": {
+              "name": "LOFUZO",
+              "value": 222,
+              "role": "base"
+            },
+            "partner": {
+              "name": "NUMEZO",
+              "value": 145,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "NUFIZA",
+              "value": 223,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "PASENU",
+                "value": 834
+              },
+              {
+                "name": "RUFUSU",
+                "value": 627
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "LOFUZO",
+              "NUMEZO"
+            ],
+            "value": 367
+          }
+        },
+        {
+          "index": 3,
+          "text": "Recording resumed after a short handover between operators. We recorded TUSUVO at a calibration value of 352. No anomalies were flagged during this stretch of the work. For DEZAGU the calibration value came in at 716. The combined value of TUSUVO and DEZAGU is 1068. Instrument drift stayed within the accepted tolerance for the run. MUVITE's value sits exactly one above TUSUVO, at 353. GEREBA was logged at a calibration value of 691. The calibration value of TORIFU is 275. The running tally was mirrored to the backup ledger as usual. A brief pause was taken to re-seat the calibration jig. Notes were transcribed directly into the shared ledger. Ambient conditions in the lab held steady throughout. The reference standard was left untouched between readings.",
+          "entities": {
+            "base": {
+              "name": "TUSUVO",
+              "value": 352,
+              "role": "base"
+            },
+            "partner": {
+              "name": "DEZAGU",
+              "value": 716,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "MUVITE",
+              "value": 353,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "GEREBA",
+                "value": 691
+              },
+              {
+                "name": "TORIFU",
+                "value": 275
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "TUSUVO",
+              "DEZAGU"
+            ],
+            "value": 1068
+          }
+        },
+        {
+          "index": 4,
+          "text": "The analysts began the next block of the working session. The calibration value of FABIFU is 209. Notes were transcribed directly into the shared ledger. The calibration value of ZEGISI is 197. Taken together, FABIFU and ZEGISI give a combined value of 406. Each figure was read back once for the record. MUGUFA's value sits exactly one above FABIFU, at 210. VIBOVI was logged at a calibration value of 663. Separately, ZOKALI held a calibration value of 295. The running tally was mirrored to the backup ledger as usual. The operator confirmed each reading aloud before moving on. Instrument drift stayed within the accepted tolerance for the run. The operator confirmed each reading aloud before moving on. No anomalies were flagged during this stretch of the work.",
+          "entities": {
+            "base": {
+              "name": "FABIFU",
+              "value": 209,
+              "role": "base"
+            },
+            "partner": {
+              "name": "ZEGISI",
+              "value": 197,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "MUGUFA",
+              "value": 210,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "VIBOVI",
+                "value": 663
+              },
+              {
+                "name": "ZOKALI",
+                "value": 295
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "FABIFU",
+              "ZEGISI"
+            ],
+            "value": 406
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "TIROBE",
+          "prompt": "What is the calibration value of TIROBE?",
+          "truth": 694
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "NUMEZO",
+          "prompt": "What is the calibration value of NUMEZO?",
+          "truth": 145
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "TUSUVO",
+          "prompt": "What is the calibration value of TUSUVO?",
+          "truth": 352
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "DOKABU",
+          "prompt": "What is the calibration value of DOKABU?",
+          "truth": 695
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "MUGUFA",
+          "prompt": "What is the calibration value of MUGUFA?",
+          "truth": 210
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "TIROBE",
+            "VOVIFU"
+          ],
+          "prompt": "What is the combined value of TIROBE and VOVIFU?",
+          "truth": 1175
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "LOFUZO",
+            "FABIFU"
+          ],
+          "prompt": "What is the sum of the calibration values of LOFUZO and FABIFU?",
+          "truth": 431
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "VOVIFU",
+            "TUSUVO"
+          ],
+          "prompt": "What is the sum of the calibration values of VOVIFU and TUSUVO?",
+          "truth": 833
+        }
+      ],
+      "conflation_set": [
+        145,
+        197,
+        209,
+        210,
+        222,
+        223,
+        275,
+        295,
+        352,
+        353,
+        367,
+        406,
+        481,
+        627,
+        663,
+        691,
+        694,
+        695,
+        716,
+        718,
+        834,
+        894,
+        1068,
+        1175
+      ]
+    },
+    {
+      "episode": 6,
+      "seed": 77007,
+      "segments": [
+        {
+          "index": 1,
+          "text": "The session moved into a fresh block of readings. We recorded BUBUKE at a calibration value of 711. The operator confirmed each reading aloud before moving on. MOROGO was measured at a calibration value of 719. The combined value of BUBUKE and MOROGO is 1430. Notes were transcribed directly into the shared ledger. DARAPI lands one unit above BUBUKE, at 712. The calibration value of NIGEVU is 538. Separately, ZONOKU held a calibration value of 590. No anomalies were flagged during this stretch of the work. The panel lights remained nominal for the duration. Ambient conditions in the lab held steady throughout. The analyst cross-checked the entry against the previous pass. The panel lights remained nominal for the duration. A brief pause was taken to re-seat the calibration jig.",
+          "entities": {
+            "base": {
+              "name": "BUBUKE",
+              "value": 711,
+              "role": "base"
+            },
+            "partner": {
+              "name": "MOROGO",
+              "value": 719,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "DARAPI",
+              "value": 712,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "NIGEVU",
+                "value": 538
+              },
+              {
+                "name": "ZONOKU",
+                "value": 590
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "BUBUKE",
+              "MOROGO"
+            ],
+            "value": 1430
+          }
+        },
+        {
+          "index": 2,
+          "text": "Another round of measurements was opened in the log. BOMADO carries a calibration value of 316. The analyst cross-checked the entry against the previous pass. VUZUDI was measured at a calibration value of 199. The combined value of BOMADO and VUZUDI is 515. Each figure was read back once for the record. SULOVE lands one unit above BOMADO, at 317. The calibration value of PIZUSA is 432. Separately, NIPESA held a calibration value of 986. The reference standard was left untouched between readings. Ambient conditions in the lab held steady throughout. A brief pause was taken to re-seat the calibration jig. No anomalies were flagged during this stretch of the work. The operator confirmed each reading aloud before moving on.",
+          "entities": {
+            "base": {
+              "name": "BOMADO",
+              "value": 316,
+              "role": "base"
+            },
+            "partner": {
+              "name": "VUZUDI",
+              "value": 199,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "SULOVE",
+              "value": 317,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "PIZUSA",
+                "value": 432
+              },
+              {
+                "name": "NIPESA",
+                "value": 986
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "BOMADO",
+              "VUZUDI"
+            ],
+            "value": 515
+          }
+        },
+        {
+          "index": 3,
+          "text": "The session moved into a fresh block of readings. We recorded MUGENO at a calibration value of 484. The panel lights remained nominal for the duration. For DARUGE the calibration value came in at 190. MUGENO and DARUGE combine to a stated total of 674. Each figure was read back once for the record. ROVUGU is pinned one above MUGENO, giving 485. Separately, LOGUNU held a calibration value of 375. Separately, SEMUTO held a calibration value of 808. The running tally was mirrored to the backup ledger as usual. Ambient conditions in the lab held steady throughout. The panel lights remained nominal for the duration. The running tally was mirrored to the backup ledger as usual. The operator confirmed each reading aloud before moving on.",
+          "entities": {
+            "base": {
+              "name": "MUGENO",
+              "value": 484,
+              "role": "base"
+            },
+            "partner": {
+              "name": "DARUGE",
+              "value": 190,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "ROVUGU",
+              "value": 485,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "LOGUNU",
+                "value": 375
+              },
+              {
+                "name": "SEMUTO",
+                "value": 808
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "MUGENO",
+              "DARUGE"
+            ],
+            "value": 674
+          }
+        },
+        {
+          "index": 4,
+          "text": "Recording resumed after a short handover between operators. We recorded BODILE at a calibration value of 975. The panel lights remained nominal for the duration. For ZOSITI the calibration value came in at 639. BODILE and ZOSITI combine to a stated total of 1614. The running tally was mirrored to the backup ledger as usual. SEBUKO is pinned one above BODILE, giving 976. The calibration value of FUBAZE is 346. The calibration value of KUBAMI is 819. The analyst cross-checked the entry against the previous pass. The bench technician initialled the margin of the page. Instrument drift stayed within the accepted tolerance for the run. Each figure was read back once for the record. The running tally was mirrored to the backup ledger as usual.",
+          "entities": {
+            "base": {
+              "name": "BODILE",
+              "value": 975,
+              "role": "base"
+            },
+            "partner": {
+              "name": "ZOSITI",
+              "value": 639,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "SEBUKO",
+              "value": 976,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "FUBAZE",
+                "value": 346
+              },
+              {
+                "name": "KUBAMI",
+                "value": 819
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "BODILE",
+              "ZOSITI"
+            ],
+            "value": 1614
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "BUBUKE",
+          "prompt": "What is the calibration value of BUBUKE?",
+          "truth": 711
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "VUZUDI",
+          "prompt": "What is the calibration value of VUZUDI?",
+          "truth": 199
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "MUGENO",
+          "prompt": "What is the calibration value of MUGENO?",
+          "truth": 484
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "DARAPI",
+          "prompt": "What is the calibration value of DARAPI?",
+          "truth": 712
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "SEBUKO",
+          "prompt": "What is the calibration value of SEBUKO?",
+          "truth": 976
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "BUBUKE",
+            "MOROGO"
+          ],
+          "prompt": "What is the combined value of BUBUKE and MOROGO?",
+          "truth": 1430
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "BOMADO",
+            "BODILE"
+          ],
+          "prompt": "What is the sum of the calibration values of BOMADO and BODILE?",
+          "truth": 1291
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "MOROGO",
+            "MUGENO"
+          ],
+          "prompt": "What is the sum of the calibration values of MOROGO and MUGENO?",
+          "truth": 1203
+        }
+      ],
+      "conflation_set": [
+        190,
+        199,
+        316,
+        317,
+        346,
+        375,
+        432,
+        484,
+        485,
+        515,
+        538,
+        590,
+        639,
+        674,
+        711,
+        712,
+        719,
+        808,
+        819,
+        975,
+        976,
+        986,
+        1430,
+        1614
+      ]
+    },
+    {
+      "episode": 7,
+      "seed": 77008,
+      "segments": [
+        {
+          "index": 1,
+          "text": "Recording resumed after a short handover between operators. TOMUNO carries a calibration value of 222. Instrument drift stayed within the accepted tolerance for the run. The calibration value of TASODU is 341. Taken together, TOMUNO and TASODU give a combined value of 563. No anomalies were flagged during this stretch of the work. LAZIPO's value sits exactly one above TOMUNO, at 223. ZABUGO was logged at a calibration value of 884. The calibration value of MAZUVE is 349. The panel lights remained nominal for the duration. Notes were transcribed directly into the shared ledger. A brief pause was taken to re-seat the calibration jig. The running tally was mirrored to the backup ledger as usual. The analyst cross-checked the entry against the previous pass.",
+          "entities": {
+            "base": {
+              "name": "TOMUNO",
+              "value": 222,
+              "role": "base"
+            },
+            "partner": {
+              "name": "TASODU",
+              "value": 341,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "LAZIPO",
+              "value": 223,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "ZABUGO",
+                "value": 884
+              },
+              {
+                "name": "MAZUVE",
+                "value": 349
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "TOMUNO",
+              "TASODU"
+            ],
+            "value": 563
+          }
+        },
+        {
+          "index": 2,
+          "text": "Another round of measurements was opened in the log. DENIMU carries a calibration value of 623. Each figure was read back once for the record. MUVOZU was measured at a calibration value of 561. The combined value of DENIMU and MUVOZU is 1184. The operator confirmed each reading aloud before moving on. VAZUTE's value sits exactly one above DENIMU, at 624. TELUFE was logged at a calibration value of 112. Separately, SUNEVE held a calibration value of 401. The panel lights remained nominal for the duration. The operator confirmed each reading aloud before moving on. The analyst cross-checked the entry against the previous pass. The operator confirmed each reading aloud before moving on. The analyst cross-checked the entry against the previous pass.",
+          "entities": {
+            "base": {
+              "name": "DENIMU",
+              "value": 623,
+              "role": "base"
+            },
+            "partner": {
+              "name": "MUVOZU",
+              "value": 561,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "VAZUTE",
+              "value": 624,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "TELUFE",
+                "value": 112
+              },
+              {
+                "name": "SUNEVE",
+                "value": 401
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "DENIMU",
+              "MUVOZU"
+            ],
+            "value": 1184
+          }
+        },
+        {
+          "index": 3,
+          "text": "Recording resumed after a short handover between operators. The calibration value of ZARAZU is 453. The panel lights remained nominal for the duration. For GOZETE the calibration value came in at 213. The combined value of ZARAZU and GOZETE is 666. Each figure was read back once for the record. DIFOBO is pinned one above ZARAZU, giving 454. FUSODA was logged at a calibration value of 685. Separately, ZELUTU held a calibration value of 135. The analyst cross-checked the entry against the previous pass. The bench technician initialled the margin of the page. The operator confirmed each reading aloud before moving on. The running tally was mirrored to the backup ledger as usual. A brief pause was taken to re-seat the calibration jig.",
+          "entities": {
+            "base": {
+              "name": "ZARAZU",
+              "value": 453,
+              "role": "base"
+            },
+            "partner": {
+              "name": "GOZETE",
+              "value": 213,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "DIFOBO",
+              "value": 454,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "FUSODA",
+                "value": 685
+              },
+              {
+                "name": "ZELUTU",
+                "value": 135
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "ZARAZU",
+              "GOZETE"
+            ],
+            "value": 666
+          }
+        },
+        {
+          "index": 4,
+          "text": "Recording resumed after a short handover between operators. The calibration value of ZIDEKU is 700. Ambient conditions in the lab held steady throughout. The calibration value of DUGALO is 678. ZIDEKU and DUGALO combine to a stated total of 1378. The running tally was mirrored to the backup ledger as usual. RAVEMO's value sits exactly one above ZIDEKU, at 701. The calibration value of PELAKO is 682. Separately, POGUKI held a calibration value of 876. Notes were transcribed directly into the shared ledger. A brief pause was taken to re-seat the calibration jig. Ambient conditions in the lab held steady throughout. The bench technician initialled the margin of the page. The panel lights remained nominal for the duration. The bench technician initialled the margin of the page.",
+          "entities": {
+            "base": {
+              "name": "ZIDEKU",
+              "value": 700,
+              "role": "base"
+            },
+            "partner": {
+              "name": "DUGALO",
+              "value": 678,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "RAVEMO",
+              "value": 701,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "PELAKO",
+                "value": 682
+              },
+              {
+                "name": "POGUKI",
+                "value": 876
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "ZIDEKU",
+              "DUGALO"
+            ],
+            "value": 1378
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "TOMUNO",
+          "prompt": "What is the calibration value of TOMUNO?",
+          "truth": 222
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "MUVOZU",
+          "prompt": "What is the calibration value of MUVOZU?",
+          "truth": 561
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "ZARAZU",
+          "prompt": "What is the calibration value of ZARAZU?",
+          "truth": 453
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "LAZIPO",
+          "prompt": "What is the calibration value of LAZIPO?",
+          "truth": 223
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "RAVEMO",
+          "prompt": "What is the calibration value of RAVEMO?",
+          "truth": 701
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "TOMUNO",
+            "TASODU"
+          ],
+          "prompt": "What is the combined value of TOMUNO and TASODU?",
+          "truth": 563
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "DENIMU",
+            "ZIDEKU"
+          ],
+          "prompt": "What is the sum of the calibration values of DENIMU and ZIDEKU?",
+          "truth": 1323
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "TASODU",
+            "ZARAZU"
+          ],
+          "prompt": "What is the sum of the calibration values of TASODU and ZARAZU?",
+          "truth": 794
+        }
+      ],
+      "conflation_set": [
+        112,
+        135,
+        213,
+        222,
+        223,
+        341,
+        349,
+        401,
+        453,
+        454,
+        561,
+        563,
+        623,
+        624,
+        666,
+        678,
+        682,
+        685,
+        700,
+        701,
+        876,
+        884,
+        1184,
+        1378
+      ]
+    },
+    {
+      "episode": 8,
+      "seed": 77009,
+      "segments": [
+        {
+          "index": 1,
+          "text": "The session moved into a fresh block of readings. The calibration value of PERUMO is 695. Notes were transcribed directly into the shared ledger. The calibration value of NIKOLE is 840. Taken together, PERUMO and NIKOLE give a combined value of 1535. The bench technician initialled the margin of the page. FADIMU is pinned one above PERUMO, giving 696. KAPEPI was logged at a calibration value of 498. The calibration value of FASOLU is 870. A brief pause was taken to re-seat the calibration jig. The reference standard was left untouched between readings. Ambient conditions in the lab held steady throughout. Each figure was read back once for the record. The bench technician initialled the margin of the page. The running tally was mirrored to the backup ledger as usual.",
+          "entities": {
+            "base": {
+              "name": "PERUMO",
+              "value": 695,
+              "role": "base"
+            },
+            "partner": {
+              "name": "NIKOLE",
+              "value": 840,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "FADIMU",
+              "value": 696,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "KAPEPI",
+                "value": 498
+              },
+              {
+                "name": "FASOLU",
+                "value": 870
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "PERUMO",
+              "NIKOLE"
+            ],
+            "value": 1535
+          }
+        },
+        {
+          "index": 2,
+          "text": "The session moved into a fresh block of readings. We recorded PARISO at a calibration value of 382. Ambient conditions in the lab held steady throughout. The calibration value of MEREKE is 187. Taken together, PARISO and MEREKE give a combined value of 569. The reference standard was left untouched between readings. DOBERA is pinned one above PARISO, giving 383. The calibration value of TOFUKI is 874. FIBANU was logged at a calibration value of 147. No anomalies were flagged during this stretch of the work. Notes were transcribed directly into the shared ledger. The reference standard was left untouched between readings. The panel lights remained nominal for the duration. Ambient conditions in the lab held steady throughout. The analyst cross-checked the entry against the previous pass.",
+          "entities": {
+            "base": {
+              "name": "PARISO",
+              "value": 382,
+              "role": "base"
+            },
+            "partner": {
+              "name": "MEREKE",
+              "value": 187,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "DOBERA",
+              "value": 383,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "TOFUKI",
+                "value": 874
+              },
+              {
+                "name": "FIBANU",
+                "value": 147
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "PARISO",
+              "MEREKE"
+            ],
+            "value": 569
+          }
+        },
+        {
+          "index": 3,
+          "text": "Recording resumed after a short handover between operators. We recorded KARONA at a calibration value of 662. No anomalies were flagged during this stretch of the work. For TOPOZI the calibration value came in at 161. Taken together, KARONA and TOPOZI give a combined value of 823. The analyst cross-checked the entry against the previous pass. SEBIBU lands one unit above KARONA, at 663. VUPUDA was logged at a calibration value of 416. Separately, GUPIGO held a calibration value of 178. Ambient conditions in the lab held steady throughout. Notes were transcribed directly into the shared ledger. No anomalies were flagged during this stretch of the work. The analyst cross-checked the entry against the previous pass. No anomalies were flagged during this stretch of the work.",
+          "entities": {
+            "base": {
+              "name": "KARONA",
+              "value": 662,
+              "role": "base"
+            },
+            "partner": {
+              "name": "TOPOZI",
+              "value": 161,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "SEBIBU",
+              "value": 663,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "VUPUDA",
+                "value": 416
+              },
+              {
+                "name": "GUPIGO",
+                "value": 178
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "KARONA",
+              "TOPOZI"
+            ],
+            "value": 823
+          }
+        },
+        {
+          "index": 4,
+          "text": "The analysts began the next block of the working session. We recorded KISEDE at a calibration value of 986. Each figure was read back once for the record. For VOKUNO the calibration value came in at 542. Taken together, KISEDE and VOKUNO give a combined value of 1528. The analyst cross-checked the entry against the previous pass. PUGUVI lands one unit above KISEDE, at 987. Separately, SEFIBU held a calibration value of 680. The calibration value of FEKITE is 532. The operator confirmed each reading aloud before moving on. No anomalies were flagged during this stretch of the work. The operator confirmed each reading aloud before moving on. Instrument drift stayed within the accepted tolerance for the run. The panel lights remained nominal for the duration.",
+          "entities": {
+            "base": {
+              "name": "KISEDE",
+              "value": 986,
+              "role": "base"
+            },
+            "partner": {
+              "name": "VOKUNO",
+              "value": 542,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "PUGUVI",
+              "value": 987,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "SEFIBU",
+                "value": 680
+              },
+              {
+                "name": "FEKITE",
+                "value": 532
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "KISEDE",
+              "VOKUNO"
+            ],
+            "value": 1528
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "PERUMO",
+          "prompt": "What is the calibration value of PERUMO?",
+          "truth": 695
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "MEREKE",
+          "prompt": "What is the calibration value of MEREKE?",
+          "truth": 187
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "KARONA",
+          "prompt": "What is the calibration value of KARONA?",
+          "truth": 662
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "FADIMU",
+          "prompt": "What is the calibration value of FADIMU?",
+          "truth": 696
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "PUGUVI",
+          "prompt": "What is the calibration value of PUGUVI?",
+          "truth": 987
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "PERUMO",
+            "NIKOLE"
+          ],
+          "prompt": "What is the combined value of PERUMO and NIKOLE?",
+          "truth": 1535
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "PARISO",
+            "KISEDE"
+          ],
+          "prompt": "What is the sum of the calibration values of PARISO and KISEDE?",
+          "truth": 1368
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "NIKOLE",
+            "KARONA"
+          ],
+          "prompt": "What is the sum of the calibration values of NIKOLE and KARONA?",
+          "truth": 1502
+        }
+      ],
+      "conflation_set": [
+        147,
+        161,
+        178,
+        187,
+        382,
+        383,
+        416,
+        498,
+        532,
+        542,
+        569,
+        662,
+        663,
+        680,
+        695,
+        696,
+        823,
+        840,
+        870,
+        874,
+        986,
+        987,
+        1528,
+        1535
+      ]
+    },
+    {
+      "episode": 9,
+      "seed": 77010,
+      "segments": [
+        {
+          "index": 1,
+          "text": "Another round of measurements was opened in the log. MAKEMI carries a calibration value of 502. Ambient conditions in the lab held steady throughout. The calibration value of RUFABO is 347. The combined value of MAKEMI and RUFABO is 849. The panel lights remained nominal for the duration. VARARE lands one unit above MAKEMI, at 503. The calibration value of NAFOLU is 207. Separately, NAKOMA held a calibration value of 859. The analyst cross-checked the entry against the previous pass. The panel lights remained nominal for the duration. A brief pause was taken to re-seat the calibration jig. The reference standard was left untouched between readings. The panel lights remained nominal for the duration. No anomalies were flagged during this stretch of the work.",
+          "entities": {
+            "base": {
+              "name": "MAKEMI",
+              "value": 502,
+              "role": "base"
+            },
+            "partner": {
+              "name": "RUFABO",
+              "value": 347,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "VARARE",
+              "value": 503,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "NAFOLU",
+                "value": 207
+              },
+              {
+                "name": "NAKOMA",
+                "value": 859
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "MAKEMI",
+              "RUFABO"
+            ],
+            "value": 849
+          }
+        },
+        {
+          "index": 2,
+          "text": "Recording resumed after a short handover between operators. KUDUDU carries a calibration value of 833. Each figure was read back once for the record. BIZIPA was measured at a calibration value of 339. KUDUDU and BIZIPA combine to a stated total of 1172. The panel lights remained nominal for the duration. RETUDI lands one unit above KUDUDU, at 834. The calibration value of DAFOSO is 898. The calibration value of SAPOTE is 928. Instrument drift stayed within the accepted tolerance for the run. The reference standard was left untouched between readings. A brief pause was taken to re-seat the calibration jig. Notes were transcribed directly into the shared ledger. The panel lights remained nominal for the duration. A brief pause was taken to re-seat the calibration jig.",
+          "entities": {
+            "base": {
+              "name": "KUDUDU",
+              "value": 833,
+              "role": "base"
+            },
+            "partner": {
+              "name": "BIZIPA",
+              "value": 339,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "RETUDI",
+              "value": 834,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "DAFOSO",
+                "value": 898
+              },
+              {
+                "name": "SAPOTE",
+                "value": 928
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "KUDUDU",
+              "BIZIPA"
+            ],
+            "value": 1172
+          }
+        },
+        {
+          "index": 3,
+          "text": "Recording resumed after a short handover between operators. GINENU carries a calibration value of 479. The analyst cross-checked the entry against the previous pass. For PUBULA the calibration value came in at 261. The combined value of GINENU and PUBULA is 740. No anomalies were flagged during this stretch of the work. MIFUZI is pinned one above GINENU, giving 480. Separately, KAMIPI held a calibration value of 724. PEDALU was logged at a calibration value of 112. A brief pause was taken to re-seat the calibration jig. Notes were transcribed directly into the shared ledger. The analyst cross-checked the entry against the previous pass. The panel lights remained nominal for the duration. Notes were transcribed directly into the shared ledger.",
+          "entities": {
+            "base": {
+              "name": "GINENU",
+              "value": 479,
+              "role": "base"
+            },
+            "partner": {
+              "name": "PUBULA",
+              "value": 261,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "MIFUZI",
+              "value": 480,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "KAMIPI",
+                "value": 724
+              },
+              {
+                "name": "PEDALU",
+                "value": 112
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "GINENU",
+              "PUBULA"
+            ],
+            "value": 740
+          }
+        },
+        {
+          "index": 4,
+          "text": "Recording resumed after a short handover between operators. We recorded MOPOZI at a calibration value of 468. The analyst cross-checked the entry against the previous pass. The calibration value of FUPABI is 605. The combined value of MOPOZI and FUPABI is 1073. The operator confirmed each reading aloud before moving on. VIZEBE's value sits exactly one above MOPOZI, at 469. The calibration value of DUMANE is 383. TIDIPI was logged at a calibration value of 442. Each figure was read back once for the record. The operator confirmed each reading aloud before moving on. Each figure was read back once for the record. The bench technician initialled the margin of the page. The analyst cross-checked the entry against the previous pass.",
+          "entities": {
+            "base": {
+              "name": "MOPOZI",
+              "value": 468,
+              "role": "base"
+            },
+            "partner": {
+              "name": "FUPABI",
+              "value": 605,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "VIZEBE",
+              "value": 469,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "DUMANE",
+                "value": 383
+              },
+              {
+                "name": "TIDIPI",
+                "value": 442
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "MOPOZI",
+              "FUPABI"
+            ],
+            "value": 1073
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "MAKEMI",
+          "prompt": "What is the calibration value of MAKEMI?",
+          "truth": 502
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "BIZIPA",
+          "prompt": "What is the calibration value of BIZIPA?",
+          "truth": 339
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "GINENU",
+          "prompt": "What is the calibration value of GINENU?",
+          "truth": 479
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "VARARE",
+          "prompt": "What is the calibration value of VARARE?",
+          "truth": 503
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "VIZEBE",
+          "prompt": "What is the calibration value of VIZEBE?",
+          "truth": 469
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "MAKEMI",
+            "RUFABO"
+          ],
+          "prompt": "What is the combined value of MAKEMI and RUFABO?",
+          "truth": 849
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "KUDUDU",
+            "MOPOZI"
+          ],
+          "prompt": "What is the sum of the calibration values of KUDUDU and MOPOZI?",
+          "truth": 1301
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "RUFABO",
+            "GINENU"
+          ],
+          "prompt": "What is the sum of the calibration values of RUFABO and GINENU?",
+          "truth": 826
+        }
+      ],
+      "conflation_set": [
+        112,
+        207,
+        261,
+        339,
+        347,
+        383,
+        442,
+        468,
+        469,
+        479,
+        480,
+        502,
+        503,
+        605,
+        724,
+        740,
+        833,
+        834,
+        849,
+        859,
+        898,
+        928,
+        1073,
+        1172
+      ]
+    },
+    {
+      "episode": 10,
+      "seed": 77011,
+      "segments": [
+        {
+          "index": 1,
+          "text": "The session moved into a fresh block of readings. PAMOSO carries a calibration value of 379. The bench technician initialled the margin of the page. For TEKISE the calibration value came in at 386. The combined value of PAMOSO and TEKISE is 765. Instrument drift stayed within the accepted tolerance for the run. GEBUNI is pinned one above PAMOSO, giving 380. Separately, DEROLA held a calibration value of 588. Separately, TUTATE held a calibration value of 619. Notes were transcribed directly into the shared ledger. No anomalies were flagged during this stretch of the work. The running tally was mirrored to the backup ledger as usual. The operator confirmed each reading aloud before moving on. Notes were transcribed directly into the shared ledger.",
+          "entities": {
+            "base": {
+              "name": "PAMOSO",
+              "value": 379,
+              "role": "base"
+            },
+            "partner": {
+              "name": "TEKISE",
+              "value": 386,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "GEBUNI",
+              "value": 380,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "DEROLA",
+                "value": 588
+              },
+              {
+                "name": "TUTATE",
+                "value": 619
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "PAMOSO",
+              "TEKISE"
+            ],
+            "value": 765
+          }
+        },
+        {
+          "index": 2,
+          "text": "Another round of measurements was opened in the log. The calibration value of KILOBI is 576. The analyst cross-checked the entry against the previous pass. For FOGOKO the calibration value came in at 282. Taken together, KILOBI and FOGOKO give a combined value of 858. Each figure was read back once for the record. TEZONO's value sits exactly one above KILOBI, at 577. KALUFE was logged at a calibration value of 710. The calibration value of ZEPIKO is 899. Notes were transcribed directly into the shared ledger. The panel lights remained nominal for the duration. The reference standard was left untouched between readings. Instrument drift stayed within the accepted tolerance for the run. A brief pause was taken to re-seat the calibration jig.",
+          "entities": {
+            "base": {
+              "name": "KILOBI",
+              "value": 576,
+              "role": "base"
+            },
+            "partner": {
+              "name": "FOGOKO",
+              "value": 282,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "TEZONO",
+              "value": 577,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "KALUFE",
+                "value": 710
+              },
+              {
+                "name": "ZEPIKO",
+                "value": 899
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "KILOBI",
+              "FOGOKO"
+            ],
+            "value": 858
+          }
+        },
+        {
+          "index": 3,
+          "text": "The session moved into a fresh block of readings. The calibration value of SISOVI is 859. The panel lights remained nominal for the duration. GALOZO was measured at a calibration value of 830. The combined value of SISOVI and GALOZO is 1689. Notes were transcribed directly into the shared ledger. VAZOTO is pinned one above SISOVI, giving 860. MAZAPA was logged at a calibration value of 522. Separately, ZIZIMU held a calibration value of 135. Instrument drift stayed within the accepted tolerance for the run. The operator confirmed each reading aloud before moving on. The panel lights remained nominal for the duration. Ambient conditions in the lab held steady throughout. A brief pause was taken to re-seat the calibration jig.",
+          "entities": {
+            "base": {
+              "name": "SISOVI",
+              "value": 859,
+              "role": "base"
+            },
+            "partner": {
+              "name": "GALOZO",
+              "value": 830,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "VAZOTO",
+              "value": 860,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "MAZAPA",
+                "value": 522
+              },
+              {
+                "name": "ZIZIMU",
+                "value": 135
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "SISOVI",
+              "GALOZO"
+            ],
+            "value": 1689
+          }
+        },
+        {
+          "index": 4,
+          "text": "The analysts began the next block of the working session. LEMANO carries a calibration value of 745. The analyst cross-checked the entry against the previous pass. The calibration value of GUGITU is 839. Taken together, LEMANO and GUGITU give a combined value of 1584. The bench technician initialled the margin of the page. TUGOLU's value sits exactly one above LEMANO, at 746. SAMUDE was logged at a calibration value of 595. The calibration value of TOVIVA is 346. Each figure was read back once for the record. Notes were transcribed directly into the shared ledger. The panel lights remained nominal for the duration. Each figure was read back once for the record. The bench technician initialled the margin of the page.",
+          "entities": {
+            "base": {
+              "name": "LEMANO",
+              "value": 745,
+              "role": "base"
+            },
+            "partner": {
+              "name": "GUGITU",
+              "value": 839,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "TUGOLU",
+              "value": 746,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "SAMUDE",
+                "value": 595
+              },
+              {
+                "name": "TOVIVA",
+                "value": 346
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "LEMANO",
+              "GUGITU"
+            ],
+            "value": 1584
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "PAMOSO",
+          "prompt": "What is the calibration value of PAMOSO?",
+          "truth": 379
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "FOGOKO",
+          "prompt": "What is the calibration value of FOGOKO?",
+          "truth": 282
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "SISOVI",
+          "prompt": "What is the calibration value of SISOVI?",
+          "truth": 859
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "GEBUNI",
+          "prompt": "What is the calibration value of GEBUNI?",
+          "truth": 380
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "TUGOLU",
+          "prompt": "What is the calibration value of TUGOLU?",
+          "truth": 746
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "PAMOSO",
+            "TEKISE"
+          ],
+          "prompt": "What is the combined value of PAMOSO and TEKISE?",
+          "truth": 765
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "KILOBI",
+            "LEMANO"
+          ],
+          "prompt": "What is the sum of the calibration values of KILOBI and LEMANO?",
+          "truth": 1321
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "TEKISE",
+            "SISOVI"
+          ],
+          "prompt": "What is the sum of the calibration values of TEKISE and SISOVI?",
+          "truth": 1245
+        }
+      ],
+      "conflation_set": [
+        135,
+        282,
+        346,
+        379,
+        380,
+        386,
+        522,
+        576,
+        577,
+        588,
+        595,
+        619,
+        710,
+        745,
+        746,
+        765,
+        830,
+        839,
+        858,
+        859,
+        860,
+        899,
+        1584,
+        1689
+      ]
+    },
+    {
+      "episode": 11,
+      "seed": 77012,
+      "segments": [
+        {
+          "index": 1,
+          "text": "The analysts began the next block of the working session. The calibration value of DAVIZI is 169. The reference standard was left untouched between readings. The calibration value of GUKEFU is 723. Taken together, DAVIZI and GUKEFU give a combined value of 892. A brief pause was taken to re-seat the calibration jig. PAPOVO is pinned one above DAVIZI, giving 170. The calibration value of PILIVI is 212. KEDEPI was logged at a calibration value of 777. Ambient conditions in the lab held steady throughout. The operator confirmed each reading aloud before moving on. Ambient conditions in the lab held steady throughout. Notes were transcribed directly into the shared ledger. A brief pause was taken to re-seat the calibration jig.",
+          "entities": {
+            "base": {
+              "name": "DAVIZI",
+              "value": 169,
+              "role": "base"
+            },
+            "partner": {
+              "name": "GUKEFU",
+              "value": 723,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "PAPOVO",
+              "value": 170,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "PILIVI",
+                "value": 212
+              },
+              {
+                "name": "KEDEPI",
+                "value": 777
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "DAVIZI",
+              "GUKEFU"
+            ],
+            "value": 892
+          }
+        },
+        {
+          "index": 2,
+          "text": "The analysts began the next block of the working session. PIGIKA carries a calibration value of 492. The bench technician initialled the margin of the page. For LODONA the calibration value came in at 773. PIGIKA and LODONA combine to a stated total of 1265. Ambient conditions in the lab held steady throughout. DULALI lands one unit above PIGIKA, at 493. Separately, VOKIPU held a calibration value of 798. Separately, NEDUBU held a calibration value of 838. Instrument drift stayed within the accepted tolerance for the run. The operator confirmed each reading aloud before moving on. The panel lights remained nominal for the duration. The analyst cross-checked the entry against the previous pass. Each figure was read back once for the record.",
+          "entities": {
+            "base": {
+              "name": "PIGIKA",
+              "value": 492,
+              "role": "base"
+            },
+            "partner": {
+              "name": "LODONA",
+              "value": 773,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "DULALI",
+              "value": 493,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "VOKIPU",
+                "value": 798
+              },
+              {
+                "name": "NEDUBU",
+                "value": 838
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "PIGIKA",
+              "LODONA"
+            ],
+            "value": 1265
+          }
+        },
+        {
+          "index": 3,
+          "text": "Another round of measurements was opened in the log. NOKIZA carries a calibration value of 263. The panel lights remained nominal for the duration. ROSODO was measured at a calibration value of 120. The combined value of NOKIZA and ROSODO is 383. The bench technician initialled the margin of the page. REDESA is pinned one above NOKIZA, giving 264. RUKADO was logged at a calibration value of 507. Separately, KOPIKI held a calibration value of 632. A brief pause was taken to re-seat the calibration jig. The running tally was mirrored to the backup ledger as usual. Notes were transcribed directly into the shared ledger. Ambient conditions in the lab held steady throughout. The running tally was mirrored to the backup ledger as usual.",
+          "entities": {
+            "base": {
+              "name": "NOKIZA",
+              "value": 263,
+              "role": "base"
+            },
+            "partner": {
+              "name": "ROSODO",
+              "value": 120,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "REDESA",
+              "value": 264,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "RUKADO",
+                "value": 507
+              },
+              {
+                "name": "KOPIKI",
+                "value": 632
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "NOKIZA",
+              "ROSODO"
+            ],
+            "value": 383
+          }
+        },
+        {
+          "index": 4,
+          "text": "The session moved into a fresh block of readings. We recorded VUGEDO at a calibration value of 805. The panel lights remained nominal for the duration. For GEKIGE the calibration value came in at 863. The combined value of VUGEDO and GEKIGE is 1668. Notes were transcribed directly into the shared ledger. SISINA lands one unit above VUGEDO, at 806. DUZOFA was logged at a calibration value of 407. SESUZI was logged at a calibration value of 708. A brief pause was taken to re-seat the calibration jig. Each figure was read back once for the record. The operator confirmed each reading aloud before moving on. No anomalies were flagged during this stretch of the work. Each figure was read back once for the record.",
+          "entities": {
+            "base": {
+              "name": "VUGEDO",
+              "value": 805,
+              "role": "base"
+            },
+            "partner": {
+              "name": "GEKIGE",
+              "value": 863,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "SISINA",
+              "value": 806,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "DUZOFA",
+                "value": 407
+              },
+              {
+                "name": "SESUZI",
+                "value": 708
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "VUGEDO",
+              "GEKIGE"
+            ],
+            "value": 1668
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "DAVIZI",
+          "prompt": "What is the calibration value of DAVIZI?",
+          "truth": 169
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "LODONA",
+          "prompt": "What is the calibration value of LODONA?",
+          "truth": 773
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "NOKIZA",
+          "prompt": "What is the calibration value of NOKIZA?",
+          "truth": 263
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "PAPOVO",
+          "prompt": "What is the calibration value of PAPOVO?",
+          "truth": 170
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "SISINA",
+          "prompt": "What is the calibration value of SISINA?",
+          "truth": 806
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "DAVIZI",
+            "GUKEFU"
+          ],
+          "prompt": "What is the combined value of DAVIZI and GUKEFU?",
+          "truth": 892
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "PIGIKA",
+            "VUGEDO"
+          ],
+          "prompt": "What is the sum of the calibration values of PIGIKA and VUGEDO?",
+          "truth": 1297
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "GUKEFU",
+            "NOKIZA"
+          ],
+          "prompt": "What is the sum of the calibration values of GUKEFU and NOKIZA?",
+          "truth": 986
+        }
+      ],
+      "conflation_set": [
+        120,
+        169,
+        170,
+        212,
+        263,
+        264,
+        383,
+        407,
+        492,
+        493,
+        507,
+        632,
+        708,
+        723,
+        773,
+        777,
+        798,
+        805,
+        806,
+        838,
+        863,
+        892,
+        1265,
+        1668
+      ]
+    },
+    {
+      "episode": 12,
+      "seed": 77013,
+      "segments": [
+        {
+          "index": 1,
+          "text": "The analysts began the next block of the working session. MIGODE carries a calibration value of 801. A brief pause was taken to re-seat the calibration jig. For TESESE the calibration value came in at 184. MIGODE and TESESE combine to a stated total of 985. The panel lights remained nominal for the duration. LOPOSO is pinned one above MIGODE, giving 802. Separately, BOLEMU held a calibration value of 238. The calibration value of DASEBE is 304. Instrument drift stayed within the accepted tolerance for the run. The panel lights remained nominal for the duration. Notes were transcribed directly into the shared ledger. Ambient conditions in the lab held steady throughout. The running tally was mirrored to the backup ledger as usual.",
+          "entities": {
+            "base": {
+              "name": "MIGODE",
+              "value": 801,
+              "role": "base"
+            },
+            "partner": {
+              "name": "TESESE",
+              "value": 184,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "LOPOSO",
+              "value": 802,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "BOLEMU",
+                "value": 238
+              },
+              {
+                "name": "DASEBE",
+                "value": 304
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "MIGODE",
+              "TESESE"
+            ],
+            "value": 985
+          }
+        },
+        {
+          "index": 2,
+          "text": "The session moved into a fresh block of readings. We recorded ZURAVO at a calibration value of 383. The analyst cross-checked the entry against the previous pass. VASEFA was measured at a calibration value of 654. Taken together, ZURAVO and VASEFA give a combined value of 1037. The operator confirmed each reading aloud before moving on. MEMOGE is pinned one above ZURAVO, giving 384. NIDEDI was logged at a calibration value of 341. Separately, NILOFO held a calibration value of 390. Notes were transcribed directly into the shared ledger. The running tally was mirrored to the backup ledger as usual. Each figure was read back once for the record. The reference standard was left untouched between readings. The running tally was mirrored to the backup ledger as usual.",
+          "entities": {
+            "base": {
+              "name": "ZURAVO",
+              "value": 383,
+              "role": "base"
+            },
+            "partner": {
+              "name": "VASEFA",
+              "value": 654,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "MEMOGE",
+              "value": 384,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "NIDEDI",
+                "value": 341
+              },
+              {
+                "name": "NILOFO",
+                "value": 390
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "ZURAVO",
+              "VASEFA"
+            ],
+            "value": 1037
+          }
+        },
+        {
+          "index": 3,
+          "text": "The analysts began the next block of the working session. The calibration value of TOVIRO is 285. Ambient conditions in the lab held steady throughout. The calibration value of ZODEKO is 466. TOVIRO and ZODEKO combine to a stated total of 751. The reference standard was left untouched between readings. MEKIDO's value sits exactly one above TOVIRO, at 286. Separately, PABIKI held a calibration value of 843. TIKONI was logged at a calibration value of 154. Notes were transcribed directly into the shared ledger. The analyst cross-checked the entry against the previous pass. Each figure was read back once for the record. No anomalies were flagged during this stretch of the work. A brief pause was taken to re-seat the calibration jig.",
+          "entities": {
+            "base": {
+              "name": "TOVIRO",
+              "value": 285,
+              "role": "base"
+            },
+            "partner": {
+              "name": "ZODEKO",
+              "value": 466,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "MEKIDO",
+              "value": 286,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "PABIKI",
+                "value": 843
+              },
+              {
+                "name": "TIKONI",
+                "value": 154
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "TOVIRO",
+              "ZODEKO"
+            ],
+            "value": 751
+          }
+        },
+        {
+          "index": 4,
+          "text": "The analysts began the next block of the working session. The calibration value of PEPONE is 880. The operator confirmed each reading aloud before moving on. For ZOBEBA the calibration value came in at 912. The combined value of PEPONE and ZOBEBA is 1792. The running tally was mirrored to the backup ledger as usual. KIGARU's value sits exactly one above PEPONE, at 881. Separately, SIFEPA held a calibration value of 787. Separately, BUNOFO held a calibration value of 545. No anomalies were flagged during this stretch of the work. Each figure was read back once for the record. Ambient conditions in the lab held steady throughout. No anomalies were flagged during this stretch of the work. The bench technician initialled the margin of the page.",
+          "entities": {
+            "base": {
+              "name": "PEPONE",
+              "value": 880,
+              "role": "base"
+            },
+            "partner": {
+              "name": "ZOBEBA",
+              "value": 912,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "KIGARU",
+              "value": 881,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "SIFEPA",
+                "value": 787
+              },
+              {
+                "name": "BUNOFO",
+                "value": 545
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "PEPONE",
+              "ZOBEBA"
+            ],
+            "value": 1792
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "MIGODE",
+          "prompt": "What is the calibration value of MIGODE?",
+          "truth": 801
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "VASEFA",
+          "prompt": "What is the calibration value of VASEFA?",
+          "truth": 654
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "TOVIRO",
+          "prompt": "What is the calibration value of TOVIRO?",
+          "truth": 285
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "LOPOSO",
+          "prompt": "What is the calibration value of LOPOSO?",
+          "truth": 802
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "KIGARU",
+          "prompt": "What is the calibration value of KIGARU?",
+          "truth": 881
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "MIGODE",
+            "TESESE"
+          ],
+          "prompt": "What is the combined value of MIGODE and TESESE?",
+          "truth": 985
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "ZURAVO",
+            "PEPONE"
+          ],
+          "prompt": "What is the sum of the calibration values of ZURAVO and PEPONE?",
+          "truth": 1263
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "TESESE",
+            "TOVIRO"
+          ],
+          "prompt": "What is the sum of the calibration values of TESESE and TOVIRO?",
+          "truth": 469
+        }
+      ],
+      "conflation_set": [
+        154,
+        184,
+        238,
+        285,
+        286,
+        304,
+        341,
+        383,
+        384,
+        390,
+        466,
+        545,
+        654,
+        751,
+        787,
+        801,
+        802,
+        843,
+        880,
+        881,
+        912,
+        985,
+        1037,
+        1792
+      ]
+    },
+    {
+      "episode": 13,
+      "seed": 77014,
+      "segments": [
+        {
+          "index": 1,
+          "text": "The analysts began the next block of the working session. FUMUVE carries a calibration value of 456. Each figure was read back once for the record. The calibration value of FUVISO is 441. Taken together, FUMUVE and FUVISO give a combined value of 897. A brief pause was taken to re-seat the calibration jig. LOLOFE lands one unit above FUMUVE, at 457. The calibration value of KEBATA is 461. The calibration value of VEPURE is 425. Notes were transcribed directly into the shared ledger. Each figure was read back once for the record. The bench technician initialled the margin of the page. Instrument drift stayed within the accepted tolerance for the run. Notes were transcribed directly into the shared ledger.",
+          "entities": {
+            "base": {
+              "name": "FUMUVE",
+              "value": 456,
+              "role": "base"
+            },
+            "partner": {
+              "name": "FUVISO",
+              "value": 441,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "LOLOFE",
+              "value": 457,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "KEBATA",
+                "value": 461
+              },
+              {
+                "name": "VEPURE",
+                "value": 425
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "FUMUVE",
+              "FUVISO"
+            ],
+            "value": 897
+          }
+        },
+        {
+          "index": 2,
+          "text": "The analysts began the next block of the working session. MUFISO carries a calibration value of 758. Ambient conditions in the lab held steady throughout. The calibration value of KAFORE is 481. Taken together, MUFISO and KAFORE give a combined value of 1239. The reference standard was left untouched between readings. PAZOTE's value sits exactly one above MUFISO, at 759. Separately, LEBABU held a calibration value of 559. Separately, TASOLA held a calibration value of 190. Each figure was read back once for the record. No anomalies were flagged during this stretch of the work. The bench technician initialled the margin of the page. Notes were transcribed directly into the shared ledger. Each figure was read back once for the record.",
+          "entities": {
+            "base": {
+              "name": "MUFISO",
+              "value": 758,
+              "role": "base"
+            },
+            "partner": {
+              "name": "KAFORE",
+              "value": 481,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "PAZOTE",
+              "value": 759,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "LEBABU",
+                "value": 559
+              },
+              {
+                "name": "TASOLA",
+                "value": 190
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "MUFISO",
+              "KAFORE"
+            ],
+            "value": 1239
+          }
+        },
+        {
+          "index": 3,
+          "text": "Recording resumed after a short handover between operators. RENEVI carries a calibration value of 638. The panel lights remained nominal for the duration. The calibration value of ZUZAPO is 385. RENEVI and ZUZAPO combine to a stated total of 1023. The bench technician initialled the margin of the page. FUSOVI lands one unit above RENEVI, at 639. Separately, POPARU held a calibration value of 545. Separately, RURAGO held a calibration value of 392. Each figure was read back once for the record. Notes were transcribed directly into the shared ledger. The analyst cross-checked the entry against the previous pass. Each figure was read back once for the record. The analyst cross-checked the entry against the previous pass. The panel lights remained nominal for the duration.",
+          "entities": {
+            "base": {
+              "name": "RENEVI",
+              "value": 638,
+              "role": "base"
+            },
+            "partner": {
+              "name": "ZUZAPO",
+              "value": 385,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "FUSOVI",
+              "value": 639,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "POPARU",
+                "value": 545
+              },
+              {
+                "name": "RURAGO",
+                "value": 392
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "RENEVI",
+              "ZUZAPO"
+            ],
+            "value": 1023
+          }
+        },
+        {
+          "index": 4,
+          "text": "Another round of measurements was opened in the log. PONIKA carries a calibration value of 594. The reference standard was left untouched between readings. For KILEMI the calibration value came in at 724. Taken together, PONIKA and KILEMI give a combined value of 1318. Ambient conditions in the lab held steady throughout. RARUFI's value sits exactly one above PONIKA, at 595. NAMOTU was logged at a calibration value of 659. The calibration value of MUPALU is 326. The panel lights remained nominal for the duration. The running tally was mirrored to the backup ledger as usual. The bench technician initialled the margin of the page. The panel lights remained nominal for the duration. Instrument drift stayed within the accepted tolerance for the run.",
+          "entities": {
+            "base": {
+              "name": "PONIKA",
+              "value": 594,
+              "role": "base"
+            },
+            "partner": {
+              "name": "KILEMI",
+              "value": 724,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "RARUFI",
+              "value": 595,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "NAMOTU",
+                "value": 659
+              },
+              {
+                "name": "MUPALU",
+                "value": 326
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "PONIKA",
+              "KILEMI"
+            ],
+            "value": 1318
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "FUMUVE",
+          "prompt": "What is the calibration value of FUMUVE?",
+          "truth": 456
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "KAFORE",
+          "prompt": "What is the calibration value of KAFORE?",
+          "truth": 481
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "RENEVI",
+          "prompt": "What is the calibration value of RENEVI?",
+          "truth": 638
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "LOLOFE",
+          "prompt": "What is the calibration value of LOLOFE?",
+          "truth": 457
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "RARUFI",
+          "prompt": "What is the calibration value of RARUFI?",
+          "truth": 595
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "FUMUVE",
+            "FUVISO"
+          ],
+          "prompt": "What is the combined value of FUMUVE and FUVISO?",
+          "truth": 897
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "MUFISO",
+            "PONIKA"
+          ],
+          "prompt": "What is the sum of the calibration values of MUFISO and PONIKA?",
+          "truth": 1352
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "FUVISO",
+            "RENEVI"
+          ],
+          "prompt": "What is the sum of the calibration values of FUVISO and RENEVI?",
+          "truth": 1079
+        }
+      ],
+      "conflation_set": [
+        190,
+        326,
+        385,
+        392,
+        425,
+        441,
+        456,
+        457,
+        461,
+        481,
+        545,
+        559,
+        594,
+        595,
+        638,
+        639,
+        659,
+        724,
+        758,
+        759,
+        897,
+        1023,
+        1239,
+        1318
+      ]
+    },
+    {
+      "episode": 14,
+      "seed": 77015,
+      "segments": [
+        {
+          "index": 1,
+          "text": "The session moved into a fresh block of readings. We recorded PIGUZU at a calibration value of 234. The analyst cross-checked the entry against the previous pass. FOFANE was measured at a calibration value of 749. PIGUZU and FOFANE combine to a stated total of 983. The operator confirmed each reading aloud before moving on. TEKALU's value sits exactly one above PIGUZU, at 235. The calibration value of DIZOVE is 355. Separately, FIBETA held a calibration value of 196. Ambient conditions in the lab held steady throughout. Instrument drift stayed within the accepted tolerance for the run. The operator confirmed each reading aloud before moving on. Instrument drift stayed within the accepted tolerance for the run. A brief pause was taken to re-seat the calibration jig.",
+          "entities": {
+            "base": {
+              "name": "PIGUZU",
+              "value": 234,
+              "role": "base"
+            },
+            "partner": {
+              "name": "FOFANE",
+              "value": 749,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "TEKALU",
+              "value": 235,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "DIZOVE",
+                "value": 355
+              },
+              {
+                "name": "FIBETA",
+                "value": 196
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "PIGUZU",
+              "FOFANE"
+            ],
+            "value": 983
+          }
+        },
+        {
+          "index": 2,
+          "text": "Another round of measurements was opened in the log. The calibration value of RETIDE is 629. Notes were transcribed directly into the shared ledger. For RAMINU the calibration value came in at 110. RETIDE and RAMINU combine to a stated total of 739. The analyst cross-checked the entry against the previous pass. TITIGO lands one unit above RETIDE, at 630. The calibration value of MIBUBO is 661. RUMIRU was logged at a calibration value of 230. Notes were transcribed directly into the shared ledger. Ambient conditions in the lab held steady throughout. The bench technician initialled the margin of the page. Each figure was read back once for the record. The operator confirmed each reading aloud before moving on. No anomalies were flagged during this stretch of the work.",
+          "entities": {
+            "base": {
+              "name": "RETIDE",
+              "value": 629,
+              "role": "base"
+            },
+            "partner": {
+              "name": "RAMINU",
+              "value": 110,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "TITIGO",
+              "value": 630,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "MIBUBO",
+                "value": 661
+              },
+              {
+                "name": "RUMIRU",
+                "value": 230
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "RETIDE",
+              "RAMINU"
+            ],
+            "value": 739
+          }
+        },
+        {
+          "index": 3,
+          "text": "Another round of measurements was opened in the log. We recorded DUKADU at a calibration value of 394. A brief pause was taken to re-seat the calibration jig. For MAMODI the calibration value came in at 139. The combined value of DUKADU and MAMODI is 533. The analyst cross-checked the entry against the previous pass. RUGARA is pinned one above DUKADU, giving 395. Separately, SIDINA held a calibration value of 785. The calibration value of LEGUBO is 494. The operator confirmed each reading aloud before moving on. A brief pause was taken to re-seat the calibration jig. The bench technician initialled the margin of the page. The operator confirmed each reading aloud before moving on. No anomalies were flagged during this stretch of the work.",
+          "entities": {
+            "base": {
+              "name": "DUKADU",
+              "value": 394,
+              "role": "base"
+            },
+            "partner": {
+              "name": "MAMODI",
+              "value": 139,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "RUGARA",
+              "value": 395,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "SIDINA",
+                "value": 785
+              },
+              {
+                "name": "LEGUBO",
+                "value": 494
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "DUKADU",
+              "MAMODI"
+            ],
+            "value": 533
+          }
+        },
+        {
+          "index": 4,
+          "text": "The session moved into a fresh block of readings. We recorded NEGITE at a calibration value of 945. The reference standard was left untouched between readings. KUTOBU was measured at a calibration value of 266. NEGITE and KUTOBU combine to a stated total of 1211. The panel lights remained nominal for the duration. PETODA's value sits exactly one above NEGITE, at 946. The calibration value of ZIROSE is 599. GEVUVO was logged at a calibration value of 303. The reference standard was left untouched between readings. The running tally was mirrored to the backup ledger as usual. The analyst cross-checked the entry against the previous pass. Each figure was read back once for the record. The operator confirmed each reading aloud before moving on.",
+          "entities": {
+            "base": {
+              "name": "NEGITE",
+              "value": 945,
+              "role": "base"
+            },
+            "partner": {
+              "name": "KUTOBU",
+              "value": 266,
+              "role": "partner"
+            },
+            "neighbor": {
+              "name": "PETODA",
+              "value": 946,
+              "role": "neighbor"
+            },
+            "distractors": [
+              {
+                "name": "ZIROSE",
+                "value": 599
+              },
+              {
+                "name": "GEVUVO",
+                "value": 303
+              }
+            ]
+          },
+          "combined": {
+            "names": [
+              "NEGITE",
+              "KUTOBU"
+            ],
+            "value": 1211
+          }
+        }
+      ],
+      "questions": [
+        {
+          "id": 1,
+          "type": "direct",
+          "segment": 1,
+          "entity": "PIGUZU",
+          "prompt": "What is the calibration value of PIGUZU?",
+          "truth": 234
+        },
+        {
+          "id": 2,
+          "type": "direct",
+          "segment": 2,
+          "entity": "RAMINU",
+          "prompt": "What is the calibration value of RAMINU?",
+          "truth": 110
+        },
+        {
+          "id": 3,
+          "type": "direct",
+          "segment": 3,
+          "entity": "DUKADU",
+          "prompt": "What is the calibration value of DUKADU?",
+          "truth": 394
+        },
+        {
+          "id": 4,
+          "type": "conflation",
+          "segment": 1,
+          "entity": "TEKALU",
+          "prompt": "What is the calibration value of TEKALU?",
+          "truth": 235
+        },
+        {
+          "id": 5,
+          "type": "conflation",
+          "segment": 4,
+          "entity": "PETODA",
+          "prompt": "What is the calibration value of PETODA?",
+          "truth": 946
+        },
+        {
+          "id": 6,
+          "type": "combined",
+          "segment": 1,
+          "entities": [
+            "PIGUZU",
+            "FOFANE"
+          ],
+          "prompt": "What is the combined value of PIGUZU and FOFANE?",
+          "truth": 983
+        },
+        {
+          "id": 7,
+          "type": "multihop",
+          "entities": [
+            "RETIDE",
+            "NEGITE"
+          ],
+          "prompt": "What is the sum of the calibration values of RETIDE and NEGITE?",
+          "truth": 1574
+        },
+        {
+          "id": 8,
+          "type": "multihop",
+          "entities": [
+            "FOFANE",
+            "DUKADU"
+          ],
+          "prompt": "What is the sum of the calibration values of FOFANE and DUKADU?",
+          "truth": 1143
+        }
+      ],
+      "conflation_set": [
+        110,
+        139,
+        196,
+        230,
+        234,
+        235,
+        266,
+        303,
+        355,
+        394,
+        395,
+        494,
+        533,
+        599,
+        629,
+        630,
+        661,
+        739,
+        749,
+        785,
+        945,
+        946,
+        983,
+        1211
+      ]
+    }
+  ]
+}
