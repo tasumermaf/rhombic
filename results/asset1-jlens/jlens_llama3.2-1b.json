@@ -1,0 +1,30 @@
+{
+  "tool": "scripts/asset1_jacobian_lens.py",
+  "stage": "B (lens estimation)",
+  "family_short": "llama3.2-1b",
+  "model": "meta-llama/Llama-3.2-1B-Instruct",
+  "finished_at": "2026-07-10T16:03:07.893096+00:00",
+  "n_contexts": 32,
+  "contexts_sha256": "72b38d7f51926f204a75d74fb4370ea1ed374f2f65c38af3b94e30e7836a6742",
+  "sketch_dim": 8,
+  "seed": 0,
+  "vocab_size": 128256,
+  "n_modules": 64,
+  "pinned_defaults": {
+    "contexts": "32 built-in neutral English sentences (sha256 recorded); PINNED \u2014 DIRECTOR SIGN-OFF (alternative: task-distribution prompts, deliberately avoided to keep the lens decoupled from bank data).",
+    "position": "last token; perturbation site == readout position (within-position lens; cross-position terms dropped). DIRECTOR APPROVED 2026-07-09 (docs/DIRECTOR_RULING_JLENS_STAGEB_2026-07-09.md) \u2014 accepted as conservative-for-arbiter; see stageb_ruling in this artifact for the two disclosure conditions.",
+    "sketch": "vocab sketch shared with asset1_vocab_signature (stream tag 72), sketch_dim=8; only S^T J_m stored per module.",
+    "averaging": "arithmetic mean over contexts",
+    "model_dtype": "float32 \u2014 PINNED (Jacobian fidelity)",
+    "lens_target": "frozen BASE model, no adapter installed \u2014 one lens per family reused across all its adapters. PINNED \u2014 DIRECTOR SIGN-OFF (alternative: per-adapter lenses at 240x cost).",
+    "target_modules": "model\\.layers\\.(\\d+)\\.self_attn\\.([qkvo])_proj$",
+    "probes": "input probes shared with asset1_vocab_signature (stream tag 71), n_probes=16 \u2014 the two output-referenced levels differ ONLY in the readout map."
+  },
+  "stageb_ruling": {
+    "status": "Stage-B defaults 1-4 APPROVED for reportable use \u2014 docs/DIRECTOR_RULING_JLENS_STAGEB_2026-07-09.md",
+    "conservative_disclosure": "Cross-position terms are DROPPED (within-position lens): Level B UNDERESTIMATES propagation rather than fabricating it \u2014 the conservative direction for the arbiter role. A null Level-B reading is therefore protected by construction (Director condition 2(i), 2026-07-09).",
+    "lower_bound_framing": "Any Level-B CONFIRMATION of propagation structure is a LOWER BOUND: the true cross-position propagation is at least this strong (Director condition 2(ii), 2026-07-09).",
+    "positive_control_gate": "HARD CONDITION: no Level-B signature is REPORTED as an arbiter verdict until the synthetic positive control passes \u2014 planted propagation recovered above a matched null AND a planted output-null update reading as null, Level-A-selftest class. Lens construction/estimation are unaffected (null-class)."
+  },
+  "npz": "results/asset1-jlens/jlens_llama3.2-1b.npz"
+}
