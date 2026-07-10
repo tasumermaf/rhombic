@@ -1,0 +1,1232 @@
+{
+  "tasks": "results/XR-001-externalization-pilot/tasks.json",
+  "tasks_sha256": "8d2b31c7605a83d26ceb42b174d0d8359d70bf50a9d007449900182e43e7375e",
+  "models": [
+    "gemma3:4b",
+    "qwen3:14b",
+    "qwen3-coder:30b"
+  ],
+  "regimes": [
+    "R0",
+    "R1",
+    "R2"
+  ],
+  "n_episodes": 15,
+  "cells": {
+    "gemma3:4b|R0|0": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 0,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:42:40Z"
+    },
+    "gemma3:4b|R0|1": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 1,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:42:45Z"
+    },
+    "gemma3:4b|R0|2": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 2,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:42:49Z"
+    },
+    "gemma3:4b|R0|3": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 3,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:42:53Z"
+    },
+    "gemma3:4b|R0|4": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 4,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:42:56Z"
+    },
+    "gemma3:4b|R0|5": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 5,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:00Z"
+    },
+    "gemma3:4b|R0|6": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 6,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:05Z"
+    },
+    "gemma3:4b|R0|7": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 7,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:12Z"
+    },
+    "gemma3:4b|R0|8": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 8,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:17Z"
+    },
+    "gemma3:4b|R0|9": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 9,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:20Z"
+    },
+    "gemma3:4b|R0|10": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 10,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:25Z"
+    },
+    "gemma3:4b|R0|11": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 11,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:29Z"
+    },
+    "gemma3:4b|R0|12": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 12,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:32Z"
+    },
+    "gemma3:4b|R0|13": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 13,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:35Z"
+    },
+    "gemma3:4b|R0|14": {
+      "model": "gemma3:4b",
+      "regime": "R0",
+      "episode": 14,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:37Z"
+    },
+    "gemma3:4b|R1|0": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 0,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:43:53Z"
+    },
+    "gemma3:4b|R1|1": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 1,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:44:16Z"
+    },
+    "gemma3:4b|R1|2": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 2,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:44:35Z"
+    },
+    "gemma3:4b|R1|3": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 3,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:44:45Z"
+    },
+    "gemma3:4b|R1|4": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 4,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:44:56Z"
+    },
+    "gemma3:4b|R1|5": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 5,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:45:07Z"
+    },
+    "gemma3:4b|R1|6": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 6,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:45:24Z"
+    },
+    "gemma3:4b|R1|7": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 7,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:45:38Z"
+    },
+    "gemma3:4b|R1|8": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 8,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:45:53Z"
+    },
+    "gemma3:4b|R1|9": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 9,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:46:18Z"
+    },
+    "gemma3:4b|R1|10": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 10,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:46:35Z"
+    },
+    "gemma3:4b|R1|11": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 11,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:46:56Z"
+    },
+    "gemma3:4b|R1|12": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 12,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:47:23Z"
+    },
+    "gemma3:4b|R1|13": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 13,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:47:48Z"
+    },
+    "gemma3:4b|R1|14": {
+      "model": "gemma3:4b",
+      "regime": "R1",
+      "episode": 14,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:48:06Z"
+    },
+    "gemma3:4b|R2|0": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 0,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:48:34Z"
+    },
+    "gemma3:4b|R2|1": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 1,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:48:59Z"
+    },
+    "gemma3:4b|R2|2": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 2,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:49:19Z"
+    },
+    "gemma3:4b|R2|3": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 3,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:49:45Z"
+    },
+    "gemma3:4b|R2|4": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 4,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:50:15Z"
+    },
+    "gemma3:4b|R2|5": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 5,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:50:43Z"
+    },
+    "gemma3:4b|R2|6": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 6,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:51:08Z"
+    },
+    "gemma3:4b|R2|7": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 7,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:51:31Z"
+    },
+    "gemma3:4b|R2|8": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 8,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:51:59Z"
+    },
+    "gemma3:4b|R2|9": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 9,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:52:21Z"
+    },
+    "gemma3:4b|R2|10": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 10,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:52:46Z"
+    },
+    "gemma3:4b|R2|11": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 11,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:53:15Z"
+    },
+    "gemma3:4b|R2|12": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 12,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:53:44Z"
+    },
+    "gemma3:4b|R2|13": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 13,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:54:12Z"
+    },
+    "gemma3:4b|R2|14": {
+      "model": "gemma3:4b",
+      "regime": "R2",
+      "episode": 14,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:54:35Z"
+    },
+    "qwen3:14b|R0|0": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 0,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:54:49Z"
+    },
+    "qwen3:14b|R0|1": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 1,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:54:52Z"
+    },
+    "qwen3:14b|R0|2": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 2,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:54:54Z"
+    },
+    "qwen3:14b|R0|3": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 3,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:54:59Z"
+    },
+    "qwen3:14b|R0|4": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 4,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:55:12Z"
+    },
+    "qwen3:14b|R0|5": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 5,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:55:24Z"
+    },
+    "qwen3:14b|R0|6": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 6,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:55:33Z"
+    },
+    "qwen3:14b|R0|7": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 7,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:55:36Z"
+    },
+    "qwen3:14b|R0|8": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 8,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:55:49Z"
+    },
+    "qwen3:14b|R0|9": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 9,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:56:01Z"
+    },
+    "qwen3:14b|R0|10": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 10,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:56:09Z"
+    },
+    "qwen3:14b|R0|11": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 11,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:56:11Z"
+    },
+    "qwen3:14b|R0|12": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 12,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:56:19Z"
+    },
+    "qwen3:14b|R0|13": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 13,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:56:31Z"
+    },
+    "qwen3:14b|R0|14": {
+      "model": "qwen3:14b",
+      "regime": "R0",
+      "episode": 14,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T17:56:34Z"
+    },
+    "qwen3:14b|R1|0": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 0,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:57:16Z"
+    },
+    "qwen3:14b|R1|1": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 1,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:58:00Z"
+    },
+    "qwen3:14b|R1|2": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 2,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:58:42Z"
+    },
+    "qwen3:14b|R1|3": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 3,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T17:59:24Z"
+    },
+    "qwen3:14b|R1|4": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 4,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:00:08Z"
+    },
+    "qwen3:14b|R1|5": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 5,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:00:52Z"
+    },
+    "qwen3:14b|R1|6": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 6,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:01:36Z"
+    },
+    "qwen3:14b|R1|7": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 7,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:02:21Z"
+    },
+    "qwen3:14b|R1|8": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 8,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:03:00Z"
+    },
+    "qwen3:14b|R1|9": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 9,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:03:44Z"
+    },
+    "qwen3:14b|R1|10": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 10,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:04:30Z"
+    },
+    "qwen3:14b|R1|11": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 11,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:05:16Z"
+    },
+    "qwen3:14b|R1|12": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 12,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:06:02Z"
+    },
+    "qwen3:14b|R1|13": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 13,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:06:50Z"
+    },
+    "qwen3:14b|R1|14": {
+      "model": "qwen3:14b",
+      "regime": "R1",
+      "episode": 14,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:07:46Z"
+    },
+    "qwen3:14b|R2|0": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 0,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:08:34Z"
+    },
+    "qwen3:14b|R2|1": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 1,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:09:20Z"
+    },
+    "qwen3:14b|R2|2": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 2,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:10:05Z"
+    },
+    "qwen3:14b|R2|3": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 3,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:10:53Z"
+    },
+    "qwen3:14b|R2|4": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 4,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:11:42Z"
+    },
+    "qwen3:14b|R2|5": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 5,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:12:34Z"
+    },
+    "qwen3:14b|R2|6": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 6,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:13:24Z"
+    },
+    "qwen3:14b|R2|7": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 7,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:14:15Z"
+    },
+    "qwen3:14b|R2|8": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 8,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:15:10Z"
+    },
+    "qwen3:14b|R2|9": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 9,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:16:04Z"
+    },
+    "qwen3:14b|R2|10": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 10,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:16:59Z"
+    },
+    "qwen3:14b|R2|11": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 11,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:17:52Z"
+    },
+    "qwen3:14b|R2|12": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 12,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:18:44Z"
+    },
+    "qwen3:14b|R2|13": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 13,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:19:39Z"
+    },
+    "qwen3:14b|R2|14": {
+      "model": "qwen3:14b",
+      "regime": "R2",
+      "episode": 14,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:20:34Z"
+    },
+    "qwen3-coder:30b|R0|0": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 0,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:22:49Z"
+    },
+    "qwen3-coder:30b|R0|1": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 1,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:24:50Z"
+    },
+    "qwen3-coder:30b|R0|2": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 2,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:25:34Z"
+    },
+    "qwen3-coder:30b|R0|3": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 3,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:25:57Z"
+    },
+    "qwen3-coder:30b|R0|4": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 4,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:26:27Z"
+    },
+    "qwen3-coder:30b|R0|5": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 5,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:26:51Z"
+    },
+    "qwen3-coder:30b|R0|6": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 6,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:27:20Z"
+    },
+    "qwen3-coder:30b|R0|7": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 7,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:27:47Z"
+    },
+    "qwen3-coder:30b|R0|8": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 8,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:28:10Z"
+    },
+    "qwen3-coder:30b|R0|9": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 9,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:28:35Z"
+    },
+    "qwen3-coder:30b|R0|10": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 10,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:29:04Z"
+    },
+    "qwen3-coder:30b|R0|11": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 11,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:29:32Z"
+    },
+    "qwen3-coder:30b|R0|12": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 12,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:29:54Z"
+    },
+    "qwen3-coder:30b|R0|13": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 13,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:30:17Z"
+    },
+    "qwen3-coder:30b|R0|14": {
+      "model": "qwen3-coder:30b",
+      "regime": "R0",
+      "episode": 14,
+      "status": "COMPLETE",
+      "n_calls": 8,
+      "reason": null,
+      "updated_at": "2026-07-10T18:30:42Z"
+    },
+    "qwen3-coder:30b|R1|0": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 0,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:32:14Z"
+    },
+    "qwen3-coder:30b|R1|1": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 1,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:33:36Z"
+    },
+    "qwen3-coder:30b|R1|2": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 2,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:34:47Z"
+    },
+    "qwen3-coder:30b|R1|3": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 3,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:36:03Z"
+    },
+    "qwen3-coder:30b|R1|4": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 4,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:37:26Z"
+    },
+    "qwen3-coder:30b|R1|5": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 5,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:38:43Z"
+    },
+    "qwen3-coder:30b|R1|6": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 6,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:39:56Z"
+    },
+    "qwen3-coder:30b|R1|7": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 7,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:41:05Z"
+    },
+    "qwen3-coder:30b|R1|8": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 8,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:42:24Z"
+    },
+    "qwen3-coder:30b|R1|9": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 9,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:44:06Z"
+    },
+    "qwen3-coder:30b|R1|10": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 10,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:45:40Z"
+    },
+    "qwen3-coder:30b|R1|11": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 11,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:47:06Z"
+    },
+    "qwen3-coder:30b|R1|12": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 12,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:48:35Z"
+    },
+    "qwen3-coder:30b|R1|13": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 13,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:49:48Z"
+    },
+    "qwen3-coder:30b|R1|14": {
+      "model": "qwen3-coder:30b",
+      "regime": "R1",
+      "episode": 14,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:50:55Z"
+    },
+    "qwen3-coder:30b|R2|0": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 0,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:52:03Z"
+    },
+    "qwen3-coder:30b|R2|1": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 1,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:53:04Z"
+    },
+    "qwen3-coder:30b|R2|2": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 2,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:54:21Z"
+    },
+    "qwen3-coder:30b|R2|3": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 3,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:55:39Z"
+    },
+    "qwen3-coder:30b|R2|4": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 4,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:56:31Z"
+    },
+    "qwen3-coder:30b|R2|5": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 5,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:57:25Z"
+    },
+    "qwen3-coder:30b|R2|6": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 6,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:58:22Z"
+    },
+    "qwen3-coder:30b|R2|7": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 7,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T18:59:20Z"
+    },
+    "qwen3-coder:30b|R2|8": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 8,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T19:00:32Z"
+    },
+    "qwen3-coder:30b|R2|9": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 9,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T19:01:28Z"
+    },
+    "qwen3-coder:30b|R2|10": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 10,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T19:02:31Z"
+    },
+    "qwen3-coder:30b|R2|11": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 11,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T19:03:35Z"
+    },
+    "qwen3-coder:30b|R2|12": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 12,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T19:04:42Z"
+    },
+    "qwen3-coder:30b|R2|13": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 13,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T19:05:49Z"
+    },
+    "qwen3-coder:30b|R2|14": {
+      "model": "qwen3-coder:30b",
+      "regime": "R2",
+      "episode": 14,
+      "status": "COMPLETE",
+      "n_calls": 12,
+      "reason": null,
+      "updated_at": "2026-07-10T19:06:48Z"
+    }
+  }
+}
