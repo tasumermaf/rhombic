@@ -151,5 +151,23 @@
     "fiedler_pearson_r": 0.9999493638964426
   },
   "hermes_checked": "2026-07-07 \u2014 no tesseract/T-001 artifacts on Hermes",
-  "verdict": "Original T-001r1 results.json destroyed by the Mar-16 fresh relaunch; partially recovered from the frozen log (16 points, steps 0-1600). All three same-seed runs mutually consistent (co/cross r 0.995-0.997, Fiedler r >= 0.9994) \u2014 the reproducibility claim survives, strengthened to three runs, but the paper's specific numbers (r=1.0000, 3.5%, 5,395:1 @2700, 34 checkpoints) reference the destroyed artifact and must be rewritten around the surviving evidence."
+  "verdict": "Original T-001r1 results.json destroyed by the Mar-16 fresh relaunch; partially recovered from the frozen log (16 points, steps 0-1600). All three same-seed runs mutually consistent (co/cross r 0.995-0.997, Fiedler r >= 0.9994) \u2014 the reproducibility claim survives, strengthened to three runs, but the paper's specific numbers (r=1.0000, 3.5%, 5,395:1 @2700, 34 checkpoints) reference the destroyed artifact and must be rewritten around the surviving evidence.",
+  "fourth_run_r3_addendum_2026-07-10": {
+    "note": "T-001r3 - fourth same-seed run, added to Paper 4 as the fourth consistent run (dated edit 2026-07-10, L-006). Endpoint confirmation only; no per-step pairwise trajectory correlation was computed for r3, so the three-way agreement stats above are unchanged.",
+    "completed": "2026-07-08",
+    "hardware": "Hermes RTX 4090 (cross-hardware confirmation; T-001r2 ran on local RTX 6000 Ada)",
+    "steps": 10000,
+    "endpoint_from_results_json": {
+      "source": "results/T-001-full-r3/results.json checkpoints[-1]",
+      "step": 10000,
+      "co_cross_ratio": 41811.71151455966,
+      "fiedler_mean": 0.00019347020969184316,
+      "val_loss": 0.4017130163311958
+    },
+    "endpoint_agreement_vs_r2": {
+      "r2_co_cross_at_10000": 41563.66435657848,
+      "r2_rounded": 41564,
+      "rel_dev_vs_41564_pct": 0.596
+    }
+  }
 }
