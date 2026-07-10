@@ -166,12 +166,23 @@ def _invoke_training(cmd: list[str], log_path: Path, cwd: Path) -> int:
 
     Factored out as the single execution seam so tests can monkeypatch it with a
     stub that writes a fake run dir. Returns the process return code.
+
+    The child's PYTHONPATH is prepended with the repo root (cwd) so the
+    trainer imports THIS tree's ``rhombic`` package — a stale editable
+    install elsewhere in the env (e.g. Hermes' March ``pip install -e``
+    pointing at ~/rhombic) must never shadow the shipped package: that
+    mismatch fails with a TypeError on newer keyword arguments.
     """
     log_path = Path(log_path)
     log_path.parent.mkdir(parents=True, exist_ok=True)
+    env = os.environ.copy()
+    env["PYTHONPATH"] = (str(Path(cwd).resolve())
+                         + (os.pathsep + env["PYTHONPATH"]
+                            if env.get("PYTHONPATH") else ""))
+    env.setdefault("PYTHONUNBUFFERED", "1")
     with open(log_path, "a", encoding="utf-8") as log:
         proc = subprocess.run(cmd, cwd=str(cwd), stdout=log,
-                              stderr=subprocess.STDOUT)
+                              stderr=subprocess.STDOUT, env=env)
     return proc.returncode
 
 

@@ -9,6 +9,9 @@ set -u
 cd "$(dirname "$0")/.." || exit 1
 PY="${PY:-/home/timm156/miniforge3/envs/captioning/bin/python}"
 export PYTHONUNBUFFERED=1
+# THIS tree's rhombic package must win over any stale editable install
+# elsewhere in the env (Hermes carries a March `pip install -e ~/rhombic`).
+export PYTHONPATH="$PWD${PYTHONPATH:+:$PYTHONPATH}"
 
 XR=results/XR-001-externalization-pilot
 E5=results/E-5-bifurcation

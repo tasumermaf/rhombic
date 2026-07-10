@@ -19,6 +19,7 @@ load (slow, present in the env); no model download, no CUDA, no real subprocess.
 from __future__ import annotations
 
 import json
+import os
 import random
 import sys
 from pathlib import Path
@@ -378,6 +379,30 @@ def test_endpoint_aggregation_finite_filter_with_distinct_adapters(tmp_path):
     rec = sweep.compute_run_endpoint(run_dir, "f1.00_s42", 1.0, 42)
     assert rec["co_cross_trained"] == pytest.approx(10.0)
     assert rec["n_adapters"] == 2
+
+
+def test_invoke_training_prepends_repo_root_to_pythonpath(tmp_path,
+                                                          monkeypatch):
+    # The child must import THIS tree's rhombic package, never a stale
+    # editable install elsewhere in the env (the Hermes failure mode).
+    captured = {}
+
+    def fake_run(cmd, cwd=None, stdout=None, stderr=None, env=None):
+        captured["env"] = env
+        captured["cwd"] = cwd
+        class R:
+            returncode = 0
+        return R()
+
+    monkeypatch.setattr(sweep.subprocess, "run", fake_run)
+    monkeypatch.setenv("PYTHONPATH", "/pre/existing")
+    rc = sweep._invoke_training(["python", "x.py"], tmp_path / "r.log",
+                                tmp_path)
+    assert rc == 0
+    pp = captured["env"]["PYTHONPATH"].split(os.pathsep)
+    assert pp[0] == str(Path(tmp_path).resolve())
+    assert "/pre/existing" in pp
+    assert captured["env"]["PYTHONUNBUFFERED"] == "1"
 
 
 def test_trainer_rejects_out_of_range_f(monkeypatch):
