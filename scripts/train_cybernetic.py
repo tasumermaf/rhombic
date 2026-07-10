@@ -55,7 +55,7 @@ from typing import Optional
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
 
 from rhombic.nn.rhombi_lora import RhombiLoRALinear, EmanationBridge
 from rhombic.nn.topology import direction_pair_coupling
@@ -772,6 +772,127 @@ def _load_resume_checkpoint(
     return resume_step
 
 
+# ── BM-004 paired-transit corpus loading ────────────────────────────
+#
+# Wiring for the BM-004 GPU phase (docs/BM004_PREREGISTRATION_v2_2026-07-07.md).
+# The paired-transit corpus is built by scripts/bm004_transit_data.py; the
+# runner (scripts/bm004_runner.py) hands this trainer a corpus directory and an
+# arm name. Corpus -> training text is a PURE function (load_transit_texts) with
+# no tokenizer dependency, so it is unit-testable without a model; tokenization
+# happens in TransitCorpusDataset, mirroring AlpacaDataset's conventions exactly.
+
+# transit-arm -> (geometry arm written by the builder, include articulation?).
+# The builder writes files per GEOMETRY arm ("matched"/"shuffled"); the trainer
+# arm names are training compositions (prereg §6 run table): "matched" and
+# "matched+articulation" both draw the matched geometry, "shuffled" draws the
+# shuffled-adjacency twin.
+_TRANSIT_ARMS = {
+    "matched": ("matched", False),
+    "matched+articulation": ("matched", True),
+    "shuffled": ("shuffled", False),
+}
+
+# Record kinds pulled in deterministic order (walks, then pairs, then — only for
+# the articulation arm — articulation). One JSONL "text" field = one sequence.
+_TRANSIT_KINDS = ("walks", "pairs", "articulation")
+
+
+def load_transit_texts(corpus_dir, transit_arm: str) -> list[str]:
+    """Assemble the training text sequences for one transit arm (no tokenizer).
+
+    Reads the builder's ``{geometry}_{kind}.jsonl`` files and returns the list
+    of ``text`` fields in a deterministic order — walks, then pairs, then
+    articulation (articulation only for the ``matched+articulation`` arm). This
+    is the pure corpus->text stage; ``TransitCorpusDataset`` tokenizes the
+    result. Kept tokenizer-free so it is testable without a model download.
+    """
+    if transit_arm not in _TRANSIT_ARMS:
+        raise ValueError(
+            f"unknown transit arm {transit_arm!r}; "
+            f"choose from {sorted(_TRANSIT_ARMS)}")
+    geometry, include_articulation = _TRANSIT_ARMS[transit_arm]
+    corpus_dir = Path(corpus_dir)
+
+    kinds = ["walks", "pairs"]
+    if include_articulation:
+        kinds.append("articulation")
+
+    texts: list[str] = []
+    for kind in kinds:
+        path = corpus_dir / f"{geometry}_{kind}.jsonl"
+        if not path.exists():
+            raise FileNotFoundError(
+                f"transit corpus is missing {path.name} "
+                f"(expected under {corpus_dir} for arm {transit_arm!r})")
+        with path.open("r", encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                texts.append(json.loads(line)["text"])
+    if not texts:
+        raise ValueError(
+            f"transit corpus for arm {transit_arm!r} in {corpus_dir} is empty")
+    return texts
+
+
+class TransitCorpusDataset(Dataset):
+    """Tokenized BM-004 paired-transit dataset for one arm.
+
+    Corpus->text is delegated to ``load_transit_texts`` (pure, testable). Each
+    text is tokenized with the SAME conventions the trainer's other datasets use
+    (AlpacaDataset/CodeAlpacaDataset): fixed ``max_length`` padding, truncation,
+    labels == input_ids. Sequence ORDER is the deterministic load order; epoch
+    shuffling is left to the DataLoader (shuffle=True), matching the existing
+    datasets' seed discipline.
+    """
+
+    def __init__(self, corpus_dir, transit_arm: str, tokenizer,
+                 max_len: int = 512):
+        texts = load_transit_texts(corpus_dir, transit_arm)
+        self.examples = []
+        for text in texts:
+            encoded = tokenizer(
+                text,
+                truncation=True,
+                max_length=max_len,
+                padding="max_length",
+                return_tensors="pt",
+            )
+            self.examples.append({
+                "input_ids": encoded["input_ids"].squeeze(0),
+                "attention_mask": encoded["attention_mask"].squeeze(0),
+                "labels": encoded["input_ids"].squeeze(0).clone(),
+            })
+
+    def __len__(self):
+        return len(self.examples)
+
+    def __getitem__(self, idx):
+        return self.examples[idx]
+
+
+def resolve_dataset_source(transit_corpus, dataset):
+    """Resolve the mutually-exclusive dataset selectors to one source.
+
+    Returns ``("transit", corpus_dir)`` when a transit corpus is given, else
+    ``("dataset", dataset_name)`` with the generic dataset (defaulting to
+    "alpaca" when unset — the pre-wiring default, byte-identical). Raises
+    ValueError if BOTH are explicitly given: ``--transit-corpus`` selects the
+    BM-004 paired-transit corpus and ``--dataset`` selects a generic HF dataset;
+    they cannot both drive one run.
+    """
+    if transit_corpus is not None and dataset is not None:
+        raise ValueError(
+            "--transit-corpus and --dataset are mutually exclusive: the first "
+            "selects the BM-004 paired-transit corpus, the second a generic "
+            "HuggingFace dataset. Pass exactly one (omit --dataset for transit "
+            "arms; omit --transit-corpus for alpaca/code/math).")
+    if transit_corpus is not None:
+        return ("transit", transit_corpus)
+    return ("dataset", dataset if dataset is not None else "alpaca")
+
+
 # ── Cybernetic Training Loop ─────────────────────────────────────────
 
 
@@ -802,6 +923,9 @@ def train_cybernetic(
     seed_bridges: Optional[str] = None,
     # Dataset selection
     dataset_name: str = "alpaca",
+    # BM-004 paired-transit corpus (mutually exclusive with dataset_name)
+    transit_corpus: Optional[str] = None,
+    transit_arm: str = "matched",
 ):
     """Experiment 3: Cybernetic bridge training with closed-loop feedback.
 
@@ -822,6 +946,8 @@ def train_cybernetic(
     config_dict["fixed_contrastive"] = fixed_contrastive
     config_dict["resumed_from"] = resume
     config_dict["dataset_name"] = dataset_name
+    config_dict["transit_corpus"] = str(transit_corpus) if transit_corpus else None
+    config_dict["transit_arm"] = transit_arm if transit_corpus else None
     config_dict["seed_bridges"] = seed_bridges
     # C6b: self-document which Steersman STABLE-detector governed this run so
     # future audits can tell v2-governed runs (corrected) from v1 runs (the
@@ -1018,7 +1144,19 @@ def train_cybernetic(
     )
 
     # Dataset
-    if dataset_name == "code":
+    if transit_corpus is not None:
+        # BM-004 paired-transit corpus (prereg §6). No held-out split is drawn
+        # here — E1 eval uses fresh builder walks per the pre-registration; the
+        # val loader mirrors the train arm for in-loop loss reporting only.
+        print(f"Loading BM-004 transit corpus ({transit_arm}) "
+              f"from {transit_corpus}...")
+        dataset = TransitCorpusDataset(
+            transit_corpus, transit_arm, tokenizer,
+            max_len=config.max_seq_len)
+        val_dataset = TransitCorpusDataset(
+            transit_corpus, transit_arm, tokenizer,
+            max_len=config.max_seq_len)
+    elif dataset_name == "code":
         from train_task_fingerprint import CodeAlpacaDataset
         print("Loading CodeAlpaca-20k dataset...")
         dataset = CodeAlpacaDataset(tokenizer, max_len=config.max_seq_len)
@@ -1496,7 +1634,7 @@ def merge_and_save(model, injected, output_dir):
 # ── CLI ──────────────────────────────────────────────────────────────
 
 
-def main():
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Experiment 3.0: Cybernetic Bridge Training"
     )
@@ -1547,9 +1685,13 @@ def main():
     )
     parser.add_argument(
         "--bridge-mode", type=str, default="identity",
-        choices=["identity", "geometric", "corpus", "corpus_coupled", "rd_graph"],
+        choices=["identity", "geometric", "corpus", "corpus_coupled",
+                 "rd_graph", "shuffled_rd"],
         help="Bridge initialization mode. 'rd_graph' uses RD graph convolution "
-             "with fixed topology mask and learnable edge weights.",
+             "with fixed topology mask and learnable edge weights. "
+             "'shuffled_rd' is the BM-004 wrong-symmetry twin (hard fix F3): "
+             "the same mechanism over a seeded shuffle of the RD mask, seeded "
+             "from --seed.",
     )
     parser.add_argument(
         "--n-channels", type=int, default=6,
@@ -1619,10 +1761,23 @@ def main():
              "to test whether pre-discovered topology accelerates learning.",
     )
     parser.add_argument(
-        "--dataset", type=str, default="alpaca",
+        "--dataset", type=str, default=None,
         choices=["alpaca", "code", "math"],
         help="Training dataset: alpaca (default), code (CodeAlpaca-20k), "
-             "math (GSM8K).",
+             "math (GSM8K). Mutually exclusive with --transit-corpus.",
+    )
+    parser.add_argument(
+        "--transit-corpus", type=str, default=None,
+        help="Directory of a BM-004 paired-transit corpus "
+             "(scripts/bm004_transit_data.py output). Selects the "
+             "paired-transit dataset instead of a generic HF dataset; "
+             "mutually exclusive with --dataset (prereg §6).",
+    )
+    parser.add_argument(
+        "--transit-arm", type=str, default="matched",
+        choices=["matched", "matched+articulation", "shuffled"],
+        help="Which transit training composition to load from the corpus "
+             "(prereg §6 run table). Ignored unless --transit-corpus is set.",
     )
     parser.add_argument(
         "--no-steersman", action="store_true",
@@ -1630,7 +1785,23 @@ def main():
              "(contrastive, spectral). Bridge remains trainable with LM loss "
              "only. Use with --bridge-mode rd_graph for structural RD topology.",
     )
+    return parser
+
+
+def main():
+    parser = build_parser()
     args = parser.parse_args()
+
+    # --transit-corpus and --dataset are mutually exclusive (prereg §6). Resolve
+    # to one source; error if both were explicitly given. When neither is set,
+    # dataset defaults to "alpaca" — byte-identical to the pre-wiring behavior.
+    try:
+        source_kind, source_value = resolve_dataset_source(
+            args.transit_corpus, args.dataset)
+    except ValueError as e:
+        parser.error(str(e))
+    transit_corpus = source_value if source_kind == "transit" else None
+    dataset_name = source_value if source_kind == "dataset" else "alpaca"
 
     # --no-bridge-training → exact standard LoRA (frozen identity bridge)
     no_bridge = getattr(args, 'no_bridge_training', False)
@@ -1698,7 +1869,9 @@ def main():
         fixed_contrastive=eff_fixed_contrastive,
         resume=args.resume,
         seed_bridges=args.seed_bridges,
-        dataset_name=args.dataset,
+        dataset_name=dataset_name,
+        transit_corpus=transit_corpus,
+        transit_arm=args.transit_arm,
         **{k: v for k, v in steersman_kwargs.items()
            if k != "initial_spectral_target"},
     )

@@ -488,6 +488,39 @@ pre-registered per `docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md`, A5):**
    below, unmodified (caught by the fresh-context verification pass,
    2026-07-07).
 
+**2026-07-10 (trainer wiring landed, pre-GPU — no run occurred):**
+1. The two trainer capabilities the runner refuses to launch without
+   (`scripts/bm004_runner.py`, honest fail-fast) are now implemented in
+   `scripts/train_cybernetic.py`, ahead of the GPU phase and by dated
+   edit as anticipated:
+   - **`--transit-corpus <dir>` + `--transit-arm {matched,
+     matched+articulation,shuffled}`** — loads the paired-transit corpus
+     (`scripts/bm004_transit_data.py` output) for the chosen arm (walks +
+     pairs, plus articulation records for the E4 arm), mutually exclusive
+     with `--dataset`; generic-dataset behavior is byte-identical when the
+     flag is absent. Corpus→text is a pure, tokenizer-free stage
+     (`load_transit_texts`), tokenized with the trainer's existing
+     conventions (`TransitCorpusDataset`).
+   - **`--bridge-mode shuffled_rd`** — the §6 wrong-symmetry twin (hard fix
+     F3): a seeded relabeling of the RD adjacency mask's off-diagonal
+     pattern at equal edge count and weight multiset, rejected against
+     relation automorphisms (mask-level mirror of
+     `bm004_transit_data.label_permutation_is_geometric`), seeded from
+     `--seed`. Same fixed-mask × learnable-edge-weights mechanism as
+     `rd_graph` (`rhombic/nn/topology.shuffled_rd_adjacency_mask`,
+     consumed by `RhombiLoRALinear`).
+2. `trainer_supports('transit_corpus')` and `trainer_supports('shuffled_rd')`
+   in the runner now both report True; the runner's refuse-don't-improvise
+   guards therefore pass naturally, and its interlock test's
+   until-wired refusal case skips as designed. Tests:
+   `tests/test_bm004_trainer_wiring.py` (CPU-only, no model).
+3. **Runs remain gated.** This is code + tests only. No GPU run occurred;
+   every launch is still blocked by the F2 positive-control interlock
+   (§8, condition A5-2) and by bank completion (Status gate (a)). Landing
+   the wiring early does not open any gate — it only removes the
+   "capability not yet implemented" refusal so the F2 gate is the sole
+   remaining launch precondition.
+
 ---
 
 *Pre-registered July 7, 2026 by Meridian (Lane E-3). Data builder and 29

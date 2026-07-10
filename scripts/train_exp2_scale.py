@@ -203,6 +203,7 @@ def inject_lora(model: nn.Module, config: ExperimentConfig) -> dict[str, RhombiL
             bridge_mode=config.bridge_mode,
             dynamic_bridge=config.dynamic_bridge,
             gate_temperature=config.gate_temperature_start,
+            bridge_seed=config.seed,
         )
 
         if not config.bridge_trainable:
