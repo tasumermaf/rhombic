@@ -106,7 +106,57 @@ def rd_adjacency_mask(n_channels: int = 6) -> np.ndarray:
     return mask
 
 
-def bridge_init(n_channels: int = 6, mode: str = 'identity') -> np.ndarray:
+def shuffled_rd_adjacency_mask(n_channels: int = 6, seed: int = 42) -> np.ndarray:
+    """Wrong-symmetry twin of ``rd_adjacency_mask`` (BM-004 prereg §6 / hard fix F3).
+
+    A seeded relabeling of the RD channels applied simultaneously to the mask's
+    rows and columns — ``mask[perm][:, perm]`` — so the OFF-DIAGONAL pattern is
+    permuted while the diagonal (1.0), the off-diagonal edge count, and the
+    weight multiset ({1.0 co-planar, 0.5 cross-planar}) are all preserved
+    exactly. Permutations that are automorphisms of the RD relation (they leave
+    the mask invariant) are REJECTED and redrawn — the mask-level mirror of
+    ``bm004_transit_data.label_permutation_is_geometric``'s rejection discipline
+    (BM-000 rewire-null pattern) — so the returned mask genuinely DIFFERS from
+    ``rd_adjacency_mask``: a misaligned prior, not the same prior relabeled.
+
+    Same conventions as ``rd_adjacency_mask``: symmetric, values in {0.5, 1.0},
+    diagonal 1.0. Deterministic in ``seed`` (numpy ``default_rng``).
+
+    Parameters
+    ----------
+    n_channels : int
+        Must be 6. The n != 6 fallback mask is uniform (fully connected) and has
+        no wrong-symmetry twin — every permutation is an automorphism — so this
+        raises rather than loop forever.
+    seed : int
+        Seed for the permutation draw (the trainer's ``--seed``).
+
+    Returns
+    -------
+    mask : (n_channels, n_channels) ndarray
+        A permuted copy of the RD mask, guaranteed not equal to it.
+    """
+    if n_channels != 6:
+        raise ValueError(
+            "'shuffled_rd' requires n_channels=6 (the RD direction pairs); "
+            "the n != 6 fallback mask is uniform and has no wrong-symmetry twin."
+        )
+    base = rd_adjacency_mask(n_channels)
+    rng = np.random.default_rng(seed)
+    # Reject relation automorphisms (perms that leave the mask unchanged), the
+    # mask-level analog of label_permutation_is_geometric: keep the first draw
+    # whose conjugation actually moves the off-diagonal pattern.
+    for _ in range(1000):
+        perm = rng.permutation(n_channels)
+        shuffled = base[np.ix_(perm, perm)]
+        if not np.array_equal(shuffled, base):
+            return shuffled
+    raise RuntimeError(  # pragma: no cover — unreachable for the RD mask
+        "no non-automorphic permutation of the RD mask found in 1000 draws")
+
+
+def bridge_init(n_channels: int = 6, mode: str = 'identity',
+                seed: int = 42) -> np.ndarray:
     """Create a bridge initialization matrix.
 
     Parameters
@@ -115,6 +165,11 @@ def bridge_init(n_channels: int = 6, mode: str = 'identity') -> np.ndarray:
         Number of channels. Default 6 (FCC direction pairs).
     mode : str
         'identity' — I_n (standard LoRA behavior at init).
+        'rd_graph' — I_n + 0.1*(rd_adjacency_mask - I): the initial edge weights
+                   that multiply the fixed RD topology mask.
+        'shuffled_rd' — same convention over the seeded wrong-symmetry twin
+                   (shuffled_rd_adjacency_mask): I_n + 0.1*(shuffled_mask - I).
+                   Uses ``seed`` (BM-004 hard fix F3). Requires n_channels=6.
         'geometric' — I_6 + eps * normalized_coupling. Requires n_channels=6.
         'corpus' — Diagonal scaled by corpus direction weights + geometric
                    coupling. The proprietary weight distribution that Paper 2
@@ -139,6 +194,15 @@ def bridge_init(n_channels: int = 6, mode: str = 'identity') -> np.ndarray:
         # these are the INITIAL edge weights that multiply it.
         return np.eye(n_channels, dtype=np.float64) + 0.1 * (
             rd_adjacency_mask(n_channels) - np.eye(n_channels, dtype=np.float64)
+        )
+    elif mode == 'shuffled_rd':
+        # Wrong-symmetry twin of rd_graph (BM-004 hard fix F3): the same
+        # I + 0.1*(mask - I) convention over the SHUFFLED mask instead of the
+        # RD mask, so the initial edge weights multiply a fixed misaligned
+        # topology. Seeded from the trainer's --seed.
+        return np.eye(n_channels, dtype=np.float64) + 0.1 * (
+            shuffled_rd_adjacency_mask(n_channels, seed=seed)
+            - np.eye(n_channels, dtype=np.float64)
         )
     elif mode == 'geometric':
         if n_channels != 6:
@@ -193,7 +257,8 @@ def bridge_init(n_channels: int = 6, mode: str = 'identity') -> np.ndarray:
     else:
         raise ValueError(
             f"Unknown mode: {mode!r}. "
-            "Use 'identity', 'geometric', 'corpus', or 'corpus_coupled'."
+            "Use 'identity', 'rd_graph', 'shuffled_rd', 'geometric', "
+            "'corpus', or 'corpus_coupled'."
         )
 
 

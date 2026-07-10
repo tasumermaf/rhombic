@@ -18,7 +18,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 
-from rhombic.nn.topology import bridge_init as _bridge_init, rd_adjacency_mask
+from rhombic.nn.topology import (
+    bridge_init as _bridge_init,
+    rd_adjacency_mask,
+    shuffled_rd_adjacency_mask,
+)
 from rhombic.spectral import fiedler_value
 
 
@@ -80,7 +84,8 @@ class RhombiLoRALinear(nn.Module):
     dropout : float
         Dropout probability on the LoRA path. Default 0.0.
     bridge_mode : str
-        Bridge initialization: 'identity' or 'geometric'.
+        Bridge initialization: 'identity', 'geometric', 'rd_graph', or
+        'shuffled_rd' (see Notes).
     dynamic_bridge : bool
         If True, adds a gate projection that produces input-dependent
         bridge weights. The static bridge serves as the base; the gate
@@ -96,6 +101,9 @@ class RhombiLoRALinear(nn.Module):
         effective bridge becomes: master_bridge * 2 * sigmoid(layer_proj).
         layer_proj is initialized to zeros so sigmoid(0)=0.5, and 2*0.5=1.0
         gives identity-preserving initialization.
+    bridge_seed : int
+        Seed for 'shuffled_rd' mask generation (the trainer's --seed).
+        Ignored by every other bridge_mode. Default 42.
 
     Notes
     -----
@@ -103,6 +111,12 @@ class RhombiLoRALinear(nn.Module):
     a FIXED adjacency mask (from RD face-sharing geometry) multiplied by
     LEARNABLE edge weights. Topology is structural by construction — no
     auxiliary losses needed. The effective bridge = rd_mask * edge_weights.
+
+    bridge_mode='shuffled_rd' (BM-004 hard fix F3) uses the identical
+    mechanism over a seeded wrong-symmetry twin of the RD mask
+    (shuffled_rd_adjacency_mask): equal edge count and weight multiset, a
+    permuted off-diagonal pattern rejected against relation automorphisms.
+    A misaligned structural prior for the negative control.
     """
 
     def __init__(
@@ -117,6 +131,7 @@ class RhombiLoRALinear(nn.Module):
         dynamic_bridge: bool = False,
         gate_temperature: float = 5.0,
         master_bridge: nn.Parameter | None = None,
+        bridge_seed: int = 42,
     ):
         super().__init__()
 
@@ -134,6 +149,12 @@ class RhombiLoRALinear(nn.Module):
         self.dynamic_bridge = dynamic_bridge
         self.emanation = master_bridge is not None
         self.rd_graph = (bridge_mode == 'rd_graph') and (master_bridge is None)
+        # shuffled_rd (BM-004 hard fix F3): wrong-symmetry twin that shares
+        # rd_graph's exact mechanism — a FIXED mask buffer × learnable edge
+        # weights — differing only in which mask is fixed. _fixed_mask_bridge is
+        # the shared predicate for that mechanism (rd_graph OR shuffled_rd).
+        self.shuffled_rd = (bridge_mode == 'shuffled_rd') and (master_bridge is None)
+        self._fixed_mask_bridge = self.rd_graph or self.shuffled_rd
         self._external_bridge_fn: callable | None = None
 
         # LoRA matrices — standard initialization
@@ -149,16 +170,23 @@ class RhombiLoRALinear(nn.Module):
             )
             # Register bridge as a read-only property for diagnostics
             # (no local bridge parameter created)
-        elif self.rd_graph:
-            # RD graph convolution: fixed topology mask × learnable edge weights
-            # Topology is STRUCTURAL — baked into the mask, not optimized toward
-            mask_np = rd_adjacency_mask(n_channels)
+        elif self._fixed_mask_bridge:
+            # Fixed topology mask × learnable edge weights. Topology is
+            # STRUCTURAL — baked into the mask, not optimized toward. rd_graph
+            # uses the RD mask; shuffled_rd uses the seeded wrong-symmetry twin
+            # (BM-004 F3), same conventions, seeded from the trainer's --seed.
+            if self.shuffled_rd:
+                mask_np = shuffled_rd_adjacency_mask(n_channels, seed=bridge_seed)
+                init_np = _bridge_init(n_channels, mode='shuffled_rd',
+                                       seed=bridge_seed)
+            else:
+                mask_np = rd_adjacency_mask(n_channels)
+                init_np = _bridge_init(n_channels, mode='rd_graph')
             self.register_buffer(
                 'rd_mask', torch.from_numpy(mask_np).float()
             )
             # Edge weights initialized to identity-preserving values:
             # diagonal=1.0, off-diagonal scaled by mask strength
-            init_np = _bridge_init(n_channels, mode='rd_graph')
             self.edge_weights = nn.Parameter(
                 torch.from_numpy(init_np).float()
             )
@@ -207,7 +235,7 @@ class RhombiLoRALinear(nn.Module):
             return self._external_bridge_fn()
         if self.emanation:
             return self.master_bridge * (2.0 * torch.sigmoid(self.layer_proj))
-        if self.rd_graph:
+        if self._fixed_mask_bridge:
             return self.rd_mask * self.edge_weights
         return self.bridge
 
@@ -255,7 +283,7 @@ class RhombiLoRALinear(nn.Module):
         """
         if self.emanation:
             self.layer_proj.requires_grad_(False)
-        elif self.rd_graph:
+        elif self._fixed_mask_bridge:
             self.edge_weights.requires_grad_(False)
         else:
             self.bridge.requires_grad_(False)
@@ -267,7 +295,7 @@ class RhombiLoRALinear(nn.Module):
         """
         if self.emanation:
             self.layer_proj.requires_grad_(True)
-        elif self.rd_graph:
+        elif self._fixed_mask_bridge:
             self.edge_weights.requires_grad_(True)
         else:
             self.bridge.requires_grad_(True)
@@ -316,12 +344,12 @@ class RhombiLoRALinear(nn.Module):
     def bridge_param(self) -> nn.Parameter:
         """Return the trainable bridge parameter regardless of mode.
 
-        For rd_graph: returns edge_weights.
+        For rd_graph / shuffled_rd: returns edge_weights.
         For emanation: returns layer_proj.
         For standard: returns bridge.
         Used by training loops that need to build optimizer param groups.
         """
-        if self.rd_graph:
+        if self._fixed_mask_bridge:
             return self.edge_weights
         if self.emanation:
             return self.layer_proj
@@ -333,7 +361,9 @@ class RhombiLoRALinear(nn.Module):
             f"rank={self.rank}, channels={self.n_channels}, "
             f"scaling={self.scaling:.4f}"
         )
-        if self.rd_graph:
+        if self.shuffled_rd:
+            s += ", shuffled_rd=True"
+        elif self.rd_graph:
             s += ", rd_graph=True"
         if self.emanation:
             s += ", emanation=True"
