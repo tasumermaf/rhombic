@@ -47,6 +47,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import random
 import time
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
@@ -893,6 +894,84 @@ def resolve_dataset_source(transit_corpus, dataset):
     return ("dataset", dataset if dataset is not None else "alpaca")
 
 
+# ── E-5 contrastive-spec corruption ──────────────────────────────────
+#
+# E-5 dated edit 2026-07-10 (docs/E5_BIFURCATION_PREREG_2026-07-10.md §2).
+# Interpolates the coherence of the contrastive pair specification by a control
+# parameter f (pair-correctness) so a training-time bifurcation over spec
+# coherence can be swept. Pure, tokenizer/torch-free, and byte-identical at the
+# default f=1.0 — the trainer's default path is provably unchanged.
+
+
+def apply_pair_correctness(co_pairs, cross_pairs, f, seed):
+    """Corrupt the contrastive pair spec by pair-correctness ``f`` (E-5 §2).
+
+    Implements docs/E5_BIFURCATION_PREREG_2026-07-10.md §2 exactly. The
+    ``co_pairs`` (attract, label "co") and ``cross_pairs`` (repel, label
+    "cross") lists form an ordered labeled universe (all co pairs, then all
+    cross pairs). ``k = round((1-f) * len(universe))`` pairs are selected
+    uniformly at random with a DEDICATED, LOCAL RNG seeded ``seed*100003 + 51``;
+    the labels among the selected pairs are shuffled (count-preserving — the
+    global co/cross budget is exact at every f) and the pairs re-sorted into the
+    two output lists in universe order. The draw never touches the global
+    random / numpy / torch streams, so training stochasticity is untouched.
+
+    ``f >= 1.0`` is a byte-identical no-op: the input lists are returned
+    unchanged and NO RNG is constructed (returns before any RNG object exists).
+
+    Returns ``(co_pairs_out, cross_pairs_out, record)``. ``record`` is the
+    realized-corruption audit written into the run's ``config.json``:
+    at ``f >= 1.0`` exactly ``{"pair_correctness", "n_corrupted",
+    "corrupted_pairs", "realized_agreement"}``; at ``f < 1`` additionally ``k``,
+    ``pre_labels`` and ``post_labels`` for the selected pairs.
+    """
+    if f >= 1.0:
+        # Byte-identical no-op — inputs returned unchanged, no RNG constructed.
+        return co_pairs, cross_pairs, {
+            "pair_correctness": 1.0,
+            "n_corrupted": 0,
+            "corrupted_pairs": [],
+            "realized_agreement": 1.0,
+        }
+
+    # Ordered labeled universe: every co pair, then every cross pair.
+    universe = ([(tuple(p), "co") for p in co_pairs]
+                + [(tuple(p), "cross") for p in cross_pairs])
+    n_total = len(universe)
+    true_labels = [lab for _, lab in universe]
+    k = int(round((1.0 - f) * n_total))
+
+    rng = random.Random(seed * 100003 + 51)
+    selected = rng.sample(range(n_total), k)
+    pre = [true_labels[i] for i in selected]
+    post = list(pre)
+    rng.shuffle(post)
+
+    labels = list(true_labels)
+    for idx, lab in zip(selected, post):
+        labels[idx] = lab
+
+    co_pairs_out = [universe[i][0] for i in range(n_total)
+                    if labels[i] == "co"]
+    cross_pairs_out = [universe[i][0] for i in range(n_total)
+                       if labels[i] == "cross"]
+
+    realized_agreement = (
+        sum(1 for i in range(n_total) if labels[i] == true_labels[i]) / n_total
+    )
+    record = {
+        "pair_correctness": float(f),
+        "n_corrupted": int(k),
+        "k": int(k),
+        "corrupted_pairs": [[int(universe[i][0][0]), int(universe[i][0][1])]
+                            for i in selected],
+        "pre_labels": pre,
+        "post_labels": post,
+        "realized_agreement": float(realized_agreement),
+    }
+    return co_pairs_out, cross_pairs_out, record
+
+
 # ── Cybernetic Training Loop ─────────────────────────────────────────
 
 
@@ -926,6 +1005,9 @@ def train_cybernetic(
     # BM-004 paired-transit corpus (mutually exclusive with dataset_name)
     transit_corpus: Optional[str] = None,
     transit_arm: str = "matched",
+    # E-5 contrastive-spec coherence (docs/E5_BIFURCATION_PREREG_2026-07-10.md);
+    # 1.0 = byte-identical no-op (guard-tested).
+    pair_correctness: float = 1.0,
 ):
     """Experiment 3: Cybernetic bridge training with closed-loop feedback.
 
@@ -954,8 +1036,6 @@ def train_cybernetic(
     # defective detector that could declare STABLE while the metric still moved).
     # PAST runs' stored config.json lack this field == detector v1 by definition.
     config_dict["steersman_detector_version"] = STEERSMAN_DETECTOR_VERSION
-    with open(output_dir / "config.json", "w") as f:
-        json.dump(config_dict, f, indent=2)
 
     if contrastive_topology == "wrong-labels":
         co_pairs, cross_pairs = _compute_wrong_label_pairs()
@@ -971,6 +1051,27 @@ def train_cybernetic(
             8: "Tesseract (4D hypercube)",
             24: "24-cell (D4 root polytope, 12 antipodal axes)",
         }.get(config.n_channels, f"n={config.n_channels} (no geometric prior)")
+
+    # E-5 dated edit 2026-07-10 (docs/E5_BIFURCATION_PREREG_2026-07-10.md);
+    # default 1.0 preserves pre-edit behavior — guard-tested. Corrupt the
+    # contrastive spec by pair-correctness f (§2) BEFORE it drives training and
+    # record the realized corruption in config.json. Applied only when both pair
+    # lists are non-empty (an empty spec has nothing to shuffle). The config.json
+    # dump is moved below this branch so the record lands in the file on disk.
+    pair_correctness_record = None
+    if co_pairs and cross_pairs:
+        co_pairs, cross_pairs, pair_correctness_record = apply_pair_correctness(
+            co_pairs, cross_pairs, pair_correctness, config.seed
+        )
+        config_dict.update(pair_correctness_record)
+        config_dict["co_pairs_trained"] = [[int(i), int(j)]
+                                           for i, j in co_pairs]
+        config_dict["cross_pairs_trained"] = [[int(i), int(j)]
+                                              for i, j in cross_pairs]
+
+    with open(output_dir / "config.json", "w") as f:
+        json.dump(config_dict, f, indent=2)
+
     contrastive_active = bool(co_pairs and cross_pairs)
 
     print(f"\n{'='*70}")
@@ -981,6 +1082,15 @@ def train_cybernetic(
     print(f"Rank:               {config.rank}, Channels: {config.n_channels}")
     print(f"Geometry:           {geom_label}")
     print(f"Contrastive:        {'ACTIVE' if contrastive_active else 'DISABLED (no pairs for this n)'}")
+    if pair_correctness < 1.0 and pair_correctness_record is not None:
+        _n_univ = len(co_pairs) + len(cross_pairs)
+        print(
+            f"Pair-correctness:   "
+            f"f={pair_correctness_record['pair_correctness']:.2f} "
+            f"({pair_correctness_record['n_corrupted']}/{_n_univ} labels "
+            f"shuffled, realized agreement "
+            f"{pair_correctness_record['realized_agreement']:.2f})"
+        )
     print(f"Steps:              {config.max_steps}")
     print(f"Feedback interval:  every {feedback_interval} steps")
     print(f"Initial contrastive: {initial_contrastive}")
@@ -1785,12 +1895,26 @@ def build_parser() -> argparse.ArgumentParser:
              "(contrastive, spectral). Bridge remains trainable with LM loss "
              "only. Use with --bridge-mode rd_graph for structural RD topology.",
     )
+    parser.add_argument(
+        "--pair-correctness", type=float, default=1.0,
+        help="E-5 contrastive-spec coherence f in [0,1] "
+             "(docs/E5_BIFURCATION_PREREG_2026-07-10.md §2). 1.0 (default) is a "
+             "byte-identical no-op; f<1 shuffles the labels of "
+             "round((1-f)*len(pairs)) contrastive pairs via a dedicated local "
+             "RNG (seed*100003+51), count-preserving, recorded in config.json.",
+    )
     return parser
 
 
 def main():
     parser = build_parser()
     args = parser.parse_args()
+
+    # E-5: f outside [0,1] is meaningless — f>1 would silently record 1.0 and
+    # f<0 would raise an opaque ValueError deep in rng.sample. Reject loudly.
+    if not 0.0 <= args.pair_correctness <= 1.0:
+        parser.error(f"--pair-correctness must be in [0.0, 1.0], "
+                     f"got {args.pair_correctness}")
 
     # --transit-corpus and --dataset are mutually exclusive (prereg §6). Resolve
     # to one source; error if both were explicitly given. When neither is set,
@@ -1872,6 +1996,7 @@ def main():
         dataset_name=dataset_name,
         transit_corpus=transit_corpus,
         transit_arm=args.transit_arm,
+        pair_correctness=args.pair_correctness,
         **{k: v for k, v in steersman_kwargs.items()
            if k != "initial_spectral_target"},
     )
