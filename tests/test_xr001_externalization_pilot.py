@@ -627,6 +627,19 @@ def test_manifest_records_tasks_hash(tasks_file, tmp_path):
     assert man["tasks_sha256"] == xr._tasks_sha256(tasks_file)
 
 
+def test_run_refuses_episode_count_mismatch(tasks_file, tmp_path):
+    # A smoke run with --episodes-limit must not seed the manifest that a
+    # later full run resumes against.
+    mock = MockTransport()
+    xr.run(tasks_file, ["gemma3:4b"], ["R0"], tmp_path,
+           base_url="http://x", episodes_limit=1, transport=mock,
+           retry_backoff=0, max_retries=1, progress=False)
+    with pytest.raises(SystemExit, match="episodes-limit mismatch"):
+        xr.run(tasks_file, ["gemma3:4b"], ["R0"], tmp_path,
+               base_url="http://x", transport=MockTransport(),
+               retry_backoff=0, max_retries=1, progress=False)
+
+
 # ── import safety ────────────────────────────────────────────────────
 
 
