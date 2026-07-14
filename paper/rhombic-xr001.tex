@@ -195,9 +195,10 @@ lineages to the agent-compaction setting.
 
 \paragraph{Compaction as an open surface.}
 The 2026 literature treats compaction fidelity as unsolved rather than as
-plumbing. A rate--distortion survey frames compaction as a decision about what
-to retain at what fidelity under a budget, and identifies repeated agent
-compaction as almost never measured \citep{colaco2026ratedistortion}.
+plumbing. A rate--distortion survey unifies the field's many operators under
+a single retain-what-at-what-fidelity decision
+\citep{colaco2026ratedistortion}; we place this experiment in its taxonomy at
+the end of this section.
 Slipstream validates compaction summaries asynchronously because compaction
 ``can silently degrade accuracy when the compactor drops or distorts
 information the agent later needs'' \citep{chen2026slipstream}.
@@ -217,6 +218,34 @@ bi-temporal knowledge graph with verbatim episode provenance
 quotable rather than re-narrated; our result is a controlled measurement of
 why that choice matters at the single write step they are built to avoid
 performing carelessly.
+
+\paragraph{Position in the design space.}
+Recent work unifies the many forms of context compaction---KV-cache eviction
+and quantization, prompt pruning and distillation, bounded architectural
+state, and agent-memory consolidation---as instances of a single
+rate--distortion decision: which context-derived information to retain, at
+what fidelity, under a budget, so as to preserve downstream utility; it
+organizes the design space along seven axes, of which granularity, lifecycle
+stage, and query adaptivity are identified as the ones methods differ on
+decisively \citep{colaco2026ratedistortion}. Our experiment isolates the
+first of those three. Holding lifecycle stage (within-task working-context
+curation at a compaction checkpoint), fidelity budget (a matched token cap),
+and storage substrate (in-context text) fixed, we vary only the
+\emph{granularity of the compressed unit}---a flowing natural-language span
+versus a structured typed-state block encoding the same facts (on the
+survey's mechanism axis: abstractive rewrite versus structure-build). At a
+matched budget this single-axis change moves numeric-corruption rate roughly
+fourfold (prose $36.4\%$ versus typed-state $9.4\%$, paired McNemar
+$p = 3.5\times10^{-21}$), establishing granularity as a large lever
+independent of the rate-side selection that dominates the survey's other
+layers. The survey further observes that while single-turn long-context
+compression is measured carefully, the repeated compaction that agents
+actually perform is almost never measured and no benchmark holds one budget
+axis constant across the stack; our cascaded, matched-budget, temperature-0
+protocol with construction-known ground truth targets exactly that regime.
+Where the survey turns its analysis into a benchmark proposal and a reference
+experiment, XR-001 supplies a controlled measurement of one of its three
+decisive axes in the multi-turn agent regime, before the metrics are fixed.
 
 % ===================================================================
 \section{Experimental design}

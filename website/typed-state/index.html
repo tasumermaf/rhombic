@@ -294,11 +294,11 @@ connect these two lineages to the agent-compaction setting.</p>
 <h4 id="compaction-as-an-open-surface.">Compaction as an open
 surface.</h4>
 <p>The 2026 literature treats compaction fidelity as unsolved rather
-than as plumbing. A rate–distortion survey frames compaction as a
-decision about what to retain at what fidelity under a budget, and
-identifies repeated agent compaction as almost never measured <span
+than as plumbing. A rate–distortion survey unifies the field’s many
+operators under a single retain-what-at-what-fidelity decision <span
 class="citation" data-cites="colaco2026ratedistortion">(Colaco and
-Lahjouji 2026)</span>. Slipstream validates compaction summaries
+Lahjouji 2026)</span>; we place this experiment in its taxonomy at the
+end of this section. Slipstream validates compaction summaries
 asynchronously because compaction “can silently degrade accuracy when
 the compactor drops or distorts information the agent later needs” <span
 class="citation" data-cites="chen2026slipstream">(Chen et al.
@@ -325,6 +325,42 @@ systems already treat state as typed and quotable rather than
 re-narrated; our result is a controlled measurement of why that choice
 matters at the single write step they are built to avoid performing
 carelessly.</p>
+<h4 id="position-in-the-design-space.">Position in the design
+space.</h4>
+<p>Recent work unifies the many forms of context compaction—KV-cache
+eviction and quantization, prompt pruning and distillation, bounded
+architectural state, and agent-memory consolidation—as instances of a
+single rate–distortion decision: which context-derived information to
+retain, at what fidelity, under a budget, so as to preserve downstream
+utility; it organizes the design space along seven axes, of which
+granularity, lifecycle stage, and query adaptivity are identified as the
+ones methods differ on decisively <span class="citation"
+data-cites="colaco2026ratedistortion">(Colaco and Lahjouji 2026)</span>.
+Our experiment isolates the first of those three. Holding lifecycle
+stage (within-task working-context curation at a compaction checkpoint),
+fidelity budget (a matched token cap), and storage substrate (in-context
+text) fixed, we vary only the <em>granularity of the compressed
+unit</em>—a flowing natural-language span versus a structured
+typed-state block encoding the same facts (on the survey’s mechanism
+axis: abstractive rewrite versus structure-build). At a matched budget
+this single-axis change moves numeric-corruption rate roughly fourfold
+(prose
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>36.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">36.4\%</annotation></semantics></math>
+versus typed-state
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">9.4\%</annotation></semantics></math>,
+paired McNemar
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>3.5</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>21</mn></mrow></msup></mrow><annotation encoding="application/x-tex">p = 3.5\times10^{-21}</annotation></semantics></math>),
+establishing granularity as a large lever independent of the rate-side
+selection that dominates the survey’s other layers. The survey further
+observes that while single-turn long-context compression is measured
+carefully, the repeated compaction that agents actually perform is
+almost never measured and no benchmark holds one budget axis constant
+across the stack; our cascaded, matched-budget, temperature-0 protocol
+with construction-known ground truth targets exactly that regime. Where
+the survey turns its analysis into a benchmark proposal and a reference
+experiment, XR-001 supplies a controlled measurement of one of its three
+decisive axes in the multi-turn agent regime, before the metrics are
+fixed.</p>
 <h1 id="sec:design">Experimental design</h1>
 <h4 id="task-ground-truth-by-construction.">Task (ground truth by
 construction).</h4>
@@ -918,9 +954,11 @@ composition of separately stored facts.</p>
 <p>The result rests on one synthetic task family—numeric recall and
 combination under filler pressure—chosen to make ground truth exact and
 the incident class reproducible; it is not a naturalistic agent
-workload. The three models are local, span
+workload. The three models are open-weight, local, span
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>4</mn><annotation encoding="application/x-tex">4</annotation></semantics></math>B–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>30</mn><annotation encoding="application/x-tex">30</annotation></semantics></math>B
-parameters, and duplicate one family (<code>qwen3</code>). Generation is
+parameters, and duplicate one family (<code>qwen3</code>); frontier
+hosted models are untested, so the finding is claimed only for the
+measured range. Generation is
 temperature-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
 single-sample, so we report no sampling variance. The compaction budget
 is a single operating point (about
