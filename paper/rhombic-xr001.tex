@@ -57,8 +57,11 @@ manipulated variable: at each checkpoint an agent replaces its transcript
 either with a flowing \emph{prose} summary (R1) or with a \emph{typed state
 block} (R2), both capped at the same token budget, against a no-compaction
 ceiling (R0). Ground truth is known by construction on a synthetic numeric
-recall-and-combination task (15 episodes $\times$ 8 probes $\times$ 3 models
-$\times$ 3 regimes $= 1{,}080$ probes). Pooled numeric-corruption rate
+recall-and-combination task, run across three open-weight local models
+spanning $4$B--$30$B parameters (15 episodes $\times$ 8 probes $\times$ 3
+models $\times$ 3 regimes $= 1{,}080$ probes); frontier hosted models are
+untested and the generalization claim is bounded to the measured range.
+Pooled numeric-corruption rate
 is $36.4\%$ under prose versus $9.4\%$ under typed blocks, against a
 $4.4\%$ no-compaction ceiling; the pre-registered paired exact McNemar test
 (R1 vs R2, identical probes) gives $b=11$, $c=108$, two-sided
@@ -518,8 +521,10 @@ composition of separately stored facts.
 The result rests on one synthetic task family---numeric recall and combination
 under filler pressure---chosen to make ground truth exact and the incident
 class reproducible; it is not a naturalistic agent workload. The three models
-are local, span $4$B--$30$B parameters, and duplicate one family
-(\texttt{qwen3}). Generation is temperature-$0$ single-sample, so we report no
+are open-weight, local, span $4$B--$30$B parameters, and duplicate one family
+(\texttt{qwen3}); frontier hosted models are untested, so the finding is
+claimed only for the measured range. Generation is temperature-$0$
+single-sample, so we report no
 sampling variance. The compaction budget is a single operating point (about
 $120$ words / $256$ tokens); we do not trace the format effect across the
 budget curve. The write-time metric's prose side is a heuristic and is

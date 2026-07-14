@@ -103,8 +103,11 @@ manipulated variable: at each checkpoint an agent replaces its transcript
 either with a flowing <em>prose</em> summary (R1) or with a <em>typed state
 block</em> (R2), both capped at the same token budget, against a no-compaction
 ceiling (R0). Ground truth is known by construction on a synthetic numeric
-recall-and-combination task (15 episodes &times; 8 probes &times; 3 models
-&times; 3 regimes = 1,080 probes). Pooled numeric-corruption rate is
+recall-and-combination task, run across three open-weight local models
+spanning 4B&ndash;30B parameters (15 episodes &times; 8 probes &times; 3
+models &times; 3 regimes = 1,080 probes); frontier hosted models are untested
+and the generalization claim is bounded to the measured range. Pooled
+numeric-corruption rate is
 <strong>36.4%</strong> under prose versus <strong>9.4%</strong> under typed
 blocks, against a 4.4% no-compaction ceiling; the pre-registered paired exact
 McNemar test (R1 vs R2, identical probes) gives <em>b</em>&thinsp;=&thinsp;11,
