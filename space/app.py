@@ -440,6 +440,18 @@ aluminum, and gold.
 These ratios are **stable across all tested scales**, consistent with
 derivation from the geometry rather than the sample.
 
+## The Boundary
+
+We attacked our own headline: at matched edge budget with *free* rewiring,
+random expander-like graphs beat the FCC lattice on connectivity (EE-001).
+The lattice advantage is therefore scoped to **spatially-embeddable
+substrates — where wiring has cost**: chips, networks, files, agent memory.
+That is where this program digs. The first product of the digging is a
+released paper: [*Typed State Beats Prose*](https://tasumermaf.com/rhombic/typed-state/)
+(July 2026) — typed state blocks corrupt 9.4% of numeric facts under agent
+context compaction where prose summaries corrupt 36.4%, at matched token
+budgets.
+
 ## The Cost
 
 The FCC lattice uses ~2x more edges. This is the price: double the wiring.
@@ -819,10 +831,13 @@ Init: M = I     (recovers standard LoRA exactly)
 | BM-001 | 7B | Benchmark parity: TeLoRA matches standard LoRA (Δ +0.0012, four lm-eval tasks) |
 
 **7-round internal adversarial audit.** 232 findings across 7 rounds, 87
-fixed. Papers 2-4 are working drafts (not published, not submitted);
-Paper 1 is complete. Nulls and retractions are tracked openly in the repo.
+fixed. Papers 1-4 are working drafts (not published, not submitted). The
+program's first **released** paper is *Typed State Beats Prose* (July 2026)
+— a pre-registered measurement of numeric corruption under agent context
+compaction. Nulls and retractions are tracked openly in the repo.
 
-[Paper](https://github.com/tasumermaf/rhombic/blob/main/paper/rhombic-paper3.tex) |
+[Released paper](https://tasumermaf.com/rhombic/typed-state/) |
+[Paper 3 draft](https://github.com/tasumermaf/rhombic/blob/main/paper/rhombic-paper3.tex) |
 [All results](https://github.com/tasumermaf/rhombic/tree/main/results) |
 [Audit trail](https://github.com/tasumermaf/rhombic/tree/main/paper/audit)
             """)

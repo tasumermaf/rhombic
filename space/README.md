@@ -27,7 +27,7 @@ tags:
 
 > *The bottleneck is not the processor. It is the shape of the cell.*
 
-Interactive demo comparing cubic (6-connected) and FCC/rhombic dodecahedral (12-connected) lattice topologies. 357 tests, MPL-2.0. Paper 1 complete; Papers 2–4 are working drafts.
+Interactive demo comparing cubic (6-connected) and FCC/rhombic dodecahedral (12-connected) lattice topologies. 815 tests, MPL-2.0. Papers 1–4 are working drafts; the program's first released paper is [*Typed State Beats Prose*](https://tasumermaf.com/rhombic/typed-state/) (July 2026).
 
 **Tab 1 — The Numbers:** Headline results + live graph theory benchmark at any scale.
 
@@ -39,6 +39,7 @@ Interactive demo comparing cubic (6-connected) and FCC/rhombic dodecahedral (12-
 
 **Tab 5 — Weighted Extensions:** Direction-weighted Fiedler amplification benchmark (Paper 2). See how structured edge weights amplify the FCC advantage from 2.3x to 6.1x.
 
+- [Released paper — Typed State Beats Prose](https://tasumermaf.com/rhombic/typed-state/)
 - [GitHub](https://github.com/tasumermaf/rhombic)
 - [PyPI](https://pypi.org/project/rhombic/)
 
