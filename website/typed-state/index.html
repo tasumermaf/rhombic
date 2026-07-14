@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typed State Beats Prose — TASUMER MAF</title>
+<meta name="description" content="A pre-registered measurement of numeric corruption under agent context compaction: typed state blocks corrupt 9.4% of numeric facts where prose summaries corrupt 36.4%, at matched token budgets.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c1b1a; --paper:#fdfdfb; --muted:#6b6660; --accent:#B34444;
+  --rule:#e4e1dc; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 1.06rem/1.72 'Source Serif 4',Georgia,serif;
+  -webkit-font-smoothing:antialiased}
+main{max-width:44rem;margin:0 auto;padding:4.5rem 1.4rem 6rem}
+header.paper h1{font-family:'Cormorant Garamond',serif;font-weight:700;
+  font-size:2.5rem;line-height:1.15;margin:0 0 .4rem;letter-spacing:-.01em}
+header.paper .subtitle{font-family:'Cormorant Garamond',serif;font-weight:500;
+  font-size:1.45rem;line-height:1.3;color:var(--ink);margin:0 0 2rem}
+.byline{margin:0 0 .4rem;font-size:1rem;line-height:1.55}
+.byline .lab{font-variant:small-caps;letter-spacing:.08em;font-weight:600}
+.byline .date{color:var(--muted)}
+.linkrow{margin:1.4rem 0 0;font-size:.9rem;font-family:var(--mono);
+  letter-spacing:.01em}
+.linkrow a{margin-right:1.1rem}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:var(--accent)}
+hr.rule{border:0;border-top:1px solid var(--rule);margin:2.6rem 0}
+.abstract{border-left:3px solid var(--rule);padding:.1rem 0 .1rem 1.3rem;
+  margin:0 0 2.2rem}
+.abstract h2{font-family:'Cormorant Garamond',serif;font-size:1.3rem;
+  margin:0 0 .5rem}
+.abstract p{margin:.4rem 0;font-size:.98rem}
+nav.toc{font-size:.95rem;margin:0 0 1rem}
+nav.toc ol{margin:.4rem 0 0;padding-left:1.4rem}
+nav.toc li{margin:.15rem 0}
+h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.85rem;
+  line-height:1.2;margin:3rem 0 .9rem}
+h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.4rem;
+  margin:2.2rem 0 .6rem}
+p{margin:0 0 1.05rem}
+strong{font-weight:600}
+code{font-family:var(--mono);font-size:.84em;background:#f3f1ed;
+  padding:.08em .32em;border-radius:3px}
+pre{overflow-x:auto;background:#f3f1ed;padding:1rem;border-radius:4px}
+pre code{background:none;padding:0}
+.tablewrap{overflow-x:auto;margin:1.4rem 0}
+table{border-collapse:collapse;margin:0 auto;font-size:.92rem;
+  font-variant-numeric:tabular-nums}
+th,td{padding:.4rem .8rem;border-bottom:1px solid var(--rule);text-align:left}
+thead th{border-bottom:2px solid var(--ink);font-weight:600}
+caption{caption-side:top;text-align:left;font-size:.88rem;color:var(--muted);
+  padding-bottom:.5rem}
+figure{margin:2rem 0}
+figure img{max-width:100%;height:auto;display:block;margin:0 auto}
+figcaption{font-size:.88rem;color:var(--muted);margin-top:.7rem;
+  line-height:1.5}
+.citation{color:inherit}
+#refs{font-size:.92rem;line-height:1.55}
+#refs .csl-entry{margin:0 0 .7rem;padding-left:1.6rem;text-indent:-1.6rem}
+footer{margin-top:4rem;padding-top:1.6rem;border-top:1px solid var(--rule);
+  font-size:.87rem;color:var(--muted);line-height:1.7}
+@media (max-width:600px){
+  main{padding-top:3rem}
+  header.paper h1{font-size:2rem}
+  header.paper .subtitle{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+<main>
+
+<header class="paper">
+  <h1>Typed State Beats Prose</h1>
+  <p class="subtitle">A Pre-Registered Measurement of Numeric Corruption Under Agent Context Compaction</p>
+  <p class="byline"><span class="lab">TASUMER MAF</span><br>
+  Timothy Bielec, Minta Carlson<br>
+  <span class="date">July 2026</span></p>
+  <p class="linkrow">
+    <a href="https://github.com/tasumermaf/rhombic/blob/main/paper/rhombic-xr001.pdf">PDF</a>
+    <a href="https://github.com/tasumermaf/rhombic">GitHub</a>
+    <a href="https://github.com/tasumermaf/rhombic/blob/main/results/XR-001-externalization-pilot/PROTOCOL.md">Pre-registration</a>
+    <a href="https://tasumermaf.com/rhombic/">rhombic</a>
+  </p>
+</header>
+
+<hr class="rule">
+
+<section class="abstract">
+<h2>Abstract</h2>
+<p>Context compaction&mdash;replacing an agent&rsquo;s running transcript with a
+shorter summary&mdash;is now background-automatic in major agent products, yet
+the <em>format</em> of the compacted state is chosen by convention rather than
+measurement. We pre-register and run a matched-budget, temperature-0,
+cascaded-compaction experiment in which the summary format is the sole
+manipulated variable: at each checkpoint an agent replaces its transcript
+either with a flowing <em>prose</em> summary (R1) or with a <em>typed state
+block</em> (R2), both capped at the same token budget, against a no-compaction
+ceiling (R0). Ground truth is known by construction on a synthetic numeric
+recall-and-combination task (15 episodes &times; 8 probes &times; 3 models
+&times; 3 regimes = 1,080 probes). Pooled numeric-corruption rate is
+<strong>36.4%</strong> under prose versus <strong>9.4%</strong> under typed
+blocks, against a 4.4% no-compaction ceiling; the pre-registered paired exact
+McNemar test (R1 vs R2, identical probes) gives <em>b</em>&thinsp;=&thinsp;11,
+<em>c</em>&thinsp;=&thinsp;108, two-sided
+<em>p</em>&thinsp;=&thinsp;3.524&times;10<sup>&minus;21</sup>, with the
+direction favoring typed state in every model. Realized compaction budgets
+match to within about one percent (219.2 vs 221.4 tokens), so the effect is
+format, not budget. A write-time decomposition locates most of the prose
+deficit at the moment of compaction: typed blocks retain 99.8% of entity
+values across cascaded checkpoints, prose 65.2%. The implication for agent
+builders is direct: never re-narrate numbers in prose when a quotable typed
+slot will do.</p>
+</section>
+
+<nav class="toc">
+<strong>Contents</strong>
+<ol>
+  <li><a href="#sec:intro">Introduction</a></li>
+  <li><a href="#sec:rw">Related work</a></li>
+  <li><a href="#sec:design">Experimental design</a></li>
+  <li><a href="#sec:results">Results</a></li>
+  <li><a href="#sec:discussion">Discussion</a></li>
+  <li><a href="#sec:repro">Reproducibility</a></li>
+  <li><a href="#acknowledgments">Acknowledgments</a></li>
+  <li><a href="#refs-h">References</a></li>
+</ol>
+</nav>
+
+<hr class="rule">
+<p><strong>Keywords:</strong> context compaction, agent memory,
+structured state, numeric fidelity, pre-registration, summarization</p>
+<h1 id="sec:intro">Introduction</h1>
+<p>Long-horizon language-model agents accumulate more transcript than
+fits in a context window, and the dominant response is
+<em>compaction</em>: at some threshold the running history is replaced
+by a shorter machine-written summary and work continues from that
+summary. Compaction now runs automatically in shipping products—vendor
+guidance treats it as a standard mitigation alongside structured
+note-taking and sub-agents <span class="citation"
+data-cites="anthropic2025context">(Rajasekaran et al. 2025)</span>, and
+vendors increasingly train against its failures <span class="citation"
+data-cites="cassano2026composer">(Cassano and Rush 2026)</span>.</p>
+<p>Practitioner trust has not kept pace with adoption. The same guidance
+that recommends compaction warns that “overly aggressive compaction can
+result in the loss of subtle but critical context whose importance only
+becomes apparent later” <span class="citation"
+data-cites="anthropic2025context">(Rajasekaran et al. 2025)</span>; bug
+reports describe agents that lose a plan entirely after a compaction
+step <span class="citation" data-cites="claudecode24686">(<span
+class="nocase">anthropics/claude-code issue #24686</span> 2026)</span>;
+and a July 2026 survey of the area states plainly that “the repeated
+compaction that agents actually perform is almost never measured” <span
+class="citation" data-cites="colaco2026ratedistortion">(Colaco and
+Lahjouji 2026)</span>. The gap is not whether compaction loses
+information—long-context degradation is well documented <span
+class="citation" data-cites="liu2023lost hong2025contextrot">(Liu et al.
+2024; Hong et al. 2025)</span>—but which design choices control the
+loss, and by how much.</p>
+<p>This note isolates one such choice: the <em>format</em> the agent
+writes its compacted state in. The motivating case is a documented
+incident in our own research workflow (internal operations log, February
+2026), recorded at the level of abstraction fixed in our pre-registered
+protocol: an orchestrating agent’s prose summary reported a computed
+value off by one and conflated three related quantities—a base value, a
+neighboring value one unit away, and a combined sum—into a single
+incorrect claim, while every computed artifact on disk remained correct.
+The codified fix was to require verbatim-quotable structured results
+blocks in place of prose retellings, but that fix had never been
+measured against the prose alternative it replaced at matched token
+budgets. We measure it.</p>
+<p>We compare prose summaries against typed state blocks under identical
+token budgets, at temperature zero, with compaction <em>cascaded</em>
+(each checkpoint’s state is produced from the previous state plus new
+material, so the iterated lossy re-encode is itself under test), on a
+task whose numeric ground truth is known by construction. The design was
+pre-registered and frozen before implementation.</p>
+<h4 id="contributions.">Contributions.</h4>
+<ol>
+<li><p>The first format-controlled, budget-matched, ground-truth
+measurement of <em>numeric</em> corruption under <em>repeated</em> agent
+compaction: prose
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>36.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">36.4\%</annotation></semantics></math>
+vs typed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>9.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">9.4\%</annotation></semantics></math>
+pooled, ceiling
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">4.4\%</annotation></semantics></math>,
+with a pre-registered paired test
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>3.5</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>21</mn></mrow></msup></mrow><annotation encoding="application/x-tex">p=3.5\times10^{-21}</annotation></semantics></math>)
+and unanimous per-model direction (Section <a href="#sec:results"
+data-reference-type="ref" data-reference="sec:results">4</a>).</p></li>
+<li><p>A corruption-class taxonomy that separates near-miss drift
+(off-by-one, conflation—the incident signature) from outright loss
+(other-wrong, omission), showing prose fails predominantly by losing
+values outright, and conflates at more than five times the structured
+rate when it keeps them (Section <a href="#sec:results"
+data-reference-type="ref" data-reference="sec:results">4</a>, Table <a
+href="#tab:class" data-reference-type="ref"
+data-reference="tab:class">3</a>).</p></li>
+<li><p>A write-time versus read-time decomposition locating most of the
+prose deficit at the compaction step, not the answer step
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>99.8</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">99.8\%</annotation></semantics></math>
+vs
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>65.2</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">65.2\%</annotation></semantics></math>
+value retention).</p></li>
+<li><p>Open artifacts: protocol, seeded tasks, a stdlib-only runner,
+every raw call log, scoring code, and scored results (Section <a
+href="#sec:repro" data-reference-type="ref"
+data-reference="sec:repro">6</a>).</p></li>
+</ol>
+<p>The hypothesis that structure beats prose is not itself novel; it is
+the stated position of several converging lines of work (Section <a
+href="#sec:rw" data-reference-type="ref" data-reference="sec:rw">2</a>).
+The contribution here is its controlled isolation and measurement for
+numeric state under these controls.</p>
+<h1 id="sec:rw">Related work</h1>
+<h4 id="three-flanking-measurements.">Three flanking measurements.</h4>
+<p>Three recent works measure adjacent effects and bound our
+contribution precisely. AgingBench <span class="citation"
+data-cites="zhu2026aging">(Zhu et al. 2026)</span>, in its Appendix D.2
+typed-state overlay, independently names the exact failure mode—prose
+compaction condenses delta-updated numeric quantities into noun phrases
+that lose the arithmetic structure needed to update them—and runs a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2\times2</annotation></semantics></math>
+(lossy vs careful compaction prompt
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>×</mi><annotation encoding="application/x-tex">\times</annotation></semantics></math>
+typed JSON sidecar on/off; one model, one scenario,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>=</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">N=20</annotation></semantics></math>)
+showing the sidecar cuts accumulator error by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>25</mn><annotation encoding="application/x-tex">25</annotation></semantics></math>–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>47</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">47\%</annotation></semantics></math>
+while careful prompting alone does not. Crucially, its structured state
+is written by a deterministic parser extracting generator-emitted
+sentinel tokens, so whether an <em>LLM</em> writing structured notes
+retains numbers better than an LLM writing prose—our core variable—is
+untested; the sidecar is additive rather than budget-matched, the metric
+is an error-magnitude rather than a corruption rate, and the authors
+describe the probe as a sketch. Factory.ai’s production evaluation <span
+class="citation" data-cites="factory2025compression">(Factory Research
+2025)</span> scores schema-sectioned anchored summarization above vendor
+prose compaction on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>36</mn><mo>,</mo><mn>611</mn></mrow><annotation encoding="application/x-tex">36{,}611</annotation></semantics></math>
+production messages (overall
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3.70</mn><annotation encoding="application/x-tex">3.70</annotation></semantics></math>
+vs
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3.44</mn><annotation encoding="application/x-tex">3.44</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3.35</mn><annotation encoding="application/x-tex">3.35</annotation></semantics></math>;
+accuracy
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>4.04</mn><annotation encoding="application/x-tex">4.04</annotation></semantics></math>
+vs
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3.74</mn><annotation encoding="application/x-tex">3.74</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3.43</mn><annotation encoding="application/x-tex">3.43</annotation></semantics></math>),
+attributing the gain to structure forcing preservation—but whole
+heterogeneous pipelines differ between arms, grading is by LLM judge
+rather than ground truth, budgets are only approximately matched, and no
+numeric-corruption rate is reported. Governance Decay <span
+class="citation" data-cites="chen2026governance">(Chen 2026)</span>
+measures fact survival with binary ground truth across
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>323</mn></mrow><annotation encoding="application/x-tex">1{,}323</annotation></semantics></math>
+episodes, finding that compaction silently erases in-context safety
+constraints (violations
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>%</mi><mo>→</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">0\%\rightarrow30</annotation></semantics></math>–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>59</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">59\%</annotation></semantics></math>)
+and that quarantining critical state from lossy summarization (its
+<em>Constraint Pinning</em> mitigation) restores
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">0\%</annotation></semantics></math>—the
+same structural argument as typed state blocks, but for policy text
+rather than numbers, and without a format-controlled, budget-matched
+arm. Our design sits in the intersection none of them occupies:
+LLM-written format as the sole variable, matched budgets, cascaded
+compaction, numeric ground truth, paired statistics.</p>
+<h4 id="numeric-fragility-and-iterated-distortion.">Numeric fragility
+and iterated distortion.</h4>
+<p>That numbers are a distinctively fragile token class under
+abstractive rewriting is an old result: large-scale human evaluation
+found quantities among the most-hallucinated content in abstractive
+summaries <span class="citation"
+data-cites="maynez2020faithfulness">(Maynez et al. 2020)</span>, and
+number-specific mitigation followed immediately <span class="citation"
+data-cites="zhao2020quantity">(Zhao et al. 2020)</span>. That distortion
+accumulates over iterated generation—the premise of our cascade
+design—is established for rewriting chains <span class="citation"
+data-cites="mohamed2025brokentelephone">(Mohamed et al. 2025)</span>. We
+connect these two lineages to the agent-compaction setting.</p>
+<h4 id="compaction-as-an-open-surface.">Compaction as an open
+surface.</h4>
+<p>The 2026 literature treats compaction fidelity as unsolved rather
+than as plumbing. A rate–distortion survey frames compaction as a
+decision about what to retain at what fidelity under a budget, and
+identifies repeated agent compaction as almost never measured <span
+class="citation" data-cites="colaco2026ratedistortion">(Colaco and
+Lahjouji 2026)</span>. Slipstream validates compaction summaries
+asynchronously because compaction “can silently degrade accuracy when
+the compactor drops or distorts information the agent later needs” <span
+class="citation" data-cites="chen2026slipstream">(Chen et al.
+2026)</span>. ACE documents “context collapse” under monolithic
+rewriting and prescribes structured incremental updates <span
+class="citation" data-cites="zhang2025ace">(Zhang et al. 2025)</span>. A
+diagnostic study crossing write formats on a conversational benchmark
+finds lossy summarization discards information that raw storage keeps
+<span class="citation" data-cites="yuan2026diagnosing">(Yuan et al.
+2026)</span>. All support our direction; none runs the controlled
+numeric measurement.</p>
+<h4 id="avoiding-compaction-memory-layers.">Avoiding compaction: memory
+layers.</h4>
+<p>A parallel line avoids monolithic compaction by maintaining
+externally structured memory: MemGPT’s paged, self-edited memory tiers
+<span class="citation" data-cites="packer2023memgpt">(Packer et al.
+2023)</span> (and its Letta production lineage), Mem0’s adjudicated
+discrete fact records <span class="citation"
+data-cites="chhikara2025mem0">(Chhikara et al. 2025)</span>, and
+Zep/Graphiti’s bi-temporal knowledge graph with verbatim episode
+provenance <span class="citation"
+data-cites="rasmussen2025zep">(Rasmussen et al. 2025)</span>. These
+systems already treat state as typed and quotable rather than
+re-narrated; our result is a controlled measurement of why that choice
+matters at the single write step they are built to avoid performing
+carelessly.</p>
+<h1 id="sec:design">Experimental design</h1>
+<h4 id="task-ground-truth-by-construction.">Task (ground truth by
+construction).</h4>
+<p>Each <em>episode</em> is a synthetic analytical session generated
+from a seeded RNG (episode seed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+base_seed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>+</mi><annotation encoding="application/x-tex">+</annotation></semantics></math>
+episode index, base_seed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>77001</mn></mrow><annotation encoding="application/x-tex">=77001</annotation></semantics></math>).
+An episode has four <em>segments</em>; each segment introduces three
+probed entities and two distractor entities. Entities are unique
+six-letter consonant–vowel pseudowords with integer values in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>101</mn><mo>,</mo><mn>987</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[101,987]</annotation></semantics></math>,
+globally distinct within an episode except for designed collisions. Per
+segment the structure deliberately mirrors the motivating incident: a
+base entity with value
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>v</mi><annotation encoding="application/x-tex">v</annotation></semantics></math>,
+a partner entity with value
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>,
+the combined value
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>+</mo><mi>w</mi></mrow><annotation encoding="application/x-tex">v+w</annotation></semantics></math>
+stated explicitly in the text, and a <em>neighbor</em> entity with value
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">v+1</annotation></semantics></math>
+(the conflation trap); two distractors carry unrelated values and are
+never probed, purely to apply budget pressure. Each segment embeds its
+facts in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>120</mn><annotation encoding="application/x-tex">120</annotation></semantics></math>–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>180</mn><annotation encoding="application/x-tex">180</annotation></semantics></math>
+words of narrative filler so that four segments strictly exceed any
+single compaction budget.</p>
+<p>Eight questions are asked per episode, one per call, after the final
+checkpoint, all with integer answers known by construction: three
+direct-recall probes (a base or partner value from segments 1–3), two
+conflation probes (neighbor entities, truth
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+base
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>+</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">+1</annotation></semantics></math>),
+one combined-value recall, and two multi-hop probes (the computed sum of
+two entities from different segments). The same 15 episodes—identical
+seeds, identical text—are used for every model and every regime, a fully
+paired design of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>15</mn><mo>×</mo><mn>8</mn><mo>=</mo><mn>120</mn></mrow><annotation encoding="application/x-tex">15\times8=120</annotation></semantics></math>
+probes per (model
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>×</mi><annotation encoding="application/x-tex">\times</annotation></semantics></math>
+regime) cell.</p>
+<h4 id="regimes-the-cascade.">Regimes (the cascade).</h4>
+<p>Three memory regimes are compared:</p>
+<ul>
+<li><p><strong>R0 (no compaction, ceiling):</strong> the full running
+transcript is carried forward and questions are answered from
+it.</p></li>
+<li><p><strong>R1 (prose summary):</strong> at each checkpoint the model
+replaces its transcript with a flowing prose summary,
+budget-capped.</p></li>
+<li><p><strong>R2 (typed state block):</strong> at each checkpoint the
+model replaces its transcript with a typed block bearing
+<code>values:</code>, <code>combined:</code>, and
+<code>relations:</code> fields plus a free-text <code>notes:</code>
+line, under the same budget cap.</p></li>
+</ul>
+<p>Compaction <em>cascades</em>: checkpoint
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>’s
+state is produced from [state
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k-1</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>+</mi><annotation encoding="application/x-tex">+</annotation></semantics></math>
+segment
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>],
+never from full history, including a checkpoint after segment 4; in
+R1/R2 the answers are then produced from the final compacted state only.
+The compaction prompts are format-symmetric—both state that the
+transcript will be replaced and anything omitted is lost, both instruct
+merging previous state with new information, and neither reveals the
+questions.</p>
+<h4 id="matched-budget.">Matched budget.</h4>
+<p>Both R1 and R2 are instructed to write at most
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>120</mn><annotation encoding="application/x-tex">120</annotation></semantics></math>
+words and are hard-capped at <code>num_predict</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>256</mn></mrow><annotation encoding="application/x-tex">=256</annotation></semantics></math>
+tokens on the compaction call. Realized token counts are read back from
+the Ollama API (<code>eval_count</code>) and reported per regime; the
+matched-budget claim is checked, not assumed. Answer calls use
+<code>num_predict</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>192</mn></mrow><annotation encoding="application/x-tex">=192</annotation></semantics></math>;
+every call pins <code>num_ctx</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>4096</mn></mrow><annotation encoding="application/x-tex">=4096</annotation></semantics></math>
+so that R0’s full transcript is never silently head-truncated by a
+model-default window. All generation is at temperature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+with thinking disabled where the model exposes the toggle.</p>
+<h4 id="models.">Models.</h4>
+<p>Three local Ollama models spanning size were used on a single
+consumer laptop GPU: <code>gemma3:4b</code>, <code>qwen3:14b</code>
+(thinking disabled), and <code>qwen3-coder:30b</code>. With 15 episodes
+per model this yields
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn><mo>×</mo><mn>15</mn><mo>=</mo><mn>135</mn></mrow><annotation encoding="application/x-tex">3\times3\times15=135</annotation></semantics></math>
+cells and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mo>,</mo><mn>080</mn></mrow><annotation encoding="application/x-tex">1{,}080</annotation></semantics></math>
+probes total.</p>
+<h4 id="metrics-and-corruption-classes.">Metrics and corruption
+classes.</h4>
+<p>The primary metric is the <em>numeric-corruption rate</em>: the
+fraction of probes whose parsed integer answer does not equal ground
+truth. Each probe is classified as <code>correct</code>,
+<code>off_by_one</code> (answer
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+truth
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>±</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\pm1</annotation></semantics></math>),
+<code>conflation</code> (answer equals a different ground-truth quantity
+of the episode—the incident signature), <code>other_wrong</code>, or
+<code>omission</code> (no parseable answer). The classes are checked in
+a documented precedence with <code>off_by_one</code> tested before
+<code>conflation</code>; because the neighbor-probe trap answer (the
+base value on a neighbor probe) is simultaneously
+truth<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">-1</annotation></semantics></math>
+and a conflation-set member, it always classifies as
+<code>off_by_one</code>, so the incident signature is read on the union
+class <code>off_by_one</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∪</mi><annotation encoding="application/x-tex">\cup</annotation></semantics></math>
+<code>conflation</code> while the full five-class breakdown is still
+reported. The secondary metric is multi-hop completion (questions 7–8).
+An exploratory write-time metric parses each final state and scores its
+retained (name, value) pairs against ground truth (R2 by exact field
+match; R1 by a nearest-number-to-name heuristic, which is crude and
+flagged as such).</p>
+<h4 id="pre-registration-and-confirmatory-test.">Pre-registration and
+confirmatory test.</h4>
+<p>The protocol was written and frozen before implementation began;
+protocol, implementation, and the pre-launch verification amendment were
+committed together (<code>e2aa6fc</code>), before any run was executed.
+The sole confirmatory test is a pre-registered paired exact McNemar test
+comparing R1 and R2 on identical probes (correct vs incorrect), with
+per-model direction checks; all other quantities are descriptive, and
+the falsifier was that prose
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≈</mo><annotation encoding="application/x-tex">\approx</annotation></semantics></math>
+typed at matched budget. Between freezing and launch, a four-lens
+fresh-context adversarial verification of the implementation drove one
+dated pre-launch amendment with three provisions: (i) the P2 signature
+is read on the
+<code>off_by_one</code><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∪</mi><annotation encoding="application/x-tex">\cup</annotation></semantics></math><code>conflation</code>
+union class, pinned by the precedence above, with the confirmatory
+McNemar unaffected; (ii) uniform generation
+caps—<code>num_predict</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>192</mn></mrow><annotation encoding="application/x-tex">=192</annotation></semantics></math>
+on answers and <code>num_ctx</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>4096</mn></mrow><annotation encoding="application/x-tex">=4096</annotation></semantics></math>
+on every call—so no asymmetry across regimes; and (iii) scoring
+integrity—analysis filters to manifest-complete cells only, dedups
+retried compaction calls, records the tasks-file SHA-256 and refuses to
+resume against a different task set, and marks any partial-bank output
+non-confirmatory. The reported analysis (commit <code>a777adb</code>)
+runs on a complete bank of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>135</mn><mi>/</mi><mn>135</mn></mrow><annotation encoding="application/x-tex">135/135</annotation></semantics></math>
+cells.</p>
+<h1 id="sec:results">Results</h1>
+<p>The run completed all
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>135</mn><annotation encoding="application/x-tex">135</annotation></semantics></math>
+cells
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>
+models
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>×</mi><annotation encoding="application/x-tex">\times</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>
+regimes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>×</mi><annotation encoding="application/x-tex">\times</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>15</mn><annotation encoding="application/x-tex">15</annotation></semantics></math>
+episodes) with zero failed cells in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>84</mn><annotation encoding="application/x-tex">84</annotation></semantics></math>
+minutes of wall time at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>$</mi><mn>0</mn></mrow><annotation encoding="application/x-tex">\$0</annotation></semantics></math>
+marginal cost. Every number below is read from <code>results.json</code>
+/ <code>analysis.md</code>.</p>
+<h4 id="primary-metric.">Primary metric.</h4>
+<p>Table <a href="#tab:main" data-reference-type="ref"
+data-reference="tab:main">1</a> and Figure <a href="#fig:main"
+data-reference-type="ref" data-reference="fig:main">1</a> give the
+per-cell numeric-corruption rate. The pre-registered ordering R0
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≤</mo><annotation encoding="application/x-tex">\le</annotation></semantics></math>
+R2
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&lt;</mo><annotation encoding="application/x-tex">&lt;</annotation></semantics></math>
+R1 holds in every model without exception. Pooled across models, prose
+compaction (R1) corrupts
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>131</mn><mi>/</mi><mn>360</mn><mo>=</mo><mn>36.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">131/360 = 36.4\%</annotation></semantics></math>
+of numeric probes; typed state blocks (R2) hold corruption to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>34</mn><mi>/</mi><mn>360</mn><mo>=</mo><mn>9.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">34/360 = 9.4\%</annotation></semantics></math>,
+against a no-compaction ceiling (R0) of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn><mi>/</mi><mn>360</mn><mo>=</mo><mn>4.4</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">16/360 = 4.4\%</annotation></semantics></math>.
+The gap widens with model capability in relative terms: on
+<code>qwen3-coder:30b</code>, structured compaction reaches
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2.5</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">2.5\%</annotation></semantics></math>
+against a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.0</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">0.0\%</annotation></semantics></math>
+ceiling, while prose still corrupts
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>29.2</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">29.2\%</annotation></semantics></math>.</p>
+<div id="tab:main">
+<div class="tablewrap"><table>
+<caption>Numeric-corruption rate per model
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>×</mi><annotation encoding="application/x-tex">\times</annotation></semantics></math>
+regime, with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95\%</annotation></semantics></math>
+Wilson intervals
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>120</mn></mrow><annotation encoding="application/x-tex">n=120</annotation></semantics></math>
+probes per cell). Lower is better; R0 is the no-compaction
+ceiling.</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Model</th>
+<th style="text-align: center;">R0 (no compaction)</th>
+<th style="text-align: center;">R2 (structured)</th>
+<th style="text-align: center;">R1 (prose)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>gemma3:4b</code></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6.7</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">6.7\%</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>3.4</mn><mo>,</mo><mn>12.6</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[3.4,12.6]</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>14.2</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">14.2\%</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>9.0</mn><mo>,</mo><mn>21.5</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[9.0,21.5]</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>36.7</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">36.7\%</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>28.6</mn><mo>,</mo><mn>45.6</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[28.6,45.6]</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3:14b</code></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6.7</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">6.7\%</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>3.4</mn><mo>,</mo><mn>12.6</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[3.4,12.6]</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>11.7</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">11.7\%</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>7.1</mn><mo>,</mo><mn>18.6</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[7.1,18.6]</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>43.3</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">43.3\%</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>34.8</mn><mo>,</mo><mn>52.3</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[34.8,52.3]</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3-coder:30b</code></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.0</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">0.0\%</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0.0</mn><mo>,</mo><mn>3.1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0.0,3.1]</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2.5</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">2.5\%</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0.9</mn><mo>,</mo><mn>7.1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0.9,7.1]</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>29.2</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">29.2\%</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>21.8</mn><mo>,</mo><mn>37.8</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[21.8,37.8]</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<figure id="fig:main" data-latex-placement="htbp">
+<img alt="Figure 1: numeric-corruption rate per model and regime with 95 percent Wilson confidence intervals" src="fig1-corruption-by-regime.png"
+style="width:78.0%" />
+<figcaption>Numeric-corruption rate by model and regime with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95\%</annotation></semantics></math>
+Wilson intervals. Ceiling (R0), structured (R2), and prose (R1) are
+drawn with distinct colors and markers. In every model the structured
+point sits near the ceiling while the prose point sits far above
+it.</figcaption>
+</figure>
+<h4 id="confirmatory-test.">Confirmatory test.</h4>
+<p>The pre-registered paired exact McNemar test (R1 vs R2 on identical
+probes), pooled, gives
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>b</mi><mo>=</mo><mn>11</mn></mrow><annotation encoding="application/x-tex">b=11</annotation></semantics></math>
+discordant pairs favoring prose against
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>c</mi><mo>=</mo><mn>108</mn></mrow><annotation encoding="application/x-tex">c=108</annotation></semantics></math>
+favoring structured, two-sided exact
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>3.524</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>21</mn></mrow></msup></mrow><annotation encoding="application/x-tex">p=3.524\times10^{-21}</annotation></semantics></math>.
+The direction is R2-better in all three models individually (Table <a
+href="#tab:mcnemar" data-reference-type="ref"
+data-reference="tab:mcnemar">2</a>). The falsifier—prose
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>≈</mo><annotation encoding="application/x-tex">\approx</annotation></semantics></math>
+structured at matched budget—is decisively rejected.</p>
+<div id="tab:mcnemar">
+<div class="tablewrap"><table>
+<caption>Paired exact McNemar (R1 vs R2), pooled and per model.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>:
+probes correct under prose but wrong under structured;
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>:
+correct under structured but wrong under prose. Direction is R2-better
+throughout.</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Model</th>
+<th
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>b</mi><annotation encoding="application/x-tex">b</annotation></semantics></math>
+(R1<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&gt;</mo><annotation encoding="application/x-tex">&gt;</annotation></semantics></math>R2)</th>
+<th
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
+(R2<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>&gt;</mo><annotation encoding="application/x-tex">&gt;</annotation></semantics></math>R1)</th>
+<th style="text-align: center;">two-sided
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>p</mi><annotation encoding="application/x-tex">p</annotation></semantics></math></th>
+<th style="text-align: center;">direction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Pooled</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>11</mn><annotation encoding="application/x-tex">11</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>108</mn><annotation encoding="application/x-tex">108</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.524</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>21</mn></mrow></msup></mrow><annotation encoding="application/x-tex">3.524\times10^{-21}</annotation></semantics></math></td>
+<td style="text-align: center;">R2-better</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>gemma3:4b</code></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>5</mn><annotation encoding="application/x-tex">5</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>32</mn><annotation encoding="application/x-tex">32</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7.428</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>6</mn></mrow></msup></mrow><annotation encoding="application/x-tex">7.428\times10^{-6}</annotation></semantics></math></td>
+<td style="text-align: center;">R2-better</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3-coder:30b</code></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>35</mn><annotation encoding="application/x-tex">35</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>6.678</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>8</mn></mrow></msup></mrow><annotation encoding="application/x-tex">6.678\times10^{-8}</annotation></semantics></math></td>
+<td style="text-align: center;">R2-better</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3:14b</code></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>41</mn><annotation encoding="application/x-tex">41</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.618</mn><mo>×</mo><msup><mn>10</mn><mrow><mi>−</mi><mn>9</mn></mrow></msup></mrow><annotation encoding="application/x-tex">1.618\times10^{-9}</annotation></semantics></math></td>
+<td style="text-align: center;">R2-better</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<h4 id="matched-budget-check.">Matched-budget check.</h4>
+<p>Realized compaction budgets are essentially equal: mean
+<code>eval_count</code> of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>219.2</mn><annotation encoding="application/x-tex">219.2</annotation></semantics></math>
+tokens for R1 and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>221.4</mn><annotation encoding="application/x-tex">221.4</annotation></semantics></math>
+for R2
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>180</mn><annotation encoding="application/x-tex">180</annotation></semantics></math>
+compaction calls each, about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">1\%</annotation></semantics></math>
+apart). The measured effect is format, not budget.</p>
+<h4 id="corruption-classes.">Corruption classes.</h4>
+<p>Table <a href="#tab:class" data-reference-type="ref"
+data-reference="tab:class">3</a> and Figure <a href="#fig:class"
+data-reference-type="ref" data-reference="fig:class">2</a> give the
+pooled regime
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>×</mi><annotation encoding="application/x-tex">\times</annotation></semantics></math>
+class breakdown. The incident-signature union class
+(<code>off_by_one</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>∪</mi><annotation encoding="application/x-tex">\cup</annotation></semantics></math>
+<code>conflation</code>) is elevated under prose:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>17</mn><annotation encoding="application/x-tex">17</annotation></semantics></math>
+signature errors for R1 against
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>4</mn><annotation encoding="application/x-tex">4</annotation></semantics></math>
+for both R2 and R0
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>4.25</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">4.25\times</annotation></semantics></math>),
+and conflation specifically runs at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>16</mn><annotation encoding="application/x-tex">16</annotation></semantics></math>
+for R1 versus
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math>
+for R2—a more-than-fivefold elevation. The honest reading, however, is
+that near-miss drift is not where most of the prose deficit lives: R1’s
+error mass is dominated by <code>other_wrong</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>84</mn></mrow><annotation encoding="application/x-tex">=84</annotation></semantics></math>
+and <code>omission</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">=30</annotation></semantics></math>,
+against R2’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>25</mn><annotation encoding="application/x-tex">25</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>5</mn><annotation encoding="application/x-tex">5</annotation></semantics></math>.
+Prose compaction mostly <em>loses</em> values outright; when it keeps
+them near-wrong, it conflates at several times the structured rate.</p>
+<div id="tab:class">
+<div class="tablewrap"><table>
+<caption>Regime
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>×</mi><annotation encoding="application/x-tex">\times</annotation></semantics></math>
+class breakdown, pooled across models
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>360</mn></mrow><annotation encoding="application/x-tex">n=360</annotation></semantics></math>
+probes per regime). Signature
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+<code>off_by_one</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>+</mi><annotation encoding="application/x-tex">+</annotation></semantics></math>
+<code>conflation</code> (the incident-class union, per the
+pre-registered precedence).</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Regime</th>
+<th style="text-align: center;">correct</th>
+<th style="text-align: center;">off_by_one</th>
+<th style="text-align: center;">conflation</th>
+<th style="text-align: center;">other_wrong</th>
+<th style="text-align: center;">omission</th>
+<th style="text-align: center;">signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">R0</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>344</mn><annotation encoding="application/x-tex">344</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>12</mn><annotation encoding="application/x-tex">12</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>4</mn><annotation encoding="application/x-tex">4</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">R1</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>229</mn><annotation encoding="application/x-tex">229</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>16</mn><annotation encoding="application/x-tex">16</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>84</mn><annotation encoding="application/x-tex">84</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>30</mn><annotation encoding="application/x-tex">30</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>17</mn><annotation encoding="application/x-tex">17</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;">R2</td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>326</mn><annotation encoding="application/x-tex">326</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1</mn><annotation encoding="application/x-tex">1</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>3</mn><annotation encoding="application/x-tex">3</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>25</mn><annotation encoding="application/x-tex">25</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>5</mn><annotation encoding="application/x-tex">5</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>4</mn><annotation encoding="application/x-tex">4</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<figure id="fig:class" data-latex-placement="htbp">
+<img alt="Figure 2: regime by corruption-class breakdown" src="fig2-regime-class-breakdown.png"
+style="width:78.0%" />
+<figcaption>Composition of the corrupt probes by regime (pooled; correct
+probes excluded). The prose bar (R1) is dominated by outright loss
+(<code>other_wrong</code>, <code>omission</code>); the signature
+near-miss classes sit at its base and are elevated relative to
+structured (R2) and ceiling (R0).</figcaption>
+</figure>
+<h4 id="write-time-decomposition.">Write-time decomposition.</h4>
+<p>Parsing the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>45</mn><annotation encoding="application/x-tex">45</annotation></semantics></math>
+R1 and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>45</mn><annotation encoding="application/x-tex">45</annotation></semantics></math>
+R2 final states and scoring their retained entity values against ground
+truth locates most of the prose deficit at write time: R2 state blocks
+retain
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>898</mn><mi>/</mi><mn>900</mn></mrow><annotation encoding="application/x-tex">898/900</annotation></semantics></math>
+entity values
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>99.8</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">99.8\%</annotation></semantics></math>),
+while R1 prose retains
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>587</mn><mi>/</mi><mn>900</mn></mrow><annotation encoding="application/x-tex">587/900</annotation></semantics></math>
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>65.2</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">65.2\%</annotation></semantics></math>).
+The loss enters predominantly when the summary is written, not when the
+question is answered. This metric is exploratory: the prose side uses
+the pre-registered nearest-number heuristic, which is crude and likely
+understates prose fidelity, and the R2 per-line counter shows a one-off
+duplicate-line artifact
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>899</mn><annotation encoding="application/x-tex">899</annotation></semantics></math>
+scored correct against
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>898</mn><annotation encoding="application/x-tex">898</annotation></semantics></math>
+retained); it carries no confirmatory weight.</p>
+<h4 id="multi-hop-completion.">Multi-hop completion.</h4>
+<p>On the two-entity-sum probes (Table <a href="#tab:multihop"
+data-reference-type="ref" data-reference="tab:multihop">4</a>),
+structured compaction matches or beats prose in every model, most
+starkly on <code>qwen3-coder:30b</code>, where R2 completes
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">100\%</annotation></semantics></math>
+against R1’s
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>46.7</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">46.7\%</annotation></semantics></math>
+(R0
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">100\%</annotation></semantics></math>).
+Composing two retained facts is exactly the operation that requires both
+to survive compaction with their arithmetic structure intact, and it is
+where prose degrades most.</p>
+<div id="tab:multihop">
+<div class="tablewrap"><table>
+<caption>Multi-hop completion (questions 7–8), the computed sum of two
+entities from different segments
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>30</mn></mrow><annotation encoding="application/x-tex">n=30</annotation></semantics></math>
+probes per cell).</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Model</th>
+<th style="text-align: center;">R0</th>
+<th style="text-align: center;">R1 (prose)</th>
+<th style="text-align: center;">R2 (structured)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>gemma3:4b</code></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>73.3</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">73.3\%</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30.0</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">30.0\%</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>50.0</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">50.0\%</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3-coder:30b</code></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100.0</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">100.0\%</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>46.7</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">46.7\%</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>100.0</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">100.0\%</annotation></semantics></math></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen3:14b</code></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>73.3</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">73.3\%</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20.0</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">20.0\%</annotation></semantics></math></td>
+<td
+style="text-align: center;"><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>53.3</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">53.3\%</annotation></semantics></math></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<h1 id="sec:discussion">Discussion</h1>
+<h4 id="the-loss-is-a-write-time-phenomenon.">The loss is a write-time
+phenomenon.</h4>
+<p>The write-time decomposition is the load-bearing observation. Both
+regimes answer from a compacted state, both at temperature zero, both
+under the same budget; the difference is what survived the act of
+compaction. Typed blocks keep almost every value
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>99.8</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">99.8\%</annotation></semantics></math>)
+because each value occupies a named slot that the format obliges the
+model to fill, whereas prose keeps roughly two of three
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>65.2</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">65.2\%</annotation></semantics></math>)
+because a flowing sentence has no slot that must be filled and a number
+that is inconvenient to phrase can simply be dropped or blurred into a
+noun phrase. Once a value is gone at write time, no amount of care at
+read time recovers it—which is why the prose deficit is dominated by
+outright loss rather than near-miss drift.</p>
+<h4 id="a-ratedistortion-reading.">A rate–distortion reading.</h4>
+<p>Compaction is a lossy encoder under a rate budget, and format is the
+question of which distortion the encoder may introduce for a fixed rate
+<span class="citation" data-cites="colaco2026ratedistortion">(Colaco and
+Lahjouji 2026)</span>. Prose and typed blocks spend nearly the same rate
+here
+(<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>219.2</mn><annotation encoding="application/x-tex">219.2</annotation></semantics></math>
+vs
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>221.4</mn><annotation encoding="application/x-tex">221.4</annotation></semantics></math>
+tokens) but incur very different distortion on the numeric channel:
+prose lets the encoder trade exact quantities for fluent connective
+text, while a typed slot makes the quantity the cheapest thing to
+preserve. In Shannon’s terms the two formats are different source codes
+for the same message at the same rate; the typed code allocates its bits
+to the tokens that carry the task. The cascade compounds this—each
+re-encode is another chance to drop a value—so a format that has lost a
+third of its values by the final checkpoint degrades across the cascade
+while one that has lost two in nine hundred barely moves.</p>
+<h4 id="recommendations-for-agent-builders.">Recommendations for agent
+builders.</h4>
+<p>The practical reading is narrow and firm. Give compacted state a
+typed, quotable shape—named value slots, explicit combined quantities,
+explicit relations—rather than a prose retelling, whenever the state
+carries numbers that later steps must recompute against. Do not
+paraphrase a computed value in a summary sentence when a
+<code>name: value</code> line will carry it verbatim. Treat structure as
+the compaction format itself, not as an optional garnish on a prose
+summary; the measured benefit comes from the format the model is made to
+write, and it is largest exactly where agents most need it, on multi-hop
+composition of separately stored facts.</p>
+<h4 id="limitations.">Limitations.</h4>
+<p>The result rests on one synthetic task family—numeric recall and
+combination under filler pressure—chosen to make ground truth exact and
+the incident class reproducible; it is not a naturalistic agent
+workload. The three models are local, span
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>4</mn><annotation encoding="application/x-tex">4</annotation></semantics></math>B–<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>30</mn><annotation encoding="application/x-tex">30</annotation></semantics></math>B
+parameters, and duplicate one family (<code>qwen3</code>). Generation is
+temperature-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0</mn><annotation encoding="application/x-tex">0</annotation></semantics></math>
+single-sample, so we report no sampling variance. The compaction budget
+is a single operating point (about
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>120</mn><annotation encoding="application/x-tex">120</annotation></semantics></math>
+words /
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>256</mn><annotation encoding="application/x-tex">256</annotation></semantics></math>
+tokens); we do not trace the format effect across the budget curve. The
+write-time metric’s prose side is a heuristic and is exploratory only.
+None of these caveats touches the confirmatory McNemar test, which
+compares identical probes across regimes within model and so is immune
+to task-difficulty, model, and episode confounds.</p>
+<h4 id="what-the-result-does-not-claim.">What the result does not
+claim.</h4>
+<p>We make no claim about semantic or narrative content: prose may well
+preserve intent, rationale, or discourse structure that a typed block
+discards, and this experiment does not measure that. We make no claim
+about model internals or mechanisms of representation. And we do not
+claim the hypothesis is novel—that numbers are fragile under
+summarization, and that structure preserves them, is the explicit
+position of the flanking work in Section <a href="#sec:rw"
+data-reference-type="ref" data-reference="sec:rw">2</a>. The claim is
+bounded to numeric state: at matched token budgets, under cascaded
+compaction, the format the LLM writes changes numeric corruption from
+roughly one fact in three to under one in ten.</p>
+<h1 id="sec:repro">Reproducibility</h1>
+<p>Everything needed to reproduce the result is public in the rhombic
+repository (<a href="https://github.com/tasumermaf/rhombic"
+class="uri">https://github.com/tasumermaf/rhombic</a>) under
+<code>results/XR-001-externalization-pilot/</code>: the pre-registered
+protocol with its dated amendment (<code>PROTOCOL.md</code>), the seeded
+episodes and their ground truth (<code>tasks.json</code>; base seed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>77001</mn><annotation encoding="application/x-tex">77001</annotation></semantics></math>,
+episode seed
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>=</mo><annotation encoding="application/x-tex">=</annotation></semantics></math>
+base
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>+</mi><annotation encoding="application/x-tex">+</annotation></semantics></math>
+index), the run ledger (<code>manifest.json</code>), every LLM call with
+full prompt, response, token counts, and timing (<code>raw/</code>), the
+scored probe-level records (<code>results.json</code>), and the
+generated analysis (<code>analysis.md</code>, <code>RESULTS.md</code>).
+The runner (<code>scripts/xr001_externalization_pilot.py</code>) is
+standard-library-only, speaks to the Ollama HTTP API at
+<code>localhost:11434</code>, and updates its manifest after every
+episode so the sweep is safe to interrupt and resume; the manifest
+records the tasks-file SHA-256 and refuses to resume against a different
+task set. Protocol, runner, and pre-launch amendment were committed at
+<code>e2aa6fc</code>; two post-freeze runner guards (manifest hardening,
+no metric changes) landed by <code>bae4079</code>, the state the run
+executed; the confirmatory analysis is committed at
+<code>a777adb</code>. The run reported here used three local Ollama
+models on a single consumer laptop GPU (RTX 4090 Laptop,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>16</mn><annotation encoding="application/x-tex">16</annotation></semantics></math>
+GB) at
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>$</mi><mn>0</mn></mrow><annotation encoding="application/x-tex">\$0</annotation></semantics></math>
+marginal cost; wall time was
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>84</mn><annotation encoding="application/x-tex">84</annotation></semantics></math>
+minutes. Figures are regenerated deterministically from
+<code>results.json</code> by
+<code>paper/figures-xr001/make_figures.py</code>.</p>
+<h1 class="unnumbered" id="acknowledgments">Acknowledgments</h1>
+<p>Experimentation, analysis, and drafting were performed with a
+standing AI research collaborator (Claude, Anthropic); all numbers
+reported here were machine-verified against the frozen artifacts rather
+than restated from any model’s summary.</p>
+<h1 id="refs-h">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="list">
+<div id="ref-claudecode24686" class="csl-entry" role="listitem">
+<span class="nocase">anthropics/claude-code issue #24686</span>. 2026.
+<em>[BUG] Plans Made in Plan Mode Are <span>“Lost”</span> After
+Compacting Context</em>. GitHub issue, <a
+href="https://github.com/anthropics/claude-code/issues/24686"
+class="uri">https://github.com/anthropics/claude-code/issues/24686</a>.
+</div>
+<div id="ref-cassano2026composer" class="csl-entry" role="listitem">
+Cassano, Federico, and Sasha Rush. 2026. <em>Training Composer for
+Longer Horizons</em>. Cursor engineering blog, <a
+href="https://cursor.com/blog/self-summarization"
+class="uri">https://cursor.com/blog/self-summarization</a>.
+</div>
+<div id="ref-chen2026governance" class="csl-entry" role="listitem">
+Chen, Shiyang. 2026. <span>“Governance Decay: How Context Compaction
+Silently Erases Safety Constraints in Long-Horizon <span>LLM</span>
+Agents.”</span> <em>arXiv Preprint</em>.
+</div>
+<div id="ref-chen2026slipstream" class="csl-entry" role="listitem">
+Chen, Zhuofu, Rui Pan, Yinwei Dai, and Ravi Netravali. 2026.
+<span>“<span>Slipstream</span>: Trajectory-Grounded Compaction
+Validation for Long-Horizon Agents.”</span> <em>arXiv Preprint</em>.
+</div>
+<div id="ref-chhikara2025mem0" class="csl-entry" role="listitem">
+Chhikara, Prateek, Dev Khant, Saket Aryan, Taranjeet Singh, and Deshraj
+Yadav. 2025. <span>“<span>Mem0</span>: Building Production-Ready
+<span>AI</span> Agents with Scalable Long-Term Memory.”</span> <em>arXiv
+Preprint</em>.
+</div>
+<div id="ref-colaco2026ratedistortion" class="csl-entry"
+role="listitem">
+Colaco, Ashwin Gerard, and Nada Lahjouji. 2026. <span>“What to Keep,
+What to Forget: A Rate–Distortion View of Memory Compaction in
+<span>LLMs</span> and Agents.”</span> <em>arXiv Preprint</em>.
+</div>
+<div id="ref-factory2025compression" class="csl-entry" role="listitem">
+Factory Research. 2025. <em>Evaluating Context Compression for
+<span>AI</span> Agents</em>. Factory.ai engineering report, <a
+href="https://factory.ai/news/evaluating-compression"
+class="uri">https://factory.ai/news/evaluating-compression</a>.
+</div>
+<div id="ref-hong2025contextrot" class="csl-entry" role="listitem">
+Hong, Kelly, Anton Troynikov, and Jeff Huber. 2025. <em>Context Rot: How
+Increasing Input Tokens Impacts <span>LLM</span> Performance</em>.
+Chroma Research technical report, <a
+href="https://www.trychroma.com/research/context-rot"
+class="uri">https://www.trychroma.com/research/context-rot</a>.
+</div>
+<div id="ref-liu2023lost" class="csl-entry" role="listitem">
+Liu, Nelson F., Kevin Lin, John Hewitt, et al. 2024. <span>“Lost in the
+Middle: How Language Models Use Long Contexts.”</span> <em>Transactions
+of the Association for Computational Linguistics</em>.
+</div>
+<div id="ref-maynez2020faithfulness" class="csl-entry" role="listitem">
+Maynez, Joshua, Shashi Narayan, Bernd Bohnet, and Ryan McDonald. 2020.
+<span>“On Faithfulness and Factuality in Abstractive
+Summarization.”</span> <em>Proceedings of the 58th Annual Meeting of the
+Association for Computational Linguistics (ACL)</em>.
+</div>
+<div id="ref-mohamed2025brokentelephone" class="csl-entry"
+role="listitem">
+Mohamed, Amr, Mingmeng Geng, Michalis Vazirgiannis, and Guokan Shang.
+2025. <span>“<span>LLM</span> as a Broken Telephone: Iterative
+Generation Distorts Information.”</span> <em>Proceedings of the 63rd
+Annual Meeting of the Association for Computational Linguistics
+(ACL)</em>.
+</div>
+<div id="ref-packer2023memgpt" class="csl-entry" role="listitem">
+Packer, Charles, Sarah Wooders, Kevin Lin, et al. 2023.
+<span>“<span>MemGPT</span>: Towards <span>LLMs</span> as Operating
+Systems.”</span> <em>arXiv Preprint</em>.
+</div>
+<div id="ref-anthropic2025context" class="csl-entry" role="listitem">
+Rajasekaran, Prithvi, Ethan Dixon, Carly Ryan, and Jeremy Hadfield.
+2025. <em>Effective Context Engineering for <span>AI</span> Agents</em>.
+Anthropic engineering blog, <a
+href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents"
+class="uri">https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents</a>.
+</div>
+<div id="ref-rasmussen2025zep" class="csl-entry" role="listitem">
+Rasmussen, Preston, Pavlo Paliychuk, Travis Beauvais, Jack Ryan, and
+Daniel Chalef. 2025. <span>“<span>Zep</span>: A Temporal Knowledge Graph
+Architecture for Agent Memory.”</span> <em>arXiv Preprint</em>.
+</div>
+<div id="ref-yuan2026diagnosing" class="csl-entry" role="listitem">
+Yuan, Boqin, Yue Su, and Kun Yao. 2026. <span>“Diagnosing Retrieval Vs.
+Utilization Bottlenecks in <span>LLM</span> Agent Memory.”</span>
+<em>arXiv Preprint</em>.
+</div>
+<div id="ref-zhang2025ace" class="csl-entry" role="listitem">
+Zhang, Qizheng, Changran Hu, Shubhangi Upasani, et al. 2025.
+<span>“Agentic Context Engineering: Evolving Contexts for Self-Improving
+Language Models.”</span> <em>arXiv Preprint</em>.
+</div>
+<div id="ref-zhao2020quantity" class="csl-entry" role="listitem">
+Zhao, Zheng, Shay B. Cohen, and Bonnie Webber. 2020. <span>“Reducing
+Quantity Hallucinations in Abstractive Summarization.”</span>
+<em>Findings of the Association for Computational Linguistics: EMNLP
+2020</em>.
+</div>
+<div id="ref-zhu2026aging" class="csl-entry" role="listitem">
+Zhu, Jianing, Yeonju Ro, John Robertson, et al. 2026. <span>“Your Agents
+Are Aging Too: Agent Lifespan Engineering for Deployed Systems.”</span>
+<em>arXiv Preprint</em>.
+</div>
+</div>
+
+<footer>
+<p><em>Typed State Beats Prose</em> &middot; Timothy Bielec, Minta Carlson
+&middot; TASUMER MAF &middot; July 2026<br>
+Text licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY
+4.0</a>. Protocol, tasks, raw model transcripts, scoring code, and results
+are public in the
+<a href="https://github.com/tasumermaf/rhombic">rhombic repository</a>
+(experiment <code>XR-001</code>).</p>
+</footer>
+
+</main>
+</body>
+</html>
