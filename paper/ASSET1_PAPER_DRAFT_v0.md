@@ -116,7 +116,8 @@ The costs are reported alongside the benefits, here and in the discussion:
 parameters only; 6 coarse tasks, so the label-granularity axis (Section 2)
 cuts both ways and we claim nothing about fine-grained regimes; midpoint
 merges only; validation-loss-based labels; and a distance-only baseline with
-a few points of CV-seed sensitivity, pinned and reported where it appears.
+a few points of fold-scheme (naive vs group-aware) sensitivity, with the
+fold configuration pinned and the fragility reported where it appears.
 
 **Contributions.** The bank artifact, and five results measured against it
 exactly once:
@@ -437,15 +438,20 @@ interpretation of which block drives the gain.
 
 The classifier is logistic regression under 5-fold cross-validation with
 the fold seed pinned at `seed = 0` and `n_boot = 1000` bootstrap
-replicates for the confidence intervals. The pinned seed is a Director
-write-up requirement, because the distance-only baseline is CV-seed-
-sensitive: the Director's independent re-run of the 2-feature baseline
-gave AUC 0.686/0.667 (Qwen/Llama) against the reported 0.675/0.713 — a
-few points of CV-seed sensitivity on a 2-feature model over 120 points.
-The full-model result and the existence of the margin are not in
-question, but the lower end of the margin-over-distance CI depends on the
-baseline, so the seed is pinned and the sensitivity reported. The
-headline numbers are group-aware: StratifiedGroupKFold over run-overlap
+replicates for the confidence intervals. The pinned fold configuration
+(scheme, seed, and split count) is a Director write-up requirement,
+because the distance-only baseline is fold-scheme-sensitive: the
+Director's independent from-scratch re-run used a plain StratifiedKFold —
+the naive scheme — and reproduced the report's naive block exactly
+(distance AUC 0.686/0.667 Qwen/Llama, full 0.995/0.952), while the
+headline uses the group-aware scheme (distance 0.675/0.713). The
+~0.02–0.05 baseline gap is fold-scheme variance on a 2-feature model over
+120 points, not seed noise (the diagnosis was corrected in the
+re-versioned sign-off). The full-model result and the existence of the
+margin are not in question, but the lower end of the margin-over-distance
+CI depends on the baseline, so the fold configuration is pinned and the
+fragility reported. The headline numbers are group-aware:
+StratifiedGroupKFold over run-overlap
 connected components with a component-cluster bootstrap, guarding against
 dyadic dependence between pairs that share an endpoint run; naive
 pair-level CV is reported as an explicitly anti-conservative secondary
@@ -541,8 +547,8 @@ applying the standardization independently and confirming in source that
 were reproduced exactly from the 360 per-eval rows per family; the D3
 conflict rate and full-model AUC and the D-aux correlations were
 reproduced from per-pair and per-run records. Every headline reproduced;
-the one note — the D3 distance-baseline seed sensitivity — is reported in
-§3.3.3 and wherever the baseline appears. The delivery report itself
+the one note — the D3 distance-baseline fold-scheme sensitivity — is
+reported in §3.3.3 and wherever the baseline appears. The delivery report itself
 states that all numbers trace to result trees on disk and none is restated
 from memory; the same rule governs this paper.
 
@@ -821,14 +827,17 @@ component-cluster bootstrap); because the vertex-disjoint design produced
 correct, and group-aware and naive numbers agree to within CV-fold reshuffle
 noise (llama full 0.962 group-aware vs 0.952 naive; qwen 0.995 under both).
 
-**The distance-only baseline is CV-seed-sensitive.** The fold seed is pinned
-(seed = 0, n_splits = 5), and it matters for the baseline: the Director's
-independent re-run of the 2-feature distance-only model gave 0.686 (qwen) /
-0.667 (llama) against the reported 0.675 / 0.713 — a few points of CV-seed
-sensitivity on a 2-feature model over 120 points. The full-model result and
-the existence of the margin are not in question, but the lower end of the
-margin-over-distance CI depends on this baseline, which is why the seed is
-pinned and the sensitivity reported rather than averaged away.
+**The distance-only baseline is fold-scheme-sensitive.** The same
+naive-vs-group-aware split visible in the full model above is larger for the
+baseline: the Director's independent from-scratch re-run, which used a plain
+StratifiedKFold (the naive scheme), reproduced the report's naive block
+exactly — distance 0.686 (qwen) / 0.667 (llama), full 0.995 / 0.952 —
+against the group-aware headline's 0.675 / 0.713. The ~0.02–0.05 gap is
+fold-scheme variance on a 2-feature model over 120 points, not seed noise.
+The full-model result and the existence of the margin are not in question,
+but the lower end of the margin-over-distance CI depends on this baseline,
+which is why the fold configuration (scheme, seed = 0, n_splits = 5) is
+pinned and the fragility reported rather than averaged away.
 
 **Interpretive caveat.** Invertible bridges are a gauge on the update column
 space, so the principal-angle features are provably insensitive to bridge
@@ -1032,14 +1041,16 @@ descriptively; per-cell conflict-rate estimates are correspondingly noisy,
 and the headline AUC is a claim about the uniform pair population, not any
 single cell.
 
-**D3 baseline seed-sensitivity.** The cross-validation configuration is
-pinned: fold seed 0, 5 splits, logistic model, 1,000 bootstrap resamples.
-The Director's independent re-run of the 2-feature distance-only baseline
-gave 0.686 / 0.667 against the reported 0.675 / 0.713 — a few points of
-CV-seed sensitivity on a 2-feature model over 120 points. The full-model
-result and the existence of the margin are not in question, but the lower
-end of the margin-over-distance CI depends on the baseline, which is why the
-seed is pinned and the sensitivity is reported rather than averaged away.
+**D3 baseline fold-scheme sensitivity.** The cross-validation configuration
+is pinned: group-aware StratifiedGroupKFold, fold seed 0, 5 splits, logistic
+model, 1,000 bootstrap resamples. The Director's independent naive-CV re-run
+reproduced the report's naive block exactly (distance 0.686 / 0.667, full
+0.995 / 0.952); the group-aware headline reads 0.675 / 0.713 for the
+baseline — a fold-scheme difference of ~0.02–0.05 on a 2-feature model over
+120 points, not seed noise. The full-model result and the existence of the
+margin are not in question, but the lower end of the margin-over-distance CI
+depends on the baseline, which is why the fold configuration is pinned and
+the fragility is reported rather than averaged away.
 
 **D-aux heterogeneity.** The pooled r = 0.300 conceals sign-varying
 within-task structure: math is positive in both families (0.549 llama, 0.336
@@ -1076,8 +1087,10 @@ independently and `familywise_standardize` confirmed unsupervised in source;
 all 14 D2 per-kind means reproduced exactly from per-eval rows; the D3
 conflict rate (0.858) and full-model AUC reproduced from raw labels and
 pairs; and the D-aux correlations reproduced from the 480 per-run pairs.
-The one deviation found — the D3 distance-baseline CV-seed sensitivity —
-is reported above as a limitation, per the Director's write-up requirement.
+The one deviation found — the D3 distance-baseline fold-scheme sensitivity,
+initially misdiagnosed as seed noise and corrected in the Director's
+re-versioned sign-off — is reported above as a limitation, per the
+Director's write-up requirement.
 
 Upstream of the bundle, the analysis layer itself is the reproducibility
 mechanism. A completeness interlock (`require_complete_bank`) refused every
