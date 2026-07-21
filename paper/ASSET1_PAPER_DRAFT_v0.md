@@ -160,11 +160,13 @@ checkpoints are legible objects: attribute classification and retrieval over
 collections of 10k+ adapters, using a QR→SVD canonicalization and
 symmetry-aware encoders that substantially outperform raw-flattened
 baselines. Our regime contrast with W2T runs on the label-granularity and
-task-structure axis: W2T classifies 10k+ fine-grained attribute classes,
-where even its best models leave large headroom; we classify 6 coarse tasks,
-where a linear probe on canonical features reaches ceiling. The contrast is
-not attributable to collection scale — W2T's collections are themselves
-same-base, same-rank families (their Table 6) — so the honest distinguishing
+task-structure axis: W2T classifies fine-grained attribute labels (up to 312
+classes) over collections of 10k+ adapters, where even its best models leave
+large headroom; we classify 6 coarse tasks, where a linear probe on
+canonical features reaches ceiling. The contrast is not attributable to
+collection scale — W2T's collections are themselves same-base, same-rank
+families (their Table 6; Stable Diffusion vision adapters, a modality
+difference we note but do not lean on) — so the honest distinguishing
 variable is what the labels ask of the weights, not how many adapters sit in
 the pile. Our within-family raw-vs-canonical comparison is the complement of
 their result, not a contradiction of it: both find that the raw
@@ -186,8 +188,9 @@ this operating point.
 training-time form of this problem: predicting merge conflict with access to
 the training process. Our D3 result is scoped exactly as our experiment card
 scoped it — weight-only and post-hoc, from the two adapters' tensors alone,
-with no training access — and we claim only that regime. MERGE-PEFT
-provides benchmark territory adjacent to both forms. The two regimes answer
+with no training access — and we claim only that regime. Their MERGE-PEFT
+benchmark (introduced in the same work) is the shared evaluation territory
+both forms will eventually meet on. The two regimes answer
 different operational questions: theirs, whether a conflict can be
 anticipated while training is still running; ours, whether a repository of
 finished adapters can be triaged for mergeability with nothing but the
@@ -196,7 +199,8 @@ files.
 **Weight-only diagnostics in kind.** Reading properties of a model from its
 weights alone has precedent outside merge prediction: backdoor forensics
 from adapter weights (arXiv:2602.15195, with a 500+-adapter benchmark) and
-WeightWatcher-PEFT's overfit-adjacent weight diagnostics, the neighborhood
+WeightWatcher's PEFT mode (Martin & Mahoney's spectral tool applied to the
+BA delta matrices), whose overfit-adjacent diagnostics are the neighborhood
 our D-aux re-verification lives in. Our contribution to this kind is less
 any single detector than the evidentiary standard: a pre-registered bank
 large enough to shrink a pilot correlation honestly.
@@ -208,12 +212,17 @@ discipline measured in rhombic-xr001 and enforced here by the experiment
 card and Director-decision protocol. We cite it for method provenance, not
 for numbers; no result from that work enters this paper.
 
-<!-- Writer's note (not for publication): per the outline's verification
-note, the arXiv IDs and paper claims in this section (W2T 2603.15990,
-2606.19549, 2604.08844, 2602.15195, MERGE-PEFT, WeightWatcher-PEFT) are
-copied from docs/LITERATURE_WATCH_2026-07-03.md and must be re-checked
-against the papers themselves before submission. W2T Table 6 (same-base/
-same-rank collections) and Table 1 claims likewise. -->
+<!-- Citation verification pass (2026-07-21, fresh-context agent, R4):
+all four arXiv IDs fetched and VERIFIED against abstracts/full text —
+2603.15990 (W2T, title verbatim), 2604.08844 (Spectral Geometry; note
+n=38, one family), 2606.19549 (MergeProbe/MERGE-PEFT; training-time
+scoping confirmed at all six citation sites), 2602.15195 (backdoor
+forensics, 600/family benchmark). Three wording fixes applied in this
+pass: 10k+ = ADAPTER count not class count (classes <= 312) at three
+sites; MERGE-PEFT re-attributed to 2606.19549 itself; "WeightWatcher-
+PEFT" -> WeightWatcher PEFT mode (Martin & Mahoney) + blog citation.
+Remaining for the LaTeX pass: full BibTeX entries incl. the
+WeightWatcher tool/blog reference. -->
 
 # 3. Experimental design and methods
 
@@ -607,8 +616,8 @@ The reading: task identity lives in the adapter weights, but only becomes
 *legible* once the GL(r) gauge is removed. The vocab-signature arm matches
 canonical at ceiling in both kv modes, so the result is not specific to one
 canonicalization route. Within a controlled family at coarse label
-granularity — 6 tasks here, against the 10k+ fine-grained attribute classes
-of the W2T setting (Section 2) — a linear probe suffices once the
+granularity — 6 tasks here, against the up-to-312-class fine-grained label
+spaces of the W2T setting (Section 2) — a linear probe suffices once the
 gauge is gone; canonicalization, not classifier capacity, is the binding
 constraint.
 
@@ -909,9 +918,10 @@ nuisance variation — the GL(r) factorization gauge within a family, the
 scale gauge between families — dominates raw weight coordinates and obscures
 task structure that is intact underneath. Task identity is gauge-obscured,
 not absent. The scope of this claim runs on the label-granularity axis: our
-six coarse tasks are the opposite regime from W2T's 10k+ fine-grained
-attribute classes, and we make no claim about what a linear probe recovers,
-raw or canonical, at that granularity.
+six coarse tasks are the opposite regime from W2T's fine-grained attribute
+label spaces (up to 312 classes over 10k+-adapter collections), and we make
+no claim about what a linear probe recovers, raw or canonical, at that
+granularity.
 
 **The backbone is load-bearing; the trained bridge deviation is real but
 cheap.** D2 and D-aux look contradictory until they are read together. D-aux
@@ -991,7 +1001,7 @@ prediction hold at 7B+ scale or across architecture classes is unmeasured.
 **Six coarse tasks.** The label-granularity axis cuts both ways. Our regime
 — 6 coarse task labels, 40 seeds each — is where a linear probe on canonical
 features reaches ceiling; we make no claim about fine-grained regimes such as
-W2T's 10k+ attribute classes, in either direction. Ceiling accuracy on six
+W2T's up-to-312-class attribute label spaces, in either direction. Ceiling accuracy on six
 classes also means H1 cannot rank representations above the lock: canonical
 and vocab-signature all sit at 1.0000, and separating them would need a
 harder label space.
