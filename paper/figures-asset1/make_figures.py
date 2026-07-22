@@ -378,8 +378,8 @@ def f7(daux_report: dict) -> None:
         if fixed is not None:
             ax.scatter([fixed], [y], s=70, color=color, edgecolor="#444444",
                        marker="D", zorder=3)
-            ax.text(fixed + 0.02, y, f"{fixed:.3f} (no CI on record)",
-                    va="center", fontsize=8.5, color="#666666")
+            ax.text(fixed - 0.03, y, f"{fixed:.3f} (no CI on record)",
+                    va="center", ha="right", fontsize=8.5, color="#666666")
         else:
             c = cells[key]
             ci = c["pearson_ci"]
