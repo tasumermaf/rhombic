@@ -1,0 +1,52 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bielec and Carlson(2026)]{bielec2026typedstate}
+Timothy Bielec and Minta Carlson.
+\newblock Typed state beats prose: A pre-registered measurement of numeric
+  corruption under agent context compaction, 2026.
+\newblock rhombic XR-001; \url{https://tasumermaf.com/rhombic/typed-state/}.
+
+\bibitem[Martin(2024)]{martin2024wwpeft}
+Charles~H. Martin.
+\newblock Evaluating fine-tuned {LLMs} with {WeightWatcher} part {II}:
+  {PEFT}/{LoRA} models.
+\newblock \url{https://calculatedcontent.com}, January 2024.
+\newblock Blog post.
+
+\bibitem[Martin and Mahoney()]{martinmahoney_weightwatcher}
+Charles~H. Martin and Michael~W. Mahoney.
+\newblock {WeightWatcher}.
+\newblock \url{https://github.com/CalculatedContent/WeightWatcher}.
+\newblock Open-source weight-analysis tool.
+
+\bibitem[Paul(2026)]{paul2026spectral}
+Roi Paul.
+\newblock Spectral geometry of {LoRA} adapters, April 2026.
+\newblock arXiv:2604.08844.
+
+\bibitem[Puertolas~Merenciano et~al.(2026)Puertolas~Merenciano, Vasyagina, Zhu,
+  Ferrando, and Chaudhary]{backdoor2026}
+David Puertolas~Merenciano, Ekaterina Vasyagina, Kevin Zhu, Javier Ferrando,
+  and Maheep Chaudhary.
+\newblock Weight space detection of backdoors in {LoRA} adapters, February
+  2026.
+\newblock arXiv:2602.15195.
+
+\bibitem[Tang et~al.(2026)Tang, Zhang, Li, Chen, Zhao, and
+  Wang]{mergeprobe2026}
+Lin Tang, Wei Zhang, Jing Li, Hongyu Chen, Ming Zhao, and Yuxuan Wang.
+\newblock Predicting mergeability of parameter-efficient fine-tuning updates,
+  June 2026.
+\newblock arXiv:2606.19549.
+
+\bibitem[{W2T}(2026)]{w2t2026lora}
+{W2T}.
+\newblock {LoRA} weights already know what they can do, March 2026.
+\newblock arXiv:2603.15990.
+
+\end{thebibliography}
