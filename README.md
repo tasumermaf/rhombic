@@ -13,26 +13,71 @@ A benchmarking library that compares cubic (6-connected) and FCC/rhombic
 dodecahedral (12-connected) lattice topologies across graph theory,
 spatial operations, and signal processing.
 
-> **Research status (July 2026):** Paper 1, *The Shape of the Cell*, is the
-> program's one completed paper; it has not yet been published or submitted.
-> Papers 2–4 are working drafts under active revision. Corrections and
-> retractions are tracked openly — see the Retracted table in
+> **Research status (July 2026):** two papers are **released** — published
+> from this repository, internally audited, not at a formal venue:
+> **Asset-1, *The Gauge Is the Obstacle*** (July 29, 2026) and
+> **XR-001, *Typed State Beats Prose*** (July 14, 2026). Paper 1, *The Shape
+> of the Cell*, is complete but neither published nor submitted; Papers 2–4
+> are working drafts under active revision. Corrections and retractions are
+> tracked openly — see the Retracted table in
 > [results/EXPERIMENT_TRACKER.md](results/EXPERIMENT_TRACKER.md) and the
 > equal-edge control in
 > [results/EE-001-equal-edge-control/](results/EE-001-equal-edge-control/RESULTS.md).
 >
-> **Pre-registration discipline (July 2026):** the program's next evidence
-> base is a 480-run adapter bank (two model families × six tasks × forty
-> seeds), currently training. Every analysis of it (D1/D2/D3/D-aux) was
-> pre-registered before the bank completes, and the analysis tools refuse
-> to run on a partial bank — a completeness interlock in code, not a
-> convention. Null-model calibration runs before trained arms (BM-000,
-> BM-000b hub-motif nulls), and the BM-004 runner refuses to launch any
-> arm until its positive-control gate passes. Designs are reviewed by an
-> independent referee whose rulings are recorded verbatim
+> **Pre-registration discipline (July 2026):** the Asset-1 evidence base is a
+> 480-run adapter bank (two model families × six tasks × forty seeds), now
+> complete. Every analysis of it (D1/D2/D3/D-aux) was pre-registered before
+> the bank finished, and the analysis tools refuse to run on a partial bank —
+> a completeness interlock in code, not a convention. Null-model calibration
+> runs before trained arms (BM-000, BM-000b hub-motif nulls), and the BM-004
+> runner refuses to launch any arm until its positive-control gate passes.
+> Designs are reviewed by an independent referee whose rulings are recorded
+> verbatim
 > ([docs/DIRECTOR_DECISIONS_2026-07-06.md](docs/DIRECTOR_DECISIONS_2026-07-06.md),
 > [docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md](docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md));
 > deviations are dated amendments, never silent revisions.
+
+## Released Research
+
+### Asset-1: The Gauge Is the Obstacle (July 2026)
+
+*Task Identity, Cross-Family Transfer, and Merge-Conflict Prediction from
+Adapter Weights Alone* — Timothy Bielec and Minta Carlson.
+[Paper](paper/rhombic-asset1.tex) ·
+[page](https://tasumermaf.com/rhombic/gauge/) ·
+[features dataset](https://huggingface.co/datasets/timotheospaul/rhombic-asset1-features) ·
+[audit ledger](paper/audit/round-2/ADVERSARY_LADDER_LEDGER_ASSET1.md)
+
+A pre-registered bank of 480 LoRA adapters (2 model families × 6 tasks ×
+40 seeds) trained on one local GPU, then read out by weights alone. Raw
+adapter weights fail to identify the training task (leave-one-out 0.0792 /
+0.1375 against chance 0.1667) while GL(*r*)-gauge-canonical features reach
+1.0000 — the obstacle is the parameterization, not the information. The
+pre-registered no-transfer prediction was **refuted by its own triviality
+control**: raw transfer-at-chance was a family-scale artifact, and
+standardized transfer runs 0.7375–0.7833. Swapping trained bridges across
+tasks costs less than 0.001 nats, where destroying the identity backbone
+costs +2.8 / +3.8. Weight-only features predict midpoint-merge conflict at
+group-aware AUC 0.995 / 0.962. A pilot correlation of *r* = 0.888 shrank
+honestly to *r* = 0.300 at bank scale. Two of five outcomes went against
+the pre-registration, and they are the credibility of the other three.
+Audited by a 117-finding adversarial ladder, with every headline number
+independently re-derived by an isolated Director instance.
+
+### XR-001: Typed State Beats Prose (July 2026)
+
+*A Pre-Registered Measurement of Numeric Corruption Under Agent Context
+Compaction* — Timothy Bielec and Minta Carlson.
+[Read it](https://tasumermaf.com/rhombic/typed-state/) ·
+[paper](paper/rhombic-xr001.tex) ·
+[pre-registration](results/XR-001-externalization-pilot/PROTOCOL.md)
+
+At matched token budgets, prose re-encoding corrupts **36.4%** of numeric
+facts where typed state blocks corrupt **9.4%** (paired exact McNemar
+*p* = 3.524 × 10⁻²¹, direction unanimous across three models). A write-time
+decomposition puts most of the prose deficit at the moment of compaction:
+typed blocks retain 99.8% of entity values across cascaded checkpoints,
+prose 65.2%.
 
 ## The Numbers
 
@@ -360,9 +405,13 @@ edge weights, no controller — and is the current experimental frontier
 
 ### Papers
 
-Status: Paper 1 is **complete** (not yet published). Papers 2–4 are
-**working drafts** — internally audited, under revision, not submitted.
+Status: Asset-1 and XR-001 are **released** (published from this repository,
+not at a formal venue). Paper 1 is **complete** (not yet published). Papers
+2–4 are **working drafts** — internally audited, under revision, not
+submitted.
 
+- [Asset-1: The Gauge Is the Obstacle](paper/rhombic-asset1.tex) — task identity, cross-family transfer, and merge-conflict prediction from adapter weights alone (480-adapter pre-registered bank). Released July 29, 2026. [Page](https://tasumermaf.com/rhombic/gauge/) · [dataset](https://huggingface.co/datasets/timotheospaul/rhombic-asset1-features)
+- [XR-001: Typed State Beats Prose](paper/rhombic-xr001.tex) — numeric corruption under agent context compaction, format as the sole variable. Released July 14, 2026. [Page](https://tasumermaf.com/rhombic/typed-state/)
 - [Paper 1: The Shape of the Cell](paper/rhombic.tex) — four-domain topology comparison. Complete.
 - [Paper 2: Structured Edge Weights Amplify FCC Lattice Topology](paper/rhombic-paper2.tex) — bottleneck resilience under heterogeneous weights. Draft.
 - [Paper 3: The Learnable Bridge](paper/rhombic-paper3.tex) — cybernetic feedback programs coupling topology in multi-channel LoRA; interpretable adapter diagnostics (13 experiments, 4 model families). Draft.

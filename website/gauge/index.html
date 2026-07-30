@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Gauge Is the Obstacle — TASUMER MAF</title>
+<meta name="description" content="A pre-registered bank of 480 LoRA adapters read out by weights alone: raw weights fail to identify the training task at 0.0792/0.1375 where gauge-canonical features reach 1.0000, plus cross-family transfer, bridge-swap ablation, and merge-conflict prediction.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c1b1a; --paper:#fdfdfb; --muted:#6b6660; --accent:#B34444;
+  --rule:#e4e1dc; --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 1.06rem/1.72 'Source Serif 4',Georgia,serif;
+  -webkit-font-smoothing:antialiased}
+main{max-width:44rem;margin:0 auto;padding:4.5rem 1.4rem 6rem}
+header.paper h1{font-family:'Cormorant Garamond',serif;font-weight:700;
+  font-size:2.5rem;line-height:1.15;margin:0 0 .4rem;letter-spacing:-.01em}
+header.paper .subtitle{font-family:'Cormorant Garamond',serif;font-weight:500;
+  font-size:1.45rem;line-height:1.3;color:var(--ink);margin:0 0 2rem}
+.byline{margin:0 0 .4rem;font-size:1rem;line-height:1.55}
+.byline .lab{font-variant:small-caps;letter-spacing:.08em;font-weight:600}
+.byline .date{color:var(--muted)}
+.linkrow{margin:1.4rem 0 0;font-size:.9rem;font-family:var(--mono);
+  letter-spacing:.01em}
+.linkrow a{margin-right:1.1rem}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:var(--accent)}
+hr.rule{border:0;border-top:1px solid var(--rule);margin:2.6rem 0}
+.abstract{border-left:3px solid var(--rule);padding:.1rem 0 .1rem 1.3rem;
+  margin:0 0 2.2rem}
+.abstract h2{font-family:'Cormorant Garamond',serif;font-size:1.3rem;
+  margin:0 0 .5rem}
+.abstract p{margin:.4rem 0;font-size:.98rem}
+nav.toc{font-size:.95rem;margin:0 0 1rem}
+nav.toc ol{margin:.4rem 0 0;padding-left:1.4rem}
+nav.toc li{margin:.15rem 0}
+h1{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.85rem;
+  line-height:1.2;margin:3rem 0 .9rem}
+h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.4rem;
+  margin:2.2rem 0 .6rem}
+p{margin:0 0 1.05rem}
+strong{font-weight:600}
+code{font-family:var(--mono);font-size:.84em;background:#f3f1ed;
+  padding:.08em .32em;border-radius:3px}
+pre{overflow-x:auto;background:#f3f1ed;padding:1rem;border-radius:4px}
+pre code{background:none;padding:0}
+.tablewrap{overflow-x:auto;margin:1.4rem 0}
+table{border-collapse:collapse;margin:0 auto;font-size:.92rem;
+  font-variant-numeric:tabular-nums}
+th,td{padding:.4rem .8rem;border-bottom:1px solid var(--rule);text-align:left}
+thead th{border-bottom:2px solid var(--ink);font-weight:600}
+caption{caption-side:top;text-align:left;font-size:.88rem;color:var(--muted);
+  padding-bottom:.5rem}
+figure{margin:2rem 0}
+figure img{max-width:100%;height:auto;display:block;margin:0 auto}
+figcaption{font-size:.88rem;color:var(--muted);margin-top:.7rem;
+  line-height:1.5}
+.citation{color:inherit}
+#refs{font-size:.92rem;line-height:1.55}
+#refs .csl-entry{margin:0 0 .7rem;padding-left:1.6rem;text-indent:-1.6rem}
+footer{margin-top:4rem;padding-top:1.6rem;border-top:1px solid var(--rule);
+  font-size:.87rem;color:var(--muted);line-height:1.7}
+@media (max-width:600px){
+  main{padding-top:3rem}
+  header.paper h1{font-size:2rem}
+  header.paper .subtitle{font-size:1.2rem}
+}
+</style>
+</head>
+<body>
+<main>
+
+<header class="paper">
+  <h1>The Gauge Is the Obstacle</h1>
+  <p class="subtitle">Task Identity, Cross-Family Transfer, and Merge-Conflict
+  Prediction from Adapter Weights Alone</p>
+  <p class="byline"><span class="lab">TASUMER MAF</span><br>
+  Timothy Bielec, Minta Carlson<br>
+  <span class="date">July 2026</span></p>
+  <p class="linkrow">
+    <a href="rhombic-asset1.pdf">PDF</a>
+    <a href="https://github.com/tasumermaf/rhombic">GitHub</a>
+    <a href="https://huggingface.co/datasets/timotheospaul/rhombic-asset1-features">Dataset</a>
+    <a href="https://github.com/tasumermaf/rhombic/blob/main/paper/audit/round-2/ADVERSARY_LADDER_LEDGER_ASSET1.md">Audit ledger</a>
+    <a href="https://tasumermaf.com/rhombic/">rhombic</a>
+  </p>
+</header>
+
+<hr class="rule">
+
+<section class="abstract">
+<h2>Abstract</h2>
+<p>We train a pre-registered bank of 480 LoRA adapters&mdash;2 model families
+&times; 6 tasks &times; 40 seeds (Qwen2.5-1.5B-Instruct and
+Llama-3.2-1B-Instruct)&mdash;and run five locked weight-only analyses against
+it exactly once, under a completeness interlock, with every open analytical
+choice pinned in a dated ruling before the analysis that consumed it
+ran&mdash;all but one by an independent Director before the bank completed;
+the exception, the D3 pair design, was declared minutes after completion,
+before any pairs, merges, or labels existed, and ratified by the Director on
+review. (1) Raw adapter weights do not reveal their training task
+(leave-one-out accuracy 0.0792 qwen / 0.1375 llama, both failing the
+1.5&times;-chance lock at chance 0.1667), while the GL(<em>r</em>)-gauge-canonical
+and vocab-signature representations identify all six tasks at 1.0000,
+permutation <em>p</em> = 0.000999. (2) Our pre-registered prediction that task
+structure would <em>not</em> transfer across families is refuted&mdash;and
+refuted specifically by the triviality control added in review: raw
+transfer-at-chance was a family-scale artifact (family-identity probe 1.0000
+on raw features), and shift-controlled transfer runs 0.7375&ndash;0.7833
+(binomial <em>p</em> &le; 1.20&times;10<sup>&minus;84</sup>). (3) The identity
+backbone is the load-bearing structure: swapping trained bridges across tasks
+costs less than +0.001 nats of validation loss; only full-entry permutation
+that destroys the backbone costs +2.8086 (qwen) / +3.8365 (llama).
+(4) Weight-only features predict midpoint-merge conflict at group-aware AUC
+0.995 [0.983, 1.000] (qwen) / 0.962 [0.898, 0.999] (llama), a +0.320 / +0.249
+margin over a distance-only baseline with both margin CIs excluding
+0&mdash;in the weight-only, post-hoc regime, distinct from the training-time
+form of merge-conflict prediction <span class="citation">(<a
+href="https://arxiv.org/abs/2606.19549">Tang et al. 2026</a>)</span>. (5) A
+pilot bridge-deviation &harr; generalization-gap correlation of <em>r</em> =
+0.888 shrinks to <em>r</em> = 0.300 [0.175, 0.415] pooled at bank
+scale&mdash;real, modest, and heterogeneous within task. Every headline was
+independently recomputed from per-item data by the Director; Section 3.4
+records the scope of each re-derivation. Two of the five outcomes went against
+us, and they are the credibility of the other three; costs and limitations are
+reported alongside benefits.</p>
+</section>
+
+<hr class="rule">
+<p><strong>Keywords:</strong> LoRA, parameter-efficient fine-tuning, weight
+space, gauge symmetry, model merging, pre-registration</p>
+
+<h1 id="sec:headline">Headline results</h1>
+
+<p>Five weight-only analyses, locked before the bank completed and run against
+it exactly once:</p>
+
+<ul>
+<li><p><strong>The artifact.</strong> A 480-adapter pre-registered bank &mdash;
+2 families &times; 6 tasks &times; 40 seeds &mdash; trained on a single local
+GPU.</p></li>
+<li><p><strong>Task identity.</strong> Raw weights fail task identification
+(0.0792 / 0.1375 against chance 0.1667) while GL(<em>r</em>)-gauge-canonical
+features reach 1.0000. The obstacle is the parameterization, not the
+information.</p></li>
+<li><p><strong>Cross-family transfer.</strong> The pre-registered no-transfer
+prediction was <strong>refuted by its own triviality control</strong>:
+standardized transfer runs 0.7375&ndash;0.7833.</p></li>
+<li><p><strong>What carries the structure.</strong> Bridge swaps cost less than
+0.001 nats; destroying the backbone costs +2.8 / +3.8.</p></li>
+<li><p><strong>Merge conflict.</strong> Weight-only merge-conflict prediction
+at group-aware AUC 0.995 / 0.962.</p></li>
+<li><p><strong>Honest shrinkage.</strong> A pilot correlation of <em>r</em> =
+0.888 shrank to <em>r</em> = 0.300 at bank scale.</p></li>
+</ul>
+
+<p>The paper was audited by a 117-finding adversarial ladder, and every number
+was independently re-derived by an isolated Director instance.</p>
+
+<h1 id="sec:artifacts">Artifacts</h1>
+
+<p>The paper source, the analysis code, the pre-registration cards, the dated
+rulings, and the full audit ledger are public in the rhombic repository. The
+extracted adapter features are published as a dataset; the bank itself is held
+locally with its manifest and trainer configuration recorded in the paper.</p>
+
+<div class="tablewrap"><table>
+<thead>
+<tr><th>Artifact</th><th>Where</th></tr>
+</thead>
+<tbody>
+<tr><td>Paper (PDF)</td><td><a href="rhombic-asset1.pdf">rhombic-asset1.pdf</a></td></tr>
+<tr><td>Paper source (LaTeX)</td><td><a href="https://github.com/tasumermaf/rhombic/blob/main/paper/rhombic-asset1.tex"><code>paper/rhombic-asset1.tex</code></a></td></tr>
+<tr><td>Repository</td><td><a href="https://github.com/tasumermaf/rhombic">github.com/tasumermaf/rhombic</a></td></tr>
+<tr><td>Adapter features</td><td><a href="https://huggingface.co/datasets/timotheospaul/rhombic-asset1-features">timotheospaul/rhombic-asset1-features</a></td></tr>
+<tr><td>Audit ledger</td><td><a href="https://github.com/tasumermaf/rhombic/blob/main/paper/audit/round-2/ADVERSARY_LADDER_LEDGER_ASSET1.md">117 findings, dispositions on record</a></td></tr>
+<tr><td>Full audit report</td><td><a href="https://github.com/tasumermaf/rhombic/blob/main/paper/audit/round-2/full-audit-report.md"><code>paper/audit/round-2/</code></a></td></tr>
+</tbody>
+</table></div>
+
+<h1 id="sec:also">Also from this program</h1>
+
+<p><a href="../typed-state/"><strong>Typed State Beats Prose</strong></a>
+(XR-001, July 2026) &mdash; a pre-registered, matched-budget measurement of
+numeric corruption under agent context compaction: prose re-encoding corrupts
+36.4% of numeric facts where typed state blocks corrupt 9.4%, paired McNemar
+<em>p</em>&thinsp;=&thinsp;3.524&times;10<sup>&minus;21</sup>.</p>
+
+<footer>
+<p><em>The Gauge Is the Obstacle</em> &middot; Timothy Bielec, Minta Carlson
+&middot; TASUMER MAF &middot; July 2026<br>
+Text licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY
+4.0</a>. Pre-registration cards, analysis code, dated rulings, and the full
+adversarial audit ledger are public in the
+<a href="https://github.com/tasumermaf/rhombic">rhombic repository</a>
+(experiment <code>Asset-1</code>).</p>
+</footer>
+
+</main>
+</body>
+</html>
