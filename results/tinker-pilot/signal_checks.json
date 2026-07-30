@@ -1,0 +1,205 @@
+{
+  "runs": [
+    "agnews_0",
+    "agnews_1",
+    "alpaca_0",
+    "alpaca_1",
+    "math_0",
+    "math_1"
+  ],
+  "task_of": {
+    "agnews_0": "agnews",
+    "agnews_1": "agnews",
+    "alpaca_0": "alpaca",
+    "alpaca_1": "alpaca",
+    "math_0": "math",
+    "math_1": "math"
+  },
+  "seed_of": {
+    "agnews_0": "0",
+    "agnews_1": "1",
+    "alpaca_0": "0",
+    "alpaca_1": "1",
+    "math_0": "0",
+    "math_1": "1"
+  },
+  "norms": {
+    "agnews_0": {
+      "norm_A": 53.34617293642487,
+      "norm_B": 19.8343259060622,
+      "ratio_B_over_A": 0.3718041016681683
+    },
+    "agnews_1": {
+      "norm_A": 53.342008476700414,
+      "norm_B": 19.659254059576213,
+      "ratio_B_over_A": 0.3685510654920934
+    },
+    "alpaca_0": {
+      "norm_A": 53.11958190725472,
+      "norm_B": 16.094479672164727,
+      "ratio_B_over_A": 0.30298581228039845
+    },
+    "alpaca_1": {
+      "norm_A": 53.12540677644987,
+      "norm_B": 16.24987638020766,
+      "ratio_B_over_A": 0.30587768388459885
+    },
+    "math_0": {
+      "norm_A": 53.25948353506561,
+      "norm_B": 15.326474723179762,
+      "ratio_B_over_A": 0.28776987131482296
+    },
+    "math_1": {
+      "norm_A": 53.25345363890457,
+      "norm_B": 15.546270657463452,
+      "ratio_B_over_A": 0.29192981102930854
+    }
+  },
+  "mechanism_lora_A_cosine": {
+    "agnews_0|agnews_1": {
+      "cos": -0.0006326761780336824,
+      "same_seed": false,
+      "same_task": true
+    },
+    "agnews_0|alpaca_0": {
+      "cos": 0.971192861219874,
+      "same_seed": true,
+      "same_task": false
+    },
+    "agnews_0|alpaca_1": {
+      "cos": -0.00032969110418124513,
+      "same_seed": false,
+      "same_task": false
+    },
+    "agnews_0|math_0": {
+      "cos": 0.9666167511783074,
+      "same_seed": true,
+      "same_task": false
+    },
+    "agnews_0|math_1": {
+      "cos": -0.0002871977301872974,
+      "same_seed": false,
+      "same_task": false
+    },
+    "agnews_1|alpaca_0": {
+      "cos": -0.00038688811980003453,
+      "same_seed": false,
+      "same_task": false
+    },
+    "agnews_1|alpaca_1": {
+      "cos": 0.97109832294376,
+      "same_seed": true,
+      "same_task": false
+    },
+    "agnews_1|math_0": {
+      "cos": -0.00045647515774368077,
+      "same_seed": false,
+      "same_task": false
+    },
+    "agnews_1|math_1": {
+      "cos": 0.9663430803319188,
+      "same_seed": true,
+      "same_task": false
+    },
+    "alpaca_0|alpaca_1": {
+      "cos": -0.0004854312262007726,
+      "same_seed": false,
+      "same_task": true
+    },
+    "alpaca_0|math_0": {
+      "cos": 0.9716683338561826,
+      "same_seed": true,
+      "same_task": false
+    },
+    "alpaca_0|math_1": {
+      "cos": -0.00027460566468055086,
+      "same_seed": false,
+      "same_task": false
+    },
+    "alpaca_1|math_0": {
+      "cos": -0.0004161172944603303,
+      "same_seed": false,
+      "same_task": false
+    },
+    "alpaca_1|math_1": {
+      "cos": 0.9711947291656454,
+      "same_seed": true,
+      "same_task": false
+    },
+    "math_0|math_1": {
+      "cos": -0.00018200161301692284,
+      "same_seed": false,
+      "same_task": true
+    }
+  },
+  "mechanism_summary": {
+    "same_seed_cos_A_min": 0.9663430803319188,
+    "same_seed_cos_A_max": 0.9716683338561826,
+    "diff_seed_cos_A_min": -0.0006326761780336824,
+    "diff_seed_cos_A_max": -0.00018200161301692284,
+    "interpretation": "Tinker's seed sets the LoRA INITIALIZATION. lora_A is random and frozen-large while lora_B starts at zero, so after 1M tokens ||B||/||A|| is small and any feature built from the raw factors is dominated by initialization identity, not task. This is why RAW groups by seed and fails to separate task."
+  },
+  "exact_split_p_definition": "P(the 3 within-task pairs are exactly the 3 smallest of 15 distances) = 1/C(15,3) = 1/455 = 0.002198 under exchangeable pair labels.",
+  "robustness": {
+    "full/proj_seed=0": {
+      "dim": 267168,
+      "max_within": 0.9911470735323478,
+      "min_cross": 0.9932821512458352,
+      "margin": 0.002135077713487421,
+      "separated": true,
+      "nn_task_accuracy": 1.0,
+      "exact_split_p": 0.002197802197802198,
+      "relabeling_null": {
+        "n_matchings": 15,
+        "n_at_least_as_separating": 1,
+        "p_value": 0.06666666666666667,
+        "best_possible_margin": 0.002135077713487421
+      }
+    },
+    "full/proj_seed=1": {
+      "dim": 267168,
+      "max_within": 0.9940668848316148,
+      "min_cross": 0.9947618282990922,
+      "margin": 0.0006949434674774491,
+      "separated": true,
+      "nn_task_accuracy": 1.0,
+      "exact_split_p": 0.002197802197802198,
+      "relabeling_null": {
+        "n_matchings": 15,
+        "n_at_least_as_separating": 1,
+        "p_value": 0.06666666666666667,
+        "best_possible_margin": 0.0006949434674774491
+      }
+    },
+    "full/proj_seed=7": {
+      "dim": 267168,
+      "max_within": 0.993795599312563,
+      "min_cross": 0.9956199188731703,
+      "margin": 0.001824319560607246,
+      "separated": true,
+      "nn_task_accuracy": 1.0,
+      "exact_split_p": 0.002197802197802198,
+      "relabeling_null": {
+        "n_matchings": 15,
+        "n_at_least_as_separating": 1,
+        "p_value": 0.06666666666666667,
+        "best_possible_margin": 0.001824319560607246
+      }
+    },
+    "sigma/proj_seed=0": {
+      "dim": 8096,
+      "max_within": 0.005631803698608495,
+      "min_cross": 0.011848629006565803,
+      "margin": 0.006216825307957308,
+      "separated": true,
+      "nn_task_accuracy": 1.0,
+      "exact_split_p": 0.002197802197802198,
+      "relabeling_null": {
+        "n_matchings": 15,
+        "n_at_least_as_separating": 1,
+        "p_value": 0.06666666666666667,
+        "best_possible_margin": 0.006216825307957308
+      }
+    }
+  }
+}

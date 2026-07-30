@@ -161,3 +161,14 @@ paper/rhombic-paper3.pdf
 results/T-001-full-r3/
 results/T-001-full-r3.log
 results/asset1-delivery-verify/features/
+
+# Tinker signal pilot (E-T4 pre-step, 2026-07-30). Same convention as the
+# Asset-1 bank and the S2 timing pilots: regenerable/large payloads stay on
+# disk, the MEASUREMENTS are the deliverable and ARE tracked (run_record.json,
+# signal_results.json, spend_ledger.json, data_manifest.json, PILOT_REPORT.md).
+# Training text is deterministic output of scripts/tinker_pilot_data.py (45 MB).
+results/tinker-pilot/data/*.jsonl
+# Exported adapter payloads (~0.2-0.4 GB per run of safetensors).
+results/tinker-pilot/*/adapter_model.safetensors
+results/tinker-pilot/*/*.safetensors
+results/tinker-pilot/smoke/

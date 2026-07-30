@@ -1,0 +1,207 @@
+{
+  "bank": "C:/Falco/rhombic/results/tinker-pilot",
+  "n_adapters": 6,
+  "tasks": [
+    "agnews",
+    "alpaca",
+    "math"
+  ],
+  "probe": {
+    "proj_dim": 16,
+    "proj_seed": 0
+  },
+  "per_adapter": {
+    "agnews_0": {
+      "task": "agnews",
+      "n_modules": 253,
+      "raw_dim": 92286976,
+      "canonical_dim": 267168,
+      "raw_l2": 56.91409887812286,
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "agnews_1": {
+      "task": "agnews",
+      "n_modules": 253,
+      "raw_dim": 92286976,
+      "canonical_dim": 267168,
+      "raw_l2": 56.849416342696706,
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_0": {
+      "task": "alpaca",
+      "n_modules": 253,
+      "raw_dim": 92286976,
+      "canonical_dim": 267168,
+      "raw_l2": 55.504254412767885,
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_1": {
+      "task": "alpaca",
+      "n_modules": 253,
+      "raw_dim": 92286976,
+      "canonical_dim": 267168,
+      "raw_l2": 55.5550837235716,
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_0": {
+      "task": "math",
+      "n_modules": 253,
+      "raw_dim": 92286976,
+      "canonical_dim": 267168,
+      "raw_l2": 55.42087525346461,
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_1": {
+      "task": "math",
+      "n_modules": 253,
+      "raw_dim": 92286976,
+      "canonical_dim": 267168,
+      "raw_l2": 55.476272908549845,
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    }
+  },
+  "spaces": {
+    "raw": {
+      "n_pairs": 15,
+      "n_within_task_pairs": 3,
+      "n_cross_task_pairs": 12,
+      "within_task_distances": {
+        "agnews_0|agnews_1": 1.0285433354794515,
+        "alpaca_0|alpaca_1": 1.016024076462143,
+        "math_0|math_1": 1.0127642105267567
+      },
+      "cross_task_distances": {
+        "agnews_0|alpaca_0": 0.06521753464811941,
+        "agnews_0|alpaca_1": 1.0159393625368318,
+        "agnews_0|math_0": 0.07042582101719852,
+        "agnews_0|math_1": 1.0171305332629474,
+        "agnews_1|alpaca_0": 1.02439532831716,
+        "agnews_1|alpaca_1": 0.06257692714308094,
+        "agnews_1|math_0": 1.0199856395408573,
+        "agnews_1|math_1": 0.07451250098518947,
+        "alpaca_0|math_0": 0.05747263221930854,
+        "alpaca_0|math_1": 1.0154528284199358,
+        "alpaca_1|math_0": 1.0119523816624736,
+        "alpaca_1|math_1": 0.057993343899831906
+      },
+      "max_within_task": 1.0285433354794515,
+      "min_cross_task": 0.05747263221930854,
+      "separation_margin": -0.971070703260143,
+      "separated": false,
+      "nn_task_accuracy": 0.0,
+      "nn_detail": {
+        "agnews_0": {
+          "nearest": "alpaca_0",
+          "distance": 0.06521753464811941,
+          "same_task": false
+        },
+        "agnews_1": {
+          "nearest": "alpaca_1",
+          "distance": 0.06257692714308094,
+          "same_task": false
+        },
+        "alpaca_0": {
+          "nearest": "math_0",
+          "distance": 0.05747263221930854,
+          "same_task": false
+        },
+        "alpaca_1": {
+          "nearest": "math_1",
+          "distance": 0.057993343899831906,
+          "same_task": false
+        },
+        "math_0": {
+          "nearest": "alpaca_0",
+          "distance": 0.05747263221930854,
+          "same_task": false
+        },
+        "math_1": {
+          "nearest": "alpaca_1",
+          "distance": 0.057993343899831906,
+          "same_task": false
+        }
+      }
+    },
+    "canonical": {
+      "n_pairs": 15,
+      "n_within_task_pairs": 3,
+      "n_cross_task_pairs": 12,
+      "within_task_distances": {
+        "agnews_0|agnews_1": 0.9911470735323478,
+        "alpaca_0|alpaca_1": 0.9906548064625492,
+        "math_0|math_1": 0.9867257673668364
+      },
+      "cross_task_distances": {
+        "agnews_0|alpaca_0": 0.999137847936293,
+        "agnews_0|alpaca_1": 0.9976617081803085,
+        "agnews_0|math_0": 0.9985881765077826,
+        "agnews_0|math_1": 0.9965167183132383,
+        "agnews_1|alpaca_0": 0.9997553108405397,
+        "agnews_1|alpaca_1": 0.9980262292878493,
+        "agnews_1|math_0": 1.0003988954198244,
+        "agnews_1|math_1": 0.9991207147835678,
+        "alpaca_0|math_0": 0.9932821512458352,
+        "alpaca_0|math_1": 0.9965997894581564,
+        "alpaca_1|math_0": 0.995997773806004,
+        "alpaca_1|math_1": 0.9990061496534778
+      },
+      "max_within_task": 0.9911470735323478,
+      "min_cross_task": 0.9932821512458352,
+      "separation_margin": 0.002135077713487421,
+      "separated": true,
+      "nn_task_accuracy": 1.0,
+      "nn_detail": {
+        "agnews_0": {
+          "nearest": "agnews_1",
+          "distance": 0.9911470735323478,
+          "same_task": true
+        },
+        "agnews_1": {
+          "nearest": "agnews_0",
+          "distance": 0.9911470735323478,
+          "same_task": true
+        },
+        "alpaca_0": {
+          "nearest": "alpaca_1",
+          "distance": 0.9906548064625492,
+          "same_task": true
+        },
+        "alpaca_1": {
+          "nearest": "alpaca_0",
+          "distance": 0.9906548064625492,
+          "same_task": true
+        },
+        "math_0": {
+          "nearest": "math_1",
+          "distance": 0.9867257673668364,
+          "same_task": true
+        },
+        "math_1": {
+          "nearest": "math_0",
+          "distance": 0.9867257673668364,
+          "same_task": true
+        }
+      }
+    }
+  },
+  "signal": "MIXED",
+  "signal_definition": "SIGNAL=YES iff every same-task pair is closer than every cross-task pair (max within < min cross) in BOTH the raw and the gauge-canonical feature space; MIXED if exactly one space separates; NO if neither does."
+}

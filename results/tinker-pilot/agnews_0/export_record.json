@@ -1,0 +1,11 @@
+{
+  "tinker_path": "tinker://39cb4ebe-cda2-5424-af76-433f86cba172:train:4/sampler_weights/agnews_0-final",
+  "archive_bytes": 369223680,
+  "files": [
+    "adapter_config.json",
+    "adapter_model.safetensors",
+    "checkpoint_complete"
+  ],
+  "remote_deleted": true,
+  "export_seconds": 1733.2
+}
