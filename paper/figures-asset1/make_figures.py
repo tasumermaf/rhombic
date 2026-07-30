@@ -19,7 +19,7 @@ Outputs (PDF + PNG) into paper/figures-asset1/:
   F6-daux-scatter            dev_mean vs final_gap, 480 runs
   F7-daux-forest             pilot -> bank correlation forest
 
-No randomness, no network, no seeds. matplotlib + stdlib only.
+No randomness, no network, no seeds. matplotlib + numpy + stdlib only.
 """
 
 from __future__ import annotations

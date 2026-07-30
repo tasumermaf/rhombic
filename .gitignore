@@ -151,3 +151,4 @@ paper/rhombic-paper3.pdf
 # T-001r3 local checkpoint payload (8,979 files; config+results ARE tracked, r2 convention)
 results/T-001-full-r3/
 results/T-001-full-r3.log
+results/asset1-delivery-verify/features/
