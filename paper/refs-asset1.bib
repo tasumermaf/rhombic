@@ -1,15 +1,14 @@
 % ============================================================================
 % refs-asset1.bib — bibliography for rhombic-asset1.tex.
 % arXiv IDs verified in the draft's citation-verification pass (2026-07-21,
-% fresh-context agent, R4). Author lists for the four arXiv entries are
-% recorded only where attested; TODO markers flag the unconfirmed ones.
+% fresh-context agent, R4); remaining author lists and titles live-verified
+% 2026-07-22 by a fresh-context citation workflow. No TODOs remain.
 % ============================================================================
 
-% TODO(Timothy): confirm author list for W2T (arXiv:2603.15990) — the draft
-% attests only the collective name "W2T" and the verbatim title.
+% Author list + full title live-verified against the arXiv abs page 2026-07-22.
 @misc{w2t2026lora,
-  author        = {{W2T}},
-  title         = {{LoRA} Weights Already Know What They Can Do},
+  author        = {Han, Xiaolong and Neri, Ferrante and Jiang, Zijian and Wu, Fang and Ye, Yanfang and Yin, Lu and Wang, Zehong},
+  title         = {{W2T}: {LoRA} Weights Already Know What They Can Do},
   year          = {2026},
   month         = mar,
   eprint        = {2603.15990},
@@ -18,11 +17,10 @@
   note          = {arXiv:2603.15990}
 }
 
-% TODO(Timothy): confirm full title for arXiv:2604.08844 (the working record
-% gives "Spectral Geometry of LoRA Adapters...").
+% Full title live-verified against the arXiv abs page 2026-07-22.
 @misc{paul2026spectral,
   author        = {Paul, Roi},
-  title         = {Spectral Geometry of {LoRA} Adapters},
+  title         = {Spectral Geometry of {LoRA} Adapters Encodes Training Objective and Predicts Harmful Compliance},
   year          = {2026},
   month         = apr,
   eprint        = {2604.08844},
@@ -48,7 +46,7 @@
 % recorded in the draft's verification pass.
 @misc{backdoor2026,
   author        = {Puertolas Merenciano, David and Vasyagina, Ekaterina and Zhu, Kevin and Ferrando, Javier and Chaudhary, Maheep},
-  title         = {Weight Space Detection of Backdoors in {LoRA} Adapters},
+  title         = {Weight space Detection of Backdoors in {LoRA} Adapters},
   year          = {2026},
   month         = feb,
   eprint        = {2602.15195},
@@ -60,8 +58,9 @@
 @misc{martinmahoney_weightwatcher,
   author        = {Martin, Charles H. and Mahoney, Michael W.},
   title         = {{WeightWatcher}},
+  year          = {2024},
   howpublished  = {\url{https://github.com/CalculatedContent/WeightWatcher}},
-  note          = {Open-source weight-analysis tool}
+  note          = {Open-source weight-analysis tool; version of record 2024}
 }
 
 @misc{martin2024wwpeft,
@@ -78,4 +77,131 @@
   title         = {Typed State Beats Prose: A Pre-Registered Measurement of Numeric Corruption Under Agent Context Compaction},
   year          = {2026},
   note          = {rhombic XR-001; \url{https://tasumermaf.com/rhombic/typed-state/}}
+}
+
+% ==========================================================================
+% Entries below added 2026-07-22 (post-acceptance adversarial round).
+% Every title/author list live-verified against arXiv/publisher pages
+% by a fresh-context citation workflow (14/14 verified).
+% ==========================================================================
+
+@misc{putterman2024lol,
+  title={Learning on LoRAs: GL-Equivariant Processing of Low-Rank Weight Spaces for Large Finetuned Models},
+  author={Putterman, Theo and Lim, Derek and Gelberg, Yoav and Jegelka, Stefanie and Maron, Haggai},
+  year={2024},
+  eprint={2410.04207},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG}
+}
+
+@inproceedings{yadav2023ties,
+  title     = {{TIES}-Merging: Resolving Interference When Merging Models},
+  author    = {Yadav, Prateek and Tam, Derek and Choshen, Leshem and Raffel, Colin and Bansal, Mohit},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {36},
+  year      = {2023},
+  eprint    = {2306.01708},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG}
+}
+
+@inproceedings{yu2023dare,
+  title     = {Language Models are Super Mario: Absorbing Abilities from Homologous Models as a Free Lunch},
+  author    = {Yu, Le and Yu, Bowen and Yu, Haiyang and Huang, Fei and Li, Yongbin},
+  booktitle = {Proceedings of the 41st International Conference on Machine Learning (ICML)},
+  year      = {2024},
+  eprint    = {2311.03099},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL}
+}
+
+@inproceedings{ilharco2023task,
+  title     = {Editing Models with Task Arithmetic},
+  author    = {Ilharco, Gabriel and Ribeiro, Marco Tulio and Wortsman, Mitchell and Gururangan, Suchin and Schmidt, Ludwig and Hajishirzi, Hannaneh and Farhadi, Ali},
+  booktitle = {The Eleventh International Conference on Learning Representations (ICLR)},
+  year      = {2023},
+  eprint    = {2212.04089},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url       = {https://arxiv.org/abs/2212.04089}
+}
+
+@inproceedings{frankle2020lmc,
+  title     = {Linear Mode Connectivity and the Lottery Ticket Hypothesis},
+  author    = {Frankle, Jonathan and Dziugaite, Gintare Karolina and Roy, Daniel M. and Carbin, Michael},
+  booktitle = {Proceedings of the 37th International Conference on Machine Learning (ICML)},
+  year      = {2020},
+  eprint    = {1912.05671},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.LG}
+}
+
+@inproceedings{entezari2022perm,
+  title={The Role of Permutation Invariance in Linear Mode Connectivity of Neural Networks},
+  author={Entezari, Rahim and Sedghi, Hanie and Saukh, Olga and Neyshabur, Behnam},
+  booktitle={International Conference on Learning Representations (ICLR)},
+  year={2022},
+  eprint={2110.06296},
+  archivePrefix={arXiv},
+  url={https://arxiv.org/abs/2110.06296}
+}
+
+@misc{ainsworth2023rebasin,
+  title={Git Re-Basin: Merging Models modulo Permutation Symmetries},
+  author={Ainsworth, Samuel K. and Hayase, Jonathan and Srinivasa, Siddhartha},
+  year={2023},
+  eprint={2209.04836},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
+  note={ICLR 2023}
+}
+
+@inproceedings{eilertsen2020classify,
+  title     = {Classifying the classifier: dissecting the weight space of neural networks},
+  author    = {Eilertsen, Gabriel and J{\"o}nsson, Daniel and Ropinski, Timo and Unger, Jonas and Ynnerman, Anders},
+  booktitle = {Proceedings of the 24th European Conference on Artificial Intelligence (ECAI 2020)},
+  year      = {2020},
+  eprint    = {2002.05688},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV}
+}
+
+@misc{unterthiner2020predict,
+  title={Predicting Neural Network Accuracy from Weights},
+  author={Unterthiner, Thomas and Keysers, Daniel and Gelly, Sylvain and Bousquet, Olivier and Tolstikhin, Ilya},
+  year={2020},
+  eprint={2002.11448},
+  archivePrefix={arXiv},
+  primaryClass={stat.ML}
+}
+
+@article{martinmahoney2021nature,
+  title   = {Predicting trends in the quality of state-of-the-art neural networks without access to training or testing data},
+  author  = {Martin, Charles H. and Peng, Tongsu (Serena) and Mahoney, Michael W.},
+  journal = {Nature Communications},
+  volume  = {12},
+  number  = {1},
+  pages   = {4122},
+  year    = {2021},
+  doi     = {10.1038/s41467-021-24025-8}
+}
+
+@inproceedings{jiang2020fantastic,
+  title     = {Fantastic Generalization Measures and Where to Find Them},
+  author    = {Jiang, Yiding and Neyshabur, Behnam and Mobahi, Hossein and Krishnan, Dilip and Bengio, Samy},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2020},
+  eprint    = {1912.02178},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG}
+}
+
+@inproceedings{w2w2024,
+  title     = {Interpreting the Weight Space of Customized Diffusion Models},
+  author    = {Dravid, Amil and Gandelsman, Yossi and Wang, Kuan-Chieh and Abdal, Rameen and Wetzstein, Gordon and Efros, Alexei A. and Aberman, Kfir},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2024},
+  eprint    = {2406.09413},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV}
 }
