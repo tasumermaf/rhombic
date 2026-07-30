@@ -20,7 +20,8 @@
         Cubic networks leave up to <span class="stat-inline">6.1×</span> connectivity
         on the table.</p>
       <div class="hero-links">
-        <a href="typed-state/" class="btn btn-primary">Read the paper</a>
+        <a href="gauge/" class="btn btn-primary">Asset-1 paper</a>
+        <a href="typed-state/" class="btn btn-ghost">XR-001 paper</a>
         <a href="https://github.com/tasumermaf/rhombic" class="btn btn-ghost">GitHub</a>
         <a href="https://pypi.org/project/rhombic/" class="btn btn-ghost">pip install rhombic</a>
         <a href="https://huggingface.co/spaces/timotheospaul/rhombic" class="btn btn-ghost">Demo</a>
@@ -156,6 +157,18 @@
       <div class="tool-grid">
         <div class="tool-card">
           <code>RELEASED</code>
+          <p><a href="gauge/"><strong>The Gauge Is the Obstacle</strong></a>
+            (Asset-1, July 2026) — a pre-registered bank of 480 LoRA adapters
+            (two model families × six tasks × forty seeds), read out by weights
+            alone. Raw weights fail to identify the training task (0.0792 /
+            0.1375 against chance 0.1667); GL(<em>r</em>)-gauge-canonical
+            features reach 1.0000. Weight-only merge-conflict prediction hits
+            group-aware AUC 0.995 / 0.962. Two of five pre-registered outcomes
+            went against us, including a no-transfer prediction refuted by our
+            own triviality control, and both are reported in full.</p>
+        </div>
+        <div class="tool-card">
+          <code>RELEASED</code>
           <p><a href="typed-state/"><strong>Typed State Beats Prose</strong></a>
             (July 2026) — a pre-registered, matched-budget measurement of numeric
             corruption under agent context compaction. Prose summaries corrupt
@@ -183,12 +196,12 @@
             own claim and published it.</p>
         </div>
         <div class="tool-card">
-          <code>RUNNING</code>
-          <p><strong>Weight forensics</strong> — a 480-adapter bank (two model
-            families × six tasks × forty seeds) for the question: what can you
-            tell about a model's training from its weights alone? All hypotheses
-            pre-registered and locked; the analysis code structurally refuses to
-            run before the bank is complete.</p>
+          <code>AUDITED</code>
+          <p><strong>The adversarial ladder</strong> — the Asset-1 paper was put
+            through seven rounds and nineteen lenses of agent-driven audit: 117
+            confirmed findings, 92 fixed, every headline number independently
+            re-derived from per-item data by an isolated reviewer. The ledger
+            ships with the paper, dispositions and all.</p>
         </div>
       </div>
     </div>
@@ -215,8 +228,9 @@
         picture: the mechanism builds <em>whatever</em> specification it is
         handed, fully and bistably — so the specification, not the optimizer,
         is where coherence must come from. Papers 1–4 are working drafts,
-        internally audited across 7 adversarial rounds; the program's first
-        released paper is <a href="typed-state/">XR-001</a>.</p>
+        internally audited across 7 adversarial rounds; the program's released
+        papers are <a href="typed-state/">XR-001</a> and
+        <a href="gauge/">Asset-1</a>.</p>
       <blockquote>
         "Data symmetry analytically determines representation geometry."
         <cite>— Karkada et al., 2026</cite>
@@ -248,6 +262,12 @@
           <div class="arc-q">"Where does geometry pay right now?"</div>
           <div class="arc-a">Agent memory. Released July 2026.</div>
         </div>
+        <div class="arc-arrow">→</div>
+        <div class="arc-step">
+          <div class="arc-num"><a href="gauge/">Asset-1</a></div>
+          <div class="arc-q">"What do the weights alone reveal?"</div>
+          <div class="arc-a">480 adapters. Released July 2026.</div>
+        </div>
       </div>
     </div>
   </section>
@@ -272,7 +292,18 @@
       </div>
       <div class="citation">
         <h3>Citation</h3>
-        <pre><code>@techreport{bielec2026typedstate,
+        <pre><code>@techreport{bielec2026gauge,
+  author  = {Timothy Bielec and Minta Carlson},
+  title   = {The Gauge Is the Obstacle: Task Identity, Cross-Family
+             Transfer, and Merge-Conflict Prediction from Adapter
+             Weights Alone},
+  institution = {TASUMER MAF},
+  year    = {2026},
+  month   = {July},
+  url     = {https://tasumermaf.com/rhombic/gauge/}
+}
+
+@techreport{bielec2026typedstate,
   author  = {Timothy Bielec and Minta Carlson},
   title   = {Typed State Beats Prose: A Pre-Registered Measurement
              of Numeric Corruption Under Agent Context Compaction},
@@ -313,7 +344,7 @@
   <footer>
     <div class="section-inner">
       <p class="footer-brand">rhombic — <a href="https://tasumermaf.com">TASUMER MAF</a></p>
-      <p class="footer-meta">v0.3.0 · 815 tests · MPL-2.0 · Python 3.10-3.12</p>
+      <p class="footer-meta">v0.3.0 · 827 tests · MPL-2.0 · Python 3.10-3.12</p>
     </div>
   </footer>
 

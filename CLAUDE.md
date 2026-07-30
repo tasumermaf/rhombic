@@ -28,10 +28,13 @@ See `docs/EXPERIMENTAL_LADDER.md` for the 5-rung experimental plan.
 | P4 | The Topology Programmer (Paper 4) | Draft — 4 polytopes, 4 regimes; audit blockers emptied Jul 2026 (T-001 rewritten to three-run evidence; exposure classification in docs/PAPER4_EXPOSURE_CLASSIFICATION.md); adaptive-run re-measures pending post-bank |
 | EE | Equal-edge random-graph control (EE-001) | Complete — narrows Paper 1 claim to spatially-embeddable class |
 | BM | Benchmark battery (BM-000/000b nulls; BM-003 arms A–H; BM-004 v2) | BM-000/000b complete (hub attack closed at null level); BM-003 G/H + dissociation endpoint and BM-004 v2 pre-registered, Director-approved 2026-07-07; GPU work post-bank, BM-004 gated on the F2 interlock (`scripts/bm004_runner.py`) |
-| A1 | Asset-1 adapter bank + D1/D2/D3/D-aux analyses | Campaign LIVE (480 runs, 2 families × 6 tasks × 40 seeds, ETA ~Jul 20–21); all analyses pre-registered and completeness-interlocked; D1 has three representation arms |
+| A1 | Asset-1 adapter bank + D1/D2/D3/D-aux analyses | Complete — paper RELEASED 2026-07-29 (paper/rhombic-asset1.tex, 27pp; 117-finding adversarial audit in paper/audit/round-2/; features dataset on HF). 480 runs, 2 families × 6 tasks × 40 seeds; all analyses pre-registered and completeness-interlocked; D1 had three representation arms |
 
-Suite: **689 tests** (`pytest -v`). Paper status: Paper 1 complete
-(unpublished); Papers 2–4 working drafts. Nothing is submitted or published.
+Suite: **827 tests** (`pytest -v`). Paper status: XR-001 (*Typed State Beats
+Prose*, 2026-07-14) and Asset-1 (*The Gauge Is the Obstacle*, 2026-07-29) are
+**released** — published from this repository with public artifacts. Paper 1
+complete (unpublished); Papers 2–4 working drafts. Nothing is submitted to a
+formal venue.
 Analyses of the Asset-1 bank are pre-registered; the Director's rulings
 (docs/DIRECTOR_DECISIONS_2026-07-06.md, docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md)
 bind, and deviations are dated amendments, never silent revisions (L-006).
