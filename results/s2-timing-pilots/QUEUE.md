@@ -9,9 +9,12 @@ quantity being measured.
 
 ## State
 
-Nothing in flight. The GPU has been idle since 02:43Z. Run 1 is measured; the
-next launch (`gemma2-2b run_2`) awaits hub review — the S2 brief authorized one
-run only, so the queue does not self-advance.
+**The queue is automated as of 1cccb90 — this section's earlier claim that it
+"does not self-advance" is superseded.** The hub launched `gemma2-2b run_2` and
+then `scripts/s2_queue_runner.py`, which waits for each run's TIMING.md and
+chains the remaining accessible runs one at a time. Run 1's measurement stands
+below; the manual launch commands further down remain valid as the fallback if
+the runner is stopped.
 
 === VERIFIED STATE ===
 gemma2-2b_run_1_status   = COMPLETE
@@ -21,7 +24,9 @@ launched_at_utc          = 2026-07-30T01:33Z
 finished_at_utc          = 2026-07-30T02:43Z
 launch_mode              = PowerShell Start-Process, hidden, detached (survived session end)
 runs_measured            = 1 of 9 accessible
-next_launch              = gemma2-2b run_2 (awaiting hub review)
+queue_mode               = automated (scripts/s2_queue_runner.py, commit 1cccb90)
+queue_runner_log         = results/s2-timing-pilots/logs/queue_runner.log
+llama3.1-8b_access       = BLOCKED (re-probed 2026-07-30 ~03:0xZ, unchanged)
 === END VERIFIED STATE ===
 
 The 10-step dry-run projection for this family was 73.03 min; the measurement
