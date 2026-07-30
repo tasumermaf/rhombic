@@ -34,6 +34,30 @@ CONCLUSION              = weights carry the normalization; weights=1/N yields
                           of batch size, which is what lr=1e-4 assumes.
 ```
 
+## Loss convention (what the numbers ARE — checked, not assumed)
+
+```
+LOSS_DEFINITION         = mean per-token cross-entropy over the FULL, UNPADDED
+                          sequence, prompt NOT masked
+PADDING_USED            = none. Trainer calls tok.encode(text)[:512]; the
+                          `padding` argument is never passed.
+PAD_TOKENS_IN_SAMPLE    = 0   (200 seqs/task; pad_token_id 151643)
+SAMPLE_MEAN_TOKEN_LEN   = alpaca 158.8 · math 204.2 · agnews 79.9
+                          (matches the dry-run 161.9 / 196.1 / 78.8)
+PADDED_LABEL_ARTIFACT   = RULED OUT
+NOT_COMPARABLE_TO       = the Asset-1 bank finals (0.3703 Qwen2.5-1.5B,
+                          0.3995 Llama-3.2-1B). That recipe sets
+                          labels = input_ids over a FULLY PADDED sequence and
+                          takes loss on every position including padding, so
+                          its low finals are a padding effect, not the same
+                          quantity. Cross-convention comparison is invalid.
+MATH_NEAR_0.4_IS_REAL   = math finished 0.4088 / 0.4065, numerically close to
+                          those padded finals but produced with zero padding.
+                          Task spread (agnews 1.57 / alpaca 1.03 / math 0.41)
+                          is task-characteristic, not a uniform collapse to
+                          ~0.4 as an artifact would give.
+```
+
 ## Locked run design
 
 ```
