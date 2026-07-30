@@ -144,6 +144,15 @@ results/asset1-smoke/*/
 # 2026-07-07 after the A3-A5 hygiene verification flagged the sweep risk.
 results/asset1-bank-bs2x8-archive/
 
+# S2 timing-pilot payloads (~38-60 MB of .pt/.npy per run). The pilots are
+# timing-only and excluded from every bank, so their adapters are byproducts
+# that no analysis will ever read. The MEASUREMENTS are the deliverable and
+# ARE tracked: TIMING.md / DRYRUN.md / GATING.md / QUEUE.md / RATES.md plus
+# each run's config.json + metrics.json.
+results/s2-timing-pilots/*/*/adapter_state.pt
+results/s2-timing-pilots/*/*/*.npy
+results/s2-timing-pilots/logs/
+
 # compiled paper PDFs stay local while under audit (stale binaries bake in pre-purge text)
 paper/paper4/paper4-main.pdf
 paper/rhombic-paper3.pdf
