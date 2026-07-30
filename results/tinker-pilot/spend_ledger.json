@@ -1,0 +1,44 @@
+{
+  "price_train_usd_per_mtok": 0.44,
+  "hard_abort_usd": 4.5,
+  "cumulative_train_tokens": 6106928,
+  "cumulative_usd": 2.68704832,
+  "entries": [
+    {
+      "run_id": "alpaca_0",
+      "train_tokens": 1013712,
+      "usd": 0.446033,
+      "wall_seconds": 188.9
+    },
+    {
+      "run_id": "alpaca_1",
+      "train_tokens": 1012688,
+      "usd": 0.445583,
+      "wall_seconds": 190.9
+    },
+    {
+      "run_id": "math_0",
+      "train_tokens": 1010503,
+      "usd": 0.444621,
+      "wall_seconds": 200.2
+    },
+    {
+      "run_id": "math_1",
+      "train_tokens": 1011173,
+      "usd": 0.444916,
+      "wall_seconds": 192.3
+    },
+    {
+      "run_id": "agnews_0",
+      "train_tokens": 1003742,
+      "usd": 0.441646,
+      "wall_seconds": 192.1
+    },
+    {
+      "run_id": "agnews_1",
+      "train_tokens": 1004046,
+      "usd": 0.44178,
+      "wall_seconds": 191.1
+    }
+  ]
+}

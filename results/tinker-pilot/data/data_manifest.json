@@ -1,0 +1,130 @@
+{
+  "streams": [
+    {
+      "task": "alpaca",
+      "data_seed": 0,
+      "dataset_source": "yahma/alpaca-cleaned",
+      "n_total_raw": 51760,
+      "pool_size": 40000,
+      "n_emitted": 15000,
+      "val_seed": 777,
+      "val_size": 500,
+      "pool_cap": 40000,
+      "first_raw_ids": [
+        2333,
+        27680,
+        3785,
+        35245,
+        22056
+      ],
+      "sha256": "40f274f0b39560535e96eca719f00c40c35c68a7c940fa2538d1f44d7b5943fc",
+      "path": "C:/Falco/rhombic/results/tinker-pilot/data/alpaca_seed0.jsonl",
+      "mean_chars": 803.9801333333334
+    },
+    {
+      "task": "alpaca",
+      "data_seed": 1,
+      "dataset_source": "yahma/alpaca-cleaned",
+      "n_total_raw": 51760,
+      "pool_size": 40000,
+      "n_emitted": 15000,
+      "val_seed": 777,
+      "val_size": 500,
+      "pool_cap": 40000,
+      "first_raw_ids": [
+        23124,
+        45792,
+        79,
+        17699,
+        6630
+      ],
+      "sha256": "ca43fc199bc3ca41cde8b9349178ccd4c1f5d09b0d4671c380cfce603397b563",
+      "path": "C:/Falco/rhombic/results/tinker-pilot/data/alpaca_seed1.jsonl",
+      "mean_chars": 804.0324666666667
+    },
+    {
+      "task": "math",
+      "data_seed": 0,
+      "dataset_source": "openai/gsm8k",
+      "n_total_raw": 7473,
+      "pool_size": 6973,
+      "n_emitted": 6973,
+      "val_seed": 777,
+      "val_size": 500,
+      "pool_cap": 40000,
+      "first_raw_ids": [
+        839,
+        6236,
+        2424,
+        4378,
+        6230
+      ],
+      "sha256": "7d93592fb5b5b6b660372d59f56b9de658ec9ce50c564e129d831e924b510775",
+      "path": "C:/Falco/rhombic/results/tinker-pilot/data/math_seed0.jsonl",
+      "mean_chars": 602.7097375591568
+    },
+    {
+      "task": "math",
+      "data_seed": 1,
+      "dataset_source": "openai/gsm8k",
+      "n_total_raw": 7473,
+      "pool_size": 6973,
+      "n_emitted": 6973,
+      "val_seed": 777,
+      "val_size": 500,
+      "pool_cap": 40000,
+      "first_raw_ids": [
+        1226,
+        2605,
+        3536,
+        1131,
+        7376
+      ],
+      "sha256": "af98cdad2b6d833d83832fabd022843b0105e335303662e3f63521d5a5e42f4e",
+      "path": "C:/Falco/rhombic/results/tinker-pilot/data/math_seed1.jsonl",
+      "mean_chars": 602.7097375591568
+    },
+    {
+      "task": "agnews",
+      "data_seed": 0,
+      "dataset_source": "fancyzhx/ag_news",
+      "n_total_raw": 120000,
+      "pool_size": 40000,
+      "n_emitted": 15000,
+      "val_seed": 777,
+      "val_size": 500,
+      "pool_cap": 40000,
+      "first_raw_ids": [
+        99454,
+        16973,
+        316,
+        38155,
+        94060
+      ],
+      "sha256": "edde65af5a08785e6c17aba0773087a6c92ad7c7f039013f320df8a1024f92d3",
+      "path": "C:/Falco/rhombic/results/tinker-pilot/data/agnews_seed0.jsonl",
+      "mean_chars": 360.46753333333334
+    },
+    {
+      "task": "agnews",
+      "data_seed": 1,
+      "dataset_source": "fancyzhx/ag_news",
+      "n_total_raw": 120000,
+      "pool_size": 40000,
+      "n_emitted": 15000,
+      "val_seed": 777,
+      "val_size": 500,
+      "pool_cap": 40000,
+      "first_raw_ids": [
+        90732,
+        101751,
+        87170,
+        49903,
+        101123
+      ],
+      "sha256": "17f57e73358ec15a0d43d75d23411f00d0bb31bcb699c1d9075c1b98bc5518d0",
+      "path": "C:/Falco/rhombic/results/tinker-pilot/data/agnews_seed1.jsonl",
+      "mean_chars": 360.86313333333334
+    }
+  ]
+}
