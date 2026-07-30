@@ -81,6 +81,31 @@ would have applied a gradient ~10^4 too large and silently ruined all six runs.
 **Learning rate.** The LoRA primer states the optimal LoRA LR is ~10x full-FT
 and is **independent of rank**, so 1e-4 stands unchanged at rank 32.
 
+**What the reported loss is, exactly — and what it must not be compared to.**
+The loss here is the **mean per-token cross-entropy over the full, unpadded
+sequence, with the prompt NOT masked**. Three consequences, because each one is
+a live way to misread the table in §3:
+
+* It is **not** the Asset-1 bank convention. That recipe sets
+  `labels = input_ids` over a *fully padded* sequence and takes loss on every
+  position including padding, which is why its finals sit near 0.37-0.40 (most
+  positions are padding, and padding is trivially predictable). Those numbers
+  are **not comparable** to the values below.
+* It is **not** completion-only loss either, since the prompt is unmasked.
+* The padded-label artifact is **ruled out by construction and by check**: the
+  trainer calls `tok.encode(text)[:512]` and never passes a `padding` argument,
+  so no pad positions exist. Verified on a 200-sequence sample per task —
+  **0 pad tokens found** (mean lengths 158.8 alpaca / 204.2 math / 79.9 agnews,
+  matching the dry-run estimates).
+
+This matters specifically because `math` finished at 0.4088 / 0.4065, which
+lands in the same numeric range as the padded-bank finals and could be mistaken
+for the artifact. It is not: with zero padding possible, the low value is real
+learning on a rigidly templated task (GSM8K's step-by-step format plus a fixed
+instruction line), and the spread across tasks — agnews 1.57, alpaca 1.03,
+math 0.41 — is task-characteristic rather than the uniform collapse toward ~0.4
+that a convention artifact would produce.
+
 ---
 
 ## 3. Per-run results
