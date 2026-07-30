@@ -373,8 +373,9 @@ campaign and enters the repository only with this paper
 its date is the document's own, corroborated by the 2026-07-06 pipeline
 documentation that cites it.
 
-**Director-pinned decisions.** The Director is an independent AI reviewer
-instance (see Acknowledgments) with no role in authoring the analyses;
+**Director-pinned decisions.** The Director is a separate AI reviewer
+instance with no shared context with the authors (see Acknowledgments) and
+no role in authoring the analyses;
 "pinned" means committed in a dated ruling before the consuming analysis
 ran, and "locked" means a pre-registered pass criterion. Every analytical
 choice the card left open was pinned by the Director on 2026-07-06 — before
@@ -1310,12 +1311,17 @@ repository.
 # Acknowledgments
 
 Experimentation, analysis, and drafting were performed with a standing AI
-research collaborator (Claude, Anthropic). The Director role — pinning open
-analytical choices and independently re-deriving headline results from
-per-item data — was performed by a separate Claude instance operating in an
-isolated context, with no involvement in authoring the analyses and no
-access to the authors' working sessions; its rulings and regrades are
-archived as dated documents in the repository. All numbers reported here
+research collaborator (Claude, Anthropic). The Director role was performed
+by a separate Claude instance with no shared context: it received artifacts
+and returned dated rulings, pinning open analytical choices before the
+consuming analyses ran, and it re-derived every headline quantity from
+per-item data — H1 and H2 re-run from the feature matrices; the D3
+from-scratch re-run under the naive fold scheme, with the group-aware
+headline verified against the pinned report; three related-work citation
+re-verifications taken on report and not independently checked. The
+Director was isolated from the analysis process, not blinded to results;
+its rulings and regrades are archived as dated documents in the
+repository. All numbers reported here
 were machine-verified against the frozen artifacts rather than restated from
 any model's summary.
 
