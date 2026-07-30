@@ -7,15 +7,27 @@ Never launch a run while another is training; the single RTX 6000 Ada is the
 whole campaign's instrument, and concurrent runs would corrupt the very
 quantity being measured.
 
-## In flight
+## State
+
+Nothing in flight. The GPU has been idle since 02:43Z. Run 1 is measured; the
+next launch (`gemma2-2b run_2`) awaits hub review — the S2 brief authorized one
+run only, so the queue does not self-advance.
 
 === VERIFIED STATE ===
-launched          = gemma2-2b run_1
-pid               = 94948
-launched_at_utc   = 2026-07-30T01:33Z
-launch_mode       = PowerShell Start-Process, hidden, detached (survives session end)
-log               = results/s2-timing-pilots/logs/run_gemma2-2b_1.log
+gemma2-2b_run_1_status   = COMPLETE
+gemma2-2b_run_1_measured = 72.08 min/run
+gemma2-2b_run_1_peak_vram = 14.07 GB
+launched_at_utc          = 2026-07-30T01:33Z
+finished_at_utc          = 2026-07-30T02:43Z
+launch_mode              = PowerShell Start-Process, hidden, detached (survived session end)
+runs_measured            = 1 of 9 accessible
+next_launch              = gemma2-2b run_2 (awaiting hub review)
 === END VERIFIED STATE ===
+
+The 10-step dry-run projection for this family was 73.03 min; the measurement
+landed 1.3% under it, so the projections for the remaining families are worth
+trusting to roughly that tolerance. Step time was slightly *worse* than the dry
+run predicted (1.9358 s vs 1.886 s) and the setup/eval terms slightly better.
 
 ## Queue (launch in this order, one at a time)
 
@@ -25,7 +37,7 @@ for that family, not a measurement — the point of these runs is to replace it.
 
 | # | family | run | task | status | proj_min |
 |---|---|---|---|---|---|
-| 1 | gemma2-2b | run_1 | alpaca | LAUNCHED (pid 94948) | 73.0 |
+| 1 | gemma2-2b | run_1 | alpaca | **COMPLETE — 72.08 measured** | 73.0 |
 | 2 | gemma2-2b | run_2 | code | queued | 73.0 |
 | 3 | gemma2-2b | run_3 | math | queued | 73.0 |
 | 4 | qwen2.5-3b | run_1 | alpaca | queued | 70.6 |
