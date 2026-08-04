@@ -1,0 +1,328 @@
+{
+ "level": "B8",
+ "generated_by": "scripts/granularity_labels.py",
+ "card": [
+  "docs/REGISTRATION_GRANULARITY_2026-07-30.md",
+  "docs/DESIGN_GRANULARITY_BRIDGE_2026-07-21.md",
+  "docs/DIRECTOR_RULINGS_LADDER_ERRATA_REGISTRATIONS_2026-07-30.md#part-5",
+  "docs/DIRECTOR_RULINGS_S2_SIX_ASKS_2026-08-04.md#ask-3",
+  "docs/LOCK_GRANULARITY_2026-08-04.md"
+ ],
+ "git_commit": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+ "created_at": "2026-08-04T19:21:19.452069+00:00",
+ "k_declared": 8,
+ "k_materialized": 8,
+ "kind": "training",
+ "launchable": true,
+ "launch_blocked_by": [],
+ "seeds_per_class": 4,
+ "n_runs": 32,
+ "chance": 0.125,
+ "balance_policy": "none",
+ "balance_alternatives_n": {
+  "none": {
+   "common_n": null,
+   "train_rows_kept": 36000,
+   "train_rows_discarded": 0,
+   "discard_fraction": 0.0
+  },
+  "task": {
+   "common_n": [
+    4487
+   ],
+   "train_rows_kept": 35896,
+   "train_rows_discarded": 104,
+   "discard_fraction": 0.0029
+  },
+  "level": {
+   "common_n": [
+    4487
+   ],
+   "train_rows_kept": 35896,
+   "train_rows_discarded": 104,
+   "discard_fraction": 0.0029
+  }
+ },
+ "pool_floor_d4": 1000,
+ "d6_subsample_nominal": 1000,
+ "sequences_per_run": 32000,
+ "val_size_per_class": 500,
+ "val_seed": 777,
+ "pool_cap": 40000,
+ "row_order_convention": "ascending raw-row index into the HF train split; the per-class val/train split is then asset1_datasets.split_ids(len(row_ids))",
+ "discarded_rows_by_task": {
+  "squad": 0
+ },
+ "ineligible_classes": [],
+ "clean_core_classes": [
+  "squad:tg8_0",
+  "squad:tg8_1",
+  "squad:tg8_2",
+  "squad:tg8_3",
+  "squad:tg8_4",
+  "squad:tg8_5",
+  "squad:tg8_6",
+  "squad:tg8_7"
+ ],
+ "ambiguities": [
+  {
+   "id": "G-1",
+   "ruling": "RULED --balance none (ratified) \u2014 three grounds: the card's own \u00a73 arithmetic, L0 anchor comparability, and confound control.",
+   "where": "design \u00a74 `splits` vs design \u00a73 \"Pool survival\" \u2014 the two sections of the registered card disagree",
+   "question": "\u00a74 says \"pools subsampled to common per-class n within each level (discards logged)\". \u00a73 states the realized pools as \"L1 ~3.5k (math) \u2013 24k (alpaca)\". Those cannot both hold: a common per-class n is ONE number per level, not a 7x range.",
+   "resolution": "--balance none (default). MEASURED, not argued: this script computes L1's per-class training pools as 2,628 (math steps_ge4) \u2013 24,788 (alpaca no_input), which reproduces \u00a73's stated \"~3.5k \u2013 24k\" exactly; no other policy does (--balance task gives 2,628 \u2013 14,212, --balance level gives 2,628 everywhere). \u00a73 therefore describes an UNBALANCED build, and \u00a74's sentence is the part of the card that does not fit its own arithmetic. Second, independent reason: L0's 240 adapters already exist and were trained on unbalanced pools (6,973 \u2013 40,000). Balancing L1 would move TWO variables between the curve's first two points \u2014 K and pool policy \u2014 and level-wide balancing would additionally raise every L1 class from ~1.3 epochs to 12.18, inflating the very memorization confound \u00a79.2 names and D7 exists to test.",
+   "alternatives": [
+    "--balance level (the literal \u00a74 sentence; discards 82.5% of L1's training rows)",
+    "--balance task (within-task common n; discards 6.6% at L1)"
+   ],
+   "consequence": "Under `none`, per-class pool size varies WITHIN a level, so epochs-per-pool vary within a level (reported per class, as \u00a79.2 requires). Realized n and discarded mass under all three policies are computed and reported for every level, so the choice is a one-flag re-run.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-2",
+   "ruling": "ACCEPTED PROVISIONALLY \u2014 Director review of the authored taxonomy required before L2 fires. No effect on L1.",
+   "where": "design \u00a73 table, alpaca L2/L3: \"4 / 8 instruction-verb families [T2 keyword rules]\"",
+   "question": "The card names the tier and the count but not the rules: which verb families, and which verbs in each.",
+   "resolution": "Meridian-authored frozen taxonomy (ALPACA_VERB_L3, 8 families over the instruction's first word, with a residual `other`; L2 = the frozen pairwise merge ALPACA_VERB_L2_MERGE, so L2 is a strict coarsening of L3).",
+   "alternatives": [
+    "a Director-supplied taxonomy",
+    "a data-driven clustering (would make the cells T3)"
+   ],
+   "consequence": "This is an authored label space inside a registered card. It should be reviewed before the L2/L3 tiers fire; it does not affect L1 (alpaca L1 is native).",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-3",
+   "ruling": "RULED as built \u2014 four named languages, residual discarded and logged. No effect on L1.",
+   "where": "design \u00a73 table, code L2/L3: \"output language {Python / non-Python / \u2026} [T2; skew audit]\"",
+   "question": "Which four language classes, and what happens to the mass that matches none of them (measured: 43% of the CodeAlpaca pool matches no language marker).",
+   "resolution": "four NAMED languages (sql, html_css, javascript, python) under a frozen ordered-pattern rule; the residual is DISCARDED and its mass logged.",
+   "alternatives": [
+    "make the residual a 4th class (`other`) \u2014 zero discard, but the class's definition is 'everything else', which the D6 data-space reference would correctly read as inseparable"
+   ],
+   "consequence": "The discarded mass is logged per level. `sql` is the binding class for code's floor \u2014 its realized n is reported.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-4",
+   "ruling": "RULED doc-length median [T2] (ratified) \u2014 L1 is then 12/12 clean-core and annotator-free.",
+   "where": "design \u00a73 table, xsum L1: \"doc-length median [T2, weak] or 2 topics [T3]\"",
+   "question": "The card offers two options and does not choose.",
+   "resolution": "doc-length median [T2]. L1 is then 12/12 clean-core, needs no annotator, and can launch immediately \u2014 which matters because L1 is the only funded tier after L0.",
+   "alternatives": [
+    "2 model-annotated topics [T3] \u2014 would make L1's clean-core curve 10/12 classes"
+   ],
+   "consequence": "The L1 all-classes and clean-core curves coincide exactly, so the D3 divergence rule has nothing to bite on at L1. Stated in the L1 readout.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-5",
+   "ruling": "STOP CONFIRMED \u2014 L2/L3 stay unlaunchable until a dated amendment pins model id + prompt + inventory + procedure + seed.",
+   "where": "design \u00a73 table, xsum L2 (4 topics) and L3 (12 topics), both [T3 model-annotated]",
+   "question": "The card admits T3 cells (D3 RESTRICTED) but pins NO annotator: no model, no prompt, no topic inventory, no frozen assignment procedure exists in the record.",
+   "resolution": "STOP. xsum's L2/L3 classes are DECLARED but NOT MATERIALIZED (status pending_t3_annotation, no row ids). Every other class at L2/L3 is materialized. L2 and L3 are NOT launchable until an annotator is pinned by dated amendment.",
+   "alternatives": [
+    "pin an annotator (model id + prompt + inventory + seed) as a dated amendment",
+    "substitute a T2 rule (e.g. length quantiles), which changes the semantic axis the card names and would make the whole ladder clean-core"
+   ],
+   "consequence": "K=24 at L2 and K=48 at L3 both DEPEND on xsum: without it L2 realizes K=20 and L3 realizes K=36. This gates the L2 and L3 tiers only; L0, L1 and Arm B are unaffected.",
+   "authority": "hub / Director (dated amendment, L-006)"
+  },
+  {
+   "id": "G-6",
+   "ruling": "RULED 16/8/4/3 at rungs 2/4/8/16 (= 144 runs exactly) \u2014 the card's 2->16 span wins over constant-N.",
+   "where": "design \u00a711 item 8 / D8 PROMOTED: \"squad-only deep ladder, 2->16 native title groups, ~144 runs\"",
+   "question": "The TOTAL is fixed \u2014 the locked cost table gives Arm B 3.056 GPU-days, which at the measured 30.56 min/run is exactly 144.0 runs \u2014 but the per-rung seed allocation is unspecified.",
+   "resolution": "seeds 16/8/4/3 at rungs 2/4/8/16 = 32+32+32+48 = 144 runs exactly, preserving the card's stated 2->16 span and its stated total.",
+   "alternatives": [
+    "rungs 4/8/16 at a constant N=48 per rung (= 144 exactly, honours D2's constant-N rationale, but drops the 2-group rung the card names)"
+   ],
+   "consequence": "Classifier N is 32/32/32/48 rather than constant across rungs, so Arm B's curve is not sample-size-matched the way the main ladder's is. Reported.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-7",
+   "ruling": "RULED largest-pool T1 L2 class, halves from the FULL class pool.",
+   "where": "design \u00a76.2 / D7 MANDATORY: \"One L2 class: adapters on two disjoint halves of the same pool (5 + 5 seeds)\"",
+   "question": "Which L2 class; and are the halves halves of the FULL class pool or of the level-balanced pool (under G-1's level-wide balancing, half a balanced pool falls below the D4 floor).",
+   "resolution": "the largest-pool T1-tier L2 class (deterministic, recorded); halves are taken from the class's FULL training pool, so each half clears the D4 floor. D7 is a control, not a level cell \u2014 it is not level-balanced, and says so.",
+   "alternatives": [
+    "a Director-named class",
+    "a small-pool class (sharper memorization test, but halves may fall below the floor)"
+   ],
+   "consequence": "D7's two half-pools are ~half the size of the full class pool and therefore see ~2x the epochs of the unbalanced class. Reported with the control.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-8",
+   "ruling": "RECORDED DERIVATION \u2014 no ruling required.",
+   "where": "design \u00a73 table L3 (xsum \"8\u201312 topics\", squad \"8\u201316 title groups\") vs the lock's \"L3 ~48x5\"",
+   "question": "The card gives ranges; the lock gives ~48 classes and 240 adapters at 5 seeds.",
+   "resolution": "xsum 12 + squad 16, with alpaca 8, code 4, math 4, agnews 4 -> K = 48 exactly, 48 x 5 = 240 adapters. This is the only combination inside the card's stated ranges that hits the lock's numbers exactly.",
+   "alternatives": [
+    "any other point in the ranges, at the cost of K != 48 and adapters != 240"
+   ],
+   "consequence": "L3's realized K depends on G-5 being resolved; without xsum, L3 realizes K=36.",
+   "authority": "recorded derivation (no ruling needed unless contested)"
+  },
+  {
+   "id": "G-9",
+   "ruling": "RULED post-val (the stricter reading).",
+   "where": "design \u00a73 \"training pool >= 1,000 examples\" vs \u00a74 \"per-CLASS fixed 500-example val\"",
+   "question": "Is the D4 floor measured before or after the per-class val is removed.",
+   "resolution": "after \u2014 the floor is read literally as a floor on the TRAINING pool, so a class needs >= 1,500 pool rows to be eligible.",
+   "alternatives": [
+    "floor on the pre-val class pool (a 1,000-row class would train on 500 examples = 64 epochs)"
+   ],
+   "consequence": "The stricter reading. Eligibility is reported with both counts (n_class_rows and n_train_pool).",
+   "authority": "recorded derivation"
+  }
+ ],
+ "rulings_doc": "docs/DECIDER_RULINGS_GRANULARITY_AMBIGUITIES_2026-08-04.md",
+ "classes": [
+  {
+   "class_id": "squad:tg8_0",
+   "task": "squad",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "Arm B rung 8: native `title` -> 8 frozen nested title groups",
+   "n_class_rows": 5008,
+   "n_train_pool": 4508,
+   "n_train_pool_unbalanced": 4508,
+   "n_val": 500,
+   "epochs_per_pool": 7.1,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "3e103ac9ac75d003dfb951442141716136108fe86fe26bf25f2e4b27abe27d5a",
+   "d6_ids_sha256": "f34b65f21c2e2663d428d6bfa1e127cf3c460c701ff95e5b2497f88cdc40b2af",
+   "val_ids_sha256": "29420e849207c46ff31737b70ec987126e90fbed6b914b312dd6ec64f3e654d5"
+  },
+  {
+   "class_id": "squad:tg8_1",
+   "task": "squad",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "Arm B rung 8: native `title` -> 8 frozen nested title groups",
+   "n_class_rows": 5008,
+   "n_train_pool": 4508,
+   "n_train_pool_unbalanced": 4508,
+   "n_val": 500,
+   "epochs_per_pool": 7.1,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "b1bd8d3bd7f84f3df8a7ee04b92220d2c00515beb1c7ce043d0fe22f6149b0a0",
+   "d6_ids_sha256": "f4c6003ecc2d36829f2f7b54f51ad1850d2d513968dc0332b57893216bc6c941",
+   "val_ids_sha256": "daf5a9894055647a70fa49ce8c5b04a788b751b0319037e3ccaa4f51ee5e9bdf"
+  },
+  {
+   "class_id": "squad:tg8_2",
+   "task": "squad",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "Arm B rung 8: native `title` -> 8 frozen nested title groups",
+   "n_class_rows": 5006,
+   "n_train_pool": 4506,
+   "n_train_pool_unbalanced": 4506,
+   "n_val": 500,
+   "epochs_per_pool": 7.1,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "c957492143a0af461695acdbab8ea282cf3806fc10cb161416096aa98630a4fd",
+   "d6_ids_sha256": "74dba5f9e1524fd965d79c4053944befa7870c63d85d546f70bfbc4de642ab0e",
+   "val_ids_sha256": "8c2b0e110056e05fe6deb2218c9caeac48a42e7375ad021e8d8f178fcec7acf4"
+  },
+  {
+   "class_id": "squad:tg8_3",
+   "task": "squad",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "Arm B rung 8: native `title` -> 8 frozen nested title groups",
+   "n_class_rows": 5002,
+   "n_train_pool": 4502,
+   "n_train_pool_unbalanced": 4502,
+   "n_val": 500,
+   "epochs_per_pool": 7.11,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "97eb3db9f552d4a03157955da4ef218f17adf0ee3c615165f8d1684631c34821",
+   "d6_ids_sha256": "5fe0d270f14895e43885a952486b7db4851eb6afbb67ffc90d7c1e1c05307778",
+   "val_ids_sha256": "2e9c6347e593a98ccd44f30820c37e2edc96e2b20d8154154fb60b95ef83f442"
+  },
+  {
+   "class_id": "squad:tg8_4",
+   "task": "squad",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "Arm B rung 8: native `title` -> 8 frozen nested title groups",
+   "n_class_rows": 5001,
+   "n_train_pool": 4501,
+   "n_train_pool_unbalanced": 4501,
+   "n_val": 500,
+   "epochs_per_pool": 7.11,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "e5fcf28f9c0a5e6f643db84f4b1b418853cabaf14d95fce9be791ede32574142",
+   "d6_ids_sha256": "63440b36b0ad3980a85e49ae02e12762b32a3fb762f754c6f884e94c8b0c3562",
+   "val_ids_sha256": "6b8689bd40fcbf35989fb1edff740dfc1663fedacb0bd250904234ceef0d481f"
+  },
+  {
+   "class_id": "squad:tg8_5",
+   "task": "squad",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "Arm B rung 8: native `title` -> 8 frozen nested title groups",
+   "n_class_rows": 4996,
+   "n_train_pool": 4496,
+   "n_train_pool_unbalanced": 4496,
+   "n_val": 500,
+   "epochs_per_pool": 7.12,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "29e51d154c860f9bb57a7e5aa3d702c35dcacc97d7c73a5a0082d06620cd1ec6",
+   "d6_ids_sha256": "51a097025c2717c4233161d34ce14e55bcda4c62f508fbe15388c98f22ac4800",
+   "val_ids_sha256": "a3adf88b7a3b159407f655bee32531aa3f0682def5db2671e69788d40d1b74ba"
+  },
+  {
+   "class_id": "squad:tg8_6",
+   "task": "squad",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "Arm B rung 8: native `title` -> 8 frozen nested title groups",
+   "n_class_rows": 4992,
+   "n_train_pool": 4492,
+   "n_train_pool_unbalanced": 4492,
+   "n_val": 500,
+   "epochs_per_pool": 7.12,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "2808693efc0a92a9e533228e74e826e228bc44ff06f35953a6c7baece73ca839",
+   "d6_ids_sha256": "38b6cc531f55a473df23d8ab8ffe86c24e9e67ed16be118d3ac07e10a47c9910",
+   "val_ids_sha256": "8cc23e7bad6813808f8ecb4e4280fe1175ea64b5378e729f7a922ba26344bc79"
+  },
+  {
+   "class_id": "squad:tg8_7",
+   "task": "squad",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "Arm B rung 8: native `title` -> 8 frozen nested title groups",
+   "n_class_rows": 4987,
+   "n_train_pool": 4487,
+   "n_train_pool_unbalanced": 4487,
+   "n_val": 500,
+   "epochs_per_pool": 7.13,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "b2b8be04bb60f4af38d076918dbc5331a05a77ca33ad9275f76a74d9924232d4",
+   "d6_ids_sha256": "9b173862fa0a666742b69ecc341983f1cd95d2d94109ac5a59923b4c57fe6561",
+   "val_ids_sha256": "61136ca5fdc22e4f5ef5a1cd69df4d8a5fb27ed6de634636e44a529327a74faa"
+  }
+ ]
+}

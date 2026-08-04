@@ -172,3 +172,20 @@ results/tinker-pilot/data/*.jsonl
 results/tinker-pilot/*/adapter_model.safetensors
 results/tinker-pilot/*/*.safetensors
 results/tinker-pilot/smoke/
+
+# Granularity ladder (registered 2026-07-30, locked 2026-08-04). Same
+# convention as the Asset-1 bank and the S2 pilots: regenerable/large payloads
+# stay on disk, the MEASUREMENTS and the frozen manifests ARE tracked
+# (labels/<level>.json with a row_ids_sha256 per class, LABELS_REPORT.md, each
+# run's config.json + metrics.json + granularity.json + TIMING.md, the
+# per-level analysis JSON/REPORT, TIER_GATES.json, QUEUE_STATE.md).
+# The row-id pools (~6.2 MB) are byte-for-byte regenerable by
+# scripts/granularity_labels.py and verifiable against the committed hashes.
+results/granularity/labels/*_pools.json
+results/granularity/*/run_*/adapter_state.pt
+results/granularity/*/run_*/*.npy
+results/granularity/*/dryrun_*/adapter_state.pt
+results/granularity/*/dryrun_*/*.npy
+results/granularity/analysis/scratch/
+results/granularity/selftest/
+results/granularity/logs/
