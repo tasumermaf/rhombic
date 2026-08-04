@@ -1,0 +1,299 @@
+{
+ "level": "L0",
+ "generated_by": "scripts/granularity_labels.py",
+ "card": [
+  "docs/REGISTRATION_GRANULARITY_2026-07-30.md",
+  "docs/DESIGN_GRANULARITY_BRIDGE_2026-07-21.md",
+  "docs/DIRECTOR_RULINGS_LADDER_ERRATA_REGISTRATIONS_2026-07-30.md#part-5",
+  "docs/DIRECTOR_RULINGS_S2_SIX_ASKS_2026-08-04.md#ask-3",
+  "docs/LOCK_GRANULARITY_2026-08-04.md"
+ ],
+ "git_commit": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+ "created_at": "2026-08-04T19:21:18.995668+00:00",
+ "k_declared": 6,
+ "k_materialized": 6,
+ "kind": "analysis-side",
+ "launchable": false,
+ "launch_blocked_by": [
+  "L0 is ANALYSIS-SIDE: its 240 adapters already exist in results/asset1-bank/llama3.2-1b/ (design \u00a72: new runs = 0)"
+ ],
+ "seeds_per_class": 40,
+ "n_runs": 0,
+ "chance": 0.16666666666666666,
+ "balance_policy": "n/a (existing adapters \u2014 analysis-side level)",
+ "balance_alternatives_n": {
+  "none": {
+   "common_n": null,
+   "train_rows_kept": 183495,
+   "train_rows_discarded": 0,
+   "discard_fraction": 0.0
+  },
+  "task": {
+   "common_n": [
+    6473,
+    19022,
+    39500
+   ],
+   "train_rows_kept": 183495,
+   "train_rows_discarded": 0,
+   "discard_fraction": 0.0
+  },
+  "level": {
+   "common_n": [
+    6473
+   ],
+   "train_rows_kept": 38838,
+   "train_rows_discarded": 144657,
+   "discard_fraction": 0.7883
+  }
+ },
+ "pool_floor_d4": 1000,
+ "d6_subsample_nominal": 1000,
+ "sequences_per_run": 32000,
+ "val_size_per_class": 500,
+ "val_seed": 777,
+ "pool_cap": 40000,
+ "row_order_convention": "ascending raw-row index into the HF train split; the per-class val/train split is then asset1_datasets.split_ids(len(row_ids))",
+ "discarded_rows_by_task": {
+  "alpaca": 0,
+  "code": 0,
+  "math": 0,
+  "xsum": 0,
+  "squad": 0,
+  "agnews": 0
+ },
+ "ineligible_classes": [],
+ "clean_core_classes": [
+  "alpaca",
+  "code",
+  "math",
+  "xsum",
+  "squad",
+  "agnews"
+ ],
+ "ambiguities": [
+  {
+   "id": "G-1",
+   "ruling": "RULED --balance none (ratified) \u2014 three grounds: the card's own \u00a73 arithmetic, L0 anchor comparability, and confound control.",
+   "where": "design \u00a74 `splits` vs design \u00a73 \"Pool survival\" \u2014 the two sections of the registered card disagree",
+   "question": "\u00a74 says \"pools subsampled to common per-class n within each level (discards logged)\". \u00a73 states the realized pools as \"L1 ~3.5k (math) \u2013 24k (alpaca)\". Those cannot both hold: a common per-class n is ONE number per level, not a 7x range.",
+   "resolution": "--balance none (default). MEASURED, not argued: this script computes L1's per-class training pools as 2,628 (math steps_ge4) \u2013 24,788 (alpaca no_input), which reproduces \u00a73's stated \"~3.5k \u2013 24k\" exactly; no other policy does (--balance task gives 2,628 \u2013 14,212, --balance level gives 2,628 everywhere). \u00a73 therefore describes an UNBALANCED build, and \u00a74's sentence is the part of the card that does not fit its own arithmetic. Second, independent reason: L0's 240 adapters already exist and were trained on unbalanced pools (6,973 \u2013 40,000). Balancing L1 would move TWO variables between the curve's first two points \u2014 K and pool policy \u2014 and level-wide balancing would additionally raise every L1 class from ~1.3 epochs to 12.18, inflating the very memorization confound \u00a79.2 names and D7 exists to test.",
+   "alternatives": [
+    "--balance level (the literal \u00a74 sentence; discards 82.5% of L1's training rows)",
+    "--balance task (within-task common n; discards 6.6% at L1)"
+   ],
+   "consequence": "Under `none`, per-class pool size varies WITHIN a level, so epochs-per-pool vary within a level (reported per class, as \u00a79.2 requires). Realized n and discarded mass under all three policies are computed and reported for every level, so the choice is a one-flag re-run.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-2",
+   "ruling": "ACCEPTED PROVISIONALLY \u2014 Director review of the authored taxonomy required before L2 fires. No effect on L1.",
+   "where": "design \u00a73 table, alpaca L2/L3: \"4 / 8 instruction-verb families [T2 keyword rules]\"",
+   "question": "The card names the tier and the count but not the rules: which verb families, and which verbs in each.",
+   "resolution": "Meridian-authored frozen taxonomy (ALPACA_VERB_L3, 8 families over the instruction's first word, with a residual `other`; L2 = the frozen pairwise merge ALPACA_VERB_L2_MERGE, so L2 is a strict coarsening of L3).",
+   "alternatives": [
+    "a Director-supplied taxonomy",
+    "a data-driven clustering (would make the cells T3)"
+   ],
+   "consequence": "This is an authored label space inside a registered card. It should be reviewed before the L2/L3 tiers fire; it does not affect L1 (alpaca L1 is native).",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-3",
+   "ruling": "RULED as built \u2014 four named languages, residual discarded and logged. No effect on L1.",
+   "where": "design \u00a73 table, code L2/L3: \"output language {Python / non-Python / \u2026} [T2; skew audit]\"",
+   "question": "Which four language classes, and what happens to the mass that matches none of them (measured: 43% of the CodeAlpaca pool matches no language marker).",
+   "resolution": "four NAMED languages (sql, html_css, javascript, python) under a frozen ordered-pattern rule; the residual is DISCARDED and its mass logged.",
+   "alternatives": [
+    "make the residual a 4th class (`other`) \u2014 zero discard, but the class's definition is 'everything else', which the D6 data-space reference would correctly read as inseparable"
+   ],
+   "consequence": "The discarded mass is logged per level. `sql` is the binding class for code's floor \u2014 its realized n is reported.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-4",
+   "ruling": "RULED doc-length median [T2] (ratified) \u2014 L1 is then 12/12 clean-core and annotator-free.",
+   "where": "design \u00a73 table, xsum L1: \"doc-length median [T2, weak] or 2 topics [T3]\"",
+   "question": "The card offers two options and does not choose.",
+   "resolution": "doc-length median [T2]. L1 is then 12/12 clean-core, needs no annotator, and can launch immediately \u2014 which matters because L1 is the only funded tier after L0.",
+   "alternatives": [
+    "2 model-annotated topics [T3] \u2014 would make L1's clean-core curve 10/12 classes"
+   ],
+   "consequence": "The L1 all-classes and clean-core curves coincide exactly, so the D3 divergence rule has nothing to bite on at L1. Stated in the L1 readout.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-5",
+   "ruling": "STOP CONFIRMED \u2014 L2/L3 stay unlaunchable until a dated amendment pins model id + prompt + inventory + procedure + seed.",
+   "where": "design \u00a73 table, xsum L2 (4 topics) and L3 (12 topics), both [T3 model-annotated]",
+   "question": "The card admits T3 cells (D3 RESTRICTED) but pins NO annotator: no model, no prompt, no topic inventory, no frozen assignment procedure exists in the record.",
+   "resolution": "STOP. xsum's L2/L3 classes are DECLARED but NOT MATERIALIZED (status pending_t3_annotation, no row ids). Every other class at L2/L3 is materialized. L2 and L3 are NOT launchable until an annotator is pinned by dated amendment.",
+   "alternatives": [
+    "pin an annotator (model id + prompt + inventory + seed) as a dated amendment",
+    "substitute a T2 rule (e.g. length quantiles), which changes the semantic axis the card names and would make the whole ladder clean-core"
+   ],
+   "consequence": "K=24 at L2 and K=48 at L3 both DEPEND on xsum: without it L2 realizes K=20 and L3 realizes K=36. This gates the L2 and L3 tiers only; L0, L1 and Arm B are unaffected.",
+   "authority": "hub / Director (dated amendment, L-006)"
+  },
+  {
+   "id": "G-6",
+   "ruling": "RULED 16/8/4/3 at rungs 2/4/8/16 (= 144 runs exactly) \u2014 the card's 2->16 span wins over constant-N.",
+   "where": "design \u00a711 item 8 / D8 PROMOTED: \"squad-only deep ladder, 2->16 native title groups, ~144 runs\"",
+   "question": "The TOTAL is fixed \u2014 the locked cost table gives Arm B 3.056 GPU-days, which at the measured 30.56 min/run is exactly 144.0 runs \u2014 but the per-rung seed allocation is unspecified.",
+   "resolution": "seeds 16/8/4/3 at rungs 2/4/8/16 = 32+32+32+48 = 144 runs exactly, preserving the card's stated 2->16 span and its stated total.",
+   "alternatives": [
+    "rungs 4/8/16 at a constant N=48 per rung (= 144 exactly, honours D2's constant-N rationale, but drops the 2-group rung the card names)"
+   ],
+   "consequence": "Classifier N is 32/32/32/48 rather than constant across rungs, so Arm B's curve is not sample-size-matched the way the main ladder's is. Reported.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-7",
+   "ruling": "RULED largest-pool T1 L2 class, halves from the FULL class pool.",
+   "where": "design \u00a76.2 / D7 MANDATORY: \"One L2 class: adapters on two disjoint halves of the same pool (5 + 5 seeds)\"",
+   "question": "Which L2 class; and are the halves halves of the FULL class pool or of the level-balanced pool (under G-1's level-wide balancing, half a balanced pool falls below the D4 floor).",
+   "resolution": "the largest-pool T1-tier L2 class (deterministic, recorded); halves are taken from the class's FULL training pool, so each half clears the D4 floor. D7 is a control, not a level cell \u2014 it is not level-balanced, and says so.",
+   "alternatives": [
+    "a Director-named class",
+    "a small-pool class (sharper memorization test, but halves may fall below the floor)"
+   ],
+   "consequence": "D7's two half-pools are ~half the size of the full class pool and therefore see ~2x the epochs of the unbalanced class. Reported with the control.",
+   "authority": "hub / Director"
+  },
+  {
+   "id": "G-8",
+   "ruling": "RECORDED DERIVATION \u2014 no ruling required.",
+   "where": "design \u00a73 table L3 (xsum \"8\u201312 topics\", squad \"8\u201316 title groups\") vs the lock's \"L3 ~48x5\"",
+   "question": "The card gives ranges; the lock gives ~48 classes and 240 adapters at 5 seeds.",
+   "resolution": "xsum 12 + squad 16, with alpaca 8, code 4, math 4, agnews 4 -> K = 48 exactly, 48 x 5 = 240 adapters. This is the only combination inside the card's stated ranges that hits the lock's numbers exactly.",
+   "alternatives": [
+    "any other point in the ranges, at the cost of K != 48 and adapters != 240"
+   ],
+   "consequence": "L3's realized K depends on G-5 being resolved; without xsum, L3 realizes K=36.",
+   "authority": "recorded derivation (no ruling needed unless contested)"
+  },
+  {
+   "id": "G-9",
+   "ruling": "RULED post-val (the stricter reading).",
+   "where": "design \u00a73 \"training pool >= 1,000 examples\" vs \u00a74 \"per-CLASS fixed 500-example val\"",
+   "question": "Is the D4 floor measured before or after the per-class val is removed.",
+   "resolution": "after \u2014 the floor is read literally as a floor on the TRAINING pool, so a class needs >= 1,500 pool rows to be eligible.",
+   "alternatives": [
+    "floor on the pre-val class pool (a 1,000-row class would train on 500 examples = 64 epochs)"
+   ],
+   "consequence": "The stricter reading. Eligibility is reported with both counts (n_class_rows and n_train_pool).",
+   "authority": "recorded derivation"
+  }
+ ],
+ "rulings_doc": "docs/DECIDER_RULINGS_GRANULARITY_AMBIGUITIES_2026-08-04.md",
+ "classes": [
+  {
+   "class_id": "agnews",
+   "task": "agnews",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "the six bank tasks (L0 anchor \u2014 existing adapters, no new runs)",
+   "n_class_rows": 40000,
+   "n_train_pool": 39500,
+   "n_train_pool_unbalanced": 39500,
+   "n_val": 500,
+   "epochs_per_pool": 0.81,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "2698cd34a3c7ec11e85d261a3931cc854917b1ff39285ad9fec7001a3a223adc",
+   "d6_ids_sha256": "6d7eb44083ad73f0b89abf1306c9f73f81ae990bd4e4023dd5032713ac5c335a",
+   "val_ids_sha256": "dce71ea300117debd79a131f8584117343fb36e3cff59e487943144a3368acc9"
+  },
+  {
+   "class_id": "alpaca",
+   "task": "alpaca",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "the six bank tasks (L0 anchor \u2014 existing adapters, no new runs)",
+   "n_class_rows": 40000,
+   "n_train_pool": 39500,
+   "n_train_pool_unbalanced": 39500,
+   "n_val": 500,
+   "epochs_per_pool": 0.81,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "fc362431c4d73e860a6f97209bbe48930152561b7748b04f81502e405d1258e2",
+   "d6_ids_sha256": "86ba2fcb9063a8576f5e615417ba60639ec58357c8863b38bcfbed241e9b1c70",
+   "val_ids_sha256": "f0ab94582ec5bd549394c9ff8793264310ee73b9f076b818ab6669d240d3061e"
+  },
+  {
+   "class_id": "code",
+   "task": "code",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "the six bank tasks (L0 anchor \u2014 existing adapters, no new runs)",
+   "n_class_rows": 19522,
+   "n_train_pool": 19022,
+   "n_train_pool_unbalanced": 19022,
+   "n_val": 500,
+   "epochs_per_pool": 1.68,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "95c702ebd4e4224393d217f47835c4487d121beb6bb7bf1967062a0d629d09ef",
+   "d6_ids_sha256": "523fa44c6aab9f728846a287c15ada908c373f69435a1bc3281c381a6fa447d9",
+   "val_ids_sha256": "8765bd084b5fe9ceec17fc2568568139d20b1ccc753b28e5dc824e084440f5cf"
+  },
+  {
+   "class_id": "math",
+   "task": "math",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "the six bank tasks (L0 anchor \u2014 existing adapters, no new runs)",
+   "n_class_rows": 6973,
+   "n_train_pool": 6473,
+   "n_train_pool_unbalanced": 6473,
+   "n_val": 500,
+   "epochs_per_pool": 4.94,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "e4b71ae95ff00db941d982761ab9bc3761006dd95b7c91892325c7f049602858",
+   "d6_ids_sha256": "4b23687bb54cf137a6db6c70778a7d53671f61559fc7696d0b656021ddca0d4b",
+   "val_ids_sha256": "ebf5a0f7f304e7eaeb26513f6f7e62ee603c02cad2ecff62f3ab11e0a4cddf7a"
+  },
+  {
+   "class_id": "squad",
+   "task": "squad",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "the six bank tasks (L0 anchor \u2014 existing adapters, no new runs)",
+   "n_class_rows": 40000,
+   "n_train_pool": 39500,
+   "n_train_pool_unbalanced": 39500,
+   "n_val": 500,
+   "epochs_per_pool": 0.81,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "1e2a99ae966051bf4020a47de121ce5fd8abf91f4291a5bec9cfd6543f9ce08a",
+   "d6_ids_sha256": "7481b70a40de8e4d3ec153523ef7975fe4a12150b87d0ca78c60af2c46efa70e",
+   "val_ids_sha256": "9c66f36f9af6192a488103b68d7cf60944f4dbb5b4c3bc8612bfc98ce887edfb"
+  },
+  {
+   "class_id": "xsum",
+   "task": "xsum",
+   "tier": "T1",
+   "clean_core": true,
+   "status": "ok",
+   "materialized": true,
+   "rule": "the six bank tasks (L0 anchor \u2014 existing adapters, no new runs)",
+   "n_class_rows": 40000,
+   "n_train_pool": 39500,
+   "n_train_pool_unbalanced": 39500,
+   "n_val": 500,
+   "epochs_per_pool": 0.81,
+   "d6_realized_n": 1000,
+   "row_ids_sha256": "fb594fbe6f1dd724334ce0f6eecba879c991f67f00381aa890f55c5b98fd329c",
+   "d6_ids_sha256": "cf0e4d4f094844be88ec2f53b8234df36b810ba1684a84eac6b5ee2bf6f8a03c",
+   "val_ids_sha256": "b68d1e90081231b3058b68f9ce55b532dc53c2baab5faafddbcac2c8dfd5cfce"
+  }
+ ]
+}
