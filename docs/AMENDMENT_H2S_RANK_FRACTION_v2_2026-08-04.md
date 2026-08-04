@@ -112,6 +112,34 @@ hypothesizes carry task identity.
   read "llama3.2-1b at the Asset-1 recipe"; the epochs-per-pool gradient is
   the declared §9.2 confound with D7 as its direct test).
 
+## 4a. PIN RECEIVED — Director's grade of 2026-08-04 (dated addendum, same day)
+
+**The pin is GRANTED on this v2** (`docs/DIRECTOR_GRADES_2026-08-04.md`, filed
+verbatim both repos; all three blockers and all v2 arithmetic independently
+recomputed by the Director, including the deeper check α/√r = 3.266 on both
+legs). Three conditions, now binding on this arm:
+
+1. **n = 30 runs, not 60.** His computed basis: at the delivered effect sizes
+   (H2 transfer 0.74–0.78 vs chance 0.17) a 95% CI at n=30 is ±13pp against a
+   >55pp expected separation; n=60 buys ±9pp on a contrast that does not need
+   it. The saved 3.19 GPU-days go to the ladder's L2.
+2. **Probe task alpaca STANDS.** The Director drafted a re-pin to math, and his
+   own audit caught it as an inverted reading of the record (math has the
+   LARGEST within-class spread in the delivered bank, not the smallest); the
+   error is recorded in his grade rather than silently removed. The record's
+   ordering weakly favours alpaca — where §2 already pins it.
+3. **§3 padding clause approved, plus one addition:** report the
+   **padded-slot occupancy** — the fraction of nonzero mass in slots 25–54 of
+   the rank-54 leg — as a descriptive statistic, so a null on the padded
+   contrast is distinguishable from "the extra slots were never used."
+
+The escalation rule is confirmed binding. The 72-run sweep rejection is
+ratified. **Citation status of arXiv:2602.04998:** the Director could not
+fetch it his pass and flags it for verification before any paper use; LAORA's
+retro-read DID fetch the abstract page successfully on 2026-08-04 (authors
+Lee, Ko, Chen, Yeh; submitted 2026-02-04, rev 2026-05-19) — one independent
+fetch on record, to be re-verified at paper-writing time as flagged.
+
 ## 5. Provenance
 
 Finding and cure options: LAORA (lora-expert) retro-read, 2026-08-04; full
