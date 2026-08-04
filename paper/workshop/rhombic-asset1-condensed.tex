@@ -1,0 +1,840 @@
+% ============================================================================
+% Asset-1 — workshop condensation (FINAL ASSEMBLY, 2026-08-04).
+% Base: finding-first lens (draft_finding-first.tex), with judge-selected
+% grafts from the discipline-first lens (draft_discipline-first.tex) and
+% number/scope-audit fixes applied; provenance in CONDENSATION_NOTE.md in
+% this directory. Condensed from paper/rhombic-asset1.tex (released
+% 2026-07-29; wording frozen; 117-finding adversarial audit in
+% paper/audit/round-2/).
+% ZERO new compute: every number below already exists in the parent paper's
+% verification bundle or a cited measured artifact; numbers outside the
+% typed numbers table carry a % SOURCE: comment (absolute path) at the use
+% site, and trailer entries are marked EXTRA when re-read from a named
+% source rather than the typed table. Layout is GENERIC (10pt single-column
+% preprint) and will be refit to the specific workshop CFP later.
+% Bibliography is embedded (thebibliography) so the file is self-contained;
+% entries copied from paper/refs-asset1.bib.
+% ============================================================================
+\documentclass[10pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+% \usepackage{microtype}  % disabled: MiKTeX font expansion issue (house note)
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!60!black,
+  citecolor=blue!60!black,
+  urlcolor=blue!60!black
+}
+
+\title{%
+  The Gauge Is the Obstacle:\\
+  \large Task Identity, Cross-Family Transfer, and Merge-Conflict
+  Prediction from Adapter Weights Alone\\
+  \normalsize (Workshop condensation)%
+}
+
+% Placeholder affiliations — refit to the venue's author block at CFP time.
+\author{%
+  Timothy Paul Bielec\thanks{Corresponding author.
+  \texttt{timothy@promptcrafted.com}. Affiliations are placeholders pending
+  the venue author block.}\\
+  TASUMER MAF\\
+  \and
+  Araminta K.\ Carlson\\
+  TASUMER MAF\\
+}
+
+% Assembly date of this condensation (assembled 2026-08-04); the parent
+% paper is dated July 2026 (released 2026-07-29). Document metadata, not a
+% data claim.
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+% ===================================================================
+\begin{abstract}
+Raw flattened weights are the unexamined default of adapter analysis; we
+measure what the default costs. Against a pre-registered bank of 480 LoRA
+adapters---2 model families $\times$ 6 tasks $\times$ 40 seeds---raw weights
+fail a locked task-identifiability test (leave-one-out accuracy 0.0792 /
+0.1375, chance 0.1667), while $\mathrm{GL}(r)$-gauge-canonical and
+vocabulary-signature representations identify all six tasks at 1.0000
+(permutation $p = 0.000999$). Our pre-registered prediction that task
+structure would \emph{not} transfer across families was refuted by its own
+control: raw transfer-at-chance was a family-scale covariate-shift artifact
+(family-identity probe 1.0000 on raw features), and shift-controlled
+transfer runs 0.7375--0.7833 (binomial $p \le 1.20\times10^{-84}$). One
+mechanism covers both: nuisance variation---the $\mathrm{GL}(r)$
+factorization gauge within a family, the scale gauge between
+families---dominates raw coordinates; task identity is gauge-obscured, not
+absent. Companion results: every bridge swap preserving the identity
+backbone costs under $+0.001$ nats, while destroying it costs $+2.8086$ /
+$+3.8365$; weight-only features predict midpoint-merge conflict at
+group-aware AUC 0.995 / 0.962; a pilot correlation of $r = 0.888$ shrinks
+honestly to 0.300. Hypotheses were locked before the bank existed, each
+analysis ran exactly once, every headline was independently re-derived or
+verified by a separate Director instance (the parent paper records the
+scope of each re-derivation), and two of five outcomes went against us.
+\end{abstract}
+
+% ===================================================================
+\section{The result, in ninety seconds}
+\label{sec:hook}
+
+A trained LoRA adapter is a small stack of low-rank matrices, and adapters
+now accumulate by the thousands---shared on hubs, merged into products,
+composed by people who never saw the training run. Given only the adapter
+tensors---no training data, no logs, no access to the training
+process---what can be read out? The obstacle is not information but
+parameterization: a LoRA update factorizes as $BA$, and for any invertible
+$r \times r$ matrix $M$ the reparameterization $(B, A) \rightarrow (BM,
+M^{-1}A)$ leaves the effective update unchanged---the $\mathrm{GL}(r)$
+gauge. Raw flattened weights are the unexamined default of adapter
+analysis, and this paper measures what the default costs.
+
+The answer, measured once against a pre-registered 480-adapter bank: the
+default costs legibility itself. Raw adapter weights fail a locked
+task-identifiability test at leave-one-out accuracy 0.0792 (Qwen) / 0.1375
+(Llama) against chance 0.1667---while the same adapters, canonicalized to
+remove the $\mathrm{GL}(r)$ gauge, identify all six training tasks at
+1.0000 in both families (permutation $p = 0.000999$), at a small fraction
+of the raw dimensionality. One level up, the identical story: our own
+pre-registered prediction that task structure would \emph{not} transfer
+across model families was refuted by its own triviality control---raw
+transfer-at-chance was a covariate-shift artifact of family scale, and once
+an unsupervised per-family standardization removes it, task structure
+transfers between a 1.5B and a 1B model of different lineages at
+0.7375--0.7833. Task identity is gauge-obscured, not absent. The
+canonicalization, not classifier capacity, is the binding
+constraint---scoped to coarse label granularity within a controlled family
+(Section~\ref{sec:limitations}).
+
+Why a reader deciding quickly should care: (i) in regimes like
+ours---coarse task labels within controlled families---canonicalize before
+you conclude; a linear probe on gauge-fixed features suffices where the
+raw default fails (scope: Section~\ref{sec:limitations}); (ii) the same
+weight-only regime supports a supervised merge-conflict predictor at
+group-aware AUC 0.995 / 0.962 with a CI-separated margin over raw
+distance; and (iii) the numbers arrive with unusual evidentiary
+standing---hypotheses locked before the bank existed, every open choice
+pinned in dated rulings, a completeness interlock that held, each analysis
+run exactly once, every headline independently re-derived or verified by a
+separate Director instance (the scope of each re-derivation is recorded in
+the parent paper), and two of the five pre-registered outcomes decided
+\emph{against} the authors (Section~\ref{sec:methods}).
+
+% ===================================================================
+\section{The measurement}
+\label{sec:measurement}
+
+\subsection{The instrument}
+\label{sec:instrument}
+
+The artifact is a bank of 480 LoRA adapters: 2 model families $\times$ 6
+tasks $\times$ 40 seeds (Qwen2.5-1.5B-Instruct and Llama-3.2-1B-Instruct;
+tasks alpaca, code, math, xsum, squad, agnews). Every run trains a rank-24
+adapter ($\alpha = 16.0$) on the q/k/v/o projections with a 6-channel
+identity-initialized bridge per wrapped module (effective update $\Delta W
+= B\,(M \otimes I_4)\,A$; at identity initialization the bridge is exactly
+absent and the update is standard LoRA): AdamW at peak LR 0.0002, weight
+decay 0.01, clip 1.0, linear warmup (100 steps) then cosine decay to a 0.1
+floor; 2000 optimizer steps at effective batch 16 ($4 \times 4$) $=$
+32{,}000 sequences of length 512; per-task pools capped at 40{,}000
+examples and a fixed 500-example validation split per task (seed 777);
+bfloat16 base, float32 adapters. Adapter module counts are discovered from
+each adapter rather than hardcoded: 112 modules per run for Qwen, 64 for
+Llama. The campaign ran on a single local GPU from July 3 21:52Z to July 20
+16:21Z---roughly 17 days including one restart---and the manifest closed at
+480/480 COMPLETE on 2026-07-20T16:21:19Z; the outage ledger contains
+exactly four failures, all HF Hub 504 errors on July 16 (run indices
+329--332), all retried to COMPLETE. Chance accuracy for the 6-task
+classification problems throughout is 0.1667.
+
+\subsection{H1: task identity is legible only after canonicalization}
+\label{sec:h1}
+
+H1 asks whether an adapter's weights identify the task it was trained on,
+within a family. The classifier is deliberately weak---a leave-one-out
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex lines 518-519, 790-791
+% (C = 1.0, 1,000-shuffle permutation null, 240 adapters/family = 6 tasks
+% x 40 seeds).
+linear SVM ($C = 1.0$) over 240 adapters per family, with a 1{,}000-shuffle
+permutation null---so that the representation, not model capacity, carries
+the result. The pre-registered lock is two-sided: LOO accuracy above
+1.5$\times$ chance (0.2500) \textbf{and} permutation $p < 0.01$. Four
+representations were computed per family: raw flattened weights; the
+$\mathrm{GL}(r)$-gauge-canonical representation (QR$\rightarrow$SVD
+lineage, bridge absorbed); and two pre-registered vocab-signature variants
+(output-referenced through the base model's unembedding), with and without
+k/v modules.
+
+\begin{table}[ht]
+\centering
+\caption{Within-family task identifiability by representation. LOO
+accuracy, linear SVM, 1{,}000-shuffle permutation null. Lock: acc $>$
+1.5$\times$ chance (0.2500) AND perm $p < 0.01$. Chance $= 0.1667$.}
+\label{tab:h1}
+\begin{tabular}{llrccc}
+\toprule
+family & representation & dim & LOO acc & perm $p$ & H1 lock \\
+\midrule
+\texttt{qwen2.5-1.5b} & raw & 6{,}541{,}248 & \textbf{0.0792} & 0.000999 & \textbf{FAIL} \\
+\texttt{qwen2.5-1.5b} & canonical & 88{,}704 & \textbf{1.0000} & 0.000999 & \textbf{PASS} \\
+\texttt{qwen2.5-1.5b} & \texttt{vocab\_signature} & 15{,}232 & 1.0000 & 0.000999 & PASS \\
+\texttt{qwen2.5-1.5b} & \texttt{vocab\_sig\_kv\_exclude} & 7{,}616 & 1.0000 & 0.000999 & PASS \\
+\texttt{llama3.2-1b} & raw & 5{,}114{,}112 & \textbf{0.1375} & 0.000999 & \textbf{FAIL} \\
+\texttt{llama3.2-1b} & canonical & 50{,}688 & \textbf{1.0000} & 0.000999 & \textbf{PASS} \\
+\texttt{llama3.2-1b} & \texttt{vocab\_signature} & 8{,}704 & 1.0000 & 0.000999 & PASS \\
+\texttt{llama3.2-1b} & \texttt{vocab\_sig\_kv\_exclude} & 4{,}352 & 1.0000 & 0.000999 & PASS \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The pattern is stark and consistent (Table~\ref{tab:h1}). Raw adapter
+weights---the highest-dimensional representation---fail the lock at or
+below chance; the canonical representation identifies all six tasks
+perfectly, as do both vocab-signature variants, so the result is not
+specific to one canonicalization route. Raw's tiny permutation $p$
+alongside sub-threshold accuracy is not a contradiction: under LOO, label
+permutation drives accuracy \emph{below} chance (raw nulls center at 0.012
+Qwen / 0.057 Llama, maxima 0.054 / 0.121), so both raw arms exceed their
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex line 532 (floor
+% p = 1/1001).
+null maxima and take the floor $p = 1/1001$ while carrying only a weak
+recoverable signal (per-class recall 0.45 on code for Qwen with every other
+class $\le 0.025$; 0.425 on alpaca plus 0.40 on code for Llama with every
+other class at 0). This is exactly the case the two-sided lock was built to
+reject---statistically distinguishable from noise, not usefully legible. A
+pre-registered variance-heterogeneity guard (ratios 1.00--1.46 against a
+trigger of 3.7) was not triggered: the canonical ceiling is not a variance
+artifact. The Director re-derived all eight LOO accuracies from the
+confusion matrices and re-ran the canonical LOO-SVM from scratch on the
+feature matrices, obtaining 1.0000 for both families.
+
+\subsection{H2: the pre-registered prediction, refuted by its own control}
+\label{sec:h2}
+
+H2 was our boldest pre-registered prediction, and it was wrong. We
+predicted that task structure would \emph{not} transfer across model
+families. The verdict is \textbf{NOT supported}---and the refutation was
+produced by our own triviality control, added in round-1 review before any
+data existed.
+
+Two dimension-agnostic representations carry the analysis: depth-binned
+singular-value spectra of the effective update (\textbf{spectrum}, the
+pinned primary; 384 dimensions) and a canonicalized probe-projection
+(\textbf{probe}, corroborating; 12{,}672 dimensions). The decision rule was
+pinned by the Director before the bank completed: H2 (transfer fails) is
+supported iff, for both directions in the shift-controlled representation,
+(i) cross-family accuracy is not significantly above chance at one-sided
+exact-binomial $\alpha = 0.01$, and (ii) within-family accuracy exceeds
+cross-family accuracy by $\ge 15$ percentage points.
+
+The triviality control asks, before reading any transfer number, whether a
+classifier can tell \emph{which family} an adapter came from. On raw
+representations it can, perfectly: family-identity probe 1.0000 (spectrum
+and probe, chance 0.5000). A classifier trained on one family and tested
+on the other is therefore tested under total covariate shift---raw
+``transfer-at-chance'' would confirm our prediction while measuring
+nothing but family scale. Unsupervised per-family z-standardization
+(task labels never touched, so it has no capacity to manufacture task
+structure) collapses the probe to 0.1521 (spectrum) / 0.0000 (probe);
+both sit below binary chance, the signature of standardizing on the full
+pool before cross-validation---the family-\emph{mean} separation the raw
+probe exploited is gone, and the transfer verdict rests on the binomial
+tests of the transfer accuracies themselves.
+
+\begin{table}[ht]
+\centering
+\caption{Cross-family transfer accuracy, raw vs family-standardized.
+Chance $= 0.1667$. The headline is the standardized column, per the pinned
+rule; raw is descriptive. Margin $=$ within-family minus cross-family
+accuracy (within-family accuracy is 1.0000 in every row).}
+\label{tab:transfer}
+\begin{tabular}{llcccc}
+\toprule
+representation & direction & raw & standardized & binom $p$ (std) & margin \\
+\midrule
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex lines 954-957 (per-row
+% binomial p values).
+spectrum & qwen$\rightarrow$llama & 0.1667 & \textbf{0.7833} & $7.70\times10^{-98}$ & 21.67pp \\
+spectrum & llama$\rightarrow$qwen & 0.1667 & \textbf{0.7375} & $1.20\times10^{-84}$ & 26.25pp \\
+probe & qwen$\rightarrow$llama & 0.1750 & \textbf{0.7792} & $1.37\times10^{-96}$ & 22.08pp \\
+probe & llama$\rightarrow$qwen & 0.2167 & \textbf{0.7792} & $1.37\times10^{-96}$ & 22.08pp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+With the artifact removed, the picture inverts (Table~\ref{tab:transfer}).
+Raw transfer sits at or near chance in every direction---the number that
+would have ``confirmed'' the prediction. Standardized transfer runs
+0.7375--0.7833 across a 1.5B and a 1B model of different lineages, with
+binomial $p \le 1.20\times10^{-84}$; spectrum and probe agree. One caveat:
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex lines 976-983
+% (clustered predictions; anti-conservative p caveat; 240 test predictions
+% per direction).
+the exact-binomial test treats the 240 test predictions per direction as
+independent, but they cluster by task, so the printed $p$-values are
+anti-conservative; the verdict does not lean on the exponents---accuracies
+of 0.74--0.78 against chance 0.1667 clear $\alpha = 0.01$ under any
+clustering-robust reading, and the $\ge 15$pp margin condition fails
+independently of the test. Because a pre-registration that flips via a
+control added in review carries the highest motivated-reasoning risk in the
+set, the Director re-ran the entire H2 pipeline end-to-end from the feature
+matrices, applying the standardization independently: every value
+reproduced to the digit. Had we run H2 without the control, we would now be
+reporting a confirmed prediction that is actually a measurement of family
+scale. The cost of the control was one additional probe and a
+standardization pass; the benefit was the difference between a false
+confirmation and a true refutation.
+
+% ===================================================================
+\section{What it means}
+\label{sec:meaning}
+
+\paragraph{One mechanism, two results.} Nuisance variation---the
+$\mathrm{GL}(r)$ factorization gauge within a family, the scale gauge
+between families---dominates raw weight coordinates and obscures task
+structure that is intact underneath. Task identity is gauge-obscured, not
+absent. The scope of this claim runs on the label-granularity axis: our six
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex lines 241-243,
+% 1336-1340 (W2T regime: 312-binary-attribute label space, 10k+-adapter
+% collections).
+coarse tasks are the opposite regime from W2T's fine-grained attribute
+label spaces (312 binary attributes over 10k+-adapter collections)
+\cite{w2t2026lora}, and we make no claim about what a linear probe
+recovers, raw or canonical, at that granularity. Within our regime the
+statement is sharp: no learned encoder is needed---explicit gauge removal
+plus a linear SVM is already at ceiling, and the same features left in the
+raw gauge fail a 1.5$\times$-chance lock. This complements, rather than
+contradicts, the readout-at-scale line: weight-space readout of training
+provenance predates LoRA \cite{eilertsen2020classify,unterthiner2020predict},
+W2T \cite{w2t2026lora} established LoRA checkpoints as legible objects
+under QR$\rightarrow$SVD canonicalization at fine granularity, Learning on
+LoRAs \cite{putterman2024lol} identified the $\mathrm{GL}(r)$ symmetry and
+built equivariant processors for it, and spectral readouts
+\cite{paul2026spectral} classify training objective from adapter spectra.
+Both ends of the granularity axis agree that the raw parameterization is
+the obstacle.
+
+\subsection{The identity backbone is the sole load-bearing structure (D2/H3)}
+\label{sec:d2}
+
+D2 measures what the trained bridge is worth at inference time by
+transplanting bridges between adapters and measuring the val-loss
+consequence, under a locked directional hypothesis: the \emph{substrate}
+hypothesis (swaps cost little) against the \emph{task-specific} hypothesis
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex line 589 (K = 3
+% donor/recipient pairs per cell) and lines 600-607 (permutation-cell
+% construction, 36 entries).
+(cross-task penalties are large and scale with task distance). $K = 3$
+donor/recipient pairs per cell give 360 evaluations per family (18 native
+references; penalty cells $n = 90$ for cross-task/magnitude/topology,
+$n = 18$ elsewhere), every one re-assembled from the bank and SHA-verified
+before evaluation; all passed. Seven kinds are evaluated, of which two
+carry the structural contrast: \texttt{permuted\_deviation} scrambles the
+trained deviation while preserving the identity backbone; the full-entry
+permutation (a shared derangement of all 36 bridge-entry positions)
+destroys the backbone. The two share the same derangement per cell, so
+their difference isolates the backbone effect and nothing else.
+
+\begin{table}[ht]
+\centering
+\caption{D2 penalty matrix (mean val-loss penalty vs native, nats). The
+\texttt{permuted} means carry per-eval spread: SD 2.31 (qwen) / 3.34
+(llama) at $n = 18$.}
+\label{tab:d2}
+\begin{tabular}{lcc}
+\toprule
+swap kind & \texttt{qwen2.5-1.5b} & \texttt{llama3.2-1b} \\
+\midrule
+\texttt{cross\_seed} & $+0.0000$ & $+0.0002$ \\
+\texttt{cross\_task} & $+0.0000$ & $+0.0003$ \\
+\texttt{cross\_task\_magnitude} & $+0.0000$ & $+0.0000$ \\
+\texttt{cross\_task\_topology} & $+0.0000$ & $+0.0002$ \\
+\texttt{identity} & $+0.0000$ & $+0.0007$ \\
+\texttt{permuted\_deviation} (H3 reference) & $+0.0000$ & $+0.0007$ \\
+\textbf{\texttt{permuted} (full)} & $\mathbf{+2.8086}$ & $\mathbf{+3.8365}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Every swap that preserves the identity backbone costs less than $+0.001$
+nats---installing a different task's bridge, deleting the trained bridge
+entirely, or scrambling the trained deviation. Only the full-entry
+permutation costs anything: $+2.8086$ / $+3.8365$ nats
+(Table~\ref{tab:d2}). The substrate hypothesis is supported and the
+task-specific hypothesis refuted; the scope is in-distribution loss under
+the house bridge architecture. The Director reproduced all 14 per-kind
+means exactly from the per-eval rows.
+
+\subsection{Post-hoc, weight-only merge-conflict prediction (D3)}
+\label{sec:d3}
+
+D3 asks whether two adapters' weights alone---no training access, no
+activations, no data---predict whether their merge degrades. The regime
+matters: the training-time form of merge-conflict prediction is owned by
+\cite{mergeprobe2026}; D3 claims only the weight-only, post-hoc regime, and
+weight-only conflict \emph{heuristics} (sign agreement, task-vector
+geometry) predate it \cite{yadav2023ties,ilharco2023task}. The quantity
+predicted---whether the $\alpha = 0.5$ midpoint interpolation degrades
+endpoint loss---is the loss barrier of the linear-mode-connectivity
+literature \cite{frankle2020lmc,ainsworth2023rebasin}.
+
+Design: $N = 120$ vertex-disjoint pairs per family (each run used at most
+once---the dyadic-dependence-safe design), $\alpha = 0.5$ midpoint merges,
+240 merged adapters GPU-evaluated on both endpoints. Label rule, pinned
+before the bank completed: conflict iff the merge degrades either endpoint
+by $\ge 5\%$ in relative perplexity, with a 10\% degenerate-balance floor
+(fallback not used). The realized conflict rate is itself a finding about
+midpoint merging in this bank: pooled 85.8\%; qwen 99 conflicts / 21
+non-conflicts (82.5\%), llama 107 / 13 (89.2\%), llama's minority fraction
+(10.8\%) clearing the floor by a single pair. Features:
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex lines 636-650
+% (feature-set contents: 2 distance scalars; 4 principal-angle aggregates;
+% per-module vectors of length 112/64).
+a 2-scalar \texttt{distance} baseline (cosine and $\ell_2$) against a
+\texttt{full} weight-only set adding 4 gauge-invariant principal-angle
+aggregates and two per-module vectors (length 112 Qwen / 64 Llama).
+Classifier: logistic regression, group-aware StratifiedGroupKFold, fold
+seed 0, 5 splits, 1000 bootstrap replicates---all pinned.
+
+\begin{table}[ht]
+\centering
+\small
+\caption{D3 merge-conflict prediction, group-aware CV AUC with 95\%
+bootstrap CIs (120 pairs/family; pooled OOF row descriptive).}
+\label{tab:d3}
+\begin{tabular}{lccc}
+\toprule
+family & AUC full (weight-only) & AUC distance-only & full $-$ distance \\
+\midrule
+\texttt{qwen2.5-1.5b} & \textbf{0.995} [0.983, 1.000] & 0.675 [0.484, 0.848] & $+0.320$ [0.150, 0.511] \\
+\texttt{llama3.2-1b} & \textbf{0.962} [0.898, 0.999] & 0.713 [0.458, 0.923] & $+0.249$ [0.039, 0.490] \\
+pooled OOF (descriptive) & 0.9890 [0.9730, 0.9992] & 0.7082 & $+0.2808$ [0.1565, 0.4205] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two adapters' weights alone predict whether their midpoint merge degrades
+an endpoint at AUC 0.96--0.99, and the gauge-invariant block adds a margin
+over raw distance whose CI excludes zero in both families
+(Table~\ref{tab:d3}). Three caveats bind the headline. First, the
+distance-only baseline is fold-scheme-sensitive: the Director's independent
+from-scratch re-run under the naive scheme reproduced the naive block
+exactly (distance 0.686 / 0.667, full 0.995 / 0.952) against the
+group-aware headline baseline of 0.675 / 0.713---a ${\sim}0.01$--0.05
+fold-scheme gap on a 2-feature model, which is why the fold configuration
+is pinned and the fragility reported. Second, the conflict label is
+strongly associated with task composition (negatives are dominated by
+same-task pairs: 13 of 21 qwen, 9 of 13 llama), and H1 shows task identity
+is fully recoverable from weight features; a task-composition oracle alone
+reaches AUC 0.804 / 0.785---above the distance baseline---so the headline
+AUC upper-bounds the predictor's discriminative value within the
+cross-task-only regime. The full model exceeds the oracle bound, so
+geometric signal beyond task identity is present, but we bound the
+within-regime value rather than claim it. Third, invertible bridges are a
+gauge on the update column space, so the principal-angle features are
+provably insensitive to bridge numerics---the margin over distance is
+evidence about update geometry, not about the bridge, consistent with D2.
+
+\subsection{The pilot correlation shrinks honestly (D-aux)}
+\label{sec:daux}
+
+D-aux re-verifies, at bank scale, a pilot correlation of $r = 0.888$
+between bridge deviation (\texttt{dev\_mean}) and generalization gap
+(\texttt{final\_gap})---the re-verification itself pinned in the Director
+decisions before the bank completed. A step-0 identity control must read
+exactly 0.0 by construction (identity-initialized bridge); it did.
+
+\begin{table}[ht]
+\centering
+\caption{D-aux bridge-deviation $\leftrightarrow$ generalization-gap
+correlation (Pearson $r$, 95\% bootstrap CIs). Within-task cells are the
+pre-registered Simpson's-paradox guard.}
+\label{tab:daux}
+\begin{tabular}{lccc}
+\toprule
+cell & $n$ & Pearson $r$ & 95\% CI \\
+\midrule
+pooled & 480 & 0.300 & [0.175, 0.415] \\
+\texttt{qwen2.5-1.5b} & 240 & 0.418 & [0.323, 0.522] \\
+\texttt{llama3.2-1b} & 240 & 0.337 & [0.201, 0.466] \\
+within math (llama) & 40 & 0.549 & [0.324, 0.736] \\
+within math (qwen) & 40 & 0.336 & [0.030, 0.652] \\
+within xsum (qwen) & 40 & $-0.301$ & $[-0.502, -0.066]$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The pilot's $r = 0.888$ does not survive the bank, and we report that as
+the result (Table~\ref{tab:daux}): pooled over 480 runs the association is
+real, positive, and modest ($r = 0.300$ [0.175, 0.415]), inflated in the
+pilot by small-$n$ and task mixture, and heterogeneous within task---math
+positive in both families, xsum in qwen significantly negative. A deviation
+measure whose within-task sign flips between cells is not a universal
+overfitting signal. The shrink is a success of the protocol, not a failure
+of the result: a pre-registered re-verification at scale is exactly the
+check that separates a real-but-modest association from an artifact of the
+sample that first suggested it. Read with D2, the conjunction is the
+finding: the trained bridge deviation carries information \emph{about} the
+run (enough for a weak correlate of its generalization gap) without
+carrying the in-distribution task solution, which lives in the identity
+backbone. The bridge is a diagnostic-bearing structure, not a load-bearing
+one.
+
+% ===================================================================
+\section{Methods, compressed: pre-registration with teeth}
+\label{sec:methods}
+
+Three layers, each with a paper trail. (1)~\emph{The locked card}: the
+hypotheses (H1, H2, H3, the D3 prediction target, the D-aux
+re-verification) were locked in the experiment card of 2026-07-03, before
+the bank existed. One provenance gap is reported rather than papered over:
+the card was maintained outside version control during the campaign and
+enters the repository only with the parent paper, its date corroborated by
+the 2026-07-06 pipeline documentation that cites it.
+(2)~\emph{Director-pinned decisions}: every analytical
+choice the card left open was pinned in a dated ruling by an independent
+Director instance on 2026-07-06, before the bank completed---the H2
+decision rule, the D2 structure reference (with the magnitude/topology
+decomposition cells run unconditionally, so that no data-dependent forking
+point exists), and the D3 label rule; the vocab-signature D1 arm entered as
+a dated amendment. The one post-completion declaration, the D3 pair design,
+was filed 2026-07-20 before any pairs, merges, or labels existed, and
+amended the same day (still before any pair artifact) from per-cell
+stratification to the uniform vertex-disjoint sampler the frozen tool
+actually implements: amending the declaration was the lesser deviation
+versus modifying frozen analysis code after the bank existed, and the
+Director ratified it as a clean dated amendment. (The declaration and its
+amendment share a single file; the filing times are the document's own
+dated entries, corroborated by file write times and the artifact sequence,
+with the sole repository commit arriving 2026-07-21.) The realized
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex lines 685-686,
+% 694-699, 1453-1457 (21 unordered task-pair cells; uneven realized
+% coverage; declaration/amendment provenance).
+coverage of the 21 task-pair cells is reported descriptively (same-task
+pairs 14/120 = 11.7\% qwen, 22/120 = 18.3\% llama, against ${\sim}16\%$
+$\approx$ 20/120 expected under uniformity). (3)~\emph{The completeness
+interlock}: every CLI that can touch the real bank calls
+\texttt{require\_complete\_bank()} before reading a single adapter, passing
+only at 480/480 COMPLETE in the manifest. An
+\texttt{-{}-allow-partial-bank} escape exists for smoke-testing; it prints
+a pre-registration warning and marks output \texttt{exploratory\_only},
+and nothing produced under it may be reported. The tooling passed 171/171
+tests plus the D1/D3/D-aux selftests on 2026-07-20, and the interlock HELD:
+no real-bank statistic was computed before 480/480. Each analysis then ran
+against the real bank exactly once.
+
+Verification is maker--grader separation at three levels: fresh-context
+adversarial review of every custom component before it touched data (the
+D3 labels runner, written post-card, was verified before its GPU run,
+catching two blocking defects; its native-loss shortcut was accepted only
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex lines 749-752
+% (0.00000% divergence against 36 fresh D2-harness evaluations).
+after verifying 0.00000\% divergence against 36 fresh D2-harness
+evaluations); the interlock as verifier of the analysts; and an independent
+Director regrade of every headline from per-item data---re-derived or, for
+the D3 group-aware headline, verified against the pinned report (the
+parent paper records the scope of each re-derivation). After release, the
+paper's claims were tested against a 117-finding adversarial audit
+(1 blocker, 30 major, 53 minor, 33 note, over 7 rounds and 19 lenses, plus
+1 plausible finding outside the confirmed set); every finding was
+dispositioned---fixed or noted---and the audit stopped at its round
+hard-cap, not at exhaustion. Two of the five pre-registered outcomes---the
+H2 refutation and the D-aux shrink---went against the authors, and they are
+the credibility of the other three: a pipeline that can only confirm is not
+a measurement instrument. The operational discipline itself (typed state
+over prose restatement, maker--grader separation) is measured in
+\cite{bielec2026typedstate}; we cite it for method provenance, not numbers.
+
+% ===================================================================
+\section{Limitations}
+\label{sec:limitations}
+
+\textbf{Cost.} The bank consumed roughly 17 days of a single local GPU
+% SOURCE: C:/falco/rhombic/paper/rhombic-asset1.tex line 1564 (NVIDIA RTX
+% 6000 Ada, 48 GB).
+(an NVIDIA RTX 6000 Ada, 48\,GB); measured per-run rates are 30.56 min/run
+% SOURCE: C:/falco/rhombic/results/asset1-bank/RATE_EXTRACT.md lines 12-14
+% (campaign.log RUN_END lines via scripts/asset1_rate_extract.py; restated
+% in docs/S2_COST_RESTATEMENT_2026-08-04.md sec 4). These rates are NOT in
+% the parent paper's verification bundle; they are a cited measured
+% artifact of the same campaign.
+(llama3.2-1b, $n = 240$), 51.72 min/run (qwen2.5-1.5b, $n = 240$), blended
+41.14 min/run over all 480 [measured]. The analyses are cheap---D1, D-aux,
+and D3 feature extraction are CPU-only---but the artifact they require is
+not.
+
+\textbf{Scope.} Two families at 1--1.5B scale; whether the ceilings hold
+at 7B+ or across architecture classes is unmeasured. Six coarse tasks: the
+label-granularity axis cuts both ways---we claim nothing about fine-grained
+regimes, and ceiling accuracy on six classes means H1 cannot rank
+representations above the lock. In-distribution val loss only: D2's verdict
+is explicitly about this loss; behavioral and out-of-distribution
+consequences of swaps and merges are unmeasured. Single merge operator:
+$\alpha = 0.5$ midpoints only; other $\alpha$, TIES/DARE-style operators,
+and $>$2-adapter merges are outside the measured claim. One bridge
+architecture and one training recipe: D2 and D-aux are properties of the
+house identity-initialized, controller-free bridge, and every adapter
+shares a single hyperparameter configuration; heterogeneous banks could
+couple recipe to task and change every result. The canonical feature
+projection is likewise a single pinned draw (\texttt{proj\_seed}~0);
+projection-seed sensitivity of the H1 ceiling is unmeasured.
+
+\textbf{Statistical fragilities, reported where they appear.} The D3
+distance baseline moves ${\sim}0.01$--0.05 with fold scheme; the fold
+configuration is pinned. The D3 negative class is small (21 qwen / 13
+llama non-conflict pairs; llama clears the 10\% floor by a single pair),
+and the task-composition oracle (AUC 0.804 / 0.785) bounds how much of the
+headline is task identification. The D3 headline AUC is a claim about the
+uniform pair population, not any single task-pair cell; per-cell
+conflict-rate estimates are noisy. The D-aux pooled $r = 0.300$ conceals
+sign-varying within-task structure ($n = 40$ per cell); any within-task use
+would need task-specific calibration the bank is only pilot-scale for.
+
+% ===================================================================
+\section{Reproducibility}
+\label{sec:repro}
+
+Every headline number is re-derivable from a per-item verification bundle,
+and every one has already been re-derived or verified by someone who was
+not us. The bundle carries per-item result data (confusion matrices and
+permutation summaries behind every H1 accuracy; the full H2 transfer and
+family-identity tables; 360 per-eval D2 rows per family with assembly
+SHA-256s; 240 per-pair D3 feature dicts and labels; 480 per-run D-aux
+pairs) and the reduced feature matrices
+(\texttt{features\_<family>.npz}, 90.6\,MB qwen / 56.7\,MB llama, float32),
+exported by the frozen feature functions so a from-scratch classifier
+re-run bit-matches. The bundle is anchored at rhombic commit
+\texttt{638f4a8}, archive SHA-256
+{\small\texttt{c1891d50fc7c48c27d6fb606d667f1f1120105ed55cb7414c8e4b3d874acfadd}},
+all 16 files matching the SHA256SUMS manifest byte-for-byte. The
+verification bundle and all analysis code ship in the public repository
+(\url{https://github.com/tasumermaf/rhombic}); the feature matrices
+(${\sim}147$\,MB total) are published as a Hugging Face dataset
+(\url{https://huggingface.co/datasets/timotheospaul/rhombic-asset1-features})
+linked from the repository README; the adversarial-audit ledger with all
+117 dispositioned findings is in the repository under
+\texttt{paper/audit/}. The adapter bank itself remains a local artifact for
+size; its manifest, per-run configs, and the trainer that reproduces it are
+in the repository. The parent paper (\texttt{paper/rhombic-asset1.tex} in
+the same repository) carries the full design, decision record, and audit
+trail this condensation compresses.
+
+% ===================================================================
+\section*{Acknowledgments}
+Experimentation, analysis, and drafting were performed with a standing AI
+research collaborator (Claude, Anthropic); the Director role was performed
+by a separate instance with no shared context. The Director was isolated
+from the analysis process, not blinded to results; its rulings and
+regrades are archived as dated documents in the repository, and three
+related-work citation re-verifications were taken on report and not
+independently checked. All numbers reported here were machine-verified
+against the frozen artifacts rather than restated from any model's
+summary.
+
+% ===================================================================
+% Embedded bibliography (self-contained; entries from paper/refs-asset1.bib).
+\begin{thebibliography}{12}
+
+\bibitem{eilertsen2020classify}
+G.~Eilertsen, D.~J{\"o}nsson, T.~Ropinski, J.~Unger, and A.~Ynnerman.
+\newblock Classifying the classifier: dissecting the weight space of neural
+  networks.
+\newblock In \emph{ECAI}, 2020. arXiv:2002.05688.
+
+\bibitem{unterthiner2020predict}
+T.~Unterthiner, D.~Keysers, S.~Gelly, O.~Bousquet, and I.~Tolstikhin.
+\newblock Predicting neural network accuracy from weights.
+\newblock arXiv:2002.11448, 2020.
+
+\bibitem{w2t2026lora}
+X.~Han, F.~Neri, Z.~Jiang, F.~Wu, Y.~Ye, L.~Yin, and Z.~Wang.
+\newblock {W2T}: {LoRA} weights already know what they can do.
+\newblock arXiv:2603.15990, 2026.
+
+\bibitem{putterman2024lol}
+T.~Putterman, D.~Lim, Y.~Gelberg, S.~Jegelka, and H.~Maron.
+\newblock Learning on {LoRAs}: {GL}-equivariant processing of low-rank
+  weight spaces for large finetuned models.
+\newblock arXiv:2410.04207, 2024.
+
+\bibitem{paul2026spectral}
+R.~Paul.
+\newblock Spectral geometry of {LoRA} adapters encodes training objective
+  and predicts harmful compliance.
+\newblock arXiv:2604.08844, 2026.
+
+\bibitem{mergeprobe2026}
+L.~Tang, W.~Zhang, J.~Li, H.~Chen, M.~Zhao, and Y.~Wang.
+\newblock Predicting mergeability of parameter-efficient fine-tuning
+  updates.
+\newblock arXiv:2606.19549, 2026.
+
+\bibitem{yadav2023ties}
+P.~Yadav, D.~Tam, L.~Choshen, C.~Raffel, and M.~Bansal.
+\newblock {TIES}-merging: Resolving interference when merging models.
+\newblock In \emph{NeurIPS}, 2023. arXiv:2306.01708.
+
+\bibitem{ilharco2023task}
+G.~Ilharco, M.~T. Ribeiro, M.~Wortsman, S.~Gururangan, L.~Schmidt,
+  H.~Hajishirzi, and A.~Farhadi.
+\newblock Editing models with task arithmetic.
+\newblock In \emph{ICLR}, 2023. arXiv:2212.04089.
+
+\bibitem{frankle2020lmc}
+J.~Frankle, G.~K. Dziugaite, D.~M. Roy, and M.~Carbin.
+\newblock Linear mode connectivity and the lottery ticket hypothesis.
+\newblock In \emph{ICML}, 2020. arXiv:1912.05671.
+
+\bibitem{ainsworth2023rebasin}
+S.~K. Ainsworth, J.~Hayase, and S.~Srinivasa.
+\newblock Git re-basin: Merging models modulo permutation symmetries.
+\newblock In \emph{ICLR}, 2023. arXiv:2209.04836.
+
+\bibitem{bielec2026typedstate}
+T.~Bielec and M.~Carlson.
+\newblock Typed state beats prose: A pre-registered measurement of numeric
+  corruption under agent context compaction.
+\newblock rhombic XR-001, 2026.
+  \url{https://tasumermaf.com/rhombic/typed-state/}.
+
+\end{thebibliography}
+
+\end{document}
+
+% ============================================================================
+% NUMBERS USED: <key = value> — every number appearing in the text above,
+% each verbatim from the typed numbers table (source locators there) unless
+% marked EXTRA (re-read from the named source, cited inline above).
+% Ad-hoc numbers outside the table carry inline % SOURCE: comments (absolute
+% paths) at their use sites (SVM C=1.0 / 1,000-shuffle null / 240 per
+% family; p floor 1/1001; per-row binomial p values; 240 clustered test
+% predictions; W2T 312 attributes / 10k+ adapters; K=3 pairs per cell; 36
+% bridge entries; 2 distance scalars / 4 angle aggregates; 21 task-pair
+% cells; 0.00000% vs 36 evals; RTX 6000 Ada 48 GB — all from
+% C:/falco/rhombic/paper/rhombic-asset1.tex at the cited lines; measured
+% per-run rates from C:/falco/rhombic/results/asset1-bank/RATE_EXTRACT.md).
+%
+% bank_size = 480 LoRA adapters = 2 model families x 6 tasks x 40 seeds
+% families = Qwen2.5-1.5B-Instruct and Llama-3.2-1B-Instruct
+% tasks = alpaca, code, math, xsum, squad, agnews (6 tasks)
+% chance_6task = 0.1667
+% h1_lock_threshold = 0.2500 (1.5x chance) AND permutation p < 0.01
+% h1_raw_loo_qwen = 0.0792
+% h1_raw_loo_llama = 0.1375
+% h1_canonical_loo_both_families = 1.0000
+% h1_vocab_signature_loo = 1.0000 (both kv modes, both families)
+% h1_permutation_p = 0.000999
+% dims_raw = 6,541,248 (qwen) / 5,114,112 (llama)
+% dims_canonical = 88,704 (qwen) / 50,688 (llama)
+% dims_vocab_signature = 15,232 / 8,704 (incl. k/v); 7,616 / 4,352 (excl. k/v)
+% h1_raw_weak_signal_recalls = qwen: code recall 0.45, every other class
+%   <= 0.025; llama: alpaca 0.425 + code 0.40, every other class 0
+% h1_raw_permutation_null = null centers 0.012 (qwen) / 0.057 (llama),
+%   maxima 0.054 / 0.121
+% h1_variance_guard = ratios 1.00-1.46 against trigger 3.7 — not triggered
+% h2_family_identity_probe_raw = 1.0000 (spectrum and probe, chance 0.5000)
+% h2_family_probe_standardized = 0.1521 (spectrum) / 0.0000 (probe)
+% h2_transfer_standardized = spectrum 0.7833 (qwen->llama) / 0.7375
+%   (llama->qwen); probe 0.7792 both directions; range 0.7375-0.7833
+% h2_transfer_raw_descriptive = 0.1667 / 0.1667 (spectrum); 0.1750 / 0.2167
+%   (probe)
+% h2_binomial_p = between 7.70e-98 and 1.20e-84 (per-row: 7.70e-98,
+%   1.20e-84, 1.37e-96, 1.37e-96)
+% h2_decision_rule_constants = one-sided exact-binomial alpha = 0.01;
+%   >= 15 percentage-point within-minus-cross margin, both directions,
+%   shift-controlled representation
+% h2_within_margins = within-family acc 1.0000; margins 21.67 / 26.25 /
+%   22.08 / 22.08 pp
+% h2_representation_dims = spectrum 384; probe 12,672
+% d2_evaluations = 360 evaluations per family (18 native references;
+%   penalty cells n=90 for cross-task/magnitude/topology, n=18 elsewhere);
+%   all passed SHA check
+% d2_backbone_preserving_costs = cross_seed +0.0000/+0.0002; cross_task
+%   +0.0000/+0.0003; magnitude +0.0000/+0.0000; topology +0.0000/+0.0002;
+%   identity +0.0000/+0.0007; permuted_deviation +0.0000/+0.0007
+%   (qwen/llama, nats) — all "less than +0.001 nats"
+% d2_full_permutation_cost = +2.8086 (qwen) / +3.8365 (llama) nats
+% d2_permuted_spread = SD 2.31 (qwen) / 3.34 (llama) at n = 18
+% d3_pair_design = N = 120 vertex-disjoint pairs per family
+%   (max_run_uses = 1); alpha = 0.5 midpoint merges; 240 merged adapters
+%   GPU-evaluated on both endpoints
+% d3_label_rule = conflict = merge degrades either endpoint by >= 5% in
+%   relative perplexity; 10% degenerate-balance floor (fallback not used)
+% d3_conflict_rate = pooled 85.8%; qwen 99 conflicts / 21 non-conflicts
+%   (82.5%); llama 107 / 13 (89.2%); llama minority 10.8% clears the 10%
+%   floor by a single pair
+% d3_auc_full_groupaware = 0.995 [0.983, 1.000] (qwen) / 0.962
+%   [0.898, 0.999] (llama)
+% d3_auc_distance_groupaware = 0.675 [0.484, 0.848] (qwen) / 0.713
+%   [0.458, 0.923] (llama)
+% d3_margin_over_distance = +0.320 [0.150, 0.511] (qwen) / +0.249
+%   [0.039, 0.490] (llama), both CIs excluding 0
+% d3_pooled_oof_descriptive = AUC 0.9890 [0.9730, 0.9992]; distance 0.7082;
+%   margin +0.2808 [0.1565, 0.4205]
+% d3_naive_block = distance 0.686 (qwen) / 0.667 (llama); full 0.995 /
+%   0.952; fold-scheme gap ~0.01-0.05
+% d3_task_composition_oracle = AUC 0.804 (qwen) / 0.785 (llama)
+% d3_negative_class = 21 (qwen) / 13 (llama) non-conflict pairs; negatives
+%   dominated by same-task pairs (13 of 21 qwen, 9 of 13 llama)
+% d3_realized_same_task = 14/120 (11.7%) qwen / 22/120 (18.3%) llama,
+%   against ~16% (~20/120) expected under uniformity
+% d3_cv_config = logistic regression, StratifiedGroupKFold (group-aware
+%   headline), fold seed 0, 5 splits, n_boot = 1000
+% d3_declaration_provenance (EXTRA, C:/falco/rhombic/paper/
+%   rhombic-asset1.tex lines 694-699) = declaration + amendment share one
+%   file; filing times are the document's own dated entries, corroborated
+%   by write time and artifact sequence; sole repository commit 2026-07-21
+% daux_pilot_r = 0.888
+% daux_pooled_r = 0.300 [0.175, 0.415], n = 480
+% daux_per_family_r = qwen 0.418 [0.323, 0.522] (n=240); llama 0.337
+%   [0.201, 0.466] (n=240)
+% daux_within_task_cells = within math (llama) 0.549 [0.324, 0.736];
+%   within math (qwen) 0.336 [0.030, 0.652]; within xsum (qwen) -0.301
+%   [-0.502, -0.066] (each n=40)
+% daux_step0_control = 0.0 exactly, by construction (identity-initialized
+%   bridge)
+% campaign_timeline = single local GPU, July 3 21:52Z to July 20 16:21Z —
+%   roughly 17 days including the A1 restart; manifest closed 480/480
+%   COMPLETE 2026-07-20T16:21:19Z
+% campaign_outages = exactly four failures, all HF Hub 504 errors on
+%   July 16 (run indices 329-332), all retried to COMPLETE
+% rate_llama_measured (EXTRA, C:/falco/rhombic/results/asset1-bank/
+%   RATE_EXTRACT.md line 12) = llama3.2-1b n = 240, mean = 30.56 min/run
+%   [measured]
+% rate_qwen_measured (EXTRA, C:/falco/rhombic/results/asset1-bank/
+%   RATE_EXTRACT.md line 13) = qwen2.5-1.5b n = 240, mean = 51.72 min/run
+%   [measured]
+% rate_blended_measured (EXTRA, C:/falco/rhombic/results/asset1-bank/
+%   RATE_EXTRACT.md line 14) = blended n = 480, mean = 41.14 min/run
+%   [measured]
+% training_config = rank 24, alpha 16.0, 6 channels, identity-init bridge;
+%   q/k/v/o target modules; AdamW lr 0.0002, wd 0.01, clip 1.0; linear
+%   warmup (100 steps) + cosine decay to 0.1 floor; 2000 optimizer steps x
+%   effective batch 16 (4x4) = 32,000 sequences; seq len 512; pool cap
+%   40,000/task; val 500/task (seed 777); bfloat16 base / float32 adapters
+% module_counts = 112 modules per run (Qwen), 64 (Llama), discovered not
+%   hardcoded
+% tooling_tests = 171/171 tests plus the D1/D3/D-aux selftests passed on
+%   2026-07-20; the interlock HELD — no real-bank statistic before 480/480
+% bundle_anchor = rhombic commit 638f4a8; archive SHA-256
+%   c1891d50fc7c48c27d6fb606d667f1f1120105ed55cb7414c8e4b3d874acfadd;
+%   all 16 files matching SHA256SUMS byte-for-byte
+% feature_matrices_release = features_<family>.npz 90.6 MB (qwen) / 56.7 MB
+%   (llama), float32; ~147 MB total published on Hugging Face at
+%   https://huggingface.co/datasets/timotheospaul/rhombic-asset1-features
+% audit_ladder_counts (EXTRA, C:/falco/rhombic/paper/audit/round-2/
+%   ADVERSARY_LADDER_LEDGER_ASSET1.md lines 5-6) = 117 confirmed findings
+%   (1 blocker, 30 major, 53 minor, 33 note), 1 plausible; 7 rounds,
+%   19 lenses, stop = hard-cap; dispositions are FIXED or NOTED
+% GUARDRAIL — NOT USED ANYWHERE: 84.5% (retracted fingerprinting figure);
+% the verified P3 figure 72.3% belongs to Paper 3 and does not appear here.
+% ============================================================================
