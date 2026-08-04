@@ -36,3 +36,19 @@ Note for the Director: `meta-llama/Llama-3.2-1B-Instruct` (an Asset-1 anchor fam
 HF_HUB_CACHE      = C:\falco\hf-cache\hub
 HF_DATASETS_CACHE = C:\falco\hf-cache\datasets
 reason            = the default HF cache is a junction onto a full drive; launching without these fails on xsum/squad
+
+## Resolved-config record (Director Ask 2, 2026-08-04)
+
+The Director confirmed Qwen/Qwen2.5-3B-Instruct and Qwen/Qwen2.5-7B-Instruct
+independently; google/gemma-2-2b-it returned 401 anonymously and was on report.
+Closed here from the workstation HF cache the pilots actually loaded
+(hf-cache/hub/models--google--gemma-2-2b-it/snapshots/*/config.json):
+
+```
+gemma-2-2b-it: model_type = gemma2 · hidden_size = 2304 · num_hidden_layers = 26
+               num_attention_heads = 8 · num_key_value_heads = 4 · head_dim = 256
+               vocab_size = 256000
+```
+
+This is the config the three gemma timing runs trained against. Note for the
+rank-fraction ledger: r/hidden at rank 24 = 24/2304 = 0.0104 for this family.
