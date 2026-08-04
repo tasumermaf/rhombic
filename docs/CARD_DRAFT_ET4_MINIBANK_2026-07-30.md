@@ -1,4 +1,14 @@
-# CARD DRAFT — E-T4 Tinker Mini-Bank (exploratory, light card)
+# CARD — E-T4 Tinker Mini-Bank (exploratory; RULED 2026-08-04)
+
+> **Director's ruling (2026-08-04, Ask 5): N = 9 (54 runs), and not as a preference —
+> option (a)'s 60 runs would total ~$29.63 billed (measured $0.4460/run + the audited
+> $2.7754 spent + the documented +0.35% meter delta), breaching the card's own $28 hard
+> abort around run 56 and stranding paid-for adapters mid-collection. Option (b) totals
+> ~$26.94 billed, clearing the abort by ~$1.06. Exploratory classification blessed.**
+> The N-choice section below is retained as drafted for the record; the ruling governs.
+> Arithmetic corrected accordingly: the draft's "(a) … inside, ~$0.70 margin" was wrong
+> against the abort guard — the same class of defect as the QUEUE.md stale state,
+> self-noted per the Director's instruction.
 
 **Draft for the Director, 2026-07-30.** Class: exploratory/descriptive — no locks, no
 confirmatory claims, no multiplicity slots. Purpose: external-validity demonstration +
