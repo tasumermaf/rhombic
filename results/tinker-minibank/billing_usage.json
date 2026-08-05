@@ -1,0 +1,103 @@
+{
+  "window": {
+    "start": "2026-07-22T00:00:00+00:00",
+    "end": "2026-08-05T00:00:00+00:00"
+  },
+  "price_table_train_usd_per_mtok": {
+    "Qwen/Qwen3-8B": 0.44
+  },
+  "price_storage_usd_per_gb_month": 0.1,
+  "rows": [
+    {
+      "day": "2026-07-30",
+      "base_model": "None",
+      "kind": "storage",
+      "quantity": 1.692622142755864,
+      "n_events": 1
+    },
+    {
+      "day": "2026-07-30",
+      "base_model": "Qwen/Qwen3-8B",
+      "kind": "checkpoint",
+      "quantity": 8.0,
+      "n_events": 3
+    },
+    {
+      "day": "2026-07-30",
+      "base_model": "Qwen/Qwen3-8B",
+      "kind": "training",
+      "quantity": 6107108.0,
+      "n_events": 5
+    },
+    {
+      "day": "2026-08-03",
+      "base_model": "Qwen/Qwen3.5-397B-A17B",
+      "kind": "training",
+      "quantity": 67.0,
+      "n_events": 1
+    },
+    {
+      "day": "2026-08-03",
+      "base_model": "Qwen/Qwen3.5-9B",
+      "kind": "training",
+      "quantity": 59460.0,
+      "n_events": 2
+    },
+    {
+      "day": "2026-08-03",
+      "base_model": "Qwen/Qwen3.6-27B",
+      "kind": "training",
+      "quantity": 67.0,
+      "n_events": 1
+    },
+    {
+      "day": "2026-08-03",
+      "base_model": "Qwen/Qwen3.6-35B-A3B",
+      "kind": "training",
+      "quantity": 67.0,
+      "n_events": 1
+    },
+    {
+      "day": "2026-08-03",
+      "base_model": "moonshotai/Kimi-K2.6",
+      "kind": "training",
+      "quantity": 103.0,
+      "n_events": 1
+    },
+    {
+      "day": "2026-08-04",
+      "base_model": "Qwen/Qwen3-8B",
+      "kind": "checkpoint",
+      "quantity": 45.0,
+      "n_events": 3
+    },
+    {
+      "day": "2026-08-04",
+      "base_model": "Qwen/Qwen3-8B",
+      "kind": "training",
+      "quantity": 36477535.0,
+      "n_events": 11
+    }
+  ],
+  "train_tokens_by_model": {
+    "Qwen/Qwen3-8B": 42584643.0,
+    "Qwen/Qwen3.5-397B-A17B": 67.0,
+    "Qwen/Qwen3.5-9B": 59460.0,
+    "Qwen/Qwen3.6-27B": 67.0,
+    "Qwen/Qwen3.6-35B-A3B": 67.0,
+    "moonshotai/Kimi-K2.6": 103.0
+  },
+  "total_train_tokens": 42644407.0,
+  "storage_gigabyte_hours": 1.692622142755864,
+  "storage_usd": 0.0002318660469528581,
+  "checkpoint_events": 53.0,
+  "priced_training_usd": 18.73724292,
+  "unpriced_models_train_tokens": {
+    "Qwen/Qwen3.5-397B-A17B": 67.0,
+    "Qwen/Qwen3.5-9B": 59460.0,
+    "Qwen/Qwen3.6-27B": 67.0,
+    "Qwen/Qwen3.6-35B-A3B": 67.0,
+    "moonshotai/Kimi-K2.6": 103.0
+  },
+  "note": "The usage API returns metered quantities only, no dollars. Dollars here are quantity x the published price table; the billing page is the authority. Models absent from the price table are listed under unpriced_models_train_tokens."
+}

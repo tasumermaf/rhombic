@@ -1,0 +1,11 @@
+{
+  "tinker_path": "tinker://ffadcc48-5d27-5412-a4fd-693ddf265d33:train:6/sampler_weights/math_d1_i2-final",
+  "archive_bytes": 369223680,
+  "files": [
+    "adapter_config.json",
+    "adapter_model.safetensors",
+    "checkpoint_complete"
+  ],
+  "remote_deleted": true,
+  "export_seconds": 179.0
+}

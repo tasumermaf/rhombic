@@ -1,0 +1,11 @@
+{
+  "tinker_path": "tinker://739b5bec-4bb1-5985-9c7e-0c31ea484483:train:0/sampler_weights/alpaca_d0_i1-final",
+  "archive_bytes": 369223680,
+  "files": [
+    "adapter_config.json",
+    "adapter_model.safetensors",
+    "checkpoint_complete"
+  ],
+  "remote_deleted": true,
+  "export_seconds": 106.8
+}

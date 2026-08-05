@@ -1,0 +1,1645 @@
+{
+  "bank": "C:/Falco/rhombic/results/tinker-minibank",
+  "pair_seed": 0,
+  "n_adapters": 54,
+  "n_pairs": 27,
+  "pairing": "vertex-disjoint greedy maximum matching, cross-task edges",
+  "n_in_family": 0,
+  "exit_code_counts": {
+    "0": 27
+  },
+  "bridgeless_refusal_probe": {
+    "pair": [
+      "xsum_d0_i0",
+      "alpaca_d0_i2"
+    ],
+    "exit_code": 2,
+    "stderr": "REFUSED: module 'base_model.model.model.layers.0.mlp.down_proj' has no 'bridge' tensor (include requested 'bridge')",
+    "note": "merge_lint as shipped requires a 'bridge' tensor (flatten_features defaults to include=('A','B','bridge')); a strictly bridgeless PEFT adapter is refused."
+  },
+  "bridge_encoding": "1x1 identity == exact E=I; l2 distances unchanged, cos_distance perturbed by the constant block (see module docstring)",
+  "converted_meta": {
+    "agnews_d0_i0": {
+      "run_id": "agnews_d0_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/agnews_d0_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "agnews_d0_i1": {
+      "run_id": "agnews_d0_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/agnews_d0_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "agnews_d0_i2": {
+      "run_id": "agnews_d0_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/agnews_d0_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "agnews_d1_i0": {
+      "run_id": "agnews_d1_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/agnews_d1_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "agnews_d1_i1": {
+      "run_id": "agnews_d1_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/agnews_d1_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "agnews_d1_i2": {
+      "run_id": "agnews_d1_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/agnews_d1_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "agnews_d2_i0": {
+      "run_id": "agnews_d2_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/agnews_d2_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "agnews_d2_i1": {
+      "run_id": "agnews_d2_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/agnews_d2_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "agnews_d2_i2": {
+      "run_id": "agnews_d2_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/agnews_d2_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_d0_i0": {
+      "run_id": "alpaca_d0_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/alpaca_d0_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_d0_i1": {
+      "run_id": "alpaca_d0_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/alpaca_d0_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_d0_i2": {
+      "run_id": "alpaca_d0_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/alpaca_d0_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_d1_i0": {
+      "run_id": "alpaca_d1_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/alpaca_d1_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_d1_i1": {
+      "run_id": "alpaca_d1_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/alpaca_d1_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_d1_i2": {
+      "run_id": "alpaca_d1_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/alpaca_d1_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_d2_i0": {
+      "run_id": "alpaca_d2_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/alpaca_d2_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_d2_i1": {
+      "run_id": "alpaca_d2_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/alpaca_d2_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "alpaca_d2_i2": {
+      "run_id": "alpaca_d2_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/alpaca_d2_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "code_d0_i0": {
+      "run_id": "code_d0_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/code_d0_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "code_d0_i1": {
+      "run_id": "code_d0_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/code_d0_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "code_d0_i2": {
+      "run_id": "code_d0_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/code_d0_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "code_d1_i0": {
+      "run_id": "code_d1_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/code_d1_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "code_d1_i1": {
+      "run_id": "code_d1_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/code_d1_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "code_d1_i2": {
+      "run_id": "code_d1_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/code_d1_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "code_d2_i0": {
+      "run_id": "code_d2_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/code_d2_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "code_d2_i1": {
+      "run_id": "code_d2_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/code_d2_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "code_d2_i2": {
+      "run_id": "code_d2_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/code_d2_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_d0_i0": {
+      "run_id": "math_d0_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/math_d0_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_d0_i1": {
+      "run_id": "math_d0_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/math_d0_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_d0_i2": {
+      "run_id": "math_d0_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/math_d0_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_d1_i0": {
+      "run_id": "math_d1_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/math_d1_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_d1_i1": {
+      "run_id": "math_d1_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/math_d1_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_d1_i2": {
+      "run_id": "math_d1_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/math_d1_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_d2_i0": {
+      "run_id": "math_d2_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/math_d2_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_d2_i1": {
+      "run_id": "math_d2_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/math_d2_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "math_d2_i2": {
+      "run_id": "math_d2_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/math_d2_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "squad_d0_i0": {
+      "run_id": "squad_d0_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/squad_d0_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "squad_d0_i1": {
+      "run_id": "squad_d0_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/squad_d0_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "squad_d0_i2": {
+      "run_id": "squad_d0_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/squad_d0_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "squad_d1_i0": {
+      "run_id": "squad_d1_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/squad_d1_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "squad_d1_i1": {
+      "run_id": "squad_d1_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/squad_d1_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "squad_d1_i2": {
+      "run_id": "squad_d1_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/squad_d1_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "squad_d2_i0": {
+      "run_id": "squad_d2_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/squad_d2_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "squad_d2_i1": {
+      "run_id": "squad_d2_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/squad_d2_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "squad_d2_i2": {
+      "run_id": "squad_d2_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/squad_d2_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "xsum_d0_i0": {
+      "run_id": "xsum_d0_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/xsum_d0_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "xsum_d0_i1": {
+      "run_id": "xsum_d0_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/xsum_d0_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "xsum_d0_i2": {
+      "run_id": "xsum_d0_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/xsum_d0_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "xsum_d1_i0": {
+      "run_id": "xsum_d1_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/xsum_d1_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "xsum_d1_i1": {
+      "run_id": "xsum_d1_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/xsum_d1_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "xsum_d1_i2": {
+      "run_id": "xsum_d1_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/xsum_d1_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "xsum_d2_i0": {
+      "run_id": "xsum_d2_i0",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/xsum_d2_i0/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "xsum_d2_i1": {
+      "run_id": "xsum_d2_i1",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/xsum_d2_i1/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    },
+    "xsum_d2_i2": {
+      "run_id": "xsum_d2_i2",
+      "n_modules": 253,
+      "path": "C:/Falco/rhombic/results/tinker-minibank/_merge_lint_converted/xsum_d2_i2/adapter_state.pt",
+      "bridge": "I_1 (exact E=I)",
+      "r": 32,
+      "lora_alpha": 32.0,
+      "scaling": 1.0,
+      "scaling_mode": "alpha/r"
+    }
+  },
+  "results": [
+    {
+      "adapter_a": "xsum_d0_i0",
+      "adapter_b": "alpaca_d0_i2",
+      "task_a": "xsum",
+      "task_b": "alpaca",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0300377181915785,
+      "l2_distance_true_bridgeless": 80.26680571731876,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9529423546721061,
+          "l2_distance": 80.26680571731876,
+          "angle_mean_weighted": 1.4213598014358082,
+          "angle_mean_unweighted": 1.4109030030215053,
+          "chordal_rms_weighted": 0.975911584769266,
+          "chordal_rms_unweighted": 0.9765127468815182
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999962603,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "code_d0_i0",
+      "adapter_b": "alpaca_d0_i1",
+      "task_a": "code",
+      "task_b": "alpaca",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.015801293398945,
+      "l2_distance_true_bridgeless": 79.28855309889481,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9390267738658028,
+          "l2_distance": 79.28855309889482,
+          "angle_mean_weighted": 1.3699322493858788,
+          "angle_mean_unweighted": 1.35884328081216,
+          "chordal_rms_weighted": 0.9605031341768967,
+          "chordal_rms_unweighted": 0.9600620863955597
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999907003,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "code_d1_i2",
+      "adapter_b": "math_d0_i1",
+      "task_a": "code",
+      "task_b": "math",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.9810883528620228,
+      "l2_distance_true_bridgeless": 77.76951700367694,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9066683320219712,
+          "l2_distance": 77.76951700367694,
+          "angle_mean_weighted": 1.4333327179482713,
+          "angle_mean_unweighted": 1.4226549528384087,
+          "chordal_rms_weighted": 0.97952340092753,
+          "chordal_rms_unweighted": 0.9798837556194635
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999375477,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "agnews_d1_i1",
+      "adapter_b": "squad_d0_i0",
+      "task_a": "agnews",
+      "task_b": "squad",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0212920408376132,
+      "l2_distance_true_bridgeless": 80.79924496296965,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9463759781160015,
+          "l2_distance": 80.79924496296962,
+          "angle_mean_weighted": 1.4263564674555083,
+          "angle_mean_unweighted": 1.4196378055884247,
+          "chordal_rms_weighted": 0.9768017630957366,
+          "chordal_rms_unweighted": 0.9787584908824554
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999956617,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "math_d2_i1",
+      "adapter_b": "code_d2_i0",
+      "task_a": "math",
+      "task_b": "code",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.013591352578553,
+      "l2_distance_true_bridgeless": 79.06126788136159,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9367311570468597,
+          "l2_distance": 79.0612678813616,
+          "angle_mean_weighted": 1.4335562819842542,
+          "angle_mean_unweighted": 1.4221194637317467,
+          "chordal_rms_weighted": 0.9794300314151556,
+          "chordal_rms_unweighted": 0.9797385772275239
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999889888,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "math_d0_i0",
+      "adapter_b": "code_d1_i0",
+      "task_a": "math",
+      "task_b": "code",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.05945295237747794,
+      "l2_distance_true_bridgeless": 19.150744107194814,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.054945914136442786,
+          "l2_distance": 19.15074410719482,
+          "angle_mean_weighted": 1.4330303180380737,
+          "angle_mean_unweighted": 1.4217217780638867,
+          "chordal_rms_weighted": 0.9793035971894537,
+          "chordal_rms_unweighted": 0.9796506319142548
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 1.3917435228311398e-14,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "math_d2_i2",
+      "adapter_b": "agnews_d0_i2",
+      "task_a": "math",
+      "task_b": "agnews",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.07775288632675426,
+      "l2_distance_true_bridgeless": 22.20522119603013,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.07200568496991633,
+          "l2_distance": 22.205221196030127,
+          "angle_mean_weighted": 1.4367848612561203,
+          "angle_mean_unweighted": 1.429728893241761,
+          "chordal_rms_weighted": 0.9799905439375235,
+          "chordal_rms_unweighted": 0.981495652440676
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 7.188730978526281e-14,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "code_d0_i2",
+      "adapter_b": "agnews_d1_i0",
+      "task_a": "code",
+      "task_b": "agnews",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0177637348264061,
+      "l2_distance_true_bridgeless": 80.2147695522703,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9423263216350881,
+          "l2_distance": 80.21476955227031,
+          "angle_mean_weighted": 1.436845411615579,
+          "angle_mean_unweighted": 1.4252236587821767,
+          "chordal_rms_weighted": 0.9797073837471793,
+          "chordal_rms_unweighted": 0.9801516108928086
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999938438,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "agnews_d0_i1",
+      "adapter_b": "xsum_d2_i0",
+      "task_a": "agnews",
+      "task_b": "xsum",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0226319800922339,
+      "l2_distance_true_bridgeless": 80.94425686322465,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9477758551754266,
+          "l2_distance": 80.94425686322464,
+          "angle_mean_weighted": 1.4110111139391397,
+          "angle_mean_unweighted": 1.4069153847720177,
+          "chordal_rms_weighted": 0.9727084184818762,
+          "chordal_rms_unweighted": 0.9754843775933794
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999960936,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "xsum_d1_i2",
+      "adapter_b": "agnews_d2_i0",
+      "task_a": "xsum",
+      "task_b": "agnews",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0331876530399282,
+      "l2_distance_true_bridgeless": 81.33397183303624,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9575129192190529,
+          "l2_distance": 81.33397183303624,
+          "angle_mean_weighted": 1.4157218023429743,
+          "angle_mean_unweighted": 1.4077528993522008,
+          "chordal_rms_weighted": 0.9742449937540427,
+          "chordal_rms_unweighted": 0.9757131193767034
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999977551,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "code_d1_i1",
+      "adapter_b": "squad_d2_i0",
+      "task_a": "code",
+      "task_b": "squad",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0191144028524828,
+      "l2_distance_true_bridgeless": 79.76398597320494,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9427023984255991,
+          "l2_distance": 79.76398597320492,
+          "angle_mean_weighted": 1.4409779446049533,
+          "angle_mean_unweighted": 1.428467691312656,
+          "chordal_rms_weighted": 0.9811710888980478,
+          "chordal_rms_unweighted": 0.9811857913723192
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999931248,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "code_d0_i1",
+      "adapter_b": "xsum_d0_i2",
+      "task_a": "code",
+      "task_b": "xsum",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.9735250032160906,
+      "l2_distance_true_bridgeless": 78.05290471398848,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9006922816485535,
+          "l2_distance": 78.05290471398848,
+          "angle_mean_weighted": 1.436196955225351,
+          "angle_mean_unweighted": 1.42382758745728,
+          "chordal_rms_weighted": 0.9799841821669458,
+          "chordal_rms_unweighted": 0.9799154762121817
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999243221,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "alpaca_d2_i1",
+      "adapter_b": "code_d2_i2",
+      "task_a": "alpaca",
+      "task_b": "code",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.9816800438647726,
+      "l2_distance_true_bridgeless": 77.84159382961606,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9073013367276695,
+          "l2_distance": 77.84159382961606,
+          "angle_mean_weighted": 1.371297409898611,
+          "angle_mean_unweighted": 1.3600958155163974,
+          "chordal_rms_weighted": 0.9610864895072982,
+          "chordal_rms_unweighted": 0.9604357905018984
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999405489,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "alpaca_d2_i2",
+      "adapter_b": "squad_d0_i1",
+      "task_a": "alpaca",
+      "task_b": "squad",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.9879693023834384,
+      "l2_distance_true_bridgeless": 78.5657611486402,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9139458229251425,
+          "l2_distance": 78.5657611486402,
+          "angle_mean_weighted": 1.4300536785244196,
+          "angle_mean_unweighted": 1.4206264348677784,
+          "chordal_rms_weighted": 0.9779392725707682,
+          "chordal_rms_unweighted": 0.9790524159487858
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999642193,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "math_d1_i0",
+      "adapter_b": "agnews_d0_i0",
+      "task_a": "math",
+      "task_b": "agnews",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.07003840328866051,
+      "l2_distance_true_bridgeless": 21.05841487557609,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.06485409225491134,
+          "l2_distance": 21.05841487557609,
+          "angle_mean_weighted": 1.4400617329957586,
+          "angle_mean_unweighted": 1.4298882635995092,
+          "chordal_rms_weighted": 0.9808798030226656,
+          "chordal_rms_unweighted": 0.9815483521019105
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 3.751013628933621e-14,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "agnews_d2_i2",
+      "adapter_b": "xsum_d1_i1",
+      "task_a": "agnews",
+      "task_b": "xsum",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.9842737215025938,
+      "l2_distance_true_bridgeless": 79.42782709150354,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9122520945121181,
+          "l2_distance": 79.42782709150353,
+          "angle_mean_weighted": 1.4123273204195466,
+          "angle_mean_unweighted": 1.406738039494918,
+          "chordal_rms_weighted": 0.9731742558651805,
+          "chordal_rms_unweighted": 0.9753719103002533
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999697178,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "squad_d2_i1",
+      "adapter_b": "xsum_d2_i1",
+      "task_a": "squad",
+      "task_b": "xsum",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.0560577786069234,
+      "l2_distance_true_bridgeless": 18.83006010172357,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.05190540552214462,
+          "l2_distance": 18.830060101723568,
+          "angle_mean_weighted": 1.4067926936929986,
+          "angle_mean_unweighted": 1.404944863379383,
+          "chordal_rms_weighted": 0.9717641665820971,
+          "chordal_rms_unweighted": 0.9746853029674946
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 1.106542049309852e-14,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "math_d1_i2",
+      "adapter_b": "code_d2_i1",
+      "task_a": "math",
+      "task_b": "code",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.9770148650747924,
+      "l2_distance_true_bridgeless": 77.5588078641146,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9028172647659763,
+          "l2_distance": 77.55880786411458,
+          "angle_mean_weighted": 1.4323522215205335,
+          "angle_mean_unweighted": 1.4220427182759738,
+          "chordal_rms_weighted": 0.9792294480671089,
+          "chordal_rms_unweighted": 0.9796904351249306
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999209941,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "xsum_d1_i0",
+      "adapter_b": "alpaca_d0_i0",
+      "task_a": "xsum",
+      "task_b": "alpaca",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.05738882852831806,
+      "l2_distance_true_bridgeless": 18.960139971017423,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.053099154574970164,
+          "l2_distance": 18.960139971017423,
+          "angle_mean_weighted": 1.418003314742013,
+          "angle_mean_unweighted": 1.4090262309868775,
+          "chordal_rms_weighted": 0.9754922602881183,
+          "chordal_rms_unweighted": 0.9761649947893143
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 1.2122219403022282e-14,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "squad_d0_i2",
+      "adapter_b": "xsum_d0_i1",
+      "task_a": "squad",
+      "task_b": "xsum",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.9816593120003093,
+      "l2_distance_true_bridgeless": 78.81081416066814,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9089670721779717,
+          "l2_distance": 78.81081416066813,
+          "angle_mean_weighted": 1.4158715109382523,
+          "angle_mean_unweighted": 1.4084694713025308,
+          "chordal_rms_weighted": 0.9737246227081494,
+          "chordal_rms_unweighted": 0.9754485523110676
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999581162,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "squad_d2_i2",
+      "adapter_b": "alpaca_d1_i1",
+      "task_a": "squad",
+      "task_b": "alpaca",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.9827236932042772,
+      "l2_distance_true_bridgeless": 78.32991476494188,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.90904573879187,
+          "l2_distance": 78.32991476494188,
+          "angle_mean_weighted": 1.4312626589293636,
+          "angle_mean_unweighted": 1.4211643748140206,
+          "chordal_rms_weighted": 0.9783574409961019,
+          "chordal_rms_unweighted": 0.9791903325006843
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.99999999995218,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "squad_d1_i1",
+      "adapter_b": "alpaca_d1_i0",
+      "task_a": "squad",
+      "task_b": "alpaca",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0214106066780186,
+      "l2_distance_true_bridgeless": 79.8177006362849,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9447624986554307,
+          "l2_distance": 79.8177006362849,
+          "angle_mean_weighted": 1.4311221779352163,
+          "angle_mean_unweighted": 1.4212475666621933,
+          "chordal_rms_weighted": 0.9784309917650934,
+          "chordal_rms_unweighted": 0.9792579367577342
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999938354,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "agnews_d2_i1",
+      "adapter_b": "squad_d1_i0",
+      "task_a": "agnews",
+      "task_b": "squad",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0251402135538208,
+      "l2_distance_true_bridgeless": 80.93536108507571,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9499126152856717,
+          "l2_distance": 80.9353610850757,
+          "angle_mean_weighted": 1.426210460028062,
+          "angle_mean_unweighted": 1.4193252618316978,
+          "chordal_rms_weighted": 0.9767731473506371,
+          "chordal_rms_unweighted": 0.9786827009000827
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999964471,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "xsum_d2_i2",
+      "adapter_b": "agnews_d1_i2",
+      "task_a": "xsum",
+      "task_b": "agnews",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.05779247867218984,
+      "l2_distance_true_bridgeless": 19.25250800973743,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.053566200227265326,
+          "l2_distance": 19.25250800973743,
+          "angle_mean_weighted": 1.4055029775482206,
+          "angle_mean_unweighted": 1.404313070649186,
+          "chordal_rms_weighted": 0.9719315342511003,
+          "chordal_rms_unweighted": 0.9749167390739847
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 1.3451366395425063e-14,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "alpaca_d1_i2",
+      "adapter_b": "math_d0_i2",
+      "task_a": "alpaca",
+      "task_b": "math",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 0.06051446687889528,
+      "l2_distance_true_bridgeless": 19.312919504824677,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.05592343660681609,
+          "l2_distance": 19.31291950482467,
+          "angle_mean_weighted": 1.4280282939899938,
+          "angle_mean_unweighted": 1.419554739267211,
+          "chordal_rms_weighted": 0.9780822910763386,
+          "chordal_rms_unweighted": 0.9790358754415698
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 1.5234919569244427e-14,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "squad_d1_i2",
+      "adapter_b": "math_d2_i0",
+      "task_a": "squad",
+      "task_b": "math",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0143457295729044,
+      "l2_distance_true_bridgeless": 79.4771091528899,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9381134840197245,
+          "l2_distance": 79.47710915288988,
+          "angle_mean_weighted": 1.4317964498495575,
+          "angle_mean_unweighted": 1.4189459149746664,
+          "chordal_rms_weighted": 0.9787670304251609,
+          "chordal_rms_unweighted": 0.9785663637058921
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999908091,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    },
+    {
+      "adapter_a": "alpaca_d2_i0",
+      "adapter_b": "math_d1_i1",
+      "task_a": "alpaca",
+      "task_b": "math",
+      "exit_code": 0,
+      "cos_distance_true_bridgeless": 1.0146219334056017,
+      "l2_distance_true_bridgeless": 79.07348913072956,
+      "verdict": {
+        "n_modules": 253,
+        "alpha": 0.5,
+        "binarization": {
+          "rule_used": "relative_degradation",
+          "threshold_rel": 0.05,
+          "frac_positive_bank": 0.8583333333333333
+        },
+        "features": {
+          "cos_distance": 0.9376333696421543,
+          "l2_distance": 79.07348913072957,
+          "angle_mean_weighted": 1.4296677848706543,
+          "angle_mean_unweighted": 1.4192178819989547,
+          "chordal_rms_weighted": 0.9785146392640829,
+          "chordal_rms_unweighted": 0.9789031636808148
+        },
+        "seed": 0,
+        "in_family": false,
+        "family": null,
+        "model_used": "distance_only_fallback",
+        "n_reference_pairs": 240,
+        "conflict_probability": 0.9999999999894686,
+        "bank_context": {
+          "note": "distance-only bank AUCs per family, group-aware CV -- the fallback model's in-bank ceiling",
+          "per_family_auc_distance": {
+            "llama3.2-1b": 0.713156002875629,
+            "qwen2.5-1.5b": 0.6753246753246753
+          }
+        },
+        "extrapolation": "module set matches NO bank family"
+      }
+    }
+  ]
+}

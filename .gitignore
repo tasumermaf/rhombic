@@ -173,6 +173,19 @@ results/tinker-pilot/*/adapter_model.safetensors
 results/tinker-pilot/*/*.safetensors
 results/tinker-pilot/smoke/
 
+# E-T4 Tinker mini-bank (54 runs, 2026-08-04). Identical convention: the
+# MEASUREMENTS are the deliverable and ARE tracked (run_record.json,
+# spend_ledger*.json, billing_usage.json, signal_results.json,
+# pairwise_distances.json, merge_lint_results.json, data_manifest.json,
+# MINIBANK_REPORT.md, logs/). Training text is deterministic output of
+# scripts/tinker_minibank_data.py (202 MB over 18 streams).
+results/tinker-minibank/data/*.jsonl
+# Exported adapter payloads: 54 x 369 MB = ~20 GB.
+results/tinker-minibank/*/adapter_model.safetensors
+results/tinker-minibank/*/*.safetensors
+# Scratch bank-format copies made only to feed merge_lint.
+results/tinker-minibank/_merge_lint_converted/
+
 # Granularity ladder (registered 2026-07-30, locked 2026-08-04). Same
 # convention as the Asset-1 bank and the S2 pilots: regenerable/large payloads
 # stay on disk, the MEASUREMENTS and the frozen manifests ARE tracked
