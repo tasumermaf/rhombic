@@ -36,9 +36,14 @@ hub-reproduced):
   world 6,837 / sport 9,750 / business-science-culture 6,698), mirroring
   `ALPACA_VERB_L2_MERGE`. L2 K=24, L3 K=48, 240 adapters per level — the
   locked cost table is not restated.
-- Class-size spread 5.7× (1,697–9,750) — narrower than the imbalance L2
-  already carries under the ratified `--balance none` (math:steps_4 1,026
-  vs squad:tg4_0 9,503).
+- Class-size spread: **5.59× realized at L3** (9,750 / 1,744 — corrected
+  per the Director's ruling condition (d), 2026-08-05: after the two
+  smallest world buckets merge, the smallest realized L3 class is
+  world-asia-pacific 1,744; this line originally quoted 5.7× against
+  world-americas 1,697, a class that does not exist post-merge; pre-merge
+  spread is 6.29× vs 1,550. Error was conservative). Still narrower than
+  the imbalance L2 already carries under the ratified `--balance none`
+  (math:steps_4 1,026 vs squad:tg4_0 9,503).
 
 **Consequently the cells are [T2]** — a deterministic pure function of a
 native field plus a frozen external table, byte-for-byte reproducible by
