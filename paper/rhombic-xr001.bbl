@@ -1,0 +1,149 @@
+\begin{thebibliography}{18}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{anthropics/claude-code issue \#24686}(2026)]{claudecode24686}
+{anthropics/claude-code issue \#24686}.
+\newblock [bug] plans made in plan mode are ``lost'' after compacting context.
+\newblock GitHub issue,
+  \url{https://github.com/anthropics/claude-code/issues/24686}, 2026.
+\newblock Accessed 2026-07-14.
+
+\bibitem[Cassano and Rush(2026)]{cassano2026composer}
+Federico Cassano and Sasha Rush.
+\newblock Training composer for longer horizons.
+\newblock Cursor engineering blog,
+  \url{https://cursor.com/blog/self-summarization}, 2026.
+\newblock Published 2026-03-17; accessed 2026-07-14.
+
+\bibitem[Chen(2026)]{chen2026governance}
+Shiyang Chen.
+\newblock Governance decay: How context compaction silently erases safety
+  constraints in long-horizon {LLM} agents.
+\newblock \emph{arXiv preprint}, 2026.
+\newblock arXiv:2606.22528.
+
+\bibitem[Chen et~al.(2026)Chen, Pan, Dai, and Netravali]{chen2026slipstream}
+Zhuofu Chen, Rui Pan, Yinwei Dai, and Ravi Netravali.
+\newblock {Slipstream}: Trajectory-grounded compaction validation for
+  long-horizon agents.
+\newblock \emph{arXiv preprint}, 2026.
+\newblock arXiv:2605.08580.
+
+\bibitem[Chhikara et~al.(2025)Chhikara, Khant, Aryan, Singh, and
+  Yadav]{chhikara2025mem0}
+Prateek Chhikara, Dev Khant, Saket Aryan, Taranjeet Singh, and Deshraj Yadav.
+\newblock {Mem0}: Building production-ready {AI} agents with scalable long-term
+  memory.
+\newblock \emph{arXiv preprint}, 2025.
+\newblock arXiv:2504.19413.
+
+\bibitem[Colaco and Lahjouji(2026)]{colaco2026ratedistortion}
+Ashwin~Gerard Colaco and Nada Lahjouji.
+\newblock What to keep, what to forget: A rate--distortion view of memory
+  compaction in {LLMs} and agents.
+\newblock \emph{arXiv preprint}, 2026.
+\newblock arXiv:2607.08032.
+
+\bibitem[{Factory Research}(2025)]{factory2025compression}
+{Factory Research}.
+\newblock Evaluating context compression for {AI} agents.
+\newblock Factory.ai engineering report,
+  \url{https://factory.ai/news/evaluating-compression}, 2025.
+\newblock Published 2025-12-16; accessed 2026-07-14.
+
+\bibitem[Hong et~al.(2025)Hong, Troynikov, and Huber]{hong2025contextrot}
+Kelly Hong, Anton Troynikov, and Jeff Huber.
+\newblock Context rot: How increasing input tokens impacts {LLM} performance.
+\newblock Chroma Research technical report,
+  \url{https://www.trychroma.com/research/context-rot}, 2025.
+\newblock Published 2025-07-14; accessed 2026-07-14.
+
+\bibitem[Liu et~al.(2024)Liu, Lin, Hewitt, Paranjape, Bevilacqua, Petroni, and
+  Liang]{liu2023lost}
+Nelson~F. Liu, Kevin Lin, John Hewitt, Ashwin Paranjape, Michele Bevilacqua,
+  Fabio Petroni, and Percy Liang.
+\newblock Lost in the middle: How language models use long contexts.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  2024.
+\newblock arXiv:2307.03172.
+
+\bibitem[Maynez et~al.(2020)Maynez, Narayan, Bohnet, and
+  McDonald]{maynez2020faithfulness}
+Joshua Maynez, Shashi Narayan, Bernd Bohnet, and Ryan McDonald.
+\newblock On faithfulness and factuality in abstractive summarization.
+\newblock In \emph{Proceedings of the 58th Annual Meeting of the Association
+  for Computational Linguistics (ACL)}, 2020.
+\newblock arXiv:2005.00661.
+
+\bibitem[Mohamed et~al.(2025)Mohamed, Geng, Vazirgiannis, and
+  Shang]{mohamed2025brokentelephone}
+Amr Mohamed, Mingmeng Geng, Michalis Vazirgiannis, and Guokan Shang.
+\newblock {LLM} as a broken telephone: Iterative generation distorts
+  information.
+\newblock \emph{Proceedings of the 63rd Annual Meeting of the Association for
+  Computational Linguistics (ACL)}, 2025.
+\newblock arXiv:2502.20258.
+
+\bibitem[Packer et~al.(2023)Packer, Wooders, Lin, Fang, Patil, Stoica, and
+  Gonzalez]{packer2023memgpt}
+Charles Packer, Sarah Wooders, Kevin Lin, Vivian Fang, Shishir~G. Patil, Ion
+  Stoica, and Joseph~E. Gonzalez.
+\newblock {MemGPT}: Towards {LLMs} as operating systems.
+\newblock \emph{arXiv preprint}, 2023.
+\newblock arXiv:2310.08560.
+
+\bibitem[Rajasekaran et~al.(2025)Rajasekaran, Dixon, Ryan, and
+  Hadfield]{anthropic2025context}
+Prithvi Rajasekaran, Ethan Dixon, Carly Ryan, and Jeremy Hadfield.
+\newblock Effective context engineering for {AI} agents.
+\newblock Anthropic engineering blog,
+  \url{https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents},
+  2025.
+\newblock Published 2025-09-29; accessed 2026-07-14.
+
+\bibitem[Rasmussen et~al.(2025)Rasmussen, Paliychuk, Beauvais, Ryan, and
+  Chalef]{rasmussen2025zep}
+Preston Rasmussen, Pavlo Paliychuk, Travis Beauvais, Jack Ryan, and Daniel
+  Chalef.
+\newblock {Zep}: A temporal knowledge graph architecture for agent memory.
+\newblock \emph{arXiv preprint}, 2025.
+\newblock arXiv:2501.13956.
+
+\bibitem[Yuan et~al.(2026)Yuan, Su, and Yao]{yuan2026diagnosing}
+Boqin Yuan, Yue Su, and Kun Yao.
+\newblock Diagnosing retrieval vs. utilization bottlenecks in {LLM} agent
+  memory.
+\newblock \emph{arXiv preprint}, 2026.
+\newblock arXiv:2603.02473.
+
+\bibitem[Zhang et~al.(2025)Zhang, Hu, Upasani, Ma, Hong, Kamanuru, Rainton, Wu,
+  Ji, Li, Thakker, Zou, and Olukotun]{zhang2025ace}
+Qizheng Zhang, Changran Hu, Shubhangi Upasani, Boyuan Ma, Fenglu Hong,
+  Vamsidhar Kamanuru, Jay Rainton, Chen Wu, Mengmeng Ji, Hanchen Li, Urmish
+  Thakker, James Zou, and Kunle Olukotun.
+\newblock Agentic context engineering: Evolving contexts for self-improving
+  language models.
+\newblock \emph{arXiv preprint}, 2025.
+\newblock arXiv:2510.04618.
+
+\bibitem[Zhao et~al.(2020)Zhao, Cohen, and Webber]{zhao2020quantity}
+Zheng Zhao, Shay~B. Cohen, and Bonnie Webber.
+\newblock Reducing quantity hallucinations in abstractive summarization.
+\newblock In \emph{Findings of the Association for Computational Linguistics:
+  EMNLP 2020}, 2020.
+\newblock arXiv:2009.13312.
+
+\bibitem[Zhu et~al.(2026)Zhu, Ro, Robertson, Wang, Li, Vikalo, Akella, and
+  Wang]{zhu2026aging}
+Jianing Zhu, Yeonju Ro, John Robertson, Kevin Wang, Junbo Li, Haris Vikalo,
+  Aditya Akella, and Zhangyang Wang.
+\newblock Your agents are aging too: Agent lifespan engineering for deployed
+  systems.
+\newblock \emph{arXiv preprint}, 2026.
+\newblock arXiv:2605.26302.
+
+\end{thebibliography}

@@ -1,0 +1,15 @@
+{
+  "started": "2026-08-04T18:30:58Z",
+  "base_model": "Qwen/Qwen3.6-27B",
+  "rank": 16,
+  "token_rule_checks": [],
+  "accepted_mixed_input": null,
+  "losses": [],
+  "adapter_exported": null,
+  "train_tokens": 0,
+  "projected_usd": 0.0,
+  "aborted": null,
+  "notes": [
+    "native 4000x3000 = 11750 visual tokens; train res 1024x768 = 768; ratio 15.3x"
+  ]
+}

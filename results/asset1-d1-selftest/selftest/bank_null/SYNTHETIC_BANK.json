@@ -1,0 +1,16 @@
+{
+  "synthetic": true,
+  "generator": "scripts/asset1_synth.py",
+  "params": {
+    "n_families": 2,
+    "n_tasks": 3,
+    "n_reps": 6,
+    "n_layers": 2,
+    "d_model": 16,
+    "rank": 4,
+    "n_channels": 2,
+    "task_effect": 0.0,
+    "seed": 8
+  },
+  "n_runs": 36
+}

@@ -202,3 +202,9 @@ results/granularity/*/dryrun_*/*.npy
 results/granularity/analysis/scratch/
 results/granularity/selftest/
 results/granularity/logs/
+
+# LaTeX intermediates (workshop builds)
+paper/**/*.aux
+paper/**/*.out
+# D3 merge payloads (5.3 GB of merged-adapter evals; reports are tracked)
+results/asset1-d3/merges/

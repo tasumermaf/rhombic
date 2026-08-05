@@ -1,0 +1,214 @@
+{
+  "effect_dev_vs_final_gap": {
+    "x": "dev_mean",
+    "y": "final_gap",
+    "n_boot": 1000,
+    "seed": 0,
+    "cells": {
+      "pooled": {
+        "n": 16,
+        "pearson_r": 0.9982724898069266,
+        "pearson_ci": [
+          0.9964443220885896,
+          0.9993449289853126
+        ],
+        "spearman_r": 0.9852941176470588,
+        "spearman_ci": [
+          0.8868947195442594,
+          1.0
+        ],
+        "note": null,
+        "n_boot_valid": 1000
+      },
+      "family:synthfam0": {
+        "n": 16,
+        "pearson_r": 0.9982724898069266,
+        "pearson_ci": [
+          0.9963470208661414,
+          0.9992823836854735
+        ],
+        "spearman_r": 0.9852941176470588,
+        "spearman_ci": [
+          0.8959156926115847,
+          1.0
+        ],
+        "note": null,
+        "n_boot_valid": 1000
+      },
+      "task:synthfam0/task00": {
+        "n": 8,
+        "pearson_r": 0.9993466499975288,
+        "pearson_ci": [
+          0.9985298950277528,
+          0.9999585784906293
+        ],
+        "spearman_r": 1.0,
+        "spearman_ci": [
+          0.9999999999999998,
+          1.0
+        ],
+        "note": null,
+        "n_boot_valid": 1000
+      },
+      "task:synthfam0/task01": {
+        "n": 8,
+        "pearson_r": 0.996643509848625,
+        "pearson_ci": [
+          0.9868978491326621,
+          0.9994349225743182
+        ],
+        "spearman_r": 0.9761904761904763,
+        "spearman_ci": [
+          0.6202531645569621,
+          1.0
+        ],
+        "note": null,
+        "n_boot_valid": 1000
+      }
+    }
+  },
+  "zero_dev_vs_final_gap": {
+    "x": "dev_mean",
+    "y": "final_gap",
+    "n_boot": 1000,
+    "seed": 0,
+    "cells": {
+      "pooled": {
+        "n": 16,
+        "pearson_r": null,
+        "pearson_ci": [
+          null,
+          null
+        ],
+        "spearman_r": null,
+        "spearman_ci": [
+          null,
+          null
+        ],
+        "note": "zero-variance input \u2014 correlation undefined (see module docstring: for deviation this is the honest no-drift outcome, not a failure)"
+      },
+      "family:synthfam0": {
+        "n": 16,
+        "pearson_r": null,
+        "pearson_ci": [
+          null,
+          null
+        ],
+        "spearman_r": null,
+        "spearman_ci": [
+          null,
+          null
+        ],
+        "note": "zero-variance input \u2014 correlation undefined (see module docstring: for deviation this is the honest no-drift outcome, not a failure)"
+      },
+      "task:synthfam0/task00": {
+        "n": 8,
+        "pearson_r": null,
+        "pearson_ci": [
+          null,
+          null
+        ],
+        "spearman_r": null,
+        "spearman_ci": [
+          null,
+          null
+        ],
+        "note": "zero-variance input \u2014 correlation undefined (see module docstring: for deviation this is the honest no-drift outcome, not a failure)"
+      },
+      "task:synthfam0/task01": {
+        "n": 8,
+        "pearson_r": null,
+        "pearson_ci": [
+          null,
+          null
+        ],
+        "spearman_r": null,
+        "spearman_ci": [
+          null,
+          null
+        ],
+        "note": "zero-variance input \u2014 correlation undefined (see module docstring: for deviation this is the honest no-drift outcome, not a failure)"
+      }
+    }
+  },
+  "zero_update_mag_vs_final_gap": {
+    "x": "update_mag_mean",
+    "y": "final_gap",
+    "n_boot": 1000,
+    "seed": 0,
+    "cells": {
+      "pooled": {
+        "n": 16,
+        "pearson_r": 0.13495601375588273,
+        "pearson_ci": [
+          -0.3603030339983234,
+          0.5482480004376561
+        ],
+        "spearman_r": 0.10588235294117648,
+        "spearman_ci": [
+          -0.4315992805192773,
+          0.6079315737025205
+        ],
+        "note": null,
+        "n_boot_valid": 1000
+      },
+      "family:synthfam0": {
+        "n": 16,
+        "pearson_r": 0.13495601375588273,
+        "pearson_ci": [
+          -0.36049635312540396,
+          0.5584215241926582
+        ],
+        "spearman_r": 0.10588235294117648,
+        "spearman_ci": [
+          -0.44748774700051,
+          0.584508702822795
+        ],
+        "note": null,
+        "n_boot_valid": 1000
+      },
+      "task:synthfam0/task00": {
+        "n": 8,
+        "pearson_r": -0.31251169674175183,
+        "pearson_ci": [
+          -0.8616738163669895,
+          0.3639053650395194
+        ],
+        "spearman_r": -0.5476190476190477,
+        "spearman_ci": [
+          -0.9746835443037977,
+          0.2632245169886742
+        ],
+        "note": null,
+        "n_boot_valid": 1000
+      },
+      "task:synthfam0/task01": {
+        "n": 8,
+        "pearson_r": 0.10926035020544639,
+        "pearson_ci": [
+          -0.6409018106378601,
+          0.8614832824392168
+        ],
+        "spearman_r": 0.2380952380952381,
+        "spearman_ci": [
+          -0.7468354430379749,
+          0.8987341772151901
+        ],
+        "note": null,
+        "n_boot_valid": 1000
+      }
+    }
+  },
+  "n_runs": {
+    "effect": 16,
+    "zero": 16
+  },
+  "checks": {
+    "effect_pooled_r_gt_0.9": true,
+    "effect_within_task_r_gt_0.9": true,
+    "effect_step0_control_zero": true,
+    "zero_bank_deviation_undefined": true,
+    "zero_bank_update_mag_r_near_0": true
+  },
+  "passed": true
+}
