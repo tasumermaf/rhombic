@@ -1,0 +1,195 @@
+{
+  "labels_file": "results\\asset1-d3\\d3_labels.json",
+  "binarization": {
+    "threshold_rel": 0.05,
+    "degenerate_min_frac": 0.1,
+    "source": "docs/DIRECTOR_DECISIONS_2026-07-06.md",
+    "rule_available": "relative_degradation",
+    "frac_positive_relative": 0.8583333333333333,
+    "positive_rate_definition": "pair-level any-endpoint conflict rate (EITHER endpoint degraded >= threshold_rel vs its native adapter) \u2014 NOT a per-task-side rate; see per-endpoint marginals",
+    "frac_positive_endpoint_a": 0.8583333333333333,
+    "n_rows_with_endpoint_a": 240,
+    "frac_positive_endpoint_b": 0.8583333333333333,
+    "n_rows_with_endpoint_b": 240,
+    "degenerate": false,
+    "rule_used": "relative_degradation",
+    "threshold": null
+  },
+  "threshold": null,
+  "threshold_mode": "relative_degradation",
+  "threshold_rel": 0.05,
+  "degenerate_min_frac": 0.1,
+  "model": "logistic",
+  "seed": 0,
+  "n_splits": 5,
+  "n_boot": 1000,
+  "n_pairs_total": 240,
+  "dependence_note": "DYADIC DEPENDENCE (round-1 review fix): pairs sharing an endpoint run are NOT independent observations. The headline numbers use StratifiedGroupKFold over run-overlap connected components (no run in both train and test pairs) and a component-cluster bootstrap. The 'naive' block (StratifiedKFold over pairs, pair-iid bootstrap) is anti-conservative and reported for comparison only \u2014 it must never be quoted as the result.",
+  "per_family": {
+    "llama3.2-1b": {
+      "n_pairs": 120,
+      "naive": {
+        "auc_full": 0.9518332135154565,
+        "auc_full_ci": [
+          0.8663716133004926,
+          0.9979979979979979
+        ],
+        "auc_distance": 0.6671459381739755,
+        "auc_distance_ci": [
+          0.4095424107142857,
+          0.8851053459119496
+        ],
+        "auc_diff": 0.28468727534148097,
+        "auc_diff_ci": [
+          0.09087692967409941,
+          0.5188904751570066
+        ],
+        "n_boot_requested": 1000,
+        "n_boot_valid": 1000,
+        "bootstrap_unit": "pair-iid",
+        "cv": "StratifiedKFold over pairs \u2014 run overlap across folds possible; anti-conservative"
+      },
+      "auc_full": 0.9618979151689432,
+      "auc_full_ci": [
+        0.8979147371670736,
+        0.9988577955454027
+      ],
+      "auc_distance": 0.713156002875629,
+      "auc_distance_ci": [
+        0.4575512566137567,
+        0.9231933361933363
+      ],
+      "auc_diff": 0.24874191229331422,
+      "auc_diff_ci": [
+        0.039036888450950956,
+        0.48996306052438127
+      ],
+      "n_boot_requested": 1000,
+      "n_boot_valid": 1000,
+      "bootstrap_unit": "run-component-cluster",
+      "cv": "StratifiedGroupKFold over run-overlap components \u2014 no run appears in both train and test pairs",
+      "group_aware": {
+        "auc_full": 0.9618979151689432,
+        "auc_full_ci": [
+          0.8979147371670736,
+          0.9988577955454027
+        ],
+        "auc_distance": 0.713156002875629,
+        "auc_distance_ci": [
+          0.4575512566137567,
+          0.9231933361933363
+        ],
+        "auc_diff": 0.24874191229331422,
+        "auc_diff_ci": [
+          0.039036888450950956,
+          0.48996306052438127
+        ],
+        "n_boot_requested": 1000,
+        "n_boot_valid": 1000,
+        "bootstrap_unit": "run-component-cluster",
+        "cv": "StratifiedGroupKFold over run-overlap components \u2014 no run appears in both train and test pairs"
+      },
+      "headline_basis": "group_aware",
+      "dependence": {
+        "n_runs": 240,
+        "n_components": 120,
+        "largest_component_pairs": 1,
+        "note": "DYADIC DEPENDENCE (round-1 review fix): pairs sharing an endpoint run are NOT independent observations. The headline numbers use StratifiedGroupKFold over run-overlap connected components (no run in both train and test pairs) and a component-cluster bootstrap. The 'naive' block (StratifiedKFold over pairs, pair-iid bootstrap) is anti-conservative and reported for comparison only \u2014 it must never be quoted as the result.",
+        "group_cv_feasible": true
+      }
+    },
+    "qwen2.5-1.5b": {
+      "n_pairs": 120,
+      "naive": {
+        "auc_full": 0.9951899951899952,
+        "auc_full_ci": [
+          0.9830664701820785,
+          1.0
+        ],
+        "auc_distance": 0.6859066859066859,
+        "auc_distance_ci": [
+          0.4921433644155678,
+          0.8511812730857542
+        ],
+        "auc_diff": 0.30928330928330927,
+        "auc_diff_ci": [
+          0.14195477430555556,
+          0.5075086004034066
+        ],
+        "n_boot_requested": 1000,
+        "n_boot_valid": 1000,
+        "bootstrap_unit": "pair-iid",
+        "cv": "StratifiedKFold over pairs \u2014 run overlap across folds possible; anti-conservative"
+      },
+      "auc_full": 0.9951899951899952,
+      "auc_full_ci": [
+        0.9830664701820785,
+        1.0
+      ],
+      "auc_distance": 0.6753246753246753,
+      "auc_distance_ci": [
+        0.4842783121177346,
+        0.8480009803921569
+      ],
+      "auc_diff": 0.31986531986531985,
+      "auc_diff_ci": [
+        0.14988492063492068,
+        0.5108987905974525
+      ],
+      "n_boot_requested": 1000,
+      "n_boot_valid": 1000,
+      "bootstrap_unit": "run-component-cluster",
+      "cv": "StratifiedGroupKFold over run-overlap components \u2014 no run appears in both train and test pairs",
+      "group_aware": {
+        "auc_full": 0.9951899951899952,
+        "auc_full_ci": [
+          0.9830664701820785,
+          1.0
+        ],
+        "auc_distance": 0.6753246753246753,
+        "auc_distance_ci": [
+          0.4842783121177346,
+          0.8480009803921569
+        ],
+        "auc_diff": 0.31986531986531985,
+        "auc_diff_ci": [
+          0.14988492063492068,
+          0.5108987905974525
+        ],
+        "n_boot_requested": 1000,
+        "n_boot_valid": 1000,
+        "bootstrap_unit": "run-component-cluster",
+        "cv": "StratifiedGroupKFold over run-overlap components \u2014 no run appears in both train and test pairs"
+      },
+      "headline_basis": "group_aware",
+      "dependence": {
+        "n_runs": 240,
+        "n_components": 120,
+        "largest_component_pairs": 1,
+        "note": "DYADIC DEPENDENCE (round-1 review fix): pairs sharing an endpoint run are NOT independent observations. The headline numbers use StratifiedGroupKFold over run-overlap connected components (no run in both train and test pairs) and a component-cluster bootstrap. The 'naive' block (StratifiedKFold over pairs, pair-iid bootstrap) is anti-conservative and reported for comparison only \u2014 it must never be quoted as the result.",
+        "group_cv_feasible": true
+      }
+    }
+  },
+  "pooled_oof": {
+    "auc_full": 0.9890062821245003,
+    "auc_full_ci": [
+      0.9730398075964426,
+      0.9992078058702338
+    ],
+    "auc_distance": 0.7081667618503712,
+    "auc_distance_ci": [
+      0.5745268193646239,
+      0.8363887005846486
+    ],
+    "auc_diff": 0.28083952027412906,
+    "auc_diff_ci": [
+      0.1565490818172926,
+      0.420493314738933
+    ],
+    "n_boot_requested": 1000,
+    "n_boot_valid": 1000,
+    "bootstrap_unit": "run-component-cluster",
+    "basis": "group-aware out-of-fold scores only"
+  }
+}

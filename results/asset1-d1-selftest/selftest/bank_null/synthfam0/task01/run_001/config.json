@@ -1,0 +1,54 @@
+{
+  "asset": "asset1-synth",
+  "campaign_tag": "synthetic",
+  "run_index": 1,
+  "replicate": 0,
+  "family": "synthetic/family-0",
+  "family_short": "synthfam0",
+  "task": "task01",
+  "task_name": "synthetic task task01",
+  "model": "synthetic/family-0",
+  "dataset": {
+    "source": "synthetic",
+    "config_name": null,
+    "hf_split": "train",
+    "split_design": "synthetic fixture \u2014 no real data",
+    "val_seed": 777,
+    "val_size": 50,
+    "pool_cap": 1000,
+    "n_total_raw": 1000,
+    "n_val": 50,
+    "n_pool": 950,
+    "val_ids_sha256": "28d4733486feb09c457fc724ff14123b8bf8d1c8a1ae5013bb24c22021f6d21d"
+  },
+  "seed": 10001,
+  "data_seed": 20001,
+  "steps": 200,
+  "rank": 4,
+  "n_channels": 2,
+  "lora_alpha": 16.0,
+  "bridge_mode": "identity",
+  "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj"
+  ],
+  "n_injected_modules": 8,
+  "batch_size": 2,
+  "gradient_accumulation": 8,
+  "git_commit": "synthetic",
+  "library_versions": {
+    "numpy": "2.2.6",
+    "torch": "2.6.0+cu124"
+  },
+  "started_at": "2026-01-01T00:00:00+00:00",
+  "finished_at": "2026-01-01T01:00:00+00:00",
+  "wall_time_seconds": 42.0,
+  "synthetic_generative_model": {
+    "task_effect": 0.0,
+    "dev_mag": 0.0,
+    "gap": 0.04146635305923549,
+    "noise_scale": 0.05
+  }
+}

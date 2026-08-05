@@ -1,0 +1,1415 @@
+{
+  "analysis": "D1 cross-family task identifiability",
+  "card": "asset1_experiment_card_2026-07-03.md",
+  "generated_by": "scripts/asset1_d1_identifiability.py",
+  "bank_root": "C:\\Falco\\rhombic\\results\\asset1-bank",
+  "per_family_task_counts": {
+    "qwen2.5-1.5b/agnews": 40,
+    "qwen2.5-1.5b/alpaca": 40,
+    "qwen2.5-1.5b/code": 40,
+    "qwen2.5-1.5b/math": 40,
+    "qwen2.5-1.5b/squad": 40,
+    "qwen2.5-1.5b/xsum": 40,
+    "llama3.2-1b/agnews": 40,
+    "llama3.2-1b/alpaca": 40,
+    "llama3.2-1b/code": 40,
+    "llama3.2-1b/math": 40,
+    "llama3.2-1b/squad": 40,
+    "llama3.2-1b/xsum": 40
+  },
+  "allow_partial_bank": false,
+  "exploratory_only": false,
+  "parameters": {
+    "n_permutations": 1000,
+    "seed": 0,
+    "representation": "all",
+    "chunk_rows": 8,
+    "svm_c": 1.0,
+    "n_depth_bins": 4,
+    "proj_dim": 16,
+    "proj_seed": 0,
+    "vocabsig": {
+      "readout_mode": "hf",
+      "stub_vocab_size": null,
+      "n_probes": 16,
+      "sketch_dim": 8,
+      "topk": 8,
+      "seed": 0,
+      "vocab_chunk": 32768,
+      "kv_modes_reported": [
+        "zero_pad",
+        "exclude"
+      ]
+    }
+  },
+  "tasks": [
+    "agnews",
+    "alpaca",
+    "code",
+    "math",
+    "squad",
+    "xsum"
+  ],
+  "chance": 0.16666666666666666,
+  "pinned_decisions": {
+    "source": "docs/DIRECTOR_DECISIONS_2026-07-06.md",
+    "representation": "all \u2014 A2 ADOPTED (raw AND W2T-canonical within each family, both reportable) + A3 ADOPTED 2026-07-07 (docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md): vocab_signature is D1 arm #3, within-family only, reported under BOTH kv_mode variants per the ruling's condition",
+    "a3_kv_mode_condition": "Director condition 2026-07-07: the kv_mode='zero_pad' approximation is surfaced in output and the exclude variant is co-reported (vocab_signature_kv_exclude \u2014 disambiguation-only, not a headline hypothesis); Level B (asset1_jacobian_lens.py) is the arbiter and outcome-(c) readings are PROVISIONAL pending it",
+    "a3_scope": "within-family ONLY \u2014 the cross-family shared-token-string mapping stays DESIGN ONLY (separate H2 decision, not approved by the 2026-07-07 ruling)",
+    "svm_c": "1.0 (sklearn default) \u2014 APPROVED as-is",
+    "ci_type": "Wilson 95% \u2014 APPROVED (permutation p is the calibrated inference)",
+    "heterogeneity_distance": "Euclidean in feature space \u2014 APPROVED",
+    "per_module_null": "none (completeness-only) \u2014 APPROVED",
+    "regime_axis": "label granularity / task structure (NOT hub-scale-vs-family)",
+    "h2_primary_representation": "spectrum",
+    "h2_corroborating_representation": "probe",
+    "h2_headline_variant": "family_standardized",
+    "h2_alpha": 0.01,
+    "h2_margin_pp": 15.0
+  },
+  "families": {
+    "qwen2.5-1.5b": {
+      "n_runs": 240,
+      "representations": {
+        "raw": {
+          "n_runs": 240,
+          "feature_dim": 6541248,
+          "loo_accuracy": 0.07916666666666666,
+          "per_class_recall": {
+            "agnews": 0.0,
+            "alpaca": 0.025,
+            "code": 0.45,
+            "math": 0.0,
+            "squad": 0.0,
+            "xsum": 0.0
+          },
+          "macro_f1": 0.030790909636025664,
+          "confusion_matrix": {
+            "rows_true_cols_pred": [
+              [
+                0,
+                12,
+                28,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                1,
+                39,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                22,
+                18,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                7,
+                33,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                13,
+                27,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                7,
+                33,
+                0,
+                0,
+                0
+              ]
+            ],
+            "task_order": [
+              "agnews",
+              "alpaca",
+              "code",
+              "math",
+              "squad",
+              "xsum"
+            ]
+          },
+          "wilson_ci_95": [
+            0.05126524186067317,
+            0.12032764075680552
+          ],
+          "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+          "permutation": {
+            "n_permutations": 1000,
+            "null_mean": 0.011725000000000001,
+            "null_max": 0.05416666666666667,
+            "null_p99": 0.03333333333333333,
+            "p_value": 0.000999000999000999
+          },
+          "h1_lock": {
+            "chance": 0.16666666666666666,
+            "accuracy_threshold_1p5x_chance": 0.25,
+            "accuracy_exceeds_threshold": false,
+            "p_threshold": 0.01,
+            "p_below_threshold": true,
+            "pass": false
+          },
+          "heterogeneity_guard": {
+            "per_task_mean_within_class_distance": {
+              "agnews": 46.74362482179232,
+              "alpaca": 46.0595427438963,
+              "code": 45.669250328759276,
+              "math": 48.48991045306505,
+              "squad": 47.98530678022761,
+              "xsum": 47.093758420250566
+            },
+            "ratio_max_over_min": 1.0617627857694332,
+            "trigger_threshold": 3.7,
+            "triggered": false
+          },
+          "per_module_loo_accuracy": {
+            "model_layers_0_self_attn_k_proj": 0.22916666666666666,
+            "model_layers_0_self_attn_o_proj": 0.1875,
+            "model_layers_0_self_attn_q_proj": 0.2125,
+            "model_layers_0_self_attn_v_proj": 0.19583333333333333,
+            "model_layers_10_self_attn_k_proj": 0.19166666666666668,
+            "model_layers_10_self_attn_o_proj": 0.2375,
+            "model_layers_10_self_attn_q_proj": 0.26666666666666666,
+            "model_layers_10_self_attn_v_proj": 0.23333333333333334,
+            "model_layers_11_self_attn_k_proj": 0.3,
+            "model_layers_11_self_attn_o_proj": 0.2708333333333333,
+            "model_layers_11_self_attn_q_proj": 0.275,
+            "model_layers_11_self_attn_v_proj": 0.25833333333333336,
+            "model_layers_12_self_attn_k_proj": 0.2791666666666667,
+            "model_layers_12_self_attn_o_proj": 0.25833333333333336,
+            "model_layers_12_self_attn_q_proj": 0.30416666666666664,
+            "model_layers_12_self_attn_v_proj": 0.25,
+            "model_layers_13_self_attn_k_proj": 0.20833333333333334,
+            "model_layers_13_self_attn_o_proj": 0.24166666666666667,
+            "model_layers_13_self_attn_q_proj": 0.19583333333333333,
+            "model_layers_13_self_attn_v_proj": 0.26666666666666666,
+            "model_layers_14_self_attn_k_proj": 0.25416666666666665,
+            "model_layers_14_self_attn_o_proj": 0.19583333333333333,
+            "model_layers_14_self_attn_q_proj": 0.2125,
+            "model_layers_14_self_attn_v_proj": 0.19166666666666668,
+            "model_layers_15_self_attn_k_proj": 0.2916666666666667,
+            "model_layers_15_self_attn_o_proj": 0.24166666666666667,
+            "model_layers_15_self_attn_q_proj": 0.30833333333333335,
+            "model_layers_15_self_attn_v_proj": 0.29583333333333334,
+            "model_layers_16_self_attn_k_proj": 0.2875,
+            "model_layers_16_self_attn_o_proj": 0.3125,
+            "model_layers_16_self_attn_q_proj": 0.24166666666666667,
+            "model_layers_16_self_attn_v_proj": 0.3125,
+            "model_layers_17_self_attn_k_proj": 0.31666666666666665,
+            "model_layers_17_self_attn_o_proj": 0.3,
+            "model_layers_17_self_attn_q_proj": 0.26666666666666666,
+            "model_layers_17_self_attn_v_proj": 0.225,
+            "model_layers_18_self_attn_k_proj": 0.3625,
+            "model_layers_18_self_attn_o_proj": 0.22083333333333333,
+            "model_layers_18_self_attn_q_proj": 0.2833333333333333,
+            "model_layers_18_self_attn_v_proj": 0.3416666666666667,
+            "model_layers_19_self_attn_k_proj": 0.25416666666666665,
+            "model_layers_19_self_attn_o_proj": 0.25416666666666665,
+            "model_layers_19_self_attn_q_proj": 0.2791666666666667,
+            "model_layers_19_self_attn_v_proj": 0.20833333333333334,
+            "model_layers_1_self_attn_k_proj": 0.26666666666666666,
+            "model_layers_1_self_attn_o_proj": 0.23333333333333334,
+            "model_layers_1_self_attn_q_proj": 0.3,
+            "model_layers_1_self_attn_v_proj": 0.20833333333333334,
+            "model_layers_20_self_attn_k_proj": 0.275,
+            "model_layers_20_self_attn_o_proj": 0.26666666666666666,
+            "model_layers_20_self_attn_q_proj": 0.25,
+            "model_layers_20_self_attn_v_proj": 0.29583333333333334,
+            "model_layers_21_self_attn_k_proj": 0.3125,
+            "model_layers_21_self_attn_o_proj": 0.2625,
+            "model_layers_21_self_attn_q_proj": 0.30416666666666664,
+            "model_layers_21_self_attn_v_proj": 0.325,
+            "model_layers_22_self_attn_k_proj": 0.30416666666666664,
+            "model_layers_22_self_attn_o_proj": 0.2916666666666667,
+            "model_layers_22_self_attn_q_proj": 0.32916666666666666,
+            "model_layers_22_self_attn_v_proj": 0.325,
+            "model_layers_23_self_attn_k_proj": 0.37083333333333335,
+            "model_layers_23_self_attn_o_proj": 0.22083333333333333,
+            "model_layers_23_self_attn_q_proj": 0.2625,
+            "model_layers_23_self_attn_v_proj": 0.22083333333333333,
+            "model_layers_24_self_attn_k_proj": 0.32083333333333336,
+            "model_layers_24_self_attn_o_proj": 0.30833333333333335,
+            "model_layers_24_self_attn_q_proj": 0.325,
+            "model_layers_24_self_attn_v_proj": 0.31666666666666665,
+            "model_layers_25_self_attn_k_proj": 0.2375,
+            "model_layers_25_self_attn_o_proj": 0.3333333333333333,
+            "model_layers_25_self_attn_q_proj": 0.29583333333333334,
+            "model_layers_25_self_attn_v_proj": 0.2375,
+            "model_layers_26_self_attn_k_proj": 0.2791666666666667,
+            "model_layers_26_self_attn_o_proj": 0.3125,
+            "model_layers_26_self_attn_q_proj": 0.32916666666666666,
+            "model_layers_26_self_attn_v_proj": 0.22916666666666666,
+            "model_layers_27_self_attn_k_proj": 0.22916666666666666,
+            "model_layers_27_self_attn_o_proj": 0.26666666666666666,
+            "model_layers_27_self_attn_q_proj": 0.31666666666666665,
+            "model_layers_27_self_attn_v_proj": 0.24583333333333332,
+            "model_layers_2_self_attn_k_proj": 0.375,
+            "model_layers_2_self_attn_o_proj": 0.2791666666666667,
+            "model_layers_2_self_attn_q_proj": 0.2,
+            "model_layers_2_self_attn_v_proj": 0.225,
+            "model_layers_3_self_attn_k_proj": 0.19583333333333333,
+            "model_layers_3_self_attn_o_proj": 0.20416666666666666,
+            "model_layers_3_self_attn_q_proj": 0.29583333333333334,
+            "model_layers_3_self_attn_v_proj": 0.25416666666666665,
+            "model_layers_4_self_attn_k_proj": 0.25416666666666665,
+            "model_layers_4_self_attn_o_proj": 0.2708333333333333,
+            "model_layers_4_self_attn_q_proj": 0.3,
+            "model_layers_4_self_attn_v_proj": 0.25833333333333336,
+            "model_layers_5_self_attn_k_proj": 0.25833333333333336,
+            "model_layers_5_self_attn_o_proj": 0.2625,
+            "model_layers_5_self_attn_q_proj": 0.23333333333333334,
+            "model_layers_5_self_attn_v_proj": 0.3375,
+            "model_layers_6_self_attn_k_proj": 0.2708333333333333,
+            "model_layers_6_self_attn_o_proj": 0.3125,
+            "model_layers_6_self_attn_q_proj": 0.25833333333333336,
+            "model_layers_6_self_attn_v_proj": 0.24583333333333332,
+            "model_layers_7_self_attn_k_proj": 0.30833333333333335,
+            "model_layers_7_self_attn_o_proj": 0.25833333333333336,
+            "model_layers_7_self_attn_q_proj": 0.24166666666666667,
+            "model_layers_7_self_attn_v_proj": 0.19583333333333333,
+            "model_layers_8_self_attn_k_proj": 0.25,
+            "model_layers_8_self_attn_o_proj": 0.20833333333333334,
+            "model_layers_8_self_attn_q_proj": 0.24583333333333332,
+            "model_layers_8_self_attn_v_proj": 0.225,
+            "model_layers_9_self_attn_k_proj": 0.2833333333333333,
+            "model_layers_9_self_attn_o_proj": 0.17083333333333334,
+            "model_layers_9_self_attn_q_proj": 0.25416666666666665,
+            "model_layers_9_self_attn_v_proj": 0.22916666666666666
+          },
+          "per_module_note": "Exploratory/descriptive only (card D1 item 4: all-modules is the headline). No per-module permutation null is run: it would add 100+ unregistered hypothesis tests requiring multiplicity control the card does not pre-register."
+        },
+        "canonical": {
+          "n_runs": 240,
+          "feature_dim": 88704,
+          "loo_accuracy": 1.0,
+          "per_class_recall": {
+            "agnews": 1.0,
+            "alpaca": 1.0,
+            "code": 1.0,
+            "math": 1.0,
+            "squad": 1.0,
+            "xsum": 1.0
+          },
+          "macro_f1": 1.0,
+          "confusion_matrix": {
+            "rows_true_cols_pred": [
+              [
+                40,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                40,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                40,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                40,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                40,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                40
+              ]
+            ],
+            "task_order": [
+              "agnews",
+              "alpaca",
+              "code",
+              "math",
+              "squad",
+              "xsum"
+            ]
+          },
+          "wilson_ci_95": [
+            0.9842460800584412,
+            1.0
+          ],
+          "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+          "permutation": {
+            "n_permutations": 1000,
+            "null_mean": 0.11132083333333334,
+            "null_max": 0.2375,
+            "null_p99": 0.19166666666666668,
+            "p_value": 0.000999000999000999
+          },
+          "h1_lock": {
+            "chance": 0.16666666666666666,
+            "accuracy_threshold_1p5x_chance": 0.25,
+            "accuracy_exceeds_threshold": true,
+            "p_threshold": 0.01,
+            "p_below_threshold": true,
+            "pass": true
+          },
+          "heterogeneity_guard": {
+            "per_task_mean_within_class_distance": {
+              "agnews": 103.50106985390605,
+              "alpaca": 103.56503675751028,
+              "code": 103.48703958907848,
+              "math": 103.56947739782336,
+              "squad": 103.87397429900639,
+              "xsum": 103.72319961844963
+            },
+            "ratio_max_over_min": 1.0037389678114703,
+            "trigger_threshold": 3.7,
+            "triggered": false
+          }
+        },
+        "vocab_signature": {
+          "n_runs": 240,
+          "feature_dim": 15232,
+          "loo_accuracy": 1.0,
+          "per_class_recall": {
+            "agnews": 1.0,
+            "alpaca": 1.0,
+            "code": 1.0,
+            "math": 1.0,
+            "squad": 1.0,
+            "xsum": 1.0
+          },
+          "macro_f1": 1.0,
+          "confusion_matrix": {
+            "rows_true_cols_pred": [
+              [
+                40,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                40,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                40,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                40,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                40,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                40
+              ]
+            ],
+            "task_order": [
+              "agnews",
+              "alpaca",
+              "code",
+              "math",
+              "squad",
+              "xsum"
+            ]
+          },
+          "wilson_ci_95": [
+            0.9842460800584412,
+            1.0
+          ],
+          "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+          "permutation": {
+            "n_permutations": 1000,
+            "null_mean": 0.15449583333333333,
+            "null_max": 0.25833333333333336,
+            "null_p99": 0.2375,
+            "p_value": 0.000999000999000999
+          },
+          "h1_lock": {
+            "chance": 0.16666666666666666,
+            "accuracy_threshold_1p5x_chance": 0.25,
+            "accuracy_exceeds_threshold": true,
+            "p_threshold": 0.01,
+            "p_below_threshold": true,
+            "pass": true
+          },
+          "heterogeneity_guard": {
+            "per_task_mean_within_class_distance": {
+              "agnews": 14.014807996197506,
+              "alpaca": 12.666747669949777,
+              "code": 11.924588559886091,
+              "math": 17.102480480652666,
+              "squad": 16.268953248189884,
+              "xsum": 15.331722106794675
+            },
+            "ratio_max_over_min": 1.4342197548169358,
+            "trigger_threshold": 3.7,
+            "triggered": false
+          },
+          "kv_mode": "zero_pad",
+          "role": "A3 arm #3 PRIMARY (pinned kv_mode=zero_pad) \u2014 carries the arm's H1 reading; outcome-(c) readings PROVISIONAL pending Level B"
+        },
+        "vocab_signature_kv_exclude": {
+          "n_runs": 240,
+          "feature_dim": 7616,
+          "loo_accuracy": 1.0,
+          "per_class_recall": {
+            "agnews": 1.0,
+            "alpaca": 1.0,
+            "code": 1.0,
+            "math": 1.0,
+            "squad": 1.0,
+            "xsum": 1.0
+          },
+          "macro_f1": 1.0,
+          "confusion_matrix": {
+            "rows_true_cols_pred": [
+              [
+                40,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                40,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                40,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                40,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                40,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                40
+              ]
+            ],
+            "task_order": [
+              "agnews",
+              "alpaca",
+              "code",
+              "math",
+              "squad",
+              "xsum"
+            ]
+          },
+          "wilson_ci_95": [
+            0.9842460800584412,
+            1.0
+          ],
+          "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+          "permutation": {
+            "n_permutations": 1000,
+            "null_mean": 0.15477499999999997,
+            "null_max": 0.25416666666666665,
+            "null_p99": 0.225,
+            "p_value": 0.000999000999000999
+          },
+          "h1_lock": {
+            "chance": 0.16666666666666666,
+            "accuracy_threshold_1p5x_chance": 0.25,
+            "accuracy_exceeds_threshold": true,
+            "p_threshold": 0.01,
+            "p_below_threshold": true,
+            "pass": true
+          },
+          "heterogeneity_guard": {
+            "per_task_mean_within_class_distance": {
+              "agnews": 13.041222775816156,
+              "alpaca": 11.74178138874537,
+              "code": 11.060444493082754,
+              "math": 16.120718345090246,
+              "squad": 15.068833650325233,
+              "xsum": 14.300499307911895
+            },
+            "ratio_max_over_min": 1.4575108943562085,
+            "trigger_threshold": 3.7,
+            "triggered": false
+          },
+          "kv_mode": "exclude",
+          "role": "A3 kv_mode robustness variant (Director condition 2026-07-07) \u2014 disambiguation-only; NOT a separate H1 headline claim; pre-answers whether a zero_pad deficit is the approximation rather than genuine output-null structure"
+        }
+      },
+      "vocabsig_readout": {
+        "vocab_size": 151936,
+        "d_model": 1536,
+        "loaded_keys": [
+          "model.embed_tokens.weight",
+          "model.norm.weight"
+        ],
+        "files_opened": [
+          "model.safetensors"
+        ],
+        "tied_embeddings_fallback": true,
+        "snapshot": "C:\\falco\\hf-cache\\hub\\models--Qwen--Qwen2.5-1.5B-Instruct\\snapshots\\989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+      }
+    },
+    "llama3.2-1b": {
+      "n_runs": 240,
+      "representations": {
+        "raw": {
+          "n_runs": 240,
+          "feature_dim": 5114112,
+          "loo_accuracy": 0.1375,
+          "per_class_recall": {
+            "agnews": 0.0,
+            "alpaca": 0.425,
+            "code": 0.4,
+            "math": 0.0,
+            "squad": 0.0,
+            "xsum": 0.0
+          },
+          "macro_f1": 0.07135571784096935,
+          "confusion_matrix": {
+            "rows_true_cols_pred": [
+              [
+                0,
+                27,
+                13,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                17,
+                23,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                24,
+                16,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                28,
+                12,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                25,
+                15,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                32,
+                8,
+                0,
+                0,
+                0
+              ]
+            ],
+            "task_order": [
+              "agnews",
+              "alpaca",
+              "code",
+              "math",
+              "squad",
+              "xsum"
+            ]
+          },
+          "wilson_ci_95": [
+            0.09961114421666346,
+            0.18681044774096672
+          ],
+          "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+          "permutation": {
+            "n_permutations": 1000,
+            "null_mean": 0.05736666666666666,
+            "null_max": 0.12083333333333333,
+            "null_p99": 0.10004166666666664,
+            "p_value": 0.000999000999000999
+          },
+          "h1_lock": {
+            "chance": 0.16666666666666666,
+            "accuracy_threshold_1p5x_chance": 0.25,
+            "accuracy_exceeds_threshold": false,
+            "p_threshold": 0.01,
+            "p_below_threshold": true,
+            "pass": false
+          },
+          "heterogeneity_guard": {
+            "per_task_mean_within_class_distance": {
+              "agnews": 40.366887585645365,
+              "alpaca": 38.51195423499378,
+              "code": 38.75263512232189,
+              "math": 42.72217081929376,
+              "squad": 41.006967088153935,
+              "xsum": 42.23771572774597
+            },
+            "ratio_max_over_min": 1.1093223303759117,
+            "trigger_threshold": 3.7,
+            "triggered": false
+          },
+          "per_module_loo_accuracy": {
+            "model_layers_0_self_attn_k_proj": 0.3416666666666667,
+            "model_layers_0_self_attn_o_proj": 0.25416666666666665,
+            "model_layers_0_self_attn_q_proj": 0.3375,
+            "model_layers_0_self_attn_v_proj": 0.2125,
+            "model_layers_10_self_attn_k_proj": 0.30833333333333335,
+            "model_layers_10_self_attn_o_proj": 0.2625,
+            "model_layers_10_self_attn_q_proj": 0.35,
+            "model_layers_10_self_attn_v_proj": 0.2833333333333333,
+            "model_layers_11_self_attn_k_proj": 0.2916666666666667,
+            "model_layers_11_self_attn_o_proj": 0.37083333333333335,
+            "model_layers_11_self_attn_q_proj": 0.36666666666666664,
+            "model_layers_11_self_attn_v_proj": 0.31666666666666665,
+            "model_layers_12_self_attn_k_proj": 0.3458333333333333,
+            "model_layers_12_self_attn_o_proj": 0.2791666666666667,
+            "model_layers_12_self_attn_q_proj": 0.3416666666666667,
+            "model_layers_12_self_attn_v_proj": 0.3,
+            "model_layers_13_self_attn_k_proj": 0.4041666666666667,
+            "model_layers_13_self_attn_o_proj": 0.31666666666666665,
+            "model_layers_13_self_attn_q_proj": 0.3416666666666667,
+            "model_layers_13_self_attn_v_proj": 0.275,
+            "model_layers_14_self_attn_k_proj": 0.4125,
+            "model_layers_14_self_attn_o_proj": 0.2375,
+            "model_layers_14_self_attn_q_proj": 0.2916666666666667,
+            "model_layers_14_self_attn_v_proj": 0.35,
+            "model_layers_15_self_attn_k_proj": 0.325,
+            "model_layers_15_self_attn_o_proj": 0.2375,
+            "model_layers_15_self_attn_q_proj": 0.35833333333333334,
+            "model_layers_15_self_attn_v_proj": 0.3541666666666667,
+            "model_layers_1_self_attn_k_proj": 0.31666666666666665,
+            "model_layers_1_self_attn_o_proj": 0.2916666666666667,
+            "model_layers_1_self_attn_q_proj": 0.2916666666666667,
+            "model_layers_1_self_attn_v_proj": 0.30416666666666664,
+            "model_layers_2_self_attn_k_proj": 0.325,
+            "model_layers_2_self_attn_o_proj": 0.24583333333333332,
+            "model_layers_2_self_attn_q_proj": 0.3,
+            "model_layers_2_self_attn_v_proj": 0.275,
+            "model_layers_3_self_attn_k_proj": 0.3375,
+            "model_layers_3_self_attn_o_proj": 0.2708333333333333,
+            "model_layers_3_self_attn_q_proj": 0.3375,
+            "model_layers_3_self_attn_v_proj": 0.32083333333333336,
+            "model_layers_4_self_attn_k_proj": 0.3625,
+            "model_layers_4_self_attn_o_proj": 0.2708333333333333,
+            "model_layers_4_self_attn_q_proj": 0.3541666666666667,
+            "model_layers_4_self_attn_v_proj": 0.30416666666666664,
+            "model_layers_5_self_attn_k_proj": 0.29583333333333334,
+            "model_layers_5_self_attn_o_proj": 0.32916666666666666,
+            "model_layers_5_self_attn_q_proj": 0.275,
+            "model_layers_5_self_attn_v_proj": 0.2916666666666667,
+            "model_layers_6_self_attn_k_proj": 0.3375,
+            "model_layers_6_self_attn_o_proj": 0.275,
+            "model_layers_6_self_attn_q_proj": 0.31666666666666665,
+            "model_layers_6_self_attn_v_proj": 0.325,
+            "model_layers_7_self_attn_k_proj": 0.3333333333333333,
+            "model_layers_7_self_attn_o_proj": 0.24583333333333332,
+            "model_layers_7_self_attn_q_proj": 0.35,
+            "model_layers_7_self_attn_v_proj": 0.2916666666666667,
+            "model_layers_8_self_attn_k_proj": 0.2875,
+            "model_layers_8_self_attn_o_proj": 0.23333333333333334,
+            "model_layers_8_self_attn_q_proj": 0.3125,
+            "model_layers_8_self_attn_v_proj": 0.2625,
+            "model_layers_9_self_attn_k_proj": 0.3333333333333333,
+            "model_layers_9_self_attn_o_proj": 0.3,
+            "model_layers_9_self_attn_q_proj": 0.2708333333333333,
+            "model_layers_9_self_attn_v_proj": 0.2875
+          },
+          "per_module_note": "Exploratory/descriptive only (card D1 item 4: all-modules is the headline). No per-module permutation null is run: it would add 100+ unregistered hypothesis tests requiring multiplicity control the card does not pre-register."
+        },
+        "canonical": {
+          "n_runs": 240,
+          "feature_dim": 50688,
+          "loo_accuracy": 1.0,
+          "per_class_recall": {
+            "agnews": 1.0,
+            "alpaca": 1.0,
+            "code": 1.0,
+            "math": 1.0,
+            "squad": 1.0,
+            "xsum": 1.0
+          },
+          "macro_f1": 1.0,
+          "confusion_matrix": {
+            "rows_true_cols_pred": [
+              [
+                40,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                40,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                40,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                40,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                40,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                40
+              ]
+            ],
+            "task_order": [
+              "agnews",
+              "alpaca",
+              "code",
+              "math",
+              "squad",
+              "xsum"
+            ]
+          },
+          "wilson_ci_95": [
+            0.9842460800584412,
+            1.0
+          ],
+          "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+          "permutation": {
+            "n_permutations": 1000,
+            "null_mean": 0.12132083333333334,
+            "null_max": 0.2375,
+            "null_p99": 0.19583333333333333,
+            "p_value": 0.000999000999000999
+          },
+          "h1_lock": {
+            "chance": 0.16666666666666666,
+            "accuracy_threshold_1p5x_chance": 0.25,
+            "accuracy_exceeds_threshold": true,
+            "p_threshold": 0.01,
+            "p_below_threshold": true,
+            "pass": true
+          },
+          "heterogeneity_guard": {
+            "per_task_mean_within_class_distance": {
+              "agnews": 77.28915304567606,
+              "alpaca": 77.42214950701974,
+              "code": 77.23940389271287,
+              "math": 77.31702132996512,
+              "squad": 77.63481959552973,
+              "xsum": 77.32208624516934
+            },
+            "ratio_max_over_min": 1.0051193520779382,
+            "trigger_threshold": 3.7,
+            "triggered": false
+          }
+        },
+        "vocab_signature": {
+          "n_runs": 240,
+          "feature_dim": 8704,
+          "loo_accuracy": 1.0,
+          "per_class_recall": {
+            "agnews": 1.0,
+            "alpaca": 1.0,
+            "code": 1.0,
+            "math": 1.0,
+            "squad": 1.0,
+            "xsum": 1.0
+          },
+          "macro_f1": 1.0,
+          "confusion_matrix": {
+            "rows_true_cols_pred": [
+              [
+                40,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                40,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                40,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                40,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                40,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                40
+              ]
+            ],
+            "task_order": [
+              "agnews",
+              "alpaca",
+              "code",
+              "math",
+              "squad",
+              "xsum"
+            ]
+          },
+          "wilson_ci_95": [
+            0.9842460800584412,
+            1.0
+          ],
+          "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+          "permutation": {
+            "n_permutations": 1000,
+            "null_mean": 0.15571666666666664,
+            "null_max": 0.25833333333333336,
+            "null_p99": 0.225,
+            "p_value": 0.000999000999000999
+          },
+          "h1_lock": {
+            "chance": 0.16666666666666666,
+            "accuracy_threshold_1p5x_chance": 0.25,
+            "accuracy_exceeds_threshold": true,
+            "p_threshold": 0.01,
+            "p_below_threshold": true,
+            "pass": true
+          },
+          "heterogeneity_guard": {
+            "per_task_mean_within_class_distance": {
+              "agnews": 10.817856528628312,
+              "alpaca": 9.298691885734252,
+              "code": 9.607304536122847,
+              "math": 11.35344998716,
+              "squad": 10.925131898638915,
+              "xsum": 11.450001898476362
+            },
+            "ratio_max_over_min": 1.231356199256648,
+            "trigger_threshold": 3.7,
+            "triggered": false
+          },
+          "kv_mode": "zero_pad",
+          "role": "A3 arm #3 PRIMARY (pinned kv_mode=zero_pad) \u2014 carries the arm's H1 reading; outcome-(c) readings PROVISIONAL pending Level B"
+        },
+        "vocab_signature_kv_exclude": {
+          "n_runs": 240,
+          "feature_dim": 4352,
+          "loo_accuracy": 1.0,
+          "per_class_recall": {
+            "agnews": 1.0,
+            "alpaca": 1.0,
+            "code": 1.0,
+            "math": 1.0,
+            "squad": 1.0,
+            "xsum": 1.0
+          },
+          "macro_f1": 1.0,
+          "confusion_matrix": {
+            "rows_true_cols_pred": [
+              [
+                40,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                40,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                40,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                40,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                40,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                40
+              ]
+            ],
+            "task_order": [
+              "agnews",
+              "alpaca",
+              "code",
+              "math",
+              "squad",
+              "xsum"
+            ]
+          },
+          "wilson_ci_95": [
+            0.9842460800584412,
+            1.0
+          ],
+          "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+          "permutation": {
+            "n_permutations": 1000,
+            "null_mean": 0.15754583333333336,
+            "null_max": 0.24166666666666667,
+            "null_p99": 0.22916666666666666,
+            "p_value": 0.000999000999000999
+          },
+          "h1_lock": {
+            "chance": 0.16666666666666666,
+            "accuracy_threshold_1p5x_chance": 0.25,
+            "accuracy_exceeds_threshold": true,
+            "p_threshold": 0.01,
+            "p_below_threshold": true,
+            "pass": true
+          },
+          "heterogeneity_guard": {
+            "per_task_mean_within_class_distance": {
+              "agnews": 9.753517620669841,
+              "alpaca": 8.416922538382698,
+              "code": 8.747263390403859,
+              "math": 10.209778542854549,
+              "squad": 9.851846822821711,
+              "xsum": 10.355031082996089
+            },
+            "ratio_max_over_min": 1.230263321989155,
+            "trigger_threshold": 3.7,
+            "triggered": false
+          },
+          "kv_mode": "exclude",
+          "role": "A3 kv_mode robustness variant (Director condition 2026-07-07) \u2014 disambiguation-only; NOT a separate H1 headline claim; pre-answers whether a zero_pad deficit is the approximation rather than genuine output-null structure"
+        }
+      },
+      "vocabsig_readout": {
+        "vocab_size": 128256,
+        "d_model": 2048,
+        "loaded_keys": [
+          "model.embed_tokens.weight",
+          "model.norm.weight"
+        ],
+        "files_opened": [
+          "model.safetensors"
+        ],
+        "tied_embeddings_fallback": true,
+        "snapshot": "C:\\falco\\hf-cache\\hub\\models--meta-llama--Llama-3.2-1B-Instruct\\snapshots\\9213176726f574b556790deb65791e0c5aa438b6"
+      }
+    }
+  },
+  "flags": [
+    "D1 REGIME-CONTRAST AXIS (pinned \u2014 DIRECTOR_DECISIONS_2026-07-06.md, A2): the honest distinguishing variable between W2T's cross-collection identifiability results and this study's within-family task separability is LABEL GRANULARITY / TASK STRUCTURE \u2014 W2T's 10k+ fine-grained attribute classes versus the 6 coarse tasks here \u2014 NOT hub-scale-vs-family. W2T's own collections are same-base/same-rank families (W2T Table 6), so a 'canonicalization is necessary at hub scale but unnecessary within a controlled family' framing mis-attributes the split to the wrong variable and is retired. Every D1 regime sentence is keyed to the label-granularity axis.",
+    "H2 REPRESENTATION (PINNED \u2014 DIRECTOR_DECISIONS_2026-07-06.md, H2a): raw flattened parameters are dimensionally incomparable across families, so two dimension-agnostic representations are computed. The depth-binned singular-value spectra of the effective update ('spectrum') is the PRIMARY representation carrying the H2 claim; the canonicalize probe-projection route ('probe') is CORROBORATING. Disagreement between the two is itself reportable and is reported, not hidden.",
+    "H2 TRIVIALITY CONTROL (pinned \u2014 DIRECTOR_DECISIONS_2026-07-06.md, H2c; round-1 review fix): both dimension-agnostic representations carry a family-identity SCALE signature (families differ in depth/width, shifting spectra and probe magnitudes), so a transfer-at-chance result could be produced trivially by covariate shift rather than by genuinely family-bound task structure \u2014 making the pre-registered H2 finding unfalsifiable if uncontrolled. Two controls are therefore part of the H2 protocol: (a) a family-identity probe (CV accuracy of a linear SVM classifying FAMILY from the H2 representation \u2014 high accuracy diagnoses a representation-level family signature) and (b) a shift-controlled transfer variant (per-family per-feature z-scoring, unsupervised, applied before the cross-family classifier). Transfer is reported under BOTH 'raw' and 'family_standardized' variants; the SHIFT-CONTROLLED variant is the headline and raw is descriptive.",
+    "H2 DECISION RULE (pinned \u2014 DIRECTOR_DECISIONS_2026-07-06.md, H2b): H2 (cross-family task transfer FAILS \u2014 the regime contrast) is SUPPORTED iff, for BOTH directions (A->B and B->A) in the shift-controlled PRIMARY (spectrum) representation: (i) cross-family accuracy is NOT significantly above chance at one-sided exact-binomial alpha=0.01, AND (ii) within-family accuracy minus cross-family accuracy >= 15.0 percentage points. The probe-projection representation is corroborating; primary/corroborating disagreement is reported.",
+    "WITHIN-CLASS VARIANCE FLOOR (Director carry-forward, 2026-07-07 \u2014 load-bearing for the variance-heterogeneity guard, not a footnote): same task + same seed + near-identical training already produces ~15% median relative divergence in the effective update B'A' (A1 spot-check, results/asset1-bank-bs2x8-archive/a1_spotcheck.json; corroborated by the three-way same-seed T-001 record, results/t001-provenance/recovery.json \u2014 co/cross max rel dev 5-10% at matched steps). Different-seed replicates (this bank) sit HIGHER. Large within-class distances are therefore EXPECTED, not a data-quality problem; H1 separability must clear a genuinely noisy within-class baseline, which makes a positive result stronger. Diagnose the most-confused class per the guard; do not hide it in the macro number.",
+    "A3 VOCAB_SIGNATURE ARM (Director ruling 2026-07-07 \u2014 docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md): the output-referenced canonicalization (asset1_vocab_signature.py) is D1 representation arm #3, WITHIN-FAMILY ONLY \u2014 the cross-family shared-token-string mapping stays DESIGN ONLY (separate H2 decision, not approved). Ruling condition encoded here: the arm is analyzed under BOTH kv_mode variants \u2014 'vocab_signature' (zero_pad, the pinned primary carrying the arm's H1 reading) and 'vocab_signature_kv_exclude' (secondary, disambiguation-only: pre-answers whether an outcome-(c) deficit is the zero_pad approximation rather than genuine output-null structure; NOT an additional headline hypothesis \u2014 no multiplicity expansion is claimed from it). Level B (asset1_jacobian_lens.py, the true J-lens) is the arbiter: any outcome-(c) reading (vocab_signature substantially below raw/canonical) is PROVISIONAL pending Level B.",
+    "SVM C=1.0 (sklearn default) \u2014 APPROVED as-is (docs/DIRECTOR_DECISIONS_2026-07-06.md); recorded per run.",
+    "--representation default 'all' \u2014 A2 ADOPTED (docs/DIRECTOR_DECISIONS_2026-07-06.md: raw AND W2T-canonical) + A3 ADOPTED 2026-07-07 (docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md: vocab_signature arm #3)."
+  ],
+  "h2_cross_family": {
+    "note": "H2 REPRESENTATION (PINNED \u2014 DIRECTOR_DECISIONS_2026-07-06.md, H2a): raw flattened parameters are dimensionally incomparable across families, so two dimension-agnostic representations are computed. The depth-binned singular-value spectra of the effective update ('spectrum') is the PRIMARY representation carrying the H2 claim; the canonicalize probe-projection route ('probe') is CORROBORATING. Disagreement between the two is itself reportable and is reported, not hidden.",
+    "shift_control_note": "H2 TRIVIALITY CONTROL (pinned \u2014 DIRECTOR_DECISIONS_2026-07-06.md, H2c; round-1 review fix): both dimension-agnostic representations carry a family-identity SCALE signature (families differ in depth/width, shifting spectra and probe magnitudes), so a transfer-at-chance result could be produced trivially by covariate shift rather than by genuinely family-bound task structure \u2014 making the pre-registered H2 finding unfalsifiable if uncontrolled. Two controls are therefore part of the H2 protocol: (a) a family-identity probe (CV accuracy of a linear SVM classifying FAMILY from the H2 representation \u2014 high accuracy diagnoses a representation-level family signature) and (b) a shift-controlled transfer variant (per-family per-feature z-scoring, unsupervised, applied before the cross-family classifier). Transfer is reported under BOTH 'raw' and 'family_standardized' variants; the SHIFT-CONTROLLED variant is the headline and raw is descriptive.",
+    "decision_rule": "H2 DECISION RULE (pinned \u2014 DIRECTOR_DECISIONS_2026-07-06.md, H2b): H2 (cross-family task transfer FAILS \u2014 the regime contrast) is SUPPORTED iff, for BOTH directions (A->B and B->A) in the shift-controlled PRIMARY (spectrum) representation: (i) cross-family accuracy is NOT significantly above chance at one-sided exact-binomial alpha=0.01, AND (ii) within-family accuracy minus cross-family accuracy >= 15.0 percentage points. The probe-projection representation is corroborating; primary/corroborating disagreement is reported.",
+    "regime_axis": "D1 REGIME-CONTRAST AXIS (pinned \u2014 DIRECTOR_DECISIONS_2026-07-06.md, A2): the honest distinguishing variable between W2T's cross-collection identifiability results and this study's within-family task separability is LABEL GRANULARITY / TASK STRUCTURE \u2014 W2T's 10k+ fine-grained attribute classes versus the 6 coarse tasks here \u2014 NOT hub-scale-vs-family. W2T's own collections are same-base/same-rank families (W2T Table 6), so a 'canonicalization is necessary at hub scale but unnecessary within a controlled family' framing mis-attributes the split to the wrong variable and is retired. Every D1 regime sentence is keyed to the label-granularity axis.",
+    "primary_representation": "spectrum",
+    "corroborating_representation": "probe",
+    "headline_variant": "family_standardized",
+    "alpha": 0.01,
+    "margin_pp": 15.0,
+    "sigma_slots": 24,
+    "n_depth_bins": 4,
+    "spectrum": {
+      "dim": 384,
+      "role": "PRIMARY",
+      "family_probe": {
+        "raw": {
+          "n": 480,
+          "chance_majority": 0.5,
+          "per_family_mean_feature_norm": {
+            "qwen2.5-1.5b": 1.2326227288979703,
+            "llama3.2-1b": 2.498376599903364
+          },
+          "accuracy": 1.0,
+          "n_splits": 5
+        },
+        "family_standardized": {
+          "n": 480,
+          "chance_majority": 0.5,
+          "per_family_mean_feature_norm": {
+            "qwen2.5-1.5b": 18.488106007598883,
+            "llama3.2-1b": 19.386983857594085
+          },
+          "accuracy": 0.15208333333333332,
+          "n_splits": 5
+        }
+      },
+      "within_family_accuracy": {
+        "raw": {
+          "qwen2.5-1.5b": {
+            "accuracy": 1.0,
+            "n": 240
+          },
+          "llama3.2-1b": {
+            "accuracy": 1.0,
+            "n": 240
+          }
+        },
+        "family_standardized": {
+          "qwen2.5-1.5b": {
+            "accuracy": 1.0,
+            "n": 240
+          },
+          "llama3.2-1b": {
+            "accuracy": 1.0,
+            "n": 240
+          }
+        }
+      },
+      "pairs": {
+        "qwen2.5-1.5b->llama3.2-1b": {
+          "raw": {
+            "accuracy": 0.16666666666666666,
+            "n_test": 240,
+            "chance": 0.16666666666666666,
+            "exceeds_1p5x_chance": false,
+            "binom_p_greater_than_chance": 0.5268575691457367
+          },
+          "family_standardized": {
+            "accuracy": 0.7833333333333333,
+            "n_test": 240,
+            "chance": 0.16666666666666666,
+            "exceeds_1p5x_chance": true,
+            "binom_p_greater_than_chance": 7.704253719368164e-98
+          }
+        },
+        "llama3.2-1b->qwen2.5-1.5b": {
+          "raw": {
+            "accuracy": 0.16666666666666666,
+            "n_test": 240,
+            "chance": 0.16666666666666666,
+            "exceeds_1p5x_chance": false,
+            "binom_p_greater_than_chance": 0.5268575691457367
+          },
+          "family_standardized": {
+            "accuracy": 0.7375,
+            "n_test": 240,
+            "chance": 0.16666666666666666,
+            "exceeds_1p5x_chance": true,
+            "binom_p_greater_than_chance": 1.197696960875975e-84
+          }
+        }
+      },
+      "decision": {
+        "alpha": 0.01,
+        "margin_pp_threshold": 15.0,
+        "n_directions": 2,
+        "directions": {
+          "qwen2.5-1.5b->llama3.2-1b": {
+            "cross_accuracy": 0.7833333333333333,
+            "cross_binom_p": 7.704253719368164e-98,
+            "within_accuracy": 1.0,
+            "not_above_chance_at_alpha": false,
+            "margin_pp": 21.666666666666668,
+            "margin_ge_threshold": true,
+            "direction_supported": false,
+            "within_accuracy_source": 1.0
+          },
+          "llama3.2-1b->qwen2.5-1.5b": {
+            "cross_accuracy": 0.7375,
+            "cross_binom_p": 1.197696960875975e-84,
+            "within_accuracy": 1.0,
+            "not_above_chance_at_alpha": false,
+            "margin_pp": 26.249999999999996,
+            "margin_ge_threshold": true,
+            "direction_supported": false,
+            "within_accuracy_source": 1.0
+          }
+        },
+        "supported": false,
+        "variant": "family_standardized",
+        "chance": 0.16666666666666666,
+        "representation_role": "PRIMARY"
+      }
+    },
+    "probe": {
+      "dim": 12672,
+      "role": "corroborating",
+      "family_probe": {
+        "raw": {
+          "n": 480,
+          "chance_majority": 0.5,
+          "per_family_mean_feature_norm": {
+            "qwen2.5-1.5b": 10.64210466530012,
+            "llama3.2-1b": 14.044666911747651
+          },
+          "accuracy": 1.0,
+          "n_splits": 5
+        },
+        "family_standardized": {
+          "n": 480,
+          "chance_majority": 0.5,
+          "per_family_mean_feature_norm": {
+            "qwen2.5-1.5b": 112.56287301084717,
+            "llama3.2-1b": 112.56716643284214
+          },
+          "accuracy": 0.0,
+          "n_splits": 5
+        }
+      },
+      "within_family_accuracy": {
+        "raw": {
+          "qwen2.5-1.5b": {
+            "accuracy": 1.0,
+            "n": 240
+          },
+          "llama3.2-1b": {
+            "accuracy": 1.0,
+            "n": 240
+          }
+        },
+        "family_standardized": {
+          "qwen2.5-1.5b": {
+            "accuracy": 1.0,
+            "n": 240
+          },
+          "llama3.2-1b": {
+            "accuracy": 1.0,
+            "n": 240
+          }
+        }
+      },
+      "pairs": {
+        "qwen2.5-1.5b->llama3.2-1b": {
+          "raw": {
+            "accuracy": 0.175,
+            "n_test": 240,
+            "chance": 0.16666666666666666,
+            "exceeds_1p5x_chance": false,
+            "binom_p_greater_than_chance": 0.3906388053317271
+          },
+          "family_standardized": {
+            "accuracy": 0.7791666666666667,
+            "n_test": 240,
+            "chance": 0.16666666666666666,
+            "exceeds_1p5x_chance": true,
+            "binom_p_greater_than_chance": 1.368374801195362e-96
+          }
+        },
+        "llama3.2-1b->qwen2.5-1.5b": {
+          "raw": {
+            "accuracy": 0.21666666666666667,
+            "n_test": 240,
+            "chance": 0.16666666666666666,
+            "exceeds_1p5x_chance": false,
+            "binom_p_greater_than_chance": 0.02605502801888471
+          },
+          "family_standardized": {
+            "accuracy": 0.7791666666666667,
+            "n_test": 240,
+            "chance": 0.16666666666666666,
+            "exceeds_1p5x_chance": true,
+            "binom_p_greater_than_chance": 1.368374801195362e-96
+          }
+        }
+      },
+      "decision": {
+        "alpha": 0.01,
+        "margin_pp_threshold": 15.0,
+        "n_directions": 2,
+        "directions": {
+          "qwen2.5-1.5b->llama3.2-1b": {
+            "cross_accuracy": 0.7791666666666667,
+            "cross_binom_p": 1.368374801195362e-96,
+            "within_accuracy": 1.0,
+            "not_above_chance_at_alpha": false,
+            "margin_pp": 22.083333333333332,
+            "margin_ge_threshold": true,
+            "direction_supported": false,
+            "within_accuracy_source": 1.0
+          },
+          "llama3.2-1b->qwen2.5-1.5b": {
+            "cross_accuracy": 0.7791666666666667,
+            "cross_binom_p": 1.368374801195362e-96,
+            "within_accuracy": 1.0,
+            "not_above_chance_at_alpha": false,
+            "margin_pp": 22.083333333333332,
+            "margin_ge_threshold": true,
+            "direction_supported": false,
+            "within_accuracy_source": 1.0
+          }
+        },
+        "supported": false,
+        "variant": "family_standardized",
+        "chance": 0.16666666666666666,
+        "representation_role": "corroborating"
+      }
+    },
+    "h2_verdict": {
+      "primary_representation": "spectrum",
+      "corroborating_representation": "probe",
+      "headline_variant": "family_standardized",
+      "alpha": 0.01,
+      "margin_pp": 15.0,
+      "primary_supported": false,
+      "corroborating_supported": false,
+      "agreement": true,
+      "headline_supported": false,
+      "note": "PRIMARY (spectrum) and corroborating (probe) agree."
+    }
+  }
+}
