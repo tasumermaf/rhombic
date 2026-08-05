@@ -1,0 +1,62 @@
+{
+  "price_train_usd_per_mtok": 0.44,
+  "billing_factor": 1.0035,
+  "prior_spend_usd": 2.7754,
+  "hard_abort_usd": 28.0,
+  "stop_report_usd": 27.5,
+  "cumulative_train_tokens": 5066512,
+  "entries": [
+    {
+      "run_id": "alpaca_d0_i0",
+      "task": "alpaca",
+      "data_seed": 0,
+      "init_seed": 0,
+      "train_tokens": 1013712,
+      "usd_billed_est": 0.447594,
+      "wall_seconds": 320.7,
+      "account_total_after_usd": 3.222994
+    },
+    {
+      "run_id": "alpaca_d0_i1",
+      "task": "alpaca",
+      "data_seed": 0,
+      "init_seed": 1,
+      "train_tokens": 1013712,
+      "usd_billed_est": 0.447594,
+      "wall_seconds": 800.4,
+      "account_total_after_usd": 3.670589
+    },
+    {
+      "run_id": "alpaca_d0_i2",
+      "task": "alpaca",
+      "data_seed": 0,
+      "init_seed": 2,
+      "train_tokens": 1013712,
+      "usd_billed_est": 0.447594,
+      "wall_seconds": 224.2,
+      "account_total_after_usd": 4.118183
+    },
+    {
+      "run_id": "alpaca_d1_i0",
+      "task": "alpaca",
+      "data_seed": 1,
+      "init_seed": 0,
+      "train_tokens": 1012688,
+      "usd_billed_est": 0.447142,
+      "wall_seconds": 240.0,
+      "account_total_after_usd": 4.565325
+    },
+    {
+      "run_id": "alpaca_d1_i1",
+      "task": "alpaca",
+      "data_seed": 1,
+      "init_seed": 1,
+      "train_tokens": 1012688,
+      "usd_billed_est": 0.447142,
+      "wall_seconds": 249.5,
+      "account_total_after_usd": 5.012468
+    }
+  ],
+  "cumulative_usd_bank": 2.2370677084800006,
+  "account_total_usd": 5.012467708480001
+}

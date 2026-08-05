@@ -1,0 +1,24 @@
+{
+  "price_train_usd_per_mtok": 0.44,
+  "billing_factor": 1.0035,
+  "prior_spend_usd": 26.6317,
+  "hard_abort_usd": 28.0,
+  "stop_report_usd": 27.5,
+  "cumulative_train_tokens": 1004561,
+  "entries": [
+    {
+      "run_id": "agnews_d2_i2",
+      "task": "agnews",
+      "data_seed": 2,
+      "init_seed": 2,
+      "train_tokens": 1004561,
+      "usd_billed_est": 0.443554,
+      "wall_seconds": 540.1,
+      "account_total_after_usd": 27.075254
+    }
+  ],
+  "ledger_path": "results/tinker-minibank/spend_ledger_fixup.json",
+  "cumulative_usd_bank": 0.44355386394,
+  "account_total_usd": 27.07525386394,
+  "shard_budget_usd": 0.5
+}

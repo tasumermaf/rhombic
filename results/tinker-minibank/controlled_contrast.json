@@ -1,0 +1,67 @@
+{
+  "n_adapters": 54,
+  "n_perm": 2000,
+  "spaces": {
+    "raw": {
+      "cross_init_task": {
+        "accuracy": 0.16666666666666666,
+        "chance": 0.16666666666666666,
+        "p_value": 0.4452773613193403,
+        "n_scored": 54
+      },
+      "within_init_task": {
+        "accuracy": 1.0,
+        "chance": 0.11764705882352941,
+        "p_value": 0.0004997501249375312,
+        "n_scored": 54
+      },
+      "cross_task_init": {
+        "accuracy": 1.0,
+        "chance": 0.3333333333333333,
+        "p_value": 0.0004997501249375312,
+        "n_scored": 54
+      }
+    },
+    "canonical_full": {
+      "cross_init_task": {
+        "accuracy": 1.0,
+        "chance": 0.16666666666666666,
+        "p_value": 0.0004997501249375312,
+        "n_scored": 54
+      },
+      "within_init_task": {
+        "accuracy": 1.0,
+        "chance": 0.11764705882352941,
+        "p_value": 0.0004997501249375312,
+        "n_scored": 54
+      },
+      "cross_task_init": {
+        "accuracy": 0.7037037037037037,
+        "chance": 0.3333333333333333,
+        "p_value": 0.0004997501249375312,
+        "n_scored": 54
+      }
+    },
+    "canonical_sigma": {
+      "cross_init_task": {
+        "accuracy": 1.0,
+        "chance": 0.16666666666666666,
+        "p_value": 0.0004997501249375312,
+        "n_scored": 54
+      },
+      "within_init_task": {
+        "accuracy": 1.0,
+        "chance": 0.11764705882352941,
+        "p_value": 0.0004997501249375312,
+        "n_scored": 54
+      },
+      "cross_task_init": {
+        "accuracy": 0.8518518518518519,
+        "chance": 0.3333333333333333,
+        "p_value": 0.0004997501249375312,
+        "n_scored": 54
+      }
+    }
+  },
+  "interpretation": "Plain LOO 1-NN on this bank is confounded: each (task, init) cell holds 3 adapters sharing both labels, so a nearest neighbour is typically a cell-mate and cannot attribute the match to either label. cross_init_task is the decisive figure \u2014 task identification when the neighbour is forced to come from a DIFFERENT initialization."
+}

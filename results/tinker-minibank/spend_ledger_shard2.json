@@ -1,0 +1,174 @@
+{
+  "price_train_usd_per_mtok": 0.44,
+  "billing_factor": 1.0035,
+  "prior_spend_usd": 19.4397,
+  "hard_abort_usd": 28.0,
+  "stop_report_usd": 27.5,
+  "cumulative_train_tokens": 16612001,
+  "entries": [
+    {
+      "run_id": "alpaca_d1_i2",
+      "task": "alpaca",
+      "data_seed": 1,
+      "init_seed": 2,
+      "train_tokens": 1012688,
+      "usd_billed_est": 0.447142,
+      "wall_seconds": 285.7,
+      "account_total_after_usd": 19.886805
+    },
+    {
+      "run_id": "alpaca_d2_i2",
+      "task": "alpaca",
+      "data_seed": 2,
+      "init_seed": 2,
+      "train_tokens": 1013636,
+      "usd_billed_est": 0.447561,
+      "wall_seconds": 758.5,
+      "account_total_after_usd": 20.334366
+    },
+    {
+      "run_id": "code_d0_i2",
+      "task": "code",
+      "data_seed": 0,
+      "init_seed": 2,
+      "train_tokens": 1006204,
+      "usd_billed_est": 0.444279,
+      "wall_seconds": 825.9,
+      "account_total_after_usd": 20.778645
+    },
+    {
+      "run_id": "code_d1_i2",
+      "task": "code",
+      "data_seed": 1,
+      "init_seed": 2,
+      "train_tokens": 1005326,
+      "usd_billed_est": 0.443892,
+      "wall_seconds": 477.7,
+      "account_total_after_usd": 21.222537
+    },
+    {
+      "run_id": "code_d2_i2",
+      "task": "code",
+      "data_seed": 2,
+      "init_seed": 2,
+      "train_tokens": 1006614,
+      "usd_billed_est": 0.44446,
+      "wall_seconds": 594.9,
+      "account_total_after_usd": 21.666997
+    },
+    {
+      "run_id": "math_d0_i2",
+      "task": "math",
+      "data_seed": 0,
+      "init_seed": 2,
+      "train_tokens": 1010503,
+      "usd_billed_est": 0.446177,
+      "wall_seconds": 1652.7,
+      "account_total_after_usd": 22.113175
+    },
+    {
+      "run_id": "math_d1_i2",
+      "task": "math",
+      "data_seed": 1,
+      "init_seed": 2,
+      "train_tokens": 1011173,
+      "usd_billed_est": 0.446473,
+      "wall_seconds": 603.0,
+      "account_total_after_usd": 22.559648
+    },
+    {
+      "run_id": "math_d2_i2",
+      "task": "math",
+      "data_seed": 2,
+      "init_seed": 2,
+      "train_tokens": 1011185,
+      "usd_billed_est": 0.446479,
+      "wall_seconds": 566.4,
+      "account_total_after_usd": 23.006127
+    },
+    {
+      "run_id": "xsum_d0_i2",
+      "task": "xsum",
+      "data_seed": 0,
+      "init_seed": 2,
+      "train_tokens": 1022814,
+      "usd_billed_est": 0.451613,
+      "wall_seconds": 572.0,
+      "account_total_after_usd": 23.45774
+    },
+    {
+      "run_id": "xsum_d1_i2",
+      "task": "xsum",
+      "data_seed": 1,
+      "init_seed": 2,
+      "train_tokens": 1022377,
+      "usd_billed_est": 0.45142,
+      "wall_seconds": 1354.2,
+      "account_total_after_usd": 23.90916
+    },
+    {
+      "run_id": "xsum_d2_i2",
+      "task": "xsum",
+      "data_seed": 2,
+      "init_seed": 2,
+      "train_tokens": 1019714,
+      "usd_billed_est": 0.450245,
+      "wall_seconds": 1395.0,
+      "account_total_after_usd": 24.548541
+    },
+    {
+      "run_id": "squad_d0_i2",
+      "task": "squad",
+      "data_seed": 0,
+      "init_seed": 2,
+      "train_tokens": 1010513,
+      "usd_billed_est": 0.446182,
+      "wall_seconds": 186.4,
+      "account_total_after_usd": 24.994723
+    },
+    {
+      "run_id": "squad_d1_i2",
+      "task": "squad",
+      "data_seed": 1,
+      "init_seed": 2,
+      "train_tokens": 1011395,
+      "usd_billed_est": 0.446571,
+      "wall_seconds": 1457.7,
+      "account_total_after_usd": 25.441294
+    },
+    {
+      "run_id": "squad_d2_i2",
+      "task": "squad",
+      "data_seed": 2,
+      "init_seed": 2,
+      "train_tokens": 1011800,
+      "usd_billed_est": 0.44675,
+      "wall_seconds": 685.5,
+      "account_total_after_usd": 25.888044
+    },
+    {
+      "run_id": "agnews_d0_i2",
+      "task": "agnews",
+      "data_seed": 0,
+      "init_seed": 2,
+      "train_tokens": 1003742,
+      "usd_billed_est": 0.443192,
+      "wall_seconds": 185.9,
+      "account_total_after_usd": 26.331236
+    },
+    {
+      "run_id": "agnews_d1_i2",
+      "task": "agnews",
+      "data_seed": 1,
+      "init_seed": 2,
+      "train_tokens": 1004046,
+      "usd_billed_est": 0.443326,
+      "wall_seconds": 204.6,
+      "account_total_after_usd": 26.774563
+    }
+  ],
+  "ledger_path": "C:/Falco/rhombic/results/tinker-minibank/spend_ledger_shard2.json",
+  "cumulative_usd_bank": 7.33486292154,
+  "account_total_usd": 26.77456292154,
+  "shard_budget_usd": 7.6652
+}

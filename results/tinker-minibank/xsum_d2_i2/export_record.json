@@ -1,0 +1,11 @@
+{
+  "tinker_path": "tinker://c47abf57-a572-50fd-81a2-928a583d5986:train:0/sampler_weights/xsum_d2_i2-final",
+  "archive_bytes": 369223680,
+  "files": [
+    "adapter_config.json",
+    "adapter_model.safetensors",
+    "checkpoint_complete"
+  ],
+  "remote_deleted": true,
+  "export_seconds": 48.0
+}

@@ -1,0 +1,11 @@
+{
+  "tinker_path": "tinker://b2ef8e5c-8f52-53a2-838e-fc0f1e094bbc:train:11/sampler_weights/squad_d1_i0-final",
+  "archive_bytes": 369223680,
+  "files": [
+    "adapter_config.json",
+    "adapter_model.safetensors",
+    "checkpoint_complete"
+  ],
+  "remote_deleted": true,
+  "export_seconds": 366.4
+}
