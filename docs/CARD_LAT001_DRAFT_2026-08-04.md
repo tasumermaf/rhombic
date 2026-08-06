@@ -110,9 +110,22 @@ Rented-equivalent $135–$263 PROJECTED.
   acceptance-test instance at falco a9be933.
 - Design facts (directed-distance survival, shortcut confound, balance failure)
   from `scripts/lat001_task_graph_sizing.py` (16605d1) — seeded, reproducible.
-- **Open before registration:** (1) proper novelty literature review on the
-  diameter × latent-reasoning intersection (the current basis is one spot-check
-  web search — insufficient for an abstract claim); (2) harness smoke on
-  synthetic minima; (3) the timing pilots' measured rate folded into §4;
-  (4) Director's grade of this draft, including his pin on the seed floor and
-  the LR grid.
+- **Open before registration:** (1) ✅ CLOSED 2026-08-05 — novelty review
+  complete (`docs/LAT001_NOVELTY_REVIEW_2026-08-05.md`): **UNCLAIMED**, on a
+  27-query sweep plus the complete 44-work citation graph of 2505.12514.
+  Two binding boundaries: the diameter→step-count relation is CLAIMED AS
+  THEORY by 2505.12514 itself (LAT-001 tests its *sufficiency* in a learned
+  model — Outcome B is the falsification of sufficiency); and 2509.22343
+  ("Transformers Can Learn Connectivity in Some Graphs but Not Others") is
+  the closest existing work and MUST be cited (learnability under discrete
+  decoding, graph dimension confounded with degree/diameter/N — not
+  step count, not continuous thought). The abstract uses the review's
+  pinned sentence verbatim; the review's do-not-say list binds. Residual:
+  full-text passes on 2602.01148 and 2510.19753 before submission
+  (fragment-only fetches; both make diameter/limit-shaped claims).
+  Bonus for §3 control 1: 2509.23365 independently publishes vertex-index
+  permutation as a bias control — cite as precedent for mandatory
+  relabeling. (2) harness smoke on synthetic minima (in build, this pass);
+  (3) the timing pilots' measured rate folded into §4; (4) Director's
+  grade of this draft, including his pin on the seed floor and the LR
+  grid.
