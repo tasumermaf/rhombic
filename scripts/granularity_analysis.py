@@ -512,10 +512,17 @@ def analyze_level(level: str, out_dir: Path, *, n_permutations: int,
         results["clean_core_note"] = (
             f"K={len(sub_ids)} of {len(class_ids)} classes are T1+T2.")
     else:
+        # Director condition (c), 2026-08-05, binding on every output: the
+        # clean-core consequence is reported as "not testable", NEVER as
+        # "passed". Since the G-5 amendment retired the annotator, the whole
+        # ladder is T1+T2 and this is the expected branch at every level.
         results["clean_core_note"] = (
-            "every class at this level is T1+T2 — the clean-core and "
-            "all-classes curves are identical by construction, so the D3 "
-            "divergence rule has nothing to bite on here.")
+            "every class at this level is T1+T2 — NO T3 CELLS, so the D3 "
+            "clean-core requirement is NOT TESTABLE at this level. This is "
+            "not a statement that it passed: the clean-core and all-classes "
+            "label spaces are identical by construction, so the divergence "
+            "rule has nothing to bite on (G-4 principle, applied per "
+            "Director condition (c) of 2026-08-05).")
 
     if not skip_d6:
         # Run per level, including L0 — the anchor needs its own reference

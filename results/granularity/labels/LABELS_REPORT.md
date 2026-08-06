@@ -13,8 +13,8 @@ sequences_per_run    = 32000
 tier_order_frozen    = L0 -> L1 -> ARMB -> L2 -> L3 -> D7
 ambiguities_ruled    = G-1 G-2 G-3 G-4 G-5 G-6 G-7 G-8 G-9
 rulings_doc          = docs/DECIDER_RULINGS_GRANULARITY_AMBIGUITIES_2026-08-04.md
-git_commit           = e2386854a43b
-generated_at_utc     = 2026-08-04T19:21:26.348893+00:00
+git_commit           = c8f24929fabe
+generated_at_utc     = 2026-08-06T00:07:32.457067+00:00
 === END VERIFIED STATE ===
 
 ## Levels
@@ -27,8 +27,8 @@ generated_at_utc     = 2026-08-04T19:21:26.348893+00:00
 | B4 | training | 4 | 4 | 8 | 32 | 0.2500 | 4/4 | yes |
 | B8 | training | 8 | 8 | 4 | 32 | 0.1250 | 8/8 | yes |
 | B16 | training | 16 | 16 | 3 | 48 | 0.0625 | 16/16 | yes |
-| L2 | training | 24 | 20 | 10 | 200 | 0.0500 | 20/20 | NO |
-| L3 | training | 48 | 36 | 5 | 180 | 0.0278 | 36/36 | NO |
+| L2 | training | 24 | 24 | 10 | 240 | 0.0417 | 24/24 | yes |
+| L3 | training | 48 | 48 | 5 | 240 | 0.0208 | 48/48 | yes |
 | D7 | control | 2 | 2 | 5 | 10 | 0.5000 | 2/2 | yes |
 
 ## L0
@@ -234,26 +234,24 @@ G-1 balance policies (realized):
 ## L2
 
 k_declared               = 24
-k_materialized           = 20
+k_materialized           = 24
 seeds_per_class          = 10
-n_runs                   = 200
-chance                   = 0.050000
-lock_bar_1p5x_chance     = 0.075000
+n_runs                   = 240
+chance                   = 0.041667
+lock_bar_1p5x_chance     = 0.062500
 balance_policy           = none
-discarded_rows_by_task   = {"alpaca": 0, "code": 6031, "math": 0, "xsum": 40000, "squad": 0, "agnews": 0}
+discarded_rows_by_task   = {"alpaca": 0, "code": 6031, "math": 0, "xsum": 0, "squad": 0, "agnews": 0}
 n_ineligible_below_floor = 0
 kind                     = training
-launchable               = false
-
-> NOT LAUNCHABLE: 4 T3 classes are declared but not materialized (ambiguity G-5 — no annotator is pinned by the registered card): xsum:topic_00, xsum:topic_01, xsum:topic_02, xsum:topic_03
+launchable               = true
 
 G-1 balance policies (realized):
 
 | policy | common n | train rows kept | discarded | discard frac |
 |---|---|---|---|---|
-| none | — | 130464 | 0 | 0.0 |
-| task | 1026, 1137, 6343, 9439, 9495 | 109760 | 20704 | 0.1587 |
-| level | 1026 | 20520 | 109944 | 0.8427 |
+| none | — | 168464 | 0 | 0.0 |
+| task | 1026, 1137, 6198, 6343, 9439, 9495 | 134552 | 33912 | 0.2013 |
+| level | 1026 | 24624 | 143840 | 0.8538 |
 
 | class | tier | core | n rows | n train | epochs | D6 n | status |
 |---|---|---|---|---|---|---|---|
@@ -277,34 +275,32 @@ G-1 balance policies (realized):
 | `squad:tg4_1` | T1 | yes | 10002 | 9502 | 3.37 | 1000 | ok |
 | `squad:tg4_2` | T1 | yes | 10000 | 9500 | 3.37 | 1000 | ok |
 | `squad:tg4_3` | T1 | yes | 9995 | 9495 | 3.37 | 1000 | ok |
-| `xsum:topic_00` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_01` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_02` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_03` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
+| `xsum:business-science-culture` | T2 | yes | 6698 | 6198 | 5.16 | 1000 | ok |
+| `xsum:sport` | T2 | yes | 9750 | 9250 | 3.46 | 1000 | ok |
+| `xsum:uk` | T2 | yes | 16715 | 16215 | 1.97 | 1000 | ok |
+| `xsum:world` | T2 | yes | 6837 | 6337 | 5.05 | 1000 | ok |
 
 ## L3
 
 k_declared               = 48
-k_materialized           = 36
+k_materialized           = 48
 seeds_per_class          = 5
-n_runs                   = 180
-chance                   = 0.027778
-lock_bar_1p5x_chance     = 0.041667
+n_runs                   = 240
+chance                   = 0.020833
+lock_bar_1p5x_chance     = 0.031250
 balance_policy           = none
-discarded_rows_by_task   = {"alpaca": 0, "code": 6031, "math": 0, "xsum": 40000, "squad": 0, "agnews": 0}
+discarded_rows_by_task   = {"alpaca": 0, "code": 6031, "math": 0, "xsum": 0, "squad": 0, "agnews": 0}
 n_ineligible_below_floor = 0
 kind                     = training
-launchable               = false
-
-> NOT LAUNCHABLE: 12 T3 classes are declared but not materialized (ambiguity G-5 — no annotator is pinned by the registered card): xsum:topic_00, xsum:topic_01, xsum:topic_02, xsum:topic_03 ...
+launchable               = true
 
 G-1 balance policies (realized):
 
 | policy | common n | train rows kept | discarded | discard frac |
 |---|---|---|---|---|
-| none | — | 122464 | 0 | 0.0 |
-| task | 1026, 1137, 1981, 2561, 9439 | 98592 | 23872 | 0.1949 |
-| level | 1026 | 36936 | 85528 | 0.6984 |
+| none | — | 156464 | 0 | 0.0 |
+| task | 1026, 1137, 1244, 1981, 2561, 9439 | 113520 | 42944 | 0.2745 |
+| level | 1026 | 49248 | 107216 | 0.6852 |
 
 | class | tier | core | n rows | n train | epochs | D6 n | status |
 |---|---|---|---|---|---|---|---|
@@ -344,18 +340,18 @@ G-1 balance policies (realized):
 | `squad:tg16_13` | T1 | yes | 2491 | 1991 | 16.07 | 1000 | ok |
 | `squad:tg16_14` | T1 | yes | 2487 | 1987 | 16.1 | 1000 | ok |
 | `squad:tg16_15` | T1 | yes | 2481 | 1981 | 16.15 | 1000 | ok |
-| `xsum:topic_00` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_01` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_02` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_03` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_04` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_05` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_06` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_07` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_08` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_09` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_10` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
-| `xsum:topic_11` | T3 | no | 0 | 0 | — | 0 | pending_t3_annotation |
+| `xsum:business` | T2 | yes | 2192 | 1692 | 18.91 | 1000 | ok |
+| `xsum:culture-media` | T2 | yes | 2202 | 1702 | 18.8 | 1000 | ok |
+| `xsum:sci-health-tech-edu` | T2 | yes | 2304 | 1804 | 17.74 | 1000 | ok |
+| `xsum:sport` | T2 | yes | 9750 | 9250 | 3.46 | 1000 | ok |
+| `xsum:uk-england` | T2 | yes | 6574 | 6074 | 5.27 | 1000 | ok |
+| `xsum:uk-n-ireland` | T2 | yes | 1803 | 1303 | 24.56 | 1000 | ok |
+| `xsum:uk-national-politics` | T2 | yes | 2499 | 1999 | 16.01 | 1000 | ok |
+| `xsum:uk-scotland` | T2 | yes | 3249 | 2749 | 11.64 | 1000 | ok |
+| `xsum:uk-wales` | T2 | yes | 2590 | 2090 | 15.31 | 1000 | ok |
+| `xsum:world-asia-pacific` | T2 | yes | 1744 | 1244 | 25.72 | 1000 | ok |
+| `xsum:world-europe` | T2 | yes | 1846 | 1346 | 23.77 | 1000 | ok |
+| `xsum:world-rest` | T2 | yes | 3247 | 2747 | 11.65 | 1000 | ok |
 
 ## D7
 
@@ -384,11 +380,44 @@ G-1 balance policies (realized):
 | `d7:agnews_world:half_a` | T1 | yes | 5015 | 4515 | 7.09 | 1000 | ok |
 | `d7:agnews_world:half_b` | T1 | yes | 5015 | 4515 | 7.09 | 1000 | ok |
 
+## The xsum axis: EDITORIAL SECTION (G-5 amendment, ACCEPTED 2026-08-05)
+
+xsum's L2/L3 cells are **editorial section**, never "topic" unqualified (Director condition (b), binding). The label is the BBC desk that published the article: the HF `id` field is the BBC article id, joined to the hash-pinned upstream URL table, normalized by `xsum_url_to_section` and mapped by `xsum_section_to_family`. No annotator, no model, no seed, no GPU.
+
+axis                 = editorial section (publication structure)
+tier                 = T2 — deterministic pure function of a native field plus a frozen external table
+upstream             = XSum-WebArxiveUrls-BBCids.txt
+upstream_sha256      = c882b869644e29fd76cb54f1f65c113423895faa914f4ee0def5e67aa4635725
+upstream_rows        = 226711
+frozen_map           = xsum_section_map.tsv (committed in-tree)
+join_coverage        = 40000/40000 = 100.0000%
+pre_merge_families   = 13
+l3_families          = 12
+l2_families          = 4
+l3_class_size_spread = 5.59x realized (9,750 sport / 1,744 world-asia-pacific)
+
+**Why not an annotator.** Control 6.1 — the card's own bound on T3 label noise — IS TF-IDF + linear SVM. Any TF-IDF-objective annotator (LDA, TF-IDF k-means, NMF) would have D6 scoring labels manufactured in D6's own feature space, making the label-noise bound vacuous by construction. URL metadata has no model lineage and no overlap with either D6's features or the llama3.2-1b weights the ladder probes.
+
+**Honest scope caveat, measured — not asserted.** This is a publication-structure axis, and geography cross-cuts subject on the BBC's desks. Counter-example verified in this build: bbc_id `35720795`, a 22-year-old footballer's drink-driving ban and court fine, is filed under `news/uk-scotland-glasgow-west` -> family `uk-scotland`, **not** sport. The axis is substantially more semantic than doc-length and different in kind from squad's entity groups, which preserves the card's §9.3 format != topic != entity heterogeneity design — but it is not a topic model and is never reported as one.
+
+**Spread (Director condition (d)).** The realized L3 class-size spread is **5.59x** (9,750 / 1,744). It is not 5.7x: that figure divided by world-americas (1,697), a class that does not exist at L3 — after the two smallest world buckets merge (1,697 + 1,550 = 3,247 `world-rest`), the smallest realized L3 class is world-asia-pacific at 1,744. Pre-merge spread against 1,550 would be 6.29x.
+
+**Clean-core consequence (Director condition (c)).** With the xsum cells at T2, **every class at every level of the ladder is T1+T2**. D3's RESTRICTED clause therefore has **no T3 cells — not testable at any level**. This is NOT a statement that the clean-core requirement "passed": there is nothing for the divergence rule to bite on, which is a different fact and is reported as such everywhere.
+
+## G-2 taxonomy — two footnotes ADOPTED as pre-declared (2026-08-05)
+
+The alpaca verb taxonomy was APPROVED (dicts machine-compared verbatim against this code). Two readings are declared **now, before any L2/L3 number exists** — the only time they can be declared without suspicion:
+
+1. **`frame`/`other` kappa is a taxonomy artifact, not a granularity finding.** The `frame` family is stopword-headed framing phrasing, not an intent class; its L2 quarantine with the residual (`framed_other`) is the correct containment. A low per-class kappa on those L3 cells must not be read as a granularity result.
+2. **The British/American doublet is a seam between two families.** `summarise` sits in `describe` and `summarize` in `transform`, placing near-identical intents in different families. It is frozen, reproducible and mirrors observed usage, but it is irreducible label noise at that seam: any close L3 confusion between the `describe` and `transform` cells is to be read with it in mind.
+
 ## Ambiguities in the registered card (findings, not guesses)
 
 Each was surfaced by this build and resolved as stated so the rest of the build could proceed. All nine were then converted into dated rulings in `docs/DECIDER_RULINGS_GRANULARITY_AMBIGUITIES_2026-08-04.md` (2026-08-04), which ratified every resolution as built; the Director grades that document and may overturn any ruling before the tier it affects fires.
 
 ### G-1 — design §4 `splits` vs design §3 "Pool survival" — the two sections of the registered card disagree
+
+**Status.** RULED 2026-08-04 (ratified)
 
 **Question.** §4 says "pools subsampled to common per-class n within each level (discards logged)". §3 states the realized pools as "L1 ~3.5k (math) – 24k (alpaca)". Those cannot both hold: a common per-class n is ONE number per level, not a 7x range.
 
@@ -404,6 +433,8 @@ Each was surfaced by this build and resolved as stated so the rest of the build 
 
 ### G-2 — design §3 table, alpaca L2/L3: "4 / 8 instruction-verb families [T2 keyword rules]"
 
+**Status.** APPROVED 2026-08-05 — two footnotes ADOPTED as pre-declared
+
 **Question.** The card names the tier and the count but not the rules: which verb families, and which verbs in each.
 
 **Resolution applied.** Meridian-authored frozen taxonomy (ALPACA_VERB_L3, 8 families over the instruction's first word, with a residual `other`; L2 = the frozen pairwise merge ALPACA_VERB_L2_MERGE, so L2 is a strict coarsening of L3).
@@ -412,11 +443,13 @@ Each was surfaced by this build and resolved as stated so the rest of the build 
 
 **Consequence.** This is an authored label space inside a registered card. It should be reviewed before the L2/L3 tiers fire; it does not affect L1 (alpaca L1 is native).
 
-**Ruling (2026-08-04).** ACCEPTED PROVISIONALLY — Director review of the authored taxonomy required before L2 fires. No effect on L1.
+**Ruling (2026-08-04).** APPROVED 2026-08-05 (docs/DIRECTOR_RULINGS_G5_G2_2026-08-05.md Ruling 2): dicts machine-compared verbatim against the code; strict-partition and no-duplicate-keyword properties confirmed; zero discard upheld as the correct asymmetry against G-3. Two footnotes ADOPTED as pre-declared (see the G-2 footnotes section of this report). No edit requested.
 
 **Rules on it.** hub / Director
 
 ### G-3 — design §3 table, code L2/L3: "output language {Python / non-Python / …} [T2; skew audit]"
+
+**Status.** RULED 2026-08-04 as built
 
 **Question.** Which four language classes, and what happens to the mass that matches none of them (measured: 43% of the CodeAlpaca pool matches no language marker).
 
@@ -432,6 +465,8 @@ Each was surfaced by this build and resolved as stated so the rest of the build 
 
 ### G-4 — design §3 table, xsum L1: "doc-length median [T2, weak] or 2 topics [T3]"
 
+**Status.** RULED 2026-08-04 (ratified)
+
 **Question.** The card offers two options and does not choose.
 
 **Resolution applied.** doc-length median [T2]. L1 is then 12/12 clean-core, needs no annotator, and can launch immediately — which matters because L1 is the only funded tier after L0.
@@ -446,19 +481,23 @@ Each was surfaced by this build and resolved as stated so the rest of the build 
 
 ### G-5 — design §3 table, xsum L2 (4 topics) and L3 (12 topics), both [T3 model-annotated]
 
+**Status.** RESOLVED 2026-08-05 by accepted dated amendment — annotator retired, T3 -> T2
+
 **Question.** The card admits T3 cells (D3 RESTRICTED) but pins NO annotator: no model, no prompt, no topic inventory, no frozen assignment procedure exists in the record.
 
-**Resolution applied.** STOP. xsum's L2/L3 classes are DECLARED but NOT MATERIALIZED (status pending_t3_annotation, no row ids). Every other class at L2/L3 is materialized. L2 and L3 are NOT launchable until an annotator is pinned by dated amendment.
+**Resolution applied.** [HISTORICAL — superseded 2026-08-05] STOP: xsum's L2/L3 classes were declared but NOT materialized (status pending_t3_annotation, no row ids), so L2/L3 were not launchable. RESOLVED by the dated amendment docs/AMENDMENT_G5_XSUM_SECTIONS_2026-08-05.md, ACCEPTED by the Director 2026-08-05: no annotator is needed. The HF `id` field is the BBC article id, and the hash-pinned upstream XSum URL table carries the BBC EDITORIAL SECTION in its path, so the cells are a deterministic pure function of a native field plus a frozen external table — [T2], not [T3]. 100% join coverage over the locked 40,000-row pool; 13 authored families all clearing the D4 floor; the two smallest world buckets merge to land K=12 at L3 and a frozen 4-way coarsening at L2.
 
-**Alternatives.** pin an annotator (model id + prompt + inventory + seed) as a dated amendment; substitute a T2 rule (e.g. length quantiles), which changes the semantic axis the card names and would make the whole ladder clean-core
+**Alternatives.** pin a model annotator (non-llama, batched logit-scoring, committed assignment file as the artifact) — now moot, and retired for cause: control 6.1 IS TF-IDF + linear SVM, so any TF-IDF-objective annotator would have D6 scoring labels manufactured in D6's own feature space and the label-noise bound would be vacuous by construction; greedy bin-packing over raw sections — measured and declined as semantically arbitrary (19-22 unrelated sections per bin, brittle to query-string artifacts)
 
-**Consequence.** K=24 at L2 and K=48 at L3 both DEPEND on xsum: without it L2 realizes K=20 and L3 realizes K=36. This gates the L2 and L3 tiers only; L0, L1 and Arm B are unaffected.
+**Consequence.** L2 realizes K=24 and L3 realizes K=48 exactly as locked, both launchable, 240 adapters each. The ENTIRE ladder is now clean-core (T1+T2 everywhere), so D3's RESTRICTED clause has no T3 cells to bite on at any level — reported as 'no T3 cells — not testable', never 'passed' (Director condition (c)). The axis is named EDITORIAL SECTION, never 'topic' unqualified (condition (b)).
 
-**Ruling (2026-08-04).** STOP CONFIRMED — L2/L3 stay unlaunchable until a dated amendment pins model id + prompt + inventory + procedure + seed.
+**Ruling (2026-08-04).** ACCEPTED 2026-08-05 (docs/DIRECTOR_RULINGS_G5_G2_2026-08-05.md Ruling 1): annotator retired, cells move T3 -> T2, ladder clean-core end to end. Conditions (a) six freeze artifacts in-tree before any re-emit, (b) axis named 'editorial section', (c) 'no T3 cells - not testable' never 'passed', (d) spread quoted as 5.59x realized.
 
 **Rules on it.** hub / Director (dated amendment, L-006)
 
 ### G-6 — design §11 item 8 / D8 PROMOTED: "squad-only deep ladder, 2->16 native title groups, ~144 runs"
+
+**Status.** RULED 2026-08-04
 
 **Question.** The TOTAL is fixed — the locked cost table gives Arm B 3.056 GPU-days, which at the measured 30.56 min/run is exactly 144.0 runs — but the per-rung seed allocation is unspecified.
 
@@ -474,6 +513,8 @@ Each was surfaced by this build and resolved as stated so the rest of the build 
 
 ### G-7 — design §6.2 / D7 MANDATORY: "One L2 class: adapters on two disjoint halves of the same pool (5 + 5 seeds)"
 
+**Status.** RULED 2026-08-04
+
 **Question.** Which L2 class; and are the halves halves of the FULL class pool or of the level-balanced pool (under G-1's level-wide balancing, half a balanced pool falls below the D4 floor).
 
 **Resolution applied.** the largest-pool T1-tier L2 class (deterministic, recorded); halves are taken from the class's FULL training pool, so each half clears the D4 floor. D7 is a control, not a level cell — it is not level-balanced, and says so.
@@ -488,6 +529,8 @@ Each was surfaced by this build and resolved as stated so the rest of the build 
 
 ### G-8 — design §3 table L3 (xsum "8–12 topics", squad "8–16 title groups") vs the lock's "L3 ~48x5"
 
+**Status.** RECORDED DERIVATION
+
 **Question.** The card gives ranges; the lock gives ~48 classes and 240 adapters at 5 seeds.
 
 **Resolution applied.** xsum 12 + squad 16, with alpaca 8, code 4, math 4, agnews 4 -> K = 48 exactly, 48 x 5 = 240 adapters. This is the only combination inside the card's stated ranges that hits the lock's numbers exactly.
@@ -501,6 +544,8 @@ Each was surfaced by this build and resolved as stated so the rest of the build 
 **Rules on it.** recorded derivation (no ruling needed unless contested)
 
 ### G-9 — design §3 "training pool >= 1,000 examples" vs §4 "per-CLASS fixed 500-example val"
+
+**Status.** RULED 2026-08-04 (post-val, the stricter reading)
 
 **Question.** Is the D4 floor measured before or after the per-class val is removed.
 
@@ -520,6 +565,6 @@ Each was surfaced by this build and resolved as stated so the rest of the build 
 
 ## What this does NOT do
 
-- No T3 annotation is performed (G-5): xsum's L2/L3 classes carry no rows, so **L2 and L3 are not launchable**.
+- No model annotation is performed anywhere in the ladder, and none is needed: G-5 was resolved by retiring the annotator (accepted amendment 2026-08-05), so every level is T1+T2 and no cell depends on a model to define its label.
 - No adapter is trained and no GPU is touched.
 - L0 is analysis-side: it reuses the 240 existing llama adapters in `results/asset1-bank/llama3.2-1b/` and emits no runs.

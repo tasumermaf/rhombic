@@ -133,6 +133,7 @@ TASKS = ["alpaca", "code", "math", "xsum", "squad", "agnews"]
 AMBIGUITIES: list[dict] = [
     {
         "id": "G-1",
+        "status": "RULED 2026-08-04 (ratified)",
         "ruling": "RULED --balance none (ratified) — three grounds: the card's own §3 arithmetic, L0 anchor comparability, and confound control.",
         "where": "design §4 `splits` vs design §3 \"Pool survival\" — the two "
                  "sections of the registered card disagree",
@@ -171,7 +172,8 @@ AMBIGUITIES: list[dict] = [
     },
     {
         "id": "G-2",
-        "ruling": "ACCEPTED PROVISIONALLY — Director review of the authored taxonomy required before L2 fires. No effect on L1.",
+        "status": "APPROVED 2026-08-05 — two footnotes ADOPTED as pre-declared",
+        "ruling": "APPROVED 2026-08-05 (docs/DIRECTOR_RULINGS_G5_G2_2026-08-05.md Ruling 2): dicts machine-compared verbatim against the code; strict-partition and no-duplicate-keyword properties confirmed; zero discard upheld as the correct asymmetry against G-3. Two footnotes ADOPTED as pre-declared (see the G-2 footnotes section of this report). No edit requested.",
         "where": "design §3 table, alpaca L2/L3: \"4 / 8 instruction-verb "
                  "families [T2 keyword rules]\"",
         "question": "The card names the tier and the count but not the "
@@ -190,6 +192,7 @@ AMBIGUITIES: list[dict] = [
     },
     {
         "id": "G-3",
+        "status": "RULED 2026-08-04 as built",
         "ruling": "RULED as built — four named languages, residual discarded and logged. No effect on L1.",
         "where": "design §3 table, code L2/L3: \"output language {Python / "
                  "non-Python / …} [T2; skew audit]\"",
@@ -210,6 +213,7 @@ AMBIGUITIES: list[dict] = [
     },
     {
         "id": "G-4",
+        "status": "RULED 2026-08-04 (ratified)",
         "ruling": "RULED doc-length median [T2] (ratified) — L1 is then 12/12 clean-core and annotator-free.",
         "where": "design §3 table, xsum L1: \"doc-length median [T2, weak] "
                  "or 2 topics [T3]\"",
@@ -227,30 +231,53 @@ AMBIGUITIES: list[dict] = [
     },
     {
         "id": "G-5",
-        "ruling": "STOP CONFIRMED — L2/L3 stay unlaunchable until a dated amendment pins model id + prompt + inventory + procedure + seed.",
+        "status": "RESOLVED 2026-08-05 by accepted dated amendment — annotator retired, T3 -> T2",
+        "ruling": "ACCEPTED 2026-08-05 (docs/DIRECTOR_RULINGS_G5_G2_2026-08-05.md Ruling 1): annotator retired, cells move T3 -> T2, ladder clean-core end to end. Conditions (a) six freeze artifacts in-tree before any re-emit, (b) axis named 'editorial section', (c) 'no T3 cells - not testable' never 'passed', (d) spread quoted as 5.59x realized.",
         "where": "design §3 table, xsum L2 (4 topics) and L3 (12 topics), "
                  "both [T3 model-annotated]",
         "question": "The card admits T3 cells (D3 RESTRICTED) but pins NO "
                     "annotator: no model, no prompt, no topic inventory, no "
                     "frozen assignment procedure exists in the record.",
-        "resolution": "STOP. xsum's L2/L3 classes are DECLARED but NOT "
-                      "MATERIALIZED (status pending_t3_annotation, no row "
-                      "ids). Every other class at L2/L3 is materialized. L2 "
-                      "and L3 are NOT launchable until an annotator is "
-                      "pinned by dated amendment.",
-        "alternatives": ["pin an annotator (model id + prompt + inventory + "
-                         "seed) as a dated amendment",
-                         "substitute a T2 rule (e.g. length quantiles), "
-                         "which changes the semantic axis the card names "
-                         "and would make the whole ladder clean-core"],
-        "consequence": "K=24 at L2 and K=48 at L3 both DEPEND on xsum: "
-                       "without it L2 realizes K=20 and L3 realizes K=36. "
-                       "This gates the L2 and L3 tiers only; L0, L1 and "
-                       "Arm B are unaffected.",
+        "resolution": "[HISTORICAL — superseded 2026-08-05] STOP: xsum's "
+                      "L2/L3 classes were declared but NOT materialized "
+                      "(status pending_t3_annotation, no row ids), so L2/L3 "
+                      "were not launchable. RESOLVED by the dated amendment "
+                      "docs/AMENDMENT_G5_XSUM_SECTIONS_2026-08-05.md, "
+                      "ACCEPTED by the Director 2026-08-05: no annotator is "
+                      "needed. The HF `id` field is the BBC article id, and "
+                      "the hash-pinned upstream XSum URL table carries the "
+                      "BBC EDITORIAL SECTION in its path, so the cells are a "
+                      "deterministic pure function of a native field plus a "
+                      "frozen external table — [T2], not [T3]. 100% join "
+                      "coverage over the locked 40,000-row pool; 13 authored "
+                      "families all clearing the D4 floor; the two smallest "
+                      "world buckets merge to land K=12 at L3 and a frozen "
+                      "4-way coarsening at L2.",
+        "alternatives": ["pin a model annotator (non-llama, batched "
+                         "logit-scoring, committed assignment file as the "
+                         "artifact) — now moot, and retired for cause: "
+                         "control 6.1 IS TF-IDF + linear SVM, so any "
+                         "TF-IDF-objective annotator would have D6 scoring "
+                         "labels manufactured in D6's own feature space and "
+                         "the label-noise bound would be vacuous by "
+                         "construction",
+                         "greedy bin-packing over raw sections — measured "
+                         "and declined as semantically arbitrary (19-22 "
+                         "unrelated sections per bin, brittle to "
+                         "query-string artifacts)"],
+        "consequence": "L2 realizes K=24 and L3 realizes K=48 exactly as "
+                       "locked, both launchable, 240 adapters each. The "
+                       "ENTIRE ladder is now clean-core (T1+T2 everywhere), "
+                       "so D3's RESTRICTED clause has no T3 cells to bite "
+                       "on at any level — reported as 'no T3 cells — not "
+                       "testable', never 'passed' (Director condition (c)). "
+                       "The axis is named EDITORIAL SECTION, never 'topic' "
+                       "unqualified (condition (b)).",
         "authority": "hub / Director (dated amendment, L-006)",
     },
     {
         "id": "G-6",
+        "status": "RULED 2026-08-04",
         "ruling": "RULED 16/8/4/3 at rungs 2/4/8/16 (= 144 runs exactly) — the card's 2->16 span wins over constant-N.",
         "where": "design §11 item 8 / D8 PROMOTED: \"squad-only deep ladder, "
                  "2->16 native title groups, ~144 runs\"",
@@ -271,6 +298,7 @@ AMBIGUITIES: list[dict] = [
     },
     {
         "id": "G-7",
+        "status": "RULED 2026-08-04",
         "ruling": "RULED largest-pool T1 L2 class, halves from the FULL class pool.",
         "where": "design §6.2 / D7 MANDATORY: \"One L2 class: adapters on "
                  "two disjoint halves of the same pool (5 + 5 seeds)\"",
@@ -293,6 +321,7 @@ AMBIGUITIES: list[dict] = [
     },
     {
         "id": "G-8",
+        "status": "RECORDED DERIVATION",
         "ruling": "RECORDED DERIVATION — no ruling required.",
         "where": "design §3 table L3 (xsum \"8–12 topics\", squad \"8–16 "
                  "title groups\") vs the lock's \"L3 ~48x5\"",
@@ -311,6 +340,7 @@ AMBIGUITIES: list[dict] = [
     },
     {
         "id": "G-9",
+        "status": "RULED 2026-08-04 (post-val, the stricter reading)",
         "ruling": "RULED post-val (the stricter reading).",
         "where": "design §3 \"training pool >= 1,000 examples\" vs §4 "
                  "\"per-CLASS fixed 500-example val\"",
@@ -417,8 +447,161 @@ AGNEWS_L1_MERGE: dict[str, tuple[str, ...]] = {
 SQUAD_FINEST_K = 16
 
 # xsum — L1 is the frozen median of document length IN CHARACTERS over the
-# 40,000-row pool (computed here and recorded). L2/L3 are T3 (G-5).
-XSUM_T3_LEVELS = {"L2": 4, "L3": 12}
+# 40,000-row pool (computed here and recorded).
+#
+# L2/L3 are the EDITORIAL SECTION axis [T2], per the accepted G-5 amendment
+# (docs/AMENDMENT_G5_XSUM_SECTIONS_2026-08-05.md; Director ACCEPTED
+# 2026-08-05, docs/DIRECTOR_RULINGS_G5_G2_2026-08-05.md Ruling 1). The
+# annotator is retired: the HF `id` field is the BBC article id, and the XSum
+# authors' published URL table carries the BBC editorial section in its path.
+#
+# NAMING (Director condition b, binding): this axis is "editorial section",
+# never "topic" unqualified. It is a PUBLICATION-STRUCTURE axis — geography
+# cross-cuts subject on the BBC's desks. Measured counter-example: a
+# footballer's driving ban is filed under uk-scotland-glasgow-west, not
+# sport/football. More semantic than doc-length, different in kind from
+# squad's entity groups; the card's §9.3 format != topic != entity
+# heterogeneity design is preserved.
+#
+# WHY NOT AN ANNOTATOR (the ruling's basis): control 6.1 — the card's own
+# bound on T3 label noise — IS TF-IDF + linear SVM, so any TF-IDF-objective
+# annotator would have D6 scoring labels manufactured in D6's own feature
+# space, making the bound vacuous by construction. URL metadata has no model
+# lineage and no overlap with either D6's features or the probed weights.
+
+XSUM_UPSTREAM_FILE = "XSum-WebArxiveUrls-BBCids.txt"
+XSUM_UPSTREAM_SOURCE = (
+    "https://raw.githubusercontent.com/EdinburghNLP/XSum/master/"
+    "XSum-Dataset/XSum-WebArxiveUrls-BBCids.txt")
+XSUM_UPSTREAM_SHA256 = (
+    "c882b869644e29fd76cb54f1f65c113423895faa914f4ee0def5e67aa4635725")
+XSUM_UPSTREAM_ROWS = 226_711
+
+# The committed, pool-restricted bbc_id -> section map (freeze artifact 1).
+XSUM_SECTION_MAP = "xsum_section_map.tsv"
+
+# Freeze artifact 3 — the URL -> section normalizer. Strips the fragment and
+# the query string BEFORE the trailing article id, so query-string artifacts
+# cannot leak into a section string.
+XSUM_URL_RX = re.compile(r"bbc\.co(?:\.uk|m)(?::\d+)?/(.+?)/?$")
+XSUM_TRAILING_ID_RX = re.compile(r"[-/]\d+$")
+
+
+def xsum_url_to_section(url: str) -> str | None:
+    """Frozen normalizer: archived BBC URL -> editorial section path."""
+    m = XSUM_URL_RX.search(url.strip())
+    if not m:
+        return None
+    path = m.group(1)
+    path = path.split("#", 1)[0]          # fragment
+    path = path.split("?", 1)[0]          # query string
+    path = XSUM_TRAILING_ID_RX.sub("", path.strip("/"))
+    return path or None
+
+
+# Section path -> authored family. Head component first, then an ORDERED
+# prefix table for `news/...` (first match wins). The order is load-bearing:
+# the four nation prefixes precede the generic `world`/`uk` fallbacks.
+XSUM_HEAD_FAMILY: dict[str, str] = {
+    "sport": "sport",
+    "newsround": "culture-media",
+    "newsbeat": "culture-media",
+    "schoolreport": "culture-media",
+    "newyddion": "uk-wales",          # the Welsh-language service
+}
+XSUM_HEAD_DEFAULT = "culture-media"   # any non-news, non-listed head
+XSUM_NEWS_SUB_FAMILY: tuple[tuple[str, str], ...] = (
+    ("uk-england", "uk-england"),
+    ("uk-scotland", "uk-scotland"),
+    ("uk-wales", "uk-wales"),
+    ("uk-northern-ireland", "uk-n-ireland"),
+    ("world-europe", "world-europe"),
+    ("world-us-canada", "world-americas"),
+    ("world-latin-america", "world-americas"),
+    ("world-asia", "world-asia-pacific"),
+    ("world-australia", "world-asia-pacific"),
+    ("world-africa", "world-africa-mideast"),
+    ("world-middle-east", "world-africa-mideast"),
+    ("world", "world-europe"),         # residual `world` desk
+    ("business", "business"),
+    ("election", "uk-national-politics"),
+    ("technology", "sci-health-tech-edu"),
+    ("science-environment", "sci-health-tech-edu"),
+    ("health", "sci-health-tech-edu"),
+    ("education", "sci-health-tech-edu"),
+    ("disability", "sci-health-tech-edu"),
+    ("entertainment-arts", "culture-media"),
+    ("in-pictures", "culture-media"),
+    ("magazine", "culture-media"),
+    ("stories", "culture-media"),
+    ("blogs", "culture-media"),
+    ("the-reporters", "culture-media"),
+    ("explainers", "culture-media"),
+    ("have-your-say", "culture-media"),
+    ("special", "culture-media"),
+    ("uk", "uk-national-politics"),    # AFTER the four nation prefixes
+)
+XSUM_NEWS_SUB_DEFAULT = "culture-media"
+
+
+def xsum_section_to_family(section: str) -> str:
+    """Frozen pure function: normalized section path -> authored family."""
+    parts = section.split("/")
+    head = parts[0]
+    if head in XSUM_HEAD_FAMILY:
+        return XSUM_HEAD_FAMILY[head]
+    if head != "news":
+        return XSUM_HEAD_DEFAULT
+    sub = parts[1] if len(parts) > 1 else ""
+    for prefix, family in XSUM_NEWS_SUB_FAMILY:
+        if sub.startswith(prefix):
+            return family
+    return XSUM_NEWS_SUB_DEFAULT
+
+
+# Freeze artifact 4 — the 12-family L3 inventory, as a target -> sources dict
+# (the ALPACA_VERB_L2_MERGE shape). The two smallest world buckets merge so K
+# lands at 12 exactly as locked.
+XSUM_SECTION_L3_MERGE: dict[str, tuple[str, ...]] = {
+    "sport": ("sport",),
+    "uk-england": ("uk-england",),
+    "uk-scotland": ("uk-scotland",),
+    "world-rest": ("world-americas", "world-africa-mideast"),
+    "uk-wales": ("uk-wales",),
+    "uk-national-politics": ("uk-national-politics",),
+    "sci-health-tech-edu": ("sci-health-tech-edu",),
+    "culture-media": ("culture-media",),
+    "business": ("business",),
+    "world-europe": ("world-europe",),
+    "uk-n-ireland": ("uk-n-ireland",),
+    "world-asia-pacific": ("world-asia-pacific",),
+}
+
+# Freeze artifact 5 — the L2 4-way merge: a strict coarsening of the 12.
+XSUM_L2_MERGE: dict[str, tuple[str, ...]] = {
+    "uk": ("uk-england", "uk-scotland", "uk-wales", "uk-national-politics",
+           "uk-n-ireland"),
+    "world": ("world-rest", "world-europe", "world-asia-pacific"),
+    "sport": ("sport",),
+    "business-science-culture": ("sci-health-tech-edu", "culture-media",
+                                 "business"),
+}
+
+# The amendment's measured inventory, asserted at emit time. These are a
+# regression guard: upstream table drift, HF dataset drift, or a normalizer
+# edit all surface here as a loud failure rather than a silent relabel.
+XSUM_MEASURED_PRE_MERGE: dict[str, int] = {
+    "sport": 9_750, "uk-england": 6_574, "uk-scotland": 3_249,
+    "uk-wales": 2_590, "uk-national-politics": 2_499,
+    "sci-health-tech-edu": 2_304, "culture-media": 2_202, "business": 2_192,
+    "world-europe": 1_846, "uk-n-ireland": 1_803,
+    "world-asia-pacific": 1_744, "world-americas": 1_697,
+    "world-africa-mideast": 1_550,
+}
+XSUM_MEASURED_L2: dict[str, int] = {
+    "uk": 16_715, "world": 6_837, "sport": 9_750,
+    "business-science-culture": 6_698,
+}
 
 
 # ── Small helpers ───────────────────────────────────────────────────
@@ -471,7 +654,9 @@ _TASK_COLUMNS = {
     "alpaca": ["instruction", "input"],
     "code": ["instruction", "input", "output"],
     "math": ["answer"],
-    "xsum": ["document"],
+    # `id` is the BBC article id — the join key for the editorial-section
+    # axis (G-5 amendment §4 implementation note).
+    "xsum": ["document", "id"],
     "squad": ["title"],
     "agnews": ["label"],
 }
@@ -575,6 +760,133 @@ def _keys_xsum_length(pool: TaskPool) -> tuple[list[str], int]:
     return keys, threshold
 
 
+def build_xsum_section_map(upstream: Path, out_dir: Path) -> dict:
+    """Freeze artifact 1: the pool-restricted bbc_id -> section map.
+
+    Reads the upstream `XSum-WebArxiveUrls-BBCids.txt`, REFUSES on a sha256
+    mismatch, normalizes every URL through the frozen normalizer, and writes
+    the restriction to the locked 40,000-row pool. After this runs once, label
+    emission needs only the committed map — the upstream file is provenance
+    (hash-pinned), not a runtime dependency.
+    """
+    raw = Path(upstream).read_bytes()
+    digest = hashlib.sha256(raw).hexdigest()
+    if digest != XSUM_UPSTREAM_SHA256:
+        raise SystemExit(
+            f"[labels] REFUSING: {upstream} sha256 {digest} does not match "
+            f"the pinned {XSUM_UPSTREAM_SHA256}. The G-5 amendment pins this "
+            f"artifact exactly; a mismatch means a different file, not a "
+            f"newer one.")
+    lines = raw.decode("utf-8").splitlines()
+    if len(lines) != XSUM_UPSTREAM_ROWS:
+        raise SystemExit(f"[labels] REFUSING: {upstream} has {len(lines)} "
+                         f"rows, pinned {XSUM_UPSTREAM_ROWS}")
+
+    id2section: dict[str, str] = {}
+    malformed = 0
+    for line in lines:
+        if not line:
+            continue
+        url, _, bbc_id = line.partition("\t")
+        section = xsum_url_to_section(url)
+        if section is None:
+            malformed += 1
+            continue
+        id2section[bbc_id.strip()] = section
+
+    pool = load_task_pool("xsum")
+    rows, misses = [], []
+    for bbc_id in pool.columns["id"]:
+        key = str(bbc_id)
+        section = id2section.get(key)
+        if section is None:
+            misses.append(key)
+        else:
+            rows.append((key, section))
+    if misses:
+        raise SystemExit(
+            f"[labels] REFUSING: {len(misses)} of {len(pool.pool_ids)} pool "
+            f"rows have no section (e.g. {misses[:5]}). The amendment "
+            f"measured 100.0000% coverage; a miss means the join changed.")
+
+    header = [
+        f"# {XSUM_SECTION_MAP} — pool-restricted bbc_id -> BBC editorial "
+        f"section",
+        f"# Freeze artifact 1 of the accepted G-5 amendment "
+        f"(docs/AMENDMENT_G5_XSUM_SECTIONS_2026-08-05.md).",
+        f"# upstream           = {XSUM_UPSTREAM_FILE}",
+        f"# upstream_source    = {XSUM_UPSTREAM_SOURCE}",
+        f"# upstream_sha256    = {XSUM_UPSTREAM_SHA256}",
+        f"# upstream_rows      = {XSUM_UPSTREAM_ROWS}",
+        f"# normalizer         = strip fragment, then query string, then "
+        f"trailing [-/]\\d+ from the bbc.co.uk path",
+        f"# pool               = locked 40,000-row xsum training pool "
+        f"(val_seed={VAL_SEED}, val_size={VAL_SIZE}, pool_cap={POOL_CAP})",
+        f"# rows               = {len(rows)}",
+        f"# coverage           = {len(rows)}/{len(pool.pool_ids)}",
+        f"# generated_by       = scripts/granularity_labels.py "
+        f"--build-xsum-map",
+        f"# generated_at       = {utc_now()}",
+    ]
+    body = "\n".join(f"{i}\t{s}" for i, s in rows)
+    path = out_dir / XSUM_SECTION_MAP
+    write_text(path, "\n".join(header) + "\n" + body + "\n")
+    print(f"[labels] wrote {path} ({len(rows)} rows, "
+          f"{len(body.encode('utf-8')) / 1e6:.2f} MB body, "
+          f"{malformed} malformed upstream URLs skipped)")
+    return {"rows": len(rows), "malformed_upstream": malformed,
+            "distinct_sections": len({s for _i, s in rows})}
+
+
+_XSUM_MAP_CACHE: dict[str, dict[str, str]] = {}
+
+
+def load_xsum_section_map(labels_dir: Path) -> dict[str, str]:
+    """Read the committed map. The map — not the upstream file — is what
+    label emission depends on."""
+    key = str(labels_dir)
+    if key in _XSUM_MAP_CACHE:
+        return _XSUM_MAP_CACHE[key]
+    path = Path(labels_dir) / XSUM_SECTION_MAP
+    if not path.exists():
+        raise SystemExit(
+            f"[labels] REFUSING: {path} is missing. It is freeze artifact 1 "
+            f"of the accepted G-5 amendment and must be in-tree BEFORE any "
+            f"L2/L3 emit (Director condition (a)). Build it once with "
+            f"--build-xsum-map <path to {XSUM_UPSTREAM_FILE}>.")
+    mapping: dict[str, str] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line or line.startswith("#"):
+            continue
+        bbc_id, _, section = line.partition("\t")
+        mapping[bbc_id] = section
+    _XSUM_MAP_CACHE[key] = mapping
+    return mapping
+
+
+def xsum_section_keys(labels_dir: Path) -> tuple[list[str], dict[str, int]]:
+    """Per-pool-row L3 family keys + the realized PRE-MERGE family counts."""
+    pool = load_task_pool("xsum")
+    mapping = load_xsum_section_map(labels_dir)
+    pre: list[str] = []
+    for bbc_id in pool.columns["id"]:
+        section = mapping.get(str(bbc_id))
+        if section is None:
+            raise SystemExit(f"[labels] xsum row {bbc_id} missing from "
+                             f"{XSUM_SECTION_MAP} — rebuild the map.")
+        pre.append(xsum_section_to_family(section))
+    counts: dict[str, int] = {}
+    for f in pre:
+        counts[f] = counts.get(f, 0) + 1
+    if counts != XSUM_MEASURED_PRE_MERGE:
+        raise SystemExit(
+            f"[labels] REFUSING: realized section-family counts differ from "
+            f"the amendment's measured inventory.\n  realized = "
+            f"{dict(sorted(counts.items()))}\n  measured = "
+            f"{dict(sorted(XSUM_MEASURED_PRE_MERGE.items()))}")
+    return _merge_keys(pre, XSUM_SECTION_L3_MERGE), counts
+
+
 def _greedy_bins(items: list[tuple[str, int]], k: int) -> list[list[str]]:
     """Largest-first greedy bin packing into k bins by count (deterministic:
     ties in size broken by name, ties in load broken by bin index)."""
@@ -673,8 +985,8 @@ class ClassSpec:
         return self.tier in CLEAN_CORE_TIERS
 
 
-def _task_level_keys(task: str, level: str) -> tuple[list[str | None], str,
-                                                     str, dict]:
+def _task_level_keys(task: str, level: str, labels_dir: Path = LABELS_DIR
+                     ) -> tuple[list[str | None], str, str, dict]:
     """(per-pool-row class keys, tier, rule text, extra metadata)."""
     pool = load_task_pool(task)
     meta: dict = {}
@@ -715,8 +1027,22 @@ def _task_level_keys(task: str, level: str) -> tuple[list[str | None], str,
             return (keys, TIER_T2,
                     f"document length in characters, split at the pool "
                     f"median ({threshold} chars) — G-4", meta)
-        return ([], TIER_T3, "model-annotated topics — NO ANNOTATOR PINNED "
-                             "(G-5): declared, not materialized", meta)
+        l3_keys, pre_counts = xsum_section_keys(labels_dir)
+        meta["axis"] = "editorial section (NOT topic)"
+        meta["pre_merge_family_counts"] = pre_counts
+        meta["upstream_sha256"] = XSUM_UPSTREAM_SHA256
+        meta["section_map"] = XSUM_SECTION_MAP
+        if level == "L3":
+            return (l3_keys, TIER_T2,
+                    "BBC editorial section: native `id` joined to the "
+                    "hash-pinned XSum URL table, normalized by "
+                    "xsum_url_to_section, mapped by xsum_section_to_family, "
+                    "then XSUM_SECTION_L3_MERGE (12 families) — G-5 "
+                    "amendment ACCEPTED 2026-08-05", meta)
+        return (_merge_keys(l3_keys, XSUM_L2_MERGE), TIER_T2,
+                "BBC editorial section merged by XSUM_L2_MERGE into 4 "
+                "families (uk / world / sport / business-science-culture) — "
+                "a strict coarsening of L3", meta)
     if task == "squad":
         rung = {"L1": 2, "L2": 4, "L3": 16}[level]
         keys = _keys_squad(pool, rung)
@@ -735,7 +1061,8 @@ def _task_level_keys(task: str, level: str) -> tuple[list[str | None], str,
     raise ValueError(f"unknown task {task!r}")
 
 
-def _level_class_specs(level: str) -> list[ClassSpec]:
+def _level_class_specs(level: str, labels_dir: Path = LABELS_DIR
+                       ) -> list[ClassSpec]:
     """The declared class list for a level, before rows are attached."""
     specs: list[ClassSpec] = []
     if level == "L0":
@@ -758,17 +1085,7 @@ def _level_class_specs(level: str) -> list[ClassSpec]:
     if level == "D7":
         return []          # built specially (needs the L2 class pools)
     for task in TASKS:
-        keys, tier, rule, meta = _task_level_keys(task, level)
-        if task == "xsum" and level in XSUM_T3_LEVELS:
-            for i in range(XSUM_T3_LEVELS[level]):
-                specs.append(ClassSpec(
-                    class_id=f"xsum:topic_{i:02d}", task="xsum",
-                    tier=TIER_T3, rule=rule, key=f"topic_{i:02d}",
-                    materialized=False, status="pending_t3_annotation",
-                    note="G-5: no annotator is pinned by the registered "
-                         "card; this class has no rows and this level "
-                         "cannot launch."))
-            continue
+        keys, tier, rule, meta = _task_level_keys(task, level, labels_dir)
         for key in sorted(set(k for k in keys if k is not None)):
             specs.append(ClassSpec(class_id=f"{task}:{key}", task=task,
                                    tier=tier, rule=rule, key=key,
@@ -779,7 +1096,8 @@ def _level_class_specs(level: str) -> list[ClassSpec]:
 # ── Building a level (rows, floor, balancing, D6 subsample) ─────────
 
 
-def _attach_rows(specs: list[ClassSpec], level: str) -> dict:
+def _attach_rows(specs: list[ClassSpec], level: str,
+                 labels_dir: Path = LABELS_DIR) -> dict:
     """Attach raw row ids per class; returns per-task discard bookkeeping."""
     discards: dict[str, int] = {}
     by_task: dict[str, list[ClassSpec]] = {}
@@ -798,7 +1116,8 @@ def _attach_rows(specs: list[ClassSpec], level: str) -> dict:
         if level in ARMB_RUNGS:
             keys = _keys_squad(pool, int(level[1:]))
         else:
-            keys, _tier, _rule, _meta = _task_level_keys(task, level)
+            keys, _tier, _rule, _meta = _task_level_keys(task, level,
+                                                         labels_dir)
         keys_arr = np.array([k if k is not None else "" for k in keys],
                             dtype=object)
         n_discard = int(sum(1 for k in keys if k is None))
@@ -828,11 +1147,13 @@ def _balanced_n(specs: list[ClassSpec], policy: str) -> dict[str, int]:
     raise ValueError(f"unknown balance policy {policy!r}")
 
 
-def build_level(level: str, balance: str) -> dict:
+def build_level(level: str, balance: str,
+                labels_dir: Path = LABELS_DIR) -> dict:
     """Materialize one level: rows, floor check, balancing, D6 subsamples."""
-    specs = (_build_d7_specs() if level == "D7"
-             else _level_class_specs(level))
-    discards = _attach_rows(specs, level) if level != "D7" else {}
+    specs = (_build_d7_specs(labels_dir) if level == "D7"
+             else _level_class_specs(level, labels_dir))
+    discards = (_attach_rows(specs, level, labels_dir)
+                if level != "D7" else {})
 
     # Unbalanced training-pool size per class (G-9: floor is post-val).
     ineligible: list[dict] = []
@@ -1013,15 +1334,15 @@ def _balance_alternatives(specs: list[ClassSpec]) -> dict:
     return out
 
 
-def _build_d7_specs() -> list[ClassSpec]:
+def _build_d7_specs(labels_dir: Path = LABELS_DIR) -> list[ClassSpec]:
     """D7 MANDATORY: two disjoint halves of ONE L2 class's FULL pool (G-7).
 
     Choice rule (deterministic, recorded): the largest-pool T1-tier class of
     L2. Halves are taken from the class's full (unbalanced) training pool by a
     seeded split, so each half clears the D4 floor.
     """
-    l2 = _level_class_specs("L2")
-    _attach_rows(l2, "L2")
+    l2 = _level_class_specs("L2", labels_dir)
+    _attach_rows(l2, "L2", labels_dir)
     for s in l2:
         if s.materialized and s.row_ids is not None:
             s.n_class_rows = int(len(s.row_ids))
@@ -1148,7 +1469,81 @@ def render_report(built: dict[str, dict], balance: str) -> str:
                       "```", json.dumps(m["ineligible_classes"], indent=1),
                       "```", ""]
 
-    parts += ["## Ambiguities in the registered card (findings, not guesses)",
+    parts += [
+        "## The xsum axis: EDITORIAL SECTION (G-5 amendment, ACCEPTED "
+        "2026-08-05)", "",
+        "xsum's L2/L3 cells are **editorial section**, never \"topic\" "
+        "unqualified (Director condition (b), binding). The label is the BBC "
+        "desk that published the article: the HF `id` field is the BBC "
+        "article id, joined to the hash-pinned upstream URL table, "
+        "normalized by `xsum_url_to_section` and mapped by "
+        "`xsum_section_to_family`. No annotator, no model, no seed, no GPU.",
+        "",
+        typed_block([
+            ("axis", "editorial section (publication structure)"),
+            ("tier", "T2 — deterministic pure function of a native field "
+                     "plus a frozen external table"),
+            ("upstream", XSUM_UPSTREAM_FILE),
+            ("upstream_sha256", XSUM_UPSTREAM_SHA256),
+            ("upstream_rows", XSUM_UPSTREAM_ROWS),
+            ("frozen_map", XSUM_SECTION_MAP + " (committed in-tree)"),
+            ("join_coverage", "40000/40000 = 100.0000%"),
+            ("pre_merge_families", len(XSUM_MEASURED_PRE_MERGE)),
+            ("l3_families", len(XSUM_SECTION_L3_MERGE)),
+            ("l2_families", len(XSUM_L2_MERGE)),
+            ("l3_class_size_spread", "5.59x realized (9,750 sport / 1,744 "
+                                     "world-asia-pacific)"),
+        ]), "",
+        "**Why not an annotator.** Control 6.1 — the card's own bound on T3 "
+        "label noise — IS TF-IDF + linear SVM. Any TF-IDF-objective "
+        "annotator (LDA, TF-IDF k-means, NMF) would have D6 scoring labels "
+        "manufactured in D6's own feature space, making the label-noise "
+        "bound vacuous by construction. URL metadata has no model lineage "
+        "and no overlap with either D6's features or the llama3.2-1b weights "
+        "the ladder probes.", "",
+        "**Honest scope caveat, measured — not asserted.** This is a "
+        "publication-structure axis, and geography cross-cuts subject on the "
+        "BBC's desks. Counter-example verified in this build: bbc_id "
+        "`35720795`, a 22-year-old footballer's drink-driving ban and court "
+        "fine, is filed under `news/uk-scotland-glasgow-west` -> family "
+        "`uk-scotland`, **not** sport. The axis is substantially more "
+        "semantic than doc-length and different in kind from squad's entity "
+        "groups, which preserves the card's §9.3 format != topic != entity "
+        "heterogeneity design — but it is not a topic model and is never "
+        "reported as one.", "",
+        "**Spread (Director condition (d)).** The realized L3 class-size "
+        "spread is **5.59x** (9,750 / 1,744). It is not 5.7x: that figure "
+        "divided by world-americas (1,697), a class that does not exist at "
+        "L3 — after the two smallest world buckets merge (1,697 + 1,550 = "
+        "3,247 `world-rest`), the smallest realized L3 class is "
+        "world-asia-pacific at 1,744. Pre-merge spread against 1,550 would "
+        "be 6.29x.", "",
+        "**Clean-core consequence (Director condition (c)).** With the xsum "
+        "cells at T2, **every class at every level of the ladder is T1+T2**. "
+        "D3's RESTRICTED clause therefore has **no T3 cells — not testable "
+        "at any level**. This is NOT a statement that the clean-core "
+        "requirement \"passed\": there is nothing for the divergence rule to "
+        "bite on, which is a different fact and is reported as such "
+        "everywhere.", "",
+        "## G-2 taxonomy — two footnotes ADOPTED as pre-declared "
+        "(2026-08-05)", "",
+        "The alpaca verb taxonomy was APPROVED (dicts machine-compared "
+        "verbatim against this code). Two readings are declared **now, "
+        "before any L2/L3 number exists** — the only time they can be "
+        "declared without suspicion:", "",
+        "1. **`frame`/`other` kappa is a taxonomy artifact, not a "
+        "granularity finding.** The `frame` family is stopword-headed "
+        "framing phrasing, not an intent class; its L2 quarantine with the "
+        "residual (`framed_other`) is the correct containment. A low per-"
+        "class kappa on those L3 cells must not be read as a granularity "
+        "result.",
+        "2. **The British/American doublet is a seam between two families.** "
+        "`summarise` sits in `describe` and `summarize` in `transform`, "
+        "placing near-identical intents in different families. It is frozen, "
+        "reproducible and mirrors observed usage, but it is irreducible "
+        "label noise at that seam: any close L3 confusion between the "
+        "`describe` and `transform` cells is to be read with it in mind.", "",
+        "## Ambiguities in the registered card (findings, not guesses)",
               "",
               "Each was surfaced by this build and resolved as stated so the "
               "rest of the build could proceed. All nine were then converted "
@@ -1158,6 +1553,7 @@ def render_report(built: dict[str, dict], balance: str) -> str:
               "before the tier it affects fires.", ""]
     for a in AMBIGUITIES:
         parts += [f"### {a['id']} — {a['where']}", "",
+                  f"**Status.** {a['status']}", "",
                   f"**Question.** {a['question']}", "",
                   f"**Resolution applied.** {a['resolution']}", "",
                   "**Alternatives.** " + "; ".join(a["alternatives"]), "",
@@ -1179,8 +1575,10 @@ def render_report(built: dict[str, dict], balance: str) -> str:
               "JSON would quintuple it. Reversible by deleting one "
               "`.gitignore` line if the hub prefers the pools in-tree.", "",
               "## What this does NOT do", "",
-              "- No T3 annotation is performed (G-5): xsum's L2/L3 classes "
-              "carry no rows, so **L2 and L3 are not launchable**.",
+              "- No model annotation is performed anywhere in the ladder, "
+              "and none is needed: G-5 was resolved by retiring the "
+              "annotator (accepted amendment 2026-08-05), so every level is "
+              "T1+T2 and no cell depends on a model to define its label.",
               "- No adapter is trained and no GPU is touched.",
               "- L0 is analysis-side: it reuses the 240 existing llama "
               "adapters in `results/asset1-bank/llama3.2-1b/` and emits no "
@@ -1204,6 +1602,11 @@ def main(argv: list[str] | None = None) -> int:
                          "only policy consistent with the design's own §3 "
                          "pool-survival figures; see the G-1 register)")
     ap.add_argument("--out-dir", type=Path, default=LABELS_DIR)
+    ap.add_argument("--build-xsum-map", type=Path, default=None,
+                    metavar="UPSTREAM",
+                    help=f"build freeze artifact 1 ({XSUM_SECTION_MAP}) from "
+                         f"a local copy of {XSUM_UPSTREAM_FILE} (sha256 "
+                         f"pinned; refuses on mismatch), then exit")
     args = ap.parse_args(argv)
 
     out_dir = Path(args.out_dir)
@@ -1212,10 +1615,15 @@ def main(argv: list[str] | None = None) -> int:
                          f"Asset-1 bank tree.")
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    if args.build_xsum_map is not None:
+        info = build_xsum_section_map(args.build_xsum_map, out_dir)
+        print(f"[labels] xsum section map: {info}")
+        return 0
+
     built: dict[str, dict] = {}
     for level in [lv for lv in EMITTED_LEVELS if lv in args.levels]:
         print(f"[labels] building {level} ...", flush=True)
-        b = build_level(level, args.balance)
+        b = build_level(level, args.balance, out_dir)
         write_json(out_dir / f"{level}.json", b["manifest"], indent=1)
         write_json(out_dir / f"{level}_pools.json", b["pools"], indent=None)
         built[level] = b
@@ -1223,6 +1631,18 @@ def main(argv: list[str] | None = None) -> int:
         print(f"[labels] {level}: K={m['k_materialized']}/{m['k_declared']} "
               f"runs={m['n_runs']} launchable={m['launchable']}", flush=True)
 
+    # The report always covers EVERY emitted level, not only the levels
+    # rebuilt in this invocation: a surgical re-emit (e.g. --levels L2 L3
+    # under the G-5 freeze, with a campaign running on the frozen L1) must
+    # not silently truncate the report to the levels it touched.
+    for level in EMITTED_LEVELS:
+        if level in built:
+            continue
+        man_path = out_dir / f"{level}.json"
+        if man_path.exists():
+            built[level] = {"manifest": json.loads(
+                man_path.read_text(encoding="utf-8"))}
+    built = {lv: built[lv] for lv in EMITTED_LEVELS if lv in built}
     write_text(out_dir / "LABELS_REPORT.md", render_report(built, args.balance))
     print(f"[labels] wrote {len(built)} level manifests + LABELS_REPORT.md "
           f"to {out_dir}")
