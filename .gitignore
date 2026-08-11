@@ -208,3 +208,10 @@ paper/**/*.aux
 paper/**/*.out
 # D3 merge payloads (5.3 GB of merged-adapter evals; reports are tracked)
 results/asset1-d3/merges/
+
+# LAT-001 harness results (SPEC §0: "results write only under
+# lat001/results/"). Checkpoints, eval JSON/TXT, and the smoke report are run
+# artifacts, not source — the *.pt rule above already covered the checkpoints,
+# this covers everything else so a partial or superseded run can never be
+# committed as if it were the record (harness review 2026-08-11, B-2).
+lat001/results/
