@@ -18,6 +18,8 @@ import sys
 import time
 from pathlib import Path
 
+import gpu_guard  # gpu_guard retrofit 2026-08-11 (runner predates the arbiter)
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "results" / "s2-timing-pilots"
 PY = r"C:\miniconda3\envs\falco\python.exe"
@@ -53,6 +55,10 @@ def main():
                 print(f"[queue] skip {fam} run {k} (TIMING.md exists)",
                       flush=True)
                 continue
+            # Between EVERY run, in addition to the guard inside the pilot
+            # (house pattern, granularity_queue.py) — worst-case wait for
+            # another GPU user is one run.
+            gpu_guard.pause_gate()
             print(f"[queue] launching {fam} run {k}", flush=True)
             r = subprocess.run(
                 [PY, str(ROOT / "scripts" / "s2_timing_pilot.py"),
