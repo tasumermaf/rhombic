@@ -1,28 +1,28 @@
 {
   "asset": "asset1-bank",
   "campaign_tag": "granularity-L1",
-  "run_index": 10,
-  "replicate": 0,
+  "run_index": 42,
+  "replicate": 3,
   "family": "meta-llama/Llama-3.2-1B-Instruct",
   "family_short": "llama3.2-1b",
-  "task": "xsum",
-  "task_name": "summarization",
+  "task": "math",
+  "task_name": "math",
   "model": "meta-llama/Llama-3.2-1B-Instruct",
   "dataset": {
     "source": "<injected>",
-    "config_name": null,
+    "config_name": "main",
     "hf_split": "train",
     "split_design": "canonical shuffle = numpy RandomState(val_seed) permutation of the raw train split; val = first val_size canonical ids (identical across runs); train pool = next pool_cap canonical ids (fixed composition), order shuffled per-run by RandomState(data_seed); DataLoader epoch reshuffle uses torch.Generator(data_seed)",
     "val_seed": 777,
     "val_size": 500,
     "pool_cap": 40000,
-    "n_total_raw": 20013,
+    "n_total_raw": 3128,
     "n_val": 500,
-    "n_pool": 19513,
-    "val_ids_sha256": "858796e1f18288584d9d73ead9197397b765d574ccefabf9122085d17c9770b7"
+    "n_pool": 2628,
+    "val_ids_sha256": "bb165a5799161ffbf0dfc2ff139d58959b997576529a1ab6b92904845a33828a"
   },
-  "seed": 301010,
-  "data_seed": 311010,
+  "seed": 301042,
+  "data_seed": 311042,
   "steps": 2000,
   "lr": 0.0002,
   "lr_schedule": "linear warmup 100 steps + cosine to floor 0.1 (pilot train_task_fingerprint.py convention)",
@@ -53,7 +53,7 @@
   "loss": "LM loss ONLY (no Steersman / contrastive / spectral)",
   "label_convention": "labels = input_ids.clone() over the full padded sequence (pilot convention, kept for regime comparability)",
   "scale_note": "pilot bank was Qwen2.5-7B; this bank is 1.5B/1B per the locked experiment card \u2014 recorded scale change",
-  "git_commit": "0c6b60cf3170d8940114966ac4a8ebc38331c17c",
+  "git_commit": "24876ef9ba7d833469c6750da8f9641b669d9c56",
   "library_versions": {
     "python": "3.10.19",
     "numpy": "2.2.6",
@@ -63,7 +63,7 @@
     "datasets": "4.6.1",
     "gpu": "NVIDIA RTX 6000 Ada Generation"
   },
-  "started_at": "2026-08-05T00:55:22.023599+00:00",
-  "finished_at": "2026-08-05T01:27:11.047918+00:00",
-  "wall_time_seconds": 1909.0
+  "started_at": "2026-08-05T17:54:16.327267+00:00",
+  "finished_at": "2026-08-05T18:25:19.064674+00:00",
+  "wall_time_seconds": 1862.7
 }
