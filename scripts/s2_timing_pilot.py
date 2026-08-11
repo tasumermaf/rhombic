@@ -73,6 +73,7 @@ for _p in (str(SCRIPTS_DIR), str(REPO_ROOT)):
         sys.path.insert(0, _p)
 
 # The trainer and its locked constants — imported, never redeclared.
+import gpu_guard  # noqa: E402  (retrofit 2026-08-11: pilot predates the arbiter)
 import asset1_bank as ab  # noqa: E402
 from asset1_bank import (  # noqa: E402
     BATCH_SIZE,
@@ -107,6 +108,8 @@ FAMILIES: dict[str, dict] = {
         "draft_est_min_run": 79,
         "draft_reps": 20,
         "draft_runs": 120,
+        "guard_needed_gb": 15,      # MEASURED peak 14.07 GB (RATES.md)
+        "guard_expected_min": 76,   # MEASURED mean 75.51 min/run (RATES.md)
     },
     "qwen2.5-3b": {
         "model": "Qwen/Qwen2.5-3B-Instruct",
@@ -115,6 +118,8 @@ FAMILIES: dict[str, dict] = {
         "draft_est_min_run": 93,
         "draft_reps": 20,
         "draft_runs": 120,
+        "guard_needed_gb": 12,      # MEASURED peak 11.05 GB (RATES.md)
+        "guard_expected_min": 83,   # MEASURED mean 82.86 min/run (RATES.md)
     },
     "qwen2.5-7b": {
         "model": "Qwen/Qwen2.5-7B-Instruct",
@@ -123,6 +128,8 @@ FAMILIES: dict[str, dict] = {
         "draft_est_min_run": 230,
         "draft_reps": 10,
         "draft_runs": 60,
+        "guard_needed_gb": 21,      # MEASURED peak 20.30 GB (RATES.md)
+        "guard_expected_min": 154,  # MEASURED mean 153.01 min/run (RATES.md)
     },
     "llama3.1-8b": {
         "model": "meta-llama/Llama-3.1-8B-Instruct",
@@ -131,6 +138,11 @@ FAMILIES: dict[str, dict] = {
         "draft_est_min_run": 243,
         "draft_reps": 10,
         "draft_runs": 60,
+        "guard_needed_gb": 22,      # PROJECTED (unmeasured; 8.0B vs qwen-7b's
+                                    # 7.6B at 20.30 GB — replaced by the pilot's
+                                    # own measurement once it exists)
+        "guard_expected_min": 160,  # PROJECTED 159.20 from the affine fit
+                                    # (docs/S2_COST_RESTATEMENT_2026-08-04.md)
     },
 }
 
@@ -730,11 +742,21 @@ def execute(family_key: str, run_k: int, dry: bool, steps_override: int) -> int:
     print(f"out: {run.run_dir}")
     print(f"{'=' * 70}\n", flush=True)
 
+    # gpu_guard retrofit (2026-08-11): explicit calls rather than guarded()
+    # so any pause/preflight wait happens OUTSIDE the timed window —
+    # wall_clock_min is the rate basis and a guard wait inside it would
+    # corrupt the measurement.
+    gpu_guard.pause_gate()
+    gpu_guard.preflight(fam["guard_needed_gb"])
+    gpu_guard.claim(f"s2-timing-pilot {family_key} run_{run_k}",
+                    fam["guard_needed_gb"], fam["guard_expected_min"])
+
     t0 = time.monotonic()
     try:
         rc = run_single(spec, run)
     finally:
         restore()
+        gpu_guard.release()
     wall_run_s = time.monotonic() - t0
 
     peak_alloc_gb = peak_reserved_gb = None
