@@ -323,9 +323,17 @@ def main(argv: list[str] | None = None) -> int:
     # in the launching shell. Say what this process can see, so a detached
     # launch that will stall at the license gate stalls visibly.
     tok = any(os.environ.get(k) for k in ("HF_TOKEN", "HUGGING_FACE_HUB_TOKEN"))
+    offline = os.environ.get("HF_HUB_OFFLINE") == "1"
     log(f"env: HF token {'present' if tok else 'ABSENT'}; "
         f"HF_HUB_OFFLINE={os.environ.get('HF_HUB_OFFLINE', 'unset')}; "
         f"gates fired so far: {fired_gates() or 'none'}")
+    if not tok and not offline:
+        log("REFUSING to enqueue: no HF token is visible to this process and "
+            "HF_HUB_OFFLINE is not 1. A detached launch without either stalls "
+            "or fails at the gated-model license probe run after run (audit "
+            "D-18). Set $env:HF_TOKEN in the launching shell, or "
+            "$env:HF_HUB_OFFLINE = '1' when every weight and dataset is cached.")
+        return 1
 
     if not check_l0_rebaseline():
         log("REFUSING to enqueue: the L0 anchor cohort is not intact. The "
