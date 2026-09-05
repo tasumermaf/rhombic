@@ -32,21 +32,7 @@ Cross-reference with the Continental Attribution Table confirms these are Sacred
 
 | Value | Card | Inscription |
 |-------|------|-------------|
-| [withheld] | 15 | [withheld] |
-| [withheld] | 14 | [withheld] |
-| [withheld] | 5 | [withheld] |
-| [withheld] | 13 | [withheld] |
-| [withheld] | T | [withheld] |
-| [withheld] | 16 | [withheld] |
-| [withheld] | 21 | [withheld] |
-| [withheld] | 11 | [withheld] |
-| [withheld] | 18 | [withheld] |
-| [withheld] | 8 | [withheld] |
-| [withheld] | 20 | [withheld] |
-| [withheld] | 12 | [withheld] |
-| [withheld] | 10 | [withheld] |
-| [withheld] | 6 | [withheld] |
-| [withheld] | 0 | [withheld] |
+| [15 rows withheld — corpus boundary. The original table was sorted by value; card indices are withheld with the values because the row order alone disclosed a rank ordering of the set. Redacted 2026-09-05, third pass.] | | |
 
 This exposes 15 of 24 values (62.5% of the corpus). Combined with the statistical characterization (range, mean and std withheld) and the 8 tracked primes also listed in the paper, the remaining 9 values could plausibly be reverse-engineered.
 

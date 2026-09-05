@@ -62,7 +62,7 @@
 | 32 | Null mean = 6.06 ± 0.85 (Tab 3) | Raw: 6.06 ± 0.85 | VERIFIED |
 | 33 | p = 0.30 (Tab 3) | Raw: p = 0.2967 rounds to 0.30 | VERIFIED |
 | 34 | [withheld: corpus boundary] at tetravalent vertex, a multiple of 67 (L498-499) | divisibility by 67 confirmed | VERIFIED |
-| 35 | a tracked prime at a trivalent vertex matching the card-15 inscription value (L499-500) | [withheld: corpus boundary]; TRACKED_PRIMES membership confirmed | VERIFIED |
+| 35 | a tracked prime at a trivalent vertex matching one inscription value (card index withheld — corpus boundary, third pass 2026-09-05: with the public per-card prime matrix and the divisibility census, naming the card narrowed its value to two candidates) (L499-500) | [withheld: corpus boundary]; TRACKED_PRIMES membership confirmed | VERIFIED |
 | 36 | [withheld: corpus boundary] at degree-4 vertex adjacent to 67 (L500-501) | factorization and tetravalency confirmed | VERIFIED |
 | 37 | Prime-vertex scoring produces a NULL result (honest null) (L503-507) | p = 0.30 >> 0.05; correct interpretation | VERIFIED |
 

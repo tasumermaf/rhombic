@@ -147,31 +147,45 @@ def generate_figure5(save_path):
                        0.3350, 0.3936, 0.4711, 0.6054, 0.8545, 1.0617, 2.8073],
     }
     # The corpus spectrum is corpus-derived and loads from a gitignored private
-    # sidecar (rhombic/data/spectra_private.json); without it the figure shows
-    # the three public distributions. Corpus boundary, 2026-09-05.
+    # sidecar (rhombic/data/spectra_private.json). Without the sidecar, or
+    # whenever RHOMBIC_PUBLIC_FIGURES is set (the committed figure is rendered
+    # that way), the fourth panel is drawn as withheld: a rendered spectrum is
+    # readable to about two significant figures, and the committed PNG had
+    # carried it after the second pass. Corpus boundary, 2026-09-05.
     import json as _json
     from pathlib import Path as _Path
     _priv = _Path(__file__).resolve().parents[2] / 'rhombic' / 'data' / 'spectra_private.json'
-    if _priv.exists():
+    _public = bool(os.environ.get('RHOMBIC_PUBLIC_FIGURES'))
+    if _priv.exists() and not _public:
         spectra['Corpus'] = _json.loads(_priv.read_text(encoding='utf-8'))['rd_laplacian_normalised_corpus']
-    colors = ['grey', ACCENT_AZURE, ACCENT_ORANGE, FCC_COLOR][:len(spectra)]
-    distinct_counts = [6, 14, 14, 14][:len(spectra)]
+    colors = ['grey', ACCENT_AZURE, ACCENT_ORANGE, FCC_COLOR]
+    distinct_counts = [6, 14, 14, 14]
 
     fig, axes = plt.subplots(4, 1, figsize=(6.0, 6.0), sharex=True)
 
-    for ax, (name, spec), color, dc in zip(axes, spectra.items(), colors, distinct_counts):
-        markerline, stemlines, baseline = ax.stem(
-            range(len(spec)), spec, linefmt='-', markerfmt='o', basefmt=' ')
-        plt.setp(stemlines, color=color, linewidth=1.2)
-        plt.setp(markerline, color=color, markersize=4)
+    panels = list(spectra.items())
+    for i, ax in enumerate(axes):
+        color, dc = colors[i], distinct_counts[i]
         ax.set_ylabel('$\\lambda_i$', fontsize=9)
-        ax.set_title(f'{name} ({dc}/14 distinct)', fontsize=9,
-                     loc='left', pad=2)
         ax.set_ylim(-0.3, 7.5)
         ax.grid(True, alpha=0.15)
-        # Highlight Fiedler value
-        if len(spec) > 1:
-            ax.axhline(y=spec[1], color=color, linestyle=':', linewidth=0.6, alpha=0.5)
+        if i < len(panels):
+            name, spec = panels[i]
+            markerline, stemlines, baseline = ax.stem(
+                range(len(spec)), spec, linefmt='-', markerfmt='o', basefmt=' ')
+            plt.setp(stemlines, color=color, linewidth=1.2)
+            plt.setp(markerline, color=color, markersize=4)
+            ax.set_title(f'{name} ({dc}/14 distinct)', fontsize=9,
+                         loc='left', pad=2)
+            # Highlight Fiedler value
+            if len(spec) > 1:
+                ax.axhline(y=spec[1], color=color, linestyle=':', linewidth=0.6, alpha=0.5)
+        else:
+            # Corpus panel, withheld: the distinct count is public (RESULTS.md);
+            # the eigenvalues are not.
+            ax.set_title(f'Corpus ({dc}/14 distinct)', fontsize=9, loc='left', pad=2)
+            ax.text(6.5, 3.6, 'spectrum withheld at the corpus boundary',
+                    ha='center', va='center', fontsize=9, color=color)
 
     axes[-1].set_xlabel('Eigenvalue index')
     axes[-1].set_xticks(range(14))
