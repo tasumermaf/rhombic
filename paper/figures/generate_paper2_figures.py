@@ -145,11 +145,17 @@ def generate_figure5(save_path):
                      2.0701, 2.5610, 2.7517, 3.4269, 3.8069, 3.9805, 4.7654],
         'Power-law': [0.0, 0.1041, 0.1244, 0.1281, 0.1731, 0.2389, 0.2548,
                        0.3350, 0.3936, 0.4711, 0.6054, 0.8545, 1.0617, 2.8073],
-        'Corpus':  [0.0, 0.0863, 0.1228, 0.2081, 0.2918, 0.3852, 0.4447,
-                     0.5469, 0.5836, 0.8551, 0.9294, 0.9983, 1.8541, 2.7547],
     }
-    colors = ['grey', ACCENT_AZURE, ACCENT_ORANGE, FCC_COLOR]
-    distinct_counts = [6, 14, 14, 14]
+    # The corpus spectrum is corpus-derived and loads from a gitignored private
+    # sidecar (rhombic/data/spectra_private.json); without it the figure shows
+    # the three public distributions. Corpus boundary, 2026-09-05.
+    import json as _json
+    from pathlib import Path as _Path
+    _priv = _Path(__file__).resolve().parents[2] / 'rhombic' / 'data' / 'spectra_private.json'
+    if _priv.exists():
+        spectra['Corpus'] = _json.loads(_priv.read_text(encoding='utf-8'))['rd_laplacian_normalised_corpus']
+    colors = ['grey', ACCENT_AZURE, ACCENT_ORANGE, FCC_COLOR][:len(spectra)]
+    distinct_counts = [6, 14, 14, 14][:len(spectra)]
 
     fig, axes = plt.subplots(4, 1, figsize=(6.0, 6.0), sharex=True)
 
