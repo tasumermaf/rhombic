@@ -66,10 +66,14 @@ testpaths = ["tests"]
 # The sdist ships the library and its metadata only. Results, tests, papers,
 # scripts and research notes stay in the repository. (0.2.0 and 0.3.0 shipped
 # results/ and tests/ in the sdist; corrected 2026-09-05.)
+# Pin the core metadata version: hatchling 1.32 emits 2.5, which twine 6.2 /
+# packaging 25 reject at check time (2026-09-05). 2.4 is what 0.3.0 shipped.
 [tool.hatch.build.targets.sdist]
+core-metadata-version = "2.4"
 only-include = ["rhombic", "README.md", "LICENSE", "CHANGELOG.md", "pyproject.toml"]
 exclude = ["rhombic/data/*_private.json"]
 
 [tool.hatch.build.targets.wheel]
+core-metadata-version = "2.4"
 packages = ["rhombic"]
 exclude = ["rhombic/data/*_private.json"]
