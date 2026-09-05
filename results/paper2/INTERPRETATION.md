@@ -65,11 +65,11 @@ mapping maximizes coherence? The answer: exactly one mapping out of
 
 Five of eight primes have direct divisibility hits in their optimal
 vertex star:
-- 67 -> 134 = 2 x 67
-- 29 -> 435 = 15 x 29
-- 19 -> 133 = 7 x 19
-- 17 -> 136 = 8 x 17
-- 11 -> 55 = 5 x 11
+- 67 -> [withheld: corpus boundary] (a direct multiple of 67)
+- 29 -> [withheld: corpus boundary] (a direct multiple of 29)
+- 19 -> [withheld: corpus boundary] (a direct multiple of 19)
+- 17 -> [withheld: corpus boundary] (a direct multiple of 17)
+- 11 -> [withheld: corpus boundary] (a direct multiple of 11)
 
 The remaining three (23, 31, 89) score through cross-card arithmetic
 (sum/difference divisibility) and shared prime factors.

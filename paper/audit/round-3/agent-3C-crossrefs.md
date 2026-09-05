@@ -35,7 +35,7 @@
 | 3C-16 | Forward ref | INFO | NOTE | Paper 1 promises formal null model; neither Paper 2 nor 3 delivers one (Paper 3 limitations explicitly acknowledges this at line 1082-1085) |
 | 3C-17 | Forward ref | INFO | CLEAN | Paper 1 promises matched-count control for ANN index; not addressed in Papers 2/3 (reasonable -- different research direction) |
 | 3C-18 | Missing back-ref | MODERATE | FINDING | Paper 3 never cites Paper 2 (`bielec2026weights`), despite the series being sequential (1->2->3) and Paper 2's Future Work explicitly pointing to Paper 3 |
-| 3C-19 | Claim verification | INFO | CLEAN | Paper 2 Sec 1.2 describes corpus as "24 structured integers (range 18--1,296, mean 318.8, std 292.9)" -- internal consistency check; no Paper 1 claim to verify (Paper 1 does not publish these statistics) |
+| 3C-19 | Claim verification | INFO | CLEAN | Paper 2 Sec 1.2 describes corpus as "24 structured integers (range, mean and std withheld)" -- internal consistency check; no Paper 1 claim to verify (Paper 1 does not publish these statistics) |
 | 3C-20 | Bib metadata | INFO | CLEAN | All three bib entries for companion papers use consistent author name "Timothy Paul Bielec" and URL `https://github.com/tasumermaf/rhombic` |
 | 3C-21 | Version consistency | MINOR | FINDING | Paper 2 reports "v0.3.0, 256 tests" (line 955); Paper 3 reports "v0.3.0, 312 tests" (line 1161); these are inconsistent for the same version number |
 | 3C-22 | Claim verification | INFO | CLEAN | Paper 2 Table 7 summary: "Paper 1 = 2.55x, Paper 2 = 6.11x" Fiedler -- Paper 1 Table 1 at scale ~1000 shows 2.55x; Paper 2 Table 2 at scale 1000 corpus shows 6.11x |

@@ -491,7 +491,7 @@ The geometry is the argument. The numbers are the evidence.*
 # Demonstration values for the weighted extensions tab.
 # Synthetic weights sampled from a lognormal fit to the research corpus's
 # distributional character (high variance, heavy right tail), generated with
-# rejection sampling so that no value approximates any proprietary corpus
+# rejection sampling so that no value equals any proprietary corpus
 # value and the ordering carries no correspondence to the corpus
 # (seed 20260702; positional correlation 0.06). The demo illustrates how
 # heterogeneous weights interact with lattice topology; the specific numbers

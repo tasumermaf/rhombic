@@ -163,7 +163,7 @@ We use four edge-weight distributions throughout: \textbf{uniform}
 (all weights equal), \textbf{random} (uniform on $[0.1, 1.0]$),
 \textbf{power-law} (Zipf-like: $1/\text{rank}$), and
 \textbf{corpus}. The corpus distribution consists of 24 structured
-integers (range 18--1{,}296, mean 318.8, std 292.9) derived from a fixed transliteration protocol applied to a 24-element
+integers (range, mean and standard deviation withheld at the corpus boundary) derived from a fixed transliteration protocol applied to a 24-element
 symbolic inscription set. Eight primes (11, 17, 19, 23, 29, 31, 67, 89)
 recur as factors across the corpus values, giving the distribution
 non-trivial internal arithmetic structure. The corpus's provenance
@@ -659,11 +659,11 @@ all $8! = 40{,}320$ trials ($p \approx 1/40{,}320 = 2.5 \times 10^{-5}$).
 Five of eight primes have direct divisibility hits in their assigned
 vertex star:
 \begin{itemize}
-  \item $67 \to$ vertex 7: one edge $= 2 \times 67$
-  \item $29 \to$ vertex 0: one edge $= 15 \times 29$
-  \item $19 \to$ vertex 4: one edge $= 7 \times 19$
-  \item $17 \to$ vertex 3: one edge $= 8 \times 17$
-  \item $11 \to$ vertex 5: one edge $= 5 \times 11$
+  \item $67 \to$ vertex 7: one edge is a multiple of $67$
+  \item $29 \to$ vertex 0: one edge is a multiple of $29$
+  \item $19 \to$ vertex 4: one edge is a multiple of $19$
+  \item $17 \to$ vertex 3: one edge is a multiple of $17$
+  \item $11 \to$ vertex 5: one edge is a multiple of $11$
 \end{itemize}
 
 The identity mapping---the determined ordering from the source

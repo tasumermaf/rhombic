@@ -58,7 +58,7 @@ This exposes 15 of 24 values (62.5% of the corpus). Combined with the statistica
 
 - **Severity:** LOW (acceptable per MEMORY.md policy: "Statistical characterization may be published; specific values may not")
 - **Location:** Paper 2 (`rhombic-paper2.tex`), lines 166--167
-- **Content:** "24 structured integers (range 18--1,296, mean 318.8, std 292.9) derived from a fixed transliteration protocol applied to a 24-element symbolic inscription set. Eight primes (11, 17, 19, 23, 29, 31, 67, 89) recur as factors"
+- **Content:** "24 structured integers (range, mean and std withheld) derived from a fixed transliteration protocol applied to a 24-element symbolic inscription set. Eight primes (11, 17, 19, 23, 29, 31, 67, 89) recur as factors"
 - **Assessment:** This is explicitly permitted by the MEMORY.md IP policy. However, the combination of this characterization WITH the 15 explicit values from F-01-01 makes reconstruction of the full corpus trivial. Once F-01-01 is fixed, this passage is within policy.
 - **Action needed:** None, provided F-01-01 is resolved.
 

@@ -61,9 +61,9 @@
 | 31 | Optimal score = 7 (Tab 3) | Raw: 7.0 | VERIFIED |
 | 32 | Null mean = 6.06 ± 0.85 (Tab 3) | Raw: 6.06 ± 0.85 | VERIFIED |
 | 33 | p = 0.30 (Tab 3) | Raw: p = 0.2967 rounds to 0.30 | VERIFIED |
-| 34 | 134 = 2 × 67 at tetravalent vertex (L498-499) | 134 / 67 = 2 exactly | VERIFIED |
-| 35 | 29 at trivalent vertex matching DAJIBA∀ = 29 (L499-500) | TRACKED_PRIMES[4] = 29, DAJIBA∀ = 29 | VERIFIED |
-| 36 | 153 = 3 × 3 × 17 at degree-4 vertex adjacent to 67 (L500-501) | 153 = 9 × 17 = 3² × 17, confirmed tetravalent | VERIFIED |
+| 34 | [withheld: corpus boundary] at tetravalent vertex, a multiple of 67 (L498-499) | divisibility by 67 confirmed | VERIFIED |
+| 35 | a tracked prime at a trivalent vertex matching the card-15 inscription value (L499-500) | [withheld: corpus boundary]; TRACKED_PRIMES membership confirmed | VERIFIED |
+| 36 | [withheld: corpus boundary] at degree-4 vertex adjacent to 67 (L500-501) | factorization and tetravalency confirmed | VERIFIED |
 | 37 | Prime-vertex scoring produces a NULL result (honest null) (L503-507) | p = 0.30 >> 0.05; correct interpretation | VERIFIED |
 
 ### Section 3 — Experiment 4: Spectral Analysis (Single Cell)
