@@ -17,9 +17,19 @@ This queue implements the first two rungs and STOPS:
     anchor, per D5/D10).
   * **L1 is enqueued** — 240 runs, 12 classes x 20 seeds.
   * **Everything after L1 is GATED** and this queue refuses to enqueue it.
-    Arm B, L2, L3 and D7 fire only when their tier gate fires, and L2/L3 are
-    additionally blocked by ambiguity G-5 (no T3 annotator is pinned, so
-    xsum's classes are unmaterialized and K would not be 24 / 48).
+    Arm B, L2, L3 and D7 fire only when the PREVIOUS tier's gate has been
+    recorded by the analysis side in `results/granularity/TIER_GATES.json`
+    (`granularity_analysis.record_gate`). The queue enforces that order on
+    the training side too (`training_interlock`, added 2026-09-05 per audit
+    action A18): a level whose predecessor tier has not fired is refused
+    before any run launches. Ambiguity G-5 (the T3 annotator) was RESOLVED
+    2026-08-05 by dated amendment — xsum moved T3 -> T2 — so L2/L3 are
+    launchable by their manifests and blocked only by tier order.
+  * **Rate.** The GPU-day projection uses the mean `wall_clock_min` of this
+    level's COMPLETE runs (their TIMING.md), over the PENDING remainder only;
+    with no completed run it falls back to the card basis (30.56 min, llama
+    n=240, RATE_EXTRACT.md) and says so. A literal 30.56 over the full plan
+    (the 2026-08-04 version) overstated the remaining work.
 
 Discipline (the house pattern, `scripts/s2_queue_runner.py`):
   - sequential by construction; one run per fresh subprocess
@@ -157,20 +167,92 @@ def launch(level: str, run_k: int) -> int:
     return r.returncode
 
 
+CARD_RATE_BASIS_MIN = 30.56   # llama3.2-1b, n=240, results/asset1-bank/RATE_EXTRACT.md
+GATES_FILE = OUT_ROOT / "TIER_GATES.json"   # written by granularity_analysis.record_gate
+ARMB_RUNGS = ("B2", "B4", "B8", "B16")
+
+
+def tier_of(level: str) -> str:
+    return "ARMB" if level in ARMB_RUNGS else level
+
+
+def fired_gates() -> list[str]:
+    """Tiers whose gate the analysis side has recorded (same file it writes)."""
+    if not GATES_FILE.exists():
+        return []
+    try:
+        data = json.loads(GATES_FILE.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as e:
+        log(f"TIER_GATES.json unreadable ({e}); treating as no gates fired")
+        return []
+    if isinstance(data, dict):
+        return [t for t, v in data.items() if v]
+    return [str(t) for t in data]
+
+
+def training_interlock(level: str) -> list[str]:
+    """Tiers that must have FIRED before this level may train. Empty = clear.
+
+    Frozen order L0 -> L1 -> ARMB -> L2 -> L3 -> D7. L0 is analysis-side (its
+    gate is the re-baseline, `granularity_analysis.py --level L0`) and gates
+    L1's ANALYSIS via `require_tier_order`, not L1's training — the cohort
+    check in `check_l0_rebaseline` is the training-side condition for L1.
+    Every later tier trains only after its predecessor's gate is recorded.
+    """
+    tier = tier_of(level)
+    idx = TIER_ORDER.index(tier)
+    required = [t for t in TIER_ORDER[1:idx]]      # training tiers before this one
+    return [t for t in required if t not in fired_gates()]
+
+
+def measured_rate_min(level: str, plan: list[dict]) -> tuple[float, str]:
+    """Mean wall_clock_min over this level's COMPLETE runs, else the card basis."""
+    vals = []
+    for e in plan:
+        d = run_dir_for(level, e["run_k"])
+        if not (d / "COMPLETE").exists():
+            continue
+        try:
+            for ln in (d / "TIMING.md").read_text(encoding="utf-8").split("\n"):
+                if ln.startswith("wall_clock_min"):
+                    vals.append(float(ln.split("=", 1)[1].strip()))
+                    break
+        except (OSError, ValueError):
+            continue
+    if vals:
+        return sum(vals) / len(vals), f"measured, mean of {len(vals)} COMPLETE runs"
+    return CARD_RATE_BASIS_MIN, "card basis (no completed run yet)"
+
+
 def drain_level(level: str) -> bool:
     """Run every pending run of a level. Returns False if the queue stopped."""
+    missing = training_interlock(level)
+    if missing:
+        log(f"{level} REFUSED by the tier-order interlock: predecessor tier(s) "
+            f"{missing} have no recorded gate in {GATES_FILE}. Frozen order "
+            f"{' -> '.join(TIER_ORDER)}; run the predecessor's analysis first.")
+        return True
     manifest, _pools = load_level(level)
     if not manifest["launchable"]:
         log(f"{level} REFUSED: {'; '.join(manifest['launch_blocked_by'])}")
         return True
     plan = plan_runs(level, manifest)
+    pending = [e for e in plan if run_state(level, e["run_k"]) != "COMPLETE"]
+    rate, basis = measured_rate_min(level, plan)
     log(f"{level}: {len(live_classes(manifest))} classes x "
-        f"{manifest['seeds_per_class']} seeds = {len(plan)} runs "
-        f"(projected {len(plan) * 30.56 / 60 / 24:.3f} GPU-days at the "
-        f"measured llama basis)")
+        f"{manifest['seeds_per_class']} seeds = {len(plan)} runs; "
+        f"{len(plan) - len(pending)} COMPLETE, {len(pending)} remaining "
+        f"(projected {len(pending) * rate / 60 / 24:.3f} GPU-days at "
+        f"{rate:.2f} min/run, {basis})")
     write_state(level, plan)
 
-    # Wait out anything a prior detached launch left training.
+    # Wait out anything a prior detached launch left training. A bare run
+    # directory with no live process waits forever by design (nobody kills
+    # another instance's process): the operator removes or marks it.
+    stale = [e["run_k"] for e in plan if run_state(level, e["run_k"]) == "IN_PROGRESS"]
+    if stale:
+        log(f"{level} IN_PROGRESS at start: runs {stale} — waiting; if no "
+            f"training process is alive, mark FAILED or remove the directory")
     for e in plan:
         while run_state(level, e["run_k"]) == "IN_PROGRESS":
             log(f"waiting on in-progress {level} run {e['run_k']}")
@@ -237,6 +319,13 @@ def main(argv: list[str] | None = None) -> int:
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     log(f"QUEUE_START tier_order={' -> '.join(TIER_ORDER)} "
         f"levels={args.levels} py={PY}")
+    # Relaunch hazard D-18 (audit 2026-09-01): the gated-repo token lives only
+    # in the launching shell. Say what this process can see, so a detached
+    # launch that will stall at the license gate stalls visibly.
+    tok = any(os.environ.get(k) for k in ("HF_TOKEN", "HUGGING_FACE_HUB_TOKEN"))
+    log(f"env: HF token {'present' if tok else 'ABSENT'}; "
+        f"HF_HUB_OFFLINE={os.environ.get('HF_HUB_OFFLINE', 'unset')}; "
+        f"gates fired so far: {fired_gates() or 'none'}")
 
     if not check_l0_rebaseline():
         log("REFUSING to enqueue: the L0 anchor cohort is not intact. The "
@@ -249,9 +338,9 @@ def main(argv: list[str] | None = None) -> int:
             return 1
 
     log(f"QUEUE_END stopped=false — enqueued levels done. NEXT TIERS ARE "
-        f"GATED: {' | '.join(GATED_LEVELS)}. Arm B needs its tier gate; "
-        f"L2/L3 need ambiguity G-5 resolved (T3 annotator) by dated "
-        f"amendment before their label spaces reach K=24 / K=48.")
+        f"GATED: {' | '.join(GATED_LEVELS)}. Each fires only after its "
+        f"predecessor's gate is recorded in {GATES_FILE.name} by the analysis "
+        f"side (frozen order {' -> '.join(TIER_ORDER)}).")
     return 0
 
 
