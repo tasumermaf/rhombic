@@ -4,6 +4,29 @@
 > immediately below. The March body beneath it is preserved as the
 > historical record (bracketed annotations mark superseded claims).
 
+## 2026-09 Update — the granularity ladder (dated edit, 2026-09-05)
+
+The granularity ladder had no row in either tracker (found by the
+2026-09-05 relaunch-readiness read). Registered card
+`docs/REGISTRATION_GRANULARITY_2026-07-30.md`, LOCKED
+`docs/LOCK_GRANULARITY_2026-08-04.md`; queue `scripts/granularity_queue.py`;
+analysis `scripts/granularity_analysis.py`; live ledger
+`results/granularity/QUEUE_STATE.md` (rewritten by the queue after every run).
+
+| Tier | Runs | Status (2026-09-05) | Gate / note |
+|------|------|---------------------|-------------|
+| L0 re-baseline | 0 new (Asset-1 llama cohort, 240) | analysis-side; NOT YET RUN (exploratory CPU dry run 2026-09-05, no gate stamped) | kappa + D6 on the anchor; gates L1's ANALYSIS |
+| L1 | 240 (12 classes x 20 seeds) | 64 COMPLETE / 176 pending; PAUSED since 2026-08-11 (PI sentinel) | 31.92 min/run measured; 3.901 GPU-days remaining; relaunch = queue relaunch after the PI lifts the pause |
+| Arm B (B2 B4 B8 B16) | 144 | GATED — fires after L1's gate is recorded | training-side interlock added 2026-09-05 (A18) |
+| L2 | 240 | GATED (launchable since G-5 resolved 2026-08-05) | after ARMB's gate |
+| L3 | 240 | GATED | after L2's gate |
+| D7 | 10 | GATED | after L3's gate |
+
+Representations per level: raw, canonical, vocab_signature (both kv modes;
+the third was registered in the design and wired into the analysis on
+2026-09-05, rhombic 53be598). Whole ladder: 874 runs, 810 remaining,
+17.955 GPU-days projected at the measured rate.
+
 ## 2026-07 Sprint Update (dated edit, 2026-07-08)
 
 The July 2–7 relaunch put the program under external referee review (the
