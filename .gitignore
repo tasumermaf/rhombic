@@ -215,3 +215,7 @@ results/asset1-d3/merges/
 # this covers everything else so a partial or superseded run can never be
 # committed as if it were the record (harness review 2026-08-11, B-2).
 lat001/results/
+
+# Corpus-derived private sidecars and private tests (never commit) — 2026-09-05
+rhombic/data/*_private.json
+tests/test_corpus_private.py

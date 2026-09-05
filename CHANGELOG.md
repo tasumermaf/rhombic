@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2026-09-05
+
+### Changed
+
+- **Package contents.** The sdist now ships only the `rhombic` package and its
+  metadata. Versions 0.2.0 and 0.3.0 included `results/`, `tests/` and `paper/`
+  in the sdist; those releases are withdrawn.
+- **Corpus boundary.** Corpus-derived data that a few scripts and result
+  artifacts carried inline now loads from gitignored private files, matching
+  the existing `rhombic.corpus` gating. The library's public behaviour is
+  unchanged; `corpus_available()` is still `False` outside the private
+  environment and every public code path works without it.
+
 ## [0.3.0] - 2026-03-05
 
 ### Added

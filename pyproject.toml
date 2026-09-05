@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "rhombic"
-version = "0.3.0"
+version = "0.3.1"
 description = "Lattice topology benchmarks: what happens when you replace the cube"
 readme = "README.md"
 license = "MPL-2.0"
@@ -62,3 +62,14 @@ Changelog = "https://github.com/tasumermaf/rhombic/blob/main/CHANGELOG.md"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+# The sdist ships the library and its metadata only. Results, tests, papers,
+# scripts and research notes stay in the repository. (0.2.0 and 0.3.0 shipped
+# results/ and tests/ in the sdist; corrected 2026-09-05.)
+[tool.hatch.build.targets.sdist]
+only-include = ["rhombic", "README.md", "LICENSE", "CHANGELOG.md", "pyproject.toml"]
+exclude = ["rhombic/data/*_private.json"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["rhombic"]
+exclude = ["rhombic/data/*_private.json"]
