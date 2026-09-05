@@ -28,6 +28,12 @@ WHAT THIS SCRIPT IS: the design's §5, run per level, on the SAME machinery
       * **Parent-collapsed accuracy** (§5.4) — the fine confusion matrix
         collapsed onto the six parent tasks.
       * **Ceiling** (D5): LOO acc >= 0.99.
+      * **Three representations** (design §5): raw, canonical, and — wired
+        2026-09-05 after the relaunch-readiness read found it registered
+        but unimplemented — vocab_signature in both kv modes (zero_pad
+        primary, exclude secondary), through the same D1 arm #3 code path
+        and null-stream indices. `--representation both` reproduces the
+        pre-2026-09-05 two-representation run.
 
 TWO INTERLOCKS, both refusals rather than warnings:
     1. COMPLETENESS — a level is analyzable only when every planned run
@@ -71,6 +77,7 @@ os.environ.setdefault("HF_DATASETS_CACHE", r"C:\falco\hf-cache\datasets")
 
 import asset1_analysis_io as aio  # noqa: E402
 import asset1_d1_identifiability as d1  # noqa: E402
+import asset1_vocab_signature as vs  # noqa: E402  (arm #3, wired 2026-09-05)
 from asset1_bank import MAX_LEN, git_commit_hash, utc_now  # noqa: E402
 from asset1_datasets import (  # noqa: E402
     POOL_CAP, TASK_REGISTRY, VAL_SEED, load_hf_dataset_with_fallback)
@@ -119,7 +126,43 @@ LEVEL_TIER = {"L0": "L0", "L1": "L1",
               "B2": "ARMB", "B4": "ARMB", "B8": "ARMB", "B16": "ARMB",
               "L2": "L2", "L3": "L3", "D7": "D7"}
 
-REPRESENTATIONS = ("raw", "canonical")
+REPRESENTATIONS = ("raw", "canonical", "vocab_signature")
+# The registered design (DESIGN_GRANULARITY_BRIDGE_2026-07-21.md §5, "per
+# representation (raw, canonical, vocab_signature [both kv modes])") names
+# three representations; until 2026-09-05 this script implemented two
+# (audit 2026-09-01 / relaunch readiness step 4). The vocab arm now runs
+# exactly as D1 arm #3 does: one VocabReadout per family, expanded into its
+# two kv_mode variants with their reserved null-stream indices (d1
+# _REP_STREAM_INDEX 2 and 3). zero_pad is the pinned primary; exclude is the
+# secondary (Director condition 2026-07-07).
+VOCAB_ARMS = (("vocab_signature", "zero_pad"),
+              ("vocab_signature_kv_exclude", "exclude"))
+
+
+def expand_reps(representations: tuple[str, ...]) -> list[tuple[str, str, str | None]]:
+    """(output key, d1 representation, kv_mode) per analysis cell."""
+    out: list[tuple[str, str, str | None]] = []
+    for rep in representations:
+        if rep == "vocab_signature":
+            out += [(key, "vocab_signature", kv) for key, kv in VOCAB_ARMS]
+        else:
+            out.append((rep, rep, None))
+    return out
+
+
+def build_vocab_readout() -> tuple[object, dict]:
+    """One frozen-model output readout for the level's (single) family,
+    built exactly as asset1_d1_identifiability does for arm #3."""
+    info = vs.load_unembedding(FAMILY["model"])
+    readout = vs.VocabReadout(info["W_U"], info["norm_g"],
+                              sketch_dim=vs.SKETCH_DIM,
+                              sketch_seed=vs.DEFAULT_SEED,
+                              vocab_chunk=vs.VOCAB_CHUNK)
+    meta = {k: info[k] for k in ("vocab_size", "d_model", "loaded_keys",
+                                 "files_opened", "tied_embeddings_fallback",
+                                 "snapshot") if k in info}
+    meta["model_id"] = FAMILY["model"]
+    return readout, meta
 
 
 # ── Small math the rulings add on top of d1 ─────────────────────────
@@ -292,19 +335,32 @@ def analyze_label_space(records: list[dict], y: np.ndarray,
                         n_permutations: int, seed: int, level_index: int,
                         svm_c: float = SVM_C, chunk_rows: int = 8,
                         proj_dim: int = 16, proj_seed: int = 0,
-                        label: str = "") -> dict:
+                        label: str = "", key: str | None = None,
+                        vocab_readout=None, kv_mode: str | None = None) -> dict:
     """One (label space, representation) cell: d1's H1 pipeline + the
-    ladder's kappa / D10 / parent-collapse additions."""
+    ladder's kappa / D10 / parent-collapse additions. `key` names the
+    output cell (defaults to the representation); the vocab arm passes
+    key='vocab_signature' / 'vocab_signature_kv_exclude' with its readout
+    and kv_mode, and draws the null stream reserved for that key."""
+    key = key or representation
     classes = np.arange(len(class_ids))
     scratch_dir.mkdir(parents=True, exist_ok=True)
-    scratch = scratch_dir / f"features_{representation}_{label or 'x'}.dat"
+    scratch = scratch_dir / f"features_{key}_{label or 'x'}.dat"
+    extra = {}
+    if representation == "vocab_signature":
+        if vocab_readout is None:
+            raise ValueError("vocab_signature cell requires a vocab_readout")
+        extra = {"vocab_readout": vocab_readout,
+                 "kv_mode": kv_mode or vs.KV_MODE}
     res = d1.analyze_family(
         records, y, classes, class_ids, representation, scratch,
         n_permutations=n_permutations, seed=seed,
         family_index=level_index,
-        rep_index=d1._REP_STREAM_INDEX[representation],
+        rep_index=d1._REP_STREAM_INDEX[key],
         chunk_rows=chunk_rows, svm_c=svm_c, proj_dim=proj_dim,
-        proj_seed=proj_seed, label=label or representation)
+        proj_seed=proj_seed, label=label or key, **extra)
+    res["representation"] = representation
+    res["kv_mode"] = kv_mode
 
     cm = np.asarray(res["confusion_matrix"]["rows_true_cols_pred"])
     kappa = cohens_kappa(cm)
@@ -486,13 +542,22 @@ def analyze_level(level: str, out_dir: Path, *, n_permutations: int,
         "clean_core": {},
     }
 
-    for rep in representations:
-        print(f"[gran-analysis] {level} / {rep}: all classes "
+    cells = expand_reps(representations)
+    vocab_readout = None
+    if any(rep == "vocab_signature" for _, rep, _ in cells):
+        vocab_readout, results["vocabsig_readout"] = build_vocab_readout()
+        print(f"[gran-analysis] {level}: vocab readout loaded "
+              f"({results['vocabsig_readout'].get('vocab_size')} x "
+              f"{results['vocabsig_readout'].get('d_model')})", flush=True)
+
+    for key, rep, kv in cells:
+        print(f"[gran-analysis] {level} / {key}: all classes "
               f"(K={len(class_ids)}, n={len(records)})", flush=True)
-        results["all_classes"][rep] = analyze_label_space(
+        results["all_classes"][key] = analyze_label_space(
             records, y, class_ids, parents, scratch_dir=scratch,
             representation=rep, n_permutations=n_permutations, seed=seed,
-            level_index=level_index, label=f"{level}-all-{rep}")
+            level_index=level_index, label=f"{level}-all-{key}", key=key,
+            vocab_readout=vocab_readout, kv_mode=kv)
 
     if 0 < len(clean_idx) < len(class_ids):
         keep = {i for i in clean_idx}
@@ -502,13 +567,14 @@ def analyze_level(level: str, out_dir: Path, *, n_permutations: int,
                          dtype=np.int64)
         sub_ids = [class_ids[i] for i in clean_idx]
         sub_parents = [parents[i] for i in clean_idx]
-        for rep in representations:
-            print(f"[gran-analysis] {level} / {rep}: clean core "
+        for key, rep, kv in cells:
+            print(f"[gran-analysis] {level} / {key}: clean core "
                   f"(K={len(sub_ids)}, n={len(sub_records)})", flush=True)
-            results["clean_core"][rep] = analyze_label_space(
+            results["clean_core"][key] = analyze_label_space(
                 sub_records, sub_y, sub_ids, sub_parents, scratch_dir=scratch,
                 representation=rep, n_permutations=n_permutations, seed=seed,
-                level_index=level_index, label=f"{level}-clean-{rep}")
+                level_index=level_index, label=f"{level}-clean-{key}", key=key,
+                vocab_readout=vocab_readout, kv_mode=kv)
         results["clean_core_note"] = (
             f"K={len(sub_ids)} of {len(class_ids)} classes are T1+T2.")
     else:
@@ -848,8 +914,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out-dir", type=Path, default=ANALYSIS_ROOT)
     ap.add_argument("--n-permutations", type=int, default=N_PERMUTATIONS)
     ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--representation", default="both",
-                    choices=["raw", "canonical", "both"])
+    ap.add_argument("--representation", default="all",
+                    choices=["raw", "canonical", "vocab_signature", "both",
+                             "all"],
+                    help="'all' = the three registered representations "
+                         "(vocab_signature runs both kv modes); 'both' = "
+                         "raw + canonical, the pre-2026-09-05 default")
     ap.add_argument("--allow-partial", action="store_true",
                     help="EXPLORATORY ONLY — analyze an incomplete level")
     ap.add_argument("--force-tier-order", action="store_true",
@@ -878,8 +948,9 @@ def main(argv: list[str] | None = None) -> int:
     if not args.level:
         ap.error("one of --level, --curve, --selftest is required")
 
-    reps = (("raw", "canonical") if args.representation == "both"
-            else (args.representation,))
+    reps = {"both": ("raw", "canonical"),
+            "all": REPRESENTATIONS}.get(args.representation,
+                                        (args.representation,))
     r = analyze_level(args.level, out_dir, n_permutations=args.n_permutations,
                       seed=args.seed, representations=reps,
                       allow_partial=args.allow_partial,
