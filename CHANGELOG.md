@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the existing `rhombic.corpus` gating. The library's public behaviour is
   unchanged; `corpus_available()` is still `False` outside the private
   environment and every public code path works without it.
+- **Corpus boundary, third pass** (same day, after a fresh-context
+  verification of the second). The committed spectral figure for Paper 2 is
+  now rendered with its corpus panel withheld (`RHOMBIC_PUBLIC_FIGURES=1`), and
+  two audit records lost residual card-index bindings that survived the
+  earlier redactions. No library code changed.
 
 ## [0.3.0] - 2026-03-05
 
