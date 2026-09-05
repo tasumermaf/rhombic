@@ -1,0 +1,1009 @@
+{
+ "analysis": "granularity ladder \u2014 per-level label separability",
+ "level": "L0",
+ "generated_by": "scripts/granularity_analysis.py",
+ "card": [
+  "docs/REGISTRATION_GRANULARITY_2026-07-30.md",
+  "docs/LOCK_GRANULARITY_2026-08-04.md"
+ ],
+ "git_commit": "d46c0822aa8504b42a76894f2313a85f5a54dd95",
+ "generated_at": "2026-09-05T21:23:38.482615+00:00",
+ "family": "meta-llama/Llama-3.2-1B-Instruct",
+ "scope_limit": "llama3.2-1b only (D1 APPROVED) \u2014 this scope limit belongs in every claim derived from this file.",
+ "k": 6,
+ "n_runs": 240,
+ "chance": 0.16666666666666666,
+ "classes": [
+  "agnews",
+  "alpaca",
+  "code",
+  "math",
+  "squad",
+  "xsum"
+ ],
+ "class_parents": [
+  "agnews",
+  "alpaca",
+  "code",
+  "math",
+  "squad",
+  "xsum"
+ ],
+ "clean_core_classes": [
+  "agnews",
+  "alpaca",
+  "code",
+  "math",
+  "squad",
+  "xsum"
+ ],
+ "level_manifest": {
+  "kind": "analysis-side",
+  "seeds_per_class": 40,
+  "balance_policy": "n/a (existing bank adapters)",
+  "k_materialized": 6,
+  "k_declared": null,
+  "note": "L0 anchor \u2014 the existing llama3.2-1b cohort of the Asset-1 bank; no new training (design \u00a72).",
+  "source": "C:\\Falco\\rhombic\\results\\asset1-bank"
+ },
+ "parameters": {
+  "n_permutations": 1000,
+  "seed": 0,
+  "svm_c": 1.0,
+  "representations": [
+   "raw",
+   "canonical",
+   "vocab_signature"
+  ],
+  "permutation_stream": "default_rng([seed, level_index, rep_index]) \u2014 rep_index is d1's fixed map, so a level's null stream does not depend on which representations ran alongside"
+ },
+ "locks": {
+  "d10": "acc > 1.5 x chance(K) AND perm p < 0.01 AND kappa >= 0.40 (D10, Director-set at registration 2026-07-30 \u2014 set before any level was analyzed so it cannot be tuned to a result)",
+  "d5_ceiling": 0.99,
+  "d3_clean_core": "clean-core (T1+T2) reported alongside all-classes at every level; on material divergence the clean-core curve is the claim and all-classes is descriptive"
+ },
+ "allow_partial": true,
+ "exploratory_only": true,
+ "all_classes": {
+  "raw": {
+   "n_runs": 240,
+   "feature_dim": 5114112,
+   "loo_accuracy": 0.1375,
+   "per_class_recall": {
+    "agnews": 0.0,
+    "alpaca": 0.425,
+    "code": 0.4,
+    "math": 0.0,
+    "squad": 0.0,
+    "xsum": 0.0
+   },
+   "macro_f1": 0.07135571784096935,
+   "confusion_matrix": {
+    "rows_true_cols_pred": [
+     [
+      0,
+      27,
+      13,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      17,
+      23,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      24,
+      16,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      28,
+      12,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      25,
+      15,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      32,
+      8,
+      0,
+      0,
+      0
+     ]
+    ],
+    "task_order": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ]
+   },
+   "wilson_ci_95": [
+    0.09961114421666346,
+    0.18681044774096672
+   ],
+   "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+   "permutation": {
+    "n_permutations": 1000,
+    "null_mean": 0.05753333333333333,
+    "null_max": 0.1375,
+    "null_p99": 0.1,
+    "p_value": 0.001998001998001998
+   },
+   "h1_lock": {
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy_exceeds_threshold": false,
+    "p_threshold": 0.01,
+    "p_below_threshold": true,
+    "pass": false
+   },
+   "heterogeneity_guard": {
+    "per_task_mean_within_class_distance": {
+     "agnews": 40.366887585645365,
+     "alpaca": 38.51195423499378,
+     "code": 38.75263512232189,
+     "math": 42.72217081929376,
+     "squad": 41.006967088153935,
+     "xsum": 42.23771572774597
+    },
+    "ratio_max_over_min": 1.1093223303759117,
+    "trigger_threshold": 3.7,
+    "triggered": false
+   },
+   "per_module_loo_accuracy": {
+    "model_layers_0_self_attn_k_proj": 0.3416666666666667,
+    "model_layers_0_self_attn_o_proj": 0.25416666666666665,
+    "model_layers_0_self_attn_q_proj": 0.3375,
+    "model_layers_0_self_attn_v_proj": 0.2125,
+    "model_layers_10_self_attn_k_proj": 0.30833333333333335,
+    "model_layers_10_self_attn_o_proj": 0.2625,
+    "model_layers_10_self_attn_q_proj": 0.35,
+    "model_layers_10_self_attn_v_proj": 0.2833333333333333,
+    "model_layers_11_self_attn_k_proj": 0.2916666666666667,
+    "model_layers_11_self_attn_o_proj": 0.37083333333333335,
+    "model_layers_11_self_attn_q_proj": 0.36666666666666664,
+    "model_layers_11_self_attn_v_proj": 0.31666666666666665,
+    "model_layers_12_self_attn_k_proj": 0.3458333333333333,
+    "model_layers_12_self_attn_o_proj": 0.2791666666666667,
+    "model_layers_12_self_attn_q_proj": 0.3416666666666667,
+    "model_layers_12_self_attn_v_proj": 0.3,
+    "model_layers_13_self_attn_k_proj": 0.4041666666666667,
+    "model_layers_13_self_attn_o_proj": 0.31666666666666665,
+    "model_layers_13_self_attn_q_proj": 0.3416666666666667,
+    "model_layers_13_self_attn_v_proj": 0.275,
+    "model_layers_14_self_attn_k_proj": 0.4125,
+    "model_layers_14_self_attn_o_proj": 0.2375,
+    "model_layers_14_self_attn_q_proj": 0.2916666666666667,
+    "model_layers_14_self_attn_v_proj": 0.35,
+    "model_layers_15_self_attn_k_proj": 0.325,
+    "model_layers_15_self_attn_o_proj": 0.2375,
+    "model_layers_15_self_attn_q_proj": 0.35833333333333334,
+    "model_layers_15_self_attn_v_proj": 0.3541666666666667,
+    "model_layers_1_self_attn_k_proj": 0.31666666666666665,
+    "model_layers_1_self_attn_o_proj": 0.2916666666666667,
+    "model_layers_1_self_attn_q_proj": 0.2916666666666667,
+    "model_layers_1_self_attn_v_proj": 0.30416666666666664,
+    "model_layers_2_self_attn_k_proj": 0.325,
+    "model_layers_2_self_attn_o_proj": 0.24583333333333332,
+    "model_layers_2_self_attn_q_proj": 0.3,
+    "model_layers_2_self_attn_v_proj": 0.275,
+    "model_layers_3_self_attn_k_proj": 0.3375,
+    "model_layers_3_self_attn_o_proj": 0.2708333333333333,
+    "model_layers_3_self_attn_q_proj": 0.3375,
+    "model_layers_3_self_attn_v_proj": 0.32083333333333336,
+    "model_layers_4_self_attn_k_proj": 0.3625,
+    "model_layers_4_self_attn_o_proj": 0.2708333333333333,
+    "model_layers_4_self_attn_q_proj": 0.3541666666666667,
+    "model_layers_4_self_attn_v_proj": 0.30416666666666664,
+    "model_layers_5_self_attn_k_proj": 0.29583333333333334,
+    "model_layers_5_self_attn_o_proj": 0.32916666666666666,
+    "model_layers_5_self_attn_q_proj": 0.275,
+    "model_layers_5_self_attn_v_proj": 0.2916666666666667,
+    "model_layers_6_self_attn_k_proj": 0.3375,
+    "model_layers_6_self_attn_o_proj": 0.275,
+    "model_layers_6_self_attn_q_proj": 0.31666666666666665,
+    "model_layers_6_self_attn_v_proj": 0.325,
+    "model_layers_7_self_attn_k_proj": 0.3333333333333333,
+    "model_layers_7_self_attn_o_proj": 0.24583333333333332,
+    "model_layers_7_self_attn_q_proj": 0.35,
+    "model_layers_7_self_attn_v_proj": 0.2916666666666667,
+    "model_layers_8_self_attn_k_proj": 0.2875,
+    "model_layers_8_self_attn_o_proj": 0.23333333333333334,
+    "model_layers_8_self_attn_q_proj": 0.3125,
+    "model_layers_8_self_attn_v_proj": 0.2625,
+    "model_layers_9_self_attn_k_proj": 0.3333333333333333,
+    "model_layers_9_self_attn_o_proj": 0.3,
+    "model_layers_9_self_attn_q_proj": 0.2708333333333333,
+    "model_layers_9_self_attn_v_proj": 0.2875
+   },
+   "per_module_note": "Exploratory/descriptive only (card D1 item 4: all-modules is the headline). No per-module permutation null is run: it would add 100+ unregistered hypothesis tests requiring multiplicity control the card does not pre-register.",
+   "representation": "raw",
+   "kv_mode": null,
+   "cohens_kappa": -0.034999999999999976,
+   "d10_lock": {
+    "k": 6,
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy": 0.1375,
+    "accuracy_exceeds_threshold": false,
+    "p_value": 0.001998001998001998,
+    "p_below_threshold": true,
+    "kappa": -0.034999999999999976,
+    "kappa_floor": 0.4,
+    "kappa_meets_floor": false,
+    "pass": false,
+    "form": "acc > 1.5 x chance(K) AND perm p < 0.01 AND kappa >= 0.40 (D10, Director-set at registration 2026-07-30 \u2014 set before any level was analyzed so it cannot be tuned to a result)"
+   },
+   "ceiling": {
+    "definition": "LOO acc >= 0.99 (<=2 errors at N=240) \u2014 D5 PINNED",
+    "threshold": 0.99,
+    "at_ceiling": false,
+    "errors": 207
+   },
+   "parent_collapsed": {
+    "parents": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ],
+    "confusion_matrix": [
+     [
+      0,
+      27,
+      13,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      17,
+      23,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      24,
+      16,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      28,
+      12,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      25,
+      15,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      32,
+      8,
+      0,
+      0,
+      0
+     ]
+    ],
+    "accuracy": 0.1375,
+    "cohens_kappa": -0.034999999999999976,
+    "note": "\u00a75.4 \u2014 fine confusions collapsed onto the parent tasks: 'loses fine structure, keeps coarse' vs 'loses everything'."
+   }
+  },
+  "canonical": {
+   "n_runs": 240,
+   "feature_dim": 50688,
+   "loo_accuracy": 1.0,
+   "per_class_recall": {
+    "agnews": 1.0,
+    "alpaca": 1.0,
+    "code": 1.0,
+    "math": 1.0,
+    "squad": 1.0,
+    "xsum": 1.0
+   },
+   "macro_f1": 1.0,
+   "confusion_matrix": {
+    "rows_true_cols_pred": [
+     [
+      40,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      40,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      40,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      40,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      40,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      40
+     ]
+    ],
+    "task_order": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ]
+   },
+   "wilson_ci_95": [
+    0.9842460800584412,
+    1.0
+   ],
+   "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+   "permutation": {
+    "n_permutations": 1000,
+    "null_mean": 0.12106666666666667,
+    "null_max": 0.21666666666666667,
+    "null_p99": 0.19170833333333331,
+    "p_value": 0.000999000999000999
+   },
+   "h1_lock": {
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy_exceeds_threshold": true,
+    "p_threshold": 0.01,
+    "p_below_threshold": true,
+    "pass": true
+   },
+   "heterogeneity_guard": {
+    "per_task_mean_within_class_distance": {
+     "agnews": 77.28915304567606,
+     "alpaca": 77.42214950701974,
+     "code": 77.23940389271287,
+     "math": 77.31702132996512,
+     "squad": 77.63481959552973,
+     "xsum": 77.32208624516934
+    },
+    "ratio_max_over_min": 1.0051193520779382,
+    "trigger_threshold": 3.7,
+    "triggered": false
+   },
+   "representation": "canonical",
+   "kv_mode": null,
+   "cohens_kappa": 1.0,
+   "d10_lock": {
+    "k": 6,
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy": 1.0,
+    "accuracy_exceeds_threshold": true,
+    "p_value": 0.000999000999000999,
+    "p_below_threshold": true,
+    "kappa": 1.0,
+    "kappa_floor": 0.4,
+    "kappa_meets_floor": true,
+    "pass": true,
+    "form": "acc > 1.5 x chance(K) AND perm p < 0.01 AND kappa >= 0.40 (D10, Director-set at registration 2026-07-30 \u2014 set before any level was analyzed so it cannot be tuned to a result)"
+   },
+   "ceiling": {
+    "definition": "LOO acc >= 0.99 (<=2 errors at N=240) \u2014 D5 PINNED",
+    "threshold": 0.99,
+    "at_ceiling": true,
+    "errors": 0
+   },
+   "parent_collapsed": {
+    "parents": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ],
+    "confusion_matrix": [
+     [
+      40,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      40,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      40,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      40,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      40,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      40
+     ]
+    ],
+    "accuracy": 1.0,
+    "cohens_kappa": 1.0,
+    "note": "\u00a75.4 \u2014 fine confusions collapsed onto the parent tasks: 'loses fine structure, keeps coarse' vs 'loses everything'."
+   }
+  },
+  "vocab_signature": {
+   "n_runs": 240,
+   "feature_dim": 8704,
+   "loo_accuracy": 1.0,
+   "per_class_recall": {
+    "agnews": 1.0,
+    "alpaca": 1.0,
+    "code": 1.0,
+    "math": 1.0,
+    "squad": 1.0,
+    "xsum": 1.0
+   },
+   "macro_f1": 1.0,
+   "confusion_matrix": {
+    "rows_true_cols_pred": [
+     [
+      40,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      40,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      40,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      40,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      40,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      40
+     ]
+    ],
+    "task_order": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ]
+   },
+   "wilson_ci_95": [
+    0.9842460800584412,
+    1.0
+   ],
+   "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+   "permutation": {
+    "n_permutations": 1000,
+    "null_mean": 0.15822916666666667,
+    "null_max": 0.25416666666666665,
+    "null_p99": 0.22916666666666666,
+    "p_value": 0.000999000999000999
+   },
+   "h1_lock": {
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy_exceeds_threshold": true,
+    "p_threshold": 0.01,
+    "p_below_threshold": true,
+    "pass": true
+   },
+   "heterogeneity_guard": {
+    "per_task_mean_within_class_distance": {
+     "agnews": 10.817856528628312,
+     "alpaca": 9.298691885734252,
+     "code": 9.607304536122847,
+     "math": 11.35344998716,
+     "squad": 10.925131898638915,
+     "xsum": 11.450001898476362
+    },
+    "ratio_max_over_min": 1.231356199256648,
+    "trigger_threshold": 3.7,
+    "triggered": false
+   },
+   "representation": "vocab_signature",
+   "kv_mode": "zero_pad",
+   "cohens_kappa": 1.0,
+   "d10_lock": {
+    "k": 6,
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy": 1.0,
+    "accuracy_exceeds_threshold": true,
+    "p_value": 0.000999000999000999,
+    "p_below_threshold": true,
+    "kappa": 1.0,
+    "kappa_floor": 0.4,
+    "kappa_meets_floor": true,
+    "pass": true,
+    "form": "acc > 1.5 x chance(K) AND perm p < 0.01 AND kappa >= 0.40 (D10, Director-set at registration 2026-07-30 \u2014 set before any level was analyzed so it cannot be tuned to a result)"
+   },
+   "ceiling": {
+    "definition": "LOO acc >= 0.99 (<=2 errors at N=240) \u2014 D5 PINNED",
+    "threshold": 0.99,
+    "at_ceiling": true,
+    "errors": 0
+   },
+   "parent_collapsed": {
+    "parents": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ],
+    "confusion_matrix": [
+     [
+      40,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      40,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      40,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      40,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      40,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      40
+     ]
+    ],
+    "accuracy": 1.0,
+    "cohens_kappa": 1.0,
+    "note": "\u00a75.4 \u2014 fine confusions collapsed onto the parent tasks: 'loses fine structure, keeps coarse' vs 'loses everything'."
+   }
+  },
+  "vocab_signature_kv_exclude": {
+   "n_runs": 240,
+   "feature_dim": 4352,
+   "loo_accuracy": 1.0,
+   "per_class_recall": {
+    "agnews": 1.0,
+    "alpaca": 1.0,
+    "code": 1.0,
+    "math": 1.0,
+    "squad": 1.0,
+    "xsum": 1.0
+   },
+   "macro_f1": 1.0,
+   "confusion_matrix": {
+    "rows_true_cols_pred": [
+     [
+      40,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      40,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      40,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      40,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      40,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      40
+     ]
+    ],
+    "task_order": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ]
+   },
+   "wilson_ci_95": [
+    0.9842460800584412,
+    1.0
+   ],
+   "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+   "permutation": {
+    "n_permutations": 1000,
+    "null_mean": 0.1577625,
+    "null_max": 0.25833333333333336,
+    "null_p99": 0.22087499999999996,
+    "p_value": 0.000999000999000999
+   },
+   "h1_lock": {
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy_exceeds_threshold": true,
+    "p_threshold": 0.01,
+    "p_below_threshold": true,
+    "pass": true
+   },
+   "heterogeneity_guard": {
+    "per_task_mean_within_class_distance": {
+     "agnews": 9.753517620669841,
+     "alpaca": 8.416922538382698,
+     "code": 8.747263390403859,
+     "math": 10.209778542854549,
+     "squad": 9.851846822821711,
+     "xsum": 10.355031082996089
+    },
+    "ratio_max_over_min": 1.230263321989155,
+    "trigger_threshold": 3.7,
+    "triggered": false
+   },
+   "representation": "vocab_signature",
+   "kv_mode": "exclude",
+   "cohens_kappa": 1.0,
+   "d10_lock": {
+    "k": 6,
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy": 1.0,
+    "accuracy_exceeds_threshold": true,
+    "p_value": 0.000999000999000999,
+    "p_below_threshold": true,
+    "kappa": 1.0,
+    "kappa_floor": 0.4,
+    "kappa_meets_floor": true,
+    "pass": true,
+    "form": "acc > 1.5 x chance(K) AND perm p < 0.01 AND kappa >= 0.40 (D10, Director-set at registration 2026-07-30 \u2014 set before any level was analyzed so it cannot be tuned to a result)"
+   },
+   "ceiling": {
+    "definition": "LOO acc >= 0.99 (<=2 errors at N=240) \u2014 D5 PINNED",
+    "threshold": 0.99,
+    "at_ceiling": true,
+    "errors": 0
+   },
+   "parent_collapsed": {
+    "parents": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ],
+    "confusion_matrix": [
+     [
+      40,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      40,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      40,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      40,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      40,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      40
+     ]
+    ],
+    "accuracy": 1.0,
+    "cohens_kappa": 1.0,
+    "note": "\u00a75.4 \u2014 fine confusions collapsed onto the parent tasks: 'loses fine structure, keeps coarse' vs 'loses everything'."
+   }
+  }
+ },
+ "clean_core": {},
+ "vocabsig_readout": {
+  "vocab_size": 128256,
+  "d_model": 2048,
+  "loaded_keys": [
+   "model.embed_tokens.weight",
+   "model.norm.weight"
+  ],
+  "files_opened": [
+   "model.safetensors"
+  ],
+  "tied_embeddings_fallback": true,
+  "snapshot": "C:\\falco\\hf-cache\\hub\\models--meta-llama--Llama-3.2-1B-Instruct\\snapshots\\9213176726f574b556790deb65791e0c5aa438b6",
+  "model_id": "meta-llama/Llama-3.2-1B-Instruct"
+ },
+ "clean_core_note": "every class at this level is T1+T2 \u2014 NO T3 CELLS, so the D3 clean-core requirement is NOT TESTABLE at this level. This is not a statement that it passed: the clean-core and all-classes label spaces are identical by construction, so the divergence rule has nothing to bite on (G-4 principle, applied per Director condition (c) of 2026-08-05).",
+ "d6_data_space_reference": {
+  "config": {
+   "vectorizer": "sklearn TfidfVectorizer",
+   "lowercase": true,
+   "sublinear_tf": true,
+   "min_df": 2,
+   "max_features": 50000,
+   "ngram_range": [
+    1,
+    1
+   ],
+   "classifier": "sklearn LinearSVC(C=1.0, dual='auto', max_iter=5000)",
+   "cv": "StratifiedKFold(n_splits=5, shuffle=True, random_state=6) WITHIN the subsample (Ask 3 condition i)",
+   "subsample_nominal_per_class": 1000,
+   "documents": "the formatted training documents the adapters saw (asset1_datasets task class, keep_text=True) \u2014 including the token-budget truncation for xsum/squad"
+  },
+  "k": 6,
+  "chance": 0.16666666666666666,
+  "n_documents": 6000,
+  "n_features": 18497,
+  "realized_n_per_class": {
+   "agnews": 1000,
+   "alpaca": 1000,
+   "code": 1000,
+   "math": 1000,
+   "squad": 1000,
+   "xsum": 1000
+  },
+  "realized_n_min": 1000,
+  "realized_n_max": 1000,
+  "at_nominal_everywhere": true,
+  "cv_accuracy": 0.9745,
+  "cohens_kappa": 0.9694,
+  "confusion_matrix": [
+   [
+    1000,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   [
+    0,
+    916,
+    66,
+    5,
+    9,
+    4
+   ],
+   [
+    0,
+    62,
+    936,
+    1,
+    1,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    1000,
+    0,
+    0
+   ],
+   [
+    0,
+    0,
+    0,
+    0,
+    1000,
+    0
+   ],
+   [
+    0,
+    5,
+    0,
+    0,
+    0,
+    995
+   ]
+  ],
+  "note": "Bounds attainable weight-space accuracy: a class whose own text is inseparable cannot be read from weights, so a failure there is label noise, not a canonicalization failure (design \u00a76.1; converts outcome (C) from an excuse into a finding)."
+ }
+}
