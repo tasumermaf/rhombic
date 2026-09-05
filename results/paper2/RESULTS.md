@@ -128,18 +128,18 @@ sum/difference divisibility (weight 2), shared prime factors (weight 1).
 | Identity (prime[i] -> vertex[i]) | 20.0 | 0.46 | 15,135 / 40,320 |
 | Null mean | 19.5 +/- 3.6 | — | — |
 
-Optimal mapping detail:
+Optimal mapping detail (edge values withheld at the corpus boundary; the prime-to-vertex assignment and hit counts are retained):
 
 | Prime | Vertex | Edge Values | Divisible |
 |-------|--------|-------------|-----------|
-| 67 | 7 | [72, 134, 29] | 134 = 2x67 |
-| 29 | 0 | [448, 435, 342] | 435 = 15x29 |
-| 19 | 4 | [133, 346, 309] | 133 = 7x19 |
-| 17 | 3 | [1296, 136, 64] | 136 = 8x17 |
-| 11 | 5 | [78, 386, 55] | 55 = 5x11 |
-| 23 | 6 | [94, 153, 240] | — |
-| 31 | 2 | [771, 202, 252] | — |
-| 89 | 1 | [463, 405, 18] | — |
+| 67 | 7 | [withheld: corpus boundary] | 1 direct hit |
+| 29 | 0 | [withheld: corpus boundary] | 1 direct hit |
+| 19 | 4 | [withheld: corpus boundary] | 1 direct hit |
+| 17 | 3 | [withheld: corpus boundary] | 1 direct hit |
+| 11 | 5 | [withheld: corpus boundary] | 1 direct hit |
+| 23 | 6 | [withheld: corpus boundary] | — |
+| 31 | 2 | [withheld: corpus boundary] | — |
+| 89 | 1 | [withheld: corpus boundary] | — |
 
 **Finding:** The optimal mapping is extremely significant (p = 0.000025).
 Five of eight primes have direct divisibility hits. The identity mapping

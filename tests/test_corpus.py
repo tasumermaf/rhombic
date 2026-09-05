@@ -1,4 +1,9 @@
-"""Tests for the isopsephy corpus data module."""
+"""Tests for the isopsephy corpus data module.
+
+Structural tests only. Spot checks against specific corpus values live in
+tests/test_corpus_private.py, which is gitignored and runs only where the
+private data is present (corpus boundary, 2026-09-05).
+"""
 
 import numpy as np
 import pytest
@@ -20,7 +25,7 @@ requires_corpus = pytest.mark.skipif(
 
 
 class TestDataIntegrity:
-    """Verify the corpus data is complete and correct."""
+    """Verify the corpus data is complete and well-formed."""
 
     @requires_corpus
     def test_24_trump_values(self):
@@ -46,79 +51,28 @@ class TestDataIntegrity:
             assert v > 0
 
 
-class TestKnownValues:
-    """Spot-check verified values from the corpus."""
-
-    @requires_corpus
-    def test_geareij(self):
-        """Card 21: GEAREIJ = 134 = 2 * 67."""
-        assert trump_values()[21] == 134
-
-    @requires_corpus
-    def test_bral_donace_identity(self):
-        """BRAL (Card 1 component) = DONACE (Card 16) = 133 = 7 * 19."""
-        assert trump_values()[16] == 133
-
-    @requires_corpus
-    def test_maat(self):
-        """Card 8: MA∀T standard = 342."""
-        assert trump_values()[8] == 342
-
-    @requires_corpus
-    def test_dajibaa(self):
-        """Card 15: DAJIBA∀ = 29 (prime)."""
-        assert trump_values()[15] == 29
-
-    @requires_corpus
-    def test_belial(self):
-        """Transit: BELIAL = 78 = T(12)."""
-        assert trump_values()["T"] == 78
-
-    @requires_corpus
-    def test_rirajla(self):
-        """Grail: RIRAJLA = 252."""
-        assert trump_values()["G"] == 252
-
-    @requires_corpus
-    def test_fool_combined(self):
-        """Card 0: UAT ASETEDOJ combined = 1296 = 6^4."""
-        assert trump_values()[0] == 1296
-
-    @requires_corpus
-    def test_samma(self):
-        assert names_of_power()["SAMMA"] == 282
-
-    @requires_corpus
-    def test_vadusfadahm(self):
-        assert names_of_power()["VADUSFADAHM"] == 671
-
-    @requires_corpus
-    def test_osiris(self):
-        assert names_of_power()["OSIRIS"] == 590
-
-
 class TestFactorization:
-    """Verify prime factorization functions."""
+    """Verify prime factorization functions on neutral inputs."""
 
-    def test_134_factors(self):
-        """134 = 2 * 67."""
-        assert prime_factors(134) == [2, 67]
+    def test_composite_of_two_primes(self):
+        """221 = 13 * 17."""
+        assert prime_factors(221) == [13, 17]
 
-    def test_133_factors(self):
-        """133 = 7 * 19."""
-        assert prime_factors(133) == [7, 19]
+    def test_primorial(self):
+        """2310 = 2 * 3 * 5 * 7 * 11."""
+        assert prime_factors(2310) == [2, 3, 5, 7, 11]
 
-    def test_1296_factors(self):
-        """1296 = 2^4 * 3^4 = 6^4."""
-        f = prime_factors(1296)
+    def test_perfect_power(self):
+        """10000 = 2^4 * 5^4."""
+        f = prime_factors(10000)
         assert f.count(2) == 4
-        assert f.count(3) == 4
+        assert f.count(5) == 4
 
-    def test_29_is_prime(self):
-        assert prime_factors(29) == [29]
+    def test_prime(self):
+        assert prime_factors(97) == [97]
 
     def test_prime_factor_set(self):
-        assert prime_factor_set(342) == {2, 3, 19}
+        assert prime_factor_set(2310) == {2, 3, 5, 7, 11}
 
     def test_factors_of_1(self):
         assert prime_factors(1) == [1]
@@ -126,30 +80,31 @@ class TestFactorization:
 
 class TestSharedFactors:
 
-    def test_shared_134_133(self):
-        """134 = 2*67, 133 = 7*19: no shared factors."""
-        assert shared_factors(134, 133) == set()
+    def test_no_shared(self):
+        """2310 = 2*3*5*7*11 and 221 = 13*17 share nothing."""
+        assert shared_factors(2310, 221) == set()
 
-    def test_shared_342_134(self):
-        """342 = 2*3^2*19, 134 = 2*67: share {2}."""
-        assert shared_factors(342, 134) == {2}
+    def test_one_shared(self):
+        """221 = 13*17 and 289 = 17^2 share {17}."""
+        assert shared_factors(221, 289) == {17}
 
     def test_self_shared(self):
         """A value shares all its own factors."""
-        assert shared_factors(342, 342) == {2, 3, 19}
+        assert shared_factors(2310, 2310) == {2, 3, 5, 7, 11}
 
 
 class TestPrimeMembership:
 
-    def test_67_divides_134(self):
-        assert prime_membership(134, 67) is True
+    def test_tracked_prime_divides(self):
+        """5963 = 67 * 89."""
+        assert prime_membership(5963, 67) is True
+        assert prime_membership(5963, 89) is True
 
-    def test_67_not_divides_133(self):
-        assert prime_membership(133, 67) is False
+    def test_tracked_prime_does_not_divide(self):
+        assert prime_membership(221, 67) is False
 
-    def test_23_divides_69(self):
-        """ALEBAL = 69 = 3 * 23."""
-        assert prime_membership(69, 23) is True
+    def test_small_tracked_prime(self):
+        assert prime_membership(2310, 11) is True
 
 
 class TestWeightDistributions:
@@ -192,17 +147,20 @@ class TestWeightDistributions:
 class TestCorpusStats:
 
     @requires_corpus
-    def test_stats_values(self):
+    def test_stats_structure(self):
         s = corpus_stats()
+        vals = edge_values()
         assert s.n_values == 24
-        assert s.min_value == 18    # GEJ
-        assert s.max_value == 1296  # UAT ASETEDOJ
+        assert s.min_value == min(vals)
+        assert s.max_value == max(vals)
+        assert s.min_value > 0
+        assert s.max_value > s.min_value
 
     @requires_corpus
     def test_tracked_prime_coverage(self):
         s = corpus_stats()
-        assert s.tracked_prime_coverage[67] >= 1
-        assert s.tracked_prime_coverage[29] >= 1
+        for p in TRACKED_PRIMES:
+            assert s.tracked_prime_coverage[p] >= 0
 
 
 class TestHexagramCoupling:

@@ -25,34 +25,30 @@
 - **Content:** Fifteen of the 24 protected corpus values are explicitly listed as edge weights in the prime-vertex mapping:
 
 ```
-67 -> vertex 7: edges {72, 134, 29}
-29 -> vertex 0: edges {448, 435, 342}
-19 -> vertex 4: edges {133, 346, 309}
-17 -> vertex 3: edges {1296, 136, 64}
-11 -> vertex 5: edges {78, 386, 55}
+[edge-value triplets withheld — corpus boundary, redacted 2026-09-05]
 ```
 
 Cross-reference with the Continental Attribution Table confirms these are Sacred Language inscription values:
 
 | Value | Card | Inscription |
 |-------|------|-------------|
-| 29 | 15 | DAJIBA∀ |
-| 55 | 14 | VELIBA∀ |
-| 64 | 5 | ALBAL |
-| 72 | 13 | VAJNE |
-| 78 | T | BELIAL |
-| 133 | 16 | DONACE |
-| 134 | 21 | GEAREIJ |
-| 136 | 11 | ADONAJ |
-| 309 | 18 | ECAT |
-| 342 | 8 | MA∀T |
-| 346 | 20 | TALEJ |
-| 386 | 12 | TELAMJ |
-| 435 | 10 | ULE |
-| 448 | 6 | BARILTE |
-| 1296 | 0 | UAT ASETEDOJ |
+| [withheld] | 15 | [withheld] |
+| [withheld] | 14 | [withheld] |
+| [withheld] | 5 | [withheld] |
+| [withheld] | 13 | [withheld] |
+| [withheld] | T | [withheld] |
+| [withheld] | 16 | [withheld] |
+| [withheld] | 21 | [withheld] |
+| [withheld] | 11 | [withheld] |
+| [withheld] | 18 | [withheld] |
+| [withheld] | 8 | [withheld] |
+| [withheld] | 20 | [withheld] |
+| [withheld] | 12 | [withheld] |
+| [withheld] | 10 | [withheld] |
+| [withheld] | 6 | [withheld] |
+| [withheld] | 0 | [withheld] |
 
-This exposes 15 of 24 values (62.5% of the corpus). Combined with the statistical characterization (range 18--1296, mean 318.8, std 292.9) and the 8 tracked primes also listed in the paper, the remaining 9 values could plausibly be reverse-engineered.
+This exposes 15 of 24 values (62.5% of the corpus). Combined with the statistical characterization (range, mean and std withheld) and the 8 tracked primes also listed in the paper, the remaining 9 values could plausibly be reverse-engineered.
 
 - **Action needed:** Remove the explicit edge-value triplets from Experiment 6. Replace with either:
   (a) Report only the prime divisibility relationships abstractly (e.g., "5 of 8 primes have direct divisibility hits"), or

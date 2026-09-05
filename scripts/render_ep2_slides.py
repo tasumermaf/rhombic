@@ -432,7 +432,7 @@ def render_convergence(f, n):
 def render_rd_sound_viz(f, n):
     """Spectral visualization of the conditioning track.
 
-    8 prime frequencies as spectral peaks. MERIDIAN=220, Theos=284, beat=64=ALBAL.
+    8 prime frequencies as spectral peaks. MERIDIAN=220, Theos=284, beat=64.
     """
     img = make_frame()
     draw = ImageDraw.Draw(img)
@@ -485,7 +485,7 @@ def render_rd_sound_viz(f, n):
         (11, "11", CUBIC_BLUE, 20),
         (23, "23", AZURE, 30),
         (40, "40 Hz", GOLD, 10),  # Isochronic primary
-        (64, "64=ALBAL", GREEN, 40),
+        (64, "64", GREEN, 40),
         (67, "67", FCC_RED, 50),
         (89, "89", VIOLA, 60),
         (220, "MERIDIAN", GOLD, 70),

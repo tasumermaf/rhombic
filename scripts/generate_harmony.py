@@ -1,29 +1,33 @@
 """
-Harmony of the Spheres — Background music derived from corpus data.
+Harmony of the Spheres — background music derived from the corpus.
 
-The 8 tracked primes of the tessitura map to overtone frequencies.
-Card inscription values, when factored, determine which prime-voices
-are active at each moment. The Fiedler eigenvalue ratio (2.30x) sets
-the pulsation rate. The amplification ratio (6.11x) governs harmonic
-enrichment as the piece progresses.
+The 8 tracked primes of the tessitura map to overtone frequencies. Each of
+the 24 cards carries a small set of activation values; the primes that divide
+those values decide which prime-voices sound while that card is playing. The
+Fiedler eigenvalue ratio (2.30x) sets the pulsation rate and the amplification
+ratio (6.11x) governs harmonic enrichment as the piece progresses.
 
-Fundamental frequency: SAMMA = 282 Hz (the Tappetino Proof value).
+Corpus boundary: the per-card activation values and the fundamental are
+corpus-derived and load from a gitignored private sidecar
+(rhombic/data/harmony_private.json), the same gating as rhombic.corpus.
+Without the sidecar the script renders a seeded synthetic demo so the code
+path stays runnable; the released audio was rendered with the private data.
 """
+
+import json
+from pathlib import Path
 
 import numpy as np
 from scipy.io import wavfile
 from scipy.signal import butter, filtfilt
-from pathlib import Path
 
 SR = 44100
-OUT = Path(__file__).resolve().parent.parent / "assets" / "audio" / "music"
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "assets" / "audio" / "music"
 OUT.mkdir(parents=True, exist_ok=True)
 
-# ── The 8 Prime Voices (Tessitura Threads) ──
+# ── The 8 Prime Voices (Tessitura Threads) — public ──
 PRIMES = [11, 17, 19, 23, 29, 31, 67, 89]
-
-# Fundamental: SAMMA = 282 Hz (the Tappetino Proof value)
-FUNDAMENTAL = 282.0
 
 # Fiedler Ratio as Rhythmic Pulse (2.30x = one gentle throb per ~3.5s)
 FIEDLER_RATIO = 2.30
@@ -32,42 +36,35 @@ PULSE_FREQ = FIEDLER_RATIO / 8.0
 # Amplification Ratio governs harmonic enrichment over time
 AMP_RATIO = 6.11
 
-# ── Card Values (deck order) ──
-# Each card carries ALL analytically significant values: combined inscription,
-# morpheme sub-values, Hebrew operator derivations, and Colel neighbors.
-# The prime threads appear through these operations, not just raw totals.
-# Format: (name, [values that matter for prime activation])
-CARD_VALUES = [
-    ("UAT_ASETEDOJ", [1296, 396, 900, 297]),        # 0: 6^4, UAT=396, ASETEDOJ=900, Shin=300
-    ("BRAL_ALEBAL",  [202, 133, 69, 134, 201]),      # 1: BRAL=7x19, ALEBAL=3x23, Colel=2x67
-    ("ALBAL_MAT",    [405, 64, 341, 342, 31]),        # 2: MAT=11x31, MAAT=2x3^2x19, AL=31
-    ("NIALMATAL",    [463, 91, 341, 31, 460]),         # 3: NIAL=7x13, MAT=11x31, AL=31, -Gimel=460
-    ("BANIAL",       [94, 90, 91, 31, 98]),            # 4: -Daleth=90(Anael), NIAL=91, AL=31
-    ("ALBAL",        [64, 31, 33, 69, 59]),            # 5: AL=31, +Heh=69=3x23
-    ("BARILTE",      [448, 143, 305, 442, 454]),       # 6: BARIL=11x13, TE=305, -Vav=442=2x13x17
-    ("ULITAL",       [771, 770, 341, 31, 764]),        # 7: Colel=770=2x5x7x11, MAT-morpheme echo
-    ("MAAT",         [342, 341, 19, 31, 334]),         # 8: 2x3^2x19, breath=11x31, -Cheth=334
-    ("COMJL",        [153, 17, 152, 144, 162]),        # 9: T(17)=153, 17=prime, -Teth=144
-    ("ULE",          [435, 29, 31, 425, 445]),         # 10: 3x5x29, AL echo, -Yod=425
-    ("ADONAJ",       [136, 17, 116, 156]),             # 11: 2^3x17, -Kaph=116, +Kaph=156
-    ("TELAMJ",       [386, 356, 416, 31]),             # 12: -Lamed=356, +Lamed=416, AL morpheme
-    ("VAJNE",        [72, 67, 17, 55, 391, 667, 418]), # 13: VAJN=67, VAJ=17, NE=5x11, 17x23, 23x29, 2x11x19
-    ("VELIBAA",      [55, 54, 11, 41, 5]),             # 14: 5x11, breath=54=2x27, VEL=41(prime)
-    ("DAJIBAA",      [29, 28, 89]),                    # 15: 29=prime, breath=28, +Samekh=89!
-    ("BELIAL",       [78, 31, 47]),                    # T: T(12)=78, AL=31, BEL=47(prime)
-    ("DONACE",       [133, 19, 63, 203]),              # 16: 7x19, -Ayin=63=7x3^2, +Ayin=203
-    ("GEJ",          [18, 17, 98, 19]),                # 17: Colel=17=prime, -Peh=17 self-ref, +1=19
-    ("ECAT",         [309, 219, 399, 23]),             # 18: -Tzaddi=219, +Tzaddi=399, morpheme
-    ("ORO",          [240, 140, 340, 239, 241]),       # 19: -Qoph=140, +Qoph=340
-    ("TALEJ",        [346, 146, 546, 23, 173]),        # 20: -Resh=146, +Resh=546, 173=prime
-    ("GEAREIJ",      [134, 67, 534, 31, 133]),         # 21: 2x67, -Tav=134-400 wraps, AL=31
-    ("RIRAJLA",      [252, 90, 31, 42, 210]),          # G: +Anael=342=MAAT, AL=31, AJLA=42
-]
+# ── Card activation values: private sidecar, or a synthetic demo ──
+SIDECAR = ROOT / "rhombic" / "data" / "harmony_private.json"
+DEMO_FUNDAMENTAL = 220.0   # public fallback fundamental (Hz)
+N_CARDS = 24
 
 
-def prime_to_freq(p, fundamental=FUNDAMENTAL):
+def load_card_values(sidecar: Path = SIDECAR, seed: int = 42):
+    """Return (fundamental_hz, [(label, [values]), ...]) for 24 cards.
+
+    Private sidecar when present; otherwise a seeded synthetic demo set whose
+    labels are card indices and whose values are random integers. The demo
+    exercises the same code path but is not the corpus.
+    """
+    if sidecar.exists():
+        d = json.loads(sidecar.read_text(encoding="utf-8"))
+        cards = [(c["label"], list(c["values"])) for c in d["cards"]]
+        return float(d["fundamental_hz"]), cards, "private"
+    rng = np.random.default_rng(seed)
+    cards = [(f"card_{i:02d}", [int(v) for v in rng.integers(10, 1300, size=5)])
+             for i in range(N_CARDS)]
+    return DEMO_FUNDAMENTAL, cards, "demo"
+
+
+FUNDAMENTAL, CARD_VALUES, CARD_SOURCE = load_card_values()
+
+
+def prime_to_freq(p, fundamental=None):
     """Map prime to overtone frequency, normalized to 100-800 Hz."""
-    f = p * fundamental
+    f = p * (FUNDAMENTAL if fundamental is None else fundamental)
     while f > 800:
         f /= 2
     while f < 100:
@@ -121,7 +118,7 @@ def generate_harmony(duration_s=140.0, sr=SR):
     track_L = np.zeros(total)
     track_R = np.zeros(total)
 
-    # Layer 1: Bass drone on SAMMA fundamental
+    # Layer 1: Bass drone on the fundamental
     bass = 0.25 * np.sin(2 * np.pi * (FUNDAMENTAL / 4) * t)
     bass += 0.15 * np.sin(2 * np.pi * (FUNDAMENTAL / 2) * t)
     pulse = 0.85 + 0.15 * np.sin(2 * np.pi * PULSE_FREQ * t)
@@ -186,13 +183,13 @@ def generate_harmony(duration_s=140.0, sr=SR):
     track_L += shimmer * 0.6
     track_R += shimmer * 0.4
 
-    # Layer 4: Anael sub-harmonic (90 Hz — the angel of the rose)
-    anael = 0.08 * np.sin(2 * np.pi * 90 * t)
-    anael *= pulse
-    track_L += anael
-    track_R += anael
+    # Layer 4: 90 Hz sub-harmonic
+    sub = 0.08 * np.sin(2 * np.pi * 90 * t)
+    sub *= pulse
+    track_L += sub
+    track_R += sub
 
-    # Post-processing: warm low-pass (corporate muzak is never harsh)
+    # Post-processing: warm low-pass
     b, a = butter(3, 3500 / (sr / 2), btype="low")
     track_L = filtfilt(b, a, track_L)
     track_R = filtfilt(b, a, track_R)
@@ -215,7 +212,8 @@ def generate_harmony(duration_s=140.0, sr=SR):
 
 if __name__ == "__main__":
     print("=== Harmony of the Spheres ===")
-    print(f"Fundamental: SAMMA = {FUNDAMENTAL} Hz")
+    print(f"Card values: {CARD_SOURCE} ({len(CARD_VALUES)} cards)")
+    print(f"Fundamental: {FUNDAMENTAL} Hz")
     print(f"Pulse: Fiedler {FIEDLER_RATIO}x -> {PULSE_FREQ:.4f} Hz")
     print(f"Enrichment: {FIEDLER_RATIO}x -> {AMP_RATIO}x over duration")
     print()
@@ -225,10 +223,11 @@ if __name__ == "__main__":
         print(f"  {p:3d} -> {f:7.1f} Hz")
     print()
 
-    for name, vals in CARD_VALUES:
+    for idx, (name, vals) in enumerate(CARD_VALUES):
         active = active_primes(vals)
         marker = " <<<" if active else ""
-        print(f"  {name:15s}  vals={len(vals):2d}  threads: {active}{marker}")
+        label = name if CARD_SOURCE == "demo" else f"card_{idx:02d}"
+        print(f"  {label:10s}  vals={len(vals):2d}  threads: {active}{marker}")
     print()
 
     stereo = generate_harmony(140.0)
