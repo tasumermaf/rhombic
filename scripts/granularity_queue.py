@@ -44,7 +44,9 @@ Discipline (the house pattern, `scripts/s2_queue_runner.py`):
   - QUEUE_STATE.md is rewritten from disk after EVERY run, so the ledger can
     never go stale relative to the filesystem
 
-Launch detached (PowerShell):
+Launch detached (PowerShell). Set $env:HF_TOKEN in that shell FIRST — the
+queue refuses to start without it (audit D-18), and HF_HUB_OFFLINE=1 is not a
+substitute on transformers 4.57 (tokenizer loads by repo id call the Hub):
   Start-Process C:\\miniconda3\\envs\\falco\\python.exe -ArgumentList
     "scripts\\granularity_queue.py" -RedirectStandardOutput
     "results\\granularity\\logs\\queue_runner.log" -WindowStyle Hidden
@@ -327,13 +329,19 @@ def main(argv: list[str] | None = None) -> int:
     log(f"env: HF token {'present' if tok else 'ABSENT'}; "
         f"HF_HUB_OFFLINE={os.environ.get('HF_HUB_OFFLINE', 'unset')}; "
         f"gates fired so far: {fired_gates() or 'none'}")
-    if not tok and not offline:
-        log("REFUSING to enqueue: no HF token is visible to this process and "
-            "HF_HUB_OFFLINE is not 1. A detached launch without either stalls "
-            "or fails at the gated-model license probe run after run (audit "
-            "D-18). Set $env:HF_TOKEN in the launching shell, or "
-            "$env:HF_HUB_OFFLINE = '1' when every weight and dataset is cached.")
+    if not tok:
+        log("REFUSING to enqueue: no HF token is visible to this process. A "
+            "detached launch without it fails at the gated-model license "
+            "probe run after run (audit D-18). Set $env:HF_TOKEN in the "
+            "launching shell before Start-Process. HF_HUB_OFFLINE=1 is NOT a "
+            "substitute on transformers 4.57: AutoTokenizer.from_pretrained("
+            "<repo id>) calls the Hub even for cached files (measured "
+            "2026-09-05, the L0 dry run died on it), and the trainer loads by "
+            "repo id.")
         return 1
+    if offline:
+        log("WARNING: HF_HUB_OFFLINE=1 is set; the trainer's tokenizer load by "
+            "repo id will fail under transformers 4.57. Unset it.")
 
     if not check_l0_rebaseline():
         log("REFUSING to enqueue: the L0 anchor cohort is not intact. The "

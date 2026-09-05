@@ -426,7 +426,17 @@ def d6_reference(level: str, class_ids: list[str], out_dir: Path) -> dict:
                           .read_text(encoding="utf-8"))
     task_of = {c["class_id"]: c["task"] for c in manifest["classes"]}
 
-    tokenizer = AutoTokenizer.from_pretrained(FAMILY["model"])
+    # Load from the local snapshot when one is cached: transformers 4.57's
+    # tokenizer loader calls the Hub (model_info, a "base Mistral" check)
+    # for a repo id even when every file is cached, which is refused under
+    # HF_HUB_OFFLINE=1 and needs a token for a gated repo. A local path skips
+    # that call; the files are the same snapshot (2026-09-05 dry run).
+    try:
+        tok_source = str(vs._resolve_snapshot(FAMILY["model"],
+                                              vs.resolve_hf_hub_cache()))
+    except Exception:  # noqa: BLE001 — no snapshot: fall back to the id
+        tok_source = FAMILY["model"]
+    tokenizer = AutoTokenizer.from_pretrained(tok_source)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
