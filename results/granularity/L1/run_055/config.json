@@ -64,6 +64,6 @@
     "gpu": "NVIDIA RTX 6000 Ada Generation"
   },
   "started_at": "2026-08-11T18:01:53.666444+00:00",
-  "finished_at": null,
-  "wall_time_seconds": null
+  "finished_at": "2026-08-11T18:43:53.441795+00:00",
+  "wall_time_seconds": 2519.8
 }
