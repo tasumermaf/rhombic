@@ -26,10 +26,27 @@ run time.
 The ideas, procedures and results. Explicitly public: the eight tracked
 primes, the prime-to-vertex assignment and the mapping procedure, aggregate
 statistics that do not invert to a value (Fiedler values, lambda_max,
-percentiles, coefficient of variation, skewness, hit counts), organisation and
-product names (TASUMER MAF, LIOTHIL, MERIDIAN), and the Greek isopsephy of
-Greek words. A public item becomes a violation only when it lets a reader
-recover a protected name or value.
+percentiles, hit counts), organisation and product names (TASUMER MAF,
+LIOTHIL, MERIDIAN), and the Greek isopsephy of Greek words. A public item
+becomes a violation only when it lets a reader recover a protected name or
+value.
+
+**Amendment 2026-09-06 (PI ruling).** Two items previously listed as public
+are withheld from the public tree from this date, because each is a
+constraint on the protected set even though neither inverts to a value:
+
+3. **The per-card prime-presence matrix** (which of the eight tracked primes
+   thread through each named card; formerly `TESSITURA_MATRIX` in
+   `scripts/generate_weave.py`, and the weave images rendered from it). Its
+   zeros are non-divisibility statements keyed to named cards; with the public
+   per-prime census it narrowed one card's value to two candidates
+   (verification of 2026-09-05). It lives in
+   `rhombic/data/tessitura_private.json` (gitignored); the public script and
+   images use a placeholder braid.
+4. **The corpus distribution's coefficient of variation and skewness numbers**
+   (Paper 2). Shape statistics of the normalized set; not invertible, but a
+   filter against candidate reconstructions. The qualitative statement (high
+   variance, heavy right tail) stays; the numbers do not.
 
 ## Where the private data lives
 
