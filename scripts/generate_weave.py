@@ -13,6 +13,13 @@ Outputs:
 The matrix encodes prime-thread presence (statistical characterization) —
 which of the 8 tracked primes thread through each card's analytical network.
 This is derived data, not the corpus values themselves.
+
+2026-09-06 (PI ruling): the per-card matrix is WITHHELD from the public tree.
+Keyed to named cards, its zeros are hard non-divisibility statements about
+protected values. It lives in rhombic/data/tessitura_private.json (gitignored,
+beside corpus_private.json). Without the sidecar this script renders a
+PLACEHOLDER braid of the same 25x8 shape and says so; the committed
+assets/weave_*.png and website/weave_banner.png are that placeholder.
 """
 
 from __future__ import annotations
@@ -43,7 +50,7 @@ GRID_COLOR = (220, 201, 100)  # gold warp/weft lines
 
 
 # ---------------------------------------------------------------------------
-# Tessitura binary matrix — prime-thread presence per card
+# Tessitura binary matrix — prime-thread presence per card (PRIVATE SIDECAR)
 # ---------------------------------------------------------------------------
 # Columns match LAW_COLORS order: [11, 23, 67, 17, 29, 19, 89, 31]
 # Rows: 25 cards in deck order (0-XXI + Transit + Grail + Rose)
@@ -54,36 +61,37 @@ GRID_COLOR = (220, 201, 100)  # gold warp/weft lines
 #
 # The 25th row (Rose/XXII) is the system card — included in the visual
 # but not part of the 24-card programmatic weight sequence.
-# fmt: off
-TESSITURA_MATRIX = np.array([
-    #                  11  23  67  17  29  19  89  31
-    [0, 0, 0, 0, 0, 0, 1, 0],  # 0    Fool
-    [0, 1, 1, 0, 0, 1, 1, 1],  # I    Magician
-    [0, 0, 1, 0, 0, 0, 0, 1],  # II   Priestess
-    [0, 1, 0, 1, 0, 0, 1, 1],  # III  Empress
-    [0, 0, 0, 0, 0, 0, 1, 0],  # IV   Emperor
-    [0, 0, 0, 0, 0, 0, 0, 1],  # V    Hierophant
-    [1, 0, 0, 0, 0, 0, 0, 0],  # VI   Lovers
-    [1, 0, 0, 0, 1, 0, 1, 0],  # VII  Chariot
-    [1, 1, 1, 1, 1, 1, 1, 1],  # VIII Justice
-    [0, 0, 0, 1, 0, 1, 1, 0],  # IX   Hermit
-    [0, 0, 0, 0, 1, 0, 1, 1],  # X    Wheel
-    [0, 0, 0, 1, 0, 0, 0, 0],  # XI   Strength
-    [1, 1, 0, 0, 0, 0, 1, 0],  # XII  Reversal
-    [0, 1, 0, 1, 0, 0, 0, 0],  # XIII Renewal
-    [1, 0, 0, 1, 1, 0, 0, 1],  # XIV  Temperance
-    [1, 1, 0, 0, 1, 0, 1, 0],  # XV   Fallen Angel
-    [1, 1, 0, 0, 0, 0, 0, 1],  # T    Transit
-    [1, 1, 0, 0, 0, 1, 0, 0],  # XVI  Tower
-    [1, 0, 0, 1, 1, 0, 0, 0],  # XVII Star
-    [0, 0, 1, 0, 0, 0, 0, 1],  # XVIII Moon
-    [0, 0, 0, 1, 0, 1, 0, 0],  # XIX  Sun
-    [0, 1, 1, 0, 0, 0, 1, 0],  # XX   Judgment
-    [1, 0, 1, 0, 0, 0, 1, 0],  # XXI  World
-    [1, 1, 0, 1, 1, 0, 0, 0],  # G    Grail
-    [0, 0, 0, 0, 1, 0, 0, 1],  # XXII Rose (system card)
-], dtype=np.uint8)
-# fmt: on
+#
+# 2026-09-06 (PI ruling): the matrix itself is withheld from the public tree —
+# keyed to named cards, its zeros are hard non-divisibility statements about
+# protected values, and with the public per-prime census it narrowed one
+# card's value to two candidates (corpus-boundary verification, 2026-09-05).
+# It lives in rhombic/data/tessitura_private.json (gitignored). Without the
+# sidecar, or with --placeholder, this script renders a fixed braid of the
+# same shape that is derived from nothing.
+MATRIX_SHAPE = (25, 8)
+SIDECAR = Path(__file__).resolve().parent.parent / "rhombic" / "data" / "tessitura_private.json"
+
+
+def placeholder_matrix() -> np.ndarray:
+    """A deterministic 25x8 braid — two cells per row, no relation to any card."""
+    m = np.zeros(MATRIX_SHAPE, dtype=np.uint8)
+    for r in range(MATRIX_SHAPE[0]):
+        m[r, r % MATRIX_SHAPE[1]] = 1
+        m[r, (3 * r + 1) % MATRIX_SHAPE[1]] = 1
+    return m
+
+
+def load_tessitura_matrix(force_placeholder: bool = False) -> tuple[np.ndarray, str]:
+    """(matrix, source): the private sidecar when present, else the placeholder."""
+    if not force_placeholder and SIDECAR.exists():
+        import json
+        data = json.loads(SIDECAR.read_text(encoding="utf-8"))
+        m = np.asarray(data["matrix"], dtype=np.uint8)
+        if m.shape != MATRIX_SHAPE:
+            raise ValueError(f"tessitura sidecar has shape {m.shape}, expected {MATRIX_SHAPE}")
+        return m, "private sidecar (NOT for public images)"
+    return placeholder_matrix(), "PLACEHOLDER braid (sidecar not loaded)"
 
 
 # ---------------------------------------------------------------------------
@@ -212,12 +220,22 @@ def _apply_vignette(img: Image.Image, strength: float = 0.3) -> Image.Image:
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
-def main():
+def main(argv: list[str] | None = None):
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
+    ap.add_argument("--placeholder", action="store_true",
+                    help="render the placeholder braid even if the private sidecar "
+                         "is present — REQUIRED for any image that goes into the "
+                         "public tree (assets/, website/)")
+    args = ap.parse_args(argv)
+
     out_dir = Path(__file__).resolve().parent.parent / "assets"
     out_dir.mkdir(exist_ok=True)
 
-    matrix = TESSITURA_MATRIX
-    print(f"Tessitura matrix: {matrix.shape}, fill rate: {matrix.mean():.1%}")
+    matrix, source = load_tessitura_matrix(force_placeholder=args.placeholder)
+    print(f"Tessitura matrix: {matrix.shape} [{source}], fill rate: {matrix.mean():.1%}")
+    if "sidecar" in source and "NOT" in source:
+        print("  WARNING: rendering from the private matrix — do not commit these images.")
 
     # --- High-res section divider ---
     # Transposed: 8 rows x 25 cols.

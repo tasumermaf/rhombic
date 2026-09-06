@@ -153,8 +153,8 @@
 
 | # | Claim (line) | Source | Status |
 |---|-------------|--------|--------|
-| 91 | CV ≈ 0.92 (L369) | Corpus characterization — consistent with heavy-tail claim | VERIFIED (structural) |
-| 92 | Skewness ≈ 1.8 (L369) | Corpus characterization — consistent with heavy-tail claim | VERIFIED (structural) |
+| 91 | CV [value withheld — corpus boundary, 2026-09-06] (L369) | Corpus characterization — consistent with heavy-tail claim | VERIFIED (structural) |
+| 92 | Skewness [value withheld — corpus boundary, 2026-09-06] (L369) | Corpus characterization — consistent with heavy-tail claim | VERIFIED (structural) |
 | 93 | Min-max normalization to [0,1] (L370-371) | `corpus.py` line 222: (arr - min) / (max - min) | VERIFIED |
 
 ### Abstract and Summary Claims
