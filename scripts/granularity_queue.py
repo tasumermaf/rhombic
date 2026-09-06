@@ -179,7 +179,18 @@ def tier_of(level: str) -> str:
 
 
 def fired_gates() -> list[str]:
-    """Tiers whose gate the analysis side has recorded (same file it writes)."""
+    """Tiers whose gate the analysis side has recorded (same file it writes).
+
+    2026-09-06 — Director review Item 3: the ledger format is the analysis
+    side's {"ledger": [{"tier": ...}, ...], "note": ...}, written by
+    granularity_analysis.record_gate. The previous dict branch read the
+    TOP-LEVEL keys, so on a real ledger it returned ["ledger", "note"] and
+    could never see a fired gate — fail-closed, but wrong: after L1's gate
+    fired, no ARMB rung could ever have been enqueued. Firing order is
+    preserved; a tier recorded by several levels (the four ARMB rungs) counts
+    once, at its first occurrence. The legacy list and {tier: bool} forms are
+    still accepted.
+    """
     if not GATES_FILE.exists():
         return []
     try:
@@ -187,9 +198,21 @@ def fired_gates() -> list[str]:
     except (OSError, ValueError) as e:
         log(f"TIER_GATES.json unreadable ({e}); treating as no gates fired")
         return []
-    if isinstance(data, dict):
-        return [t for t, v in data.items() if v]
-    return [str(t) for t in data]
+    if isinstance(data, dict) and isinstance(data.get("ledger"), list):
+        raw = [str(e.get("tier")) for e in data["ledger"]
+               if isinstance(e, dict) and e.get("tier")]
+    elif isinstance(data, dict):
+        raw = [str(t) for t, v in data.items() if v]      # legacy {tier: bool}
+    elif isinstance(data, list):
+        raw = [str(t) for t in data]                       # legacy list
+    else:
+        log("TIER_GATES.json has an unrecognised shape; treating as no gates fired")
+        return []
+    fired: list[str] = []
+    for t in raw:
+        if t not in fired:
+            fired.append(t)
+    return fired
 
 
 def training_interlock(level: str) -> list[str]:
