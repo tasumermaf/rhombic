@@ -928,8 +928,12 @@ def main(argv: list[str] | None = None) -> int:
                     choices=["raw", "canonical", "vocab_signature", "both",
                              "all"],
                     help="'all' = the three registered representations "
-                         "(vocab_signature runs both kv modes); 'both' = "
-                         "raw + canonical, the pre-2026-09-05 default")
+                         "(design §5; vocab_signature runs both kv modes — "
+                         "zero_pad primary, exclude secondary, both always "
+                         "reported); 'both' = REPRODUCTION mode only: raw + "
+                         "canonical, the two-representation run as it stood "
+                         "before 2026-09-05 — not an alternative configuration "
+                         "(Director review 2026-09-06, Item 2)")
     ap.add_argument("--allow-partial", action="store_true",
                     help="EXPLORATORY ONLY — analyze an incomplete level")
     ap.add_argument("--force-tier-order", action="store_true",
