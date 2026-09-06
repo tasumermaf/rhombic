@@ -1,0 +1,736 @@
+{
+ "label": "D1 replication on L1-taxonomy adapters, exploratory, n = 60",
+ "analysis": "A7b \u2014 held-out replication of D1's label-separability result on the completed L1-taxonomy adapters",
+ "exploratory_only": true,
+ "not_a_level": true,
+ "locks_applied": "none",
+ "pins": {
+  "a": "computes LOO accuracy, Cohen's kappa and the 1,000-permutation null for raw / canonical / vocab_signature and reports Jeffreys intervals; does NOT apply the D10 lock, the D5 ceiling, or any registered granularity metric, because it is not a level",
+  "b": "labelled \"D1 replication on L1-taxonomy adapters, exploratory, n = 60\" in every output",
+  "c": "the 60 adapters used are named by run index so that, when 240 are complete, the same analysis can be re-run and the two compared",
+  "source": "Director's review 2026-09-06, Item 6 (A7b, RUN IT bounded)"
+ },
+ "generated_by": "scripts/a7b_d1_replication_l1.py",
+ "note": "docs/A7B_NOTE_2026-09-06.md (written before this run)",
+ "git_commit": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632",
+ "generated_at": "2026-09-06T03:58:36.281325+00:00",
+ "family": "meta-llama/Llama-3.2-1B-Instruct",
+ "scope_limit": "llama3.2-1b only (D1 APPROVED) \u2014 this scope limit belongs in every claim derived from this file.",
+ "n_permutations": 1000,
+ "seed": 0,
+ "level_index": 101,
+ "null_stream_key": "default_rng([seed=0, level_index=101, rep_index]) \u2014 level_index 101 is outside every registered index space (granularity levels 0-8, D1 families 0-1) so this exploratory null never shares a stream with a registered run",
+ "rep_stream_index": {
+  "raw": 0,
+  "canonical": 1,
+  "vocab_signature": 2,
+  "vocab_signature_kv_exclude": 3
+ },
+ "parameters": {
+  "svm_c": 1.0,
+  "chunk_rows": 8,
+  "proj_dim": 16,
+  "proj_seed": 0,
+  "representations": [
+   "raw",
+   "canonical",
+   "vocab_signature"
+  ],
+  "code_path": "asset1_d1_identifiability.analyze_family, called with the same keyword arguments granularity_analysis.analyze_label_space uses"
+ },
+ "cohort": {
+  "rule": "the COMPLETE L1 runs whose replicate index is 0-4 in every one of the 12 L1 classes; the replicate-5 runs are dropped so the design is balanced",
+  "level": "L1",
+  "l1_classes_materialized": 12,
+  "n_adapters": 60,
+  "k_parent_classes": 6,
+  "parents": [
+   "agnews",
+   "alpaca",
+   "code",
+   "math",
+   "squad",
+   "xsum"
+  ],
+  "per_parent_n": {
+   "agnews": 10,
+   "alpaca": 10,
+   "code": 10,
+   "math": 10,
+   "squad": 10,
+   "xsum": 10
+  },
+  "run_indices_by_parent": {
+   "agnews": [
+    "run_000",
+    "run_001",
+    "run_012",
+    "run_013",
+    "run_024",
+    "run_025",
+    "run_036",
+    "run_037",
+    "run_048",
+    "run_049"
+   ],
+   "alpaca": [
+    "run_002",
+    "run_003",
+    "run_014",
+    "run_015",
+    "run_026",
+    "run_027",
+    "run_038",
+    "run_039",
+    "run_050",
+    "run_051"
+   ],
+   "code": [
+    "run_004",
+    "run_005",
+    "run_016",
+    "run_017",
+    "run_028",
+    "run_029",
+    "run_040",
+    "run_041",
+    "run_052",
+    "run_053"
+   ],
+   "math": [
+    "run_006",
+    "run_007",
+    "run_018",
+    "run_019",
+    "run_030",
+    "run_031",
+    "run_042",
+    "run_043",
+    "run_054",
+    "run_055"
+   ],
+   "squad": [
+    "run_008",
+    "run_009",
+    "run_020",
+    "run_021",
+    "run_032",
+    "run_033",
+    "run_044",
+    "run_045",
+    "run_056",
+    "run_057"
+   ],
+   "xsum": [
+    "run_010",
+    "run_011",
+    "run_022",
+    "run_023",
+    "run_034",
+    "run_035",
+    "run_046",
+    "run_047",
+    "run_058",
+    "run_059"
+   ]
+  },
+  "dropped_replicate_5_complete_runs": [
+   "run_060",
+   "run_061",
+   "run_062",
+   "run_063"
+  ],
+  "label_space": "each adapter relabelled by its PARENT task",
+  "chance": 0.16666666666666666
+ },
+ "jeffreys_selfcheck": {
+  "x": 60,
+  "n": 60,
+  "backend": "scipy.stats.beta.ppf",
+  "interval": [
+   0.9591660771331015,
+   0.9999918501522101
+  ],
+  "interval_rounded_3dp": [
+   0.959,
+   1.0
+  ],
+  "director_stated": [
+   0.959,
+   1.0
+  ],
+  "matches_director": true,
+  "numpy_fallback_interval": [
+   0.959166077133101,
+   0.9999918501522103
+  ],
+  "fallback_agrees_to_1e-9": true,
+  "one_error_accuracy": 0.9833333333333333
+ },
+ "results": {
+  "raw": {
+   "n_runs": 60,
+   "feature_dim": 5114112,
+   "loo_accuracy": 0.016666666666666666,
+   "per_class_recall": {
+    "agnews": 0.0,
+    "alpaca": 0.1,
+    "code": 0.0,
+    "math": 0.0,
+    "squad": 0.0,
+    "xsum": 0.0
+   },
+   "macro_f1": 0.00546448087431694,
+   "confusion_matrix": {
+    "rows_true_cols_pred": [
+     [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      2,
+      1,
+      7,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "task_order": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ]
+   },
+   "wilson_ci_95": [
+    0.0029481597947862495,
+    0.08855129727590061
+   ],
+   "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+   "permutation": {
+    "n_permutations": 1000,
+    "null_mean": 0.0010166666666666666,
+    "null_max": 0.11666666666666667,
+    "null_p99": 0.03333333333333333,
+    "p_value": 0.029970029970029972
+   },
+   "h1_lock": {
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy_exceeds_threshold": false,
+    "p_threshold": 0.01,
+    "p_below_threshold": false,
+    "pass": false
+   },
+   "heterogeneity_guard": {
+    "per_task_mean_within_class_distance": {
+     "agnews": 40.999985584436715,
+     "alpaca": 39.19455158470231,
+     "code": 40.00838474614233,
+     "math": 48.06799485961018,
+     "squad": 44.32998045369871,
+     "xsum": 43.16442291762009
+    },
+    "ratio_max_over_min": 1.2263948155072448,
+    "trigger_threshold": 3.7,
+    "triggered": false
+   },
+   "per_module_loo_accuracy": {
+    "model_layers_0_self_attn_k_proj": 0.11666666666666667,
+    "model_layers_0_self_attn_o_proj": 0.15,
+    "model_layers_0_self_attn_q_proj": 0.08333333333333333,
+    "model_layers_0_self_attn_v_proj": 0.11666666666666667,
+    "model_layers_10_self_attn_k_proj": 0.26666666666666666,
+    "model_layers_10_self_attn_o_proj": 0.08333333333333333,
+    "model_layers_10_self_attn_q_proj": 0.06666666666666667,
+    "model_layers_10_self_attn_v_proj": 0.08333333333333333,
+    "model_layers_11_self_attn_k_proj": 0.13333333333333333,
+    "model_layers_11_self_attn_o_proj": 0.16666666666666666,
+    "model_layers_11_self_attn_q_proj": 0.11666666666666667,
+    "model_layers_11_self_attn_v_proj": 0.16666666666666666,
+    "model_layers_12_self_attn_k_proj": 0.15,
+    "model_layers_12_self_attn_o_proj": 0.16666666666666666,
+    "model_layers_12_self_attn_q_proj": 0.16666666666666666,
+    "model_layers_12_self_attn_v_proj": 0.11666666666666667,
+    "model_layers_13_self_attn_k_proj": 0.13333333333333333,
+    "model_layers_13_self_attn_o_proj": 0.13333333333333333,
+    "model_layers_13_self_attn_q_proj": 0.1,
+    "model_layers_13_self_attn_v_proj": 0.2,
+    "model_layers_14_self_attn_k_proj": 0.1,
+    "model_layers_14_self_attn_o_proj": 0.11666666666666667,
+    "model_layers_14_self_attn_q_proj": 0.1,
+    "model_layers_14_self_attn_v_proj": 0.11666666666666667,
+    "model_layers_15_self_attn_k_proj": 0.1,
+    "model_layers_15_self_attn_o_proj": 0.16666666666666666,
+    "model_layers_15_self_attn_q_proj": 0.18333333333333332,
+    "model_layers_15_self_attn_v_proj": 0.16666666666666666,
+    "model_layers_1_self_attn_k_proj": 0.06666666666666667,
+    "model_layers_1_self_attn_o_proj": 0.16666666666666666,
+    "model_layers_1_self_attn_q_proj": 0.13333333333333333,
+    "model_layers_1_self_attn_v_proj": 0.15,
+    "model_layers_2_self_attn_k_proj": 0.18333333333333332,
+    "model_layers_2_self_attn_o_proj": 0.06666666666666667,
+    "model_layers_2_self_attn_q_proj": 0.05,
+    "model_layers_2_self_attn_v_proj": 0.11666666666666667,
+    "model_layers_3_self_attn_k_proj": 0.25,
+    "model_layers_3_self_attn_o_proj": 0.08333333333333333,
+    "model_layers_3_self_attn_q_proj": 0.18333333333333332,
+    "model_layers_3_self_attn_v_proj": 0.11666666666666667,
+    "model_layers_4_self_attn_k_proj": 0.18333333333333332,
+    "model_layers_4_self_attn_o_proj": 0.13333333333333333,
+    "model_layers_4_self_attn_q_proj": 0.15,
+    "model_layers_4_self_attn_v_proj": 0.1,
+    "model_layers_5_self_attn_k_proj": 0.08333333333333333,
+    "model_layers_5_self_attn_o_proj": 0.016666666666666666,
+    "model_layers_5_self_attn_q_proj": 0.06666666666666667,
+    "model_layers_5_self_attn_v_proj": 0.05,
+    "model_layers_6_self_attn_k_proj": 0.1,
+    "model_layers_6_self_attn_o_proj": 0.08333333333333333,
+    "model_layers_6_self_attn_q_proj": 0.11666666666666667,
+    "model_layers_6_self_attn_v_proj": 0.13333333333333333,
+    "model_layers_7_self_attn_k_proj": 0.06666666666666667,
+    "model_layers_7_self_attn_o_proj": 0.08333333333333333,
+    "model_layers_7_self_attn_q_proj": 0.2,
+    "model_layers_7_self_attn_v_proj": 0.1,
+    "model_layers_8_self_attn_k_proj": 0.08333333333333333,
+    "model_layers_8_self_attn_o_proj": 0.05,
+    "model_layers_8_self_attn_q_proj": 0.2,
+    "model_layers_8_self_attn_v_proj": 0.03333333333333333,
+    "model_layers_9_self_attn_k_proj": 0.06666666666666667,
+    "model_layers_9_self_attn_o_proj": 0.016666666666666666,
+    "model_layers_9_self_attn_q_proj": 0.06666666666666667,
+    "model_layers_9_self_attn_v_proj": 0.1
+   },
+   "per_module_note": "Exploratory/descriptive only (card D1 item 4: all-modules is the headline). No per-module permutation null is run: it would add 100+ unregistered hypothesis tests requiring multiplicity control the card does not pre-register.",
+   "representation": "raw",
+   "kv_mode": null,
+   "cohens_kappa": -0.18,
+   "n_correct": 1,
+   "n_errors": 59,
+   "jeffreys_ci_95": [
+    0.0018042161883804412,
+    0.07525068954887798
+   ],
+   "jeffreys_backend": "scipy.stats.beta.ppf",
+   "jeffreys_note": "Beta(x + 0.5, n - x + 0.5) at quantiles 0.025 / 0.975. Like the Wilson interval d1 reports, it treats LOO predictions as independent Bernoulli trials, which they are not; the permutation p-value is the calibrated inference.",
+   "locks_applied": "none",
+   "not_a_level": true
+  },
+  "canonical": {
+   "n_runs": 60,
+   "feature_dim": 50688,
+   "loo_accuracy": 0.95,
+   "per_class_recall": {
+    "agnews": 1.0,
+    "alpaca": 0.9,
+    "code": 1.0,
+    "math": 1.0,
+    "squad": 0.8,
+    "xsum": 1.0
+   },
+   "macro_f1": 0.949621528568897,
+   "confusion_matrix": {
+    "rows_true_cols_pred": [
+     [
+      10,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      9,
+      1,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      10,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      10,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      1,
+      1,
+      8,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      10
+     ]
+    ],
+    "task_order": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ]
+   },
+   "wilson_ci_95": [
+    0.8629948352365147,
+    0.9828504978356043
+   ],
+   "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+   "permutation": {
+    "n_permutations": 1000,
+    "null_mean": 0.008166666666666668,
+    "null_max": 0.08333333333333333,
+    "null_p99": 0.06666666666666667,
+    "p_value": 0.000999000999000999
+   },
+   "h1_lock": {
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy_exceeds_threshold": true,
+    "p_threshold": 0.01,
+    "p_below_threshold": true,
+    "pass": true
+   },
+   "heterogeneity_guard": {
+    "per_task_mean_within_class_distance": {
+     "agnews": 77.63581177150905,
+     "alpaca": 77.80477479625914,
+     "code": 77.60199649884784,
+     "math": 78.02801042035922,
+     "squad": 77.73816311905922,
+     "xsum": 77.55972401054524
+    },
+    "ratio_max_over_min": 1.006037752400335,
+    "trigger_threshold": 3.7,
+    "triggered": false
+   },
+   "representation": "canonical",
+   "kv_mode": null,
+   "cohens_kappa": 0.94,
+   "n_correct": 57,
+   "n_errors": 3,
+   "jeffreys_ci_95": [
+    0.8725543737714543,
+    0.9857187721602737
+   ],
+   "jeffreys_backend": "scipy.stats.beta.ppf",
+   "jeffreys_note": "Beta(x + 0.5, n - x + 0.5) at quantiles 0.025 / 0.975. Like the Wilson interval d1 reports, it treats LOO predictions as independent Bernoulli trials, which they are not; the permutation p-value is the calibrated inference.",
+   "locks_applied": "none",
+   "not_a_level": true
+  },
+  "vocab_signature": {
+   "n_runs": 60,
+   "feature_dim": 8704,
+   "loo_accuracy": 1.0,
+   "per_class_recall": {
+    "agnews": 1.0,
+    "alpaca": 1.0,
+    "code": 1.0,
+    "math": 1.0,
+    "squad": 1.0,
+    "xsum": 1.0
+   },
+   "macro_f1": 1.0,
+   "confusion_matrix": {
+    "rows_true_cols_pred": [
+     [
+      10,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      10,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      10,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      10,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      10
+     ]
+    ],
+    "task_order": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ]
+   },
+   "wilson_ci_95": [
+    0.93982814785791,
+    0.9999999999999998
+   ],
+   "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+   "permutation": {
+    "n_permutations": 1000,
+    "null_mean": 0.13911666666666667,
+    "null_max": 0.35,
+    "null_p99": 0.3,
+    "p_value": 0.000999000999000999
+   },
+   "h1_lock": {
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy_exceeds_threshold": true,
+    "p_threshold": 0.01,
+    "p_below_threshold": true,
+    "pass": true
+   },
+   "heterogeneity_guard": {
+    "per_task_mean_within_class_distance": {
+     "agnews": 13.022065506553249,
+     "alpaca": 11.019756260796886,
+     "code": 12.377732191903474,
+     "math": 19.78850255710435,
+     "squad": 15.613065888666837,
+     "xsum": 13.54865939486515
+    },
+    "ratio_max_over_min": 1.795729604973437,
+    "trigger_threshold": 3.7,
+    "triggered": false
+   },
+   "representation": "vocab_signature",
+   "kv_mode": "zero_pad",
+   "cohens_kappa": 1.0,
+   "n_correct": 60,
+   "n_errors": 0,
+   "jeffreys_ci_95": [
+    0.9591660771331015,
+    0.9999918501522101
+   ],
+   "jeffreys_backend": "scipy.stats.beta.ppf",
+   "jeffreys_note": "Beta(x + 0.5, n - x + 0.5) at quantiles 0.025 / 0.975. Like the Wilson interval d1 reports, it treats LOO predictions as independent Bernoulli trials, which they are not; the permutation p-value is the calibrated inference.",
+   "locks_applied": "none",
+   "not_a_level": true
+  },
+  "vocab_signature_kv_exclude": {
+   "n_runs": 60,
+   "feature_dim": 4352,
+   "loo_accuracy": 1.0,
+   "per_class_recall": {
+    "agnews": 1.0,
+    "alpaca": 1.0,
+    "code": 1.0,
+    "math": 1.0,
+    "squad": 1.0,
+    "xsum": 1.0
+   },
+   "macro_f1": 1.0,
+   "confusion_matrix": {
+    "rows_true_cols_pred": [
+     [
+      10,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      10,
+      0,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      10,
+      0,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      10,
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      10,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      10
+     ]
+    ],
+    "task_order": [
+     "agnews",
+     "alpaca",
+     "code",
+     "math",
+     "squad",
+     "xsum"
+    ]
+   },
+   "wilson_ci_95": [
+    0.93982814785791,
+    0.9999999999999998
+   ],
+   "wilson_caveat": "Wilson interval treats the LOO predictions as independent Bernoulli trials; LOO folds share training data and are NOT independent, so this CI is descriptive only. The permutation p-value is the calibrated inference (card D1, analysis item 2).",
+   "permutation": {
+    "n_permutations": 1000,
+    "null_mean": 0.13738333333333333,
+    "null_max": 0.38333333333333336,
+    "null_p99": 0.3,
+    "p_value": 0.000999000999000999
+   },
+   "h1_lock": {
+    "chance": 0.16666666666666666,
+    "accuracy_threshold_1p5x_chance": 0.25,
+    "accuracy_exceeds_threshold": true,
+    "p_threshold": 0.01,
+    "p_below_threshold": true,
+    "pass": true
+   },
+   "heterogeneity_guard": {
+    "per_task_mean_within_class_distance": {
+     "agnews": 11.51991139465781,
+     "alpaca": 9.899487443125905,
+     "code": 11.012867464954402,
+     "math": 17.343624245806865,
+     "squad": 13.748915250544327,
+     "xsum": 12.209068971659887
+    },
+    "ratio_max_over_min": 1.7519719425322458,
+    "trigger_threshold": 3.7,
+    "triggered": false
+   },
+   "representation": "vocab_signature",
+   "kv_mode": "exclude",
+   "cohens_kappa": 1.0,
+   "n_correct": 60,
+   "n_errors": 0,
+   "jeffreys_ci_95": [
+    0.9591660771331015,
+    0.9999918501522101
+   ],
+   "jeffreys_backend": "scipy.stats.beta.ppf",
+   "jeffreys_note": "Beta(x + 0.5, n - x + 0.5) at quantiles 0.025 / 0.975. Like the Wilson interval d1 reports, it treats LOO predictions as independent Bernoulli trials, which they are not; the permutation p-value is the calibrated inference.",
+   "locks_applied": "none",
+   "not_a_level": true
+  }
+ },
+ "delta_canonical_minus_raw": 0.9333333333333332,
+ "direction_check": "The Director's reading to test: if canonical is near 1.0 and raw is near chance on held-out adapters that share nothing with the Asset-1 bank but the base model, D1's central finding replicates out of sample. The numbers above are reported without editorial.",
+ "tier_gates_touched": "none",
+ "vocabsig_readout": {
+  "vocab_size": 128256,
+  "d_model": 2048,
+  "loaded_keys": [
+   "model.embed_tokens.weight",
+   "model.norm.weight"
+  ],
+  "files_opened": [
+   "model.safetensors"
+  ],
+  "tied_embeddings_fallback": true,
+  "snapshot": "C:\\falco\\hf-cache\\hub\\models--meta-llama--Llama-3.2-1B-Instruct\\snapshots\\9213176726f574b556790deb65791e0c5aa438b6",
+  "model_id": "meta-llama/Llama-3.2-1B-Instruct"
+ }
+}
