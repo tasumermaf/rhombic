@@ -15,9 +15,10 @@ analysis `scripts/granularity_analysis.py`; live ledger
 
 | Tier | Runs | Status (2026-09-05) | Gate / note |
 |------|------|---------------------|-------------|
-| L0 re-baseline | 0 new (Asset-1 llama cohort, 240) | analysis-side; NOT YET RUN (exploratory CPU dry run 2026-09-05, no gate stamped) | kappa + D6 on the anchor; gates L1's ANALYSIS |
+| L0 re-baseline | 0 new (Asset-1 llama cohort, 240) | **GATE RECORDED 2026-09-06 04:48:57Z** (Director Item 1, authorized on the 2026-09-05 dry run; run from 174ae95 with the analysis script unchanged since d46c082; CPU, 72 min): raw 0.1375 / κ −0.0350 / D10 FAIL · canonical 1.0000 / 1.0000 / PASS at ceiling · vocab_signature 1.0000 both kv modes / PASS · Δ +0.8625 · D6 cv 0.9745 κ 0.9694; identical to the dry run | `results/granularity/analysis/{L0_REPORT.md, L0_results.json, RUN_NOTE.md}`, `results/granularity/TIER_GATES.json` (ledger entry 1); gates L1's ANALYSIS via `require_tier_order` — L1 analysis unlocks at 240/240 |
 | L1 | 240 (12 classes x 20 seeds) | 64 COMPLETE / 176 pending; PAUSED since 2026-08-11 (PI sentinel) | 31.92 min/run measured; 3.901 GPU-days remaining; relaunch = queue relaunch after the PI lifts the pause |
-| Arm B (B2 B4 B8 B16) | 144 | GATED — fires after L1's gate is recorded | training-side interlock added 2026-09-05 (A18) |
+| Arm B (B2 B4 B8 B16) | 144 | GATED — fires after L1's gate is recorded | training-side interlock added 2026-09-05 (A18); Director 2026-09-06 Item 3: interlock CONFIRMED, unit test `tests/test_granularity_queue.py` (12 pass) in the suite; `fired_gates()` ledger-format defect fixed the same day (it read the ledger's top-level keys and could never see a fired gate); the 176 pending L1 runs may complete before L0's gate, but no L1 ANALYSIS and no L1 gate until L0's gate is in the ledger |
+| A7b (exploratory, not a level) | 0 new (60 of the 64 COMPLETE L1 adapters, replicates 0–4, relabelled to 6 parents) | DONE 2026-09-06 03:58Z (Director Item 6, three pins): raw 0.0167 / κ −0.18 · canonical 0.9500 / κ 0.94 · vocab_signature 1.0000 both kv modes; Δ +0.9333; Jeffreys intervals reported; no D10/D5; no gate | `docs/A7B_NOTE_2026-09-06.md` (written before the run), `scripts/a7b_d1_replication_l1.py`, `results/granularity/analysis-exploratory/A7b-d1-replication-L1-2026-09-06/`; re-run on the same 60 run indices at 240/240 |
 | L2 | 240 | GATED (launchable since G-5 resolved 2026-08-05) | after ARMB's gate |
 | L3 | 240 | GATED | after L2's gate |
 | D7 | 10 | GATED | after L3's gate |
