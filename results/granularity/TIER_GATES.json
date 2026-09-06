@@ -1,0 +1,14 @@
+{
+ "ledger": [
+  {
+   "tier": "L0",
+   "level": "L0",
+   "fired_at": "2026-09-06T04:48:57.413066+00:00",
+   "tiers_already_unblinded": [],
+   "k": 6,
+   "n_runs": 240,
+   "git_commit": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632"
+  }
+ ],
+ "note": "Tier gates, in firing order. The lock requires each gate to record which tiers were already unblinded when it fired."
+}
