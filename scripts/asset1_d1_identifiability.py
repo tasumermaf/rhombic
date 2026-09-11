@@ -236,6 +236,76 @@ H2_PRIMARY_REPRESENTATION = "spectrum"        # depth-binned SV spectra (H2a)
 H2_CORROBORATING_REPRESENTATION = "probe"     # probe-projection = corroborating
 H2_HEADLINE_VARIANT = "family_standardized"   # shift-controlled headline (H2c)
 
+# ── H2-S rank-padding clause — PINNED (Director pin condition 3) ─────
+# Binding text, verbatim:
+#   AMENDMENT_H2S_RANK_FRACTION_v2_2026-08-04.md:91-101 (§3 "Mandatory
+#   analysis-side clause"), restated as binding pin condition 3 at :131-134;
+#   the pin is GRANTED on v2 (:117).
+#   DIRECTOR_GRADES_2026-08-04.md:29 item (c) — "approved as written, with
+#   one addition": report the padded-slot occupancy.
+# NOTHING below hardcodes 54 or 24. sigma_slots = max(observed rank) and
+# top_slots = min(observed rank), both read at runtime from
+# r["config"]["rank"]; 54 is pinned in the amendment (:56), 24 in
+# scripts/asset1_bank.py:105, and neither literal appears in this module.
+ZERO_VAR_TOL = 1e-12             # single source for the zero-variance guard
+H2_VIEWS = ("padded", "top_slots")            # the two REQUIRED contrast views
+H2S_CLAUSE_CITE = "AMENDMENT_H2S_RANK_FRACTION_v2_2026-08-04.md:91-101"
+H2S_ADDITION_CITE = "DIRECTOR_GRADES_2026-08-04.md:29 (item c)"
+H2S_PADDING_CLAUSE = (
+    "MANDATORY ANALYSIS-SIDE CLAUSE (verbatim, " + H2S_CLAUSE_CITE + "): "
+    "'For any analysis spanning unequal ranks: pad both families to "
+    "sigma_slots = max(rank) using the existing trailing-zero convention "
+    "(asset1_d1_identifiability.py docstring, lines 69-76), report the "
+    "registered contrast on BOTH the padded spectrum and the top-24 slice, "
+    "and guard zero-variance padded slots before standardization (the "
+    "rank-24 leg's padded slots are identically zero and divide by zero "
+    "otherwise). Curing by top-24 truncation alone is prohibited - "
+    "truncation keeps the head and discards exactly the tail directions the "
+    "section 3 head-vs-tail contrast hypothesizes carry task identity.'")
+H2S_TRUNCATION_PROHIBITED = (
+    "TRUNCATION-ONLY REFUSED. 'Curing by top-24 truncation alone is "
+    "prohibited' (" + H2S_CLAUSE_CITE + "; Director: the prohibition is "
+    "well-aimed - truncation discards precisely the tail directions the "
+    "spectral-tail pre-declaration hypothesizes carry the signal, "
+    + H2S_ADDITION_CITE + "). The registered contrast MUST be reported on "
+    "the padded spectrum; the top-slots slice is reported alongside it, "
+    "never instead of it.")
+H2S_OCCUPANCY_ADDITION = (
+    "Director's addition, verbatim (" + H2S_ADDITION_CITE + "): 'report the "
+    "padded-slot occupancy (fraction of nonzero mass in slots 25-54 for the "
+    "rank-54 leg) as a descriptive statistic, so a null on the padded "
+    "contrast can be distinguished from \"the extra slots were never "
+    "used.\"'")
+H2S_OCCUPANCY_DEFINITIONS = {
+    "nonzero_mass_fraction": (
+        "PRIMARY (the binding Director text, " + H2S_ADDITION_CITE + "): "
+        "share of total absolute feature mass carried by the padded slot "
+        "band [top_slots, sigma_slots) of a block, summed over runs and over "
+        "every column belonging to those slots, on the RAW pre-"
+        "standardization features (standardization destroys the mass "
+        "interpretation). For the spectrum representation the feature is "
+        "log1p(sigma) >= 0, so the absolute value is the identity."),
+    "nonzero_variance_fraction": (
+        "COMPANION (the statistic the zero-variance guard keys on): "
+        "fraction of the padded slots in [top_slots, sigma_slots) that carry "
+        "non-zero across-run variance in at least one of their columns, at "
+        "tol=ZERO_VAR_TOL. Distinct from the mass fraction; both are "
+        "reported, neither substitutes for the other."),
+    "inapplicable": (
+        "When top_slots == sigma_slots the padded band is EMPTY: "
+        "'applicable' is False and BOTH fractions are None, never 0.0. "
+        "0.0 is the distinct, APPLICABLE reading 'the extra slots exist "
+        "and were never used' (" + H2S_ADDITION_CITE + "); an equal-rank "
+        "record has no extra slots to say that about, and a 0.0 there "
+        "would assert exactly the thing the addition exists to "
+        "distinguish."),
+    "caveat": (
+        "log1p(0) == 0, so a genuinely-zero singular value is "
+        "indistinguishable in the feature from a trailing-zero pad slot. "
+        "That is why occupancy is the right diagnostic here and why it is "
+        "DESCRIPTIVE, never inferential."),
+}
+
 WILSON_CAVEAT = (
     "Wilson interval treats the LOO predictions as independent Bernoulli "
     "trials; LOO folds share training data and are NOT independent, so "
@@ -708,7 +778,7 @@ def h2_features_for_run(run_dir: Path, sigma_slots: int, n_depth_bins: int,
 
 
 def familywise_standardize(features: dict[str, dict[str, np.ndarray]],
-                           eps: float = 1e-12
+                           eps: float = ZERO_VAR_TOL
                            ) -> dict[str, dict[str, np.ndarray]]:
     """Per-family, per-feature z-scoring — the H2 covariate-shift control.
 
@@ -729,6 +799,356 @@ def familywise_standardize(features: dict[str, dict[str, np.ndarray]],
             sd_safe = np.where(sd > eps, sd, 1.0)
             out[fam][rep] = (X64 - mu) / sd_safe
     return out
+
+
+# ── H2-S rank padding, zero-variance guard, slot views, occupancy ───
+#
+# The clause these implement is quoted verbatim in H2S_PADDING_CLAUSE
+# above with its citation. The padding ITSELF is not new: it already
+# happens inside h2_features_for_run (``m = min(S.size, sigma_slots)``;
+# ``sig = np.zeros(sigma_slots)``; ``sig[:m] = np.log1p(S[:m])``) — the
+# trailing-zero convention the clause names, module docstring item 6(a).
+# The divide-by-zero guard is likewise already inside
+# familywise_standardize (``sd_safe = np.where(sd > eps, sd, 1.0)``).
+# What was missing, and is what this block adds, is that both were
+# UNNAMED, UNCOUNTED and UNREPORTED: nothing recorded that the short leg
+# contributes (sigma_slots - top_slots) identically-zero slots per block,
+# and nothing enforced that the contrast is reported on both views.
+
+
+def h2_block_layout(rep: str, sigma_slots: int, proj_dim: int) -> dict:
+    """Column layout of ONE (projection type, depth bin) block.
+
+    A block is a concatenation of slot-major segments, exactly as
+    h2_features_for_run builds it:
+      spectrum: [log1p(sigma)]                      segment widths (1,)
+      probe   : [log1p(sigma); (U^T P_u); (V^T P_v)] widths (1, d, d)
+    so ``per_slot_width = sum(segment_widths)`` and ``block_dim =
+    sigma_slots * per_slot_width`` — the same arithmetic as the local
+    ``probe_block_dim`` in h2_features_for_run. Segments are NOT
+    interleaved, which is why a top-k slice is per-segment, not a reshape.
+    """
+    if rep not in ("spectrum", "probe"):
+        raise ValueError(f"unknown H2 representation {rep!r}")
+    seg = (1,) if rep == "spectrum" else (1, int(proj_dim), int(proj_dim))
+    return {"representation": rep, "segment_widths": seg,
+            "per_slot_width": int(sum(seg)),
+            "block_dim": int(sigma_slots) * int(sum(seg))}
+
+
+def _slot_offsets(sigma_slots: int, segment_widths: tuple[int, ...],
+                  lo: int, hi: int) -> np.ndarray:
+    """Within-block column offsets belonging to slots [lo, hi)."""
+    idx: list[int] = []
+    base = 0
+    for w in segment_widths:
+        for s in range(lo, hi):
+            idx.extend(range(base + s * w, base + s * w + w))
+        base += sigma_slots * w
+    return np.asarray(idx, dtype=np.intp)
+
+
+def _block_columns(n_blocks: int, block_dim: int, sigma_slots: int,
+                   segment_widths: tuple[int, ...], lo: int, hi: int
+                   ) -> np.ndarray:
+    """Column indices for slots [lo, hi) across every block."""
+    within = _slot_offsets(sigma_slots, segment_widths, lo, hi)
+    if within.size == 0:
+        return np.zeros(0, dtype=np.intp)
+    return np.concatenate([within + b * block_dim for b in range(n_blocks)])
+
+
+def _check_width(X: np.ndarray, n_blocks: int, block_dim: int,
+                 what: str) -> np.ndarray:
+    X = np.asarray(X)
+    if X.ndim != 2:
+        raise ValueError(f"{what}: expected a 2-D (n_runs, n_features) "
+                         f"matrix, got shape {X.shape}")
+    expect = int(n_blocks) * int(block_dim)
+    if X.shape[1] != expect:
+        raise ValueError(
+            f"{what}: feature width {X.shape[1]} != n_blocks*block_dim = "
+            f"{n_blocks}*{block_dim} = {expect}")
+    return X
+
+
+def resolve_sigma_slots(family_ranks: dict[str, int]) -> dict:
+    """Resolve the padded/top slot counts from the OBSERVED family ranks.
+
+    Replaces the historical hard raise ("rank differs across families —
+    sigma_slots aggregation undefined"), which is precisely the condition
+    the clause now governs. Equal ranks reproduce the pre-clause path
+    exactly: sigma_slots == top_slots == the common rank, zero pad widths,
+    ``unequal`` False.
+    """
+    if not family_ranks:
+        raise ValueError("family_ranks is empty — nothing to resolve")
+    native = {str(f): int(r) for f, r in family_ranks.items()}
+    for fam, r in native.items():
+        if r <= 0:
+            raise ValueError(f"family {fam!r} has non-positive rank {r}")
+    sigma_slots = max(native.values())
+    top_slots = min(native.values())
+    return {
+        "sigma_slots": sigma_slots,
+        "top_slots": top_slots,
+        "native_ranks": native,
+        "pad_width": {f: sigma_slots - r for f, r in native.items()},
+        "unequal": bool(sigma_slots != top_slots),
+        "rule": ("sigma_slots = max(rank), top_slots = min(rank), both read "
+                 "from the bank at runtime"),
+        "clause": H2S_PADDING_CLAUSE,
+    }
+
+
+def assert_not_truncation_only(views) -> tuple[str, ...]:
+    """Refuse any view set that drops the padded contrast.
+
+    The clause prohibits curing unequal ranks by top-slots truncation
+    alone. Reporting ONLY the top-slots slice is exactly that, so it
+    raises; reporting both, or the padded view alone, is permitted.
+    """
+    v = tuple(views)
+    if not v:
+        raise ValueError("views must name at least one H2 view; "
+                         + H2S_TRUNCATION_PROHIBITED)
+    unknown = [x for x in v if x not in H2_VIEWS]
+    if unknown:
+        raise ValueError(f"unknown H2 view(s) {unknown} — expected a subset "
+                         f"of {list(H2_VIEWS)}")
+    if "padded" not in v:
+        raise ValueError(H2S_TRUNCATION_PROHIBITED
+                         + f" Requested views: {list(v)}.")
+    return v
+
+
+def pad_to_max_rank(features: dict[str, np.ndarray],
+                    family_ranks: dict[str, int], sigma_slots: int,
+                    n_blocks: int, *, segment_widths: tuple[int, ...] = (1,),
+                    tol: float = ZERO_VAR_TOL) -> dict:
+    """CHECKED entry point for the pad-to-max(rank) step (one rep).
+
+    ``features[fam]`` is that family's (n_runs, n_blocks*block_dim) matrix,
+    already built at ``sigma_slots`` by h2_features_for_run. This asserts
+    the realized layout, asserts that a short leg's padded band really is
+    identically zero (the trailing-zero convention the clause cites), and
+    REFUSES the case where a family's native rank exceeds sigma_slots —
+    which would mean truncation had already silently occurred upstream.
+    Returns the guard report; it does not modify the inputs.
+    """
+    per_slot = int(sum(segment_widths))
+    block_dim = int(sigma_slots) * per_slot
+    fams: dict[str, dict] = {}
+    for fam in sorted(features):
+        native = int(family_ranks[fam])
+        if native > sigma_slots:
+            raise ValueError(
+                f"family {fam!r} has native rank {native} > sigma_slots "
+                f"{sigma_slots}: padding to max(rank) cannot truncate. "
+                + H2S_TRUNCATION_PROHIBITED)
+        X = _check_width(features[fam], n_blocks, block_dim,
+                         f"pad_to_max_rank[{fam}]")
+        pad_cols = _block_columns(n_blocks, block_dim, sigma_slots,
+                                  segment_widths, native, sigma_slots)
+        pad_block = X[:, pad_cols] if pad_cols.size else X[:, :0]
+        max_abs = float(np.max(np.abs(pad_block))) if pad_block.size else 0.0
+        all_zero = bool(max_abs <= tol)
+        if not all_zero:
+            raise ValueError(
+                f"family {fam!r}: padded band [{native}, {sigma_slots}) is "
+                f"NOT identically zero (max |value| = {max_abs:.3e} > "
+                f"tol={tol:.1e}) — the trailing-zero padding convention "
+                f"named by the clause does not hold for these features")
+        fams[fam] = {
+            "native_rank": native,
+            "pad_width": int(sigma_slots) - native,
+            "padded_columns": int(pad_cols.size),
+            "padded_region_all_zero": all_zero,
+            "max_abs_in_padded_region": max_abs,
+            "n_runs": int(X.shape[0]),
+        }
+    return {
+        "sigma_slots": int(sigma_slots),
+        "n_blocks": int(n_blocks),
+        "segment_widths": tuple(int(w) for w in segment_widths),
+        "per_slot_width": per_slot,
+        "block_dim": block_dim,
+        "tol": float(tol),
+        "truncation_occurred": False,
+        "families": fams,
+        "convention": ("trailing-zero padding, module docstring item 6(a); "
+                       "realized in h2_features_for_run"),
+    }
+
+
+def zero_variance_guard(X: np.ndarray, *, sigma_slots: int | None = None,
+                        top_slots: int | None = None,
+                        n_blocks: int | None = None,
+                        segment_widths: tuple[int, ...] = (1,),
+                        tol: float = ZERO_VAR_TOL) -> dict:
+    """Count the zero-variance columns the standardizer's guard will hit.
+
+    familywise_standardize already divides such columns by 1.0 instead of
+    by their (zero) std, so they survive standardization as EXACTLY 0.0 —
+    this does not add a second division guard, it names and counts the
+    existing one. When the slot layout is supplied the count is split into
+    the padded band [top_slots, sigma_slots) and the native band
+    [0, top_slots), which is what makes "the rank-24 leg contributes
+    (sigma_slots - top_slots) identically-zero slots per block" a reported
+    fact rather than an unstated one.
+    """
+    Xa = np.asarray(X, dtype=np.float64)
+    if Xa.ndim != 2:
+        raise ValueError(f"zero_variance_guard: expected 2-D, got {Xa.shape}")
+    sd = Xa.std(axis=0)
+    zero = sd <= tol
+    out: dict = {
+        "tol": float(tol),
+        "n_features": int(Xa.shape[1]),
+        "n_runs": int(Xa.shape[0]),
+        "n_zero_variance": int(np.count_nonzero(zero)),
+        "zero_variance_fraction": (float(np.count_nonzero(zero) / zero.size)
+                                   if zero.size else None),
+        "padded_region": None,
+        "native_region": None,
+        "note": ("Zero-variance columns are centered-only by "
+                 "familywise_standardize (divided by 1.0, not by sd), so "
+                 "they leave standardization as exactly 0.0. This is the "
+                 "guard the clause requires, now counted and reported."),
+    }
+    if None in (sigma_slots, top_slots, n_blocks):
+        return out
+    per_slot = int(sum(segment_widths))
+    block_dim = int(sigma_slots) * per_slot
+    _check_width(Xa, n_blocks, block_dim, "zero_variance_guard")
+    pad_cols = _block_columns(n_blocks, block_dim, sigma_slots,
+                              segment_widths, int(top_slots),
+                              int(sigma_slots))
+    nat_cols = _block_columns(n_blocks, block_dim, sigma_slots,
+                              segment_widths, 0, int(top_slots))
+    for key, cols in (("padded_region", pad_cols), ("native_region", nat_cols)):
+        n_zero = int(np.count_nonzero(zero[cols])) if cols.size else 0
+        out[key] = {
+            "slot_band": ([int(top_slots), int(sigma_slots)]
+                          if key == "padded_region" else [0, int(top_slots)]),
+            "n_features": int(cols.size),
+            "n_zero_variance": n_zero,
+            "all_zero_variance": bool(cols.size and n_zero == cols.size),
+        }
+    return out
+
+
+def slice_top_slots(X: np.ndarray, *, sigma_slots: int, top_slots: int,
+                    n_blocks: int, segment_widths: tuple[int, ...] = (1,)
+                    ) -> np.ndarray:
+    """Block-wise, segment-aware slice down to the top ``top_slots`` slots.
+
+    This builds the top-slots VIEW the clause requires ALONGSIDE the
+    padded one. It is never the only view reported — see
+    assert_not_truncation_only. When top_slots == sigma_slots the result
+    is an exact copy of the input.
+    """
+    if not 0 < int(top_slots) <= int(sigma_slots):
+        raise ValueError(f"top_slots must be in (0, sigma_slots]; got "
+                         f"top_slots={top_slots}, sigma_slots={sigma_slots}")
+    per_slot = int(sum(segment_widths))
+    block_dim = int(sigma_slots) * per_slot
+    Xa = _check_width(X, n_blocks, block_dim, "slice_top_slots")
+    cols = _block_columns(n_blocks, block_dim, sigma_slots, segment_widths,
+                          0, int(top_slots))
+    return Xa[:, cols]
+
+
+def padded_slot_occupancy(X: np.ndarray, *, sigma_slots: int, top_slots: int,
+                          n_blocks: int,
+                          segment_widths: tuple[int, ...] = (1,),
+                          tol: float = ZERO_VAR_TOL) -> dict:
+    """Director pin condition 3 — the padded-slot occupancy statistic.
+
+    The band is [top_slots, sigma_slots): the slots that exist only
+    because the analysis padded to max(rank). In the pinned H2-S geometry
+    (ranks 24 and 54) that is the Director's "slots 25-54". Reports BOTH
+    statistics named in the record, per block and overall:
+
+      nonzero_mass_fraction     — PRIMARY, the binding Director text
+      nonzero_variance_fraction — COMPANION, the dispatch's wording and the
+                                  statistic the zero-variance guard keys on
+
+    Neither is dropped and neither is conflated; each carries its source in
+    H2S_OCCUPANCY_DEFINITIONS. Descriptive only — it exists so that a null
+    on the padded contrast can be told apart from "the extra slots were
+    never used". Compute on RAW, pre-standardization features.
+
+    INAPPLICABLE CASE. When top_slots == sigma_slots the padded band is
+    EMPTY, ``applicable`` is False, and BOTH fractions are None — never
+    0.0. 0.0 is the distinct, applicable reading "the extra slots exist
+    and were never used", which is exactly the statement the Director's
+    addition was added to make; an equal-rank record has no extra slots
+    to make it about, so it must not make it.
+    """
+    per_slot = int(sum(segment_widths))
+    block_dim = int(sigma_slots) * per_slot
+    Xa = _check_width(X, n_blocks, block_dim, "padded_slot_occupancy").astype(
+        np.float64)
+    n_padded = int(sigma_slots) - int(top_slots)
+    applicable = n_padded > 0
+    col_mass = np.abs(Xa).sum(axis=0)
+    col_var_nonzero = Xa.std(axis=0) > tol
+
+    per_block: list[dict] = []
+    tot_pad_mass = tot_mass = 0.0
+    tot_pad_occupied = 0
+    for b in range(int(n_blocks)):
+        pad = _slot_offsets(sigma_slots, segment_widths, int(top_slots),
+                            int(sigma_slots)) + b * block_dim
+        allc = np.arange(b * block_dim, (b + 1) * block_dim, dtype=np.intp)
+        pad_mass = float(col_mass[pad].sum()) if pad.size else 0.0
+        blk_mass = float(col_mass[allc].sum())
+        occupied = 0
+        for s in range(int(top_slots), int(sigma_slots)):
+            sc = _slot_offsets(sigma_slots, segment_widths, s,
+                               s + 1) + b * block_dim
+            if bool(np.any(col_var_nonzero[sc])):
+                occupied += 1
+        tot_pad_mass += pad_mass
+        tot_mass += blk_mass
+        tot_pad_occupied += occupied
+        per_block.append({
+            "block": b,
+            "padded_mass": pad_mass,
+            "block_mass": blk_mass,
+            "nonzero_mass_fraction": (pad_mass / blk_mass
+                                      if applicable and blk_mass > tol
+                                      else None),
+            "n_padded_slots": n_padded,
+            "n_padded_slots_nonzero_variance": occupied,
+            "nonzero_variance_fraction": (occupied / n_padded
+                                          if applicable else None),
+        })
+    return {
+        "applicable": applicable,
+        "slot_band": [int(top_slots), int(sigma_slots)],
+        "slot_band_1_indexed": ([int(top_slots) + 1, int(sigma_slots)]
+                                if applicable else None),
+        "n_padded_slots_per_block": n_padded,
+        "n_blocks": int(n_blocks),
+        "tol": float(tol),
+        "overall": {
+            "padded_mass": tot_pad_mass,
+            "total_mass": tot_mass,
+            "nonzero_mass_fraction": (tot_pad_mass / tot_mass
+                                      if applicable and tot_mass > tol
+                                      else None),
+            "n_padded_slots": n_padded * int(n_blocks),
+            "n_padded_slots_nonzero_variance": tot_pad_occupied,
+            "nonzero_variance_fraction": (
+                tot_pad_occupied / (n_padded * int(n_blocks))
+                if applicable else None),
+        },
+        "per_block": per_block,
+        "addition": H2S_OCCUPANCY_ADDITION,
+        "definitions": H2S_OCCUPANCY_DEFINITIONS,
+    }
 
 
 def family_identity_probe(X_by_family: dict[str, np.ndarray],
@@ -870,7 +1290,8 @@ def _transfer_cell(X_train: np.ndarray, y_train: np.ndarray,
 def h2_transfer(features: dict[str, dict[str, np.ndarray]],
                 labels: dict[str, np.ndarray],
                 families: list[str], chance: float, C: float = 1.0,
-                seed: int = 0) -> dict:
+                seed: int = 0, *, views: tuple[str, ...] = ("padded",),
+                slot_layout: dict | None = None) -> dict:
     """Train linear SVM on family A, test on family B (both directions,
     both representations), under BOTH the raw representation and the
     per-family standardized (shift-controlled) representation, plus the
@@ -879,7 +1300,56 @@ def h2_transfer(features: dict[str, dict[str, np.ndarray]],
 
     Binomial p (one-sided, greater than chance) is descriptive — the card
     does not pre-register an H2 test statistic.
+
+    ``views`` (keyword-only) selects which slot views the registered
+    contrast is computed on, per the H2-S padding clause. The default
+    ``("padded",)`` reproduces the pre-clause output byte-for-byte: the
+    flat per-representation keys are always the PADDED view. When both
+    views are requested — which is what unequal ranks require — each
+    representation additionally carries ``views`` with an independent
+    ``decision`` per view, and ``slot_layout`` must supply sigma_slots,
+    top_slots, n_blocks and per-representation segment_widths so the
+    top-slots slice can be taken block-wise. ``("top_slots",)`` alone
+    RAISES: curing by truncation alone is prohibited.
     """
+    views = assert_not_truncation_only(views)
+    if "top_slots" in views:
+        if slot_layout is None:
+            raise ValueError("views includes 'top_slots' but slot_layout is "
+                             "None — cannot slice without the block layout")
+        per_view = {}
+        for v in views:
+            if v == "padded":
+                per_view[v] = features
+                continue
+            per_view[v] = {
+                fam: {rep: slice_top_slots(
+                          X, sigma_slots=slot_layout["sigma_slots"],
+                          top_slots=slot_layout["top_slots"],
+                          n_blocks=slot_layout["n_blocks"],
+                          segment_widths=slot_layout["segment_widths"][rep])
+                      for rep, X in reps.items()}
+                for fam, reps in features.items()}
+        computed = {v: _h2_one_view(f, labels, families, chance, C, seed)
+                    for v, f in per_view.items()}
+        out = computed["padded"]
+        for rep in ("spectrum", "probe"):
+            out[rep]["headline_view"] = "padded"
+            out[rep]["views"] = {
+                v: {k: computed[v][rep][k] for k in
+                    ("dim", "family_probe", "within_family_accuracy",
+                     "pairs", "decision")}
+                for v in views}
+            out[rep]["views_note"] = H2S_TRUNCATION_PROHIBITED
+        return out
+    return _h2_one_view(features, labels, families, chance, C, seed)
+
+
+def _h2_one_view(features: dict[str, dict[str, np.ndarray]],
+                 labels: dict[str, np.ndarray],
+                 families: list[str], chance: float, C: float,
+                 seed: int) -> dict:
+    """The per-representation H2 computation for ONE slot view."""
     variants = {"raw": features,
                 "family_standardized": familywise_standardize(features)}
     out: dict = {}
@@ -1283,22 +1753,23 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
 
     # ── H2 cross-family transfer (both dimension-agnostic reps) ──
     if len(families) >= 2:
-        sigma_slots = None
+        # Rank resolution FIRST (features must be built at the padded
+        # width). Unequal ranks are no longer a hard raise — they are the
+        # case the H2-S padding clause governs: pad both families to
+        # sigma_slots = max(rank), report the contrast on BOTH views.
+        family_ranks: dict[str, int] = {}
+        for fam in families:
+            ranks = {r["config"]["rank"] for r in records
+                     if r["family_short"] == fam and r["config"] is not None}
+            if len(ranks) != 1:
+                raise ValueError(f"non-unique rank in family {fam}: {ranks}")
+            family_ranks[fam] = int(ranks.pop())
+        slots = resolve_sigma_slots(family_ranks)
+        sigma_slots = slots["sigma_slots"]
         h2_feats: dict[str, dict[str, np.ndarray]] = {}
         h2_labels: dict[str, np.ndarray] = {}
         for fam in families:
             fam_records = [r for r in records if r["family_short"] == fam]
-            ranks = {r["config"]["rank"] for r in fam_records
-                     if r["config"] is not None}
-            if len(ranks) != 1:
-                raise ValueError(f"non-unique rank in family {fam}: {ranks}")
-            fam_rank = ranks.pop()
-            if sigma_slots is None:
-                sigma_slots = fam_rank
-            elif sigma_slots != fam_rank:
-                raise ValueError(
-                    f"rank differs across families ({sigma_slots} vs "
-                    f"{fam_rank}) — sigma_slots aggregation undefined")
             spec_rows, probe_rows = [], []
             for r in fam_records:
                 s, p_ = h2_features_for_run(
@@ -1310,6 +1781,48 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
                              "probe": np.stack(probe_rows)}
             h2_labels[fam] = np.array(
                 [task_to_int[r["task"]] for r in fam_records])
+
+        # ── H2-S padding clause: checked pad, guard, views, occupancy ──
+        n_blocks = len(_PROJECTIONS) * n_depth_bins
+        seg_widths = {rep: h2_block_layout(rep, sigma_slots,
+                                           proj_dim)["segment_widths"]
+                      for rep in ("spectrum", "probe")}
+        rank_padding = {
+            "clause": H2S_PADDING_CLAUSE,
+            "clause_citation": H2S_CLAUSE_CITE,
+            "addition_citation": H2S_ADDITION_CITE,
+            "truncation_policy": H2S_TRUNCATION_PROHIBITED,
+            "n_blocks": n_blocks,
+            **{k: v for k, v in slots.items() if k != "clause"},
+            "pad_check": {}, "zero_variance_guard": {},
+        }
+        occupancy: dict = {}
+        for rep in ("spectrum", "probe"):
+            rank_padding["pad_check"][rep] = pad_to_max_rank(
+                {f: h2_feats[f][rep] for f in families}, family_ranks,
+                sigma_slots, n_blocks, segment_widths=seg_widths[rep])
+            rank_padding["zero_variance_guard"][rep] = {
+                fam: zero_variance_guard(
+                    h2_feats[fam][rep], sigma_slots=sigma_slots,
+                    top_slots=slots["top_slots"], n_blocks=n_blocks,
+                    segment_widths=seg_widths[rep])
+                for fam in families}
+            occupancy[rep] = {
+                fam: padded_slot_occupancy(
+                    h2_feats[fam][rep], sigma_slots=sigma_slots,
+                    top_slots=slots["top_slots"], n_blocks=n_blocks,
+                    segment_widths=seg_widths[rep])
+                for fam in families}
+        h2_views = H2_VIEWS if slots["unequal"] else ("padded",)
+        rank_padding["views_reported"] = list(h2_views)
+        occupancy["note"] = (
+            "DESCRIPTIVE (Director pin condition 3). Computed on the RAW "
+            "pre-standardization features, per family and per "
+            "representation; the padded band is [top_slots, sigma_slots). "
+            "Reported for every family, so the short leg's exact-zero "
+            "answer is on the record alongside the long leg's.")
+        occupancy["applicable"] = bool(slots["unequal"])
+
         results["h2_cross_family"] = {
             "note": H2_REP_FLAG,
             "shift_control_note": H2_SHIFT_CONTROL_NOTE,
@@ -1322,8 +1835,14 @@ def analyze_bank(bank_root: Path, out_dir: Path, *,
             "margin_pp": H2_MARGIN_PP,
             "sigma_slots": sigma_slots,
             "n_depth_bins": n_depth_bins,
+            "rank_padding": rank_padding,
+            "padded_slot_occupancy": occupancy,
             **h2_transfer(h2_feats, h2_labels, families, chance, C=svm_c,
-                          seed=seed),
+                          seed=seed, views=h2_views,
+                          slot_layout={"sigma_slots": sigma_slots,
+                                       "top_slots": slots["top_slots"],
+                                       "n_blocks": n_blocks,
+                                       "segment_widths": seg_widths}),
         }
         # Combined verdict: PRIMARY (spectrum) carries the claim; the
         # corroborating (probe) representation is compared, and disagreement
@@ -1481,6 +2000,63 @@ def render_report(results: dict) -> str:
             f"sigma_slots = {h2['sigma_slots']}, "
             f"n_depth_bins = {h2['n_depth_bins']}.",
             "",
+        ]
+        rp = h2.get("rank_padding")
+        if rp is not None:
+            native = ", ".join(f"{f}: {r}"
+                               for f, r in sorted(rp["native_ranks"].items()))
+            lines += [
+                "### Rank padding and padded-slot occupancy "
+                "(H2-S clause, Director pin condition 3)",
+                "",
+                f"Native ranks — {native}. sigma_slots = max(rank) = "
+                f"{rp['sigma_slots']}, top_slots = min(rank) = "
+                f"{rp['top_slots']}, unequal = {rp['unequal']}. "
+                f"Views reported: {', '.join(rp['views_reported'])}.",
+                "",
+                f"> {rp['truncation_policy']}",
+                "",
+            ]
+            occ = h2.get("padded_slot_occupancy") or {}
+            if rp["unequal"]:
+                lines += [
+                    "| representation | family | native rank | padded slots"
+                    "/block | nonzero mass fraction | nonzero variance "
+                    "fraction |",
+                    "|---|---|---|---|---|---|",
+                ]
+                for rep in ("spectrum", "probe"):
+                    for fam, o in sorted(occ.get(rep, {}).items()):
+                        ov = o["overall"]
+                        mf = ("n/a" if ov["nonzero_mass_fraction"] is None
+                              else f"{ov['nonzero_mass_fraction']:.4f}")
+                        vf = ("n/a" if ov["nonzero_variance_fraction"] is None
+                              else f"{ov['nonzero_variance_fraction']:.4f}")
+                        lines.append(
+                            f"| {rep} | {fam} | "
+                            f"{rp['native_ranks'][fam]} | "
+                            f"{o['n_padded_slots_per_block']} | {mf} | {vf} |")
+                lines += [
+                    "",
+                    "Mass fraction is the PRIMARY statistic (the binding "
+                    "Director text); the variance fraction is its companion. "
+                    "Both are descriptive — they exist so a null on the "
+                    "padded contrast can be told apart from 'the extra slots "
+                    "were never used'.",
+                    "",
+                ]
+            else:
+                lines += [
+                    "Ranks are equal, so the padded band is empty and the "
+                    "occupancy statistic is inapplicable; the clause ran and "
+                    "recorded that fact. Both fractions are recorded as null, "
+                    "NOT 0.0 — 0.0 would assert 'the extra slots were never "
+                    "used', and here there are no extra slots to say it "
+                    "about. The padded view is the only view, which is the "
+                    "pre-clause behaviour unchanged.",
+                    "",
+                ]
+        lines += [
             "### Family-identity probe (triviality diagnostic)",
             "",
             "| representation | variant | probe accuracy | chance "
