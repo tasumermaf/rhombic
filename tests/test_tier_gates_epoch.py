@@ -90,8 +90,8 @@ def test_fired_gates_still_parses_a_ledger_carrying_the_new_key(tmp_ledger):
 
 
 def test_epoch_does_not_disturb_the_frozen_tier_order(tmp_ledger):
-    """require_tier_order reads `tier` only; an epoch-bearing L1 gate still
-    satisfies L1's successor and still refuses an unfired predecessor."""
+    """require_tier_order reads `tier` only: with an epoch-bearing L1 gate in
+    the ledger it still refuses a level whose predecessor is unfired."""
     ga.record_gate("L1", ["L0"], {"k": 12, "n_runs": 240})
     with pytest.raises(SystemExit):
         ga.require_tier_order("L2")        # L0 recorded nowhere in this ledger
