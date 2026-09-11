@@ -37,6 +37,12 @@ spatial operations, and signal processing.
 > [docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md](docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md));
 > deviations are dated amendments, never silent revisions.
 
+> **History rewritten (2026-09-11):** the full commit history was rewritten to carry a
+> corpus-boundary redaction back through every earlier commit, so essentially every
+> commit SHA changed. Cite tags, not SHAs. The old-to-new map, full and per document,
+> is under [docs/history-rewrite/](docs/history-rewrite/), introduced by
+> [docs/HISTORY_REWRITE_2026-09.md](docs/HISTORY_REWRITE_2026-09.md).
+
 ## Released Research
 
 ### Asset-1: The Gauge Is the Obstacle (July 2026)

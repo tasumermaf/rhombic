@@ -1,0 +1,5965 @@
+{
+ "generated": "2026-09-11",
+ "rewrite_date": "2026-09-11",
+ "label": "history rewrite 2026-09-11 from df22b69",
+ "rehearsal": false,
+ "map_source": "the rewrite's commit map (held privately by the maintainers)",
+ "repo": "the rewritten clone",
+ "repo_head": "420eeb099ba138c1b27cb61e9f59ef83d0e9ec64",
+ "resolve_repo": "the pre-rewrite mirror (private)",
+ "resolve_head": "df22b69d19edf1fe4b3dbc631497ab3604e4f40a",
+ "rewritten_head": "9c1c7d8fdb0fa9f9391a7fd1c1442b10921e12a2",
+ "head_trees_identical": true,
+ "docs_after_rewrite": [
+  "docs/DIRECTOR_RESIDUAL_CLEARANCE_PAPER4_2026-07-07.md",
+  "docs/DIRECTOR_RULING_PINNINGS_ASSET1_2026-07-07.md",
+  "docs/DIRECTOR_VERIFICATION_PAPER4_2026-07-06.md",
+  "docs/DIRECTOR_VERIFICATION_PAPER4_HOLLY_PURGE_2026-07-07.md"
+ ],
+ "documents": [
+  {
+   "path": "docs/DIRECTOR_CONFIRMATION_A3A5_VERIFIED_2026-07-08.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "69bb6b0"
+     ],
+     "old": "69bb6b084def48d2440d7918040d172da96d27d4",
+     "new": "0b470f72ebb5c57f301f4f605774539bd7633859",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "prereg: Director verified all A3-A5 condition encodings \u2014 pre-registration CLOSED both sides (confirmation recorded verbatim)"
+    },
+    {
+     "as_cited": [
+      "8c16ecf",
+      "8c16ecf8"
+     ],
+     "old": "8c16ecf87e9e2d28880eadb34a29c8dd32d0cd47",
+     "new": "8f5eb320247c06c589bbcfa44dc0aab19df05895",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "docs: front matter refreshed to reflect the July legitimization sprint"
+    },
+    {
+     "as_cited": [
+      "a8fe241"
+     ],
+     "old": "a8fe241632714c2feb82bd72c4e4dd8ca0d5f565",
+     "new": "f2c1ca086559616c9bb6fa3a9aef41a9ae21e535",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director pinnings ruling (2026-07-07): two output additions + A1 empirical spot-check"
+    },
+    {
+     "as_cited": [
+      "e344477"
+     ],
+     "old": "e3444779dead606f86f0bb33a45428e863e628a1",
+     "new": "f6912399095bdf9e91cc507614d821d5381b89ed",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "prereg: A3-A5 Director conditions encoded (ruling 2026-07-07)"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_DECISIONS_2026-07-06.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "8c16ecf"
+     ],
+     "old": "8c16ecf87e9e2d28880eadb34a29c8dd32d0cd47",
+     "new": "8f5eb320247c06c589bbcfa44dc0aab19df05895",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "docs: front matter refreshed to reflect the July legitimization sprint"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_RESIDUAL_CLEARANCE_PAPER4_2026-07-07.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "7e23a68b"
+     ],
+     "old": "7e23a68b080be2b5b94eaada974dcb040881a262",
+     "new": "ea93ee92343dd259a026697876a32621f1f6bdfb",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Encode Director carry-forward: within-class variance floor as pinned D1 output note"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_REVIEW_ASSET1_PAPER_V0_2026-07-21.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    },
+    {
+     "as_cited": [
+      "7e747b7"
+     ],
+     "old": "7e747b78952e450c6fdfd5ab6c0c1e35bc1b4ad4",
+     "new": "7186de7760fc82389d5b93ed8aa2eaf9c675bc1a",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 paper: citation-verification fixes (R4 pass)"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_REVIEW_GRANULARITY_2026-09-06.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "53be598"
+     ],
+     "old": "53be598429f26677f90156fee84e17429f39997d",
+     "new": "141170ea05ff99083afe559653cc241a10ab06d7",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity analysis: the registered third representation (vocab_signature, both kv modes)"
+    },
+    {
+     "as_cited": [
+      "d46c082"
+     ],
+     "old": "d46c0822aa8504b42a76894f2313a85f5a54dd95",
+     "new": "9d23a893fa7f8883b4e36be0bb815380b8fba262",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity: tokenizer from the local snapshot in D6; the queue requires the HF token (offline is not a substitute)"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_RULINGS_LADDER_ERRATA_REGISTRATIONS_2026-07-30.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "2e1f823"
+     ],
+     "old": "2e1f823fdf457839e1db198aa00f8c83ced74b67",
+     "new": "6bf282d1c4a2ee6a896c181fc3b463505acd7f2a",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Next-round designs: H2 scale-up prereg draft, granularity bridge + delivery report"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_RULINGS_S2_SIX_ASKS_2026-08-04.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "03f0402"
+     ],
+     "old": "03f040239f3eda3614ab0ef0afd71440cfdcf4a4",
+     "new": "db79be38b7917d3bc960447f0f04a3900973a99c",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "S2 gate satisfied: 9/9 accessible timing runs measured + \u00a73 cost-table restatement"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_RULING_JLENS_STAGEB_2026-07-09.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "a703cc27"
+     ],
+     "old": "a703cc27edd8c6f6feed58fee68efb78471d6b26",
+     "new": "2a9afb9d5b5692a18386a80fbd75a4b7bba04efe",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "gitignore: T-001r3 local checkpoint payload (r2 convention - config+results stay tracked)"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_RULING_PINNINGS_ASSET1_2026-07-07.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "ae18282d"
+     ],
+     "old": "ae18282d7a8cfe61cfe6b60df011d4828d086b57",
+     "new": "7e58894e35c6effd4c7d5fea0ef38c4cca3b5bc7",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Paper 4 blockers #2 + #3 resolved: P0 attribution + spectral-attractor reframe"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_RULING_PREREG_A3A5_2026-07-07.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "a5565881"
+     ],
+     "old": "a556588145f6de17604cac4751034f81e894fb1f",
+     "new": "61fa6371d03111ca9583fcac45d1afdda7ea5926",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Workspace-mapping lanes E-1/E-2/E-3: output-referenced canonicalization, hub-motif nulls, BM-004 prereg v2"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_SIGNOFF_ASSET1_2026-07-21.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_SIGNOFF_ASSET1_2026-07-21_v2.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_SIGNOFF_ASSET1_2026-07-21_v3.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_SIGNOFF_JLENS_CONTROL_2026-07-09.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "ccf7e06f"
+     ],
+     "old": "ccf7e06f343b142a3624ec1ecb9c5b51242bd1d5",
+     "new": "71540ccbe67ddc36725566fa446decbf18007f43",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "jlens: synthetic positive control PASSES - Director's hard condition satisfied, pending his verification"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_VERIFICATION_PAPER4_2026-07-06.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "8194b307"
+     ],
+     "old": "8194b307ccbf69ad9734f2520aada440dc61a2fc",
+     "new": "dca77b1a063a8ea6f6bc30c1e3697fd7b8809e12",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "A1 adopted: campaign geometry bs2xga8 -> bs4xga4 (effective batch 16 unchanged)"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_VERIFICATION_PAPER4_HOLLY_PURGE_2026-07-07.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "35c220e",
+      "35c220ec"
+     ],
+     "old": "35c220ec2ebac42f65b2f99eac406a5054b49a86",
+     "new": "d52220cc38169f741548a5303b17eb03c57825e5",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Holly purge (Director residual pass): retracted performance numbers stripped repo-wide"
+    }
+   ]
+  },
+  {
+   "path": "docs/DIRECTOR_VERIFICATION_XR001_2026-07-14.md",
+   "group": "director_memo",
+   "citations": [
+    {
+     "as_cited": [
+      "df8881f8"
+     ],
+     "old": "df8881f8250102c865ddb9e9b69a321b22bfa13d",
+     "new": "b034027949ddb2743e141ad8da2fc1ee57991bd6",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "website: homepage reflects the current program \u2014 demo video removed, research record added"
+    }
+   ]
+  },
+  {
+   "path": "paper/audit/round-2/ADVERSARY_LADDER_LEDGER_ASSET1.md",
+   "group": "paper_audit",
+   "citations": [
+    {
+     "as_cited": [
+      "377d351"
+     ],
+     "old": "377d351c05420a570507369b08091e6dd74977e1",
+     "new": "b1005fe975467dd86f8169fa4cea228adbff50c3",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 paper: LaTeX conversion \u2014 rhombic-asset1.tex compiles to 22pp"
+    },
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "docs/A7B_NOTE_2026-09-06.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "174ae95"
+     ],
+     "old": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632",
+     "new": "6c79be96b372ceb51979d46ea3ab4958587373c2",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "L0 re-baseline: exploratory CPU dry run, all three representations (no gate recorded)"
+    }
+   ]
+  },
+  {
+   "path": "docs/API_REFERENCE.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "4d2224a"
+     ],
+     "old": "4d2224aa417ab0c6de6dbe9d6202a1cd4b24a471",
+     "new": "d12be62664761aaef804d2719ac48a197887d01e",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Add dependency diagram, fix figure titles, align caption conventions"
+    }
+   ]
+  },
+  {
+   "path": "docs/CARD_DRAFT_ET4_MINIBANK_2026-07-30.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "0f39f77"
+     ],
+     "old": "0f39f778fdd0ed84580b0f4bc765b208cb14e397",
+     "new": "3961e52001c0609908ad9f6c272c0b9d89235d2a",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Tinker signal pilot (E-T4 pre-step): SIGNAL=MIXED, $2.687 spent, PROCEED"
+    }
+   ]
+  },
+  {
+   "path": "docs/CARD_LAT001_DRAFT_2026-08-04.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "16605d1"
+     ],
+     "old": "16605d100b24a9353ed47bd23ff573c61b21edb3",
+     "new": "c65e2c2f0da8da6653257ab02af2b93d412cbd0d",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "H2-S amendment v2: rank-56 arm withdrawn (unbuildable + LR-confounded); LAT-001 task-graph sizing landed"
+    },
+    {
+     "as_cited": [
+      "7c136ad"
+     ],
+     "old": "7c136adeeb4477194be96c9a4295e3db0b83790b",
+     "new": "9ed5b669dab4ba8ff3e3bfc7729084a0d6e361df",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check FIXED + reproduced; decider rulings G-1..G-9 filed; L1 launched"
+    }
+   ]
+  },
+  {
+   "path": "docs/G2_ALPACA_VERB_TAXONOMY_FROZEN_2026-08-05.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "8fa3d77"
+     ],
+     "old": "8fa3d77bc14a6bd2354935ca29a7689d3a5b80ee",
+     "new": "c09c0c61aae715813b167a43d956bc57f8d03722",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity: Stage-0 label spaces frozen (L0/L1/ArmB/L2/L3/D7) + 9 card ambiguities ruled"
+    }
+   ]
+  },
+  {
+   "path": "docs/LOCK_GRANULARITY_2026-08-04.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "fa1c4f0"
+     ],
+     "old": "fa1c4f04f4f4ba631bde58bb15e41b8de451402d",
+     "new": "ed947a805e6fbd2700ab3f894b7487241873db5c",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director rulings 2026-08-04 executed: rate extract, H2-S rank-fraction amendment, E-T4 N=9"
+    }
+   ]
+  },
+  {
+   "path": "docs/REGISTRATION_H2_SCALE_2026-07-30.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "2e1f823"
+     ],
+     "old": "2e1f823fdf457839e1db198aa00f8c83ced74b67",
+     "new": "6bf282d1c4a2ee6a896c181fc3b463505acd7f2a",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Next-round designs: H2 scale-up prereg draft, granularity bridge + delivery report"
+    }
+   ]
+  },
+  {
+   "path": "docs/asset1_experiment_card_2026-07-03.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "99e0ac5"
+     ],
+     "old": "99e0ac56c2968696999d60fd097d240a4ef4c3d4",
+     "new": "95deca5d709b160191db1d75110a6a271ac3d369",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Round 2: adopt Director's review obligations"
+    }
+   ]
+  },
+  {
+   "path": "lat001/HARNESS_NOTE.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "b0a145f"
+     ],
+     "old": "b0a145fda8871cc69ef7c6769ecdf8dc59bfbfce",
+     "new": "8d43f56b7fc7cf8df0f17107b8f2ba2c2b29fb44",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 novelty review: UNCLAIMED with boundaries mapped; card open-item (1) closed"
+    }
+   ]
+  },
+  {
+   "path": "lat001/SPEC.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "16605d1"
+     ],
+     "old": "16605d100b24a9353ed47bd23ff573c61b21edb3",
+     "new": "c65e2c2f0da8da6653257ab02af2b93d412cbd0d",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "H2-S amendment v2: rank-56 arm withdrawn (unbuildable + LR-confounded); LAT-001 task-graph sizing landed"
+    }
+   ]
+  },
+  {
+   "path": "lat001/tasks.py",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "16605d1"
+     ],
+     "old": "16605d100b24a9353ed47bd23ff573c61b21edb3",
+     "new": "c65e2c2f0da8da6653257ab02af2b93d412cbd0d",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "H2-S amendment v2: rank-56 arm withdrawn (unbuildable + LR-confounded); LAT-001 task-graph sizing landed"
+    }
+   ]
+  },
+  {
+   "path": "paper/ASSET1_PAPER_DRAFT_v0.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "paper/ASSET1_PAPER_OUTLINE.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "paper/asset1-sections/02_methods.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "paper/asset1-sections/05_discussion.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "paper/rhombic-asset1.tex",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "paper/rhombic-paper2.tex",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "c4d2845"
+     ],
+     "old": "c4d2845db20457a91df2065212a5814e12d22e38",
+     "new": "ee6b96d7d08df60e231b0497db69aa05ea42982e",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Add weighted Fiedler amplification tab to HF Space"
+    }
+   ]
+  },
+  {
+   "path": "paper/rhombic-paper2_IT.tex",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "c4d2845db20457a91df2065212a5814e12d22e38"
+     ],
+     "old": "c4d2845db20457a91df2065212a5814e12d22e38",
+     "new": "ee6b96d7d08df60e231b0497db69aa05ea42982e",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Add weighted Fiedler amplification tab to HF Space"
+    }
+   ]
+  },
+  {
+   "path": "paper/rhombic-xr001.tex",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "a777adb"
+     ],
+     "old": "a777adbe7f3a62bded3de7e95b532413361ec3c3",
+     "new": "0725c5033eefa5bd9c5e1086ceaa572f9b13646e",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "XR-001 RESULTS: H-compaction CONFIRMED \u2014 structured blocks beat prose 9.4% vs 36.4% corruption at matched budgets (McNemar p=3.5e-21)"
+    },
+    {
+     "as_cited": [
+      "bae4079"
+     ],
+     "old": "bae4079c10e8d8360b6c3bb4d45aa063de6b970f",
+     "new": "5ed2c7f29db26090b8d42de11ea7ec53c5cd5e4c",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "XR-001: episode-count guard tolerates legacy manifests without n_episodes"
+    },
+    {
+     "as_cited": [
+      "e2aa6fc"
+     ],
+     "old": "e2aa6fce2805bec7c7d42d067b79b089a57d61ce",
+     "new": "7651d588fd92eff0d76562409ea2b7ee54bb6fb7",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "XR-001: externalization-robustness pilot \u2014 pre-registered protocol, stdlib runner, 43 tests"
+    }
+   ]
+  },
+  {
+   "path": "paper/workshop/CONDENSATION_NOTE.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "42b0e097",
+      "42b0e097c91413cdf69ebe29a67c25546c411577"
+     ],
+     "old": "42b0e097c91413cdf69ebe29a67c25546c411577",
+     "new": "2daaede84d84ec754e3c4f1f6ca7671b93ff48f7",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director rulings 2026-07-30 filed + sign-off v3 erratum + Acknowledgments per Part 6"
+    },
+    {
+     "as_cited": [
+      "55d7bb209b5512bf58af300ebc9827d025b3d90e"
+     ],
+     "old": "55d7bb209b5512bf58af300ebc9827d025b3d90e",
+     "new": "c447bf8ed755bb9e6ddbd0e72a61dc0675c3da31",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 card DRAFT \u2014 d-as-sufficient-statistic re-specification, for Director grading"
+    },
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "paper/workshop/draft_discipline-first.tex",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "paper/workshop/draft_finding-first.tex",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "paper/workshop/rhombic-asset1-condensed.tex",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "638f4a8"
+     ],
+     "old": "638f4a8acf7da5cda861130c3d69a5c46169867f",
+     "new": "677766ff7c1bf5b9d8e1c2729b85d7dbe7f51eca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 delivery-verification bundle for the Director's regrade"
+    }
+   ]
+  },
+  {
+   "path": "results/E-5-bifurcation/RESULTS.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "b229237"
+     ],
+     "old": "b229237beb2c37b6ce65dcd4d83f68ff467f9473",
+     "new": "b9c53b6870df835968562c6b5e5870a84df6c3ac",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-5: subprocess PYTHONPATH pins the shipped rhombic package over stale editable installs"
+    },
+    {
+     "as_cited": [
+      "bae4079"
+     ],
+     "old": "bae4079c10e8d8360b6c3bb4d45aa063de6b970f",
+     "new": "5ed2c7f29db26090b8d42de11ea7ec53c5cd5e4c",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "XR-001: episode-count guard tolerates legacy manifests without n_episodes"
+    }
+   ]
+  },
+  {
+   "path": "results/EXPERIMENT_TRACKER.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "174ae95"
+     ],
+     "old": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632",
+     "new": "6c79be96b372ceb51979d46ea3ab4958587373c2",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "L0 re-baseline: exploratory CPU dry run, all three representations (no gate recorded)"
+    },
+    {
+     "as_cited": [
+      "2046576"
+     ],
+     "old": "2046576822d2de5186e6df6ae60de7051520050d",
+     "new": "97fe6b86abaf3e3d90d7599cf4b48b806166470c",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "T-001 blocker #5 RESOLVED: reproducibility rewritten to three-run evidence (PI + Director approved)"
+    },
+    {
+     "as_cited": [
+      "35c220e"
+     ],
+     "old": "35c220ec2ebac42f65b2f99eac406a5054b49a86",
+     "new": "d52220cc38169f741548a5303b17eb03c57825e5",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Holly purge (Director residual pass): retracted performance numbers stripped repo-wide"
+    },
+    {
+     "as_cited": [
+      "53be598"
+     ],
+     "old": "53be598429f26677f90156fee84e17429f39997d",
+     "new": "141170ea05ff99083afe559653cc241a10ab06d7",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity analysis: the registered third representation (vocab_signature, both kv modes)"
+    },
+    {
+     "as_cited": [
+      "578e7b1"
+     ],
+     "old": "578e7b1fbc0a6c0cec20352a04251733d4fda82d",
+     "new": "dc374495b0a4ae898eb89334ac3b55a257111b3f",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Paper 4 audit response (Director pass 2026-07-06): O-001 anchored, BM-001 fixed, T-001 provenance flagged"
+    },
+    {
+     "as_cited": [
+      "8a4e440"
+     ],
+     "old": "8a4e440ef4d4378012505fbd76656e9da007e7a5",
+     "new": "2543a33427d96cf56af52bd1c04f83a7edcc62ca",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Annotate Holly val-loss cell in COMPREHENSIVE_EXPERIMENT_TABLE (Director consistency tidy)"
+    },
+    {
+     "as_cited": [
+      "d46c082"
+     ],
+     "old": "d46c0822aa8504b42a76894f2313a85f5a54dd95",
+     "new": "9d23a893fa7f8883b4e36be0bb815380b8fba262",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity: tokenizer from the local snapshot in D6; the queue requires the HF token (offline is not a substitute)"
+    }
+   ]
+  },
+  {
+   "path": "results/XR-001-externalization-pilot/RESULTS.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "bae4079"
+     ],
+     "old": "bae4079c10e8d8360b6c3bb4d45aa063de6b970f",
+     "new": "5ed2c7f29db26090b8d42de11ea7ec53c5cd5e4c",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "XR-001: episode-count guard tolerates legacy manifests without n_episodes"
+    }
+   ]
+  },
+  {
+   "path": "results/asset1-smoke/llama3.2-1b/alpaca/run_002/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "99e0ac56c2968696999d60fd097d240a4ef4c3d4"
+     ],
+     "old": "99e0ac56c2968696999d60fd097d240a4ef4c3d4",
+     "new": "95deca5d709b160191db1d75110a6a271ac3d369",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Round 2: adopt Director's review obligations"
+    }
+   ]
+  },
+  {
+   "path": "results/asset1-smoke/llama3.2-1b/squad/run_003/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "99e0ac56c2968696999d60fd097d240a4ef4c3d4"
+     ],
+     "old": "99e0ac56c2968696999d60fd097d240a4ef4c3d4",
+     "new": "95deca5d709b160191db1d75110a6a271ac3d369",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Round 2: adopt Director's review obligations"
+    }
+   ]
+  },
+  {
+   "path": "results/asset1-smoke/qwen2.5-1.5b/alpaca/run_000/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "99e0ac56c2968696999d60fd097d240a4ef4c3d4"
+     ],
+     "old": "99e0ac56c2968696999d60fd097d240a4ef4c3d4",
+     "new": "95deca5d709b160191db1d75110a6a271ac3d369",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Round 2: adopt Director's review obligations"
+    }
+   ]
+  },
+  {
+   "path": "results/asset1-smoke/qwen2.5-1.5b/squad/run_001/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "99e0ac56c2968696999d60fd097d240a4ef4c3d4"
+     ],
+     "old": "99e0ac56c2968696999d60fd097d240a4ef4c3d4",
+     "new": "95deca5d709b160191db1d75110a6a271ac3d369",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Round 2: adopt Director's review obligations"
+    }
+   ]
+  },
+  {
+   "path": "results/benchmarks/tinyllama_baseline/TinyLlama__TinyLlama-1.1B-Chat-v1.0/results_2026-03-15T10-57-05.467055.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "6d1cb70"
+     ],
+     "old": "6d1cb7027037e28974780e255c4974f070e174b0",
+     "new": "924b7de1ef33f5e5b89aa5231952b829e56ddc4a",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Fix website: add weave banner, embed demo video"
+    }
+   ]
+  },
+  {
+   "path": "results/benchmarks/tinyllama_baseline/TinyLlama__TinyLlama-1.1B-Chat-v1.0/results_2026-03-16T06-35-43.874805.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "249df41"
+     ],
+     "old": "249df41db24ac0f66bb2a76adc1082875dad989d",
+     "new": "d72137e5ef776c4e2ae7aa9ae08fa7e745480613",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Paper 3 complete + 7-round adversarial audit"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/RATE_RECONCILIATION.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "dbd9562"
+     ],
+     "old": "dbd956262b8eb4f688d55f4b0d7d77ef833b6705",
+     "new": "2bb09700c4cabc89c0c4d55c82c589f22919f296",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity queue: measured rate, training-side tier-order interlock, current docstring (A18)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/dryrun_006/DRYRUN.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b",
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/dryrun_006/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/dryrun_006/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_000/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "65936d8fccfcda39deb31583e734e86a489ba601"
+     ],
+     "old": "65936d8fccfcda39deb31583e734e86a489ba601",
+     "new": "7bad1f559089da66316ac6be578ca4dc0fce6ccc",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity: per-level analysis \u2014 d1 machinery + kappa, D10 triple lock, D3 clean core, D6 reference"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_000/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "65936d8fccfcda39deb31583e734e86a489ba601"
+     ],
+     "old": "65936d8fccfcda39deb31583e734e86a489ba601",
+     "new": "7bad1f559089da66316ac6be578ca4dc0fce6ccc",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity: per-level analysis \u2014 d1 machinery + kappa, D10 triple lock, D3 clean core, D6 reference"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_000/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_001/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "46294eb073ae7f2fa4e75efb21b332902d05e675"
+     ],
+     "old": "46294eb073ae7f2fa4e75efb21b332902d05e675",
+     "new": "bd157eed407dde33c8c92a07c33cb51680a2024d",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 workshop condensation assembled \u2014 8pp, 547-number audit clean, 9 scope regressions fixed"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_001/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "46294eb073ae7f2fa4e75efb21b332902d05e675"
+     ],
+     "old": "46294eb073ae7f2fa4e75efb21b332902d05e675",
+     "new": "bd157eed407dde33c8c92a07c33cb51680a2024d",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 workshop condensation assembled \u2014 8pp, 547-number audit clean, 9 scope regressions fixed"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_001/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_002/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "46294eb073ae7f2fa4e75efb21b332902d05e675"
+     ],
+     "old": "46294eb073ae7f2fa4e75efb21b332902d05e675",
+     "new": "bd157eed407dde33c8c92a07c33cb51680a2024d",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 workshop condensation assembled \u2014 8pp, 547-number audit clean, 9 scope regressions fixed"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_002/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "46294eb073ae7f2fa4e75efb21b332902d05e675"
+     ],
+     "old": "46294eb073ae7f2fa4e75efb21b332902d05e675",
+     "new": "bd157eed407dde33c8c92a07c33cb51680a2024d",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Asset-1 workshop condensation assembled \u2014 8pp, 547-number audit clean, 9 scope regressions fixed"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_002/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_003/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_003/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_003/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_004/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_004/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_004/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_005/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_005/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_005/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_006/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_006/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_006/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_007/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_007/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_007/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_008/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_008/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "691f7e9b9d81e46482f84c4e8fc453abf417a5b1"
+     ],
+     "old": "691f7e9b9d81e46482f84c4e8fc453abf417a5b1",
+     "new": "2b926938a9edc5ce68607eb7f30bdbf1b99397e4",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director grades 2026-08-04 filed verbatim; H2-S pin GRANTED on v2 \u2014 conditions recorded as addendum 4a"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_008/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_009/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "0c6b60cf3170d8940114966ac4a8ebc38331c17c"
+     ],
+     "old": "0c6b60cf3170d8940114966ac4a8ebc38331c17c",
+     "new": "b628b291742ac6fa0ee27c068ee71fdeb2c03143",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 Tinker mini-bank: 54 adapters, controlled cross-init contrast"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_009/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "0c6b60cf3170d8940114966ac4a8ebc38331c17c"
+     ],
+     "old": "0c6b60cf3170d8940114966ac4a8ebc38331c17c",
+     "new": "b628b291742ac6fa0ee27c068ee71fdeb2c03143",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 Tinker mini-bank: 54 adapters, controlled cross-init contrast"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_009/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_010/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "0c6b60cf3170d8940114966ac4a8ebc38331c17c"
+     ],
+     "old": "0c6b60cf3170d8940114966ac4a8ebc38331c17c",
+     "new": "b628b291742ac6fa0ee27c068ee71fdeb2c03143",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 Tinker mini-bank: 54 adapters, controlled cross-init contrast"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_010/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "0c6b60cf3170d8940114966ac4a8ebc38331c17c"
+     ],
+     "old": "0c6b60cf3170d8940114966ac4a8ebc38331c17c",
+     "new": "b628b291742ac6fa0ee27c068ee71fdeb2c03143",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 Tinker mini-bank: 54 adapters, controlled cross-init contrast"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_010/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_011/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_011/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_011/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_012/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_012/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_012/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_013/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_013/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_013/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_014/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_014/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_014/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_015/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_015/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_015/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_016/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_016/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_016/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_017/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_017/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_017/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_018/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_018/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_018/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_019/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_019/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_019/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_020/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_020/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_020/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_021/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_021/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_021/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_022/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_022/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_022/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_023/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_023/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_023/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_024/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_024/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_024/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_025/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_025/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_025/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_026/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_026/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_026/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_027/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_027/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_027/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_028/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_028/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_028/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_029/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_029/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_029/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_030/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_030/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_030/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_031/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_031/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_031/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_032/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_032/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_032/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_033/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_033/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_033/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_034/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_034/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_034/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_035/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_035/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_035/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_036/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_036/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_036/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_037/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_037/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_037/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_038/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_038/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d2b1af7805cb716a987c0607ced74ed83340e192"
+     ],
+     "old": "d2b1af7805cb716a987c0607ced74ed83340e192",
+     "new": "f62767f6da89ebe5c7b8b7c154d7625d1c2709ff",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Repo sync: July analysis artifacts, S2 gate acceptance, L1 run records, workshop PDFs"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_038/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_039/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "b4c1e17ece85c2a24317933024ec921a5099d95f"
+     ],
+     "old": "b4c1e17ece85c2a24317933024ec921a5099d95f",
+     "new": "06caa16ad957c4d4bb777e067943d64190336f00",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 billing reconciliation CLOSED: posted usage reconciles to ledgers within 0.14%"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_039/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "b4c1e17ece85c2a24317933024ec921a5099d95f"
+     ],
+     "old": "b4c1e17ece85c2a24317933024ec921a5099d95f",
+     "new": "06caa16ad957c4d4bb777e067943d64190336f00",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 billing reconciliation CLOSED: posted usage reconciles to ledgers within 0.14%"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_039/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_040/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_040/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_040/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_041/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_041/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_041/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_042/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_042/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_042/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_043/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_043/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_043/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_044/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_044/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_044/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_045/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_045/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_045/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_046/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_046/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_046/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_047/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_047/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_047/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_048/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_048/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_048/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_049/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_049/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_049/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_050/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_050/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_050/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_051/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_051/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_051/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_052/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_052/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_052/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_053/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_053/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "24876ef9ba7d833469c6750da8f9641b669d9c56"
+     ],
+     "old": "24876ef9ba7d833469c6750da8f9641b669d9c56",
+     "new": "0d864e8e0360655879c40afdbd8638c295597960",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 amendment: retire the annotator \u2014 xsum topics from native BBC editorial section (T3->T2)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_053/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_054/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "7d4bb1ffb86b2399e4196afc1cc46b4225f4fb0e"
+     ],
+     "old": "7d4bb1ffb86b2399e4196afc1cc46b4225f4fb0e",
+     "new": "865dcfda02a914c62cde12cff1d845705898f490",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 FREEZE COMMIT: xsum L2/L3 on native BBC editorial section \u2014 L2 24/24, L3 48/48, ladder clean-core"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_054/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "7d4bb1ffb86b2399e4196afc1cc46b4225f4fb0e"
+     ],
+     "old": "7d4bb1ffb86b2399e4196afc1cc46b4225f4fb0e",
+     "new": "865dcfda02a914c62cde12cff1d845705898f490",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "G-5 FREEZE COMMIT: xsum L2/L3 on native BBC editorial section \u2014 L2 24/24, L3 48/48, ladder clean-core"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_054/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_055/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "2232260990c2454254ca5a3fea2f7df3dcbe4c55"
+     ],
+     "old": "2232260990c2454254ca5a3fea2f7df3dcbe4c55",
+     "new": "4c14d03ee22a8f145520d79f97d512f8c9a0d50f",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "scripts: remove two Macro Meridian files misfiled here"
+    },
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_055/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "2232260990c2454254ca5a3fea2f7df3dcbe4c55"
+     ],
+     "old": "2232260990c2454254ca5a3fea2f7df3dcbe4c55",
+     "new": "4c14d03ee22a8f145520d79f97d512f8c9a0d50f",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "scripts: remove two Macro Meridian files misfiled here"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_055/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_056/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    },
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_056/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_056/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_057/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    },
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_057/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_057/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_058/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    },
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_058/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_058/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_059/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    },
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_059/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_059/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_060/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    },
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_060/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_060/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_061/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    },
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_061/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_061/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_062/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    },
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_062/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_062/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_063/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    },
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_063/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e60e7bf5ee7483aac9e4471c6262ca8b22346179"
+     ],
+     "old": "e60e7bf5ee7483aac9e4471c6262ca8b22346179",
+     "new": "cc5ec97242c5f1cd632178f71573dea7f84f4a72",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "LAT-001 harness landed: Track B build + smoke record + review fixes"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/L1/run_063/granularity.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/TIER_GATES.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632"
+     ],
+     "old": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632",
+     "new": "6c79be96b372ceb51979d46ea3ab4958587373c2",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "L0 re-baseline: exploratory CPU dry run, all three representations (no gate recorded)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/analysis-exploratory/A7b-d1-replication-L1-2026-09-06/A7b_REPORT.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "174ae959f2ac"
+     ],
+     "old": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632",
+     "new": "6c79be96b372ceb51979d46ea3ab4958587373c2",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "L0 re-baseline: exploratory CPU dry run, all three representations (no gate recorded)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/analysis-exploratory/A7b-d1-replication-L1-2026-09-06/A7b_results.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632"
+     ],
+     "old": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632",
+     "new": "6c79be96b372ceb51979d46ea3ab4958587373c2",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "L0 re-baseline: exploratory CPU dry run, all three representations (no gate recorded)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/analysis-exploratory/L0-dryrun-2026-09-05/L0_REPORT.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d46c0822aa85"
+     ],
+     "old": "d46c0822aa8504b42a76894f2313a85f5a54dd95",
+     "new": "9d23a893fa7f8883b4e36be0bb815380b8fba262",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity: tokenizer from the local snapshot in D6; the queue requires the HF token (offline is not a substitute)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/analysis-exploratory/L0-dryrun-2026-09-05/L0_results.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d46c0822aa8504b42a76894f2313a85f5a54dd95"
+     ],
+     "old": "d46c0822aa8504b42a76894f2313a85f5a54dd95",
+     "new": "9d23a893fa7f8883b4e36be0bb815380b8fba262",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity: tokenizer from the local snapshot in D6; the queue requires the HF token (offline is not a substitute)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/analysis-exploratory/L0-dryrun-2026-09-05/RUN_NOTE.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d46c082"
+     ],
+     "old": "d46c0822aa8504b42a76894f2313a85f5a54dd95",
+     "new": "9d23a893fa7f8883b4e36be0bb815380b8fba262",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity: tokenizer from the local snapshot in D6; the queue requires the HF token (offline is not a substitute)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/analysis/L0_REPORT.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "174ae959f2ac"
+     ],
+     "old": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632",
+     "new": "6c79be96b372ceb51979d46ea3ab4958587373c2",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "L0 re-baseline: exploratory CPU dry run, all three representations (no gate recorded)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/analysis/L0_results.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632"
+     ],
+     "old": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632",
+     "new": "6c79be96b372ceb51979d46ea3ab4958587373c2",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "L0 re-baseline: exploratory CPU dry run, all three representations (no gate recorded)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/analysis/RUN_NOTE.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "174ae95",
+      "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632"
+     ],
+     "old": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632",
+     "new": "6c79be96b372ceb51979d46ea3ab4958587373c2",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "L0 re-baseline: exploratory CPU dry run, all three representations (no gate recorded)"
+    },
+    {
+     "as_cited": [
+      "d46c082"
+     ],
+     "old": "d46c0822aa8504b42a76894f2313a85f5a54dd95",
+     "new": "9d23a893fa7f8883b4e36be0bb815380b8fba262",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "granularity: tokenizer from the local snapshot in D6; the queue requires the HF token (offline is not a substitute)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/B16.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/B2.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/B4.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/B8.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/D7.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/L0.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/L1.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e2386854a43b85ff42f3e97c1b9f7689f136a80d"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/L2.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "c8f24929fabeab7e0e763c974842304e8747b56b"
+     ],
+     "old": "c8f24929fabeab7e0e763c974842304e8747b56b",
+     "new": "2f6d84ed106f15be4c30d91e4c9b0088816a3ad8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director rulings filed: G-5 ACCEPTED (annotator retired, T3->T2), G-2 APPROVED; spread corrected per condition (d)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/L3.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "c8f24929fabeab7e0e763c974842304e8747b56b"
+     ],
+     "old": "c8f24929fabeab7e0e763c974842304e8747b56b",
+     "new": "2f6d84ed106f15be4c30d91e4c9b0088816a3ad8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director rulings filed: G-5 ACCEPTED (annotator retired, T3->T2), G-2 APPROVED; spread corrected per condition (d)"
+    }
+   ]
+  },
+  {
+   "path": "results/granularity/labels/LABELS_REPORT.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "c8f24929fabe"
+     ],
+     "old": "c8f24929fabeab7e0e763c974842304e8747b56b",
+     "new": "2f6d84ed106f15be4c30d91e4c9b0088816a3ad8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Director rulings filed: G-5 ACCEPTED (annotator retired, T3->T2), G-2 APPROVED; spread corrected per condition (d)"
+    }
+   ]
+  },
+  {
+   "path": "results/lm-eval/t001-adapted/results__T-001-full__merged_model/results_2026-03-16T16-53-24.533556.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "249df41"
+     ],
+     "old": "249df41db24ac0f66bb2a76adc1082875dad989d",
+     "new": "d72137e5ef776c4e2ae7aa9ae08fa7e745480613",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Paper 3 complete + 7-round adversarial audit"
+    }
+   ]
+  },
+  {
+   "path": "results/lm-eval/tinyllama-baseline/TinyLlama__TinyLlama-1.1B-Chat-v1.0/results_2026-03-16T14-43-44.305832.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "249df41"
+     ],
+     "old": "249df41db24ac0f66bb2a76adc1082875dad989d",
+     "new": "d72137e5ef776c4e2ae7aa9ae08fa7e745480613",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Paper 3 complete + 7-round adversarial audit"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/QUEUE.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "1cccb90"
+     ],
+     "old": "1cccb9040cec4aa76ce4208e2479fd6c8396521c",
+     "new": "96c52bfddf3fac7e901010ed4a3414bad95f29c8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "S2 queue runner: sequential-by-construction chain over the remaining timing pilots"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/gemma2-2b/dryrun/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d8cf4785be2aaeb23b062d864e4d8e7685518ef3"
+     ],
+     "old": "d8cf4785be2aaeb23b062d864e4d8e7685518ef3",
+     "new": "1f7c52e2b328b3b968d8f0e80474af9c5b3233a8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Public front matter: Asset-1 released \u2014 paper page, README, ladder status"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/gemma2-2b/run_1/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d8cf4785be2aaeb23b062d864e4d8e7685518ef3"
+     ],
+     "old": "d8cf4785be2aaeb23b062d864e4d8e7685518ef3",
+     "new": "1f7c52e2b328b3b968d8f0e80474af9c5b3233a8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Public front matter: Asset-1 released \u2014 paper page, README, ladder status"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/gemma2-2b/run_1/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d8cf4785be2aaeb23b062d864e4d8e7685518ef3"
+     ],
+     "old": "d8cf4785be2aaeb23b062d864e4d8e7685518ef3",
+     "new": "1f7c52e2b328b3b968d8f0e80474af9c5b3233a8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Public front matter: Asset-1 released \u2014 paper page, README, ladder status"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/gemma2-2b/run_2/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "dfa0f911d23c287052d8335b76da858580c6e97a"
+     ],
+     "old": "dfa0f911d23c287052d8335b76da858580c6e97a",
+     "new": "1e9e14dfe3bfd3cd1edaf88b476838eedb629206",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "S2 pilots: QUEUE.md \u2014 run_1 COMPLETE (72.08 min measured), GPU idle"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/gemma2-2b/run_2/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "dfa0f911d23c287052d8335b76da858580c6e97a"
+     ],
+     "old": "dfa0f911d23c287052d8335b76da858580c6e97a",
+     "new": "1e9e14dfe3bfd3cd1edaf88b476838eedb629206",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "S2 pilots: QUEUE.md \u2014 run_1 COMPLETE (72.08 min measured), GPU idle"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/gemma2-2b/run_3/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/gemma2-2b/run_3/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-3b/dryrun/DRYRUN.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d8cf4785be2aaeb23b062d864e4d8e7685518ef3"
+     ],
+     "old": "d8cf4785be2aaeb23b062d864e4d8e7685518ef3",
+     "new": "1f7c52e2b328b3b968d8f0e80474af9c5b3233a8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Public front matter: Asset-1 released \u2014 paper page, README, ladder status"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-3b/dryrun/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d8cf4785be2aaeb23b062d864e4d8e7685518ef3"
+     ],
+     "old": "d8cf4785be2aaeb23b062d864e4d8e7685518ef3",
+     "new": "1f7c52e2b328b3b968d8f0e80474af9c5b3233a8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Public front matter: Asset-1 released \u2014 paper page, README, ladder status"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-3b/run_1/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-3b/run_1/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-3b/run_2/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-3b/run_2/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-3b/run_3/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-3b/run_3/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-7b/dryrun/DRYRUN.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d8cf4785be2aaeb23b062d864e4d8e7685518ef3"
+     ],
+     "old": "d8cf4785be2aaeb23b062d864e4d8e7685518ef3",
+     "new": "1f7c52e2b328b3b968d8f0e80474af9c5b3233a8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Public front matter: Asset-1 released \u2014 paper page, README, ladder status"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-7b/dryrun/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "d8cf4785be2aaeb23b062d864e4d8e7685518ef3"
+     ],
+     "old": "d8cf4785be2aaeb23b062d864e4d8e7685518ef3",
+     "new": "1f7c52e2b328b3b968d8f0e80474af9c5b3233a8",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "Public front matter: Asset-1 released \u2014 paper page, README, ladder status"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-7b/run_1/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-7b/run_1/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-7b/run_2/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-7b/run_2/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-7b/run_3/TIMING.md",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "results/s2-timing-pilots/qwen2.5-7b/run_3/config.json",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "898f3a6dc80997e75697adef635421cada3b7056"
+     ],
+     "old": "898f3a6dc80997e75697adef635421cada3b7056",
+     "new": "808b34632099396a410b7503347acc9b46b8ffbf",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "E-T4 mini-bank card draft (exploratory) \u2014 pilot-measured basis, N choice for Director"
+    }
+   ]
+  },
+  {
+   "path": "scripts/fcc_diameter_check.py",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "e238685"
+     ],
+     "old": "e2386854a43b85ff42f3e97c1b9f7689f136a80d",
+     "new": "9631a59d846bada7e3ace48f22fbcd68469e6517",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "fcc_diameter_check: land the Director's matched-N diameter comparison in-tree"
+    }
+   ]
+  },
+  {
+   "path": "website/typed-state/index.html",
+   "group": "other",
+   "citations": [
+    {
+     "as_cited": [
+      "a777adb"
+     ],
+     "old": "a777adbe7f3a62bded3de7e95b532413361ec3c3",
+     "new": "0725c5033eefa5bd9c5e1086ceaa572f9b13646e",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "XR-001 RESULTS: H-compaction CONFIRMED \u2014 structured blocks beat prose 9.4% vs 36.4% corruption at matched budgets (McNemar p=3.5e-21)"
+    },
+    {
+     "as_cited": [
+      "bae4079"
+     ],
+     "old": "bae4079c10e8d8360b6c3bb4d45aa063de6b970f",
+     "new": "5ed2c7f29db26090b8d42de11ea7ec53c5cd5e4c",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "XR-001: episode-count guard tolerates legacy manifests without n_episodes"
+    },
+    {
+     "as_cited": [
+      "e2aa6fc"
+     ],
+     "old": "e2aa6fce2805bec7c7d42d067b79b089a57d61ce",
+     "new": "7651d588fd92eff0d76562409ea2b7ee54bb6fb7",
+     "status": "mapped",
+     "status_text": "mapped",
+     "successor": null,
+     "subject": "XR-001: externalization-robustness pilot \u2014 pre-registered protocol, stdlib runner, 43 tests"
+    }
+   ]
+  }
+ ],
+ "director_memos_without_citations": [
+  "docs/DIRECTOR_GRADES_2026-08-04.md",
+  "docs/DIRECTOR_RELATEDWORK_XR001_2026-07-14.md",
+  "docs/DIRECTOR_RULINGS_G5_G2_2026-08-05.md"
+ ],
+ "unmapped": [],
+ "ambiguous": [],
+ "counts": {
+  "N_DOCUMENTS": 293,
+  "N_DISTINCT_SHAS": 57,
+  "N_UNMAPPED": 0,
+  "N_AMBIGUOUS": 0,
+  "N_DIRECTOR_MEMOS": 17
+ },
+ "scan": {
+  "files_tracked": 5830,
+  "files_scanned": 1800,
+  "dropped_over40": 3558,
+  "numeric_kept": 305310,
+  "token_occurrences": 325107,
+  "files_unreadable": 0
+ },
+ "authoritative_note": "The rhombic history was rewritten on 2026-09-11 (history rewrite 2026-09-11 from df22b69). This map is authoritative over any commit SHA printed in the documents listed."
+}

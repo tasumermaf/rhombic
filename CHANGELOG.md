@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **History rewritten (2026-09-11).** Every historical version of a file that carried
+  protected material was replaced by the pre-rewrite HEAD version of its path (for 17
+  of the 22 affected paths, every historical version; the erratum marks them), and one
+  commit message was redacted. Commit topology, authors, committers and dates are
+  unchanged; messages are unchanged except for that redaction and for abbreviated
+  SHAs quoted inside them, which now name the new commits. Tags keep their names. The
+  map for every cited commit is under `docs/history-rewrite/`, introduced by
+  `docs/HISTORY_REWRITE_2026-09.md`.
+
 ## [0.3.1] - 2026-09-05
 
 ### Changed
