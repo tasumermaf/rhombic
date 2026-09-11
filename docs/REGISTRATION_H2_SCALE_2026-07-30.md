@@ -37,3 +37,21 @@ silent revisions.
   cost table is restated. Until lock: no bank runs.
 - Out of scope of this registration: any Tinker-substrate arm (different family roster —
   would be a separate card; see `C:\falco\docs\TINKER_ASSESSMENT_2026-07-30.md` §4).
+- **2026-09-11 — H2-D LOCKED; H2-S still HELD.** Both lock conditions above were satisfied
+  2026-08-04, condition 1 **for 3 of the 4 families**: S2's measured rates were published
+  for Gemma-2-2B, Qwen2.5-3B and Qwen2.5-7B (`results/s2-timing-pilots/RATES.md:19-24`),
+  with Llama-3.1-8B left unmeasured (`:25`) on license grounds, not cost grounds
+  (`docs/S2_COST_RESTATEMENT_2026-08-04.md:119-120`), and the §3 cost table was restated
+  against them (`docs/S2_COST_RESTATEMENT_2026-08-04.md`, self-declared satisfying at `:121`).
+  On the Director's ruling of 2026-08-04 (`docs/DIRECTOR_RULINGS_S2_SIX_ASKS_2026-08-04.md:22`,
+  `:95` — "lock H2-D on the three measured families; hold H2-S"), **H2-D is locked on the
+  three measured families by `docs/LOCK_DECLARATION_H2D_2026-09-11.md`**, which carries
+  every locked constant with the file and line it is read from, records the resolved model
+  configurations alongside the ids (the Director's Ask-2 condition, closed the same day by
+  `results/s2-timing-pilots/RESOLVED_CONFIGS.md` and re-read independently for the lock),
+  and records three decider calls for his regrade (confirmatory set = P4 alone; Holm family
+  held at the registered size; rank-fraction disclosure pinned per directed pair). H2-S remains HELD,
+  with the Director's pin granted on `docs/AMENDMENT_H2S_RANK_FRACTION_v2_2026-08-04.md`
+  and its arm unrun. Llama-3.1-8B remains unmeasured and outside the lock. **Still no bank
+  runs.** This bullet is an addition, not a revision — the 2026-07-30 "REGISTERED, NOT
+  LOCKED" line above stands as filed.
