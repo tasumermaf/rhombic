@@ -42,8 +42,14 @@ NO H2 STATISTIC IS COMPUTED HERE. No adapter is compared to any other. The
 Family ids: the draft's Section 3 names families ("Gemma-2-2B", "Qwen2.5-3B",
     "Qwen2.5-7B", "Llama-3.1-8B") and the recipe line requires "instruct
     checkpoints"; it does not print HF repo ids. The ids below are that
-    resolution, each verified to exist on the Hub by --gate-check. They are
-    flagged for Director confirmation in GATING.md.
+    resolution, each verified to exist on the Hub by --gate-check. Ask 2 of
+    the Director's 2026-08-04 rulings confirmed three of the four and left
+    one on report: he fetched the two Qwen configs himself, confirmed
+    Llama-3.1-8B's existence via its 401 gate error only ("not its config"),
+    and could not verify gemma-2-2b-it at all. The gemma id was resolved
+    from the workstation cache 2026-09-11; resolved configs and revision
+    hashes for every family whose pilots ran are in
+    results/s2-timing-pilots/RESOLVED_CONFIGS.md.
 
 Usage (always with HF_HUB_CACHE / HF_DATASETS_CACHE set - see GATING.md):
     python scripts/s2_timing_pilot.py --gate-check
@@ -640,12 +646,26 @@ def gate_check() -> dict[str, str]:
         "(single RTX 6000 Ada 48GB), account `timotheospaul`, via "
         "`asset1_bank.probe_family_access` (config-only download; the same "
         "classifier the Asset-1 campaign used).", "",
-        "## Model-id resolution (needs Director confirmation)", "",
+        "## Model-id resolution (Qwen ids confirmed by the Director "
+        "2026-08-04; gemma-2-2b-it resolved from the workstation cache "
+        "2026-09-11; llama-3.1-8b existence only, via its 401 gate error)",
+        "",
         "The registered card and the draft's Section 3 name families and "
         "require instruct checkpoints; neither prints HF repo ids. The ids "
         "below are Meridian's resolution of those labels, each verified to "
         "exist on the Hub. `Qwen/Qwen2.5-7B-Instruct` is independently "
-        "attested in this repo (the pilot bank and BM-003 both used it).", "",
+        "attested in this repo (the pilot bank and BM-003 both used it). "
+        "The Director's Ask 2 verdict was \"three confirmed independently, "
+        "one on report\" "
+        "(`docs/DIRECTOR_RULINGS_S2_SIX_ASKS_2026-08-04.md:24`): he fetched "
+        "the two Qwen configs himself; he confirmed "
+        "`meta-llama/Llama-3.1-8B-Instruct` \"only via the gate error, not "
+        "its config\"; and of `google/gemma-2-2b-it` he wrote that it "
+        "\"also returned 401 and I could not verify it at all\", so that id "
+        "was resolved instead from the workstation cache on 2026-09-11. "
+        "**Resolved configs, revisions and config.json hashes for every "
+        "family whose pilots ran: `RESOLVED_CONFIGS.md` (Director Ask 2 "
+        "closure, 2026-09-11).**", "",
         "=== VERIFIED STATE ===",
         typed_block([(f"{fam}_model_id", FAMILIES[fam]["model"])
                      for fam in FAMILY_ORDER]
@@ -655,7 +675,7 @@ def gate_check() -> dict[str, str]:
     ]
     blocked = [f for f in FAMILY_ORDER if results[f] == "BLOCKED"]
     ok = [f for f in FAMILY_ORDER if results[f] == "OK"]
-    lines.append(f"Accessible, pilots run: {', '.join(ok) if ok else 'none'}.")
+    lines.append(f"Access probe OK: {', '.join(ok) if ok else 'none'}.")
     if blocked:
         lines += [
             "", f"SKIPPED (license gate not accepted on this account): "
