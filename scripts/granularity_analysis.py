@@ -119,6 +119,11 @@ D6_CV_FOLDS = 5
 D6_CV_SEED = 6
 
 GATES_FILE = OUT_ROOT / "TIER_GATES.json"
+# Which history a ledger entry's git_commit belongs to; recorded from the L1
+# gate onward (Director's ruling 2026-09-11 §2 addition 2,
+# docs/DIRECTOR_RULING_LEDGER_PROVENANCE_2026-09-11.md:25; the L0 entry
+# predates the field — results/granularity/TIER_GATES_AMENDMENT_2026-09-11.md).
+HISTORY_EPOCH = "2026-09-11-rewrite"
 ANALYSIS_ROOT = OUT_ROOT / "analysis"
 
 # Level -> tier name in the frozen order.
@@ -266,6 +271,7 @@ def record_gate(level: str, fired_before: list[str], payload: dict) -> None:
         "k": payload.get("k"),
         "n_runs": payload.get("n_runs"),
         "git_commit": git_commit_hash(),
+        "history_epoch": HISTORY_EPOCH,
     })
     GATES_FILE.parent.mkdir(parents=True, exist_ok=True)
     tmp = GATES_FILE.with_suffix(".json.tmp")
