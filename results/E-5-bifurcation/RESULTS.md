@@ -144,3 +144,72 @@ on local disk and Hermes but are untracked — raw material for a future
 crystallization-onset timing analysis. Logs untracked (`*.log`). Provenance: rhombic
 `bae4079` shipped as `~/rhombic-e5` on Hermes; runner commits through
 `b229237`; endpoint rtol edit dated 2026-07-13.
+
+## Erratum 2026-09-14 — the per-step snapshot grid stated under Artifacts
+
+*Dated addition. The sentence it corrects is left exactly as written above; a
+released record in this repository is amended by a dated block below the original
+text, never by a silent edit (`results/XR-001-externalization-pilot/PROTOCOL.md:167-168`,
+`results/asset1-delivery-verify/D3_PAIR_DESIGN_PREDECLARATION_2026-07-20.md:33`,
+and the doctrine at `docs/DIRECTOR_REVIEW_ASSET1_PAPER_V0_2026-07-21.md:38`).*
+
+**What the record says.** Line `:142` verbatim, inside the `## Artifacts`
+sentence that runs `:141-144`:
+
+```
+bridge snapshots (`bridge_step{100..3000}_*.npy`, 30 × 88 per run) exist
+```
+
+**The correction.** The grid on disk is **`bridge_step{0..3000}_*.npy`, 31 × 88
+per run**. It begins at step 0, not at step 100. Every other clause of that
+sentence stands, including that the snapshots are untracked and live on local
+disk and Hermes.
+
+**Census, re-measured 2026-09-14** — directory listings only: file names, counts
+and step indices. No tensor contents were opened, and nothing about what the
+step-0 layer *contains* was read.
+
+| Measured under `results/E-5-bifurcation/` | Count |
+|---|---|
+| run directories `f*_s*/` | 15 — `f{0.00,0.25,0.50,0.75,1.00}_s{42,43,44}` |
+| distinct step indices per run | **31** — `{0, 100, 200, …, 3000}` |
+| files at each step index, in every run | **88** — no index short, none over |
+| `bridge_step*_*.npy` per run | **2,728** = 31 × 88 |
+| `bridge_step*_*.npy`, all 15 runs | **40,920** |
+| `bridge_final_*.npy` per run / all runs | 88 / 1,320 |
+| non-`.npy` per run | 2 — `config.json`, `results.json` |
+| files per run / files in the whole tree | 2,818 / 42,290 (incl. 20 top-level) |
+
+The 15 runs do not merely agree in total: their step-index sets are **identical**,
+verified by hashing each run's sorted list of distinct indices — one signature
+across all 15. The excess over the described grid is 2,728 − 2,640 = **88 files**,
+which is exactly one complete checkpoint layer — the step-0 layer that
+`{100..3000}` excludes by construction — and not a scatter of unexplained files.
+
+**Why both grids exist.** Each run's `results.json`, named one line above at
+`:141`, carries both. Re-measured 2026-09-14 (step fields only, no metric read):
+`checkpoints` holds **30** rows, 100 → 3000; `feedback_log` holds **31** rows,
+0 → 3000; the set difference `feedback_log` − `checkpoints` is `{0}` in all 15
+runs. `:142`'s prose was keyed to the `checkpoints` array, while the snapshots
+were written on the `feedback_log` grid. The disk therefore agrees exactly with
+the machine record sitting beside it; it disagrees with one sentence of prose
+about that record.
+
+**Scope — nothing else in this record changes.** No result, figure or number in
+the sections above depends on the per-step file count. The tracked evidence
+described at `:140-141` (`bridge_final_*.npy`, 88 × 15) is untouched: git holds
+**1,320** `bridge_final_*.npy` and **0** `bridge_step*` files under this directory
+(1,354 tracked files in all), and 1,320 `bridge_final_*.npy` are on disk. The
+untracked status of the snapshots at `:142-143` stands.
+
+**Provenance.** Filed against this record by card
+`docs/cards/Q-08-1_learned-noise-margin.md` §13 (*Arm A census resolution*, dated
+2026-09-11) — a falco private-bench path, cited here as such per the convention at
+`docs/DIRECTOR_REVIEW_GRANULARITY_2026-09-06.md:42`. That card measured the
+discrepancy, ruled at §13.4 that *"the correct disposition is an erratum against
+`RESULTS.md:142` … not a halt"*, and recorded at its §12 item 7 that the erratum
+is **owed to the E-5 record** and that the card files it rather than makes it.
+This block makes it. The census above was re-measured independently on
+2026-09-14 and matches the card's §13.1 table in every row. State of this file
+immediately before this addition: 146 lines, git blob
+`3c7914f58d705bfba3820250406501aabf7541e1`.
