@@ -478,3 +478,228 @@ Both verdicts inherit the scope limit verbatim: TinyLlama-1.1B (descriptively Qw
 modified. Every number above was computed at run time from the `.npy` artifacts
 named in the census, under the pinned `OCC_BAND` and the pinned trained pair
 specs; none was copied from prose.*
+
+---
+
+## Amendment 2026-09-15 — the Director's ruling, Items 15 and 16
+
+*Dated, append-only amendment. **No line above this rule is edited, renumbered or
+deleted.** Under house form the superseded text stays in place where it was written and
+is quoted here beside its replacement, so every `RESULTS.md:NNN` citation made into this
+document before today still resolves at the same line. The ruling is filed verbatim at
+`C:/falco/docs/DIRECTOR_RULINGS_DOCKET23_2026-09-15.md`,
+sha256 `d9589efe143238deaa160b625eb00594fbf36170560f5d133ca05e7f074e7640`; Items 14-16
+are its lines `:50`, `:52`, `:54`. Typed blocks below render the ruling's U+2212 minus
+and U+2013 en dash as ASCII hyphen-minus where they carry arithmetic; prose quotations
+reproduce the ruling's own characters. Every number below was recomputed today from the
+artifacts named beside it, not restated from this document's prose.*
+
+### Item 15 — Arm B DEMOTED to descriptive; C2 LEAVES the confirmatory set
+
+**The ruling, verbatim** [`DIRECTOR_RULINGS_DOCKET23_2026-09-15.md:52`]:
+
+> **Item 15 — Arm B is DEMOTED to descriptive; C2 leaves the confirmatory set.** Two
+> independent reasons, either sufficient. First, the collinearity the results already
+> disclose: within FI-004, c_w(s) = 0.1(1 − s/3000) exactly, r = −1.0000, so C2 measures
+> a slope along one axis and cannot attribute it to drive. Second, the corpus-coupled
+> initialization is an uncontrolled difference in starting point between Arms A and B,
+> and a confirmatory arm cannot carry an uncontrolled difference from the arm it is
+> compared against. **N1's refutation rests on C1 alone, and that is enough.** The
+> results file's status block should read: drive dial untested; Arm B descriptive; C2
+> reported as a descriptive slope with its collinearity note. Nothing else moves.
+
+#### The status block as it stood, quoted verbatim and left in place at `:19-31`
+
+```
+CARD                  = Q-08-1, graded 2026-09-06; additions 2026-09-11;
+                        decider pins 2026-09-14
+ITEM 1                = UNRULED BY THE DIRECTOR. Arm B's descent from a
+                        corpus-coupled initialization has NOT been ruled on.
+                        Arm B stays CONFIRMATORY as drafted, and C2 below is
+                        reported PENDING THAT RULING.
+ITEM 9                = OPEN. n = 8 on Arm A, n = 6 on Arms B/C/D.
+ARMS C AND D          = DESCRIPTIVE ONLY. No p-value, no permutation test, no
+                        inference. Confounds in the same sentence as the number.
+COMPUTE               = zero GPU-seconds, no gpu_guard claim (§10)
+CORPUS BOUNDARY       = no protected name or value is read, computed or reported
+```
+
+#### The status block as amended, 2026-09-15 — this block governs
+
+```
+CARD                  = Q-08-1, graded 2026-09-06; additions 2026-09-11;
+                        decider pins 2026-09-14; Director's ruling 2026-09-15
+ITEM 1                = RULED 2026-09-15. Arm B's descent from a corpus-coupled
+                        initialization may NOT stand inside a confirmatory arm.
+DRIVE DIAL            = UNTESTED.
+ARM B                 = DESCRIPTIVE.
+C2                    = LEAVES the confirmatory set. Reported below as a
+                        DESCRIPTIVE SLOPE, carrying its collinearity note.
+COLLINEARITY NOTE     = within FI-004, c_w(s) = 0.1(1 - s/3000) exactly;
+                        Pearson r(step, c_w) = -1.0000
+CONFIRMATORY SET      = {C1, C3}. Exactly two. Complete.
+N1                    = REFUTED, resting on C1 ALONE, i.e. on the STEP dial only.
+ITEM 9                = ANSWERED 2026-09-15 by Item 16; the line is filed below.
+ARMS C AND D          = DESCRIPTIVE ONLY. No p-value, no permutation test, no
+                        inference. Confounds in the same sentence as the number.
+                        UNCHANGED.
+COMPUTE               = zero GPU-seconds, no gpu_guard claim (§10). UNCHANGED.
+CORPUS BOUNDARY       = no protected name or value is read, computed or reported.
+                        UNCHANGED.
+```
+
+#### Both of the ruling's reasons, recorded with the arithmetic recomputed today
+
+**Reason 1 — collinearity.** Recomputed 2026-09-15 from the run's own record, not from
+this document: `results/fi-004/config.json` carries `anneal_mode = linear_to_zero`,
+`initial_contrastive = 0.1`, `final_contrastive = 0.0`, `max_steps = 3000`, and the 30
+rows of `results/fi-004/results.json` `checkpoints` carry `step` and
+`contrastive_weight` explicitly.
+
+```
+checkpoint rows compared              30   (steps 100 .. 3000, spacing 100)
+max |c_w(s) - 0.1*(1 - s/3000)|       0.0   over all 30 rows - the identity is exact
+Pearson r(step, c_w) over 30 rows     -1.0000000000
+c_w at step 100                       0.09666666666666668
+c_w at step 3000                      0.0
+```
+
+The drive axis and the training-step axis are one axis up to an affine map, so a slope
+measured along it cannot be attributed to drive. This document already disclosed the
+fact at `:281` (`c_w vs step r = -1.000000`) and at `:287-292`; the ruling turns the
+disclosure into a disposition.
+
+**Reason 2 — an uncontrolled difference in starting point.** FI-003 and FI-004 both
+continue from the FI-002 P-000 checkpoint, recorded in the tracker as *"full BD,
+corpus-coupled signs"* [`rhombic/docs/EXPERIMENT_TRACKER.md:748`], while Arm A's E-5 runs
+are corpus-free [card §11; `rhombic/docs/E5_BIFURCATION_PREREG_2026-07-10.md:60-68`]. The
+two arms therefore begin from different initializations, and the difference is not
+controlled. Per the ruling, *"a confirmatory arm cannot carry an uncontrolled difference
+from the arm it is compared against."* Either reason is sufficient on its own; both are
+recorded so neither has to be rediscovered.
+
+#### C2 as a descriptive slope — the numbers, recomputed today
+
+Recomputed 2026-09-15 by re-deriving the per-adapter OLS slope of G_dec on the recorded
+`contrastive_weight` from the filed endpoint rows (`q081_results.json`,
+`endpoints.arms.fi-004.checkpoints`, 30 step keys x 88 adapters) against the c_w values
+read from `results/fi-004/results.json`:
+
+```
+adapters                    88
+checkpoints                 30
+slope mean       -24.965410      [this document :272 prints -24.9654]
+slope median     -17.097918      [:273 prints -17.0979]
+frac slopes < 0   1.0000         [:274]
+Kendall tau mean  -0.844619      [:275 prints -0.8446]
+Kendall tau median -0.885057     [:275 prints -0.8851]
+```
+
+Every figure reproduces. **No measured value of C2 changes; its standing does.** The
+C2 block at `:264-285` stands as filed and is not edited; from today it is read as a
+descriptive slope, and the permutation p-values printed there at `:279-280` carry no
+confirmatory weight. No inference is drawn from Arm B.
+
+#### The consequence the ruling names, applied to the N1 verdict line
+
+The N1 verdict at `:454` stands in place and is quoted here rather than rewritten. Its
+opening clause reads:
+
+> N1 VERDICT           = REFUTED on Arm A (C1) and on Arm B (C2).
+
+**Superseded 2026-09-15, to this extent and no further:** N1 is REFUTED on Arm A (C1)
+alone. The words *"and on Arm B (C2)"* no longer carry a confirmatory claim, since C2 has
+left the confirmatory set. **No number in that line or anywhere near it changes**, and
+the two qualifications already travelling with the verdict — the collinearity of Arm B's
+regressor, and the scale dial being untested — stand exactly as written. The ruling:
+*"N1's refutation rests on C1 alone, and that is enough."*
+
+#### Nothing else moves — what did not move, listed
+
+Per the ruling's closing sentence, *"Nothing else moves."* Each of the following was
+recomputed today from the artifacts and is **unchanged**:
+
+```
+C1, Arm A (this document :243-262) - recomputed from endpoints.arms.A, steps 100..3000,
+    30 points, 15 runs x 88 adapters = 1,320 (run, adapter) pairs
+      slope mean     2.015452     [:250 prints 2.01545]
+      slope median   1.940304     [:251 prints 1.9403]
+      slope sd       0.446585     [:252 prints 0.446585]
+      frac > 0       1.0000       [:253]
+      permutation p  9.999e-05    [:260-261]  = 1/10001, the floor of 10,000 draws
+
+C3, N2 (this document :296-314) - observed side recomputed from endpoints.arms.A final
+    rows; predicted side read from the committed JSON at full precision
+      observed in band      0 of 36,960   (1,320 adapters x 28 off-diagonal pairs)
+      predicted count       2.4140968976856927      [:303 prints 2.4141]
+      P(observe 0 | N2)     0.08633161678554019     [:307 prints 0.0863316]
+      ddof=1 sensitivity    4.386326959416751, P = 0.01129209489452916   [:313]
+      N2 VERDICT            NOT REFUTED             [:457]
+
+P7 (this document :435-445) - recomputed from endpoints.arms.A
+      Arm A G_min <= 0 at   8 of 39,600 post-init adapter-checkpoints
+      fraction              0.00020202  = 0.0202 %
+      by step               {'100': 8}
+      Arm B                 0 of 2,640
+```
+
+Also unmoved: the census at `:41-59`; the pinned `OCC_BAND` at `:61-83`, which remains
+forbidden to refit; E-5's re-derived statistics at `:84-103`; the Arm A, Arm B and Arms
+C/D endpoint tables at `:105-237`; P1-P6 at `:325-433`; the N2 verdict at `:457`; the
+scope limit at `:33` and `:460`; and the compute and corpus-boundary lines. The
+confirmatory set is now **{C1, C3}**, exactly two, and complete as ruled.
+
+### Item 16 — the channel-count line, filed
+
+**The ruling, verbatim** [`DIRECTOR_RULINGS_DOCKET23_2026-09-15.md:54`]:
+
+> **Item 16 — YES, one line in §8.** "Channel count is n = 8 on Arm A and n = 6 on Arms
+> B–D; pooled entry counts are not comparable across arms and no cross-arm pooled count
+> is quoted." It is the kind of fact a reader will otherwise compute wrongly for
+> themselves.
+
+**Where it is filed, and why here rather than inside §8.** Section 8 of this document
+(`:325-447`) could not be extended in place without moving the line numbers of every
+line after it, and this document is cited by line from the card and from the packet.
+Under the append-only rule the line is therefore filed **as a dated note at the end,
+referencing section 8**, rather than inserted under section 8. Section 8's existing text
+is untouched and its line numbers are unchanged. This is the fallback the dispatch
+allows, and it is the branch taken.
+
+**The line, as the ruling wrote it:**
+
+> Channel count is n = 8 on Arm A and n = 6 on Arms B–D; pooled entry counts are not
+> comparable across arms and no cross-arm pooled count is quoted.
+
+**Recomputed today from the run configs, not from this document's prose.** Read from each
+run's `config.json` `n_channels` field:
+
+```
+Arm A   results/E-5-bifurcation/f*_s*/config.json    n_channels = 8   in 15 of 15 runs
+Arm B   results/fi-004/config.json                   n_channels = 6
+Arm B   results/fi-003/config.json                   n_channels = 6
+Arm C   results/exp3_tinyllama/config.json           n_channels = 6
+Arm C   results/fc-001/config.json                   n_channels = 6
+Arm C   results/fc-001-fresh/config.json             n_channels = 6
+Arm C   results/exp3/config.json                     n_channels = 6
+Arm D   results/cw-001/config.json                   n_channels = 6
+
+pairs per adapter, n = 8    C(8,2) = 8*7/2 = 28  = 4 co + 24 cross
+pairs per adapter, n = 6    C(6,2) = 6*5/2 = 15  = 3 co + 12 cross
+pooled entries, Arm A       1,320 adapters x 28 = 36,960   [tables at :109-139]
+pooled entries, FI-004       88 adapters x 15   =  1,320    [table at :153-182]
+pooled entries, fc-001      112 adapters x 15   =  1,680    [row at :219]
+```
+
+The three pooled denominators are different quantities, which is exactly what the line
+warns a reader not to fuse. **No cross-arm pooled count is quoted anywhere in this
+document**, before or after this amendment.
+
+---
+
+*Amendment filed 2026-09-15 by the executor. Append-only: lines 1-480 of this document
+are byte-for-byte as filed on 2026-09-14. No analysis was re-run, no artifact was
+modified, no GPU claim taken, zero GPU-seconds. Every figure above was recomputed today
+from the artifact named beside it. `C:/falco/tools/corpus_guard.py --tree --repo
+C:/falco/rhombic` re-run after this amendment; no protected name and no isopsephic value
+appears in it.*

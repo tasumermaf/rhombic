@@ -423,6 +423,10 @@ submitted.
 - [Paper 3: The Learnable Bridge](paper/rhombic-paper3.tex) — cybernetic feedback programs coupling topology in multi-channel LoRA; interpretable adapter diagnostics (13 experiments, 4 model families). Draft.
 - [Paper 4: The Topology Programmer](paper/paper4/paper4-main.tex) — the Steersman as a general topology programmer across four polytopes; four-regime taxonomy. Draft.
 
+## Granularity campaign state
+
+`results/granularity/QUEUE_STATE.md` in this public tree is a **snapshot**, pushed at milestones; the live file is rewritten after every run on the private workstation that runs the campaign, and each snapshot carries its own `updated_at_utc`. A reader who needs the current count should read that stamp, not assume the file is live. (Note added 2026-09-15 at the reviewer's request; the previous public snapshot was stamped 2026-08-11.)
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). We're looking for new topologies,
