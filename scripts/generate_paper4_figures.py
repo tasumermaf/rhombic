@@ -135,7 +135,11 @@ print('Saved fig_wl_r001_identity')
 # Figure 3: Spectral Attractor — Fiedler vs n
 # ============================================================
 ns = [3, 4, 8, 12]
-fiedlers = [0.0951, 0.0836, 0.0944, 0.1019]
+# 2026-09-18 correction: H-ch4 0.0836 was a 1,100-step partial.
+# The 10,000-step endpoint is 0.09183097812949127, rounded to the
+# chart's four-decimal precision. Source: results/attractor-hermes-anchor/
+# H-ch4/results.json, checkpoints[-1].fiedler_mean; see its parent README.
+fiedlers = [0.0951, 0.0918, 0.0944, 0.1019]
 
 fig, ax = plt.subplots(figsize=(6, 4))
 ax.bar(range(len(ns)), fiedlers, color=CUBIC_COLOR, width=0.6, edgecolor='black', linewidth=0.5)
