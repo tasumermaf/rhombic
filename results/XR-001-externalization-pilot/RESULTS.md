@@ -83,3 +83,29 @@ McNemar, which compares identical probes across regimes within model.
 `analysis.md` (generated tables), `raw/` (every LLM call with token counts,
 3.3 MB), `run.log`. Runner/commit provenance: rhombic `bae4079` shipped to
 Hermes as `~/rhombic-e5`; run 2026-07-10T17:42–19:06Z.
+
+
+## Erratum and representation receipt — 2026-09-18
+
+The original results above are preserved. In P2, the “~4×” wording attached
+to 16 versus 3 conflations is incorrect: 16/3 is approximately 5.33. The
+signature-union comparison is 17/4 = 4.25. This wording correction changes
+neither the corruption totals nor the registered McNemar result.
+
+The frozen task manifest records SHA-256 of the CRLF representation of
+`tasks.json`. A Git checkout using LF has different bytes even though the
+exact CRLF-to-LF transformation is verified. The original manifest is not
+rewritten. The dated receipt at
+`docs/representation-receipts/xr001-2026-09-18.json` records both byte hashes;
+`scripts/verify_frozen_representations.py` verifies only these explicitly
+registered representations and rejects other content or formatting changes.
+Run it from the repository root with:
+
+```sh
+python scripts/verify_frozen_representations.py --receipt docs/representation-receipts/xr001-2026-09-18.json
+```
+
+This read-only verification does not relax the runner's byte-hash resume
+guard or authorize another inference run. No model result was rerun to make
+this correction. Full custody scope and baseline are in
+`docs/ERRATA_2026-09-18.md`.

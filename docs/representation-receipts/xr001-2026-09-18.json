@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-18",
+  "baseline_commit": "1a149ddd746baef405318504c0d1f128628d3107",
+  "scope": "Explicit byte representations only. Does not modify historical manifests or authorize execution.",
+  "entries": [
+    {
+      "path": "results/XR-001-externalization-pilot/tasks.json",
+      "historical_sha256": "8d2b31c7605a83d26ceb42b174d0d8359d70bf50a9d007449900182e43e7375e",
+      "checksum_source": {
+        "path": "results/XR-001-externalization-pilot/manifest.json",
+        "kind": "json-field",
+        "field": "tasks_sha256"
+      },
+      "transform": "crlf-to-lf",
+      "lf_sha256": "1ef177012e5bd9999539e5941629ce8179cc4fadfbbd649e70a770a98efe49a0",
+      "representations": {
+        "lf": "1ef177012e5bd9999539e5941629ce8179cc4fadfbbd649e70a770a98efe49a0",
+        "crlf": "8d2b31c7605a83d26ceb42b174d0d8359d70bf50a9d007449900182e43e7375e"
+      }
+    }
+  ]
+}

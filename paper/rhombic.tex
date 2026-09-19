@@ -42,6 +42,17 @@
 
 \maketitle
 
+\begin{quote}\small
+\textbf{Scope update (2026-09-18).}
+The later EE-001 equal-edge control (2026-07-02) narrows the interpretation
+of this draft: degree-preserving random rewiring outperformed the FCC
+lattice on the tested abstract graph metrics at the same edge budget.
+The FCC-over-cubic results do not establish an optimal unconstrained
+graph or an improvement in language-model quality. See the control and
+its physical-wiring caveats at
+\url{https://github.com/tasumermaf/rhombic/blob/main/results/EE-001-equal-edge-control/RESULTS.md}.
+\end{quote}
+
 % ===================================================================
 \begin{abstract}
 Cubic grids are the default discretization in computational
@@ -616,10 +627,12 @@ Signal sampling & One measurement & 4--10$\times$ better fidelity \\
 \end{tabular}
 \end{table}
 
-The domains where the cost is prohibitive (chip interconnect) are
-those where the advantage matters most. The domains where the cost
-is trivial (software, logical topology) are those where adoption is
-easiest.
+These costs must be measured in the target workload. In abstract software
+graphs, the later equal-edge random control outperformed FCC; cheaper
+edges alone therefore do not justify adopting a lattice. For physical
+networks, wire length and locality are additional constraints, and the
+FCC-versus-cubic comparison is one tested comparison within that class,
+not a claim of optimality over all spatially embedded networks.
 
 \subsection{Cybernetic Interpretation}
 
@@ -665,10 +678,16 @@ competitive with production ANN systems (HNSW, IVF-PQ). It exists
 to isolate the topology variable, not to propose a deployment
 architecture.
 
-\textbf{No formal null model.} We compare FCC to SC directly. A
-formal analysis decomposing the advantage into degree-attributable
-and isotropy-attributable components would strengthen the
-theoretical contribution.
+\textbf{Later equal-edge control.} The original draft compared FCC to SC
+directly. EE-001 subsequently tested degree-preserving random rewiring at
+three FCC sizes, with five seeds per size. At identical node count, edge
+count, and degree sequence, the rewired graphs had 4.25, 9.28, and
+16.73 times the FCC Fiedler value. Thus the FCC-over-SC result cannot be
+read as a general advantage of geometric arrangement at fixed edge cost.
+The control uses longer physical edges; its wire-length measurement was
+post-hoc and does not establish a wire-budget optimum. A pure
+edge-budget-versus-arrangement decomposition remains unmeasured because
+the rewired-versus-cubic comparison also changes randomness.
 
 \textbf{Targeted fault tolerance.} We tested random node removal.
 Under targeted attack (removing high-betweenness nodes), the FCC
