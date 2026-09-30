@@ -76,7 +76,11 @@ FCC_COLOR = '#B34444'      # Geometric Essence (prime 67)
 ```
 
 Do not change these without understanding their derivation. See
-`rhombic/visualize.py` for the full palette.
+`rhombic/visualize.py` for the full palette. Since 2026-09-30 the palette block
+in `rhombic/visualize.py` and the `:root` block in `website/style.css` are
+generated from the 8-Law Weave design tokens, between `BEGIN design-tokens` and
+`END design-tokens` markers. Never edit inside the markers: change the token at
+its source and regenerate.
 
 ## Technical
 

@@ -21,6 +21,8 @@ matplotlib.rcParams.update({
 
 # 8-Law Weave palette (Vadrashinetal, March 2026)
 # Each color carries a Primeval Law through its prime thread.
+# The block below is generated from the design tokens; edit the tokens, not the block.
+# BEGIN design-tokens:py — generated from the 8-Law Weave design tokens. Edit the tokens, not this block.
 CUBIC_COLOR = '#3D3D6B'    # Fall of Neutral Events (11) — the unexamined default
 FCC_COLOR = '#B34444'      # Geometric Essence (67) — the revealed structure
 
@@ -30,6 +32,7 @@ ARROW_AZURE = '#4A90E2'    # Arrow of Complexity (17) — edges, evolution
 JUSTICE_GREEN = '#52A352'  # Sole Atom (19) — performance wins
 KAOS_GOLD = '#FFD700'      # Kaos (23) — when assumptions break
 GRID_SILVER = '#C0C0C0'    # Time Matrix (29) — measurement substrate
+# END design-tokens:py
 
 
 def plot_path_comparison(results: list[BenchmarkResult], save_path: str | None = None):
