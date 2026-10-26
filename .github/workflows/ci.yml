@@ -43,3 +43,16 @@ jobs:
 
       - name: Run benchmark suite
         run: python -m rhombic.benchmark
+
+  space:
+    name: Space smoke test (Gradio)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+      - name: Install Space dependencies
+        run: pip install -r space/requirements.txt
+      - name: Exercise app startup and callbacks
+        run: python space/smoke_test.py

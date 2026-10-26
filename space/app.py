@@ -697,14 +697,7 @@ def run_weighted_benchmark(target_nodes, dist_name):
 
 # ── Build the Gradio app ───────────────────────────────────────────
 
-with gr.Blocks(
-    title="rhombic — FCC vs Cubic Lattice Topology",
-    theme=gr.themes.Base(),
-    css="""
-    .main-header { text-align: center; margin-bottom: 1em; }
-    .main-header h1 { color: #B34444; }
-    """
-) as demo:
+with gr.Blocks(title="rhombic — FCC vs Cubic Lattice Topology") as demo:
 
     gr.HTML("""
     <div class="main-header">
@@ -870,4 +863,10 @@ compaction. Nulls and retractions are tracked openly in the repo.
 
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(
+        theme=gr.themes.Base(),
+        css="""
+        .main-header { text-align: center; margin-bottom: 1em; }
+        .main-header h1 { color: #B34444; }
+        """,
+    )
