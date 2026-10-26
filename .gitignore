@@ -219,3 +219,9 @@ lat001/results/
 # Corpus-derived private sidecars and private tests (never commit) — 2026-09-05
 rhombic/data/*_private.json
 tests/test_corpus_private.py
+
+# Local workshop submission preparation (administrative drafts, not release artifacts)
+paper/workshop/OPENREVIEW_EXPEDITE_REQUEST.txt
+paper/workshop/ORGANIZERS_COAUTHOR_QUESTION.txt
+paper/workshop/SUBMISSION_FORM.txt
+paper/workshop/extract_form_fields.py
