@@ -8,6 +8,18 @@
    "k": 6,
    "n_runs": 240,
    "git_commit": "174ae959f2ac42d9ea2230e3ddc0f15e57ce6632"
+  },
+  {
+   "tier": "L1",
+   "level": "L1",
+   "fired_at": "2026-11-10T15:10:44.635253+00:00",
+   "tiers_already_unblinded": [
+    "L0"
+   ],
+   "k": 12,
+   "n_runs": 240,
+   "git_commit": "4279ab00f30edc3b65590c238addb8c7ec1162e8",
+   "history_epoch": "2026-09-11-rewrite"
   }
  ],
  "note": "Tier gates, in firing order. The lock requires each gate to record which tiers were already unblinded when it fired."
